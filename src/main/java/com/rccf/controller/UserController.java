@@ -1,0 +1,103 @@
+package com.rccf.controller;
+
+import com.rccf.constants.ResponseConstants;
+import com.rccf.model.User;
+import com.rccf.service.UserService;
+import com.rccf.util.Strings;
+import com.rccf.util.encrypt.DesEncrypt;
+import com.rccf.util.ResponseUtil;
+import com.rccf.util.encrypt.ShaEncript;
+import com.rccf.util.sms.JavaSmsApi;
+import com.rccf.util.sms.SmsUtil;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Random;
+
+/**
+ * Created by greatland on 17/7/12.
+ */
+@Controller
+@RequestMapping(value = "/user", produces = {"text/html;charset=UTF-8;"})
+public class UserController {
+
+
+    private Logger logger = Logger.getLogger(UserController.class);
+
+    @Autowired
+    private UserService userService;
+
+    /**
+     * 手机号注册
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/phone_regist")
+    @ResponseBody
+    public String regist(HttpServletRequest request) {
+//        String ip = request.getRemoteAddr();
+
+        String phone = request.getParameter("phone");
+        if (Strings.isNullOrEmpty(phone)) {
+            return ResponseUtil.fail("0", ResponseConstants.MSG_PHONE_NOT_NULL);
+        }
+        if (!Strings.isMobileNO(phone)){
+            return ResponseUtil.fail("0",ResponseConstants.MSG_PHONE_FORMAT_ERROR);
+        }
+        String pwd = request.getParameter("password");
+        if (Strings.isNullOrEmpty(pwd)) {
+            return ResponseUtil.fail("0", "密码不能为空");
+        }
+        DesEncrypt desEncrypt = new DesEncrypt();
+        String password = desEncrypt.decrypt(pwd);
+        //TODO 密码数据库存的规则
+        try {
+            password = ShaEncript.encryptSHA(desEncrypt.encrypt(password));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        User user = new User();
+        user.setUserName(phone);
+        user.setPhone(phone);
+        user.setPassword(password);
+        user.setRole("[\"general\"]");
+        return ResponseUtil.success();
+    }
+
+
+    @RequestMapping("/get_code")
+    @ResponseBody
+    public String code(HttpServletRequest request) {
+        Random random = new Random();
+        int res = random.nextInt(9000) + 1000;
+        String code = String.valueOf(res);
+        logger.info("code==" + code);
+        logger.debug("code==" + code);
+        logger.error("code==" + code);
+
+
+        String phone = request.getParameter("phone");
+        if (Strings.isNullOrEmpty(phone)) {
+            return ResponseUtil.fail("0", ResponseConstants.MSG_PHONE_NOT_NULL);
+        }
+
+
+        boolean bol = SmsUtil.sendCode(phone);
+        if (bol) {
+            return ResponseUtil.success();
+        } else {
+            return ResponseUtil.fail();
+        }
+
+    }
+
+
+
+
+}
