@@ -16,8 +16,14 @@ public class AccountConstants {
     public static final String WEIXIN_TOKEN="64d8ab6efaf14a4f0f7008bbe1e8cdd5";
     //微信公众平台EncodingAESKey
     public static final String WEIXIN_ENCODINGAESKey="EnwN9hwTyS0GOcag2gBGERcDgZBrKUnEvQL4E4kBM8J";
-
+    //微信公众平台appsecret
     public static final String WEIXIN_APPSECRET="5b6b4580126eb4475044d79d0baf230c";
+
+    //短信平台id
+    public static final String SHUMI_ID="400353";
+    //短信平台密码
+    public static final String SHUMI_PWD="297896";
+
 
 
 

@@ -5,6 +5,7 @@ import com.rccf.model.Test;
 import com.rccf.service.UserService;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.WeixinUtil;
+import com.rccf.util.sms.ShumiUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -81,6 +82,21 @@ public class TestController {
         String ticket = WeixinUtil.getAccessJSAPI_TICKET();
         return ResponseUtil.success(ticket);
     }
+
+    @RequestMapping(value = "/shumi")
+    @ResponseBody
+    public String testShumi(){
+        String result = ShumiUtil.sendSimple("18510190638");
+        return result;
+    }
+
+    @RequestMapping(value = "/sbalance")
+    @ResponseBody
+    public String testShumiBalance(){
+        String result = ShumiUtil.getBalance();
+        return result;
+    }
+
 
 
 }
