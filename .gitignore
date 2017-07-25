@@ -45,4 +45,4 @@ out
 gen
 /target
 
-
+/src/main/java/com/rccf/constants/AccountConstants.java
