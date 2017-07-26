@@ -1,13 +1,16 @@
 package com.rccf.dao.impl;
 
 import com.rccf.component.Page;
+import com.rccf.dao.BaseDao;
 import com.rccf.dao.UserDao;
 import com.rccf.model.Test;
 import com.rccf.model.User;
+import com.rccf.service.BaseService;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -20,6 +23,9 @@ import java.util.List;
  */
 @Repository
 public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
+
+    @Autowired
+    private BaseDao baseDao;
 
     @Resource(name = "sessionFactory")
     public void setSuperSessionFactory(SessionFactory sessionFactory) {
@@ -36,6 +42,10 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
     }
 
     public List<User> getUsers(final Page page) {
+
+
+
+
         return this.getHibernateTemplate().execute(new HibernateCallback<List<User>>() {
             public List<User> doInHibernate(Session session) throws HibernateException {
                 Query query = session.createQuery("from User");
@@ -44,7 +54,7 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
                 //设置每页显示多少个，设置多大结果。
                 query.setMaxResults(page.getEveryPage());
                 //设置起点
-                query.setFirstResult((int)page.getBeginIndex());
+                query.setFirstResult(page.getBeginIndex());
                 return query.list();
             }
         });

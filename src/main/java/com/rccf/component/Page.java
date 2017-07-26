@@ -6,20 +6,20 @@ public class Page {
     // 1.每页显示数量(everyPage)
     private int everyPage;
     // 2.总记录数(totalCount)
-    private long totalCount;
+    private int totalCount;
     // 3.总页数(totalPage)
     private int totalPage;
     // 4.当前页(currentPage)
     private int currentPage;
     // 5.起始点(beginIndex)
-    private long beginIndex;
+    private int beginIndex;
     // 6.是否有上一页(hasPrePage)
     private boolean hasPrePage;
     // 7.是否有下一页(hasNextPage)
     private boolean hasNextPage;
 
-    public Page(int everyPage, long totalCount, int totalPage, int currentPage,
-                long beginIndex, boolean hasPrePage, boolean hasNextPage) {
+    public Page(int everyPage, int totalCount, int totalPage, int currentPage,
+                int beginIndex, boolean hasPrePage, boolean hasNextPage) {
         this.everyPage = everyPage;
         this.totalCount = totalCount;
         this.totalPage = totalPage;
@@ -43,11 +43,11 @@ public class Page {
         this.everyPage = everyPage;
     }
 
-    public long getTotalCount() {
+    public int getTotalCount() {
         return totalCount;
     }
 
-    public void setTotalCount(long totalCount) {
+    public void setTotalCount(int totalCount) {
         this.totalCount = totalCount;
     }
 
@@ -67,11 +67,11 @@ public class Page {
         this.currentPage = currentPage;
     }
 
-    public long getBeginIndex() {
+    public int getBeginIndex() {
         return beginIndex;
     }
 
-    public void setBeginIndex(long beginIndex) {
+    public void setBeginIndex(int beginIndex) {
         this.beginIndex = beginIndex;
     }
 

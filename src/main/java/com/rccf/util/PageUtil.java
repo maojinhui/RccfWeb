@@ -4,7 +4,7 @@ import com.rccf.component.Page;
 
 public class PageUtil {
 
-    public static Page createPage(int everyPage, long totalCount, int currentPage) {
+    public static Page createPage(int everyPage, int totalCount, int currentPage) {
         everyPage = getEveryPage(everyPage);
         currentPage = getCurrentPage(currentPage);
         int totalPage = getTotalPage(everyPage, totalCount);
@@ -15,7 +15,7 @@ public class PageUtil {
                 beginIndex, hasPrePage,  hasNextPage);
     }
 
-    public static Page createPage(Page page,long totalCount) {
+    public static Page createPage(Page page,int totalCount) {
         int everyPage = getEveryPage(page.getEveryPage());
         int currentPage = getCurrentPage(page.getCurrentPage());
         int totalPage = getTotalPage(everyPage, totalCount);
@@ -37,7 +37,7 @@ public class PageUtil {
     }
 
     //设置总页数,需要总记录数，每页显示多少
-    public static int getTotalPage(int everyPage,long totalCount) {
+    public static int getTotalPage(int everyPage,int totalCount) {
         int totalPage = 0;
         if(totalCount % everyPage == 0) {
             totalPage = (int)totalCount / everyPage;

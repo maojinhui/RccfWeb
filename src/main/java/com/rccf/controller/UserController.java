@@ -15,6 +15,8 @@ import com.rccf.util.sms.SmsUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -118,9 +120,11 @@ public class UserController {
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        long count = baseService.getCount(User.class,null);
+
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(User.class);
+        int count = baseService.getCount(detachedCriteria);
         Page page= PageUtil.createPage(2,count,p);
-        List<User> users = userService.getUsers(page);
+        List users = baseService.getList(page,detachedCriteria);
         return ResponseUtil.success(users);
     }
 
