@@ -12,8 +12,9 @@ public class AdvertController {
     @Autowired
     private BaseService baseService;
 
+    @RequestMapping(value = "/weixin01")
     public String advertPage(){
-
+        return "ad/weixin_advert01";
     }
 
 }
