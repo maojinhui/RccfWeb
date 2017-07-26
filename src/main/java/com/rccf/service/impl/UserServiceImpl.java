@@ -1,5 +1,6 @@
 package com.rccf.service.impl;
 
+import com.rccf.component.Page;
 import com.rccf.dao.UserDao;
 import com.rccf.model.Test;
 import com.rccf.model.User;
@@ -27,7 +28,7 @@ public class UserServiceImpl implements UserService {
         dao.saveUser(user);
     }
 
-    public List<User> getUsers() {
-        return dao.getUsers();
+    public List<User> getUsers(Page page) {
+        return dao.getUsers(page);
     }
 }

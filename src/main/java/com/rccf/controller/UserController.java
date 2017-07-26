@@ -1,8 +1,11 @@
 package com.rccf.controller;
 
+import com.rccf.component.Page;
 import com.rccf.constants.ResponseConstants;
 import com.rccf.model.User;
+import com.rccf.service.BaseService;
 import com.rccf.service.UserService;
+import com.rccf.util.PageUtil;
 import com.rccf.util.Strings;
 import com.rccf.util.encrypt.DesEncrypt;
 import com.rccf.util.ResponseUtil;
@@ -10,6 +13,8 @@ import com.rccf.util.encrypt.ShaEncript;
 import com.rccf.util.sms.JavaSmsApi;
 import com.rccf.util.sms.SmsUtil;
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -31,6 +37,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private BaseService baseService;
 
     /**
      * 手机号注册
@@ -96,6 +105,25 @@ public class UserController {
         }
 
     }
+    @RequestMapping(value = "/list")
+    @ResponseBody
+    public String users(HttpServletRequest request){
+        String pageNo = request.getParameter("pageNo");
+        if (null == pageNo){
+            pageNo="0";
+        }
+        int p = 0;
+        try {
+            p = Integer.valueOf(pageNo);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        long count = baseService.getCount(User.class,null);
+        Page page= PageUtil.createPage(2,count,p);
+        List<User> users = userService.getUsers(page);
+        return ResponseUtil.success(users);
+    }
+
 
 
 

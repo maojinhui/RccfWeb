@@ -17,6 +17,7 @@ public class Page<E> {
 
     // 第几页
     private int pageNo;
+    private int everyPage;
 
     /**
      * @return 总页数
@@ -65,8 +66,8 @@ public class Page<E> {
 
     /**
      * @return 尾页
-     * */
-    public int getBottomPageNo(){
+     */
+    public int getBottomPageNo() {
         return getTotalPages();
     }
 
@@ -102,5 +103,6 @@ public class Page<E> {
     public void setPageNo(int pageNo) {
         this.pageNo = pageNo;
     }
+
 
 }

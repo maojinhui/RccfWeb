@@ -1,5 +1,6 @@
 package com.rccf.dao;
 
+import com.rccf.component.Page;
 import com.rccf.model.Test;
 import com.rccf.model.User;
 
@@ -14,6 +15,6 @@ public interface UserDao {
 
     void saveUser(User user);
 
-    List<User> getUsers();
+    List<User> getUsers(Page page);
 
 }

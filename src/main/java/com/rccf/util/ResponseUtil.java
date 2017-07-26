@@ -2,6 +2,7 @@ package com.rccf.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class ResponseUtil {
      * @return
      */
     public static String success(Object o){
-        return success_response(JSON.toJSONString(o));
+        return success_response(JSON.toJSONString(o, SerializerFeature.WriteMapNullValue));
     }
 
     /**
