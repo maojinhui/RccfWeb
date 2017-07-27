@@ -56,6 +56,7 @@ public class ShumiUtil {
         } else {
             Sms sms = getSms(mobile, code, result, Integer.valueOf(result));
             smsService.save(sms);
+            return null;
         }
         return result;
     }

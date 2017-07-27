@@ -21,4 +21,8 @@ public class ResponseConstants {
 
     public static String MSG_CODE_ERROE = "验证码错误！";
 
+    public static String MSG_CODE_NOT_NULL = "验证码不能为空！";
+
+    public static String MSG_SEND_CODE_ERROR = "验证码发送失败！";
+
 }
