@@ -20,8 +20,8 @@ public class LoanApplyServiceImpl implements LoanApplyService{
         return loanApplyDao.getLoanapplyByID(id);
     }
 
-    public void save(Loanapply loanapply) {
-        loanApplyDao.save(loanapply);
+    public boolean save(Loanapply loanapply) {
+        return loanApplyDao.save(loanapply);
     }
 
     public List<Loanapply> list(Page page) {

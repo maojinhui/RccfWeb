@@ -9,7 +9,7 @@ public interface LoanApplyDao {
 
     Loanapply getLoanapplyByID(String id);
 
-    void save(Loanapply loanapply);
+    boolean save(Loanapply loanapply);
 
     List<Loanapply> list(Page page);
 

@@ -5,6 +5,7 @@ import com.rccf.dao.LoanApplyDao;
 import com.rccf.model.Loanapply;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
@@ -23,8 +24,14 @@ public class LoanApplyDaoImpl extends HibernateDaoSupport implements LoanApplyDa
         return getHibernateTemplate().load(Loanapply.class,id);
     }
 
-    public void save(Loanapply loanapply) {
-        getHibernateTemplate().saveOrUpdate(loanapply);
+    public boolean save(Loanapply loanapply) {
+        try {
+            getHibernateTemplate().saveOrUpdate(loanapply);
+            return true;
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public List<Loanapply> list(Page page) {

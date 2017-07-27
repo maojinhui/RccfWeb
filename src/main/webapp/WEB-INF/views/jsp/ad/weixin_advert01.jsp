@@ -63,7 +63,7 @@
                 </div>
             </form>
         </div>
-        <div>
+        <div style="display: none;">
             <small>登录即表示同意<a class="am-text-warning" href="#">融成财富服务协议</a></small>
         </div>
         <div class="am-g am-margin-top-xl">
