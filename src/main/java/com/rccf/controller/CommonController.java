@@ -19,16 +19,16 @@ public class CommonController {
     public String getCode(HttpServletRequest request){
         String phone = request.getParameter("phone");
         if (null == phone){
-            return ResponseUtil.fail("0", ResponseConstants.MSG_PHONE_NOT_NULL);
+            return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_NOT_NULL);
         }
         if (Strings.isMobileNO(phone)){
             String result = ShumiUtil.sendSimple(phone);
             if (null == result){
-                return ResponseUtil.fail("0",ResponseConstants.MSG_SEND_CODE_ERROR);
+                return ResponseUtil.fail(0,ResponseConstants.MSG_SEND_CODE_ERROR);
             }else{
                 return  ResponseUtil.success();
             }
         }
-        return ResponseUtil.fail("0", ResponseConstants.MSG_PHONE_FORMAT_ERROR);
+        return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_FORMAT_ERROR);
     }
 }

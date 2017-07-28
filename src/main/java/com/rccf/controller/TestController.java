@@ -52,7 +52,7 @@ public class TestController {
     public String testMemSave(HttpServletRequest request) {
         String phone = request.getParameter("phone");
         if (null == phone){
-            return ResponseUtil.fail("0","手机号为空");
+            return ResponseUtil.fail(0,"手机号为空");
         }
         Random random = new Random();
         int a = random.nextInt(9000)+1000;

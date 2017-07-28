@@ -56,14 +56,14 @@ public class UserController {
 
         String phone = request.getParameter("phone");
         if (Strings.isNullOrEmpty(phone)) {
-            return ResponseUtil.fail("0", ResponseConstants.MSG_PHONE_NOT_NULL);
+            return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_NOT_NULL);
         }
         if (!Strings.isMobileNO(phone)){
-            return ResponseUtil.fail("0",ResponseConstants.MSG_PHONE_FORMAT_ERROR);
+            return ResponseUtil.fail(0,ResponseConstants.MSG_PHONE_FORMAT_ERROR);
         }
         String pwd = request.getParameter("password");
         if (Strings.isNullOrEmpty(pwd)) {
-            return ResponseUtil.fail("0", "密码不能为空");
+            return ResponseUtil.fail(0, "密码不能为空");
         }
         DesEncrypt desEncrypt = new DesEncrypt();
         String password = desEncrypt.decrypt(pwd);
@@ -95,7 +95,7 @@ public class UserController {
 
         String phone = request.getParameter("phone");
         if (Strings.isNullOrEmpty(phone)) {
-            return ResponseUtil.fail("0", ResponseConstants.MSG_PHONE_NOT_NULL);
+            return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_NOT_NULL);
         }
 
 

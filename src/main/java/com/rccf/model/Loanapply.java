@@ -16,6 +16,9 @@ public class Loanapply {
     private Integer wantMoney;
     private Timestamp wantTime;
     private Timestamp createTime;
+    private int stat;
+
+
 
     @Id
     @Column(name = "id")
@@ -127,5 +130,15 @@ public class Loanapply {
         result = 31 * result + (wantTime != null ? wantTime.hashCode() : 0);
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "stat")
+    public int getStat() {
+        return stat;
+    }
+
+    public void setStat(int stat) {
+        this.stat = stat;
     }
 }

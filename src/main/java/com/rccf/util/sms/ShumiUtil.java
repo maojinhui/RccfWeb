@@ -39,7 +39,7 @@ public class ShumiUtil {
         Random random = new Random();
         int res = random.nextInt(9000) + 1000;
         String code = String.valueOf(res);
-        String _content = "【融成官网】" + code + "融成金服验证码，有效时间10分钟，请尽快验证";
+        String _content = "【融成金服】" + code + "融成金服验证码，有效时间10分钟，请尽快验证";
         String content = Base64.getBase64(_content);
         Map<String, String> param = new HashMap<String, String>();
         param.put("userid", AccountConstants.SHUMI_ID);

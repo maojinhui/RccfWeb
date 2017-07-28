@@ -27,9 +27,10 @@ body {
     "Hiragino Sans GB W3", Arial, sans-serif;
     /*background-color: #fc8f56;*/
     color: #FDFDFD;
+    user-select: none;
 }
 .totop {
-    background-image:-webkit-linear-gradient(to bottom, #FC8F56, #EEA91F);
+    /*background-image:-webkit-linear-gradient(to bottom, #FC8F56, #EEA91F);*/
     background-image:linear-gradient(to bottom,#FC8F56,#EEA91F);
 }
 
@@ -37,8 +38,12 @@ body {
     width: 30px;
     height: 30px;
 }
+.am-u-sm-4 img{
+    width: 100px;
+    height: 100px;
+}
 .am-margin-top{
-    margin-top: 30%;
+    margin-top: 10%;
 }
 
 .am-u-sm-3 img {
@@ -74,3 +79,12 @@ body {
 .nopadding{
     padding: 0 !important;
 }
+.am-u-sm-3 span{
+    font-size: 12px;
+}
+i{
+    color: #C8C8C8;
+}
+/*.bgcolor{*/
+/*background-color: #d85e0b ;*/
+/*}*/

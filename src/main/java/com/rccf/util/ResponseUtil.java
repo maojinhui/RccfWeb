@@ -65,7 +65,7 @@ public class ResponseUtil {
      * @param errormsg
      * @return
      */
-    public static String fail(String code,String errormsg){
+    public static String fail(int code,String errormsg){
         JSONObject object=new JSONObject();
         object.put("code",code);
         object.put("state","fail");
