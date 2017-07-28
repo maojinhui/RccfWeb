@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface LoanApplyDao {
 
-    Loanapply getLoanapplyByID(String id);
+    Loanapply getLoanapplyByID(int id);
 
     boolean save(Loanapply loanapply);
 

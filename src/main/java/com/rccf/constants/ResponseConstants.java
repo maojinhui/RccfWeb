@@ -27,5 +27,7 @@ public class ResponseConstants {
 
     public static String MSG_SEND_CODE_ERROR = "验证码发送失败！";
 
+    public static String MSG_PARAMTER_ERROR="参数错误！";
+
 
 }

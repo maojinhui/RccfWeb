@@ -60,6 +60,30 @@ public class ResponseUtil {
 
 
     /**
+     * 返回列表数据
+     * @param count
+     * @param everypage
+     * @param list
+     * @return
+     */
+    public static String success_list(int count , int everypage,List list){
+        JSONObject object=new JSONObject();
+        object.put("code",1);
+        object.put("state","success");
+        object.put("errormsg","");
+        object.put("total",count);
+        object.put("every",everypage);
+        String data = JSON.toJSONString(list);
+        if (null == list || list.size()==0){
+            object.put("data","[]");
+        }else{
+            object.put("data",data);
+        }
+        return object.toJSONString();
+    }
+
+
+    /**
      * 返回错误信息
      * @param code
      * @param errormsg

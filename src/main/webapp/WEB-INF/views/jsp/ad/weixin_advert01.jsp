@@ -25,6 +25,30 @@
     <%--<link rel="stylesheet" href="css/amaze/amazeui.flat.css"/>--%>
     <%--<link rel="stylesheet" href="css/font-awesome.css">--%>
     <link rel="stylesheet" href="/css/overflow.css">
+    <style type="text/css">
+
+        /*通用样式*/
+        /*手机*/
+        @media screen and (max-width:600px){
+            #header,#content,#footer{width:400px;}
+            .right,.center{margin-top:10px;}
+            .left,.right{height:100px;}
+            .center{height:200px;}
+        }
+        /*PC*/
+        @media screen and (min-width:960px){
+            .am-container{width: 960px}
+            #header,#content,#footer{width:960px;}
+            .left,.center,.right{height:400px;float:left;}
+            .left{width:200px;margin-right:10px;}
+            .center{width:540px;margin-right:10px;}
+            .right{width:200px;}
+        }
+
+
+
+
+    </style>
 </head>
 <body class="am-scrollable-vertical am-text-center ">
 <div class="am-container totop">

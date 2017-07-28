@@ -16,7 +16,7 @@ public class LoanApplyServiceImpl implements LoanApplyService{
     private LoanApplyDao loanApplyDao;
 
 
-    public Loanapply getLoanapplyByID(String id) {
+    public Loanapply getLoanapplyByID(int id) {
         return loanApplyDao.getLoanapplyByID(id);
     }
 

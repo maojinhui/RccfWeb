@@ -20,8 +20,8 @@ public class LoanApplyDaoImpl extends HibernateDaoSupport implements LoanApplyDa
     }
 
 
-    public Loanapply getLoanapplyByID(String id) {
-        return getHibernateTemplate().load(Loanapply.class,id);
+    public Loanapply getLoanapplyByID(int id) {
+        return getHibernateTemplate().get(Loanapply.class,id);
     }
 
     public boolean save(Loanapply loanapply) {
