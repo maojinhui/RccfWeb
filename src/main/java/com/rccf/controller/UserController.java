@@ -129,7 +129,35 @@ public class UserController {
     }
 
 
+    @ResponseBody
+    @RequestMapping(value = "/puser")
+    public String getUserByPhone(HttpServletRequest request){
+        String phone = request.getParameter("phone");
+        if (Strings.isNullOrEmpty(phone)){
+            return ResponseUtil.fail(0,ResponseConstants.MSG_PHONE_NOT_NULL);
+        }
+        User user = userService.findUserByPhone(phone);
+        if (null==user){
+            return ResponseUtil.fail(0,"没有找到用户");
+        }
 
+        return ResponseUtil.success(user);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/nuser")
+    public String getUserByName(HttpServletRequest request){
+        String name = request.getParameter("name");
+        if (Strings.isNullOrEmpty(name)){
+            return ResponseUtil.fail(0,ResponseConstants.MSG_PHONE_NOT_NULL);
+        }
+        User user = userService.findUserByName(name);
+        if (null==user){
+            return ResponseUtil.fail(0,"没有找到用户");
+        }
+
+        return ResponseUtil.success(user);
+    }
 
 
 }

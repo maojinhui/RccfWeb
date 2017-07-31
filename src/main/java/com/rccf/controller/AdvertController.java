@@ -54,6 +54,12 @@ public class AdvertController {
     @ResponseBody
     @RequestMapping(value = "/apply")
     public String advertApply(HttpServletRequest request) {
+        request.getHeader("User-Agent");//客户端类型
+        request.getRemoteAddr();//获取ip地址
+        request.getServerPort();
+
+
+
         String phone = request.getParameter("phone");
         String name = request.getParameter("name");
         String code = request.getParameter("code");

@@ -28,6 +28,18 @@ public class UserServiceImpl implements UserService {
         dao.saveUser(user);
     }
 
+    public User findUserById(String id) {
+        return null;
+    }
+
+    public User findUserByPhone(String phone) {
+        return dao.findUserByPhone(phone);
+    }
+
+    public User findUserByName(String name) {
+        return dao.findUserByName(name);
+    }
+
     public List<User> getUsers(Page page) {
         return dao.getUsers(page);
     }

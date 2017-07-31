@@ -10,6 +10,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
@@ -32,7 +34,6 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
         super.setSessionFactory(sessionFactory);
     }
 
-
     public void save(Test test) {
         getHibernateTemplate().save(test);
     }
@@ -41,11 +42,26 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
         getHibernateTemplate().save(user);
     }
 
+    public User findUserById(String id) {
+        return getHibernateTemplate().get(User.class,id);
+    }
+
+    public User findUserByPhone(String phone) {
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(User.class);
+        detachedCriteria.add(Restrictions.eq("phone",phone));
+        List<?> byCriteria = getHibernateTemplate().findByCriteria(detachedCriteria);
+        User user = (User) byCriteria.get(0);
+//        User user = (User) getHibernateTemplate().findByNamedQuery("from User where phone = ?", phone).get(0);
+        return user;
+    }
+
+    public User findUserByName(String name) {
+        User user = (User) getHibernateTemplate().find("from User where userName = ?", name).get(0);
+        return user;
+    }
+
+    @SuppressWarnings("unchecked")
     public List<User> getUsers(final Page page) {
-
-
-
-
         return this.getHibernateTemplate().execute(new HibernateCallback<List<User>>() {
             public List<User> doInHibernate(Session session) throws HibernateException {
                 Query query = session.createQuery("from User");

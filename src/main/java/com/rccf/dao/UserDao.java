@@ -15,6 +15,12 @@ public interface UserDao {
 
     void saveUser(User user);
 
+    User findUserById(String id);
+
+    User findUserByPhone(String phone);
+
+    User findUserByName(String name);
+
     List<User> getUsers(Page page);
 
 }

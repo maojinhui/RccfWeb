@@ -18,6 +18,12 @@ public interface UserService {
 
     void saveUser(User user);
 
+    User findUserById(String id);
+
+    User findUserByPhone(String phone);
+
+    User findUserByName(String name);
+
     List<User> getUsers(Page p);
 
 }
