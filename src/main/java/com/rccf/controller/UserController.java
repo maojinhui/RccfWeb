@@ -77,7 +77,7 @@ public class UserController {
         user.setUserName(phone);
         user.setPhone(phone);
         user.setPassword(password);
-        user.setRole("[\"general\"]");
+        user.setRole("user");
         return ResponseUtil.success();
     }
 
