@@ -2,6 +2,8 @@ package com.rccf.constants;
 
 public class UrlConstants {
 
+    public static final String PRODUCES = "text/html;charset=UTF-8;";
+
     //发送普通短信
     public static final String URL_SHUMI_SEND_SIMPLE="http://api.shumi365.com:8090/sms/send.do";
     //发送个性短信

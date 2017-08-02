@@ -22,7 +22,7 @@ public class DesEncrypt {
     }
 
     public DesEncrypt() {
-        setKey("abc123.*abc123.*abc123.*abc123.*");
+//        setKey("abc123.*abc123.*abc123.*abc123.*");
         setKey(EncryptConstants.KEY_DES3);
     }
 
@@ -136,4 +136,16 @@ public class DesEncrypt {
         }
         return byteFina;
     }
+
+    public static void main(String[] args) throws Exception {
+
+        DesEncrypt desEncrypt = new DesEncrypt();
+        String a = desEncrypt.encrypt("123456");
+        System.out.println(a);
+        a = ShaEncript.encryptSHA(a);
+        System.out.println(a);
+
+
+    }
+
 }

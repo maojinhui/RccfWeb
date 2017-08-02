@@ -21,11 +21,14 @@ body {
     position: relative;
     height: auto !important;
     font-family: Helvetica, Tahoma, Arial, Hiragino Sans GB, \\51AC\9752\9ED1\4F53, Microsoft YaHei, \\5FAE\8F6F\96C5\9ED1, STXihei, \\534E\6587\7EC6\9ED1, SimSun, \\5B8B\4F53, Heiti, \\9ED1\4F53, sans-serif;
-    background: #090723 !important;
+    background: #6a6a6a !important;
     color: white;
     margin: 0 auto;
     line-height: 1;
     text-align: center;
+}
+.am-u-sm-5 img{
+    width: 80%;
 }
 .maindiv{
     margin-top: 10%;

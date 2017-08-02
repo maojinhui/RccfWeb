@@ -100,6 +100,7 @@ public class RandomValidateCode {
         }
         //1：将随机生成的验证码放入Cookie中
         Cookie cookie = new Cookie(key,randomString);
+        cookie.setPath("/");
         response.addCookie(cookie);
         //2：将随机生成的验证码放入session中
         String sessionid = request.getSession().getId();

@@ -19,6 +19,8 @@ public class ResponseConstants {
 
     public static String MSG_PHONE_FORMAT_ERROR="手机号格式不正确！";
 
+    public static String MSG_PHONE_NOT_REGIST = "用户未注册，请检查用户名！";
+
     public static String MSG_PWD_ERROR = "密码不正确！";
 
     public static String MSG_CODE_ERROE = "验证码错误,或者您的验证码已失效！";
@@ -28,6 +30,9 @@ public class ResponseConstants {
     public static String MSG_SEND_CODE_ERROR = "验证码发送失败！";
 
     public static String MSG_PARAMTER_ERROR="参数错误！";
+
+    public static String MSG_PWD_FORMAT_ERROR = "请输入6-18位密码";
+
 
 
 }

@@ -17,8 +17,7 @@ public class ImageGenController {
 
 
     @RequestMapping("/randomcode")
-    @ResponseBody
-    public String randomCode(HttpServletResponse response,
+    public void randomCode(HttpServletResponse response,
                              HttpServletRequest request){
         response.setContentType("image/jpeg");// 设置相应类型,告诉浏览器输出的内容为图片
         response.setHeader("Pragma", "No-cache");// 设置响应头信息，告诉浏览器不要缓存此内容
@@ -31,7 +30,7 @@ public class ImageGenController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "";
+//        return "";
     }
 
 

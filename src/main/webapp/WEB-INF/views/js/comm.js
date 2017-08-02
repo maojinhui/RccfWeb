@@ -21,3 +21,25 @@ function formateName(name) {
         return name;
     }
 }
+
+var deskey = "rccf.*abc123.*abc123.*abc123.*";
+
+function desEncrypt(text) {
+    var keyHex = CryptoJS.enc.Utf8.parse(deskey);
+    var encrypted = CryptoJS.DES.encrypt(text, keyHex, {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7
+    });
+    return encrypted.toString();
+}
+
+
+function ismobile(phone) {
+    var reg = /^1[34578]\d{9}$/;
+    if (reg.test(phone)){
+        return true;
+    }else{
+        return false;
+    }
+}
+
