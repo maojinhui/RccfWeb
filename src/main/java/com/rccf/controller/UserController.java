@@ -1,6 +1,7 @@
 package com.rccf.controller;
 
 import com.rccf.component.Page;
+import com.rccf.constants.PageConstants;
 import com.rccf.constants.ResponseConstants;
 import com.rccf.model.User;
 import com.rccf.service.BaseService;
@@ -44,30 +45,30 @@ public class UserController {
     private BaseService baseService;
 
     /**
-     * 手机号注册
+     * 手机号+密码+渠道（选填）注册
      *
      * @param request
      * @return
      */
     @RequestMapping(value = "/phone_regist")
     @ResponseBody
-    public String regist(HttpServletRequest request) {
+    public String phone_regist(HttpServletRequest request) {
 //        String ip = request.getRemoteAddr();
-
+        String channel = request.getParameter("channel");
         String phone = request.getParameter("phone");
+        String pwd = request.getParameter("password");//前台传输经过Des加密的密码
         if (Strings.isNullOrEmpty(phone)) {
             return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_NOT_NULL);
         }
         if (!Strings.isMobileNO(phone)){
             return ResponseUtil.fail(0,ResponseConstants.MSG_PHONE_FORMAT_ERROR);
         }
-        String pwd = request.getParameter("password");
         if (Strings.isNullOrEmpty(pwd)) {
             return ResponseUtil.fail(0, "密码不能为空");
         }
         DesEncrypt desEncrypt = new DesEncrypt();
         String password = desEncrypt.decrypt(pwd);
-        //TODO 密码数据库存的规则
+        //
         try {
             password = ShaEncript.encryptSHA(desEncrypt.encrypt(password));
         } catch (Exception e) {
@@ -78,35 +79,13 @@ public class UserController {
         user.setPhone(phone);
         user.setPassword(password);
         user.setRole("user");
+        if(null != channel){
+            user.setRegedistChannel(channel);
+        }
         return ResponseUtil.success();
     }
 
 
-    @RequestMapping("/get_code")
-    @ResponseBody
-    public String code(HttpServletRequest request) {
-        Random random = new Random();
-        int res = random.nextInt(9000) + 1000;
-        String code = String.valueOf(res);
-        logger.info("code==" + code);
-        logger.debug("code==" + code);
-        logger.error("code==" + code);
-
-
-        String phone = request.getParameter("phone");
-        if (Strings.isNullOrEmpty(phone)) {
-            return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_NOT_NULL);
-        }
-
-
-        boolean bol = SmsUtil.sendCode(phone);
-        if (bol) {
-            return ResponseUtil.success();
-        } else {
-            return ResponseUtil.fail();
-        }
-
-    }
     @RequestMapping(value = "/list")
     @ResponseBody
     public String users(HttpServletRequest request){
@@ -123,17 +102,22 @@ public class UserController {
 
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(User.class);
         int count = baseService.getCount(detachedCriteria);
-        Page page= PageUtil.createPage(2,count,p);
+        Page page= PageUtil.createPage(PageConstants.EVERYPAGE,count,p);
         List users = baseService.getList(page,detachedCriteria);
         return ResponseUtil.success(users);
     }
+
+
+
+
 
 
     @ResponseBody
     @RequestMapping(value = "/puser")
     public String getUserByPhone(HttpServletRequest request){
         String phone = request.getParameter("phone");
-        if (Strings.isNullOrEmpty(phone)){
+
+        if (!Strings.isMobileNO(phone)){
             return ResponseUtil.fail(0,ResponseConstants.MSG_PHONE_NOT_NULL);
         }
         User user = userService.findUserByPhone(phone);
@@ -149,11 +133,11 @@ public class UserController {
     public String getUserByName(HttpServletRequest request){
         String name = request.getParameter("name");
         if (Strings.isNullOrEmpty(name)){
-            return ResponseUtil.fail(0,ResponseConstants.MSG_PHONE_NOT_NULL);
+            return ResponseUtil.fail(0,"用户名不能为空！");
         }
         User user = userService.findUserByName(name);
         if (null==user){
-            return ResponseUtil.fail(0,"没有找到用户");
+            return ResponseUtil.fail(0,"没有找到用户！");
         }
 
         return ResponseUtil.success(user);

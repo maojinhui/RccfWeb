@@ -54,11 +54,6 @@ public class AdvertController {
     @ResponseBody
     @RequestMapping(value = "/apply")
     public String advertApply(HttpServletRequest request) {
-        request.getHeader("User-Agent");//客户端类型
-        request.getRemoteAddr();//获取ip地址
-        request.getServerPort();
-
-
 
         String phone = request.getParameter("phone");
         String name = request.getParameter("name");
@@ -134,13 +129,20 @@ public class AdvertController {
     @ResponseBody
     @RequestMapping(value = "/notifyloanapply")
     public String dealState(HttpServletRequest request){
+        String stat = request.getParameter("stat");
+
         String id = request.getParameter("id");
         if (null == id){
             return ResponseUtil.fail(0,ResponseConstants.MSG_PARAMTER_ERROR);
         }
+        if (null == stat){
+            return ResponseUtil.fail(0,ResponseConstants.MSG_PARAMTER_ERROR);
+        }
         int p = 0;
+        int s = 10;
         try {
             p = Integer.valueOf(id);
+            s = Integer.valueOf(stat);
         } catch (NumberFormatException e) {
             e.printStackTrace();
             return ResponseUtil.fail();
@@ -149,12 +151,14 @@ public class AdvertController {
         if (null == loanapply){
             return ResponseUtil.fail(0,ResponseConstants.MSG_PARAMTER_ERROR);
         }
+        if (10 != s && loanapply.getStat()==s){
+            return ResponseUtil.fail(0,"本条记录已被其他人处理！");
+        }
         if (loanapply.getStat()==0){
             loanapply.setStat(1);
         }else{
             loanapply.setStat(0);
         }
-
         boolean save = loanApplyService.save(loanapply);
         if (save){
             return ResponseUtil.success(loanapply);

@@ -71,6 +71,12 @@
 
     <script>
         function handle(node,id) {
+
+            var stat = 0;
+            if(node.hasClass("am-danger")){
+
+            }
+
             $.ajax({
                 url:"/advert/notifyloanapply",
                 dataType:"json",

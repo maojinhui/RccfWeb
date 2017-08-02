@@ -25,6 +25,8 @@ public class User {
     private Integer age;
     private String address;
     private String remarks;
+    private String unionId;
+    private String regedistChannel;
 
     @Id
     @Column(name = "user_id")
@@ -234,5 +236,25 @@ public class User {
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (remarks != null ? remarks.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "union_id")
+    public String getUnionId() {
+        return unionId;
+    }
+
+    public void setUnionId(String unionId) {
+        this.unionId = unionId;
+    }
+
+    @Basic
+    @Column(name = "regedist_channel")
+    public String getRegedistChannel() {
+        return regedistChannel;
+    }
+
+    public void setRegedistChannel(String regedistChannel) {
+        this.regedistChannel = regedistChannel;
     }
 }
