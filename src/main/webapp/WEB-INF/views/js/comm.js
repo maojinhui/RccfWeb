@@ -42,4 +42,3 @@ function ismobile(phone) {
         return false;
     }
 }
-

@@ -39,7 +39,7 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
     }
 
     public void saveUser(User user) {
-        getHibernateTemplate().save(user);
+        getHibernateTemplate().saveOrUpdate(user);
     }
 
     public User findUserById(String id) {
