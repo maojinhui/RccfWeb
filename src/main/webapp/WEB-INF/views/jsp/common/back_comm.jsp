@@ -1,4 +1,5 @@
-<%@ page import="org.springframework.web.context.request.RequestScope" %><%--
+<%@ page import="org.springframework.web.context.request.RequestScope" %>
+<%@ page import="com.rccf.model.User" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 17/8/3
@@ -26,8 +27,6 @@
     <link rel="stylesheet" href="/css/amaze/app.css">
     <link rel="stylesheet" href="/css/instyle.css"/>
     <script src="/js/amaze/echarts.js"></script>
-
-
 
 </head>
 
@@ -57,15 +56,23 @@
 
             <li class="am-dropdown" data-am-dropdown="" data-am-dropdown-toggle="">
                 <a class="tpl-header-list-link" href="javascript:;">
-                    <span class="tpl-header-list-user-nick">${user.userName }</span><span class="tpl-header-list-user-ico">
-                    <img src="${user.headimg}">
+                    <span class="tpl-header-list-user-nick">${requestScope.user.userName}</span><span
+                        class="tpl-header-list-user-ico">
+                   <%
+                       String headimg = "/image/header_default.png";
+                       User user = (User) request.getAttribute("user");
+                       if (null != user.getHeadimg()) {
+                           headimg = user.getHeadimg();
+                       }
+                   %>
+                    <img src="<%=headimg%>">
                 </span>
                 </a>
                 <%--这里可以设置点击用户头像--%>
                 <%--<ul class="am-dropdown-content">--%>
-                    <%--<li><a href="#"><span class="am-icon-bell-o"></span> 资料</a></li>--%>
-                    <%--<li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>--%>
-                    <%--<li><a href="#"><span class="am-icon-power-off"></span> 退出</a></li>--%>
+                <%--<li><a href="#"><span class="am-icon-bell-o"></span> 资料</a></li>--%>
+                <%--<li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>--%>
+                <%--<li><a href="#"><span class="am-icon-power-off"></span> 退出</a></li>--%>
                 <%--</ul>--%>
             </li>
             <li><a class="tpl-header-list-link"><span
@@ -214,7 +221,7 @@
 
     <div class="tpl-content-wrapper">
         <div class="main">
-        <%--这里添加具体内容--%>
+            <%--这里添加具体内容--%>
 
         </div>
     </div>

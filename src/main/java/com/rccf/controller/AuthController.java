@@ -72,18 +72,20 @@ public class AuthController {
             if(null == user.getRole()){
                 user.setRole("user");
             }
-            if(null != nickname)
+            if(null != nickname )
             user.setUserName(nickname);
-            if(null != openid)
-            user.setOpenid(openid);
-            if(unionid!=null ){
+            if(null != openid && null == user.getOpenid()){
+                user.setOpenid(openid);
+            }
+            if(unionid!=null && null == user.getUnionId()){
                 user.setUnionId(unionid);
             }
-            if(null != sex){
+            if(null != sex && null == user.getSex()){
                 user.setSex(Integer.valueOf(sex));
             }
-            if (null != province)
-            user.setProvince(province);
+            if (null != province ){
+                user.setProvince(province);
+            }
             if(null != city)
             user.setCity(city);
             if(null != headimgurl){
@@ -92,7 +94,6 @@ public class AuthController {
             if(null != access_token)
             user.setAccessToken(access_token);
             userService.saveUser(user);
-
             return "front/home";
         }
         return null;

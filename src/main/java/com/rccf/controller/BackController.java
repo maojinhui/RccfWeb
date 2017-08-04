@@ -10,6 +10,7 @@ import com.rccf.util.encrypt.DesEncrypt;
 import com.rccf.util.encrypt.ShaEncript;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -93,9 +94,13 @@ public class BackController {
     public ModelAndView backIndexPage(HttpServletRequest request){
         String user_id = request.getParameter("user_id");
         User user = userService.findUserById(user_id);
+        if (null == user){
+            return new ModelAndView("ad/weixin_advert01");
+        }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("user",user);
         modelAndView.setViewName("common/back_comm");
+
         return modelAndView;
     }
 

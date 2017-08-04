@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public User findUserById(String id) {
-        return null;
+        return dao.findUserById(id);
     }
 
     public User findUserByPhone(String phone) {
