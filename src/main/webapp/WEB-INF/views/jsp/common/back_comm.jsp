@@ -33,7 +33,7 @@
 <header class="am-topbar am-topbar-inverse admin-header">
     <div class="am-topbar-brand">
         <a href="javascript:;" class="tpl-logo">
-            <img src="assets/img/logo.png" alt="">
+            <img src="/image/logo_text_142_26.png" alt="">
         </a>
     </div>
     <div class="am-icon-list tpl-header-nav-hover-ico am-fl am-margin-right">
@@ -53,8 +53,8 @@
 
             <li class="am-dropdown" data-am-dropdown="" data-am-dropdown-toggle="">
                 <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
-                    <span class="tpl-header-list-user-nick">禁言小张</span><span class="tpl-header-list-user-ico">
-                    <img src="assets/img/user01.png">
+                    <span class="tpl-header-list-user-nick">用户名</span><span class="tpl-header-list-user-ico">
+                    <img src="/image/logo.png">
                 </span>
                 </a>
                 <ul class="am-dropdown-content">
