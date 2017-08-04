@@ -40,16 +40,18 @@ public class BackController {
         String userid = null;
         String userimg = null;
         //获取当前站点的所有Cookie
-        for (int i = 0; i < cookies.length; i++) {//对cookies中的数据进行遍历，找到用户名、密码的数据
-            if ("username".equals(cookies[i].getName())) {
-                username = cookies[i].getValue();
-            } else if ("userid".equals(cookies[i].getName())) {
-                userid = cookies[i].getValue();
-            } else if ("userimg".equals(cookies[i].getName())) {
-                userimg = cookies[i].getValue();
+        if(null != cookies){
+            for (int i = 0; i < cookies.length; i++) {//对cookies中的数据进行遍历，找到用户名、密码的数据
+                if ("username".equals(cookies[i].getName())) {
+                    username = cookies[i].getValue();
+                } else if ("userid".equals(cookies[i].getName())) {
+                    userid = cookies[i].getValue();
+                } else if ("userimg".equals(cookies[i].getName())) {
+                    userimg = cookies[i].getValue();
+                }
             }
         }
-        if (userid != null) {
+        if (null != userid  ) {
             return new ModelAndView("redirect:/back/index?user_id="+userid);
         }
         ModelAndView modelAndView = new ModelAndView();
