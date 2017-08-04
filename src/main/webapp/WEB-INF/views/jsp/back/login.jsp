@@ -68,7 +68,13 @@
 </body>
 
 <script>
-
+    //回车事件绑定
+    $('#pwd').bind('keyup', function(event) {
+        if (event.keyCode == "13") {
+            //回车执行查询
+            $('#submit').click();
+        }
+    });
 
     $("#submit").bind("click", function () {
         var userName = $("#user-name").val();

@@ -39,7 +39,11 @@ public class ResponseUtil {
      * @return
      */
     public static String success(Object o){
-        return success_response(JSON.toJSONString(o, SerializerFeature.WriteMapNullValue));
+        if(o instanceof  String){
+            return success_response(o.toString());
+        }else {
+            return success_response(JSON.toJSONString(o, SerializerFeature.WriteMapNullValue));
+        }
     }
 
     /**
@@ -109,5 +113,14 @@ public class ResponseUtil {
         object.put("errormsg","内部错误");
         return  object.toJSONString();
     }
+
+
+    public static void main(String [] args){
+
+        System.out.println(success("abc"));
+        System.out.println(success(123));
+
+    }
+
 
 }
