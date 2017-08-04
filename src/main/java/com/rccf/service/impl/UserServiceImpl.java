@@ -40,6 +40,10 @@ public class UserServiceImpl implements UserService {
         return dao.findUserByName(name);
     }
 
+    public User findUserByOpenid(String openid) {
+        return dao.findUserBuOpenid(openid);
+    }
+
     public List<User> getUsers(Page page) {
         return dao.getUsers(page);
     }

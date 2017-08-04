@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created by greatland on 17/7/12.
@@ -48,47 +49,6 @@ public class UserController {
 
     @Autowired
     SpyMemcachedManager spyMemcachedManager;
-
-    /**
-     * 手机号+密码+渠道（选填）注册
-     *
-     * @param request
-     * @return
-     */
-    @RequestMapping(value = "/phone_regist")
-    @ResponseBody
-    public String phone_regist(HttpServletRequest request) {
-//        String ip = request.getRemoteAddr();
-        String channel = request.getParameter("channel");
-        String phone = request.getParameter("phone");
-        String pwd = request.getParameter("password");//前台传输经过Des加密的密码
-        if (Strings.isNullOrEmpty(phone)) {
-            return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_NOT_NULL);
-        }
-        if (!Strings.isMobileNO(phone)){
-            return ResponseUtil.fail(0,ResponseConstants.MSG_PHONE_FORMAT_ERROR);
-        }
-        if (Strings.isNullOrEmpty(pwd)) {
-            return ResponseUtil.fail(0, "密码不能为空");
-        }
-        DesEncrypt desEncrypt = new DesEncrypt();
-        String password = desEncrypt.decrypt(pwd);
-        //
-        try {
-            password = ShaEncript.encryptSHA(desEncrypt.encrypt(password));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        User user = new User();
-        user.setUserName(phone);
-        user.setPhone(phone);
-        user.setPassword(password);
-        user.setRole("user");
-        if(null != channel){
-            user.setRegedistChannel(channel);
-        }
-        return ResponseUtil.success();
-    }
 
 
     @RequestMapping(value = "/list")
@@ -110,6 +70,24 @@ public class UserController {
         Page page= PageUtil.createPage(PageConstants.EVERYPAGE,count,p);
         List users = baseService.getList(page,detachedCriteria);
         return ResponseUtil.success(users);
+    }
+
+    /**
+     * 手机号+密码+渠道（选填）注册
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/phone_regist")
+    @ResponseBody
+    public String phone_regist(HttpServletRequest request) {
+        String phone = request.getParameter("phone");
+        User user = new User();
+        user.setPhone(phone);
+        user.setUserName(UUID.randomUUID().toString());
+        user.setRole("Genaral");
+        userService.saveUser(user);
+        return ResponseUtil.success();
     }
 
 

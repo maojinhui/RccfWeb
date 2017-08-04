@@ -47,11 +47,13 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
     }
 
     public User findUserByPhone(String phone) {
+        User user = null;
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(User.class);
         detachedCriteria.add(Restrictions.eq("phone",phone));
         List<?> byCriteria = getHibernateTemplate().findByCriteria(detachedCriteria);
-        User user = (User) byCriteria.get(0);
-//        User user = (User) getHibernateTemplate().findByNamedQuery("from User where phone = ?", phone).get(0);
+        if (null != byCriteria && byCriteria.size()>0){
+            user = (User) byCriteria.get(0);
+        }
         return user;
     }
 
@@ -61,6 +63,19 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
             return (User) objects.get(0);
         }
         return null;
+    }
+
+
+    public User findUserBuOpenid(String openid) {
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(User.class);
+        detachedCriteria.add(Restrictions.eq("openid",openid));
+        List<?> byCriteria = getHibernateTemplate().findByCriteria(detachedCriteria);
+        User user = null;
+        if (null != byCriteria && byCriteria.size()>0){
+            user = (User) byCriteria.get(0);
+        }
+//        User user = (User) getHibernateTemplate().findByNamedQuery("from User where phone = ?", phone).get(0);
+        return user;
     }
 
     @SuppressWarnings("unchecked")

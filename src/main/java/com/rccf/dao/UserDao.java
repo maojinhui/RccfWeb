@@ -21,6 +21,8 @@ public interface UserDao {
 
     User findUserByName(String name);
 
+    User findUserBuOpenid(String openid);
+
     List<User> getUsers(Page page);
 
 }

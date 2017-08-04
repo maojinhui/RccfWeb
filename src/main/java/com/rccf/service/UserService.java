@@ -24,6 +24,8 @@ public interface UserService {
 
     User findUserByName(String name);
 
+    User findUserByOpenid(String openid);
+
     List<User> getUsers(Page p);
 
 }

@@ -4,9 +4,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
-/**
- * Created by greatland on 17/7/12.
- */
 @Entity
 public class User {
     private String userId;
@@ -19,14 +16,17 @@ public class User {
     private String signature;
     private String role;
     private String openid;
+    private String unionId;
     private String openType;
-    private Byte sex;
+    private Integer sex;
     private String accessToken;
     private Integer age;
     private String address;
     private String remarks;
-    private String unionId;
     private String regedistChannel;
+    private String headimg;
+    private String province;
+    private String city;
 
     @Id
     @Column(name = "user_id")
@@ -131,6 +131,16 @@ public class User {
     }
 
     @Basic
+    @Column(name = "union_id")
+    public String getUnionId() {
+        return unionId;
+    }
+
+    public void setUnionId(String unionId) {
+        this.unionId = unionId;
+    }
+
+    @Basic
     @Column(name = "open_type")
     public String getOpenType() {
         return openType;
@@ -142,11 +152,11 @@ public class User {
 
     @Basic
     @Column(name = "sex")
-    public Byte getSex() {
+    public Integer getSex() {
         return sex;
     }
 
-    public void setSex(Byte sex) {
+    public void setSex(Integer sex) {
         this.sex = sex;
     }
 
@@ -190,6 +200,46 @@ public class User {
         this.remarks = remarks;
     }
 
+    @Basic
+    @Column(name = "regedist_channel")
+    public String getRegedistChannel() {
+        return regedistChannel;
+    }
+
+    public void setRegedistChannel(String regedistChannel) {
+        this.regedistChannel = regedistChannel;
+    }
+
+    @Basic
+    @Column(name = "headimg")
+    public String getHeadimg() {
+        return headimg;
+    }
+
+    public void setHeadimg(String headimg) {
+        this.headimg = headimg;
+    }
+
+    @Basic
+    @Column(name = "province")
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    @Basic
+    @Column(name = "city")
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -207,12 +257,18 @@ public class User {
         if (signature != null ? !signature.equals(user.signature) : user.signature != null) return false;
         if (role != null ? !role.equals(user.role) : user.role != null) return false;
         if (openid != null ? !openid.equals(user.openid) : user.openid != null) return false;
+        if (unionId != null ? !unionId.equals(user.unionId) : user.unionId != null) return false;
         if (openType != null ? !openType.equals(user.openType) : user.openType != null) return false;
         if (sex != null ? !sex.equals(user.sex) : user.sex != null) return false;
         if (accessToken != null ? !accessToken.equals(user.accessToken) : user.accessToken != null) return false;
         if (age != null ? !age.equals(user.age) : user.age != null) return false;
         if (address != null ? !address.equals(user.address) : user.address != null) return false;
         if (remarks != null ? !remarks.equals(user.remarks) : user.remarks != null) return false;
+        if (regedistChannel != null ? !regedistChannel.equals(user.regedistChannel) : user.regedistChannel != null)
+            return false;
+        if (headimg != null ? !headimg.equals(user.headimg) : user.headimg != null) return false;
+        if (province != null ? !province.equals(user.province) : user.province != null) return false;
+        if (city != null ? !city.equals(user.city) : user.city != null) return false;
 
         return true;
     }
@@ -229,32 +285,17 @@ public class User {
         result = 31 * result + (signature != null ? signature.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
         result = 31 * result + (openid != null ? openid.hashCode() : 0);
+        result = 31 * result + (unionId != null ? unionId.hashCode() : 0);
         result = 31 * result + (openType != null ? openType.hashCode() : 0);
         result = 31 * result + (sex != null ? sex.hashCode() : 0);
         result = 31 * result + (accessToken != null ? accessToken.hashCode() : 0);
         result = 31 * result + (age != null ? age.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (remarks != null ? remarks.hashCode() : 0);
+        result = 31 * result + (regedistChannel != null ? regedistChannel.hashCode() : 0);
+        result = 31 * result + (headimg != null ? headimg.hashCode() : 0);
+        result = 31 * result + (province != null ? province.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
         return result;
-    }
-
-    @Basic
-    @Column(name = "union_id")
-    public String getUnionId() {
-        return unionId;
-    }
-
-    public void setUnionId(String unionId) {
-        this.unionId = unionId;
-    }
-
-    @Basic
-    @Column(name = "regedist_channel")
-    public String getRegedistChannel() {
-        return regedistChannel;
-    }
-
-    public void setRegedistChannel(String regedistChannel) {
-        this.regedistChannel = regedistChannel;
     }
 }

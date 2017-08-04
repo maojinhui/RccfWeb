@@ -90,4 +90,13 @@ public class BackController {
     }
 
 
+    @RequestMapping(value = "/indexpage")
+    public ModelAndView backIndexPage(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("common/back_comm");
+        return modelAndView;
+    }
+
+
+
 }
