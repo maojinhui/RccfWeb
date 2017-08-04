@@ -16,9 +16,18 @@ public class AppController {
     }
 
     @RequestMapping(value = "/mypage")
-    public String myinfo(){
+    public String myinfoPage(){
         return "front/myinfo";
     }
+    @RequestMapping(value = "/producepage")
+    public String producePage(){
+        return "front/produce";
+    }
 
+
+    @RequestMapping(value = "/progresspage")
+    public String progressPage(){
+        return "front/progress";
+    }
 
 }

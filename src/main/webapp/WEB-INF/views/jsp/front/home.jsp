@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>我的信息</title>
+    <title>首页</title>
     <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
     <style type="text/css">
@@ -33,18 +33,18 @@
         </span>
         <p class="weui-tabbar__label">首页</p>
     </a>
-    <a href="javascript:;" class="weui-tabbar__item">
+    <a href="/app/producepage" class="weui-tabbar__item">
         <img src="/image/weixin/produce.png" alt="" class="weui-tabbar__icon">
         <p class="weui-tabbar__label">产品</p>
     </a>
-    <a href="javascript:;" class="weui-tabbar__item">
+    <a href="/app/progresspage" class="weui-tabbar__item">
         <span style="display: inline-block;position: relative;">
             <img src="/image/weixin/progress.png" alt="" class="weui-tabbar__icon">
             <!--<span class="weui-badge weui-badge_dot" style="position: absolute;top: 0;right: -6px;"></span>-->
         </span>
         <p class="weui-tabbar__label">进度</p>
     </a>
-    <a href="javascript:;" class="weui-tabbar__item" >
+    <a href="/app/mypage" class="weui-tabbar__item" >
         <img src="/image/weixin/me.png" alt="" class="weui-tabbar__icon">
         <p class="weui-tabbar__label">我的</p>
     </a>
