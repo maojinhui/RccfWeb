@@ -20,7 +20,7 @@
     <link rel="icon" type="image/png" href="/img/rccf.ico">
     <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
     <meta name="apple-mobile-web-app-title" content="Amaze UI">
-    <link rel="stylesheet" href="/css/amaze/amazeui.css">
+    <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css">
     <link rel="stylesheet" href="/css/amaze/admin.css">
     <link rel="stylesheet" href="/css/amaze/app.css">
     <link rel="stylesheet" href="/css/instyle.css"/>
@@ -238,7 +238,7 @@
 
 <script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>
 <script src="http://libs.baidu.com/jquery/2.1.1/jquery.min.js"></script>
-<script src="/js/amaze/amazeui.js"></script>
+<script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
 <script src="/js/amaze/app.js"></script>
 
 
