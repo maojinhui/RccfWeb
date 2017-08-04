@@ -60,7 +60,7 @@
 <script src="/js/comm.js"></script>
 <script>
 
-    var user_openid = <%=openid%>;
+    var user_openid = "<%=openid%>";
 
 $("#getcode").bind("click",function () {
     var phone = $("#phone").val();
