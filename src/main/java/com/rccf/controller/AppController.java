@@ -15,4 +15,10 @@ public class AppController {
         return "front/home";
     }
 
+    @RequestMapping(value = "/mypage")
+    public String myinfo(){
+        return "front/myinfo";
+    }
+
+
 }

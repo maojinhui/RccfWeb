@@ -8,6 +8,23 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@page isELIgnored="false" %>
+<%
+    // 获取cookies
+    String username = null;
+    String userid = null;
+    String userimg = null;
+    //获取当前站点的所有Cookie
+    Cookie[] cookies = request.getCookies();
+    for (int i = 0; i < cookies.length; i++) {//对cookies中的数据进行遍历，找到用户名、密码的数据
+        if ("username".equals(cookies[i].getName())) {
+            username = cookies[i].getValue();
+        } else if ("userid".equals(cookies[i].getName())) {
+            userid = cookies[i].getValue();
+        } else if ("userimg".equals(cookies[i].getName())){
+            userimg = cookies[i].getValue();
+        }
+    }
+%>
 <!DOCTYPE html>
 <html class="js cssanimations">
 <head>
@@ -59,12 +76,12 @@
                     <span class="tpl-header-list-user-nick">${requestScope.user.userName}</span><span
                         class="tpl-header-list-user-ico">
                    <%
-                       String headimg = "/image/header_default.png";
-                       User user = (User) request.getAttribute("user");
-                       if (null != user.getHeadimg()) {
-                           headimg = user.getHeadimg();
-                       }
-                   %>
+                    String headimg = "/image/header_default.png";
+                    User user = (User) request.getAttribute("user");
+                    if (null != user.getHeadimg()) {
+                        headimg = user.getHeadimg();
+                    }
+                %>
                     <img src="<%=headimg%>">
                 </span>
                 </a>

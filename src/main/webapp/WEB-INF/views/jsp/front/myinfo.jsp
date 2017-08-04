@@ -21,14 +21,45 @@
     </style>
 </head>
 <body>
-
-
-
+<div class="weui-cells">
+    <div class="weui-cell">
+        <div class="weui-cell__bd">
+            <p>我的名字</p>
+        </div>
+        <div class="weui-cell__ft"><img src="images/logo.png" height="40px"></div>
+    </div>
+</div>
+<div class="weui-cells" onclick="alert_info();">
+    <a class="weui-cell weui-cell_access" href="javascript:;">
+        <div class="weui-cell__bd">
+            <p>绑定手机号</p>
+        </div>
+        <div class="weui-cell__ft">
+            未绑定
+        </div>
+    </a>
+</div>
+<div class="weui-cells">
+    <a class="weui-cell weui-cell_access" href="javascript:;">
+        <div class="weui-cell__bd">
+            <p>我的账单</p>
+        </div>
+        <div class="weui-cell__ft">
+        </div>
+    </a>
+    <a class="weui-cell weui-cell_access" href="javascript:;">
+        <div class="weui-cell__bd">
+            <p>我的合同</p>
+        </div>
+        <div class="weui-cell__ft">
+        </div>
+    </a>
+</div>
 <!--底部导航栏-->
 <div class="weui-tabbar">
-    <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on">
+    <a href="javascript:;" class="weui-tabbar__item ">
         <span style="display: inline-block;position: relative;">
-            <img src="/image/weixin/home_on.png" alt="" class="weui-tabbar__icon">
+            <img src="/image/weixin/home.png" alt="" class="weui-tabbar__icon">
             <!--<span class="weui-badge" style="position: absolute;top: -2px;right: -13px;">8</span>-->
         </span>
         <p class="weui-tabbar__label">首页</p>
@@ -44,8 +75,8 @@
         </span>
         <p class="weui-tabbar__label">进度</p>
     </a>
-    <a href="javascript:;" class="weui-tabbar__item" >
-        <img src="/image/weixin/me.png" alt="" class="weui-tabbar__icon">
+    <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on" >
+        <img src="/image/weixin/me_on.png" alt="" class="weui-tabbar__icon">
         <p class="weui-tabbar__label">我的</p>
     </a>
 </div>

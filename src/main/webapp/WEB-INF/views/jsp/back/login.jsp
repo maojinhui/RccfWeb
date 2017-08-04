@@ -96,7 +96,7 @@
         }
         var despwd = desEncrypt(pwd);
         $.ajax({
-            url: "/back/login",
+            url: "/back/_login",
             dataType: "json",
             data: {"phone": userName, "pwd": despwd, "check": check},
             success: function (result) {
