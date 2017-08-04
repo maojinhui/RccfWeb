@@ -74,6 +74,9 @@ public class BackController {
 //                CookiesUtil.addCookies("username",phone,response);
 //                CookiesUtil.addCookies("password",pwd,response);
 //            }
+            if(user.getRole().equals("user")){
+                return ResponseUtil.fail(0, "您还不是融成一员！");
+            }
 
             return ResponseUtil.success(user.getUserId());
         } else {
@@ -94,9 +97,6 @@ public class BackController {
     public ModelAndView backIndexPage(HttpServletRequest request){
         String user_id = request.getParameter("user_id");
         User user = userService.findUserById(user_id);
-        if (null == user){
-            return new ModelAndView("ad/weixin_advert01");
-        }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("user",user);
         modelAndView.setViewName("common/back_comm");

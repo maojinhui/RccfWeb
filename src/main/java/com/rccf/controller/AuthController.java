@@ -65,9 +65,11 @@ public class AuthController {
             String headimgurl = info_object.getString("headimgurl");
             String unionid = info_object.getString("unionid");
             User user = userService.findUserByOpenid(openid);
-
             if (null == user){
                 user = new User();
+            }
+            if (null == user.getRegedistChannel()){
+                user.setRegedistChannel("微信公众号");
             }
             if(null == user.getRole()){
                 user.setRole("user");
