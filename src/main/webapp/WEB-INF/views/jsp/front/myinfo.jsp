@@ -27,6 +27,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>我的</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/image/rccf.ico">
     <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
     <style type="text/css">
@@ -100,7 +101,7 @@
 <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
 <script>
     function bindPhone() {
-        var bindt = $('#bindtext').val();
+        var bindt = $('#bindtext').text();
         if(bindt.indexOf("未绑定")!=-1){
             window.location.href="/app/bindphone";
         }else{
