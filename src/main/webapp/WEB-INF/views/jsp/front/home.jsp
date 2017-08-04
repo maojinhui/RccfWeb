@@ -14,13 +14,64 @@
     <title>首页</title>
     <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
-    <style type="text/css">
-        body{
-            background-color: #f9f5ee;
+    <link href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
+
+    <style>
+        html, body {
+            position: relative;
+            height: 100%;
+        }
+        body {
+            background: #f9f5ee;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color:#000;
+            margin: 0;
+            padding: 0;
+        }
+        .swiper-container {
+            width: auto;
+            height: auto;
+        }
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        .swiper-slide img{
+            max-width: 400px;
+            width: 100%;
+            height: 200px;
         }
     </style>
 </head>
 <body>
+
+<div class="swiper-container" data-space-between='10' data-pagination='.swiper-pagination' data-autoplay="1000">
+    <div class="swiper-wrapper">
+
+        <div class="swiper-slide"><img src="http://rccfkg.com/imgs/w_ban1.jpg" alt=""></div>
+        <div class="swiper-slide"><img src="http://rccfkg.com/imgs/w_ban2A.jpg" alt=""></div>
+        <div class="swiper-slide"><img src="http://rccfkg.com/imgs/w_ban3.jpg" alt=""></div>
+        <div class="swiper-slide"><img src="http://rccfkg.com/imgs/w_ban.jpg" alt=""></div>
+    </div>
+    <div class="swiper-pagination"></div>
+</div>
+
 
 
 
@@ -51,6 +102,19 @@
 </div>
 <script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
-
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/swiper.min.js"></script>
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+        slidesPerView: 1,
+        paginationClickable: true,
+        spaceBetween: 30,
+        loop: true,
+        autoplay:3000,
+        autoplayDisableOnInteraction:false
+    });
+</script>
 </body>
 </html>

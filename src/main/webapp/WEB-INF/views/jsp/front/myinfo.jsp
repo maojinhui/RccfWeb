@@ -1,4 +1,5 @@
-<%--
+<%@ page import="com.rccf.model.User" %>
+<%@ page import="com.rccf.util.Strings" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 17/8/3
@@ -6,6 +7,20 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String headimg = "/image/header_default.png";
+    User user = (User) request.getAttribute("user");
+    if (null != user.getHeadimg()) {
+        headimg = user.getHeadimg();
+    }
+    String phone = user.getPhone();
+    String bindText = "未绑定";
+    if (null != phone){
+        bindText= Strings.phoneNumberFormat(phone);
+    }
+
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,18 +39,18 @@
 <div class="weui-cells">
     <div class="weui-cell">
         <div class="weui-cell__bd">
-            <p>我的名字</p>
+            <p><%=user.getUserName()%></p>
         </div>
-        <div class="weui-cell__ft"><img src="images/logo.png" height="40px"></div>
+        <div class="weui-cell__ft"><img src="<%=headimg%>" height="40px"></div>
     </div>
 </div>
-<div class="weui-cells" onclick="alert_info();">
+<div class="weui-cells" onclick="">
     <a class="weui-cell weui-cell_access" href="javascript:;">
         <div class="weui-cell__bd">
             <p>绑定手机号</p>
         </div>
         <div class="weui-cell__ft">
-            未绑定
+            <%=bindText%>
         </div>
     </a>
 </div>
@@ -55,6 +70,7 @@
         </div>
     </a>
 </div>
+
 <!--底部导航栏-->
 <div class="weui-tabbar">
     <a href="/app/homepage" class="weui-tabbar__item ">
@@ -82,6 +98,11 @@
 </div>
 <script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+<script>
+    function bindPhone() {
+        
+    }
 
+</script>
 </body>
 </html>

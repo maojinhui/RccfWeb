@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
@@ -95,6 +96,9 @@ public class AuthController {
             }
             if(null != access_token)
             user.setAccessToken(access_token);
+            Cookie cookie= new Cookie("openid",openid);
+            cookie.setPath("/");
+            response.addCookie(cookie);
             userService.saveUser(user);
             return "front/home";
         }

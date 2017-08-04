@@ -30,11 +30,12 @@ public class Strings {
 
     /**
      * 判断是否是手机号
+     *
      * @param mobiles
      * @return
      */
     public static boolean isMobileNO(String mobiles) {
-        if(null == mobiles ){
+        if (null == mobiles) {
             return false;
         }
         Pattern p = Pattern.compile("^1[34578]\\d{9}$");
@@ -55,6 +56,20 @@ public class Strings {
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(str);
         return m.find();
+    }
+
+    /**
+     * 手机号码格式化微182****5716
+     *
+     * @param phone
+     * @return
+     */
+    public static String phoneNumberFormat(String phone) {
+        String reStr = phone.substring(phone.length() - 4, phone.length());
+        String preStr = phone.substring(0, phone.length() - 8);
+        StringBuilder sb = new StringBuilder();
+        sb.append(preStr).append("****").append(reStr);
+        return sb.toString();
     }
 
 }
