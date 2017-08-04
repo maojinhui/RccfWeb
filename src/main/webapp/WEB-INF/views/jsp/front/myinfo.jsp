@@ -44,13 +44,13 @@
         <div class="weui-cell__ft"><img src="<%=headimg%>" height="40px"></div>
     </div>
 </div>
-<div class="weui-cells" onclick="">
+<div class="weui-cells" onclick="bindPhone();">
     <a class="weui-cell weui-cell_access" href="javascript:;">
         <div class="weui-cell__bd">
             <p>绑定手机号</p>
         </div>
-        <div class="weui-cell__ft">
-            <%=bindText%>
+        <div class="weui-cell__ft" >
+            <span id="bindtext"><%=bindText%></span>
         </div>
     </a>
 </div>
@@ -100,7 +100,21 @@
 <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
 <script>
     function bindPhone() {
-        
+        var bindt = $('#bindtext').val();
+        if(bindt.indexOf("未绑定")!=-1){
+            window.location.href="/app/bindphone";
+        }else{
+            $.confirm({
+                title:"更换手机号？",
+                text:"您是否确定更换已绑定的手机号？",
+                onOK:function () {
+                    window.location.href="/app/bindphone";
+                },
+                onCancel:function () {
+                }
+            });
+        }
+
     }
 
 </script>

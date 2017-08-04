@@ -28,20 +28,21 @@ public class AppController {
 
     @RequestMapping(value = "/mypage")
     public ModelAndView myinfoPage(HttpServletRequest request){
-        String openid = null;
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie:cookies) {
-            if ("openid".equals(cookie.getName())){
-                openid = cookie.getValue();
-            }
-        }
-        if (null == openid){
-            return new ModelAndView("redirect:/auth/enter");
-        }
-        User user = userService.findUserByOpenid(openid);
-        ModelAndView modelAndView = new ModelAndView("front/myinfo");
-        modelAndView.addObject("user",user);
-        return modelAndView;
+//        String openid = null;
+//        Cookie[] cookies = request.getCookies();
+//        for (Cookie cookie:cookies) {
+//            if ("openid".equals(cookie.getName())){
+//                openid = cookie.getValue();
+//            }
+//        }
+//        if (null == openid){
+//            return new ModelAndView("redirect:/auth/enter");
+//        }
+//        User user = userService.findUserByOpenid(openid);
+//        ModelAndView modelAndView = new ModelAndView("front/myinfo");
+//        modelAndView.addObject("user",user);
+//        return modelAndView;
+        return getAppUser(request,"front/myinfo");
     }
     @RequestMapping(value = "/producepage")
     public String producePage(){
@@ -54,7 +55,38 @@ public class AppController {
         return "front/progress";
     }
 
+    @RequestMapping(value = "/bindphone")
+    public ModelAndView bindPhone(HttpServletRequest request){
+        return getAppUser(request,"front/bindphone");
+    }
 
+
+
+
+
+    private ModelAndView getAppUser(HttpServletRequest request , String pagePath){
+        String openid = null;
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie:cookies) {
+            if ("openid".equals(cookie.getName())){
+                openid = cookie.getValue();
+            }
+        }
+        if (null == openid){
+            return new ModelAndView("redirect:/auth/enter");
+        }
+        User user = userService.findUserByOpenid(openid);
+        ModelAndView modelAndView = new ModelAndView(pagePath);
+        modelAndView.addObject("user",user);
+        return modelAndView;
+    }
+
+
+    /**
+     * 测试随便给的openid
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "/admin")
     public ModelAndView addOpenid(HttpServletResponse response){
         Cookie cookie = new Cookie("openid","123456");

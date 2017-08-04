@@ -12,6 +12,7 @@ public class ResponseConstants {
     //服务器内部错误 404
     public static String CODE_FAILE_SERVER_404 = "404";
 
+    public static String MSG_USER_NOT_FOUND="未找到该用户！";
 
     public static String MSG_FAIL_500="服务器内部错误，请联系管理员！";
 

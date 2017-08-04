@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -131,6 +132,30 @@ public class UserController {
     }
 
 
+    @ResponseBody
+    @RequestMapping(value = "/bindPhone")
+    public String bindPhone(HttpServletRequest request){
+        String code = request.getParameter("code");
+        String phone = request.getParameter("phone");
+        String openid = request.getParameter("openid");
+        if (!Strings.isMobileNO(phone)){
+            return ResponseUtil.fail(0,ResponseConstants.MSG_PHONE_FORMAT_ERROR);
+        }
+        if (null == code){
+            return ResponseUtil.fail(0,ResponseConstants.MSG_CODE_NOT_NULL);
+        }
+        String syscode = (String) spyMemcachedManager.get(phone);
+        if (null == syscode || !code.equals(syscode)){
+            return ResponseUtil.fail(0,ResponseConstants.MSG_CODE_ERROE);
+        }
+        if (null == openid){
+            return ResponseUtil.fail(0,ResponseConstants.MSG_USER_NOT_FOUND);
+        }
+        User user = userService.findUserByOpenid(openid);
+        user.setPhone(phone);
+        userService.saveUser(user);
+        return ResponseUtil.success(user.getUserId());
+    }
 
 
 

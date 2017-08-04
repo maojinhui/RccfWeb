@@ -42,3 +42,6 @@ function ismobile(phone) {
         return false;
     }
 }
+
+
+$.toast.prototype.defaults.duration = 500;
