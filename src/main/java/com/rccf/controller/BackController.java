@@ -4,7 +4,6 @@ import com.rccf.constants.ResponseConstants;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.User;
 import com.rccf.service.UserService;
-import com.rccf.util.CookiesUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
 import com.rccf.util.encrypt.DesEncrypt;
@@ -75,7 +74,7 @@ public class BackController {
 //                CookiesUtil.addCookies("password",pwd,response);
 //            }
 
-            return ResponseUtil.success();
+            return ResponseUtil.success(user.getUserId());
         } else {
             return ResponseUtil.fail(0, ResponseConstants.MSG_PWD_ERROR);
         }
@@ -90,12 +89,17 @@ public class BackController {
     }
 
 
-    @RequestMapping(value = "/indexpage")
-    public ModelAndView backIndexPage(){
+    @RequestMapping(value = "/index")
+    public ModelAndView backIndexPage(HttpServletRequest request){
+        String user_id = request.getParameter("user_id");
+        User user = userService.findUserById(user_id);
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("user",user);
         modelAndView.setViewName("common/back_comm");
         return modelAndView;
     }
+
+
 
 
 
