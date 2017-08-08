@@ -20,6 +20,8 @@ public class ResponseConstants {
 
     public static String MSG_PHONE_FORMAT_ERROR="手机号格式不正确！";
 
+    public static String MSG_PHONE_REGIST_ALREADY="该手机号已绑定其他账户，如有疑问请联系客服。";
+
     public static String MSG_PHONE_NOT_REGIST = "用户未注册，请检查用户名！";
 
     public static String MSG_PWD_ERROR = "密码不正确！";

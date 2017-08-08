@@ -16,13 +16,55 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
     <style type="text/css">
-        body{
-            background-color: #f9f5ee;
+        .weui-cell{
+            font-size: 16px;
+            padding: 10px;
         }
     </style>
 </head>
 <body>
 
+<div style="height: 100px;background-color: #f9bd5c;color: whitesmoke;font-size: 20px;">
+    <span style="display:block;padding-top: 30px;padding-left: 20px">待处理……</span>
+</div>
+<div class="weui-cells weui-cells_form">
+    <h4 style="padding:10px 0 10px 20px;">申请信息</h4>
+    <div class="weui-cell weui-cell_vcode">
+        <div class="weui-cell__hd">
+            <label class="weui-label">姓名</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" placeholder="张三" readonly>
+        </div>
+    </div>
+    <div class="weui-cell weui-cell_vcode">
+        <div class="weui-cell__hd">
+            <label class="weui-label">联系方式</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="tel" placeholder="12489123321" readonly>
+        </div>
+    </div>
+    <div class="weui-cell weui-cell_vcode">
+        <div class="weui-cell__hd">
+            <label class="weui-label">申请额度</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" placeholder="30W" readonly>
+        </div>
+    </div>
+    <div class="weui-cell weui-cell_vcode">
+        <div class="weui-cell__hd">
+            <label class="weui-label">申请周期</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" placeholder="3个月" readonly>
+        </div>
+    </div>
+</div>
+<div class="weui-cells__tips">
+    提交时间:<input class="weui-input" type="datetime-local" value="2017年/8/8 15:32" readonly/>
+</div>
 
 
 <!--底部导航栏-->

@@ -151,6 +151,13 @@ public class UserController {
         if (null == openid){
             return ResponseUtil.fail(0,ResponseConstants.MSG_USER_NOT_FOUND);
         }
+        /**
+         * 判断手机号是否已经绑定过其他账号
+         */
+        User user_phone = userService.findUserByPhone(phone);
+        if(null != user_phone){
+            return ResponseUtil.fail(0,ResponseConstants.MSG_PHONE_REGIST_ALREADY);
+        }
         User user = userService.findUserByOpenid(openid);
         user.setPhone(phone);
         userService.saveUser(user);

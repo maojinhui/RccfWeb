@@ -25,10 +25,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.0/css/amazeui.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.0/css/amazeui.flat.css"/>
     <link rel="stylesheet" href="/css/amaze/admin.css"/>
-    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/instyle.css"/>
     <style type="text/css">
         .formdiv{
             margin-top: 20px;
+            border-radius: 5px;
         }
         .am-icon-check{
             color: green;

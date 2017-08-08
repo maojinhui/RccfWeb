@@ -5,8 +5,8 @@
   Time: 下午7:55
   To change this template use File | Settings | File Templates.
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="com.rccf.model.User" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="com.rccf.model.User" %>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@page isELIgnored="false" %>
 <%
@@ -40,14 +40,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp">
+    <base target="_top">
     <title>融成金服</title>
-    <link rel="icon" type="image/png" href="/img/rccf.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/image/rccf.ico">
     <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/css/amazeui.min.css">
     <link rel="stylesheet" href="/css/amaze/admin.css">
     <link rel="stylesheet" href="/css/amaze/app.css">
     <link rel="stylesheet" href="/css/instyle.css"/>
     <script src="/js/comm.js"></script>
+
 
 </head>
 
@@ -126,16 +128,16 @@
                     </a>
                     <ul class="tpl-left-nav-sub-menu">
                         <li>
-                            <a href="table-font-list.html">
+                            <a href="">
                                 <i class="am-icon-angle-right"></i>
                                 <span>列表页面</span>
                             </a>
 
-                            <a href="table-images-list.html">
+                            <a href="">
                                 <i class="am-icon-angle-right"></i>
                                 <span>添加/修改</span>
                             </a>
-                            <a href="form-news.html">
+                            <a href="">
                                 <i class="am-icon-angle-right"></i>
                                 <span>查看页面</span>
                             </a>
@@ -151,15 +153,15 @@
                     </a>
                     <ul class="tpl-left-nav-sub-menu">
                         <li>
-                            <a href="table-font-list.html">
+                            <a href="">
                                 <i class="am-icon-angle-right"></i>
                                 <span>列表页面</span>
                             </a>
-                            <a href="table-images-list.html">
+                            <a href="">
                                 <i class="am-icon-angle-right"></i>
                                 <span>添加/修改</span>
                             </a>
-                            <a href="form-news.html">
+                            <a href="">
                                 <i class="am-icon-angle-right"></i>
                                 <span>查看页面</span>
                             </a>
@@ -175,18 +177,18 @@
                     </a>
                     <ul class="tpl-left-nav-sub-menu">
                         <li>
-                            <a href="form-amazeui.html">
+                            <a href="">
                                 <i class="am-icon-angle-right"></i>
                                 <span>列表页面</span>
                                 <!--<i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>-->
                             </a>
 
-                            <a href="form-line.html">
+                            <a href="">
                                 <i class="am-icon-angle-right"></i>
                                 <span>添加/修改</span>
                             </a>
 
-                            <a href="form-line.html">
+                            <a href="">
                                 <i class="am-icon-angle-right"></i>
                                 <span>查看页面</span>
                             </a>
@@ -202,18 +204,18 @@
                     </a>
                     <ul class="tpl-left-nav-sub-menu">
                         <li>
-                            <a href="form-amazeui.html">
+                            <a href="">
                                 <i class="am-icon-angle-right"></i>
                                 <span>列表页面</span>
                                 <!--<i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>-->
                             </a>
 
-                            <a href="form-line.html">
+                            <a href="">
                                 <i class="am-icon-angle-right"></i>
                                 <span>添加/修改</span>
                             </a>
 
-                            <a href="form-line.html">
+                            <a href="">
                                 <i class="am-icon-angle-right"></i>
                                 <span>查看页面</span>
                             </a>
