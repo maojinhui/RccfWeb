@@ -135,7 +135,9 @@ public class BackController {
         User user = userService.findUserById(user_id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("user", user);
-        modelAndView.setViewName("common/back_comm");
+        modelAndView.addObject("page","test/include");
+//        modelAndView.setViewName("common/back_comm");
+        modelAndView.setViewName("back/index");
         return modelAndView;
     }
 

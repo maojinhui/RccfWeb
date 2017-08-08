@@ -11,13 +11,13 @@ function formatDateTime(inputTime) {
     var second = date.getSeconds();
     minute = minute < 10 ? ('0' + minute) : minute;
     second = second < 10 ? ('0' + second) : second;
-    return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+    return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
 };
 
 function formateName(name) {
-    if(null == name || typeof (name) == undefined){
+    if (null == name || typeof (name) == undefined) {
         return "未填写";
-    }else{
+    } else {
         return name;
     }
 }
@@ -36,12 +36,22 @@ function desEncrypt(text) {
 
 function ismobile(phone) {
     var reg = /^1[34578]\d{9}$/;
-    if (reg.test(phone)){
+    if (reg.test(phone)) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
 
 
 $.toast.prototype.defaults.duration = 500;
+
+
+// 动态加载css文件
+function loadStyles(url) {
+    var link = document.createElement("link");
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    link.href = url;
+    document.getElementsByTagName("head")[0].appendChild(link);
+}

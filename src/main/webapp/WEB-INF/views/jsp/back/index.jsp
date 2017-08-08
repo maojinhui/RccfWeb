@@ -5,16 +5,14 @@
   Time: 下午1:08
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>登录</title>
-</head>
-<body>
 
-<div>
-    <h1>It Works!</h1>
-</div>
+<%@include file="../common/Header.jsp"%>
 
-</body>
-</html>
+    <%--这里添加具体内容--%>
+      <div style="width:100%;height: 100%">
+       <img src="/image/qrcode_rccf_430.jpg" style="align-content: center;" />
+      </div>
+
+    <span>荣成金服</span>
+
+<%@include file="../common/Footer.jsp"%>

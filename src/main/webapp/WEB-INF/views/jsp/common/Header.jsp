@@ -1,13 +1,13 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="org.springframework.web.context.request.RequestScope" %>
-<%@ page import="com.rccf.model.User" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 17/8/3
   Time: 下午7:55
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.rccf.model.User" %>
+<%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@page isELIgnored="false" %>
 <%
     // 获取cookies
@@ -80,12 +80,12 @@
                     <span class="tpl-header-list-user-nick">${requestScope.user.userName}</span><span
                         class="tpl-header-list-user-ico">
                    <%
-                    String headimg = "/image/header_default.png";
-                    User user = (User) request.getAttribute("user");
-                    if (null != user.getHeadimg()) {
-                        headimg = user.getHeadimg();
-                    }
-                %>
+                       String headimg = "/image/header_default.png";
+                       User user = (User) request.getAttribute("user");
+                       if (null != user.getHeadimg()) {
+                           headimg = user.getHeadimg();
+                       }
+                   %>
                     <img src="<%=headimg%>">
                 </span>
                 </a>
@@ -239,22 +239,5 @@
             </ul>
         </div>
     </div>
-
     <div class="tpl-content-wrapper">
-            <%--这里添加具体内容--%>
 
-                <span><%=pageUrl%></span>
-        <jsp:include page=""  flush="true" />
-
-
-    </div>
-
-</div>
-
-<script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>
-<script src="http://libs.baidu.com/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/js/amazeui.min.js"></script>
-<script src="/js/amaze/app.js"></script>
-
-</body>
-</html>

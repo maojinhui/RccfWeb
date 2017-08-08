@@ -11,9 +11,9 @@
     <title>找回密码</title>
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
     <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script type="text/javascript" src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.ie8polyfill.js"></script>
-    <script type="text/javascript" src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.js"></script>
-    <script type="text/javascript" src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.widgets.helper.js"></script>
+    <script type="text/javascript" src="/js/amazeui.ie8polyfill.js"></script>
+    <script type="text/javascript" src="/js/amazeui.js"></script>
+    <script type="text/javascript" src="/js/amazeui.widgets.helper.js"></script>
     <script type="text/javascript" src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <script type="text/javascript" src="/js/rollups/tripledes.js"></script>
     <script type="text/javascript" src="/js/components/mode-ecb.js"></script>
