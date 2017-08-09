@@ -12,7 +12,8 @@
     <meta name="viewport"
           content="width = device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,initial-scale=1"/>
     <meta name="format-detection" content="telephone=no,email=no">
-    <title>RCCF-融成财富</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/image/rccf.ico">
+    <title>融成金服</title>
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
     <script type="text/javascript" src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.ie8polyfill.js"></script>
     <script type="text/javascript" src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.js"></script>
@@ -140,7 +141,7 @@
             版权所有: 融成财富（北京）控股有限公司
         </p>
         <p>
-            备案号 : 京ICP备16034491号-1
+            备案号 : 京ICP备17039876号-1
         </p>
     </footer>
 

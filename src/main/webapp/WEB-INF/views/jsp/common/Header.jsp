@@ -37,7 +37,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="keywords" content="融成财富,后台管理系统,融成后台,融成">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scale=no">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <base target="_top">
@@ -118,6 +118,12 @@
                     <a href="/back/index" class="nav-link active">
                         <i class="am-icon-home"></i>
                         <span>首页</span>
+                    </a>
+                </li>
+                <li class="tpl-left-nav-item ">
+                    <a href="/back/market_list" class="nav-link">
+                        <i class="am-icon-gift"></i>
+                        <span>营销工具</span>
                     </a>
                 </li>
                 <li class="tpl-left-nav-item">

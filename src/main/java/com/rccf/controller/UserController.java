@@ -8,28 +8,18 @@ import com.rccf.model.User;
 import com.rccf.service.BaseService;
 import com.rccf.service.UserService;
 import com.rccf.util.PageUtil;
-import com.rccf.util.Strings;
-import com.rccf.util.encrypt.DesEncrypt;
 import com.rccf.util.ResponseUtil;
+import com.rccf.util.Strings;
 import com.rccf.util.encrypt.PasswordUtil;
-import com.rccf.util.encrypt.ShaEncript;
-import com.rccf.util.sms.JavaSmsApi;
-import com.rccf.util.sms.SmsUtil;
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -54,10 +44,10 @@ public class UserController {
 
     @RequestMapping(value = "/list")
     @ResponseBody
-    public String users(HttpServletRequest request){
+    public String users(HttpServletRequest request) {
         String pageNo = request.getParameter("pageNo");
-        if (null == pageNo){
-            pageNo="0";
+        if (null == pageNo) {
+            pageNo = "0";
         }
         int p = 0;
         try {
@@ -68,8 +58,8 @@ public class UserController {
 
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(User.class);
         int count = baseService.getCount(detachedCriteria);
-        Page page= PageUtil.createPage(PageConstants.EVERYPAGE,count,p);
-        List users = baseService.getList(page,detachedCriteria);
+        Page page = PageUtil.createPage(PageConstants.EVERYPAGE, count, p);
+        List users = baseService.getList(page, detachedCriteria);
         return ResponseUtil.success(users);
     }
 
@@ -94,34 +84,34 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value = "/resetpwd")
-    public String notifyPasswordByPhonecode(HttpServletRequest request){
+    public String notifyPasswordByPhonecode(HttpServletRequest request) {
         String phone = request.getParameter("phone");
         String phoneCode = request.getParameter("phonecode");
         String notifyPwd = request.getParameter("pwd");
-        if(Strings.isNullOrEmpty(phone)){
-            return ResponseUtil.fail(0,ResponseConstants.MSG_PHONE_NOT_NULL);
+        if (Strings.isNullOrEmpty(phone)) {
+            return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_NOT_NULL);
         }
-        if(Strings.isNullOrEmpty(phoneCode)){
-            return ResponseUtil.fail(0,ResponseConstants.MSG_CODE_NOT_NULL);
+        if (Strings.isNullOrEmpty(phoneCode)) {
+            return ResponseUtil.fail(0, ResponseConstants.MSG_CODE_NOT_NULL);
         }
-        if (Strings.isNullOrEmpty(notifyPwd)){
-            return ResponseUtil.fail(0,ResponseConstants.MSG_PWD_FORMAT_ERROR);
+        if (Strings.isNullOrEmpty(notifyPwd)) {
+            return ResponseUtil.fail(0, ResponseConstants.MSG_PWD_FORMAT_ERROR);
         }
         String password = PasswordUtil.dealPassword(notifyPwd);
-        if (password.equals("1")){
+        if (password.equals("1")) {
             return ResponseUtil.fail(0, ResponseConstants.MSG_PWD_FORMAT_ERROR);
-        }else if (password.equals("2")){
+        } else if (password.equals("2")) {
             return ResponseUtil.fail(0, "密码处理失败！");
-        }else {
+        } else {
 
         }
         String code = (String) spyMemcachedManager.get(phone);
-        if (null == code || !code.equals(phoneCode) ){
+        if (null == code || !code.equals(phoneCode)) {
             return ResponseUtil.fail(0, ResponseConstants.MSG_CODE_ERROE);
         }
         //如果验证成功后修改密码
         User user = userService.findUserByPhone(phone);
-        if(null == user){
+        if (null == user) {
             return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_NOT_REGIST);
         }
         user.setPassword(password);
@@ -134,36 +124,35 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value = "/bindPhone")
-    public String bindPhone(HttpServletRequest request){
+    public String bindPhone(HttpServletRequest request) {
         String code = request.getParameter("code");
         String phone = request.getParameter("phone");
         String openid = request.getParameter("openid");
-        if (!Strings.isMobileNO(phone)){
-            return ResponseUtil.fail(0,ResponseConstants.MSG_PHONE_FORMAT_ERROR);
+        if (!Strings.isMobileNO(phone)) {
+            return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_FORMAT_ERROR);
         }
-        if (null == code){
-            return ResponseUtil.fail(0,ResponseConstants.MSG_CODE_NOT_NULL);
+        if (null == code) {
+            return ResponseUtil.fail(0, ResponseConstants.MSG_CODE_NOT_NULL);
         }
         String syscode = (String) spyMemcachedManager.get(phone);
-        if (null == syscode || !code.equals(syscode)){
-            return ResponseUtil.fail(0,ResponseConstants.MSG_CODE_ERROE);
+        if (null == syscode || !code.equals(syscode)) {
+            return ResponseUtil.fail(0, ResponseConstants.MSG_CODE_ERROE);
         }
-        if (null == openid){
-            return ResponseUtil.fail(0,ResponseConstants.MSG_USER_NOT_FOUND);
+        if (null == openid) {
+            return ResponseUtil.fail(0, ResponseConstants.MSG_USER_NOT_FOUND);
         }
         /**
          * 判断手机号是否已经绑定过其他账号
          */
         User user_phone = userService.findUserByPhone(phone);
-        if(null != user_phone){
-            return ResponseUtil.fail(0,ResponseConstants.MSG_PHONE_REGIST_ALREADY);
+        if (null != user_phone) {
+            return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_REGIST_ALREADY);
         }
         User user = userService.findUserByOpenid(openid);
         user.setPhone(phone);
         userService.saveUser(user);
         return ResponseUtil.success(user.getUserId());
     }
-
 
 
 }

@@ -46,6 +46,20 @@ public class AdvertController {
         return modelAndView;
     }
 
+
+    @RequestMapping(value = "/weixin02")
+    public ModelAndView advertPage2(HttpServletRequest request) {
+        String from = request.getParameter("from");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("ad/weixin_advert02");
+        if (null != from) {
+            modelAndView.addObject("from", from);
+        }
+        return modelAndView;
+    }
+
+
+
     /**
      * 广告内部申请
      * @param request
@@ -166,5 +180,13 @@ public class AdvertController {
             return ResponseUtil.fail(0,"保存错误");
         }
     }
+
+
+    @RequestMapping(value = "/mlist")
+    public ModelAndView marketList(){
+        return new ModelAndView("ad/marketlist");
+    }
+
+
 
 }

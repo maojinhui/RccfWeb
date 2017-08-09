@@ -22,7 +22,7 @@
 
     <script href="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/css/amazeui.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/css/amazeui.flat.min.css"/>
+    <%--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/css/amazeui.flat.min.css"/>--%>
     <link rel="stylesheet" href="/css/amaze/admin.css"/>
     <link rel="stylesheet" href="/css/instyle.css"/>
 
@@ -46,14 +46,14 @@
 </head>
 <body>
 <div class="am-g am-center maindiv">
-    <div class="am-u-sm-4 am-u-sm-centered">
+    <div class="am-u-sm-10 am-u-sm-centered">
         <h1>融成财富后台管理系统</h1>
     </div>
-    <div class="am-u-sm-4 am-u-sm-centered formdiv">
-        <div class="formdiv">
+    <div class="am-u-sm-10 am-u-sm-centered am-margin-top-xs">
+        <div class="am-margin-top-xs">
             <input class="am-form-field am-radius" id="user-name" type="tel" placeholder="手机号" value="<%=username%>"/>
         </div>
-        <div class="formdiv">
+        <div class="am-margin-top-xs">
             <input class="am-form-field am-radius" id="pwd" type="password" placeholder="密码" value="<%=password%>"/>
         </div>
         <div>
@@ -62,7 +62,7 @@
                 <a href="/back/findpwdp">忘记密码？</a>
             </div>
         </div>
-        <div class="formdiv">
+        <div class="am-margin-top-xs">
             <button type="button" class="am-btn am-btn-primary am-btn-block" id="submit">登录</button>
         </div>
     </div>

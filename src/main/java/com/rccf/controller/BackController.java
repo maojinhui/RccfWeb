@@ -1,17 +1,22 @@
 package com.rccf.controller;
 
+import com.rccf.component.Page;
+import com.rccf.constants.PageConstants;
 import com.rccf.constants.ResponseConstants;
 import com.rccf.constants.UrlConstants;
+import com.rccf.model.Market;
 import com.rccf.model.User;
+import com.rccf.service.BaseService;
 import com.rccf.service.UserService;
-import com.rccf.util.CookiesUtil;
+import com.rccf.util.PageUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
 import com.rccf.util.encrypt.DesEncrypt;
 import com.rccf.util.encrypt.ShaEncript;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Controller
@@ -30,6 +36,9 @@ public class BackController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    BaseService baseService;
 
 
     @RequestMapping(value = "/login")
@@ -135,11 +144,71 @@ public class BackController {
         User user = userService.findUserById(user_id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("user", user);
-        modelAndView.addObject("page","test/include");
-//        modelAndView.setViewName("common/back_comm");
         modelAndView.setViewName("back/index");
         return modelAndView;
     }
+
+    @RequestMapping(value = "/market_list")
+    public ModelAndView marketToolsPage(HttpServletRequest request)
+    {
+        return getUserView(request,"back/markettools");
+    }
+
+    @RequestMapping(value = "/markets")
+    @ResponseBody
+    public String markets(HttpServletRequest request){
+        String pageNo = request.getParameter("pageNo");
+        if (Strings.isNullOrEmpty(pageNo)){
+            pageNo="0";
+        }
+        int p  ;
+        try {
+            p = Integer.valueOf(pageNo);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return ResponseUtil.fail();
+        }
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Market.class);
+        byte b = 1;
+        detachedCriteria.add(Restrictions.eq("state",b));
+        int count = baseService.getCount(detachedCriteria);
+        Page page = PageUtil.createPage(PageConstants.EVERYPAGE,count,p);
+        List markets = baseService.getList(page, detachedCriteria);
+        return ResponseUtil.success(markets);
+    }
+
+    /**
+     * 根据cookie获取用户信息
+     * @param request
+     * @param viewName
+     * @return
+     */
+    private ModelAndView getUserView(HttpServletRequest request , String viewName){
+        String userid = null;
+        Cookie cookies[]  = request.getCookies();
+        if (null == cookies){
+            return new ModelAndView("redirect:/back/login");
+        }
+        for (Cookie cookie:cookies) {
+            if ("userid".equals(cookie.getName())){
+                userid = cookie.getValue();
+            }
+        }
+        if (null == userid){
+            return new ModelAndView("redirect:/back/login");
+        }
+
+        User user = userService.findUserById(userid);
+        if(null == user){
+            return new ModelAndView("redirect:/back/login");
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("user", user);
+        modelAndView.setViewName(viewName);
+        return modelAndView;
+    }
+
 
 
 }
