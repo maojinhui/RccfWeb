@@ -22,10 +22,9 @@
         }
 
         .weui-cell__ft {
-
             text-align: left;
             display: block;
-            width: 14em;
+            width: 12em;
             word-break: keep-all;
             white-space: nowrap;
             overflow: hidden;

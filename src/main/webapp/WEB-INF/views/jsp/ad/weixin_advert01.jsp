@@ -275,7 +275,7 @@
 
         wx.onMenuShareAppMessage({
             title: '融成财富一站式借贷服务平台', // 分享标题
-            desc: '为企业和个人提供低利率的资金供应，产品类型丰富，总有一款适合你。', // 分享描述
+            desc: '为企业和个人提供低利率的资金供应', // 分享描述
             link: 'http://weixin.rccfkg.com/advert/weixin01/', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             imgUrl: 'http://weixin.rccfkg.com/image/logo_88.png', // 分享图标
             type: 'link', // 分享类型,music、video或link，不填默认为link
