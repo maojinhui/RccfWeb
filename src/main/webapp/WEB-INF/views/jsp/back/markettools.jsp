@@ -36,8 +36,8 @@
 
 
             }else {
-                alert(result.errormsg);
-            }
+                alert(result.errormsg);}
+
         },
         error:function () {
             

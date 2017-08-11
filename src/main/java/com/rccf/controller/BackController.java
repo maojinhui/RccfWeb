@@ -4,6 +4,7 @@ import com.rccf.component.Page;
 import com.rccf.constants.PageConstants;
 import com.rccf.constants.ResponseConstants;
 import com.rccf.constants.UrlConstants;
+import com.rccf.enmu.HeaderType;
 import com.rccf.model.Market;
 import com.rccf.model.User;
 import com.rccf.service.BaseService;
@@ -137,21 +138,22 @@ public class BackController {
 
     @RequestMapping(value = "/index")
     public ModelAndView backIndexPage(HttpServletRequest request) {
-        String user_id = request.getParameter("user_id");
-        if(null==user_id){
-            return new ModelAndView("redirect:/back/login");
-        }
-        User user = userService.findUserById(user_id);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("user", user);
-        modelAndView.setViewName("back/index");
-        return modelAndView;
+//        String user_id = request.getParameter("user_id");
+//        if(null==user_id){
+//            return new ModelAndView("redirect:/back/login");
+//        }
+//        User user = userService.findUserById(user_id);
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.addObject("user", user);
+//        modelAndView.setViewName("back/index");
+//        return modelAndView;
+        return getUserView(request,"back/index",HeaderType.INDEX);
     }
 
     @RequestMapping(value = "/market_list")
     public ModelAndView marketToolsPage(HttpServletRequest request)
     {
-        return getUserView(request,"back/markettools");
+        return getUserView(request,"back/markettools",HeaderType.MARKET);
     }
 
     @RequestMapping(value = "/markets")
@@ -177,13 +179,21 @@ public class BackController {
         return ResponseUtil.success(markets);
     }
 
+
+    @RequestMapping(value = "product_add")
+    public ModelAndView addProduct(HttpServletRequest request ){
+
+        return getUserView(request , "back/productAdd" ,HeaderType.PRODUCT);
+    }
+
+
     /**
      * 根据cookie获取用户信息
      * @param request
      * @param viewName
      * @return
      */
-    private ModelAndView getUserView(HttpServletRequest request , String viewName){
+    private ModelAndView getUserView(HttpServletRequest request , String viewName,HeaderType type ){
         String userid = null;
         Cookie cookies[]  = request.getCookies();
         if (null == cookies){
@@ -203,9 +213,11 @@ public class BackController {
             return new ModelAndView("redirect:/back/login");
         }
 
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView(viewName);
+//        modelAndView.setViewName();
+        modelAndView.addObject("type",type);
         modelAndView.addObject("user", user);
-        modelAndView.setViewName(viewName);
+
         return modelAndView;
     }
 

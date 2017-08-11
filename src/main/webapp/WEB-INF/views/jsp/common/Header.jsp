@@ -7,6 +7,8 @@
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="com.rccf.model.User" %>
+<%@page import="com.rccf.enmu.HeaderType" %>
+<%@ page import="java.util.Enumeration" %>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@page isELIgnored="false" %>
 <%
@@ -21,14 +23,62 @@
             username = cookies[i].getValue();
         } else if ("userid".equals(cookies[i].getName())) {
             userid = cookies[i].getValue();
-        } else if ("userimg".equals(cookies[i].getName())){
+        } else if ("userimg".equals(cookies[i].getName())) {
             userimg = cookies[i].getValue();
         }
     }
-%>
 
-<%
-    String pageUrl = (String) request.getAttribute("page");
+    String headimg = "/image/header_default.png";
+    User user = (User) request.getAttribute("user");
+    if (null != user.getHeadimg()) {
+        headimg = user.getHeadimg();
+    }
+
+    String indexC = "";
+    String marketC = "";
+    String employeeC = "";
+    String userC = "";
+    String productC = "";
+    String matchC = "";
+    String projectC = "";
+    String riskAssessmentC = "";
+
+    HeaderType headerType = (HeaderType) request.getAttribute("type");
+    if(null != headerType){
+        switch (headerType) {
+            case MARKET:
+                marketC = "active";
+                break;
+            case EMPLOYEE:
+                employeeC = "active";
+                break;
+            case PRODUCT:
+                productC = "active";
+                break;
+            case USER:
+                userC = "active";
+                break;
+            case INDEX:
+                indexC = "active";
+                break;
+            case MATCH:
+                marketC = "active";
+                break;
+            case PROJECT:
+                projectC = "active";
+                break;
+            case RISKASSESSMENT:
+                riskAssessmentC = "active";
+                break;
+            default:
+                break;
+        }
+    }
+
+
+
+
+
 %>
 
 <!DOCTYPE html>
@@ -49,8 +99,6 @@
     <link rel="stylesheet" href="/css/amaze/app.css">
     <link rel="stylesheet" href="/css/instyle.css"/>
     <script src="/js/comm.js"></script>
-
-
 </head>
 
 <body data-type="genaralComponents">
@@ -81,13 +129,7 @@
                 <a class="tpl-header-list-link" href="javascript:;">
                     <span class="tpl-header-list-user-nick">${requestScope.user.userName}</span><span
                         class="tpl-header-list-user-ico">
-                   <%
-                       String headimg = "/image/header_default.png";
-                       User user = (User) request.getAttribute("user");
-                       if (null != user.getHeadimg()) {
-                           headimg = user.getHeadimg();
-                       }
-                   %>
+
                     <img src="<%=headimg%>">
                 </span>
                 </a>
@@ -115,19 +157,19 @@
         <div class="tpl-left-nav-list">
             <ul class="tpl-left-nav-menu">
                 <li class="tpl-left-nav-item ">
-                    <a href="/back/index" class="nav-link active">
+                    <a href="/back/index" class="nav-link <%=indexC%>">
                         <i class="am-icon-home"></i>
                         <span>首页</span>
                     </a>
                 </li>
                 <li class="tpl-left-nav-item ">
-                    <a href="/back/market_list" class="nav-link">
+                    <a href="/back/market_list" class="nav-link <%=marketC%>">
                         <i class="am-icon-gift"></i>
                         <span>营销工具</span>
                     </a>
                 </li>
                 <li class="tpl-left-nav-item">
-                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list ">
+                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list <%=employeeC%>>">
                         <i class="am-icon-users"></i>
                         <span>员工管理</span>
                         <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
@@ -152,7 +194,7 @@
                 </li>
 
                 <li class="tpl-left-nav-item">
-                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list <%=userC%>">
                         <i class="am-icon-table"></i>
                         <span>客户管理</span>
                         <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
@@ -176,7 +218,7 @@
                 </li>
 
                 <li class="tpl-left-nav-item">
-                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list <%=productC%>">
                         <i class="am-icon-wpforms"></i>
                         <span>产品管理</span>
                         <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
@@ -203,7 +245,7 @@
                 </li>
 
                 <li class="tpl-left-nav-item">
-                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list <%=projectC%>">
                         <i class="am-icon-server"></i>
                         <span>项目管理</span>
                         <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
@@ -229,7 +271,7 @@
                     </ul>
                 </li>
                 <li class="tpl-left-nav-item">
-                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list <%=riskAssessmentC%>">
                         <i class="am-icon-file"></i>
                         <span>风险评估</span>
 
@@ -237,7 +279,7 @@
 
                 </li>
                 <li class="tpl-left-nav-item">
-                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list <%=matchC%>">
                         <i class="am-icon-arrows"></i>
                         <span>匹配模型</span>
 
