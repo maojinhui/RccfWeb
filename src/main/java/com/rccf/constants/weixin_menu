@@ -6,3 +6,16 @@
 //2017-8-3
 {"button":[{"type":"view","name":"授权登录","url":"http://weixin.rccfkg.com/auth/enter"},{"type":"view","name":"营销工具","url":"http://weixin.rccfkg.com/advert/weixin01"},{"name":"关于我们","sub_button":[{"type":"view","name":"产品介绍","url":"http://rccfkg.com/paymentService/productDisplay.html"},{"type":"view","name":"联系我们","url":"http://rccfkg.com/contact.html"}]}]}
 
+217-8-11
+{"button":[{"type":"view","name":"授权登录","url":"http://weixin.rccfkg.com/auth/enter"},{"type":"view","name":"营销工具","url":"http://weixin.rccfkg.com/advert/mlist/"},{"name":"关于我们","sub_button":[{"type":"view","name":"产品介绍","url":"http://rccfkg.com/paymentService/productDisplay.html"},{"type":"view","name":"联系我们","url":"http://rccfkg.com/contact.html"}]}]}
+
+
+
+
+
+
+
+
+
+
+

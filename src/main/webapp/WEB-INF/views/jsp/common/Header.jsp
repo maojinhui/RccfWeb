@@ -74,15 +74,9 @@
                 break;
         }
     }
-
-
-
-
-
 %>
-
 <!DOCTYPE html>
-<html class="js cssanimations">
+<html class="js container">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -98,7 +92,9 @@
     <link rel="stylesheet" href="/css/amaze/admin.css">
     <link rel="stylesheet" href="/css/amaze/app.css">
     <link rel="stylesheet" href="/css/instyle.css"/>
-    <script src="/js/comm.js"></script>
+    <%--<script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>--%>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
 </head>
 
 <body data-type="genaralComponents">
@@ -221,9 +217,9 @@
                     <a href="javascript:;" class="nav-link tpl-left-nav-link-list <%=productC%>">
                         <i class="am-icon-wpforms"></i>
                         <span>产品管理</span>
-                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right "></i>
                     </a>
-                    <ul class="tpl-left-nav-sub-menu">
+                    <ul class="tpl-left-nav-sub-menu" >
                         <li>
                             <a href="">
                                 <i class="am-icon-angle-right"></i>
@@ -231,7 +227,7 @@
                                 <!--<i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>-->
                             </a>
 
-                            <a href="">
+                            <a href="/back/product_add">
                                 <i class="am-icon-angle-right"></i>
                                 <span>添加/修改</span>
                             </a>
@@ -289,5 +285,5 @@
             </ul>
         </div>
     </div>
-    <div class="tpl-content-wrapper">
 
+    <div class="tpl-content-wrapper">
