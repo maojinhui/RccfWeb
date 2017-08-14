@@ -43,9 +43,17 @@ function ismobile(phone) {
     }
 }
 
+function isInclude(name){
+    var js= /js$/i.test(name);
+    var es=document.getElementsByTagName(js?'script':'link');
+    for(var i=0;i<es.length;i++)
+        if(es[i][js?'src':'href'].indexOf(name)!=-1)return true;
+    return false;
+}
 
-$.toast.prototype.defaults.duration = 500;
-
+if(isInclude("jquery-weui.min.js")){
+    $.toast.prototype.defaults.duration = 500;
+}
 
 // 动态加载css文件
 function loadStyles(url) {

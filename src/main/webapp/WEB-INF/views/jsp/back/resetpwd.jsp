@@ -43,7 +43,7 @@
 <body>
 
 <div class="am-g am-center maindiv">
-    <div class="am-u-sm-4 am-u-sm-centered formdiv">
+    <div class="am-u-sm-12 am-u-sm-centered formdiv">
             <div class="formdiv">
                 <input id="phone" class="am-form-field am-radius" type="tel" placeholder="手机号"/>
             </div>
@@ -96,7 +96,7 @@
 
         var icode = $.cookie("imagecode");
         console.log(icode);
-        alert(icode);
+//        alert(icode);
         if(icode!=null){
             if(imgcode.toUpperCase() == icode.toUpperCase()){
 //                alert("正确");

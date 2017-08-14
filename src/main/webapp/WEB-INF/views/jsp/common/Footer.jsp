@@ -35,6 +35,14 @@
 <script src="/js/comm.js"></script>
 <script>
 
+    $("#quit").bind("click",function () {
+//        $.cookie('userid', '', { expires: -1 });
+        $.cookie("userid",null,{path:"/"});
+        location.href="/back/login";
+
+    });
+
+
     $('input[name="radio-btn"]').wrap('<div class="radio-btn"><i></i></div>');
     $(".radio-btn").on('click', function () {
         var _this = $(this),

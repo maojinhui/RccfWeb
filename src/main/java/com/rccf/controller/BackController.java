@@ -61,7 +61,7 @@ public class BackController {
                 }
             }
         }
-        if (null != userid  ) {
+        if ( !Strings.isNullOrEmpty(userid) ) {
             return new ModelAndView("redirect:/back/index?user_id="+userid);
         }
         ModelAndView modelAndView = new ModelAndView();

@@ -24,6 +24,10 @@ public class Strings {
         if (StringUtils.isEmpty(data)) {
             return true;
         }
+        if ("null".equals(data)){
+            return true;
+        }
+
         return false;
     }
 
