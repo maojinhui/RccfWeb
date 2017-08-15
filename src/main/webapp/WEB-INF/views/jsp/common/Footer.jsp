@@ -11,22 +11,25 @@
 
 
 
-<%--<script>--%>
-    <%--function setChooseType(ctype){--%>
-        <%--$.cookie("ctype",ctype,{path:"/"});--%>
-    <%--}--%>
-    <%--function getChooseType(){--%>
-        <%--return $.cookie("ctype");--%>
-    <%--}--%>
-    <%--$(function () {--%>
-        <%--var ctype = getChooseType();--%>
-        <%--if(typeof (ctype)!= undefined){--%>
+<script>
+    function setChooseType(ctype){
+        $.cookie("ctype",ctype,{path:"/"});
+    }
+    function getChooseType(){
+        return $.cookie("ctype");
+    }
+    $(function () {
+        var ctype = getChooseType();
+        if(typeof (ctype)!= undefined ){
+            if(ctype == "product"){
+                $("#product_i").addClass("tpl-left-nav-more-ico-rotate");
+                $("#product_ul").css("display","block");
+            }
+        }
+    });
 
-        <%--}--%>
-    <%--});--%>
-    <%----%>
 
-<%--</script>--%>
+</script>
 
 
 <script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>

@@ -137,7 +137,7 @@ public class BackController {
 
 
     @RequestMapping(value = "/index")
-    public ModelAndView backIndexPage(HttpServletRequest request) {
+    public ModelAndView backIndexPage(HttpServletRequest request,HttpServletResponse response) {
 //        String user_id = request.getParameter("user_id");
 //        if(null==user_id){
 //            return new ModelAndView("redirect:/back/login");
@@ -147,13 +147,13 @@ public class BackController {
 //        modelAndView.addObject("user", user);
 //        modelAndView.setViewName("back/index");
 //        return modelAndView;
-        return getUserView(request,"back/index",HeaderType.INDEX);
+        return getUserView(request,response,"back/index",HeaderType.INDEX);
     }
 
     @RequestMapping(value = "/market_list")
-    public ModelAndView marketToolsPage(HttpServletRequest request)
+    public ModelAndView marketToolsPage(HttpServletRequest request,HttpServletResponse response)
     {
-        return getUserView(request,"back/markettools",HeaderType.MARKET);
+        return getUserView(request,response,"back/markettools",HeaderType.MARKET);
     }
 
     @RequestMapping(value = "/markets")
@@ -181,9 +181,9 @@ public class BackController {
 
 
     @RequestMapping(value = "product_add")
-    public ModelAndView addProduct(HttpServletRequest request ){
+    public ModelAndView addProduct(HttpServletRequest request ,HttpServletResponse response){
 
-        return getUserView(request , "back/productAdd" ,HeaderType.PRODUCT);
+        return getUserView(request , response,"back/productAdd" ,HeaderType.PRODUCT);
     }
 
 
@@ -193,7 +193,7 @@ public class BackController {
      * @param viewName
      * @return
      */
-    private ModelAndView getUserView(HttpServletRequest request , String viewName,HeaderType type ){
+    private ModelAndView getUserView(HttpServletRequest request , HttpServletResponse response , String viewName,HeaderType type ){
         String userid = null;
         Cookie cookies[]  = request.getCookies();
         if (null == cookies){
@@ -211,6 +211,38 @@ public class BackController {
         User user = userService.findUserById(userid);
         if(null == user){
             return new ModelAndView("redirect:/back/login");
+        }
+
+        if(null != type){
+            Cookie typecookie =null;
+            switch (type) {
+                case MARKET:
+                    typecookie = new Cookie("ctype", "market");
+                    break;
+                case EMPLOYEE:
+
+                    break;
+                case PRODUCT:
+                    typecookie = new Cookie("ctype", "product");
+                    break;
+                case USER:
+                    break;
+                case INDEX:
+                    break;
+                case MATCH:
+                    break;
+                case PROJECT:
+                    break;
+                case RISKASSESSMENT:
+                    break;
+                default:
+                    break;
+            }
+            if(null != typecookie ){
+                typecookie.setPath("/");
+                typecookie.setMaxAge(60 * 60 * 24 * 30 * 12);
+                response.addCookie(typecookie);
+            }
         }
 
         ModelAndView modelAndView = new ModelAndView(viewName);

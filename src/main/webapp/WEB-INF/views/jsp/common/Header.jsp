@@ -8,7 +8,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="com.rccf.model.User" %>
 <%@page import="com.rccf.enmu.HeaderType" %>
-<%@ page import="java.util.Enumeration" %>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@page isELIgnored="false" %>
 <%
@@ -213,13 +212,13 @@
                     </ul>
                 </li>
 
-                <li class="tpl-left-nav-item">
+                <li class="tpl-left-nav-item" >
                     <a href="javascript:;" class="nav-link tpl-left-nav-link-list <%=productC%>">
                         <i class="am-icon-wpforms"></i>
                         <span>产品管理</span>
-                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right "></i>
+                        <i id="product_i" class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right "></i>
                     </a>
-                    <ul class="tpl-left-nav-sub-menu" >
+                    <ul class="tpl-left-nav-sub-menu" id="product_ul" >
                         <li>
                             <a href="">
                                 <i class="am-icon-angle-right"></i>
