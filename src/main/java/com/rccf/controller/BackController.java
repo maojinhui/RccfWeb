@@ -187,6 +187,16 @@ public class BackController {
     }
 
 
+    @ResponseBody
+    @RequestMapping(value = "/add_product")
+    public String addProductFromPage(HttpServletRequest request,HttpServletResponse response)  {
+        String produce_type = request.getParameter("produce_type");
+        String produce_bianhao = request.getParameter("produce_bianhao");
+        String produce_egency_type = request.getParameter("produce_egency_type");
+        return ResponseUtil.success("+"+produce_type+"+"+produce_bianhao+"+"+produce_egency_type);
+    }
+
+
     /**
      * 根据cookie获取用户信息
      * @param request
@@ -220,22 +230,28 @@ public class BackController {
                     typecookie = new Cookie("ctype", "market");
                     break;
                 case EMPLOYEE:
-
+                    typecookie = new Cookie("ctype", "employee");
                     break;
                 case PRODUCT:
                     typecookie = new Cookie("ctype", "product");
                     break;
                 case USER:
+                    typecookie = new Cookie("ctype", "user");
                     break;
                 case INDEX:
+                    typecookie = new Cookie("ctype", "index");
                     break;
                 case MATCH:
+                    typecookie = new Cookie("ctype", "match");
                     break;
                 case PROJECT:
+                    typecookie = new Cookie("ctype", "project");
                     break;
                 case RISKASSESSMENT:
+                    typecookie = new Cookie("ctype", "riskassessment");
                     break;
                 default:
+                    typecookie = new Cookie("ctype", "index");
                     break;
             }
             if(null != typecookie ){

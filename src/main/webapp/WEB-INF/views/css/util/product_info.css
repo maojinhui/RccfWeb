@@ -1,0 +1,54 @@
+html,body{
+    overflow-y: auto;
+}
+.must-info{
+    color: white;
+    background-color: #0a6999;
+    border-radius: 10px;
+}
+.info-title{
+    display:block;
+    color: #86f9d9;
+    padding-top: 1em;
+    margin-left: 1em;
+}
+.flow_path{
+    width: 5em;
+    height: 5em;
+    border: solid 1px white;
+    border-radius: 5px;
+    text-align: center;
+}
+.am-u-sm-3 span{
+    display: block;
+    text-align: center;
+}
+.my-bottom-btn{
+    position: fixed;
+    bottom: 0;
+}
+@media screen and (max-width:480px ){
+     .at_phone{
+         display: block;
+     }
+    .at_pc{
+        display: none;
+    }
+    .my-bottom-btn{
+        width: 100%;
+    }
+}
+@media screen and (min-width: 780px) {
+    .at_pc{
+        display: block;
+    }
+    .at_phone{
+        display: none;
+    }
+    .my-bottom-btn{
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        float: none;
+    }
+}
