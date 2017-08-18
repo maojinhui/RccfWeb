@@ -6,19 +6,21 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>抵押银行产品筛选</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/amaze/admin.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/util/product_info.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/util/btn_style.css"/>
-</head>
-<body>
+<%--<!DOCTYPE html>--%>
+<%--<html lang="en">--%>
+<%--<head>--%>
+    <%--<meta charset="UTF-8">--%>
+    <%--<title>抵押银行产品筛选</title>--%>
+    <%--<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">--%>
+    <%--<link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.css"/>--%>
+    <%--<link rel="stylesheet" type="text/css" href="/css/amaze/admin.css"/>--%>
+    <%--<link rel="stylesheet" type="text/css" href="/css/util/product_info.css"/>--%>
+    <%--<link rel="stylesheet" type="text/css" href="/css/util/btn_style.css"/>--%>
+<%--</head>--%>
+<%--<body>--%>
+<%@include file="../common/util_header.jsp"%>
 <!--贷款用途-->
+<div>
 <div class="am-margin-vertical am-g">
     <div class="am-u-sm-4 am-u-lg-3 am-text-right">
         <span>贷款用途：</span>
@@ -345,26 +347,34 @@
 <div style="width: 100%;">
     <button id="submit" class="am-btn am-btn-primary am-btn-block my-bottom-btn">开始匹配</button>
 </div>
+</div>
+
+<!--弹出信息框-->
+<div id="bomb_box" class="bomb-box" >
+    <div style="float: right;">
+        <button id="close_list" class="am-btn am-btn-default">
+            <i class="am-icon-close"></i>
+        </button>
+    </div>
+    <div>* 放款成数：个人消费/企业经营/优良公司</div>
+    <div>* 金额：个人消费/企业经营</div>
+    <table class="am-table am-table-bordered am-table-hover am-table-compact am-padding-bottom-lg">
+        <thead>
+        <tr>
+            <th>产品编号</th>
+            <th>放款成数</th>
+            <th>金额</th>
+        </tr>
+        </thead>
+        <tbody id="box_list">
+
+        </tbody>
+    </table>
+
+</div>
+
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>
-    $('input[name="radio-btn"]').wrap('<div class="radio-btn"><i></i></div>');
-    $(".radio-btn").on('click', function () {
-        var _this = $(this),
-            block = _this.parent().parent();
-        block.find('input:radio').attr('checked', false);
-        block.find(".radio-btn").removeClass('checkedRadio');
-        _this.addClass('checkedRadio');
-        _this.find('input:radio').attr('checked', true);
-    });
-    $('input[name="check-box"]').wrap('<div class="check-box"><i></i></div>');
-    $.fn.toggleCheckbox = function () {
-        this.attr('checked', !this.attr('checked'));
-    }
-    $('.check-box').on('click', function () {
-        $(this).find(':checkbox').toggleCheckbox();
-        $(this).toggleClass('checkedBox');
-    });
-
     function getCheckFloatValues(name) {
         var chk_val = 0;
         $("input[name='" + name + "']:checked").each(function () {
@@ -372,7 +382,6 @@
         });
         return chk_val;
     }
-
     $("#submit").bind("click",function () {
         var use_type = $("#use_type").val();
         var amount_money = $("#amount_money").val();
@@ -434,8 +443,18 @@
             success:function (result) {
                 if (result.code){
                     var info = JSON.parse(result.data);
-                    console.log(info.length);
-                    alert(info.length);
+                    $("#box_list").empty();
+                    $("#bomb_box").css("display","block");
+
+                    for(var i =0;i<info.length;i++){
+                        var product = "<tr>\n" +
+                            "            <td>"+info[i].bianaho+"</td>\n" +
+                            "            <td>"+info[i].personNumber+"/"+info[i].companyNumber+"/"+info[i].greatCompanyNumber+"</td>\n" +
+                            "            <td>"+info[i].personMoney+"/"+info[i].companyMoney+"</td>\n" +
+                            "        </tr>";
+                        $("#box_list").append(product);
+                    }
+
                 }
             },
             error:function () {
@@ -445,9 +464,11 @@
 
     });
 
-
+$("#close_list").bind("click",function () {
+    $("#bomb_box").hide();
+    $("#box_list").empty();
+});
 
 
 </script>
-</body>
-</html>
+<%@include file="../common/util_footer.jsp"%>

@@ -7,7 +7,7 @@ import com.rccf.service.BaseService;
 import com.rccf.util.PageUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
-import org.hibernate.criterion.Criterion;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -31,6 +31,26 @@ public class UtilController {
     @RequestMapping(value = "/dyMatchPage")
     public ModelAndView dyMatchPage() {
         return new ModelAndView("util/dyMatch");
+    }
+
+    @RequestMapping(value = "/index")
+    public ModelAndView indexPage() {
+        return new ModelAndView("util/index");
+    }
+
+    @RequestMapping(value = "/material_dyp")
+    public ModelAndView personDyMaterial() {
+        return new ModelAndView("util/dyp_material");
+    }
+
+    @RequestMapping(value = "/material_dyc")
+    public ModelAndView companyDyMaterial() {
+        return new ModelAndView("util/dyc_material");
+    }
+
+    @RequestMapping(value = "/material_xyd")
+    public ModelAndView xindaiMaterial() {
+        return new ModelAndView("util/xyd_material");
     }
 
 

@@ -480,11 +480,14 @@ ul.tpl-dropdown-content li>a.tpl-dropdown-content-message:last-child {
 
 .tpl-left-nav {
     width: 235px;
+    /*position: fixed;*/
+    /*left: 20px;*/
     float: left;
     background: #fff;
     border-radius: 6px;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
     padding-bottom: 20px;
+    z-index: 999;
 }
 
 .tpl-left-nav-title {
@@ -1412,7 +1415,7 @@ ul.tpl-dropdown-content li>a.tpl-dropdown-content-message:last-child {
 
 .tpl-portlet-components {
     border: 1px solid #e7ecf1;
-    padding: 12px 20px 15px;
+    /*padding: 12px 20px 15px;*/
     background-color: #fff;
     margin-top: 0;
     margin-bottom: 25px;
