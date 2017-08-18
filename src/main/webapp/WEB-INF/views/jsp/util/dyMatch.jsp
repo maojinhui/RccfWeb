@@ -328,7 +328,7 @@
 <!--民间抵押是否有影响-->
 <div class="am-margin-bottom-xl am-g" >
     <div class="am-u-sm-4 am-u-lg-3 am-text-right">
-        <span style="font-size: small;">民间抵押影响：</span>
+        <span style="font-size: small;">民间抵押是否影响：</span>
     </div>
     <div class="am-u-sm-8 am-u-lg-3 am-u-end" >
         <select id="folk_affect" style="width: 6em;">
@@ -435,6 +435,7 @@
                 if (result.code){
                     var info = JSON.parse(result.data);
                     console.log(info.length);
+                    alert(info.length);
                 }
             },
             error:function () {

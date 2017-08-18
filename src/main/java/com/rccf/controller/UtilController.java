@@ -37,7 +37,6 @@ public class UtilController {
     @ResponseBody
     @RequestMapping(value = "/dyMatch")
     public String dyMatch(HttpServletRequest request) {
-
         String use_type = request.getParameter("use_type");
         String amount_money = request.getParameter("amount_money");
         String user_age = request.getParameter("user_age");
@@ -54,21 +53,81 @@ public class UtilController {
         if (!Strings.isNullOrEmpty(use_type)) {//用户贷款用途1:个人消费；2：企业经营
             if (use_type.equals("1")) {
                 detachedCriteria.add(Restrictions.eq("personDo", 1));
-                if (!Strings.isNullOrEmpty(amount_money)) {
+                if (!Strings.isNullOrEmpty(amount_money)) {//个人金额
                     detachedCriteria.add(Restrictions.ge("personMoney", Integer.valueOf(amount_money)));
                 }
+                if (!Strings.isNullOrEmpty(loan_number)) {//个人放款成数
+                    detachedCriteria.add(Restrictions.ge("personNumber", Double.valueOf(loan_number)));
+                }
+
             } else if (use_type.equals("2")) {
                 detachedCriteria.add(Restrictions.eq("companyDo", 1));
-                if (!Strings.isNullOrEmpty(amount_money)) {
+                if (!Strings.isNullOrEmpty(amount_money)) {//企业金额
                     detachedCriteria.add(Restrictions.ge("companyMoney", Integer.valueOf(amount_money)));
                 }
+                if (!Strings.isNullOrEmpty(loan_number)) {//企业放款成数
+                    detachedCriteria.add(Restrictions.or(//普通企业或者优良企业成数
+                            Restrictions.ge("companyNumber", Double.valueOf(loan_number)),
+                            Restrictions.ge("greatCompanyNumber", Double.valueOf(loan_number))));
+                }
+            }
+        } else {
+            //默认选择企业经营
+            detachedCriteria.add(Restrictions.eq("companyDo", 1));
+            if (!Strings.isNullOrEmpty(amount_money)) {
+                detachedCriteria.add(Restrictions.ge("companyMoney", Integer.valueOf(amount_money)));
+            }
+            if (!Strings.isNullOrEmpty(loan_number)) {//企业放款成数
+                detachedCriteria.add(Restrictions.or(//普通企业或者优良企业成数
+                        Restrictions.ge("companyNumber", Double.valueOf(loan_number)),
+                        Restrictions.ge("greatCompanyNumber", Double.valueOf(loan_number))));
             }
         }
+        //年龄限制
         if (!Strings.isNullOrEmpty(user_age)) {
             int age = Integer.valueOf(user_age);
             detachedCriteria.add(Restrictions.and(
                     Restrictions.le("minAge", age),
                     Restrictions.ge("maxAge", age)));
+        }
+        //贷款年限
+        if (!Strings.isNullOrEmpty(loan_year)) {
+            int year = Integer.valueOf(loan_year);
+            detachedCriteria.add(Restrictions.and(
+                    Restrictions.le("minLoanYear", year),
+                    Restrictions.ge("maxLoanYear", year)));
+        }
+        //房屋区域
+        if (!Strings.isNullOrEmpty(house_area)) {
+            detachedCriteria.add(
+                    Restrictions.or(Restrictions.like("houseArea", "%" + house_area + ",%"),
+                            Restrictions.like("houseArea", "%" + house_area + "]%")));
+        }
+        //房屋性质
+        if (!Strings.isNullOrEmpty(house_nature)) {
+            detachedCriteria.add(
+                    Restrictions.or(Restrictions.like("houseNature", "%" + house_nature + ",%"),
+                            Restrictions.like("houseNature", "%" + house_nature + "]%")));
+        }
+        //房龄
+        if (!Strings.isNullOrEmpty(house_age)) {
+            detachedCriteria.add(Restrictions.le("houseYear", house_age));
+        }
+        //公司名下房产是否可做
+        if (!Strings.isNullOrEmpty(house_company)) {
+            if (house_company.equals("1")) {//选择了是公司名下
+                detachedCriteria.add(Restrictions.eq("houseCompanyDo", 1));
+            }
+        }
+        if (!Strings.isNullOrEmpty(repayment_type)) {
+            detachedCriteria.add(Restrictions.or(
+                    Restrictions.like("repaymentType", "%" + repayment_type + ",%"),
+                    Restrictions.like("repaymentType", "%" + repayment_type + "]%")
+            ));
+        }
+        if (!Strings.isNullOrEmpty(folk_affect)) {
+            int affect = Integer.valueOf(folk_affect);
+            detachedCriteria.add(Restrictions.eq("folkAffect", affect));
         }
         int count = baseService.getCount(detachedCriteria);
         Page page = PageUtil.createPage(30, count, 0);

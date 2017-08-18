@@ -26,6 +26,9 @@ public class ProductDiya {
     private Integer recommend;
     private Integer folkAffect;
     private String repaymentType;
+    private Double personNumber;
+    private Double companyNumber;
+    private Double greatCompanyNumber;
 
     @Id
     @Column(name = "id")
@@ -295,5 +298,35 @@ public class ProductDiya {
         result = 31 * result + (folkAffect != null ? folkAffect.hashCode() : 0);
         result = 31 * result + (repaymentType != null ? repaymentType.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "person_number")
+    public Double getPersonNumber() {
+        return personNumber;
+    }
+
+    public void setPersonNumber(Double personNumber) {
+        this.personNumber = personNumber;
+    }
+
+    @Basic
+    @Column(name = "company_number")
+    public Double getCompanyNumber() {
+        return companyNumber;
+    }
+
+    public void setCompanyNumber(Double companyNumber) {
+        this.companyNumber = companyNumber;
+    }
+
+    @Basic
+    @Column(name = "great_company_number")
+    public Double getGreatCompanyNumber() {
+        return greatCompanyNumber;
+    }
+
+    public void setGreatCompanyNumber(Double greatCompanyNumber) {
+        this.greatCompanyNumber = greatCompanyNumber;
     }
 }
