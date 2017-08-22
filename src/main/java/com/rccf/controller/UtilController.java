@@ -4,10 +4,10 @@ import com.rccf.component.Page;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.ProductDiya;
 import com.rccf.service.BaseService;
+import com.rccf.util.CookiesUtil;
 import com.rccf.util.PageUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -29,27 +31,32 @@ public class UtilController {
     BaseService baseService;
 
     @RequestMapping(value = "/dyMatchPage")
-    public ModelAndView dyMatchPage() {
+    public ModelAndView dyMatchPage(HttpServletResponse response) {
+        CookiesUtil.addCookies("type","dyMatchPage",response);
         return new ModelAndView("util/dyMatch");
     }
 
     @RequestMapping(value = "/index")
-    public ModelAndView indexPage() {
+    public ModelAndView indexPage(HttpServletResponse response) {
+        CookiesUtil.addCookies("type","index",response);
         return new ModelAndView("util/index");
     }
 
     @RequestMapping(value = "/material_dyp")
-    public ModelAndView personDyMaterial() {
+    public ModelAndView personDyMaterial(HttpServletResponse response) {
+        CookiesUtil.addCookies("type","material_dyp",response);
         return new ModelAndView("util/dyp_material");
     }
 
     @RequestMapping(value = "/material_dyc")
-    public ModelAndView companyDyMaterial() {
+    public ModelAndView companyDyMaterial(HttpServletResponse response) {
+        CookiesUtil.addCookies("type","material_dyc",response);
         return new ModelAndView("util/dyc_material");
     }
 
     @RequestMapping(value = "/material_xyd")
-    public ModelAndView xindaiMaterial() {
+    public ModelAndView xindaiMaterial(HttpServletResponse response) {
+        CookiesUtil.addCookies("type","material_xyd",response);
         return new ModelAndView("util/xyd_material");
     }
 
@@ -131,7 +138,8 @@ public class UtilController {
         }
         //房龄
         if (!Strings.isNullOrEmpty(house_age)) {
-            detachedCriteria.add(Restrictions.le("houseYear", house_age));
+            int year = Integer.valueOf(house_age);
+            detachedCriteria.add(Restrictions.le("houseYear", year));
         }
         //公司名下房产是否可做
         if (!Strings.isNullOrEmpty(house_company)) {
@@ -156,5 +164,18 @@ public class UtilController {
 
     }
 
+
+    /**
+     * 根据cookie判断选中标签
+     *
+     * @param viewName
+     * @param chooseType
+     * @return
+     */
+    private ModelAndView getView(String viewName, String chooseType) {
+        ModelAndView modelAndView = new ModelAndView(viewName);
+        modelAndView.addObject("type", chooseType);
+        return modelAndView;
+    }
 
 }

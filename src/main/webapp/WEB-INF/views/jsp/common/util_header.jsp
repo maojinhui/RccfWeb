@@ -44,7 +44,7 @@
             <li  class="am-dropdown" data-am-dropdown="" data-am-dropdown-toggle="" style="display: none;">
                 <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
                     <span class="tpl-header-list-user-nick">禁言小张</span><span class="tpl-header-list-user-ico"> <img
-                        src="assets/img/user01.png"></span>
+                        src="/image/header_default.png"></span>
                 </a>
                 <ul class="am-dropdown-content">
                     <li><a href="#"><span class="am-icon-bell-o"></span> 资料</a></li>
@@ -67,31 +67,31 @@
         <div class="tpl-left-nav-list">
             <ul class="tpl-left-nav-menu">
                 <li class="tpl-left-nav-item">
-                    <a href="/util/index" class="nav-link active">
+                    <a id="a_index" href="/util/index" class="nav-link">
                         <i class="am-icon-home"></i>
                         <span>首页</span>
                     </a>
                 </li>
                 <li class="tpl-left-nav-item">
-                    <a href="/util/material_xyd" class="nav-link tpl-left-nav-link-list  ">
+                    <a id="a_xyd" href="/util/material_xyd" class="nav-link tpl-left-nav-link-list  ">
                         <i class="am-icon-compass am-icon-fw"></i>
                         <span>信贷相关资料</span>
                     </a>
                 </li>
                 <li class="tpl-left-nav-item">
-                    <a href="/util/material_dyp" class="nav-link tpl-left-nav-link-list ">
+                    <a id="a_dyp" href="/util/material_dyp" class="nav-link tpl-left-nav-link-list ">
                         <i class="am-icon-cc-visa  am-icon-fw"></i>
                         <span>个人消费抵押材料</span>
                     </a>
                 </li>
                 <li class="tpl-left-nav-item">
-                    <a href="/util/material_dyc" class="nav-link tpl-left-nav-link-list">
+                    <a id="a_dyc" href="/util/material_dyc" class="nav-link tpl-left-nav-link-list">
                         <i class="am-icon-cogs  am-icon-fw"></i>
                         <span>企业经营抵押材料</span>
                     </a>
                 </li>
                 <li class="tpl-left-nav-item">
-                    <a href="/util/dyMatchPage" class="nav-link tpl-left-nav-link-list ">
+                    <a id="a_match" href="/util/dyMatchPage" class="nav-link tpl-left-nav-link-list ">
                         <i class="am-icon-wpforms am-icon-fw"></i>
                         <span>抵押匹配</span>
                     </a>

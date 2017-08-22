@@ -11,11 +11,29 @@
 </div>
 
 
-<script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>
 <script src="http://libs.baidu.com/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/js/amazeui.min.js"></script>
 <script src="/js/amaze/app.js"></script>
 <script>
+
+    var type = $.cookie("type");
+    if(type == "index"){
+        $("#a_index").addClass("active");
+    }
+    else if (type == "material_dyp"){
+        $("#a_dyp").addClass("active");
+    }
+    else if (type == "material_dyc"){
+        $("#a_dyc").addClass("active");
+    }
+    else if (type == "material_xyd"){
+        $("#a_xyd").addClass("active");
+    }
+    else if (type == "dyMatchPage"){
+        $("#a_match").addClass("active");
+    }
+
     $('input[name="radio-btn"]').wrap('<div class="radio-btn"><i></i></div>');
     $(".radio-btn").on('click', function () {
         var _this = $(this),
