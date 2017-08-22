@@ -382,6 +382,12 @@
         });
         return chk_val;
     }
+
+    function toinfo(id){
+        window.open('/product/productDy?id='+id);
+    }
+
+
     $("#submit").bind("click",function () {
         var use_type = $("#use_type").val();
         var amount_money = $("#amount_money").val();
@@ -447,7 +453,7 @@
                     $("#bomb_box").css("display","block");
 
                     for(var i =0;i<info.length;i++){
-                        var product = "<tr>\n" +
+                        var product = "<tr onclick='toinfo("+info[i].id+")'>\n" +
                             "            <td>"+info[i].bianaho+"</td>\n" +
                             "            <td>"+info[i].personNumber+"/"+info[i].companyNumber+"/"+info[i].greatCompanyNumber+"</td>\n" +
                             "            <td>"+info[i].personMoney+"/"+info[i].companyMoney+"</td>\n" +
