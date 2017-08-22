@@ -1,4 +1,9 @@
-<%@ page import="com.rccf.model.ProductDiya" %><%--
+<%@ page import="com.rccf.model.ProductDiya" %>
+<%@ page import="com.alibaba.fastjson.JSONArray" %>
+<%@ page import="com.alibaba.fastjson.JSON" %>
+<%@ page import="com.rccf.model.ProduceArea" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.rccf.model.ProduceHouseNature" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/8/22
@@ -8,6 +13,67 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     ProductDiya diya = (ProductDiya) request.getAttribute("product");
+    String compantCando = diya.getHouseCompanyDo()==1?"可做":"不可";
+    String folkAffact = diya.getFolkAffect()==1?"有影响":"无影响";
+    String lilv = diya.getLilv();
+    String lilv_info = "";
+    if (lilv.equals("1")){
+        lilv_info="银行基准利率上浮10%";
+    }else if(lilv.equals("2")){
+        lilv_info="银行基准利率上浮30%";
+    }else if (lilv.equals("3")){
+        lilv_info="银行基准利率上浮25%/30%/35%";
+    }else if (lilv.equals("4")){
+        lilv_info="银行基准利率上浮40%";
+    }else if (lilv.equals("5")){
+        lilv_info="银行基准利率上浮35%";
+    }
+
+    String repaymentType = diya.getRepaymentType();
+    StringBuilder repaymentBuilder = new StringBuilder();
+    JSONArray repaymentarray = JSON.parseArray(repaymentType);
+    for (int i = 0; i < repaymentarray.size(); i++) {
+        if(repaymentarray.getInteger(i) == 1){
+            repaymentBuilder.append("等额本金");
+        }else if (repaymentarray.getInteger(i) == 2){
+            repaymentBuilder.append("等额本息");
+        }else if (repaymentarray.getInteger(i) == 3){
+            repaymentBuilder.append("停本付息");
+        }else if (repaymentarray.getInteger(i) == 4){
+            repaymentBuilder.append("先息后本");
+        }else{
+            repaymentBuilder.append("不支持的类型");
+        }
+        if(i!=repaymentarray.size()-1){
+            repaymentBuilder.append("/");
+        }
+    }
+
+    List<ProduceArea> areas = (List<ProduceArea>) request.getAttribute("areas");
+    String houseArea = diya.getHouseArea();
+    JSONArray areaArray = JSON.parseArray(houseArea);
+    StringBuilder areaBuilder = new StringBuilder();
+    for (int i = 0; i < areaArray.size(); i++) {
+        String areaname = areas.get(areaArray.getInteger(i)-1).getAreaName();
+        areaBuilder.append(areaname);
+        if(i != areaArray.size()-1){
+            areaBuilder.append("/");
+        }
+    }
+
+    List<ProduceHouseNature> natureList = (List<ProduceHouseNature>) request.getAttribute("natures");
+    String houseNature = diya.getHouseNature();
+    JSONArray natureArray = JSON.parseArray(houseNature);
+    StringBuilder natureBuilder = new StringBuilder();
+    for (int i = 0; i < natureArray.size(); i++) {
+        String naturename = natureList.get(natureArray.getInteger(i)-1).getName();
+        natureBuilder.append(naturename);
+        if(i != natureArray.size()-1){
+            natureBuilder.append("/");
+        }
+    }
+
+
 
 %>
 
@@ -60,40 +126,35 @@
         </li>
         <li>
             <label>贷款年限：</label>
-            <span></span>
+            <span><%=diya.getMaxLoanYear()%>年</span>
         </li>
-        <li>
-            <label>放款成数：</label>
-            <span></span>
-        </li>
-
         <li>
             <label>区域范围：</label>
-            <span></span>
+            <span><%=areaBuilder%></span>
         </li>
         <li>
             <label>房屋性质：</label>
-            <span></span>
+            <span><%=natureBuilder%></span>
         </li>
+        <%--<li>--%>
+            <%--<label>房龄要求：</label>--%>
+            <%--<span><%=diya.getHouseYear()%></span>--%>
+        <%--</li>--%>
         <li>
-            <label>房&emsp;&emsp;龄：</label>
-            <span></span>
-        </li>
-        <li>
-            <label>公司名下是否可做：</label>
-            <span></span>
+            <label>公司名下房产是否可做：</label>
+            <span><%=compantCando%></span>
         </li>
         <li>
             <label>利&emsp;&emsp;率：</label>
-            <span></span>
+            <span><%=lilv_info%></span>
         </li>
         <li>
             <label>还款方式：</label>
-            <span></span>
+            <span><%=repaymentBuilder.toString()%></span>
         </li>
         <li>
             <label>民间抵押是否影响：</label>
-            <span></span>
+            <span><%=folkAffact%></span>
         </li>
     </ul>
 </div>
