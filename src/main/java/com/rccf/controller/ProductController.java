@@ -2,9 +2,12 @@ package com.rccf.controller;
 
 import com.rccf.component.Page;
 import com.rccf.constants.UrlConstants;
+import com.rccf.dao.BankRateDao;
+import com.rccf.model.BankLoanRate;
 import com.rccf.model.ProduceArea;
 import com.rccf.model.ProduceHouseNature;
 import com.rccf.model.ProductDiya;
+import com.rccf.service.BankRateService;
 import com.rccf.service.BaseService;
 import com.rccf.service.ProductService;
 import com.rccf.util.PageUtil;
@@ -28,6 +31,9 @@ public class ProductController {
     @Autowired
     BaseService baseService;
 
+    @Autowired
+    BankRateService bankRateService;
+
 
     @RequestMapping(value = "/productDy")
     public ModelAndView findProductDiya(HttpServletRequest request) {
@@ -50,12 +56,16 @@ public class ProductController {
         Page naturePage = PageUtil.createPage(50,natureCount,0);
         List<ProduceHouseNature> natureList = baseService.getList(naturePage,natureDetached);
 
+        BankLoanRate rate = bankRateService.findLastRate();
+
+
 
 
         ModelAndView modelAndView = new ModelAndView("/util/productdy_info");
         modelAndView.addObject("product", diya);
         modelAndView.addObject("areas",areaArray);
         modelAndView.addObject("natures",natureList);
+        modelAndView.addObject("bankrete",rate);
         return modelAndView;
     }
 

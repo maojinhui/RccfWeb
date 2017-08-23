@@ -3,7 +3,11 @@
 <%@ page import="com.alibaba.fastjson.JSON" %>
 <%@ page import="com.rccf.model.ProduceArea" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.rccf.model.ProduceHouseNature" %><%--
+<%@ page import="com.rccf.model.ProduceHouseNature" %>
+<%@ page import="com.rccf.model.BankLoanRate" %>
+<%@ page import="java.text.DecimalFormat" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.math.RoundingMode" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/8/22
@@ -13,38 +17,38 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     ProductDiya diya = (ProductDiya) request.getAttribute("product");
-    String compantCando = diya.getHouseCompanyDo()==1?"可做":"不可";
-    String folkAffact = diya.getFolkAffect()==1?"有影响":"无影响";
+    String compantCando = diya.getHouseCompanyDo() == 1 ? "可做" : "不可";
+    String folkAffact = diya.getFolkAffect() == 1 ? "有影响" : "无影响";
     String lilv = diya.getLilv();
     String lilv_info = "";
-    if (lilv.equals("1")){
-        lilv_info="银行基准利率上浮10%";
-    }else if(lilv.equals("2")){
-        lilv_info="银行基准利率上浮30%";
-    }else if (lilv.equals("3")){
-        lilv_info="银行基准利率上浮25%/30%/35%";
-    }else if (lilv.equals("4")){
-        lilv_info="银行基准利率上浮40%";
-    }else if (lilv.equals("5")){
-        lilv_info="银行基准利率上浮35%";
+    if (lilv.equals("1")) {
+        lilv_info = "银行基准利率上浮10%";
+    } else if (lilv.equals("2")) {
+        lilv_info = "银行基准利率上浮30%";
+    } else if (lilv.equals("3")) {
+        lilv_info = "银行基准利率上浮25%/30%/35%";
+    } else if (lilv.equals("4")) {
+        lilv_info = "银行基准利率上浮40%";
+    } else if (lilv.equals("5")) {
+        lilv_info = "银行基准利率上浮35%";
     }
 
     String repaymentType = diya.getRepaymentType();
     StringBuilder repaymentBuilder = new StringBuilder();
     JSONArray repaymentarray = JSON.parseArray(repaymentType);
     for (int i = 0; i < repaymentarray.size(); i++) {
-        if(repaymentarray.getInteger(i) == 1){
+        if (repaymentarray.getInteger(i) == 1) {
             repaymentBuilder.append("等额本金");
-        }else if (repaymentarray.getInteger(i) == 2){
+        } else if (repaymentarray.getInteger(i) == 2) {
             repaymentBuilder.append("等额本息");
-        }else if (repaymentarray.getInteger(i) == 3){
+        } else if (repaymentarray.getInteger(i) == 3) {
             repaymentBuilder.append("停本付息");
-        }else if (repaymentarray.getInteger(i) == 4){
+        } else if (repaymentarray.getInteger(i) == 4) {
             repaymentBuilder.append("先息后本");
-        }else{
+        } else {
             repaymentBuilder.append("不支持的类型");
         }
-        if(i!=repaymentarray.size()-1){
+        if (i != repaymentarray.size() - 1) {
             repaymentBuilder.append("/");
         }
     }
@@ -54,9 +58,9 @@
     JSONArray areaArray = JSON.parseArray(houseArea);
     StringBuilder areaBuilder = new StringBuilder();
     for (int i = 0; i < areaArray.size(); i++) {
-        String areaname = areas.get(areaArray.getInteger(i)-1).getAreaName();
+        String areaname = areas.get(areaArray.getInteger(i) - 1).getAreaName();
         areaBuilder.append(areaname);
-        if(i != areaArray.size()-1){
+        if (i != areaArray.size() - 1) {
             areaBuilder.append("/");
         }
     }
@@ -66,17 +70,23 @@
     JSONArray natureArray = JSON.parseArray(houseNature);
     StringBuilder natureBuilder = new StringBuilder();
     for (int i = 0; i < natureArray.size(); i++) {
-        String naturename = natureList.get(natureArray.getInteger(i)-1).getName();
+        String naturename = natureList.get(natureArray.getInteger(i) - 1).getName();
         natureBuilder.append(naturename);
-        if(i != natureArray.size()-1){
+        if (i != natureArray.size() - 1) {
             natureBuilder.append("/");
         }
     }
 
+    BankLoanRate rate = (BankLoanRate) request.getAttribute("bankrete");
+    DecimalFormat decimalFormat = new DecimalFormat(".00");
+    NumberFormat nf = NumberFormat.getNumberInstance();
+    // 保留两位小数
+    nf.setMaximumFractionDigits(2);
+    // 如果不需要四舍五入，可以使用RoundingMode.DOWN
+    nf.setRoundingMode(RoundingMode.UP);
 
 
 %>
-
 
 
 <!DOCTYPE html>
@@ -89,9 +99,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/css/amazeui.min.css">
     <link rel="stylesheet" href="/css/amaze/admin.css">
     <style type="text/css">
+        body {
+            overflow-y: scroll;
+        }
+
         .am-list span {
             display: inline-block;
         }
+
         .am-list > li {
             border: none;
         }
@@ -137,8 +152,8 @@
             <span><%=natureBuilder%></span>
         </li>
         <%--<li>--%>
-            <%--<label>房龄要求：</label>--%>
-            <%--<span><%=diya.getHouseYear()%></span>--%>
+        <%--<label>房龄要求：</label>--%>
+        <%--<span><%=diya.getHouseYear()%></span>--%>
         <%--</li>--%>
         <li>
             <label>公司名下房产是否可做：</label>
@@ -157,6 +172,74 @@
             <span><%=folkAffact%></span>
         </li>
     </ul>
+
+
+    <div class="am-scrollable-horizontal">
+        <table class="am-table am-table-bordered am-text-nowrap">
+            <tr>
+                <th>贷款年限</th>
+                <th>基准利率</th>
+                <th>上浮10%</th>
+                <th>上浮20%</th>
+                <th>上浮25%</th>
+                <th>上浮30%</th>
+                <th>上浮35%</th>
+                <th>上浮40%</th>
+            </tr>
+            <tr>
+                <td>一年</td>
+                <td><%=rate.getRateOne()%>%
+                </td>
+                <td><%=nf.format(rate.getRateOne() * (1 + 0.1))%>%
+                </td>
+                <td><%=nf.format(rate.getRateOne() * (1 + 0.2))%>%
+                </td>
+                <td><%=nf.format(rate.getRateOne() * (1 + 0.25))%>%
+                </td>
+                <td><%=nf.format(rate.getRateOne() * (1 + 0.3))%>%
+                </td>
+                <td> <%=nf.format(rate.getRateOne() * (1 + 0.35))%>%
+                </td>
+                <td> <%=nf.format(rate.getRateOne() * (1 + 0.4))%>%
+                </td>
+            </tr>
+            <tr>
+                <td>一至五年</td>
+                <td><%=rate.getRateOneFive()%>%
+                </td>
+                <td><%=nf.format(rate.getRateOneFive() * (1 + 0.1))%>%
+                </td>
+                <td><%=nf.format(rate.getRateOneFive() * (1 + 0.2))%>%
+                </td>
+                <td><%=nf.format(rate.getRateOneFive() * (1 + 0.25))%>%
+                </td>
+                <td><%=nf.format(rate.getRateOneFive() * (1 + 0.3))%>%
+                </td>
+                <td><%=nf.format(rate.getRateOneFive() * (1 + 0.35))%>%
+                </td>
+                <td><%=nf.format(rate.getRateOneFive() * (1 + 0.40))%>%
+                </td>
+            </tr>
+            <tr>
+                <td>五年以上</td>
+                <td><%=rate.getRateOverFive()%>%
+                </td>
+                <td><%=nf.format(rate.getRateOverFive() * (1 + 0.1))%>%
+                </td>
+                <td><%=nf.format(rate.getRateOverFive() * (1 + 0.2))%>%
+                </td>
+                <td><%=nf.format(rate.getRateOverFive() * (1 + 0.25))%>%
+                </td>
+                <td><%=nf.format(rate.getRateOverFive() * (1 + 0.3))%>%
+                </td>
+                <td><%=nf.format(rate.getRateOverFive() * (1 + 0.35))%>%
+                </td>
+                <td><%=nf.format(rate.getRateOverFive() * (1 + 0.4))%>%
+                </td>
+            </tr>
+        </table>
+    </div>
+
 </div>
 </body>
 </html>
