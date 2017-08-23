@@ -13,6 +13,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -65,6 +66,12 @@ public class UtilController {
     public ModelAndView xindaiRate(HttpServletResponse response) {
         CookiesUtil.addCookies("type","xyd_rate",response);
         return new ModelAndView("util/xyd_rate");
+    }
+
+    @RequestMapping(value = "/zyMatchPage")
+    public ModelAndView zyMatchPage(HttpServletResponse response) {
+        CookiesUtil.addCookies("type", "zyd_match", response);
+        return new ModelAndView("util/zyMatch");
     }
 
     @ResponseBody

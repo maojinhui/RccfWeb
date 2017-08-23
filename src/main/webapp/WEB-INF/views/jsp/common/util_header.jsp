@@ -102,6 +102,12 @@
                         <span>抵押匹配</span>
                     </a>
                 </li>
+                <li class="tpl-left-nav-item">
+                    <a id="a_zy_match" href="/util/zyMatchPage" class="nav-link tpl-left-nav-link-list">
+                        <i class="am-icon-wpforms am-icon-fw"></i>
+                        <span>质押匹配</span>
+                    </a>
+                </li>
                 <%--<li class="tpl-left-nav-item">--%>
                     <%--<a href="dy_info_match.html" class="nav-link tpl-left-nav-link-list">--%>
                         <%--<i class="am-icon-clone am-icon-fw"></i>--%>
