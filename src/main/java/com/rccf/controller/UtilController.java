@@ -3,6 +3,7 @@ package com.rccf.controller;
 import com.rccf.component.Page;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.ProductDiya;
+import com.rccf.model.ProductZhiya;
 import com.rccf.service.BaseService;
 import com.rccf.util.CookiesUtil;
 import com.rccf.util.PageUtil;
@@ -33,38 +34,38 @@ public class UtilController {
 
     @RequestMapping(value = "/dyMatchPage")
     public ModelAndView dyMatchPage(HttpServletResponse response) {
-        CookiesUtil.addCookies("type","dyMatchPage",response);
+        CookiesUtil.addCookies("type", "dyMatchPage", response);
         return new ModelAndView("util/dyMatch");
     }
 
 
     @RequestMapping(value = "/index")
     public ModelAndView indexPage(HttpServletResponse response) {
-        CookiesUtil.addCookies("type","index",response);
+        CookiesUtil.addCookies("type", "index", response);
         return new ModelAndView("util/index");
     }
 
     @RequestMapping(value = "/material_dyp")
     public ModelAndView personDyMaterial(HttpServletResponse response) {
-        CookiesUtil.addCookies("type","material_dyp",response);
+        CookiesUtil.addCookies("type", "material_dyp", response);
         return new ModelAndView("util/dyp_material");
     }
 
     @RequestMapping(value = "/material_dyc")
     public ModelAndView companyDyMaterial(HttpServletResponse response) {
-        CookiesUtil.addCookies("type","material_dyc",response);
+        CookiesUtil.addCookies("type", "material_dyc", response);
         return new ModelAndView("util/dyc_material");
     }
 
     @RequestMapping(value = "/material_xyd")
     public ModelAndView xindaiMaterial(HttpServletResponse response) {
-        CookiesUtil.addCookies("type","material_xyd",response);
+        CookiesUtil.addCookies("type", "material_xyd", response);
         return new ModelAndView("util/xyd_material");
     }
 
     @RequestMapping(value = "/xyd_rate")
     public ModelAndView xindaiRate(HttpServletResponse response) {
-        CookiesUtil.addCookies("type","xyd_rate",response);
+        CookiesUtil.addCookies("type", "xyd_rate", response);
         return new ModelAndView("util/xyd_rate");
     }
 
@@ -161,8 +162,10 @@ public class UtilController {
         }
         if (!Strings.isNullOrEmpty(repayment_type)) {
             detachedCriteria.add(Restrictions.or(
-                    Restrictions.like("repaymentType", "%" + repayment_type + ",%"),
-                    Restrictions.like("repaymentType", "%" + repayment_type + "]%")
+                    Restrictions.like("repaymentType", "%," + repayment_type + ",%"),
+                    Restrictions.like("repaymentType", "%," + repayment_type + "]%"),
+                    Restrictions.like("repaymentType", "%[" + repayment_type + ",%"),
+                    Restrictions.like("repaymentType", "%[" + repayment_type + "]%")
             ));
         }
         if (!Strings.isNullOrEmpty(folk_affect)) {
@@ -174,6 +177,83 @@ public class UtilController {
         List list = baseService.getList(page, detachedCriteria);
         return ResponseUtil.success(list);
 
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/zyMatch")
+    public String zyMatch(HttpServletRequest request) {
+        String user_age = request.getParameter("user_age");
+        String amount_money = request.getParameter("amount_money");
+        String hope_number = request.getParameter("hope_number");
+        String area = request.getParameter("area");
+        String repayment = request.getParameter("repayment");
+        String house_nature = request.getParameter("house_nature");
+        String house_age = request.getParameter("house_age");
+        String erdi_can = request.getParameter("erdi_can");
+        String can_extension = request.getParameter("canExtension");
+
+        DetachedCriteria criteria = DetachedCriteria.forClass(ProductZhiya.class);
+        if (!Strings.isNullOrEmpty(user_age)) {
+            criteria.add(
+                    Restrictions.and(
+                            Restrictions.le("minAge", user_age),//比最小的大
+                            Restrictions.ge("maxAge", user_age)));//比最大的小
+        }
+
+        if (!Strings.isNullOrEmpty(amount_money)) {
+            criteria.add(Restrictions.or(
+                    Restrictions.le("amountMoneyOne", amount_money),
+                    Restrictions.le("amountMoneyMore", amount_money)
+            ));
+        }
+
+        if (!Strings.isNullOrEmpty(hope_number)) {
+            criteria.add(Restrictions.ge("moneyNumber", hope_number));
+        }
+
+        if (!Strings.isNullOrEmpty(area)) {
+            criteria.add(
+                    Restrictions.or(
+                            Restrictions.like("houseArea", "%," + area + ",%"),
+                            Restrictions.like("houseArea", "%," + area + "]%"),
+                            Restrictions.like("houseArea", "%[" + area + ",%"),
+                            Restrictions.like("houseArea", "%[" + area + "]%"))
+            );
+        }
+
+        if (!Strings.isNullOrEmpty(repayment)) {
+            criteria.add(Restrictions.or(
+                    Restrictions.like("repayment", "%" + repayment + ",%"),
+                    Restrictions.like("repayment", "%" + repayment + "]%")));
+        }
+
+        if (!Strings.isNullOrEmpty(house_nature)) {
+            criteria.add(Restrictions.or(
+                    Restrictions.like("houseNature", "%," + house_nature + ",%"),
+                    Restrictions.like("houseNature", "%," + house_nature + "]%"),
+                    Restrictions.like("houseNature", "%[" + house_nature + ",%"),
+                    Restrictions.like("houseNature", "%[" + house_nature + "]%")
+            ));
+        }
+
+        if (!Strings.isNullOrEmpty(house_age)) {
+            criteria.add(Restrictions.ge("houseAge", house_age));
+        }
+
+        if (!Strings.isNullOrEmpty(can_extension)) {
+            int can = Integer.valueOf(can_extension) - 1;
+            criteria.add(Restrictions.eq("extension", can));
+        }
+
+        if (!Strings.isNullOrEmpty(erdi_can)) {
+            int can = Integer.valueOf(erdi_can) - 1;
+            criteria.add(Restrictions.eq("erdiDo", can));
+        }
+        int count = baseService.getCount(criteria);
+        Page page = PageUtil.createPage(30, count, 0);
+        List list = baseService.getList(page, criteria);
+        return ResponseUtil.success(list);
     }
 
 
@@ -189,10 +269,6 @@ public class UtilController {
         modelAndView.addObject("type", chooseType);
         return modelAndView;
     }
-
-
-
-
 
 
 }
