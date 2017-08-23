@@ -36,6 +36,7 @@ public class UtilController {
         return new ModelAndView("util/dyMatch");
     }
 
+
     @RequestMapping(value = "/index")
     public ModelAndView indexPage(HttpServletResponse response) {
         CookiesUtil.addCookies("type","index",response);
@@ -60,6 +61,11 @@ public class UtilController {
         return new ModelAndView("util/xyd_material");
     }
 
+    @RequestMapping(value = "/xyd_rate")
+    public ModelAndView xindaiRate(HttpServletResponse response) {
+        CookiesUtil.addCookies("type","xyd_rate",response);
+        return new ModelAndView("util/xyd_rate");
+    }
 
     @ResponseBody
     @RequestMapping(value = "/dyMatch")
@@ -100,7 +106,6 @@ public class UtilController {
             }
         } else {
             //默认选择企业经营
-            detachedCriteria.add(Restrictions.eq("companyDo", 1));
             if (!Strings.isNullOrEmpty(amount_money)) {
                 detachedCriteria.add(Restrictions.ge("companyMoney", Integer.valueOf(amount_money)));
             }
@@ -177,5 +182,10 @@ public class UtilController {
         modelAndView.addObject("type", chooseType);
         return modelAndView;
     }
+
+
+
+
+
 
 }

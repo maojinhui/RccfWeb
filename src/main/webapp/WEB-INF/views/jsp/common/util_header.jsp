@@ -75,7 +75,13 @@
                 <li class="tpl-left-nav-item">
                     <a id="a_xyd" href="/util/material_xyd" class="nav-link tpl-left-nav-link-list  ">
                         <i class="am-icon-compass am-icon-fw"></i>
-                        <span>信贷相关资料</span>
+                        <span>信贷匹配</span>
+                    </a>
+                </li>
+                <li class="tpl-left-nav-item">
+                    <a id="a_xyd_rate" href="/util/xyd_rate" class="nav-link tpl-left-nav-link-list">
+                        <i class="am-icon-table  am-icon-fw"></i>
+                        <span>信贷利率表</span>
                     </a>
                 </li>
                 <li class="tpl-left-nav-item">

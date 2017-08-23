@@ -18,20 +18,22 @@
 <script>
 
     var type = $.cookie("type");
-    if(type == "index"){
+    if (type == "index") {
         $("#a_index").addClass("active");
     }
-    else if (type == "material_dyp"){
+    else if (type == "material_dyp") {
         $("#a_dyp").addClass("active");
     }
-    else if (type == "material_dyc"){
+    else if (type == "material_dyc") {
         $("#a_dyc").addClass("active");
     }
-    else if (type == "material_xyd"){
+    else if (type == "material_xyd") {
         $("#a_xyd").addClass("active");
     }
-    else if (type == "dyMatchPage"){
+    else if (type == "dyMatchPage") {
         $("#a_match").addClass("active");
+    } else if (type == "xyd_rate") {
+        $("#a_xyd_rate").addClass("active");
     }
 
     $('input[name="radio-btn"]').wrap('<div class="radio-btn"><i></i></div>');
