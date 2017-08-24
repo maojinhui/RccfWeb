@@ -33,35 +33,35 @@
     </div>
     <div class="am-u-sm-8 am-u-lg-9 am-u-end ">
         <div class="check-box">
-            <i><input type="checkbox" name="make_loan_number"/></i>
+            <i><input type="checkbox" value="6" name="make_loan_number"/></i>
         </div>
         <span>6成</span>
         <div class="check-box">
-            <i><input type="checkbox" name="make_loan_number"/></i>
+            <i><input type="checkbox" value="6.5" name="make_loan_number"/></i>
         </div>
         <span>6.5成</span>
         <div class="at_phone"></div>
         <div class="check-box">
-            <i><input type="checkbox" name="make_loan_number"/></i>
+            <i><input type="checkbox" value="7" name="make_loan_number"/></i>
         </div>
         <span>7成</span>
         <div class="check-box">
-            <i><input type="checkbox" name="make_loan_number"/></i>
+            <i><input type="checkbox" value="7.5" name="make_loan_number"/></i>
         </div>
         <span>7.5成</span>
         <div class="at_phone"></div>
         <div class="check-box">
-            <i><input type="checkbox" name="make_loan_number"/></i>
+            <i><input type="checkbox" value="8" name="make_loan_number"/></i>
         </div>
         <span>8成</span>
         <div class="check-box">
-            <i><input type="checkbox" name="make_loan_number"/></i>
+            <i><input type="checkbox" value="8.5" name="make_loan_number"/></i>
         </div>
         <span>8.5成</span>
-        <div class="at_phone"></div>
-        <div class="check-box">
-            <i><input type="checkbox" name="make_loan_number"/></i>
-        </div>
+        <%--<div class="at_phone"></div>--%>
+        <%--<div class="check-box">--%>
+        <%--<i><input type="checkbox" name="make_loan_number"/></i>--%>
+        <%--</div>--%>
 
     </div>
 </div>
@@ -73,110 +73,124 @@
     <div class="am-u-sm-8 am-u-lg-9 am-u-end ">
         <div></div>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="1" name="area_scope"/></i>
         </div>
         <span>朝阳区</span>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="2" name="area_scope"/></i>
         </div>
         <span>海淀区</span>
 
         <div class="at_phone"></div>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="3" name="area_scope"/></i>
         </div>
         <span>东城区</span>
         <div class="at_pc"></div>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="4" name="area_scope"/></i>
         </div>
         <span>西城区</span>
 
         <div class="at_phone"></div>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="5" name="area_scope"/></i>
         </div>
         <span>丰台区</span>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="6" name="area_scope"/></i>
         </div>
         <span>石景山区</span>
 
         <div></div>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="7" name="area_scope"/></i>
         </div>
         <span>顺义区</span>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="8" name="area_scope"/></i>
         </div>
         <span>房山区</span>
 
         <div class="at_phone"></div>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="9" name="area_scope"/></i>
         </div>
         <span>通州区</span>
         <div class="at_pc"></div>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="10" name="area_scope"/></i>
         </div>
         <span>大兴区</span>
 
         <div class="at_phone"></div>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="11" name="area_scope"/></i>
         </div>
         <span>亦&emsp;庄</span>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="12" name="area_scope"/></i>
         </div>
         <span>昌平区</span>
 
         <div></div>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="13" name="area_scope"/></i>
         </div>
         <span>密云区</span>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="14" name="area_scope"/></i>
         </div>
         <span>延庆区</span>
 
         <div class="at_phone"></div>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="15" name="area_scope"/></i>
         </div>
         <span>平谷区</span>
         <div class="at_pc"></div>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="16" name="area_scope"/></i>
         </div>
         <span>怀柔区</span>
 
         <div></div>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="17" name="area_scope"/></i>
         </div>
         <span>门头沟区</span>
 
         <div></div>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="18" name="area_scope"/></i>
         </div>
         <span>五环内区域</span>
 
         <div></div>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="19" name="area_scope"/></i>
         </div>
         <span>六环内区域</span>
 
         <div></div>
         <div class="check-box">
-            <i><input type="checkbox" name="area_scope"/></i>
+            <i><input type="checkbox" value="20" name="area_scope"/></i>
         </div>
-        <span>补充区域</span>
+        <span>燕郊</span>
+
+
+        <div></div>
+        <div class="check-box">
+            <i><input type="checkbox" value="21" name="area_scope"/></i>
+        </div>
+        <span>一线城市</span>
+
+
+        <div></div>
+        <div class="check-box">
+            <i><input type="checkbox" value="22" name="area_scope"/></i>
+        </div>
+        <span>天津</span>
 
     </div>
 </div>
@@ -427,7 +441,7 @@
                     $("#box_list").empty();
                     $("#bomb_box").css("display", "block");
                     for (var i = 0; i < info.length; i++) {
-                        var product = "<tr onclick='javascript:void(0);'>\n" +
+                        var product = "<tr onclick='toinfo(" + info[i].id + ")'>\n" +
                             "            <td>" + info[i].bianhao + "</td>\n" +
                             "            <td>" + info[i].loanRate + "</td>\n" +
                             "            <td>" + getNumber(info[i].moneyNumber, info[i].villaNumber) + "</td>\n" +

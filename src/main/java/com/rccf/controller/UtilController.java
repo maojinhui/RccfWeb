@@ -75,6 +75,15 @@ public class UtilController {
         return new ModelAndView("util/zyMatch");
     }
 
+    @RequestMapping(value = "zy_info")
+    public ModelAndView zyInfo(HttpServletResponse response) {
+        CookiesUtil.addCookies("type", "zy_info", response);
+        return new ModelAndView("util/zy_info");
+    }
+
+
+
+
     @ResponseBody
     @RequestMapping(value = "/dyMatch")
     public String dyMatch(HttpServletRequest request) {
@@ -91,19 +100,32 @@ public class UtilController {
         String folk_affect = request.getParameter("folk_affect");
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(ProductDiya.class);
         detachedCriteria.addOrder(Order.desc("recommend"));
-        if (!Strings.isNullOrEmpty(use_type)) {//用户贷款用途1:个人消费；2：企业经营
-            if (use_type.equals("1")) {
-                detachedCriteria.add(Restrictions.eq("personDo", 1));
-                if (!Strings.isNullOrEmpty(amount_money)) {//个人金额
-                    detachedCriteria.add(Restrictions.ge("personMoney", Integer.valueOf(amount_money)));
-                }
-                if (!Strings.isNullOrEmpty(loan_number)) {//个人放款成数
-                    detachedCriteria.add(Restrictions.ge("personNumber", Double.valueOf(loan_number)));
-                }
+        try {
+            if (!Strings.isNullOrEmpty(use_type)) {//用户贷款用途1:个人消费；2：企业经营
 
-            } else if (use_type.equals("2")) {
-                detachedCriteria.add(Restrictions.eq("companyDo", 1));
-                if (!Strings.isNullOrEmpty(amount_money)) {//企业金额
+                if (use_type.equals("1")) {
+                    detachedCriteria.add(Restrictions.eq("personDo", 1));
+                    if (!Strings.isNullOrEmpty(amount_money)) {//个人金额
+                        detachedCriteria.add(Restrictions.ge("personMoney", Integer.valueOf(amount_money)));
+                    }
+                    if (!Strings.isNullOrEmpty(loan_number)) {//个人放款成数
+                        detachedCriteria.add(Restrictions.ge("personNumber", Double.valueOf(loan_number)));
+                    }
+
+                } else if (use_type.equals("2")) {
+                    detachedCriteria.add(Restrictions.eq("companyDo", 1));
+                    if (!Strings.isNullOrEmpty(amount_money)) {//企业金额
+                        detachedCriteria.add(Restrictions.ge("companyMoney", Integer.valueOf(amount_money)));
+                    }
+                    if (!Strings.isNullOrEmpty(loan_number)) {//企业放款成数
+                        detachedCriteria.add(Restrictions.or(//普通企业或者优良企业成数
+                                Restrictions.ge("companyNumber", Double.valueOf(loan_number)),
+                                Restrictions.ge("greatCompanyNumber", Double.valueOf(loan_number))));
+                    }
+                }
+            } else {
+                //默认选择企业经营
+                if (!Strings.isNullOrEmpty(amount_money)) {
                     detachedCriteria.add(Restrictions.ge("companyMoney", Integer.valueOf(amount_money)));
                 }
                 if (!Strings.isNullOrEmpty(loan_number)) {//企业放款成数
@@ -112,16 +134,8 @@ public class UtilController {
                             Restrictions.ge("greatCompanyNumber", Double.valueOf(loan_number))));
                 }
             }
-        } else {
-            //默认选择企业经营
-            if (!Strings.isNullOrEmpty(amount_money)) {
-                detachedCriteria.add(Restrictions.ge("companyMoney", Integer.valueOf(amount_money)));
-            }
-            if (!Strings.isNullOrEmpty(loan_number)) {//企业放款成数
-                detachedCriteria.add(Restrictions.or(//普通企业或者优良企业成数
-                        Restrictions.ge("companyNumber", Double.valueOf(loan_number)),
-                        Restrictions.ge("greatCompanyNumber", Double.valueOf(loan_number))));
-            }
+        } catch (NumberFormatException e) {
+            return ResponseUtil.fail(0, "参数类型错误");
         }
         //年龄限制
         if (!Strings.isNullOrEmpty(user_age)) {
@@ -195,21 +209,29 @@ public class UtilController {
 
         DetachedCriteria criteria = DetachedCriteria.forClass(ProductZhiya.class);
         if (!Strings.isNullOrEmpty(user_age)) {
+            int age = Integer.valueOf(user_age);
             criteria.add(
                     Restrictions.and(
-                            Restrictions.le("minAge", user_age),//比最小的大
-                            Restrictions.ge("maxAge", user_age)));//比最大的小
+                            Restrictions.le("minAge", age),//比最小的大
+                            Restrictions.ge("maxAge", age)));//比最大的小
         }
 
         if (!Strings.isNullOrEmpty(amount_money)) {
+            int money = 0;
+            try {
+                money = Integer.valueOf(amount_money);
+            } catch (NumberFormatException e) {
+                return ResponseUtil.fail(0, "金额输入错误");
+            }
             criteria.add(Restrictions.or(
-                    Restrictions.le("amountMoneyOne", amount_money),
-                    Restrictions.le("amountMoneyMore", amount_money)
+                    Restrictions.le("amountMoneyOne", money),
+                    Restrictions.le("amountMoneyMore", money)
             ));
         }
 
         if (!Strings.isNullOrEmpty(hope_number)) {
-            criteria.add(Restrictions.ge("moneyNumber", hope_number));
+            double hopeNumber = Double.valueOf(hope_number);
+            criteria.add(Restrictions.ge("moneyNumber", hopeNumber));
         }
 
         if (!Strings.isNullOrEmpty(area)) {
@@ -238,7 +260,8 @@ public class UtilController {
         }
 
         if (!Strings.isNullOrEmpty(house_age)) {
-            criteria.add(Restrictions.ge("houseAge", house_age));
+            int houseAge = Integer.valueOf(house_age);
+            criteria.add(Restrictions.ge("houseAge", houseAge));
         }
 
         if (!Strings.isNullOrEmpty(can_extension)) {

@@ -36,6 +36,8 @@
         $("#a_xyd_rate").addClass("active");
     } else if (type == "zyd_match") {
         $("#a_zy_match").addClass("active");
+    } else if (type == "zy_info") {
+        $("#a_zy_info").addClass("active");
     }
 
     $('input[name="radio-btn"]').wrap('<div class="radio-btn"><i></i></div>');

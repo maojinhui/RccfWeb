@@ -2,6 +2,7 @@ package com.rccf.dao.impl;
 
 import com.rccf.dao.ProductDao;
 import com.rccf.model.ProductDiya;
+import com.rccf.model.ProductZhiya;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -20,5 +21,9 @@ public class ProductDaoImpl extends HibernateDaoSupport implements ProductDao {
 
     public ProductDiya findProductDiyaByID(int id) {
         return getHibernateTemplate().get(ProductDiya.class, id);
+    }
+
+    public ProductZhiya findProductZhiyaByID(int id) {
+        return getHibernateTemplate().get(ProductZhiya.class, id);
     }
 }

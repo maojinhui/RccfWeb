@@ -3,10 +3,7 @@ package com.rccf.controller;
 import com.rccf.component.Page;
 import com.rccf.constants.UrlConstants;
 import com.rccf.dao.BankRateDao;
-import com.rccf.model.BankLoanRate;
-import com.rccf.model.ProduceArea;
-import com.rccf.model.ProduceHouseNature;
-import com.rccf.model.ProductDiya;
+import com.rccf.model.*;
 import com.rccf.service.BankRateService;
 import com.rccf.service.BaseService;
 import com.rccf.service.ProductService;
@@ -68,6 +65,44 @@ public class ProductController {
         modelAndView.addObject("bankrete",rate);
         return modelAndView;
     }
+
+    @RequestMapping(value = "/productZy")
+    public ModelAndView findProductZhiya(HttpServletRequest request) {
+        String id = request.getParameter("id");
+        int pid = 0;
+        try {
+            pid = Integer.valueOf(id);
+        } catch (NumberFormatException e) {
+            return new ModelAndView("/common/errorMsg").addObject("errorMsg", "参数类型错误");
+        }
+        ProductZhiya zhiya = productService.findProductZhiyaByID(pid);
+        DetachedCriteria areaDetachedCriteria = DetachedCriteria.forClass(ProduceArea.class);
+        int areacount = baseService.getCount(areaDetachedCriteria);
+        Page page = PageUtil.createPage(50, areacount, 0);
+        List<ProduceArea> areaArray = baseService.getList(page, areaDetachedCriteria);
+
+        DetachedCriteria natureDetached = DetachedCriteria.forClass(ProduceHouseNature.class);
+        int natureCount = baseService.getCount(natureDetached);
+        Page naturePage = PageUtil.createPage(50, natureCount, 0);
+        List<ProduceHouseNature> natureList = baseService.getList(naturePage, natureDetached);
+
+        DetachedCriteria metrialDetached = DetachedCriteria.forClass(ProducePersonMaterial.class);
+        int metrialCount = baseService.getCount(metrialDetached);
+        Page metrialPage = PageUtil.createPage(50, metrialCount, 0);
+        List<ProducePersonMaterial> materialList = baseService.getList(metrialPage, metrialDetached);
+
+
+        ModelAndView modelAndView = new ModelAndView("/util/productzy_info");
+        modelAndView.addObject("zhiya", zhiya);
+        modelAndView.addObject("areas", areaArray);
+        modelAndView.addObject("natures", natureList);
+        modelAndView.addObject("materials", materialList);
+
+        return modelAndView;
+
+
+    }
+
 
 
 }
