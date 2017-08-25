@@ -69,7 +69,7 @@
 
 <!--底部导航栏-->
 <div class="weui-tabbar">
-    <a href="/app/homepage" class="weui-tabbar__item ">
+    <a href="/app/index" class="weui-tabbar__item ">
         <span style="display: inline-block;position: relative;">
             <img src="/image/weixin/home.png" alt="" class="weui-tabbar__icon">
             <!--<span class="weui-badge" style="position: absolute;top: -2px;right: -13px;">8</span>-->

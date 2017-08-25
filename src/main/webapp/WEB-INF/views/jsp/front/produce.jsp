@@ -15,6 +15,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="/image/rccf.ico">
     <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+    <link rel="stylesheet" href="/css/app/style.css">
     <style type="text/css">
         body{
             background-color: #f9f5ee;
@@ -22,12 +23,95 @@
     </style>
 </head>
 <body>
+<div class="hot_product-slide-top my_container">
+    <div class="text">
+        质押神灯贷-直投贷
+    </div>
+    <div class="weui-flex">
+        <div class="weui-flex__item" style="padding: 1em 0;">
+            <div>
+                <span class="do_money">1000</span>万元
+            </div>
+            <p style="color: #aaaaaa;padding-top: 2em;">
+                <small>纯线上贷款，足不出户</small>
+            </p>
 
+        </div>
+        <div class="weui-flex__item" style="padding: 1em 0;">
+            <div>
+                <span style="color: #aaaaaa;padding-top: 1em;">月利率：</span>1.8%
+            </div>
+            <div>
+                <span style="color: #aaaaaa;padding-top: 1em;">期&emsp;限：</span>3-12个月
+            </div>
+            <div>
+                <img src="/image/weixin/3.jpg" style="width: 100%;height: 5em;">
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="hot_product-slide-top my_container">
+    <div class="text">
+        质押神灯贷-直投贷
+    </div>
+    <div class="weui-flex">
+        <div class="weui-flex__item" style="padding: 1em 0;">
+            <div>
+                <span class="do_money">1000</span>万元
+            </div>
+            <p style="color: #aaaaaa;padding-top: 2em;">
+                <small>纯线上贷款，足不出户</small>
+            </p>
+
+        </div>
+        <div class="weui-flex__item" style="padding: 1em 0;">
+            <div>
+                <span style="color: #aaaaaa;padding-top: 1em;">月利率：</span>1.8%
+            </div>
+            <div>
+                <span style="color: #aaaaaa;padding-top: 1em;">期&emsp;限：</span>3-12个月
+            </div>
+            <div>
+                <img src="/image/weixin/3.jpg" style="width: 100%;height: 5em;">
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="hot_product-slide-top my_container" style="margin-bottom: 5em;">
+    <div class="text">
+        质押神灯贷-直投贷
+    </div>
+    <div class="weui-flex">
+        <div class="weui-flex__item" style="padding: 1em 0;">
+            <div>
+                <span class="do_money">1000</span>万元
+            </div>
+            <p style="color: #aaaaaa;padding-top: 2em;">
+                <small>纯线上贷款，足不出户</small>
+            </p>
+
+        </div>
+        <div class="weui-flex__item" style="padding: 1em 0;">
+            <div>
+                <span style="color: #aaaaaa;padding-top: 1em;">月利率：</span>1.8%
+            </div>
+            <div>
+                <span style="color: #aaaaaa;padding-top: 1em;">期&emsp;限：</span>3-12个月
+            </div>
+            <div>
+                <img src="/image/weixin/3.jpg" style="width: 100%;height: 5em;">
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
 <!--底部导航栏-->
-<div class="weui-tabbar">
-    <a href="/app/homepage" class="weui-tabbar__item ">
+<div class="weui-tabbar" style="position: fixed;">
+    <a href="/app/index" class="weui-tabbar__item ">
         <span style="display: inline-block;position: relative;">
             <img src="/image/weixin/home.png" alt="" class="weui-tabbar__icon">
             <!--<span class="weui-badge" style="position: absolute;top: -2px;right: -13px;">8</span>-->

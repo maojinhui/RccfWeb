@@ -19,8 +19,8 @@
 
     <style>
         html, body {
-            position: relative;
-            height: 100%;
+            /*position: relative;*/
+            /*height: 100%;*/
         }
         body {
             background: #f9f5ee;

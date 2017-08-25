@@ -26,6 +26,13 @@ public class AppController {
         return "front/home";
     }
 
+    @RequestMapping(value = "/index")
+    public ModelAndView indexPage(HttpServletRequest request) {
+        return new ModelAndView("front/index");
+//        return getAppUser(request , "front/index");
+    }
+
+
     @RequestMapping(value = "/mypage")
     public ModelAndView myinfoPage(HttpServletRequest request){
 //        String openid = null;
