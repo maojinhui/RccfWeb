@@ -23,6 +23,7 @@
     </style>
 </head>
 <body>
+<div style="max-width: 400px;margin: 0 auto">
 <div class="hot_product-slide-top my_container">
     <div class="text">
         质押神灯贷-直投贷
@@ -108,6 +109,7 @@
     </div>
 </div>
 
+</div>
 
 <!--底部导航栏-->
 <div class="weui-tabbar" style="position: fixed;">

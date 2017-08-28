@@ -87,8 +87,6 @@ public class AppController {
         modelAndView.addObject("user",user);
         return modelAndView;
     }
-
-
     /**
      * 测试随便给的openid
      * @param response
@@ -101,5 +99,6 @@ public class AppController {
         response.addCookie(cookie );
         return new ModelAndView("front/home");
     }
+
 
 }

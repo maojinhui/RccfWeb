@@ -15,6 +15,15 @@ public class BaseService {
     private BaseDao dao;
 
     /**
+     * 保存
+     *
+     * @param o
+     */
+    public boolean save(Object o) {
+        return dao.save(o);
+    }
+
+    /**
      * 查询总条数
      *
      * @param detachedCriteria 可以为null
