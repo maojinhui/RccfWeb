@@ -13,6 +13,7 @@ public class IndexRecommend {
     private Integer userId;
     private Integer recommend;
     private Integer stat;
+    private String description;
 
     @Id
     @Column(name = "id")
@@ -112,5 +113,15 @@ public class IndexRecommend {
         result = 31 * result + (recommend != null ? recommend.hashCode() : 0);
         result = 31 * result + (stat != null ? stat.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

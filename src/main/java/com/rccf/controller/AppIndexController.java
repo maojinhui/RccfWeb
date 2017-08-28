@@ -2,6 +2,7 @@ package com.rccf.controller;
 
 import com.rccf.component.Page;
 import com.rccf.constants.UrlConstants;
+import com.rccf.model.EmployeeRecommend;
 import com.rccf.model.IndexRecommend;
 import com.rccf.service.BaseService;
 import com.rccf.util.DateUtil;
@@ -48,7 +49,22 @@ public class AppIndexController {
         int count = baseService.getCount(detachedCriteria);
         Page page = PageUtil.createPage(15, count, 0);
         List<IndexRecommend> list = baseService.getList(page, detachedCriteria);
-        return ResponseUtil.success(list);
+        return ResponseUtil.success_list(count, 15, list);
     }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/employeeList")
+    public String recommendEmployeeList() {
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(EmployeeRecommend.class);
+        detachedCriteria.add(Restrictions.eq("recommend", 1));
+        int count = baseService.getCount(detachedCriteria);
+        Page page = PageUtil.createPage(3, count, 0);
+        List<EmployeeRecommend> list = baseService.getList(page, detachedCriteria);
+        return ResponseUtil.success_list(count, 3, list);
+    }
+
+
+
 
 }

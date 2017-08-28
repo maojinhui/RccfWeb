@@ -12,58 +12,55 @@
     <meta charset="UTF-8">
     <title>首页</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scale=0"/>
-    <link rel="shortcut icon" type="image/x-icon" href="/image/rccf.ico">
     <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
     <link rel="stylesheet" href="/css/app/style.css">
 </head>
 <body>
-<div style="max-width: 400px;margin: 0 auto;">
+<div class="content_phone">
     <!-- 首页轮播图 -->
     <div class="swiper-container">
         <!-- Additional required wrapper -->
-        <div id="img_list" class="swiper-wrapper">
+        <div class="swiper-wrapper">
             <!-- Slides -->
-            <%--<div class="swiper-slide"><img src="/image/weixin/3.jpg"/></div>--%>
-            <%--<div class="swiper-slide"><img src="/image/weixin/4.jpg"/></div>--%>
-            <%--<div class="swiper-slide"><img src="/image/weixin/5.jpg"/></div>--%>
+
         </div>
     </div>
     <!--导航按钮-->
-    <div class="weui-flex" style="margin-top: 1em;">
-        <div class="weui-flex__item">
-            <div class="weui-grid__icon">
-                <img src="/image/weixin/4.png" alt="">
-            </div>
-            <p class="weui-grid__label">
-                贷款
-            </p>
-        </div>
-        <div class="weui-flex__item">
-            <div class="weui-grid__icon">
-                <img src="/image/weixin/1.png" alt="">
-            </div>
-            <p class="weui-grid__label">
-                信用卡
-            </p>
-        </div>
-        <div class="weui-flex__item">
-            <div class="weui-grid__icon">
-                <img src="/image/weixin/2.png" alt="">
-            </div>
-            <p class="weui-grid__label">
-                附近银行
-            </p>
-        </div>
-        <div class="weui-flex__item">
-            <div class="weui-grid__icon">
-                <img src="/image/weixin/3.png" alt="">
-            </div>
-            <p class="weui-grid__label">
-                咨询
-            </p>
-        </div>
-    </div>
+    <!--<div class="weui-flex" style="margin-top: 1em;">-->
+    <!--<div class="weui-flex__item">-->
+    <!--<div class="weui-grid__icon">-->
+    <!--<img src="image/4.png" alt="">-->
+    <!--</div>-->
+    <!--<p class="weui-grid__label">-->
+    <!--贷款-->
+    <!--</p>-->
+    <!--</div>-->
+    <!--<div class="weui-flex__item">-->
+    <!--<div class="weui-grid__icon">-->
+    <!--<img src="image/1.png" alt="">-->
+    <!--</div>-->
+    <!--<p class="weui-grid__label">-->
+    <!--信用卡-->
+    <!--</p>-->
+    <!--</div>-->
+    <!--<div class="weui-flex__item">-->
+    <!--<div class="weui-grid__icon">-->
+    <!--<img src="image/2.png" alt="">-->
+    <!--</div>-->
+    <!--<p class="weui-grid__label">-->
+    <!--附近银行-->
+    <!--</p>-->
+    <!--</div>-->
+    <!--<div class="weui-flex__item">-->
+    <!--<div class="weui-grid__icon">-->
+    <!--<img src="image/3.png" alt="">-->
+    <!--</div>-->
+    <!--<p class="weui-grid__label">-->
+    <!--咨询-->
+    <!--</p>-->
+    <!--</div>-->
+    <!--</div>-->
     <!--热门产品介绍-->
     <div class="weui-cells" style="margin-top: 1em;">
         <a class="weui-cell weui-cell_access" href="javascript:;">
@@ -142,54 +139,30 @@
         </div>
     </div>
     <!--优秀业务员-->
-    <div class="weui-cells" style="margin-top: 1em;margin-bottom: 100px;">
+    <div class="weui-cells" style="margin-top: 1em;margin-bottom: 4em;">
         <a class="weui-cell weui-cell_access" href="javascript:;">
             <div class="weui-cell__hd">
                 <p class="hot-pro">|</p>
             </div>
             <div class="weui-cell__bd hot">
-                <p>优秀贷款顾问</p>
+                <p>优秀业务员</p>
             </div>
         </a>
-        <div class="weui-flex" style="margin-top: 1em;">
-            <div class="weui-flex__item">
-                <div class="weui-grid__icon salesman">
-                    <img src="/image/weixin/user01.png" alt="">
-                </div>
-                <p class="weui-grid__label">
-                    <small>张三</small>
-                </p>
-            </div>
-            <div class="weui-flex__item">
-                <div class="weui-grid__icon salesman">
-                    <img src="/image/weixin/user01.png" alt="">
-                </div>
-                <p class="weui-grid__label">
-                    <small>李四</small>
-                </p>
-            </div>
-            <div class="weui-flex__item">
-                <div class="weui-grid__icon salesman">
-                    <img src="/image/weixin/user01.png" alt="">
-                </div>
-                <p class="weui-grid__label">
-                    <small>王五</small>
-                </p>
-            </div>
+        <div id="ex_staff" class="weui-flex" style="margin-top: 1em;">
         </div>
     </div>
 </div>
 <!--底部导航栏-->
 <!--底部导航栏-->
-<div class="weui-tabbar" style="position: fixed;">
-    <a href="/app/index" class="weui-tabbar__item weui-bar__item_on">
+<div class="weui-tabbar fix-bottom">
+    <a href="/app/index" class="weui-tabbar__item weui-bar__item_on ">
         <span style="display: inline-block;position: relative;">
             <img src="/image/weixin/home_on.png" alt="" class="weui-tabbar__icon">
             <!--<span class="weui-badge" style="position: absolute;top: -2px;right: -13px;">8</span>-->
         </span>
         <p class="weui-tabbar__label">首页</p>
     </a>
-    <a href="/app/producepage" class="weui-tabbar__item">
+    <a href="/app/producepage" class="weui-tabbar__item ">
         <img src="/image/weixin/produce.png" alt="" class="weui-tabbar__icon">
         <p class="weui-tabbar__label">产品</p>
     </a>
@@ -200,27 +173,25 @@
         </span>
         <p class="weui-tabbar__label">进度</p>
     </a>
-    <a href="/app/mypage" class="weui-tabbar__item ">
+    <a href="/app/mypage" class="weui-tabbar__item">
         <img src="/image/weixin/me.png" alt="" class="weui-tabbar__icon">
         <p class="weui-tabbar__label">我的</p>
     </a>
 </div>
 <script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
-<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/swiper.min.js"></script>
-<%--<script src="http://apps.bdimg.com/libs/swipe/2.0/swipe.min.js"></script>--%>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.0.1/js/swiper.min.js"></script>
 <script>
+    //   页首伦轮播图控制器
     var mySwiper = new Swiper('.swiper-container', {
+        effect: "slide",
         speed: 1000,
         autoplay: 2000,
         autoplayDisableOnInteraction: false,
         loop: true,
-        slidesPerView: 1,
-        centeredSlides: true,
         spaceBetween: 20
     });
-
+    //  贷款信息轮播
     var swiper = new Swiper('.swiper-container_1', {
         pagination: '.swiper-pagination',
         effect: 'coverflow',
@@ -233,7 +204,7 @@
             slideShadows: false
         }
     });
-
+    //    后台获取页首图片并显示
     $.ajax({
         url: "/index/recommendList",
         dataType: "json",
@@ -241,15 +212,51 @@
             if (result.code) {
                 var info = JSON.parse(result.data);
                 for (var i = 0; i < info.length; i++) {
-//                    var one = "<div class=\"swiper-slide\"><img src=\"" + info[i].img + "\"/></div>";
-//                    $("#img_list").append(one);
-//                    var newSlide =  mySwiper.createSlide("<img src=\"" + info[i].img +"\" />","swiper-slide","div");
-//                    newSlide.append();
-                    mySwiper.appendSlide('<div class="swiper-slide"><img src="' + info[i].img + '"/></div>');
+                    var src = info[i].img;
+                    var list = "<div  class=\"swiper-slide\"><img src=\"" + src + "\"/></div>";
+                    mySwiper.appendSlide(list);
                 }
+            }
+            else {
+                $.alert(result.errormsg);
             }
         }
     });
+    // 获取优秀员工信息
+    $.ajax({
+        url: '/index/employeeList',
+        dataType: "json",
+        success: function (result) {
+            if (result.code) {
+                var infom = JSON.parse(result.data);
+                for (var i = 0; i < infom.length; i++) {
+                    var headerImg = infom[i].headerImg;
+                    var phone = infom[i].phone;
+                    var list = ' <a href="tel:' + phone + '" class="weui-flex__item">\n' +
+                        '            <div class="weui-grid__icon salesman">\n' +
+                        '                <img src="' + headerImg + '" alt="">\n' +
+                        '            </div>\n' +
+                        '            <p class="weui-grid__label">\n' +
+                        '                <button class="call_me">点击咨询</button>\n' +
+                        '            </p>\n' +
+                        '        </a>';
+                    $("#ex_staff").append(list);
+                }
+            }
+            else {
+                $.alert(result.errormsg);
+            }
+        }
+    });
+
+    //    文字闪烁效果
+    function changeColor() {
+        var color = "red|green|blue";
+        color = color.split("|");
+        $(".call_me").css("color", color[parseInt(Math.random() * color.length)]);
+    }
+
+    setInterval("changeColor()", 200);
 
 </script>
 </body>
