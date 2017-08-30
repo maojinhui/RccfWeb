@@ -9,6 +9,7 @@
 <%@page import="com.rccf.constants.produce.ProductConstants" %>
 <%@page import="com.rccf.model.User" %>
 <%@page import="com.rccf.enmu.HeaderType" %>
+<%@ page import="com.rccf.model.Employee" %>
 <%@page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@page isELIgnored="false" %>
 <%
@@ -168,16 +169,16 @@
                     <a href="javascript:;" class="nav-link tpl-left-nav-link-list <%=employeeC%>>">
                         <i class="am-icon-users"></i>
                         <span>员工管理</span>
-                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                        <i id="employee_i" class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                     </a>
-                    <ul class="tpl-left-nav-sub-menu">
+                    <ul id="employee_ul" class="tpl-left-nav-sub-menu">
                         <li>
                             <a href="">
                                 <i class="am-icon-angle-right"></i>
                                 <span>列表页面</span>
                             </a>
 
-                            <a href="">
+                            <a href="/employee/editPage">
                                 <i class="am-icon-angle-right"></i>
                                 <span>添加/修改</span>
                             </a>

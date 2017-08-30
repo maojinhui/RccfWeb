@@ -127,7 +127,7 @@
                                 <span>￥<strong style="font-size: 2.2em;">无上限</strong></span>
                             </div>
                             <div style="color:#23527c;margin-top:0.5em;padding-left: 0.2em; ">
-                                <span>条件:<strong style="color:#ff6600;">可上抵</strong></span>
+                                <span>条件:<strong style="color:#ff6600;">房屋可抵押</strong></span>
                             </div>
                             <button class="button">立即申请</button>
                         </div>
@@ -145,7 +145,7 @@
                 <p class="hot-pro">|</p>
             </div>
             <div class="weui-cell__bd hot">
-                <p>优秀业务员</p>
+                <p>优秀贷款顾问</p>
             </div>
         </a>
         <div id="ex_staff" class="weui-flex" style="margin-top: 1em;">

@@ -24,6 +24,9 @@
             if(ctype == "product"){
                 $("#product_i").addClass("tpl-left-nav-more-ico-rotate");
                 $("#product_ul").css("display","block");
+            } else if (ctype == "employee") {
+                $("#employee_i").addClass("tpl-left-nav-more-ico-rotate");
+                $("#employee_ul").css("display", "block");
             }
         }
     });

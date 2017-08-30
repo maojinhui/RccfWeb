@@ -100,7 +100,7 @@ public class AuthController {
             cookie.setPath("/");
             response.addCookie(cookie);
             userService.saveUser(user);
-            return "front/home";
+            return "front/index";
         }
         return null;
     }
