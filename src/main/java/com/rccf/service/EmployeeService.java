@@ -16,6 +16,7 @@ public interface EmployeeService {
 
     boolean saveOrUpdate(Employee employee);
 
+    boolean deleteEmployee(Employee employee);
     /**
      * @param code
      * @return

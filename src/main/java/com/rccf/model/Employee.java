@@ -22,6 +22,7 @@ public class Employee {
     private Integer recommend;
     private String leader;
     private String department;
+    private Integer role;
 
     @Id
     @Column(name = "id")
@@ -205,5 +206,15 @@ public class Employee {
         result = 31 * result + (leader != null ? leader.hashCode() : 0);
         result = 31 * result + (department != null ? department.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "role")
+    public Integer getRole() {
+        return role;
+    }
+
+    public void setRole(Integer role) {
+        this.role = role;
     }
 }

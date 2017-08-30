@@ -35,6 +35,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDao.saveOrUpdate(employee);
     }
 
+    public boolean deleteEmployee(Employee employee) {
+        return employeeDao.deleteEmployee(employee);
+    }
+
     public List<Employee> findEmployeesByCode(String code) {
         return employeeDao.findEmployeesByCode(code);
     }

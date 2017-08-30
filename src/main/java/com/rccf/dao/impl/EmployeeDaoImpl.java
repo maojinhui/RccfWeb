@@ -68,6 +68,17 @@ public class EmployeeDaoImpl extends HibernateDaoSupport implements EmployeeDao 
 
     }
 
+    public boolean deleteEmployee(Employee employee) {
+
+        try {
+            getHibernateTemplate().delete(employee);
+            return true;
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public List<Employee> findEmployeesByCode(String code) {
         DetachedCriteria criteria = DetachedCriteria.forClass(Employee.class);
         criteria.add(Restrictions.eq("leader", code));

@@ -16,6 +16,8 @@ public interface EmployeeDao {
 
     boolean saveOrUpdate(Employee employee);
 
+    boolean deleteEmployee(Employee employee);
+
     List<Employee> findEmployeesByCode(String code);
 
 }

@@ -7,6 +7,7 @@ import com.rccf.model.User;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.service.UserService;
+import com.rccf.util.DateUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Controller
 @RequestMapping(value = "/employee", produces = UrlConstants.PRODUCES)
@@ -76,10 +79,11 @@ public class EmployeeController {
         String age = request.getParameter("age");
         String entry_time = request.getParameter("entry_time");
         String duties = request.getParameter("duties");
-//        String create_time = request.getParameter("create_time");
         String admin = request.getParameter("admin");
         String leader = request.getParameter("leader");
         String department = request.getParameter("department");
+        String role = request.getParameter("role");
+
         Employee employee = null;
         if (Strings.isNullOrEmpty(id)) {
             employee = new Employee();
@@ -105,11 +109,51 @@ public class EmployeeController {
             int _sex = Integer.valueOf(sex);
             employee.setSex(_sex);
         }
-//        if(!Strings.isNullOrEmpty())
+        if (!Strings.isNullOrEmpty(age)) {
+            int _age = Integer.valueOf(age);
+            employee.setAge(_age);
+        }
+        if (!Strings.isNullOrEmpty(entry_time)) {
+            Date date = DateUtil.string2Date(entry_time);
+            employee.setEntryTime(DateUtil.date2Timestamp(date));
+        }
+        if (!Strings.isNullOrEmpty(duties)) {
+            employee.setDuties(duties);
+        }
+        if (!Strings.isNullOrEmpty(admin)) {
+            employee.setAdmin(admin);
+        }
+        if (!Strings.isNullOrEmpty(leader)) {
+            employee.setLeader(leader);
+        }
+        if (!Strings.isNullOrEmpty(department)) {
+            employee.setDepartment(department);
+        }
+
+        if (!Strings.isNullOrEmpty(role)) {
+            int _role = Integer.valueOf(role);
+            employee.setRole(_role);
+        }
+        Timestamp create_time = DateUtil.date2Timestamp(new Date(System.currentTimeMillis()));
+        employee.setCreateTime(create_time);
+        if (employeeService.saveOrUpdate(employee)) {
+            return ResponseUtil.success(employee);
+        }
+        return ResponseUtil.fail(0, "保存出错!");
+
+    }
 
 
+    @ResponseBody
+    @RequestMapping(value = "/del")
+    public String deleteEmployee(HttpServletRequest request) {
+        String id = request.getParameter("id");
+        int _id = Integer.valueOf(id);
+        Employee employee = employeeService.findEmpolyeeById(_id);
+        employeeService.deleteEmployee(employee);
         return ResponseUtil.success();
     }
+
 
     /**
      * 根据cookie获取用户信息
