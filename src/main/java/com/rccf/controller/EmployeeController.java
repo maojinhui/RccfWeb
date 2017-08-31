@@ -4,8 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.rccf.component.Page;
 import com.rccf.constants.UrlConstants;
 import com.rccf.enmu.HeaderType;
+import com.rccf.model.Accepted;
 import com.rccf.model.Employee;
+import com.rccf.model.LatterNumber;
 import com.rccf.model.User;
+import com.rccf.service.AcceptedService;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.service.UserService;
@@ -15,10 +18,7 @@ import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
 import com.rccf.util.encrypt.DesEncrypt;
 import com.rccf.util.encrypt.ShaEncript;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +30,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +48,10 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    private AcceptedService acceptedService;
+
 
     @RequestMapping(value = "/editPage")
     public ModelAndView addEmployeePage(HttpServletRequest request, HttpServletResponse response) {
@@ -104,19 +110,6 @@ public class EmployeeController {
     }
 
 
-    @RequestMapping(value = "/addAccepted")
-    public ModelAndView addAccepted(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView view = getUserView(request, response, "/back/employee/accepted", HeaderType.EMPLOYEE);
-        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Employee.class);
-        ProjectionList plist = Projections.projectionList();
-        plist.add(Projections.property("code").as("code"));
-        plist.add(Projections.property("name").as("name"));
-        detachedCriteria.setProjection(plist);
-        detachedCriteria.setResultTransformer(Transformers.aliasToBean(Employee.class));
-        List<Employee> employees = baseService.getList(detachedCriteria);
-        view.addObject("employees", employees);
-        return view;
-    }
 
 
     @ResponseBody
@@ -264,17 +257,171 @@ public class EmployeeController {
         return ResponseUtil.success(employeeList);
     }
 
+    @RequestMapping(value = "/addAccepted")
+    public ModelAndView addAccepted(HttpServletRequest request, HttpServletResponse response) {
+        String id = request.getParameter("id");
+        ModelAndView view = getUserView(request, response, "/back/employee/accepted", HeaderType.EMPLOYEE);
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Employee.class);
+        ProjectionList plist = Projections.projectionList();
+        plist.add(Projections.property("code").as("code"));
+        plist.add(Projections.property("name").as("name"));
+        detachedCriteria.setProjection(plist);
+        detachedCriteria.setResultTransformer(Transformers.aliasToBean(Employee.class));
+        List<Employee> employees = baseService.getList(detachedCriteria);
+        view.addObject("employees", employees);
+
+        DetachedCriteria criteria = DetachedCriteria.forClass(LatterNumber.class);
+        ProjectionList list = Projections.projectionList();
+        list.add(Projections.property("code").as("code"));
+        list.add(Projections.property("id").as("id"));
+        criteria.setProjection(list);
+        criteria.setResultTransformer(Transformers.aliasToBean(LatterNumber.class));
+        List<LatterNumber> numbers = baseService.getList(criteria);
+        view.addObject("numbers", numbers);
+
+        if (!Strings.isNullOrEmpty(id)) {
+            int _id = Integer.valueOf(id);
+            Accepted accepted = acceptedService.findById(_id);
+            view.addObject("accepted", accepted);
+        }
+        return view;
+    }
+
 
     @ResponseBody
     @RequestMapping(value = "/saveaccepted")
     public String getAccepted(HttpServletRequest request) {
+        String id = request.getParameter("id");
         String accept_time = request.getParameter("accept_time");
         String latter_number = request.getParameter("latter_number");
-        return "";
+        String clerk = request.getParameter("clerk");
+        String clerk_name = request.getParameter("clerk_name");
+        String custom_name = request.getParameter("custom_name");
+        String custom_phone = request.getParameter("custom_phone");
+        String business_type = request.getParameter("business_type");
+        String agency = request.getParameter("agency");
+        String business_nature = request.getParameter("business_nature");
+        String want_money = request.getParameter("want_money");
+        String service_fee = request.getParameter("service_fee");
+        String service_fee_actual = request.getParameter("service_fee_actual");
+        String end_time = request.getParameter("end_time");
+        String loan_money = request.getParameter("loan_money");
+        String service_agreement = request.getParameter("service_agreement");
+        String beizhu = request.getParameter("beizhu");
+        String state = request.getParameter("state");
+
+        Accepted accepted = null;
+        if (!Strings.isNullOrEmpty(id)) {
+            int _id = Integer.valueOf(id);
+            accepted = acceptedService.findById(_id);
+            accepted.setCreateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
+        } else {
+            accepted = new Accepted();
+            accepted.setCreateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
+            accepted.setAcceptedNumber(getLastNumber());
+        }
+
+
+        if (!Strings.isNullOrEmpty(accept_time)) {
+            Date date = DateUtil.string2Date(accept_time);
+            accepted.setAcceptTime(DateUtil.date2Timestamp(date));
+        }
+
+        if (!Strings.isNullOrEmpty(latter_number)) {
+            accepted.setLetterNumber(latter_number);
+        }
+
+        if (!Strings.isNullOrEmpty(clerk)) {
+            accepted.setClerk(clerk);
+        }
+        if (!Strings.isNullOrEmpty(clerk_name)) {
+            accepted.setClerkName(clerk_name);
+        }
+        if (!Strings.isNullOrEmpty(custom_name)) {
+            accepted.setCustomerName(custom_name);
+        }
+        if (!Strings.isNullOrEmpty(custom_phone)) {
+            accepted.setCustomerPhone(custom_phone);
+        }
+        if (!Strings.isNullOrEmpty(business_type)) {
+            accepted.setBusinessType(Integer.valueOf(business_type));
+        }
+
+        if (!Strings.isNullOrEmpty(agency)) {
+            accepted.setAgency(agency);
+        }
+
+        if (!Strings.isNullOrEmpty(business_nature)) {
+            accepted.setBusinessNature(business_nature);
+        }
+        if (!Strings.isNullOrEmpty(want_money)) {
+            accepted.setWantMoney(Double.valueOf(want_money));
+        }
+        if (!Strings.isNullOrEmpty(service_fee)) {
+            double _d = Double.valueOf(service_fee);
+            accepted.setServiceFee(_d);
+        }
+        if (!Strings.isNullOrEmpty(service_fee_actual)) {
+            int _d = Integer.valueOf(service_fee_actual);
+            accepted.setServiceFeeActual(_d);
+        }
+        if (!Strings.isNullOrEmpty(end_time)) {
+            Date date = DateUtil.string2Date(end_time);
+            accepted.setEndDate(DateUtil.date2Timestamp(date));
+        }
+        if (!Strings.isNullOrEmpty(loan_money)) {
+            accepted.setLoanMoney(Double.valueOf(loan_money));
+        }
+        if (!Strings.isNullOrEmpty(service_agreement)) {
+            accepted.setServiceAgreement(Integer.valueOf(service_agreement));
+        }
+        if (!Strings.isNullOrEmpty(beizhu)) {
+            accepted.setBeizhu(beizhu);
+        }
+        if (!Strings.isNullOrEmpty(state)) {
+            accepted.setState(Integer.valueOf(state));
+        }
+
+        if (acceptedService.saveOrUpdate(accepted)) {
+            return ResponseUtil.success();
+        } else {
+            return ResponseUtil.fail(0, "保存失败");
+        }
+    }
+
+
+    private String getLastNumber() {
+        DateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String preFix = format.format(new Date(System.currentTimeMillis())) + "-";
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Accepted.class);
+//        ProjectionList list = Projections.projectionList();
+//        list.add(Projections.property("acceptedNumber"));
+////        list.add(Projections.max("acceptedNumber"));
+//        detachedCriteria.setProjection(list);
+        detachedCriteria.addOrder(Order.desc("acceptedNumber"));
+        detachedCriteria.add(Restrictions.like("acceptedNumber", preFix + "%"));
+//        detachedCriteria.setResultTransformer(Transformers.aliasToBean(Accepted.class));
+        List<Accepted> l = baseService.getList(detachedCriteria);
+        int number_now = 0;
+        if (null != l && l.size() > 1) {//查询到有记录
+            String last_number_str = l.get(0).getAcceptedNumber();
+            last_number_str = last_number_str.substring(last_number_str.indexOf("-") + 1);
+            number_now = Integer.valueOf(last_number_str) + 1;
+        } else {
+            number_now = 10000;
+        }
+        return preFix + number_now;
 
     }
 
 
+    @ResponseBody
+    @RequestMapping(value = "/queryData")
+    public String queryData() {
+        String sql = "select e.department,e.name,e.entry_time,e.duties, from employee as e   where role = 4 ";
+        List list = baseService.queryBySql(sql);
+        return "";
+    }
 
 
     /**

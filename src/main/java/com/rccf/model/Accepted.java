@@ -28,6 +28,7 @@ public class Accepted {
     private String beizhu;
     private Timestamp createTime;
     private String admin;
+    private String clerkName;
 
     @Id
     @Column(name = "id")
@@ -291,5 +292,15 @@ public class Accepted {
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
         result = 31 * result + (admin != null ? admin.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "clerk_name")
+    public String getClerkName() {
+        return clerkName;
+    }
+
+    public void setClerkName(String clerkName) {
+        this.clerkName = clerkName;
     }
 }

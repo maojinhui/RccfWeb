@@ -155,7 +155,7 @@
 .autocompleter {
     max-width: 60%;
     background: #dddddd;
-    position: fixed;
+    position: absolute;
     margin-top: 2em;
     margin-left: 0;
     z-index: 100;
@@ -163,7 +163,7 @@
 
 .autocompleter,
 .autocompleter-hint {
-    position: fixed;
+    position: absolute;
 }
 
 .autocompleter-list {

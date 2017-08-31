@@ -23,6 +23,11 @@ public class BaseDao extends HibernateDaoSupport {
         super.setSessionFactory(sessionFactory);
     }
 
+    public Session getSession() {
+        return getSessionFactory().getCurrentSession();
+    }
+
+
     public boolean save(Object o) {
         try {
             getHibernateTemplate().saveOrUpdate(o);
@@ -64,5 +69,10 @@ public class BaseDao extends HibernateDaoSupport {
         return getHibernateTemplate().findByCriteria(detachedCriteria);
     }
 
+
+    public List queryBySql(String sql) {
+        List<Object[]> list = getSession().createSQLQuery(sql).list();
+        return list;
+    }
 
 }

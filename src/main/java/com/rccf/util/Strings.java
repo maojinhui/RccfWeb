@@ -76,4 +76,18 @@ public class Strings {
         return sb.toString();
     }
 
+
+    /**
+     * @param o
+     * @return
+     */
+    public static String getInputString(Object o) {
+        if (null == o) {
+            return "";
+        }
+        return o.toString();
+    }
+
+
+
 }

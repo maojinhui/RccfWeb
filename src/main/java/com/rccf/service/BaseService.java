@@ -43,6 +43,10 @@ public class BaseService {
         return dao.getList(detachedCriteria);
     }
 
+    public List queryBySql(String sql) {
+        List<Object[]> list = dao.queryBySql(sql);
+        return list;
+    }
 
 
 }
