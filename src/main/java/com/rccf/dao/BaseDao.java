@@ -59,4 +59,10 @@ public class BaseDao extends HibernateDaoSupport {
 
     }
 
+
+    public List getList(DetachedCriteria detachedCriteria) {
+        return getHibernateTemplate().findByCriteria(detachedCriteria);
+    }
+
+
 }

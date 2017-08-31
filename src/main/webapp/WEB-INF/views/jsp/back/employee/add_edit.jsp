@@ -18,16 +18,16 @@
     <div class="am-u-sm-12 am-u-md-9 am-u-lg-4 am-u-sm-centered">
         <div class="am-input-group am-input-group-primary am-hide">
             <span class="am-input-group-label">用户id</span>
-            <input type="text" class="am-form-field whiteback" value="<%=employee.getId()%>"/>
+            <input id="user_id" type="text" class="am-form-field whiteback" value="<%=employee.getId()%>"/>
         </div>
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">员工编号</span>
-            <input type="text" class="am-form-field whiteback"
+            <input id="code" type="text" class="am-form-field whiteback"
                    value="<%=employee.getCode()==null?"":employee.getCode()%>"/>
         </div>
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">员工姓名</span>
-            <input type="text" class="am-form-field whiteback"
+            <input id="name" type="text" class="am-form-field whiteback"
                    value="<%=employee.getName()==null?"":employee.getName()%>"/>
         </div>
         <div class="am-input-group am-input-group-primary">
@@ -41,44 +41,115 @@
         </div>
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">年&emsp;&emsp;龄</span>
-            <input type="number" class="am-form-field whiteback"
+            <input id="age" type="number" class="am-form-field whiteback"
                    value="<%=(employee.getAge()!=null)?""+employee.getAge():""%>"/>
         </div>
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">联系方式</span>
-            <input type="text" class="am-form-field whiteback" value=""/>
+            <input id="phone" type="text" class="am-form-field whiteback"
+                   value="<%=employee.getPhone()!=null?employee.getPhone():""%>"/>
         </div>
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">入职时间</span>
-            <input type="date" class="am-form-field whiteback"/>
+            <input id="entrytime" type="date" class="am-form-field whiteback"
+                   value="<%=employee.getEntryTime()!=null?employee.getEntryTime():""%>"/>
         </div>
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">所属部门</span>
-            <input type="text" class="am-form-field whiteback" value=""/>
+            <input id="department" type="text" class="am-form-field whiteback"
+                   value="<%=employee.getDepartment()!=null?employee.getDepartment():""%>"/>
         </div>
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">角&emsp;&emsp;色</span>
-            <select style="width: 100%;font-size: large;margin-top: 7px; border: solid 1px deepskyblue;">
-                <option>业务员</option>
-                <option>副总监</option>
-                <option>总监</option>
+            <select id="role" style="width: 100%;font-size: large;margin-top: 7px; border: solid 1px deepskyblue;">
+                <option <%=(employee.getRole() != null && 0 == employee.getRole()) ? "checked" : ""%> value="0">业务员
+                </option>
+                <option <%=(employee.getRole() != null && 1 == employee.getRole()) ? "checked" : ""%> value="1">副总监
+                </option>
+                <option <%=(employee.getRole() != null && 2 == employee.getRole()) ? "checked" : ""%> value="2">总监
+                </option>
             </select>
         </div>
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">职&emsp;&emsp;务</span>
-            <input type="text" class="am-form-field whiteback" value=""/>
+            <input id="duties" type="text" class="am-form-field whiteback"
+                   value="<%=employee.getDuties()!=null?employee.getDuties():""%>"/>
         </div>
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">直属上级</span>
-            <select style="width: 100%;font-size: large;margin-top: 7px; border: solid 1px deepskyblue;">
-                <option>张三</option>
-                <option>李四</option>
-                <option>王五</option>
+            <select id="leader" style="width: 100%;font-size: large;margin-top: 7px; border: solid 1px deepskyblue;">
+                <%--<option  value="0">张三</option>--%>
+                <%--<option value="1"李四</option>--%>
+                <%--<option value="2">王五</option>--%>
             </select>
         </div>
-        <div class="am-input-group am-input-group-primary am-margin-top">
+        <div class="am-input-group am-input-group-primary am-margin-top" onclick="employee_sub()">
             <span class="am-input-group-label">提&emsp;&emsp;交</span>
         </div>
     </div>
 </div>
+<script>
+
+    $("#role").change(function () {
+        $('#leader').empty();
+        var selected = $(this).children('option:selected').val();
+        if (selected == '2') {
+
+        } else {
+            $.ajax({
+                url: '/employee/leaders',
+                type: 'POST',
+                dataType: 'json',
+                data: {'role': selected},
+                success: function (result) {
+                    if (result.code) {
+                        var info = JSON.parse(result.data);
+                        for (var i = 0; i < info.length; i++) {
+                            $('#leader').append('<option value="' + info[i].code + '">' + info[i].name + '</option>');
+                        }
+                    } else {
+                        alert(result.errormsg);
+                    }
+                }
+            });
+        }
+    });
+
+
+    function employee_sub() {
+        var user_id = $("#user_id").val();
+        var code = $("#code").val();
+        var name = $("#name").val();
+        var sex = $("#sex").val();
+        var age = $("#age").val();
+        var phone = $("#phone").val();
+        var entry_time = $("#entrytime").val();
+        var department = $("#department").val();
+        var role = $("#role").val();
+        var duties = $("#duties").val();
+        var leader = $("#leader").val();
+        $.ajax({
+            url: "/employee/editinfo",
+            type: "POST",
+            data: {
+                'id': user_id,
+                'code': code,
+                'name': name,
+                'sex': sex,
+                'age': age,
+                'phone': phone,
+                'entry_time': entry_time,
+                'department': department,
+                'role': role,
+                'duties': duties,
+                'leader': leader
+            },
+            success: function (result) {
+
+            }
+
+
+        });
+    }
+</script>
 <%@include file="../../common/Footer.jsp" %>

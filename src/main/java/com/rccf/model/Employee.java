@@ -23,6 +23,7 @@ public class Employee {
     private String leader;
     private String department;
     private Integer role;
+    private String password;
 
     @Id
     @Column(name = "id")
@@ -216,5 +217,15 @@ public class Employee {
 
     public void setRole(Integer role) {
         this.role = role;
+    }
+
+    @Basic
+    @Column(name = "password")
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

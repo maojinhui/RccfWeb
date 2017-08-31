@@ -1,7 +1,6 @@
 package com.rccf.util.encrypt;
 
 import com.rccf.util.Strings;
-import com.sun.tools.javac.util.StringUtils;
 
 import java.security.MessageDigest;
 

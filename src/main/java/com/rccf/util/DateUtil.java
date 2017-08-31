@@ -19,7 +19,8 @@ public class DateUtil {
     public static Date string2Date(String dateStr){
         Date date = new Date();
         //注意format的格式要与日期String的格式相匹配
-        DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//        DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             date = sdf.parse(dateStr);
             return date;
@@ -74,7 +75,14 @@ public class DateUtil {
      * @return
      */
     public static Timestamp date2Timestamp(Date date){
-        return new Timestamp((new Date()).getTime());
+        return new Timestamp((date).getTime());
     }
+
+
+    public static void main(String args[]) {
+        Date date = string2Date("2017-01-01");
+        System.out.println(date);
+    }
+
 
 }

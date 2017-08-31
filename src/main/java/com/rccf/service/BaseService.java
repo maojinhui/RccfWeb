@@ -39,4 +39,10 @@ public class BaseService {
     }
 
 
+    public List getList(DetachedCriteria detachedCriteria) {
+        return dao.getList(detachedCriteria);
+    }
+
+
+
 }
