@@ -110,8 +110,6 @@ public class EmployeeController {
     }
 
 
-
-
     @ResponseBody
     @RequestMapping(value = "/editinfo")
     public String commitEmployeeInfo(HttpServletRequest request) {
@@ -218,17 +216,21 @@ public class EmployeeController {
         if (Strings.isNullOrEmpty(role)) {
             return ResponseUtil.fail(0, "角色传入错误");
         }
+        int role_int = Integer.valueOf(role);
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Employee.class);
-        if (role.equals("1")) {//副总监选择的领导只有总监
-            detachedCriteria.add(Restrictions.eq("role", 2));
-            List<Employee> employees = baseService.getList(detachedCriteria);
-            return ResponseUtil.success(employees);
-        } else if (role.equals(("0"))) {
-            detachedCriteria.add(Restrictions.eq("role", 1));
-            List<Employee> employees = baseService.getList(detachedCriteria);
-            return ResponseUtil.success(employees);
-        }
-        return ResponseUtil.success();
+        detachedCriteria.add(Restrictions.eq("role", role_int - 1));
+        List<Employee> employees = baseService.getList(detachedCriteria);
+        return ResponseUtil.success(employees);
+//        if (role.equals("1")) {//副总监选择的领导只有总监
+//            detachedCriteria.add(Restrictions.eq("role", 2));
+//            List<Employee> employees = baseService.getList(detachedCriteria);
+//            return ResponseUtil.success(employees);
+//        } else if (role.equals(("0"))) {
+//            detachedCriteria.add(Restrictions.eq("role", 1));
+//            List<Employee> employees = baseService.getList(detachedCriteria);
+//            return ResponseUtil.success(employees);
+//        }
+//        return ResponseUtil.success();
 
     }
 
@@ -309,6 +311,8 @@ public class EmployeeController {
         String service_agreement = request.getParameter("service_agreement");
         String beizhu = request.getParameter("beizhu");
         String state = request.getParameter("state");
+        String houqi = request.getParameter("houqi");
+
 
         Accepted accepted = null;
         if (!Strings.isNullOrEmpty(id)) {
@@ -320,19 +324,29 @@ public class EmployeeController {
             accepted.setCreateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
             accepted.setAcceptedNumber(getLastNumber());
         }
-
-
         if (!Strings.isNullOrEmpty(accept_time)) {
             Date date = DateUtil.string2Date(accept_time);
             accepted.setAcceptTime(DateUtil.date2Timestamp(date));
         }
-
         if (!Strings.isNullOrEmpty(latter_number)) {
             accepted.setLetterNumber(latter_number);
         }
-
         if (!Strings.isNullOrEmpty(clerk)) {
             accepted.setClerk(clerk);
+            Employee employee = employeeService.findEmpolyeeByCode(clerk);
+            int role = employee.getRole();
+            if (role == 4) {//业务员的时候
+                Employee duputy_director = employeeService.findEmpolyeeByCode(employee.getLeader());
+                Employee director = employeeService.findEmpolyeeByCode(duputy_director.getLeader());
+                accepted.setDeputyDirector(duputy_director.getCode());
+                accepted.setDirector(director.getCode());
+            } else if (role == 3) {//副总监的时候
+                Employee director = employeeService.findEmpolyeeByCode(employee.getLeader());
+                accepted.setDeputyDirector(employee.getCode());
+                accepted.setDirector(director.getCode());
+            } else if (role == 2) {//总监自己的单子
+                accepted.setDirector(clerk);
+            }
         }
         if (!Strings.isNullOrEmpty(clerk_name)) {
             accepted.setClerkName(clerk_name);
@@ -381,12 +395,47 @@ public class EmployeeController {
         if (!Strings.isNullOrEmpty(state)) {
             accepted.setState(Integer.valueOf(state));
         }
-
+        if (!Strings.isNullOrEmpty(houqi)) {
+            accepted.setHouqi(houqi);
+        }
         if (acceptedService.saveOrUpdate(accepted)) {
             return ResponseUtil.success();
         } else {
             return ResponseUtil.fail(0, "保存失败");
         }
+    }
+
+
+    /**
+     * @return
+     */
+    @RequestMapping(value = "/acceptedlist")
+    public ModelAndView acceptListPage(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView modelAndView = getUserView(request, response, "/back/employee/acceptedlist", HeaderType.EMPLOYEE);
+        return modelAndView;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/accept_list")
+    public String acceptedList(HttpServletRequest request) {
+        String accept_time = request.getParameter("accept_time");
+        String end_time = request.getParameter("end_time");
+        String accept_state = request.getParameter("accept_state");
+        String pageNo = request.getParameter("page_no");
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Accepted.class);
+        if (!Strings.isNullOrEmpty(accept_time)) {
+            Timestamp timestamp = DateUtil.date2Timestamp(DateUtil.string2Date(accept_time));
+            detachedCriteria.add(Restrictions.eq("acceptTime", timestamp));
+        }
+
+        int count = baseService.getCount(detachedCriteria);
+        int pageNum = 0;
+        if (!Strings.isNullOrEmpty(pageNo)) {
+            pageNum = Integer.valueOf(pageNo);
+        }
+        Page page = PageUtil.createPage(10, count, pageNum);
+        List<Accepted> accepteds = baseService.getList(page, detachedCriteria);
+        return ResponseUtil.success_list(count, 10, accepteds);
     }
 
 

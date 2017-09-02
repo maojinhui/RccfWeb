@@ -30,7 +30,7 @@ public class EmployeeDaoImpl extends HibernateDaoSupport implements EmployeeDao 
         DetachedCriteria criteria = DetachedCriteria.forClass(Employee.class);
         criteria.add(Restrictions.eq("code", code));
         List<Employee> employees = (List<Employee>) getHibernateTemplate().findByCriteria(criteria);
-        if (null != employees && employees.size() > 1) {
+        if (null != employees && employees.size() > 0) {
             return employees.get(0);
         }
         return null;
@@ -40,7 +40,7 @@ public class EmployeeDaoImpl extends HibernateDaoSupport implements EmployeeDao 
         DetachedCriteria criteria = DetachedCriteria.forClass(Employee.class);
         criteria.add(Restrictions.eq("name", name));
         List<Employee> employees = (List<Employee>) getHibernateTemplate().findByCriteria(criteria);
-        if (null != employees && employees.size() > 1) {
+        if (null != employees && employees.size() > 0) {
             return employees.get(0);
         }
         return null;
@@ -50,7 +50,7 @@ public class EmployeeDaoImpl extends HibernateDaoSupport implements EmployeeDao 
         DetachedCriteria criteria = DetachedCriteria.forClass(Employee.class);
         criteria.add(Restrictions.eq("phone", phone));
         List<Employee> employees = (List<Employee>) getHibernateTemplate().findByCriteria(criteria);
-        if (null != employees && employees.size() > 1) {
+        if (null != employees && employees.size() > 0) {
             return employees.get(0);
         }
         return null;

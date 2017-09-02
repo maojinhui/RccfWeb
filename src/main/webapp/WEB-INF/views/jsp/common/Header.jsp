@@ -291,4 +291,5 @@
     </div>
 
     <div class="tpl-content-wrapper">
+        <div class="tpl-portlet-components">
 

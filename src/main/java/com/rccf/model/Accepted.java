@@ -29,6 +29,9 @@ public class Accepted {
     private Timestamp createTime;
     private String admin;
     private String clerkName;
+    private String houqi;
+    private String deputyDirector;
+    private String director;
 
     @Id
     @Column(name = "id")
@@ -302,5 +305,35 @@ public class Accepted {
 
     public void setClerkName(String clerkName) {
         this.clerkName = clerkName;
+    }
+
+    @Basic
+    @Column(name = "houqi")
+    public String getHouqi() {
+        return houqi;
+    }
+
+    public void setHouqi(String houqi) {
+        this.houqi = houqi;
+    }
+
+    @Basic
+    @Column(name = "deputy_director")
+    public String getDeputyDirector() {
+        return deputyDirector;
+    }
+
+    public void setDeputyDirector(String deputyDirector) {
+        this.deputyDirector = deputyDirector;
+    }
+
+    @Basic
+    @Column(name = "director")
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
     }
 }

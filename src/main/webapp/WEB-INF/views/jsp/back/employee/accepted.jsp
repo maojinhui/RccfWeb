@@ -20,7 +20,7 @@
 
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">业务员</span>
-            <input id="aid" hidden value="<%=Strings.getInputString(accepted.getId())%>"/>
+            <input id="aid" hidden value="<%=accepted.getId()!=0?accepted.getId():""%>"/>
             <input id="flerk" type="text" class="am-form-field whiteback"
                    value="<%=Strings.getInputString(accepted.getClerkName())%>"/>
             <input type="text" hidden name="" id="flerk_code" value="<%=Strings.getInputString(accepted.getClerk())%>"/>
@@ -93,11 +93,15 @@
             <input id="service_fee_actual" type="number" class="am-form-field whiteback"
                    value="<%=Strings.getInputString(accepted.getServiceFeeActual())%>"/>
         </div>
-
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">办结日期</span>
             <input id="end_time" type="date" class="am-form-field whiteback"
                    value="<%=Strings.getInputString(accepted.getEndDate())%>"/>
+        </div>
+        <div class="am-input-group am-input-group-primary">
+            <span class="am-input-group-label">后期人员</span>
+            <input id="houqi" type="text" class="am-form-field whiteback"
+                   value="<%=Strings.getInputString(accepted.getHouqi())%>"/>
         </div>
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">批贷金额（万元）</span>
@@ -225,6 +229,7 @@
                 var service_agreement = $('#service_agreement').val();
                 var beizhu = $('#beizhu').val();
                 var state = $('#handle_status').val();
+                var houqi = $('#houqi').val();
                 $.ajax({
                     url: '/employee/saveaccepted',
                     type: 'POST',
@@ -248,7 +253,8 @@
                         'loan_money': loan_money,
                         'service_agreement': service_agreement,
                         'beizhu': beizhu,
-                        'state': state
+                        'state': state,
+                        'houqi': houqi
                     },
                     success: function (result) {
                         if (result.code) {

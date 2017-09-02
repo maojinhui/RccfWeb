@@ -30,4 +30,10 @@ public class AcceptedDaoImpl extends HibernateDaoSupport implements AcceptedDao 
     public Accepted findById(int id) {
         return getHibernateTemplate().get(Accepted.class, id);
     }
+
+    public Accepted findByClerk(String clerk) {
+//        getHibernateTemplate()
+
+        return null;
+    }
 }

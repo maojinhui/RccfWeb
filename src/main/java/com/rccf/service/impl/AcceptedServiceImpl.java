@@ -19,4 +19,8 @@ public class AcceptedServiceImpl implements AcceptedService {
     public Accepted findById(int id) {
         return dao.findById(id);
     }
+
+    public Accepted findByClerk(String clerk) {
+        return null;
+    }
 }

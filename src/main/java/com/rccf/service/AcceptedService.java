@@ -8,5 +8,6 @@ public interface AcceptedService {
 
     Accepted findById(int id);
 
+    Accepted findByClerk(String clerk);
 
 }

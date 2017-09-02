@@ -1,0 +1,36 @@
+###查询一段时间的受理 办结  和 拒单的sql
+SELECT *
+FROM employee
+  LEFT JOIN
+  (SELECT
+     count(*) AS d_c1,
+     clerk
+   FROM accepted
+   WHERE clerk IN (SELECT code
+                   FROM employee) && state = 1 && create_time <= DATE_FORMAT('2017-09-01 23:59:59', '%Y-%m-%d %H:%i:%S')
+         &&
+         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+   GROUP BY clerk) AS a_1 ON employee.code = a_1.clerk
+  LEFT JOIN
+  (SELECT
+     count(*) AS d_c2,
+     clerk
+   FROM accepted
+   WHERE clerk IN (SELECT code
+                   FROM employee) && state = 2 && create_time <= DATE_FORMAT('2017-09-01 23:59:59', '%Y-%m-%d %H:%i:%S')
+         &&
+         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+   GROUP BY clerk) AS a_2 ON employee.code = a_2.clerk
+  LEFT JOIN
+  (SELECT
+     count(*) AS d_c3,
+     clerk
+   FROM accepted
+   WHERE clerk IN (SELECT code
+                   FROM employee) && state = 3 && create_time <= DATE_FORMAT('2017-09-01 23:59:59', '%Y-%m-%d %H:%i:%S')
+         &&
+         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+   GROUP BY clerk) AS a_3 ON employee.code = a_3.clerk
+#   LEFT JOIN
+
+WHERE role = 4;

@@ -62,9 +62,9 @@
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">角&emsp;&emsp;色</span>
             <select id="role" style="width: 100%;font-size: large;margin-top: 7px; border: solid 1px deepskyblue;">
-                <option <%=(employee.getRole() != null && 0 == employee.getRole()) ? "checked" : ""%> value="0">业务员
+                <option <%=(employee.getRole() != null && 0 == employee.getRole()) ? "checked" : ""%> value="4">业务员
                 </option>
-                <option <%=(employee.getRole() != null && 1 == employee.getRole()) ? "checked" : ""%> value="1">副总监
+                <option <%=(employee.getRole() != null && 1 == employee.getRole()) ? "checked" : ""%> value="3">副总监
                 </option>
                 <option <%=(employee.getRole() != null && 2 == employee.getRole()) ? "checked" : ""%> value="2">总监
                 </option>
@@ -145,7 +145,10 @@
                 'leader': leader
             },
             success: function (result) {
-
+                if (result.code) {
+                    alert("OK");
+//                    $("#name").val("");
+                }
             }
 
 

@@ -1,0 +1,84 @@
+-- 查询一段时间的受理 办结  和 拒单的sql
+-- set @@time = '2017-09-01 00:00:00';
+SELECT *
+FROM employee
+  LEFT JOIN
+  (SELECT
+     count(*) AS d_c1,
+     clerk    AS d1clerk
+   FROM accepted
+   WHERE clerk IN (SELECT code
+                   FROM employee) && state = 1 &&
+         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+   GROUP BY clerk) AS a_1 ON employee.code = a_1.d1clerk
+  LEFT JOIN
+  (SELECT
+     count(*) AS d_c2,
+     clerk    AS d2clerk
+   FROM accepted
+   WHERE clerk IN (SELECT code
+                   FROM employee) && state = 2 &&
+         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+   GROUP BY clerk) AS a_2 ON employee.code = a_2.d2clerk
+  LEFT JOIN
+  (SELECT
+     count(*) AS d_c3,
+     clerk    AS d3clerk
+   FROM accepted
+   WHERE clerk IN (SELECT code
+                   FROM employee) && state = 3 &&
+         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+   GROUP BY clerk) AS a_3 ON employee.code = a_3.d3clerk
+  LEFT JOIN
+  (SELECT
+     count(*) AS m_c1,
+     clerk    AS m1clerk
+   FROM accepted
+   WHERE clerk IN (SELECT code
+                   FROM employee) && state = 1 &&
+         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+   GROUP BY clerk) AS m_1 ON employee.code = m_1.m1clerk
+  LEFT JOIN
+  (SELECT
+     count(*) AS m_c2,
+     clerk    AS m2clerk
+   FROM accepted
+   WHERE clerk IN (SELECT code
+                   FROM employee) && state = 2 &&
+         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+   GROUP BY clerk) AS m_2 ON employee.code = m_2.m2clerk
+  LEFT JOIN
+  (SELECT
+     count(*) AS m_c3,
+     clerk    AS m3clerk
+   FROM accepted
+   WHERE clerk IN (SELECT code
+                   FROM employee) && state = 3 &&
+         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+   GROUP BY clerk) AS m_3 ON employee.code = m_3.m3clerk
+  LEFT JOIN
+  (SELECT
+     sum(service_fee_actual) AS d_y_c1,
+     clerk                   AS dyclerk
+   FROM accepted
+   WHERE clerk IN (SELECT code
+                   FROM employee) && state = 2 &&
+         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+   GROUP BY clerk) AS d_y_1 ON employee.code = d_y_1.dyclerk
+  LEFT JOIN
+  (SELECT
+     sum(service_fee_actual) AS m_y_c1,
+     clerk                   AS myclerk
+   FROM accepted
+   WHERE clerk IN (SELECT code
+                   FROM employee) && state = 2 &&
+         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+   GROUP BY clerk) AS m_y_1 ON employee.code = m_y_1.myclerk
+  LEFT JOIN
+  (SELECT
+     code AS l1,
+     name AS leader_name
+   FROM employee WHERE leader IN (SELECT code
+                                FROM employee)) AS leader
+ON leader.l1 = employee.leader
+WHERE role = 4;
