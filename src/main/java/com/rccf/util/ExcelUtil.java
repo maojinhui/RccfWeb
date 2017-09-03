@@ -52,7 +52,7 @@ public class ExcelUtil {
         return headers;
     }
 
-    public static byte[] getRibaoBrand(JSONArray list, JSONArray deputyDirectorList) throws IOException {
+    public static byte[] getRibaoBrand(JSONArray list, JSONArray deputyDirectorList, JSONArray directorList) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         // 第一步，创建一个webbook，对应一个Excel文件
         HSSFWorkbook wb = new HSSFWorkbook();
@@ -136,6 +136,44 @@ public class ExcelUtil {
             insertCell(row1, j++, array.get(32));
         }
 
+
+        /***********************总监表********************/
+        HSSFSheet sheet2 = wb.createSheet("总监");
+        // 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short
+        HSSFRow row2 = sheet2.createRow((int) 0);
+        // 第四步，创建单元格，并设置值表头 设置表头居中
+//        HSSFCellStyle style = wb.createCellStyle();
+//        style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式
+
+        //设置表头
+        List<String> excelHead2 = getRibaoHeaderFuzongjian();
+
+        HSSFCell cell2 = null;
+// excel头
+        for (int i = 0; i < excelHead2.size(); i++) {
+            cell2 = row2.createCell(i);
+            cell2.setCellValue(excelHead2.get(i));
+            cell2.setCellStyle(style);
+        }
+
+        for (int i = 0; i < directorList.size(); i++) {
+            row2 = sheet2.createRow((int) i + 1);
+            JSONArray array = (JSONArray) directorList.get(i);
+            // 创建单元格，并设置值
+            int j = 0;
+            insertCell(row2, j++, array.get(13));
+            insertCell(row2, j++, array.get(4));
+            insertCell(row2, j++, array.get(26));
+            insertCell(row2, j++, array.get(28));
+            insertCell(row2, j++, array.get(30));
+            insertCell(row2, j++, array.get(18));
+            insertCell(row2, j++, array.get(20));
+            insertCell(row2, j++, array.get(22));
+            insertCell(row2, j++, array.get(24));
+//            insertCell(row1, j++, array.get(28));
+            insertCell(row2, j++, array.get(16));
+            insertCell(row2, j++, array.get(32));
+        }
 
         wb.write(out);
         return out.toByteArray();

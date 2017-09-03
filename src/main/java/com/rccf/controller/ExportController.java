@@ -424,20 +424,108 @@ public class ExportController {
                 "     deputy_director AS de,\n" +
                 "     deputy_director\n" +
                 "   FROM accepted\n" +
-                "   GROUP BY clerk, deputy_director)\n" +
+                "   GROUP BY  deputy_director)\n" +
                 "    AS coun\n" +
                 "    ON coun.de = employee.code\n" +
                 "WHERE role = 3;";
 
+        String sql_zongjian = "SELECT *\n" +
+                "FROM employee\n" +
+                "  LEFT JOIN\n" +
+                "  (SELECT\n" +
+                "     sum(service_fee_actual) AS dy_fee,\n" +
+                "     director         AS dy\n" +
+                "   FROM accepted\n" +
+                "   WHERE director IN (SELECT code\n" +
+                "                             FROM employee) && create_time >= DATE_FORMAT('" + day_start + "', '%Y-%m-%d %H:%i:%S') group by director)\n" +
+                "    AS dy\n" +
+                "    ON dy.dy = employee.code\n" +
+                "  LEFT JOIN\n" +
+                "  (SELECT\n" +
+                "     sum(service_fee_actual) AS my_fee,\n" +
+                "     director         AS my\n" +
+                "   FROM accepted\n" +
+                "   WHERE director IN (SELECT code\n" +
+                "                             FROM employee) && create_time >= DATE_FORMAT('" + month_start + "', '%Y-%m-%d %H:%i:%S') group by director)\n" +
+                "    AS my\n" +
+                "    ON my.my = employee.code\n" +
+                "  LEFT JOIN\n" +
+                "  (SELECT\n" +
+                "     count(*)        AS d_1,\n" +
+                "     director AS deputy1\n" +
+                "   FROM accepted\n" +
+                "   WHERE director IN (SELECT code\n" +
+                "                             FROM employee) && accepted.state = 1 &&\n" +
+                "         create_time >= DATE_FORMAT('" + day_start + "', '%Y-%m-%d %H:%i:%S') group by director)\n" +
+                "    AS d1\n" +
+                "    ON d1.deputy1 = employee.code\n" +
+                "  LEFT JOIN\n" +
+                "  (SELECT\n" +
+                "     count(*)        AS d_2,\n" +
+                "     director AS deputy2\n" +
+                "   FROM accepted\n" +
+                "   WHERE director IN (SELECT code\n" +
+                "                             FROM employee) && accepted.state = 2 &&\n" +
+                "         create_time >= DATE_FORMAT('" + day_start + "', '%Y-%m-%d %H:%i:%S') group by director)\n" +
+                "    AS d2\n" +
+                "    ON d2.deputy2 = employee.code\n" +
+                "  LEFT JOIN\n" +
+                "  (SELECT\n" +
+                "     count(*)        AS d_3,\n" +
+                "     director AS deputy3\n" +
+                "   FROM accepted\n" +
+                "   WHERE director IN (SELECT code\n" +
+                "                             FROM employee) && accepted.state = 2 &&\n" +
+                "         create_time >= DATE_FORMAT('" + day_start + "', '%Y-%m-%d %H:%i:%S') group by director)\n" +
+                "    AS d3\n" +
+                "    ON d3.deputy3 = employee.code\n" +
+                "  LEFT JOIN\n" +
+                "  (SELECT\n" +
+                "     count(*)        AS m_1,\n" +
+                "     director AS m_deputy1\n" +
+                "   FROM accepted\n" +
+                "   WHERE director IN (SELECT code\n" +
+                "                             FROM employee) && accepted.state = 1 &&\n" +
+                "         create_time >= DATE_FORMAT('" + month_start + "', '%Y-%m-%d %H:%i:%S') group by director)\n" +
+                "    AS m1\n" +
+                "    ON m1.m_deputy1 = employee.code\n" +
+                "  LEFT JOIN\n" +
+                "  (SELECT\n" +
+                "     count(*)        AS m_2,\n" +
+                "     director AS m_deputy2\n" +
+                "   FROM accepted\n" +
+                "   WHERE director IN (SELECT code\n" +
+                "                             FROM employee) && accepted.state = 2 &&\n" +
+                "         create_time >= DATE_FORMAT('" + month_start + "', '%Y-%m-%d %H:%i:%S') group by director)\n" +
+                "    AS m2\n" +
+                "    ON m2.m_deputy2 = employee.code\n" +
+                "  LEFT JOIN\n" +
+                "  (SELECT\n" +
+                "     count(*)        AS m_3,\n" +
+                "     director AS m_deputy3\n" +
+                "   FROM accepted\n" +
+                "   WHERE director IN (SELECT code\n" +
+                "                             FROM employee) && accepted.state = 3 &&\n" +
+                "         create_time >= DATE_FORMAT('" + month_start + "', '%Y-%m-%d %H:%i:%S') group by director)\n" +
+                "    AS m3\n" +
+                "    ON m3.m_deputy3 = employee.code\n" +
+                "  LEFT JOIN\n" +
+                "  (SELECT count(*) as coun ,clerk as cl,director as de,director from accepted GROUP BY director)\n" +
+                "    AS coun\n" +
+                "    ON coun.de = employee.code\n" +
+                "WHERE role = 2;";
+
         List list = baseService.queryBySql(sql_yewuyuan);
         List deputy_director = baseService.queryBySql(sql_fuzongjian);
+        List director = baseService.queryBySql(sql_zongjian);
         JSONArray fuzongjian = JSON.parseArray(JSON.toJSONString(deputy_director));
         JSONArray yewuyuan = JSON.parseArray(JSON.toJSONString(list));
+        JSONArray zongjian = JSON.parseArray(JSON.toJSONString(director));
         byte[] fileNameByte = new byte[0];
         try {
             fileNameByte = ("日报表.xls").getBytes("GBK");
             String filename = new String(fileNameByte, "ISO8859-1");
-            byte[] bytes = ExcelUtil.getRibaoBrand(yewuyuan, fuzongjian);
+            byte[] bytes = ExcelUtil.getRibaoBrand(yewuyuan, fuzongjian, zongjian);
             response.setHeader("Content-Disposition", "attachment;filename="
                     + java.net.URLEncoder.encode("日报表.xls", "UTF-8"));
             response.getOutputStream().write(bytes);

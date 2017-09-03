@@ -1,0 +1,85 @@
+SELECT *
+FROM employee
+  LEFT JOIN
+  (SELECT
+     sum(service_fee_actual) AS dy_fee,
+     director         AS dy
+   FROM accepted
+   WHERE director IN (SELECT code
+                             FROM employee) && create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S') group by director)
+    AS dy
+    ON dy.dy = employee.code
+  LEFT JOIN
+  (SELECT
+     sum(service_fee_actual) AS my_fee,
+     director         AS my
+   FROM accepted
+   WHERE director IN (SELECT code
+                             FROM employee) && create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S') group by director)
+    AS my
+    ON my.my = employee.code
+  LEFT JOIN
+  (SELECT
+     count(*)        AS d_1,
+     director AS deputy1
+   FROM accepted
+   WHERE director IN (SELECT code
+                             FROM employee) && accepted.state = 1 &&
+         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S') group by director)
+    AS d1
+    ON d1.deputy1 = employee.code
+  LEFT JOIN
+  (SELECT
+     count(*)        AS d_2,
+     director AS deputy2
+   FROM accepted
+   WHERE director IN (SELECT code
+                             FROM employee) && accepted.state = 2 &&
+         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S') group by director)
+    AS d2
+    ON d2.deputy2 = employee.code
+  LEFT JOIN
+  (SELECT
+     count(*)        AS d_3,
+     director AS deputy3
+   FROM accepted
+   WHERE director IN (SELECT code
+                             FROM employee) && accepted.state = 2 &&
+         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S') group by director)
+    AS d3
+    ON d3.deputy3 = employee.code
+  LEFT JOIN
+  (SELECT
+     count(*)        AS m_1,
+     director AS m_deputy1
+   FROM accepted
+   WHERE director IN (SELECT code
+                             FROM employee) && accepted.state = 1 &&
+         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S') group by director)
+    AS m1
+    ON m1.m_deputy1 = employee.code
+  LEFT JOIN
+  (SELECT
+     count(*)        AS m_2,
+     director AS m_deputy2
+   FROM accepted
+   WHERE director IN (SELECT code
+                             FROM employee) && accepted.state = 2 &&
+         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S') group by director)
+    AS m2
+    ON m2.m_deputy2 = employee.code
+  LEFT JOIN
+  (SELECT
+     count(*)        AS m_3,
+     director AS m_deputy3
+   FROM accepted
+   WHERE director IN (SELECT code
+                             FROM employee) && accepted.state = 3 &&
+         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S') group by director)
+    AS m3
+    ON m3.m_deputy3 = employee.code
+  LEFT JOIN
+  (SELECT count(*) as coun ,clerk as cl,director as de,director from accepted GROUP BY clerk,director)
+    AS coun
+    ON coun.de = employee.code
+WHERE role = 3;
