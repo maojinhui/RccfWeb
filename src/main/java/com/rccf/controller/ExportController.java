@@ -246,7 +246,6 @@ public class ExportController {
         String day_start = format.format(zero);
         String month_start = day_start.substring(0, 8) + "01 00:00:00";
         String sql_yewuyuan = "-- 查询一段时间的受理 办结  和 拒单的sql\n" +
-                "-- set @@time = '" + month_start + "';\n" +
                 "SELECT *\n" +
                 "FROM employee\n" +
                 "  LEFT JOIN\n" +

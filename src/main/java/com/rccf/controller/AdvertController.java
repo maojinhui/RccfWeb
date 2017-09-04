@@ -10,6 +10,7 @@ import com.rccf.service.LoanApplyService;
 import com.rccf.util.*;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -99,6 +100,41 @@ public class AdvertController {
         }
     }
 
+
+    @ResponseBody
+    @RequestMapping(value = "/apply_nocode")
+    public String advertApplyNotCode(HttpServletRequest request) {
+        String phone = request.getParameter("phone");
+        String name = request.getParameter("name");
+        if (Strings.isNullOrEmpty(phone)) {
+            return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_NOT_NULL);
+        }
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Loanapply.class);
+        detachedCriteria.add(Restrictions.eq("phone", phone));
+        List list = baseService.getList(detachedCriteria);
+        if (list != null && list.size() > 0) {
+            return ResponseUtil.fail(0, "您已经申请成功了，您还可以打电话联系我们，客服电话:4006-810-688。");
+        }
+
+        Loanapply loanapply = new Loanapply();
+        loanapply.setCreateTime(DateUtil.date2Timestamp(new Date()));
+        loanapply.setPhone(phone);
+        loanapply.setStat(0);
+        if (!Strings.isNullOrEmpty(name)) {
+            loanapply.setRealName(name);
+        }
+        boolean state = loanApplyService.save(loanapply);
+        if (state) {
+            return ResponseUtil.success();
+        } else {
+            return ResponseUtil.fail(0, "申请失败");
+        }
+    }
+
+
+
+
+
     /**
      * 公众平台申请记录
      * @return
@@ -185,6 +221,37 @@ public class AdvertController {
     @RequestMapping(value = "/mlist")
     public ModelAndView marketList(){
         return new ModelAndView("ad/marketlist");
+    }
+
+
+    @RequestMapping(value = "/weixin94index")
+    public ModelAndView advert_9_4(HttpServletRequest request) {
+        String from = request.getParameter("from");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("ad/weixin_advert_9_4");
+        if (null != from) {
+            modelAndView.addObject("from", from);
+        }
+        String url = "http://weixin.rccfkg.com/advert/weixin94index";
+        String share_url = "http://weixin.rccfkg.com/advert/weixin94index";
+        modelAndView.addObject("url", url);
+        modelAndView.addObject("shareurl", share_url);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/weixin94apply")
+    public ModelAndView advert_9_4_apply(HttpServletRequest request) {
+        String from = request.getParameter("from");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("ad/weixin_advert_9_4_apply");
+        if (null != from) {
+            modelAndView.addObject("from", from);
+        }
+        String url = "http://weixin.rccfkg.com/advert/weixin94apply";
+        String share_url = "http://weixin.rccfkg.com/advert/weixin94index";
+        modelAndView.addObject("url", url);
+        modelAndView.addObject("shareurl", share_url);
+        return modelAndView;
     }
 
 

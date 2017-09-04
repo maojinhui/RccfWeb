@@ -156,7 +156,6 @@
     function nonediv() {
         $(".imginfo").hide();
     }
-
     function getcode() {
         var phone = $("#ad_phone").val();
         var reg = /^1[34578]\d{9}$/;
