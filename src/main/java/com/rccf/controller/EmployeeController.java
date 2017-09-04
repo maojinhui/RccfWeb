@@ -2,12 +2,10 @@ package com.rccf.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.rccf.component.Page;
+import com.rccf.constants.PageConstants;
 import com.rccf.constants.UrlConstants;
 import com.rccf.enmu.HeaderType;
-import com.rccf.model.Accepted;
-import com.rccf.model.Employee;
-import com.rccf.model.LatterNumber;
-import com.rccf.model.User;
+import com.rccf.model.*;
 import com.rccf.service.AcceptedService;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
@@ -406,12 +404,37 @@ public class EmployeeController {
     }
 
 
+    @ResponseBody
+    @RequestMapping(value = "/deleteaccepted")
+    public String deleteAccepted(HttpServletRequest request) {
+        String id = request.getParameter("id");
+        try {
+            int _id = Integer.valueOf(id);
+            Accepted accepted = acceptedService.findById(_id);
+            if (accepted != null) {
+                boolean d = baseService.delete(accepted);
+                if (!d) {
+                    return ResponseUtil.fail(0, "删除失败");
+                }
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return ResponseUtil.fail(0, "参数错误");
+        }
+        return ResponseUtil.success();
+    }
+
+
     /**
      * @return
      */
     @RequestMapping(value = "/acceptedlist")
     public ModelAndView acceptListPage(HttpServletRequest request, HttpServletResponse response) {
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Accepted.class);
+        int count = baseService.getCount(detachedCriteria);
+        int pagecount = count / PageConstants.EVERYPAGE + 1;
         ModelAndView modelAndView = getUserView(request, response, "/back/employee/acceptedlist", HeaderType.EMPLOYEE);
+        modelAndView.addObject("pagecount", pagecount);
         return modelAndView;
     }
 

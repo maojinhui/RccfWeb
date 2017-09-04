@@ -38,6 +38,17 @@ public class BaseDao extends HibernateDaoSupport {
         }
     }
 
+    public boolean delete(Object o) {
+        try {
+            getHibernateTemplate().delete(o);
+            return true;
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
     /**
      * 根据条件查询总数
      *

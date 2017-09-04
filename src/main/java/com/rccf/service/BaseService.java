@@ -23,6 +23,10 @@ public class BaseService {
         return dao.save(o);
     }
 
+    public boolean delete(Object o) {
+        return dao.delete(o);
+    }
+
     /**
      * 查询总条数
      *

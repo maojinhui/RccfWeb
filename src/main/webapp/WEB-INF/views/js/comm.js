@@ -1,5 +1,9 @@
 function formatDateTime(inputTime) {
-    var date = new Date(inputTime);
+    if (typeof (inputTime) == 'undefined') {
+        return "";
+    }
+    var date = new Date();
+    date.setTime(inputTime);
     var y = date.getFullYear();
     var m = date.getMonth() + 1;
     m = m < 10 ? ('0' + m) : m;
@@ -11,7 +15,7 @@ function formatDateTime(inputTime) {
     var second = date.getSeconds();
     minute = minute < 10 ? ('0' + minute) : minute;
     second = second < 10 ? ('0' + second) : second;
-    return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+    return y + '-' + m + '-' + d;
 };
 
 function formateName(name) {

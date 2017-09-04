@@ -15,72 +15,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>RCCF-融成金服</title>
     <meta name="viewport" content="width=device-width,user-scale=no"/>
+    <link rel="shortcut icon" type="image/x-icon" href="/image/rccf.ico">
+    <title>融成金服</title>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/market/market.css"/>
+    <script src="/js/market/index.js"></script>
+    <link rel="stylesheet" href="/css/market/base.css"/>
+    <link rel="stylesheet" href="/css/market/index.css"/>
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
 </head>
 <body>
 <header class="head">
-    <img class="company" src="/image/market/company.png">
-    <img class="title" src="/image/market/title.png">
+    <div class="company"><img src="/image/market/company.png"></div>
+    <div class="title"><img src="/image/market/title.png"></div>
 </header>
-<div class="container">
-    <div class="our_adv">我们的优势</div>
-    <div class="row">
-        <div class="col-xs-3">
-            <img src="/image/market/fee.jpg">
-            <p>综合费率低</p>
+<div class="contain">
+    <div class="con">
+        <div class="ad_title fz32">
+            我们的优势
         </div>
-        <div class="col-xs-3">
-            <img src="/image/market/fast.jpg">
-            <p>放款速度快</p>
-        </div>
-        <div class="col-xs-3">
-            <img src="/image/market/money.jpg">
-            <p>借款额度高</p>
-        </div>
-        <div class="col-xs-3">
-            <img src="/image/market/professional.jpg">
-            <p>专业投资顾问</p>
+        <ul>
+            <li>
+                <img src="/image/market/fee.jpg">
+                <p class="fz26">综合费率低</p>
+            </li>
+            <li>
+                <img src="/image/market/fast.jpg">
+                <p class="fz26">放款速度快</p>
+            </li>
+            <li>
+                <img src="/image/market/money.jpg">
+                <p class="fz26">借款额度高</p>
+            </li>
+            <li>
+                <img src="/image/market/professional.jpg">
+                <p class="fz26">专业投资顾问</p>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="contain">
+    <div class="con">
+        <div class="ad_title fz32">仅需一步快速借款</div>
+        <div class="ad_apply fz32">
+            点击立即申请，坐等专业顾问来电咨询
         </div>
     </div>
 </div>
-<div class="container">
-    <div class="our_adv">仅需一部快速借款</div>
-    <div class="information">
-        <p>点击立即申请，坐等专业顾问来电咨询</p>
-    </div>
-</div>
-<div class="container">
-    <div class="our_adv">我们的借款产品</div>
-    <div class="advantage">
-        <div class="span_1">抵押产品</div>
-        <ul>
-            <li>为企业和个人提供专属借款方案</li>
-            <li>可提供高额贷款金额</li>
-        </ul>
-    </div>
-    <div class="advantage">
-        <div class="span_2">质押产品</div>
-        <ul class="">
-            <li>为北京和外地优质项目提供借款服务</li>
-            <li>审批流程简单，放款速度快</li>
-        </ul>
-    </div>
-    <div class="advantage" style="margin-bottom: 100px;">
-        <div class="span_3">信贷产品</div>
-        <ul>
-            <li>以借款人的信誉为基础发放借款</li>
-            <li>借款人无需提供担保</li>
-        </ul>
+<div class="contain ">
+    <div class="con margin_b">
+        <div class="ad_title fz32">我们的借款产品</div>
+        <div class="products">
+            <div class="product_title fz32 bg_6ea">抵押贷款</div>
+            <div class="product_info fz32">
+                <p>为企业和个人提供专属借款方案</p>
+                <p>可提供高额贷款金额</p>
+            </div>
+        </div>
+        <div class="products">
+            <div class="product_title fz32 bg_61d">质押贷款</div>
+            <div class="product_info fz32">
+                <p>为北京和外地优质项目提供借款服务</p>
+                <p>审批流程简单，放款速度快</p>
+            </div>
+        </div>
+        <div class="products">
+            <div class="product_title fz32 bg_f5c">信用贷款</div>
+            <div class="product_info fz32">
+                <p>以借款人的信誉为基础发放借款</p>
+                <p>借款人无需提供担保</p>
+            </div>
+        </div>
     </div>
 </div>
 <footer class="foot">
-    <button id="submit" class="btn">立即申请</button>
+    <button id="submit" class="btn fz32">立即申请</button>
 </footer>
 </body>
 

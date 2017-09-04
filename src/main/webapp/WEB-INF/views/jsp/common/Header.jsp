@@ -271,21 +271,28 @@
                     </ul>
                 </li>
                 <li class="tpl-left-nav-item">
-                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list <%=riskAssessmentC%>">
-                        <i class="am-icon-file"></i>
-                        <span>风险评估</span>
+                    <a href="/employee/acceptedlist" class="nav-link tpl-left-nav-link-list <%=matchC%>">
+                        <i class="am-icon-arrows"></i>
+                        <span>受理单列表</span>
 
+                    </a>
+                </li>
+
+                <li class="tpl-left-nav-item">
+                    <a href="/employee/addAccepted" class="nav-link tpl-left-nav-link-list <%=riskAssessmentC%>">
+                        <i class="am-icon-file"></i>
+                        <span>受理单录入</span>
                     </a>
 
                 </li>
                 <li class="tpl-left-nav-item">
-                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list <%=matchC%>">
+                    <a href="/export/ribao" class="nav-link tpl-left-nav-link-list <%=matchC%>">
                         <i class="am-icon-arrows"></i>
-                        <span>匹配模型</span>
+                        <span>日报导出</span>
 
                     </a>
-
                 </li>
+
             </ul>
         </div>
     </div>

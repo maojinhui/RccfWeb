@@ -308,7 +308,7 @@ public class ExportController {
                 "     clerk                   AS dyclerk\n" +
                 "   FROM accepted\n" +
                 "   WHERE clerk IN (SELECT code\n" +
-                "                   FROM employee) && state = 2 &&\n" +
+                "                   FROM employee)  &&\n" +
                 "         create_time >= DATE_FORMAT('" + day_start + "', '%Y-%m-%d %H:%i:%S')\n" +
                 "   GROUP BY clerk) AS d_y_1 ON employee.code = d_y_1.dyclerk\n" +
                 "  LEFT JOIN\n" +
@@ -317,7 +317,7 @@ public class ExportController {
                 "     clerk                   AS myclerk\n" +
                 "   FROM accepted\n" +
                 "   WHERE clerk IN (SELECT code\n" +
-                "                   FROM employee) && state = 2 &&\n" +
+                "                   FROM employee) &&\n" +
                 "         create_time >= DATE_FORMAT('" + month_start + "', '%Y-%m-%d %H:%i:%S')\n" +
                 "   GROUP BY clerk) AS m_y_1 ON employee.code = m_y_1.myclerk\n" +
                 "  LEFT JOIN\n" +
