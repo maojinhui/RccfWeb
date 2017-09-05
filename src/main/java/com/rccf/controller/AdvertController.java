@@ -235,7 +235,7 @@ public class AdvertController {
         String url = "http://weixin.rccfkg.com/advert/weixin94index";
         String share_url = "http://weixin.rccfkg.com/advert/weixin94index";
         modelAndView.addObject("url", url);
-        modelAndView.addObject("shareurl", share_url);
+        modelAndView.addObject("share_url", share_url);
         return modelAndView;
     }
 
@@ -250,7 +250,7 @@ public class AdvertController {
         String url = "http://weixin.rccfkg.com/advert/weixin94apply";
         String share_url = "http://weixin.rccfkg.com/advert/weixin94index";
         modelAndView.addObject("url", url);
-        modelAndView.addObject("shareurl", share_url);
+        modelAndView.addObject("share_url", share_url);
         return modelAndView;
     }
 

@@ -67,34 +67,6 @@
                     </tr>
                     </thead>
                     <tbody id="list">
-                    <tr>
-                        <td>20070831-001</td>
-                        <td>8月31日</td>
-                        <td>3.12ZY—GS</td>
-                        <td>李先生</td>
-                        <td>13878982222</td>
-                        <td>质押</td>
-                        <td>公司</td>
-                        <td>一月续息</td>
-                        <td>300万元</td>
-                        <td>1.8%</td>
-                        <td>13800元</td>
-                        <td>陈佳丽</td>
-                        <td>刘芳</td>
-                        <td>甄小姐</td>
-                        <td>完结</td>
-                        <td>2017/8/30</td>
-                        <td>1000万</td>
-                        <td>是</td>
-                        <td>
-                            <button class="am-btn am-btn-default am-btn-xs am-text-secondary"><span
-                                    class="am-icon-pencil-square-o"></span> 编辑
-                            </button>
-                            <button class="am-btn am-btn-default am-btn-xs am-text-danger">
-                                <span class="am-icon-trash-o"></span> 删除
-                            </button>
-                        </td>
-                    </tr>
                     </tbody>
                 </table>
             </form>

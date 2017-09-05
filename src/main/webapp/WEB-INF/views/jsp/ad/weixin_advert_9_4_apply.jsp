@@ -67,7 +67,7 @@
     String noce_str = UUID.randomUUID().toString();
     String url = (String) request.getAttribute("url");
     String share_url = (String) request.getAttribute("share_url");
-    String f = (String) request.getAttribute("from");
+    String f = request.getParameter("from");
     if (null != f) {
         url = url + "/?from=" + f;
     }
@@ -95,8 +95,8 @@
     wx.ready(function () {
         // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
         wx.onMenuShareTimeline({
-            title: '融成财富一站式借贷服务平台', // 分享标题
-            link: <%=share_url%>, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            title: '融成金服轻松贷\n', // 分享标题
+            link: '<%=share_url%>', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             imgUrl: 'http://weixin.rccfkg.com/image/logo_88.png', // 分享图标
             success: function () {
                 // 用户确认分享后执行的回调函数
@@ -107,9 +107,9 @@
         });
 
         wx.onMenuShareAppMessage({
-            title: '融成财富一站式借贷服务平台', // 分享标题
-            desc: '为企业和个人提供低利率的资金供应', // 分享描述
-            link: <%=share_url%>, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            title: '融成金服轻松贷\n', // 分享标题
+            desc: '专业服务团队一对一服务，全方位的产品配置，为您提供一切解决方案', // 分享描述
+            link: '<%=share_url%>', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             imgUrl: 'http://weixin.rccfkg.com/image/logo_88.png', // 分享图标
             type: 'link', // 分享类型,music、video或link，不填默认为link
             dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
