@@ -1,9 +1,16 @@
 package com.rccf.model.beans;
 
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
@@ -151,5 +158,6 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
         }
         return result.toString();
     }
+
 
 }
