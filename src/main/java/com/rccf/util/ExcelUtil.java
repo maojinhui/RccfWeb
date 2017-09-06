@@ -83,18 +83,25 @@ public class ExcelUtil {
             insertCell(row, j++, i + 1);
             insertCell(row, j++, array.get(13));
             insertCell(row, j++, array.get(4));
-            insertCell(row, j++, array.get(33));
-            insertCell(row, j++, DateUtil.date2String(new Date((Long) array.get(7))));
+            insertCell(row, j++, array.get(34));
+            if (null != array.get(7)) {
+                insertCell(row, j++, DateUtil.date2String(new Date((Long) array.get(7))));
+            } else {
+                insertCell(row, j++, "");
+            }
+//            insertCell(row, j++, array.get(7));
             insertCell(row, j++, array.get(8));
+
             insertCell(row, j++, "2000");
-            insertCell(row, j++, array.get(30));
-            insertCell(row, j++, array.get(22));
-            insertCell(row, j++, array.get(24));
-            insertCell(row, j++, array.get(26));
-            insertCell(row, j++, array.get(28));
-            insertCell(row, j++, array.get(16));
-            insertCell(row, j++, array.get(28));
-            insertCell(row, j++, array.get(20));
+            insertCell(row, j++, array.get(31));
+            insertCell(row, j++, array.get(23));
+            insertCell(row, j++, array.get(25));
+            insertCell(row, j++, array.get(27));
+            insertCell(row, j++, array.get(29));
+
+            insertCell(row, j++, array.get(17));
+            insertCell(row, j++, array.get(19));
+            insertCell(row, j++, array.get(21));
 
 
         }
@@ -124,16 +131,16 @@ public class ExcelUtil {
             int j = 0;
             insertCell(row1, j++, array.get(13));
             insertCell(row1, j++, array.get(4));
-            insertCell(row1, j++, array.get(26));
-            insertCell(row1, j++, array.get(28));
-            insertCell(row1, j++, array.get(30));
-            insertCell(row1, j++, array.get(18));
-            insertCell(row1, j++, array.get(20));
-            insertCell(row1, j++, array.get(22));
-            insertCell(row1, j++, array.get(24));
+            insertCell(row1, j++, array.get(27));
+            insertCell(row1, j++, array.get(29));
+            insertCell(row1, j++, array.get(31));
+            insertCell(row1, j++, array.get(19));
+            insertCell(row1, j++, array.get(21));
+            insertCell(row1, j++, array.get(23));
+            insertCell(row1, j++, array.get(25));
 //            insertCell(row1, j++, array.get(28));
-            insertCell(row1, j++, array.get(16));
-            insertCell(row1, j++, array.get(32));
+            insertCell(row1, j++, array.get(17));
+            insertCell(row1, j++, array.get(33));
         }
 
 
@@ -163,16 +170,16 @@ public class ExcelUtil {
             int j = 0;
             insertCell(row2, j++, array.get(13));
             insertCell(row2, j++, array.get(4));
-            insertCell(row2, j++, array.get(26));
-            insertCell(row2, j++, array.get(28));
-            insertCell(row2, j++, array.get(30));
-            insertCell(row2, j++, array.get(18));
-            insertCell(row2, j++, array.get(20));
-            insertCell(row2, j++, array.get(22));
-            insertCell(row2, j++, array.get(24));
+            insertCell(row2, j++, array.get(27));
+            insertCell(row2, j++, array.get(29));
+            insertCell(row2, j++, array.get(31));
+            insertCell(row2, j++, array.get(19));
+            insertCell(row2, j++, array.get(21));
+            insertCell(row2, j++, array.get(23));
+            insertCell(row2, j++, array.get(25));
 //            insertCell(row1, j++, array.get(28));
-            insertCell(row2, j++, array.get(16));
-            insertCell(row2, j++, array.get(32));
+            insertCell(row2, j++, array.get(17));
+            insertCell(row2, j++, array.get(33));
         }
 
         wb.write(out);

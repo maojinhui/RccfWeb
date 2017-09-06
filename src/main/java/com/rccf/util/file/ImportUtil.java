@@ -1,5 +1,6 @@
 package com.rccf.util.file;
 
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -11,6 +12,7 @@ import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ImportUtil {
@@ -49,9 +51,9 @@ public class ImportUtil {
      */
     public Object getCellValue(Cell cell) {
         Object value = null;
-        DecimalFormat df = new DecimalFormat("0");  //格式化number String字符
+//        DecimalFormat df = new DecimalFormat("0");  //格式化number String字符
         SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");  //日期格式化
-        DecimalFormat df2 = new DecimalFormat("0.00");  //格式化数字
+//        DecimalFormat df2 = new DecimalFormat("0.00");  //格式化数字
         if (null == cell) {
             return "";
         }
@@ -60,12 +62,21 @@ public class ImportUtil {
                 value = cell.getRichStringCellValue().getString();
                 break;
             case Cell.CELL_TYPE_NUMERIC:
-                if ("General".equals(cell.getCellStyle().getDataFormatString())) {
-                    value = df.format(cell.getNumericCellValue());
-                } else if ("m/d/yy".equals(cell.getCellStyle().getDataFormatString())) {
-                    value = sdf.format(cell.getDateCellValue());
+//                if ("General".equals(cell.getCellStyle().getDataFormatString())) {
+//                    value = df.format(cell.getNumericCellValue());
+//                } else if ("m/d/yy".equals(cell.getCellStyle().getDataFormatString())) {
+//                    value = sdf.format(cell.getDateCellValue());
+//                } else {
+//                    value = df2.format(cell.getNumericCellValue());
+//                }
+
+                if (HSSFDateUtil.isCellDateFormatted(cell)) {
+                    Date theDate = cell.getDateCellValue();
+                    SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd");
+                    value = dff.format(theDate);
                 } else {
-                    value = df2.format(cell.getNumericCellValue());
+                    DecimalFormat df = new DecimalFormat("0");
+                    value = df.format(cell.getNumericCellValue());
                 }
                 break;
             case Cell.CELL_TYPE_BOOLEAN:

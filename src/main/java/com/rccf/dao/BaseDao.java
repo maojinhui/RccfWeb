@@ -31,6 +31,9 @@ public class BaseDao extends HibernateDaoSupport {
     public boolean save(Object o) {
         try {
             getHibernateTemplate().saveOrUpdate(o);
+//            getHibernateTemplate().evict(0);
+            this.getHibernateTemplate().flush();
+            this.getHibernateTemplate().clear();
             return true;
         } catch (DataAccessException e) {
             e.printStackTrace();

@@ -444,11 +444,15 @@ public class EmployeeController {
         String accept_time = request.getParameter("accept_time");
         String end_time = request.getParameter("end_time");
         String accept_state = request.getParameter("accept_state");
+        String custom = request.getParameter("custom");
         String pageNo = request.getParameter("page_no");
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Accepted.class);
         if (!Strings.isNullOrEmpty(accept_time)) {
             Timestamp timestamp = DateUtil.date2Timestamp(DateUtil.string2Date(accept_time));
             detachedCriteria.add(Restrictions.eq("acceptTime", timestamp));
+        }
+        if (custom != null) {
+            detachedCriteria.add(Restrictions.like("customerName", "%" + custom + "%"));
         }
 
         int count = baseService.getCount(detachedCriteria);

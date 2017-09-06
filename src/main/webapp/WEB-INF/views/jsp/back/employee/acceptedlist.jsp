@@ -15,20 +15,25 @@
         </div>
     </div>
     <hr>
-    <div class="am-g am-hide">
-        <div class="am-u-sm-12 am-u-md-3 am-margin-bottom">
-            <div class="am-input-group am-input-group-sm">
-                <label>受理日期:</label>
-                <input id="accept_time" class="am-form-field" type="date" value="">
+    <div class="am-g ">
+        <div class="am-u-sm-12 am-u-md-6 am-margin-bottom ">
+            <div class="am-form-inline" role="form">
+                <div class="am-form-group">
+                    <label>客户姓名:</label>
+                </div>
+                <div class="am-form-group">
+                    <input id="custome_name" class="am-form-field" type="text" value="">
+                </div>
+                <buton id="search_cus" class="am-btn  am-btn-primary">搜索</buton>
             </div>
         </div>
-        <div class="am-u-sm-12 am-u-md-3 am-margin-bottom">
+        <div class="am-u-sm-12 am-u-md-3 am-margin-bottom am-hide">
             <div class="am-input-group am-input-group-sm">
                 <label>办结日期:</label>
                 <input id="end_time" class="am-form-field" type="date" value="">
             </div>
         </div>
-        <div class="am-u-sm-12 am-u-md-3 am-margin-bottom am-u-end">
+        <div class="am-u-sm-12 am-u-md-3 am-margin-bottom am-u-end am-hide">
             <div class="am-input-group am-input-group-sm">
                 <label>&emsp;</label>
                 <select id="accept_state" style="display:block;height: 2.2em;">
@@ -75,6 +80,15 @@
 </div>
 <div id="page"></div>
 
+
+<script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/js/amazeui.min.js"></script>
+<script src="/js/amaze/app.js"></script>
+<script type="text/javascript" src="/js/amaze/amazeui.page.js"></script>
+<script src="/js/comm.js"></script>
+
+
+
 <script>
 
     function getStr(d) {
@@ -115,6 +129,8 @@
             case 3:
                 type = '被拒';
                 break;
+            case 4:
+                type = "撤单";
             default:
                 type = '未知';
                 break;
@@ -160,10 +176,12 @@
         var accept_time = $('#accept_time').val();
         var end_time = $('#end_time').val();
         var accept_state = $('#accept_state').val();
+        var custom = $('#custome_name').val();
         $.ajax({
             url: '/employee/accept_list',
             dataType: 'json',
             data: {
+                'custom': custom,
                 "accept_time": accept_time,
                 'end_time': end_time,
                 'accept_state': accept_state,
@@ -221,6 +239,7 @@
     function dopage(pages) {
         //返回的是一个page示例，拥有实例方法
         var $page = $("#page").page({
+            ready: {},
             pages: pages, //页数
             curr: 1, //当前页
             theme: 'default', //主题
@@ -232,8 +251,8 @@
             before: function (context, next) { //加载前触发，如果没有执行next()则中断加载
                 $('#list').empty();
                 console.log('开始加载...');
-//                context.time = (new Date()).getTime(); //只是演示，并没有什么卵用，可以保存一些数据到上下文中
-//                next();
+                context.time = (new Date()).getTime(); //只是演示，并没有什么卵用，可以保存一些数据到上下文中
+                next();
             },
             render: function (context, $element, index) { //渲染[context：对this的引用，$element：当前元素，index：当前索引]
                 //逻辑处理
@@ -274,6 +293,11 @@
             getData(page);
         });
     });
+
+
+    $('#search_cus').bind("click", function () {
+        getData(1);
+    })
 
 
 </script>

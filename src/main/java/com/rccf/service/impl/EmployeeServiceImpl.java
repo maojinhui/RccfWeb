@@ -5,10 +5,13 @@ import com.rccf.model.Employee;
 import com.rccf.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class EmployeeServiceImpl implements EmployeeService {
 
 
@@ -31,6 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDao.findEmpolyeeByPhone(phone);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public boolean saveOrUpdate(Employee employee) {
         return employeeDao.saveOrUpdate(employee);
     }

@@ -327,7 +327,7 @@ public class ExportController {
                 "   FROM employee WHERE leader IN (SELECT code\n" +
                 "                                FROM employee)) AS leader\n" +
                 "ON leader.l1 = employee.leader\n" +
-                "WHERE role = 4;";
+                "WHERE role = 4 AND state =1;";
         String sql_fuzongjian = "SELECT *\n" +
                 "FROM employee\n" +
                 "  LEFT JOIN\n" +
@@ -426,7 +426,7 @@ public class ExportController {
                 "   GROUP BY  deputy_director)\n" +
                 "    AS coun\n" +
                 "    ON coun.de = employee.code\n" +
-                "WHERE role = 3;";
+                "WHERE role = 3 AND state =1;";
 
         String sql_zongjian = "SELECT *\n" +
                 "FROM employee\n" +
@@ -512,7 +512,7 @@ public class ExportController {
                 "  (SELECT count(*) as coun ,clerk as cl,director as de,director from accepted GROUP BY director)\n" +
                 "    AS coun\n" +
                 "    ON coun.de = employee.code\n" +
-                "WHERE role = 2;";
+                "WHERE role = 2 AND state =1;";
 
         List list = baseService.queryBySql(sql_yewuyuan);
         List deputy_director = baseService.queryBySql(sql_fuzongjian);

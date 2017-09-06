@@ -127,6 +127,8 @@
                 </option>
                 <option <%=(accepted.getState() != null && 3 == accepted.getState()) ? "checked" : ""%> value="3">被拒
                 </option>
+                <option <%=(accepted.getState() != null && 4 == accepted.getState()) ? "checked" : ""%> value="3">撤单
+                </option>
             </select>
         </div>
         <div class="am-input-group am-input-group-primary">

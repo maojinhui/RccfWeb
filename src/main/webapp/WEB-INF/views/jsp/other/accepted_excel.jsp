@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<form action="/other/importAccepted" method="post" enctype="multipart/form-data">
+<form action="/other/accepteds" method="post" enctype="multipart/form-data">
     提交受理单文件<input id="excelFile" name="upload" type="file">
     <input type="submit" value="提交"/>
 </form>

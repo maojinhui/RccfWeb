@@ -82,4 +82,4 @@ FROM employee
   (SELECT count(*) as coun ,clerk as cl,director as de,director from accepted GROUP BY clerk,director)
     AS coun
     ON coun.de = employee.code
-WHERE role = 3;
+WHERE role = 3 AND state=1;

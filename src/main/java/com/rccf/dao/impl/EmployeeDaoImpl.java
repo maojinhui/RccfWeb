@@ -8,6 +8,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -56,10 +58,14 @@ public class EmployeeDaoImpl extends HibernateDaoSupport implements EmployeeDao 
         return null;
     }
 
+
     public boolean saveOrUpdate(Employee employee) {
 
         try {
             getHibernateTemplate().saveOrUpdate(employee);
+//            getHibernateTemplate().evict(employee);
+            this.getHibernateTemplate().flush();
+            this.getHibernateTemplate().clear();
             return true;
         } catch (DataAccessException e) {
             e.printStackTrace();
