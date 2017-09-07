@@ -1,5 +1,5 @@
 -- 查询一段时间的受理 办结  和 拒单的sql
--- set @@time = '2017-09-01 00:00:00';
+set @day_start = '2017-09-01 00:00:00',@month_start='2017-09-01 00:00:00';
 SELECT *
 FROM employee
   LEFT JOIN
@@ -9,7 +9,7 @@ FROM employee
    FROM accepted
    WHERE clerk IN (SELECT code
                    FROM employee) && state = 1 &&
-         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+         accept_time >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
    GROUP BY clerk) AS a_1 ON employee.code = a_1.d1clerk
   LEFT JOIN
   (SELECT
@@ -18,7 +18,7 @@ FROM employee
    FROM accepted
    WHERE clerk IN (SELECT code
                    FROM employee) && state = 2 &&
-         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+         end_date >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
    GROUP BY clerk) AS a_2 ON employee.code = a_2.d2clerk
   LEFT JOIN
   (SELECT
@@ -27,7 +27,7 @@ FROM employee
    FROM accepted
    WHERE clerk IN (SELECT code
                    FROM employee) && state = 3 &&
-         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+         create_time >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
    GROUP BY clerk) AS a_3 ON employee.code = a_3.d3clerk
   LEFT JOIN
   (SELECT
@@ -36,7 +36,7 @@ FROM employee
    FROM accepted
    WHERE clerk IN (SELECT code
                    FROM employee) && state = 1 &&
-         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+         accept_time >= DATE_FORMAT(@month_start, '%Y-%m-%d %H:%i:%S')
    GROUP BY clerk) AS m_1 ON employee.code = m_1.m1clerk
   LEFT JOIN
   (SELECT
@@ -45,7 +45,7 @@ FROM employee
    FROM accepted
    WHERE clerk IN (SELECT code
                    FROM employee) && state = 2 &&
-         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+         end_date >= DATE_FORMAT(@month_start, '%Y-%m-%d %H:%i:%S')
    GROUP BY clerk) AS m_2 ON employee.code = m_2.m2clerk
   LEFT JOIN
   (SELECT
@@ -54,7 +54,7 @@ FROM employee
    FROM accepted
    WHERE clerk IN (SELECT code
                    FROM employee) && state = 3 &&
-         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+         create_time >= DATE_FORMAT(@month_start, '%Y-%m-%d %H:%i:%S')
    GROUP BY clerk) AS m_3 ON employee.code = m_3.m3clerk
   LEFT JOIN
   (SELECT
@@ -63,7 +63,7 @@ FROM employee
    FROM accepted
    WHERE clerk IN (SELECT code
                    FROM employee) && state = 2 &&
-         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+         end_date >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
    GROUP BY clerk) AS d_y_1 ON employee.code = d_y_1.dyclerk
   LEFT JOIN
   (SELECT
@@ -72,13 +72,16 @@ FROM employee
    FROM accepted
    WHERE clerk IN (SELECT code
                    FROM employee) && state = 2 &&
-         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S')
+         end_date >= DATE_FORMAT(@month_start, '%Y-%m-%d %H:%i:%S')
    GROUP BY clerk) AS m_y_1 ON employee.code = m_y_1.myclerk
   LEFT JOIN
   (SELECT
      code AS l1,
      name AS leader_name
    FROM employee WHERE leader IN (SELECT code
-                                FROM employee)) AS leader
-ON leader.l1 = employee.leader
+                                  FROM employee)) AS leader
+    ON leader.l1 = employee.leader
 WHERE role = 4 AND state =1;
+
+
+# SELECT * from accepted where end_date>='2017-09-01 00:00:00';

@@ -1,3 +1,4 @@
+SET @day_start = '2017-09-01 00:00:00', @month_start = '2017-09-01 00:00:00';
 SELECT *
 FROM employee
   LEFT JOIN
@@ -6,7 +7,8 @@ FROM employee
      deputy_director         AS dy
    FROM accepted
    WHERE deputy_director IN (SELECT code
-                             FROM employee) && create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S') group by deputy_director)
+                             FROM employee) AND accepted.end_date >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
+   GROUP BY deputy_director)
     AS dy
     ON dy.dy = employee.code
   LEFT JOIN
@@ -15,7 +17,8 @@ FROM employee
      deputy_director         AS my
    FROM accepted
    WHERE deputy_director IN (SELECT code
-                             FROM employee) && create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S') group by deputy_director)
+                             FROM employee) AND accepted.end_date >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
+   GROUP BY deputy_director)
     AS my
     ON my.my = employee.code
   LEFT JOIN
@@ -24,8 +27,9 @@ FROM employee
      deputy_director AS deputy1
    FROM accepted
    WHERE deputy_director IN (SELECT code
-                             FROM employee) && accepted.state = 1 &&
-         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S') group by deputy_director)
+                             FROM employee) AND accepted.state = 1 AND
+         accepted.accept_time >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
+   GROUP BY deputy_director)
     AS d1
     ON d1.deputy1 = employee.code
   LEFT JOIN
@@ -34,8 +38,9 @@ FROM employee
      deputy_director AS deputy2
    FROM accepted
    WHERE deputy_director IN (SELECT code
-                             FROM employee) && accepted.state = 2 &&
-         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S') group by deputy_director)
+                             FROM employee) AND accepted.state = 2 AND
+         accepted.end_date >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
+   GROUP BY deputy_director)
     AS d2
     ON d2.deputy2 = employee.code
   LEFT JOIN
@@ -44,8 +49,9 @@ FROM employee
      deputy_director AS deputy3
    FROM accepted
    WHERE deputy_director IN (SELECT code
-                             FROM employee) && accepted.state = 2 &&
-         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S') group by deputy_director)
+                             FROM employee) AND accepted.state = 2 AND
+         create_time >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
+   GROUP BY deputy_director)
     AS d3
     ON d3.deputy3 = employee.code
   LEFT JOIN
@@ -54,8 +60,9 @@ FROM employee
      deputy_director AS m_deputy1
    FROM accepted
    WHERE deputy_director IN (SELECT code
-                             FROM employee) && accepted.state = 1 &&
-         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S') group by deputy_director)
+                             FROM employee) AND accepted.state = 1 AND
+         accepted.accept_time >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
+   GROUP BY deputy_director)
     AS m1
     ON m1.m_deputy1 = employee.code
   LEFT JOIN
@@ -64,8 +71,9 @@ FROM employee
      deputy_director AS m_deputy2
    FROM accepted
    WHERE deputy_director IN (SELECT code
-                             FROM employee) && accepted.state = 2 &&
-         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S') group by deputy_director)
+                             FROM employee) AND accepted.state = 2 AND
+         accepted.end_date >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
+   GROUP BY deputy_director)
     AS m2
     ON m2.m_deputy2 = employee.code
   LEFT JOIN
@@ -74,12 +82,29 @@ FROM employee
      deputy_director AS m_deputy3
    FROM accepted
    WHERE deputy_director IN (SELECT code
-                             FROM employee) && accepted.state = 3 &&
-         create_time >= DATE_FORMAT('2017-09-01 00:00:00', '%Y-%m-%d %H:%i:%S') group by deputy_director)
+                             FROM employee) AND accepted.state = 3 AND
+         create_time >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
+   GROUP BY deputy_director)
     AS m3
     ON m3.m_deputy3 = employee.code
   LEFT JOIN
-  (SELECT count(*) as coun ,clerk as cl,deputy_director as de,deputy_director from accepted GROUP BY clerk,deputy_director)
-    AS coun
-    ON coun.de = employee.code
-WHERE role = 3 AND  state=1;
+  (SELECT
+     count(*)        AS cound,
+     deputy_director AS dde
+   FROM (SELECT *
+         FROM accepted
+         WHERE end_date >= @day_start AND state = 2) AS ad2
+   GROUP BY deputy_director)
+    AS countd
+    ON countd.dde = employee.code
+  LEFT JOIN
+  (SELECT
+     count(*)        AS counm,
+     deputy_director AS mde
+   FROM (SELECT *
+         FROM accepted
+         WHERE end_date >= @day_start AND state = 2) AS am2
+   GROUP BY deputy_director)
+    AS countm
+    ON countm.mde = employee.code
+WHERE role = 3 AND state = 1;

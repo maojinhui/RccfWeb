@@ -1,14 +1,11 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: greatland
-  Date: 2017/8/7
-  Time: 下午4:10
-  To change this template use File | Settings | File Templates.
---%>
 
 </div>
 </div>
+<%--<script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>--%>
 
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/js/amazeui.min.js"></script>
 
 
 <script>
@@ -33,12 +30,6 @@
 
 
 </script>
-
-
-<script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/js/amazeui.min.js"></script>
-<script src="/js/amaze/app.js"></script>
-<script src="/js/comm.js"></script>
 <script>
 
     $("#quit").bind("click",function () {

@@ -48,7 +48,8 @@ public class ExcelUtil {
         headers.add("今日办结");
         headers.add("今日被拒");
         headers.add("今日业绩");
-        headers.add("开单人数");
+        headers.add("今日开单人数");
+        headers.add("本月开单人数");
         return headers;
     }
 
@@ -141,6 +142,7 @@ public class ExcelUtil {
 //            insertCell(row1, j++, array.get(28));
             insertCell(row1, j++, array.get(17));
             insertCell(row1, j++, array.get(33));
+            insertCell(row1, j++, array.get(35));
         }
 
 
@@ -180,6 +182,7 @@ public class ExcelUtil {
 //            insertCell(row1, j++, array.get(28));
             insertCell(row2, j++, array.get(17));
             insertCell(row2, j++, array.get(33));
+            insertCell(row2, j++, array.get(35));
         }
 
         wb.write(out);

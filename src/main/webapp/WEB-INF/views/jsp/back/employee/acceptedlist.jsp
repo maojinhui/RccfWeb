@@ -81,12 +81,12 @@
 <div id="page"></div>
 
 
-<script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/js/amazeui.min.js"></script>
-<script src="/js/amaze/app.js"></script>
+<%--<script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>--%>
+<%--<script src="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/js/amazeui.min.js"></script>--%>
+<%--<script src="/js/amaze/app.js"></script>--%>
+<%--<script type="text/javascript" src="/js/amaze/amazeui.page.js"></script>--%>
+<%--<script src="/js/comm.js"></script>--%>
 <script type="text/javascript" src="/js/amaze/amazeui.page.js"></script>
-<script src="/js/comm.js"></script>
-
 
 
 <script>

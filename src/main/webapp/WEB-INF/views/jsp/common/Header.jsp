@@ -97,9 +97,9 @@
     <link rel="stylesheet" href="/css/amaze/app.css">
     <link rel="stylesheet" href="/css/instyle.css"/>
     <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.page.css"/>
-    <%--<script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>--%>
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+    <script src="/js/amaze/app.js"></script>
+    <script src="/js/comm.js"></script>
 </head>
 
 <body data-type="genaralComponents">
