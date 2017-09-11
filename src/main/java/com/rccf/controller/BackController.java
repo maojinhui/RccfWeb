@@ -62,7 +62,7 @@ public class BackController {
             }
         }
         if ( !Strings.isNullOrEmpty(userid) ) {
-            return new ModelAndView("redirect:/back/index?user_id="+userid);
+            return new ModelAndView("redirect:/back/common?user_id=" + userid);
         }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("back/login");

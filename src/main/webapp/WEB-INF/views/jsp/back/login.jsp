@@ -111,7 +111,7 @@
                         $.cookie("username",null);
 //                        $.cookie("password",null);
                     }
-                    window.location.href="/back/index?user_id="+result.data;
+                    window.location.href = "/back/common?user_id=" + result.data;
 
                 } else {
                     alert(result.errormsg);

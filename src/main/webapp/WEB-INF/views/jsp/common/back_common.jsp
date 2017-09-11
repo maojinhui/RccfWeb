@@ -40,12 +40,16 @@
     <title>融成金服</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="/image/logo.png">
-
     <link rel="stylesheet" href="/css/back/amazeui.min.css"/>
     <link rel="stylesheet" href="/css/back/amazeui.datatables.min.css"/>
     <link rel="stylesheet" href="/css/back/app.css">
     <script src="/js/back/jquery.min.js"></script>
     <script src="/js/back/echarts.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
+
+
 </head>
 
 <body data-type="index">
@@ -71,7 +75,7 @@
                         <a href="javascript:;">欢迎你, <span><%=username%></span> </a>
                     </li>
                     <!-- 退出 -->
-                    <li class="am-text-sm">
+                    <li id="quit" class="am-text-sm">
                         <a href="javascript:;">
                             <span class="am-icon-sign-out"></span> 退出
                         </a>
@@ -89,10 +93,10 @@
                 <!--<div class="tpl-user-panel-profile-picture">-->
                 <!--<img src="assets/img/user03.png" alt="">-->
                 <!--</div>-->
-                <span class="user-panel-logged-in-text">
-              <i class="am-icon-circle-o am-text-success tpl-user-panel-status-icon"></i>
-              &emsp;禁言小张
-          </span>
+                <%--<span class="user-panel-logged-in-text">--%>
+                <%--<i class="am-icon-circle-o am-text-success tpl-user-panel-status-icon"></i>--%>
+                <%--&emsp;禁言小张--%>
+                <%--</span>--%>
                 <a href="javascript:;" class="tpl-user-panel-action-link"> <span class="am-icon-pencil"></span>&emsp;
                     账号设置</a>
             </div>
@@ -109,7 +113,7 @@
 
             <li class="sidebar-nav-link">
                 <a href="#" class="sidebar-nav-sub-title">
-                    <i class="am-icon-table sidebar-nav-link-logo"></i> 员工管理
+                    <i class="am-icon-users sidebar-nav-link-logo"></i> 员工管理
                     <span class="am-icon-chevron-right am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                 </a>
                 <ul class="sidebar-nav sidebar-nav-sub">
@@ -154,7 +158,7 @@
 
             <li class="sidebar-nav-link">
                 <a class="sidebar-nav-sub-title">
-                    <i class="am-icon-table sidebar-nav-link-logo"></i> 产品匹配
+                    <i class="am-icon-balance-scale  sidebar-nav-link-logo"></i> 匹配方案
                     <span class="am-icon-chevron-right am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                 </a>
                 <ul class="sidebar-nav sidebar-nav-sub">
@@ -214,13 +218,11 @@
 <script src="/js/back/dataTables.responsive.min.js"></script>
 <script src="/js/back/app.js"></script>
 <script>
-    //    (function wSize() {
-    //        var str = getWindowWH();
-    //        var strs = new Array();
-    //        strs = str.toString().split(",");
-    //        var h = strs[0];
-    //        $("#content_iframe").height(h);
-    //    })();
+
+    $("#quit").bind("click", function () {
+        $.cookie("userid", null, {path: "/"});
+        location.href = "/back/login";
+    });
 
     var browserVersion = window.navigator.userAgent.toUpperCase();
     var isOpera = browserVersion.indexOf("OPERA") > -1 ? true : false;
