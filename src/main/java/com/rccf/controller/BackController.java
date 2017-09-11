@@ -197,6 +197,36 @@ public class BackController {
     }
 
 
+    @RequestMapping(value = "/common")
+    public ModelAndView backCommn(HttpServletRequest request, HttpServletResponse response) {
+        return getBackUserView(request, response, "common/back_common");
+    }
+
+
+    private ModelAndView getBackUserView(HttpServletRequest request, HttpServletResponse response, String viewName) {
+        String userid = null;
+        Cookie cookies[] = request.getCookies();
+        if (null == cookies) {
+            return new ModelAndView("redirect:/back/login");
+        }
+        for (Cookie cookie : cookies) {
+            if ("userid".equals(cookie.getName())) {
+                userid = cookie.getValue();
+            }
+        }
+        if (null == userid) {
+            return new ModelAndView("redirect:/back/login");
+        }
+        User user = userService.findUserById(userid);
+        if (null == user) {
+            return new ModelAndView("redirect:/back/login");
+        }
+        ModelAndView modelAndView = new ModelAndView(viewName);
+        modelAndView.addObject("user", user);
+        return modelAndView;
+    }
+
+
     /**
      * 根据cookie获取用户信息
      * @param request
@@ -268,7 +298,6 @@ public class BackController {
 
         return modelAndView;
     }
-
 
 
 }

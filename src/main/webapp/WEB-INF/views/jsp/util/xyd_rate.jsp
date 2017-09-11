@@ -6,10 +6,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="../common/util_header.jsp" %>
+<%@include file="../common/back_common_head.jsp" %>
 
 <div class="am-g">
-    <div class="am-u-sm-12 am-u-lg-6 am-center">
+    <div class="am-u-sm-12 am-u-md-6 am-center">
         <div class="must-info_1 am-center am-margin-top am-padding-vertical">
             <span><strong>月供贷利率信息表</strong></span>
             <table class="am-table am-table-bordered am-margin-top">
@@ -61,7 +61,7 @@
             </table>
         </div>
     </div>
-    <div class="am-u-sm-12 am-u-lg-6 am-center">
+    <div class="am-u-sm-12 am-u-md-6 am-center">
         <div class="xd must-info_2 am-center am-margin-top am-padding-vertical">
             <span><strong>保单贷利率信息表</strong></span>
             <table class="am-table am-table-bordered am-margin-top">
@@ -103,7 +103,7 @@
             </table>
         </div>
     </div>
-    <div class="am-u-sm-12 am-u-lg-6 am-center">
+    <div class="am-u-sm-12 am-u-md-6 am-center">
         <div class="xd must-info_3 am-center am-margin-top am-padding-vertical">
             <span><strong>工薪贷利率信息表</strong></span>
             <table class="am-table am-table-bordered am-margin-top">
@@ -154,7 +154,7 @@
             </table>
         </div>
     </div>
-    <div class="am-u-sm-12 am-u-lg-6 am-center">
+    <div class="am-u-sm-12 am-u-md-6 am-center">
         <div class="xd must-info_4 am-center am-margin-top am-padding-vertical">
             <span><strong>社保贷利率信息表</strong></span>
             <table class="am-table am-table-bordered am-margin-top">
@@ -210,7 +210,7 @@
             </table>
         </div>
     </div>
-    <div class="am-u-sm-12 am-u-lg-6 am-u-end am-center">
+    <div class="am-u-sm-12 am-u-md-6 am-u-end am-center">
         <div class="xd must-info_4 am-center am-margin-top am-padding-vertical">
             <span><strong>公积金贷款利率信息表</strong></span>
             <table class="am-table am-table-bordered am-margin-top">
@@ -269,4 +269,4 @@
     </div>
 </div>
 
-<%@include file="../common/util_footer.jsp"%>
+<%--<%@include file="../common/util_footer.jsp"%>--%>

@@ -6,11 +6,16 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="../../common/Header.jsp" %>
-
+<%@include file="../../common/back_common_head.jsp" %>
+<script>
+    function change(id) {
+        url = "/employee/addAccepted?id=" + id;
+        parent.changeUrl(url);
+    }
+</script>
 <div class="admin-content-body">
     <div class="am-cf am-padding am-padding-bottom-0">
-        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">受理单列表</strong>
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg"><a>受理单列表</a></strong>
             <%--<small>List</small>--%>
         </div>
     </div>
@@ -212,7 +217,7 @@
                             '                        <td>' + getStr(obj.loanMoney) + '</td>\n' +
                             '                        <td>' + getAgreement(obj.serviceAgreement) + '</td>\n' +
                             '                        <td>\n' +
-                            '                            <a href="/employee/addAccepted?id=' + obj.id + '" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
+                            '                            <a  onclick="change(' + obj.id + ')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
                             '                                    class="am-icon-pencil-square-o"></span> 编辑\n' +
                             '                            </a>\n' +
                             '                            <a onclick="deleteAccepted(' + obj.id + ')" class="am-btn am-btn-default am-btn-xs am-text-danger">\n' +
@@ -236,6 +241,7 @@
         });
     }
 
+    //    href="/employee/addAccepted?id=' + obj.id + '"
     function dopage(pages) {
         //返回的是一个page示例，拥有实例方法
         var $page = $("#page").page({
@@ -301,4 +307,3 @@
 
 
 </script>
-<%@include file="../../common/Footer.jsp" %>

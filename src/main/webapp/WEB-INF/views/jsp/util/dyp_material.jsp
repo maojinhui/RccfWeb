@@ -6,10 +6,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="../common/util_header.jsp"%>
+<%@include file="../common/back_common_head.jsp" %>
 
 <div class="am-g">
-    <div class="am-u-sm-12 am-u-lg-6 am-center">
+    <div class="am-u-sm-12 am-u-md-6 am-center">
         <div class="must-info_1 am-center am-margin-top">
             <div>
                 <span class="info-title">所需材料：</span>
@@ -25,7 +25,7 @@
             </ol>
         </div>
     </div>
-    <div class="am-u-sm-12 am-u-lg-6">
+    <div class="am-u-sm-12 am-u-md-6">
         <div class="must-info_2 am-center am-margin-top">
             <div>
                 <span class="info-title">准入条件：</span>
@@ -44,37 +44,37 @@
                 <span class="info-title">办理流程：</span>
             </div>
             <div class="am-g">
-                <div class="am-u-sm-12 am-u-lg-6 am-center">
+                <div class="am-u-sm-12 am-u-md-6 am-center">
                     <div class="am-g">
-                        <div class="am-u-sm-4 am-u-lg-3">
+                        <div class="am-u-sm-4 am-u-md-3">
                             <div class="flow_path am-center">准备资料去银行面签</div>
                             <span>1天</span>
                         </div>
-                        <div class="am-u-sm-4 am-u-lg-3">
+                        <div class="am-u-sm-4 am-u-md-3">
                             <div class="flow_path am-center">报评估公司</div>
                             <span>3天以内</span>
                         </div>
-                        <div class="am-u-sm-4 am-u-lg-3">
+                        <div class="am-u-sm-4 am-u-md-3">
                             <div class="flow_path am-center">出批贷函</div>
                             <span>3-5天</span>
                         </div>
-                        <div class="am-u-sm-4 am-u-lg-3 am-u-end">
+                        <div class="am-u-sm-4 am-u-md-3 am-u-end">
                             <div class="flow_path am-center">上抵押登记(公证)</div>
                             <span>2-4天</span>
                         </div>
                     </div>
                 </div>
-                <div class="am-u-sm-12 am-u-lg-6 am-center">
+                <div class="am-u-sm-12 am-u-md-6 am-center">
                     <div class="am-g">
-                        <div class="am-u-sm-4 am-u-lg-3">
+                        <div class="am-u-sm-4 am-u-md-3">
                             <div class="flow_path am-center">他项权利证(出他项)</div>
                             <span>5天</span>
                         </div>
-                        <div class="am-u-sm-4 am-u-lg-3">
+                        <div class="am-u-sm-4 am-u-md-3">
                             <div class="flow_path am-center">提供提款合同(发票)</div>
                             <span>1天</span>
                         </div>
-                        <div class="am-u-sm-4 am-u-lg-3 am-u-end">
+                        <div class="am-u-sm-4 am-u-md-3 am-u-end">
                             <div class="flow_path am-center">放款</div>
                             <span>2-3天</span>
                         </div>
@@ -98,4 +98,4 @@
     </div>
 </div>
 
-<%@include file="../common/util_footer.jsp"%>
+<%--<%@include file="../common/util_footer.jsp"%>--%>

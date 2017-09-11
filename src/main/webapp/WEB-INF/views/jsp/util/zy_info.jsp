@@ -6,9 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="../common/util_header.jsp" %>
+<%@include file="../common/back_common_head.jsp" %>
 <div class="am-g">
-    <div class="am-u-sm-12 am-u-lg-6 am-center">
+    <div class="am-u-sm-12 am-u-md-6 am-center">
         <div class="must-info_1 am-center am-margin-top">
             <div>
                 <span class="info-title">业务种类：</span>
@@ -32,7 +32,7 @@
 
         </div>
     </div>
-    <div class="am-u-sm-12 am-u-lg-6 am-center">
+    <div class="am-u-sm-12 am-u-md-6 am-center">
         <div class="must-info_2 am-center am-margin-top">
             <div>
                 <span class="info-title">抵押物要求：</span>
@@ -50,7 +50,7 @@
             </ol>
         </div>
     </div>
-    <div class="am-u-sm-12 am-u-lg-6 am-center">
+    <div class="am-u-sm-12 am-u-md-6 am-center">
         <div class="must-info_3 am-center am-margin-top">
             <div>
                 <span class="info-title">准备材料：</span>
@@ -67,7 +67,7 @@
             </ol>
         </div>
     </div>
-    <div class="am-u-sm-12 am-u-lg-6 am-center">
+    <div class="am-u-sm-12 am-u-md-6 am-center">
         <div class="must-info_3 am-center am-margin-top">
             <div>
                 <span class="info-title">借款人资质：</span>
@@ -93,4 +93,4 @@
         </div>
     </div>
 </div>
-<%@include file="../common/util_footer.jsp" %>
+<%--<%@include file="../common/util_footer.jsp" %>--%>

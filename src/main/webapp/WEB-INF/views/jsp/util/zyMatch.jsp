@@ -6,32 +6,32 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="../common/util_header.jsp" %>
+<%@include file="../common/back_common_head.jsp" %>
 
 <!--贷款年龄-->
 <div class="am-margin-vertical am-g">
-    <div class="am-u-sm-4 am-u-lg-3 am-text-right">
+    <div class="am-u-sm-4 am-u-md-3 am-text-right">
         <span>贷款年龄：</span>
     </div>
-    <div class="am-u-sm-8 am-u-lg-9 am-u-end ">
+    <div class="am-u-sm-8 am-u-md-9 am-u-end ">
         <input id="user_age" type="number" style="width: 6em;"/>岁
     </div>
 </div>
 <!--贷款金额-->
 <div class="am-margin-vertical am-g">
-    <div class="am-u-sm-4 am-u-lg-3 am-text-right">
+    <div class="am-u-sm-4 am-u-md-3 am-text-right">
         <span>贷款金额：</span>
     </div>
-    <div class="am-u-sm-8 am-u-lg-9 am-u-end ">
+    <div class="am-u-sm-8 am-u-md-9 am-u-end ">
         <input id="amount_money" type="number" style="width: 6em;"/>万
     </div>
 </div>
 <!--放款成数-->
 <div class="am-margin-vertical am-g">
-    <div class="am-u-sm-4 am-u-lg-3 am-text-right">
+    <div class="am-u-sm-4 am-u-md-3 am-text-right">
         <span>放款成数：</span>
     </div>
-    <div class="am-u-sm-8 am-u-lg-9 am-u-end ">
+    <div class="am-u-sm-8 am-u-md-9 am-u-end ">
         <div class="check-box">
             <i><input type="checkbox" value="6" name="make_loan_number"/></i>
         </div>
@@ -67,10 +67,10 @@
 </div>
 <!--区域范围-->
 <div class="am-margin-vertical am-g">
-    <div class="am-u-sm-4 am-u-lg-3 am-text-right">
+    <div class="am-u-sm-4 am-u-md-3 am-text-right">
         <span>区域范围：</span>
     </div>
-    <div class="am-u-sm-8 am-u-lg-9 am-u-end ">
+    <div class="am-u-sm-8 am-u-md-9 am-u-end ">
         <div></div>
         <div class="check-box">
             <i><input type="checkbox" value="1" name="area_scope"/></i>
@@ -196,10 +196,10 @@
 </div>
 <!--还款方式-->
 <div class="am-margin-verti  cal am-g">
-    <div class="am-u-sm-4 am-u-lg-3 am-text-right">
+    <div class="am-u-sm-4 am-u-md-3 am-text-right">
         <span>还款方式：</span>
     </div>
-    <div class="am-u-sm-8 am-u-lg-9 am-u-end ">
+    <div class="am-u-sm-8 am-u-md-9 am-u-end ">
         <select id="repayment" style="width: 6em;">
             <option value="0">可选择</option>
             <option value="2">等额本息</option>
@@ -211,10 +211,10 @@
 </div>
 <!--房屋性质-->
 <div class="am-margin-vertical am-g">
-    <div class="am-u-sm-4 am-u-lg-3 am-text-right">
+    <div class="am-u-sm-4 am-u-md-3 am-text-right">
         <span>房屋性质：</span>
     </div>
-    <div class="am-u-sm-8 am-u-lg-9 am-u-end ">
+    <div class="am-u-sm-8 am-u-md-9 am-u-end ">
         <div>
             <div class="check-box">
                 <i><input type="checkbox" name="apply_home_property"/></i>
@@ -285,19 +285,19 @@
 </div>
 <!--房&emsp;&emsp;龄-->
 <div class="am-margin-vertical am-g">
-    <div class="am-u-sm-4 am-u-lg-3 am-text-right">
+    <div class="am-u-sm-4 am-u-md-3 am-text-right">
         <span>房&emsp;&emsp;龄：</span>
     </div>
-    <div class="am-u-sm-8 am-u-lg-9 am-u-end ">
+    <div class="am-u-sm-8 am-u-md-9 am-u-end ">
         <input id="house_age" type="number" style="width: 6em;"/>年
     </div>
 </div>
 <!--是否有展期-->
 <div class="am-margin-vertical am-g">
-    <div class="am-u-sm-4 am-u-lg-3 am-text-right">
+    <div class="am-u-sm-4 am-u-md-3 am-text-right">
         <span style="font-size: small;">允许展期：</span>
     </div>
-    <div class="am-u-sm-8 am-u-lg-9 am-u-end">
+    <div class="am-u-sm-8 am-u-md-9 am-u-end">
         <select id="can_extension" style="width: 6em;">
             <option value="0"></option>
             <option value="2">是</option>
@@ -307,10 +307,10 @@
 </div>
 <!--是否可做二抵-->
 <div class="am-margin-bottom-xl am-g">
-    <div class="am-u-sm-4 am-u-lg-3 am-text-right">
+    <div class="am-u-sm-4 am-u-md-3 am-text-right">
         <span style="font-size: small;">是否二抵：</span>
     </div>
-    <div class="am-u-sm-8 am-u-lg-9 am-u-end ">
+    <div class="am-u-sm-8 am-u-md-9 am-u-end ">
         <select id="erdi_can" style="width: 6em;">
             <option value="0">可选择</option>
             <option value="2">是</option>
@@ -331,7 +331,7 @@
         </button>
     </div>
     <div>* 放款成数：普通最高成数/别墅或者其他(商业)成数</div>
-    <table class="am-table am-table-bordered am-table-hover am-table-compact am-padding-bottom-lg">
+    <table class="am-table am-table-bordered am-table-hover am-table-compact am-padding-bottom-md">
         <thead>
         <tr>
             <th>产品编号</th>
@@ -468,4 +468,4 @@
 </script>
 
 
-<%@include file="../common/util_footer.jsp" %>
+<%--<%@include file="../common/util_footer.jsp" %>--%>

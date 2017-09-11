@@ -1,6 +1,10 @@
 <%@ page import="com.rccf.model.Accepted" %>
 <%@ page import="com.rccf.util.Strings" %>
-<%@ page import="com.rccf.model.LatterNumber" %><%--
+<%@ page import="com.rccf.model.LatterNumber" %>
+<%@ page import="com.alibaba.fastjson.JSON" %>
+<%@ page import="com.rccf.model.Employee" %>
+<%@ page import="java.util.List" %>
+<%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/8/31
@@ -8,7 +12,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="../../common/Header.jsp" %>
+<%--<html>--%>
+<%@include file="../../common/back_common_head.jsp" %>
+<%--<body>--%>
 <%
     Accepted accepted = (Accepted) request.getAttribute("accepted");
     if (null == accepted) {
@@ -16,7 +22,7 @@
     }
 %>
 <div class="am-g am-margin-top-xl">
-    <div class="am-u-sm-12 am-u-md-9 am-u-lg-4 am-u-sm-centered">
+    <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
 
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">业务员</span>
@@ -141,6 +147,7 @@
         </div>
     </div>
 </div>
+<%--</body>--%>
 <%
     List<Employee> employees = (List<Employee>) request.getAttribute("employees");
     List<LatterNumber> numbers = (List<LatterNumber>) request.getAttribute("numbers");
@@ -272,4 +279,4 @@
         });
 
 </script>
-<%@include file="../../common/Footer.jsp" %>
+<%--</html>--%>

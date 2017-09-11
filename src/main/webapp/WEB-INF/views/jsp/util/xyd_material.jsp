@@ -6,10 +6,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="../common/util_header.jsp" %>
+<%@include file="../common/back_common_head.jsp" %>
 
 <div class="am-g">
-    <div class="am-u-sm-12 am-u-lg-6 am-center">
+    <div class="am-u-sm-12 am-u-md-6 am-center">
         <div class="xd must-info_1 am-center am-margin-top am-padding-vertical">
             <div>
                 <span id="gotta_info" class="info-title">月供贷</span>
@@ -33,7 +33,7 @@
             <span><strong>&emsp;准备资料：</strong>身份证+房本/购房合同/抵押合同(三选一)</span>
         </div>
     </div>
-    <div class="am-u-sm-12 am-u-lg-6 am-center">
+    <div class="am-u-sm-12 am-u-md-6 am-center">
         <div class="xd must-info_2 am-center am-margin-top am-padding-vertical">
             <div>
                 <span class="info-title">保单贷</span>
@@ -58,7 +58,7 @@
             <span><strong>&emsp;准备资料：</strong>身份证+保单原件</span>
         </div>
     </div>
-    <div class="am-u-sm-12 am-u-lg-6 am-center">
+    <div class="am-u-sm-12 am-u-md-6 am-center">
         <div class="xd must-info_3 am-center am-margin-top am-padding-vertical">
             <div>
                 <span class="info-title">工薪贷</span>
@@ -82,7 +82,7 @@
                         住址证明(水电暖煤气小票选其一，机构需要，银行不需要)</span>
         </div>
     </div>
-    <div class="am-u-sm-12 am-u-lg-6 am-center">
+    <div class="am-u-sm-12 am-u-md-6 am-center">
         <div class="xd must-info_4 am-center am-margin-top am-padding-vertical">
             <div>
                 <span class="info-title">社保贷</span>
@@ -102,7 +102,7 @@
             <span><strong>&emsp;准备资料：</strong>身份证、社保卡</span>
         </div>
     </div>
-    <div class="am-u-sm-12 am-u-lg-6 am-u-end am-center">
+    <div class="am-u-sm-12 am-u-md-6 am-u-end am-center">
         <div class="xd must-info_4 am-center am-margin-top am-padding-vertical">
             <div>
                 <span class="info-title">公积金贷款</span>
@@ -125,4 +125,4 @@
     </div>
 </div>
 
-<%@include file="../common/util_footer.jsp"%>
+<%--<%@include file="../common/util_footer.jsp"%>--%>
