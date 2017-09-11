@@ -21,6 +21,11 @@ public class Employee {
     private String department;
     private Integer role;
     private String password;
+    private Integer state;
+    private String duptyDirector;
+    private String duptyDirectorName;
+    private String director;
+    private String directorName;
 
     @Id
     @Column(name = "id")
@@ -225,5 +230,55 @@ public class Employee {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Basic
+    @Column(name = "state")
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    @Basic
+    @Column(name = "dupty_director")
+    public String getDuptyDirector() {
+        return duptyDirector;
+    }
+
+    public void setDuptyDirector(String duptyDirector) {
+        this.duptyDirector = duptyDirector;
+    }
+
+    @Basic
+    @Column(name = "dupty_director_name")
+    public String getDuptyDirectorName() {
+        return duptyDirectorName;
+    }
+
+    public void setDuptyDirectorName(String duptyDirectorName) {
+        this.duptyDirectorName = duptyDirectorName;
+    }
+
+    @Basic
+    @Column(name = "director")
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    @Basic
+    @Column(name = "director_name")
+    public String getDirectorName() {
+        return directorName;
+    }
+
+    public void setDirectorName(String directorName) {
+        this.directorName = directorName;
     }
 }

@@ -32,6 +32,7 @@ public class Accepted {
     private String houqi;
     private String deputyDirector;
     private String director;
+    private String process;
 
     @Id
     @Column(name = "id")
@@ -335,5 +336,15 @@ public class Accepted {
 
     public void setDirector(String director) {
         this.director = director;
+    }
+
+    @Basic
+    @Column(name = "process")
+    public String getProcess() {
+        return process;
+    }
+
+    public void setProcess(String process) {
+        this.process = process;
     }
 }
