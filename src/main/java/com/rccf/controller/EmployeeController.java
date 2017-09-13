@@ -1,6 +1,7 @@
 package com.rccf.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.rccf.component.Page;
 import com.rccf.constants.PageConstants;
 import com.rccf.constants.UrlConstants;
@@ -32,6 +33,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @Controller
 @RequestMapping(value = "/employee", produces = UrlConstants.PRODUCES)
@@ -236,25 +238,31 @@ public class EmployeeController {
     @RequestMapping(value = "/employees")
     @ResponseBody
     public String findEmployeesByOneCode(HttpServletRequest request, HttpServletResponse response) {
+
+
         String pageNo = request.getParameter("pageNo");
         int n = 0;
+        String code = request.getParameter("code");//编号
+        DetachedCriteria criteria = DetachedCriteria.forClass(Employee.class);
+        if (!Strings.isNullOrEmpty(code)) {
+            criteria.add(Restrictions.eq("leader", code));
+        }
+
         if (!Strings.isNullOrEmpty(pageNo)) {
             try {
                 n = Integer.valueOf(n);
+                int count = baseService.getCount(criteria);
+                Page p = PageUtil.createPage(15, count, n);
+                List<Employee> employeeList = baseService.getList(p, criteria);
+                return ResponseUtil.success(employeeList);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else {
+            List<Employee> employeeList = baseService.getList(criteria);
+            return ResponseUtil.success(employeeList);
         }
-        String code = request.getParameter("code");//编号
-        DetachedCriteria criteria = DetachedCriteria.forClass(Employee.class);
-        criteria.add(Restrictions.eq("leader", code));
-        int count = baseService.getCount(criteria);
-        Page p = PageUtil.createPage(15, count, n);
-        List<Employee> employeeList = baseService.getList(p, criteria);
-//        ModelAndView modelAndView = getUserView(request,response,"",HeaderType.EMPLOYEE);
-//        modelAndView.addObject("employees",employeeList);
-//        return modelAndView;
-        return ResponseUtil.success(employeeList);
+        return ResponseUtil.fail();
     }
 
     @RequestMapping(value = "/addAccepted")
@@ -498,6 +506,48 @@ public class EmployeeController {
         String sql = "select e.department,e.name,e.entry_time,e.duties, from employee as e   where role = 4 ";
         List list = baseService.queryBySql(sql);
         return "";
+    }
+
+
+    @RequestMapping(value = "/todayData")
+    public ModelAndView todayAcceptedBanjie(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView view = getUserView(request, response, "/back/accepted/today_state", HeaderType.EMPLOYEE);
+        long current = System.currentTimeMillis();//当前时间毫秒数
+        long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();//今天零点零分零秒的毫秒数
+        long twelve = zero + 24 * 60 * 60 * 1000 - 1;//今天23点59分59秒的毫秒数
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String day_start = format.format(zero);
+//        day_start="2017-09-12 00:00:00";
+
+        String month_start = day_start.substring(0, 8) + "01 00:00:00";
+        String sql = "\n" +
+                "SELECT '' as want_money,\n" +
+                "       a.`service_fee_actual`  as fee,\n" +
+                "       a.clerk_name,\n" +
+                "       (SELECT name from `employee`WHERE `code`= a.`deputy_director`) as 'fu',\n" +
+                "       (SELECT  name from `employee`  where code = a.`director` ) as 'zong',\n" +
+                "\ta.`houqi` ,\n" +
+                "\ta.`business_type` ,\n" +
+                "\ta.`state`\n" +
+                "  FROM `accepted` a\n" +
+                " WHERE `accept_time`= '" + day_start + "'\n" +
+                "   and a.`state` =2\n" +
+                "UNION ALL\n" +
+                "SELECT a.want_money,\n" +
+                "       '' as fee,\n" +
+                "       a.clerk_name,\n" +
+                "       (SELECT name from `employee`WHERE `code`= a.`deputy_director`) as 'fu',\n" +
+                "       (SELECT  name from `employee`  where code = a.`director` ) as 'zong',\n" +
+                "\ta.`houqi` ,\n" +
+                "\ta.`business_type` ,\n" +
+                "\ta.`state`\n" +
+                "  FROM `accepted` a\n" +
+                " WHERE `accept_time`= '" + day_start + "'\n" +
+                "   and a.`state` =1\n";
+        List data = baseService.queryBySql(sql);
+        JSONArray array = JSON.parseArray(JSON.toJSONString(data));
+        view.addObject("res", array);
+        return view;
     }
 
 
