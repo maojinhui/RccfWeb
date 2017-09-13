@@ -46,7 +46,7 @@ public class DateUtil {
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             if (dateStr == null || dateStr.equals("")) {
-                return new Date(0);
+                return null;
             }
             date = sdf.parse(dateStr);
             return date;

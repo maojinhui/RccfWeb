@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -388,7 +389,7 @@ public class OtherController {
             in.close();
 
             for (int i = 0; i < listob.size(); i++) {
-                if (i < 3) {
+                if (i < 2) {
                     continue;
                 }
                 List<Object> lo = listob.get(i);
@@ -406,7 +407,7 @@ public class OtherController {
                 accepted.setLetterNumber((String) lo.get(3));
                 accepted.setAcceptedNumber((String) lo.get(4));
                 accepted.setCustomerName((String) lo.get(5));
-                accepted.setCustomerPhone((String) lo.get(6));
+                accepted.setCustomerPhone(getPhone((String) lo.get(6)));
                 accepted.setBusinessType(getType((String) lo.get(7)));
                 accepted.setAgency((String) lo.get(8));
                 accepted.setBusinessNature((String) lo.get(9));
@@ -423,8 +424,10 @@ public class OtherController {
                 if (zongjianemployee != null) {
                     accepted.setDirector(zongjianemployee.getCode());
                 }
-
-                accepted.setEndDate(DateUtil.date2Timestamp(DateUtil.string2Date2((String) lo.get(29))));
+                Date date = DateUtil.string2Date2((String) lo.get(29));
+                if (null != date) {
+                    accepted.setEndDate(DateUtil.date2Timestamp(date));
+                }
                 if (lo.size() > 31) {
                     accepted.setBeizhu((String) lo.get(31));
                 }
@@ -433,8 +436,9 @@ public class OtherController {
                 }
                 accepted.setHouqi((String) lo.get(24));
                 baseService.save(accepted);
-            }
 
+
+            }
             transactionManager.commit(status);
             return new ModelAndView("/other/import_success");
         } catch (IOException e) {
@@ -450,10 +454,21 @@ public class OtherController {
     }
 
 
+    private String getPhone(String phone) {
+        if (phone == null || phone.equals("")) {
+            return null;
+        }
+        if (phone.contains(".")) {
+            return phone.substring(0, phone.indexOf("."));
+        } else {
+            return phone;
+        }
+    }
+
     private int getType(String loanType) {
         if (loanType == null || loanType.equals("")) {
             return -1;
-        } else if (loanType.equals("信贷")) {
+        } else if (loanType.contains("信贷") || loanType.contains("信用")) {
             return 0;
         } else if (loanType.equals("抵押")) {
             return 1;
@@ -491,9 +506,9 @@ public class OtherController {
         }
 
         try {
-            d = Double.valueOf(str);
+            d = Double.valueOf(str) * 100;
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+
         }
         return d;
     }
@@ -502,13 +517,16 @@ public class OtherController {
         if (s == null || s.equals("")) {
             return 0;
         }
+        if (s.contains(".")) {
+            s = s.substring(0, s.indexOf("."));
+        }
         int i = Integer.valueOf(s);
         return i;
     }
 
     private int getState(String stat) {
         if (stat == null || stat.equals("")) {
-            return 0;
+            return 1;
         }
         if (stat.equals("被拒") || stat.equals("拒单")) {
             return 3;
@@ -521,7 +539,7 @@ public class OtherController {
         if (stat.equals("撤单")) {
             return 4;
         }
-        return 0;
+        return 1;
     }
 
     private Double getMoney(String money) {
@@ -530,6 +548,9 @@ public class OtherController {
             return d;
         }
         try {
+            if (money.contains(".")) {
+                money = money.substring(0, money.indexOf("."));
+            }
             d = Double.valueOf(money);
             return d;
         } catch (NumberFormatException e) {
@@ -537,6 +558,16 @@ public class OtherController {
         }
         return d;
 
+    }
+
+
+    public static void main(String args[]) {
+        String s = "6270.000";
+
+        s = s.substring(0, s.indexOf("."));
+        System.out.println(s);
+        int i = Integer.valueOf(s);
+        System.out.println(i);
     }
 
 

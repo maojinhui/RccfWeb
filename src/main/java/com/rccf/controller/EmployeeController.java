@@ -447,6 +447,7 @@ public class EmployeeController {
         String custom = request.getParameter("custom");
         String pageNo = request.getParameter("page_no");
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Accepted.class);
+        detachedCriteria.addOrder(Order.desc("acceptTime"));
         if (!Strings.isNullOrEmpty(accept_time)) {
             Timestamp timestamp = DateUtil.date2Timestamp(DateUtil.string2Date(accept_time));
             detachedCriteria.add(Restrictions.eq("acceptTime", timestamp));

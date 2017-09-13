@@ -133,7 +133,7 @@
                 </option>
                 <option <%=(accepted.getState() != null && 3 == accepted.getState()) ? "checked" : ""%> value="3">被拒
                 </option>
-                <option <%=(accepted.getState() != null && 4 == accepted.getState()) ? "checked" : ""%> value="3">撤单
+                <option <%=(accepted.getState() != null && 4 == accepted.getState()) ? "checked" : ""%> value="4">撤单
                 </option>
             </select>
         </div>

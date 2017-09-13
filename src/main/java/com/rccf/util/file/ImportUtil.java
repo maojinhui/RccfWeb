@@ -75,7 +75,7 @@ public class ImportUtil {
                     SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd");
                     value = dff.format(theDate);
                 } else {
-                    DecimalFormat df = new DecimalFormat("0");
+                    DecimalFormat df = new DecimalFormat("0.000");
                     value = df.format(cell.getNumericCellValue());
                 }
                 break;

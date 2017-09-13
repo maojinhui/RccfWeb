@@ -1,0 +1,24 @@
+SELECT  accept_time as '受理时间',letter_number as '字母编号' ,accepted_number as '受理编号' ,customer_name as '客户姓名', customer_phone as '客户电话' ,business_type as '业务类别', agency as '机构' , business_nature as '业务性质',
+want_money as '预贷金额', service_fee as '服务费比例' , service_fee_actual as '实收服务费',
+ end_date as '办结日期', clerk_name as '销售经理', name1 as '副总监' ,name2 as '总监',
+ state as '状态' , loan_money as '贷款金额' , service_agreement as '是否有服务协议',beizhu as '备注', houqi as '后期'
+
+from (SELECT a1.*,employee.name as  name2 from employee,(SELECT a.*,e.name AS name1 FROM accepted a ,employee e WHERE a.deputy_director=e.code) as a1
+WHERE a1.director=employee.code ) as res
+# ORDER BY accept_time DESC ;
+UNION
+SELECT  accept_time as '受理时间',letter_number as '字母编号' ,accepted_number as '受理编号' ,customer_name as '客户姓名', customer_phone as '客户电话' ,business_type as '业务类别', agency as '机构' , business_nature as '业务性质',
+        want_money as '预贷金额', service_fee as '服务费比例' , service_fee_actual as '实收服务费',
+        end_date as '办结日期', clerk_name as '销售经理', '无' as '副总监', name2 as '总监',
+        state as '状态' , loan_money as '贷款金额' , service_agreement as '是否有服务协议',beizhu as '备注', houqi as '后期'
+
+from (SELECT a1.*,employee.name as name2 from employee,(SELECT a.*  FROM accepted a ) as a1
+WHERE a1.director=employee.code ) as res WHERE deputy_director is NULL
+ORDER BY '受理时间' DESC ;
+
+
+
+
+
+
+

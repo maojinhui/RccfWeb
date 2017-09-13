@@ -1,0 +1,17 @@
+-- 更新杨金峰组到金融一部
+DELETE  FROM  employee  WHERE name="杨金峰直属";
+update employee set department="金融一部" WHERE department = "金融三部";
+update employee set duties = "副总监",leader="s001",role=3 WHERE code = "s004";
+UPDATE employee set leader="s004" where leader="e085";
+UPDATE employee set department="金融三部" where department="金融四部";
+
+# SELECT * FROM employee where leader="s004" ;
+# SELECT * from employee where department="金融三部";
+
+
+
+DELETE  from accepted where create_time >= '2017-09-01 00:00:00';
+update `rccf`.`employee` set duduties='金融顾问', `state`=1 where `id`=107;
+update `rccf`.`employee` set duduties='金融顾问',`role`=4,`state`=1 where `id`=93;
+
+DELETE FROM accepted;
