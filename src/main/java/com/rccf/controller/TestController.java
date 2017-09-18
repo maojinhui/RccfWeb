@@ -4,6 +4,7 @@ import com.rccf.component.SpyMemcachedManager;
 import com.rccf.model.Test;
 import com.rccf.service.UserService;
 import com.rccf.util.ResponseUtil;
+import com.rccf.util.Strings;
 import com.rccf.util.WeixinUtil;
 import com.rccf.util.sms.ShumiUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,23 @@ public class TestController {
     private UserService userService;
 
 
+    @ResponseBody
+    @RequestMapping(value = "/jsonp")
+    public String jsonP() {
+//        return "jsonp({\"a\":\"b\"})";
+        return "{\"a\":\"b\"}";
+    }
 
+    @ResponseBody
+    @RequestMapping(value = "/jsonp2")
+    public String jsonP2(HttpServletRequest request) {
+        String callback = request.getParameter("callback");
+        if (!Strings.isNullOrEmpty(callback)) {
+            return callback + "(" + "{\"a\":\"b\"}" + ")";
+        } else {
+            return "{\"a\":\"b\"}";
+        }
+    }
 
     @RequestMapping(value = "/save")
     @ResponseBody

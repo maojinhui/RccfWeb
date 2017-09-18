@@ -26,6 +26,9 @@ public class Employee {
     private String duptyDirectorName;
     private String director;
     private String directorName;
+    private Timestamp leaveTime;
+    private String email;
+    private Timestamp turnTime;
 
     @Id
     @Column(name = "id")
@@ -280,5 +283,35 @@ public class Employee {
 
     public void setDirectorName(String directorName) {
         this.directorName = directorName;
+    }
+
+    @Basic
+    @Column(name = "leave_time")
+    public Timestamp getLeaveTime() {
+        return leaveTime;
+    }
+
+    public void setLeaveTime(Timestamp leaveTime) {
+        this.leaveTime = leaveTime;
+    }
+
+    @Basic
+    @Column(name = "email")
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Basic
+    @Column(name = "turn_time")
+    public Timestamp getTurnTime() {
+        return turnTime;
+    }
+
+    public void setTurnTime(Timestamp turnTime) {
+        this.turnTime = turnTime;
     }
 }

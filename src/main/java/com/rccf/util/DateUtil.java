@@ -112,8 +112,9 @@ public class DateUtil {
 
 
     public static void main(String args[]) {
-        Date date = string2Date("2017-01-01");
-        System.out.println(date);
+        String lastString = "20170913-776";
+        lastString = lastString.substring(lastString.indexOf("-") + 1);
+        System.out.println(lastString);
     }
 
 

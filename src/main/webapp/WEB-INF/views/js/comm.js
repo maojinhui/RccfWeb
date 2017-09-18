@@ -47,15 +47,15 @@ function ismobile(phone) {
     }
 }
 
-function isInclude(name){
-    var js= /js$/i.test(name);
-    var es=document.getElementsByTagName(js?'script':'link');
-    for(var i=0;i<es.length;i++)
-        if(es[i][js?'src':'href'].indexOf(name)!=-1)return true;
+function isInclude(name) {
+    var js = /js$/i.test(name);
+    var es = document.getElementsByTagName(js ? 'script' : 'link');
+    for (var i = 0; i < es.length; i++)
+        if (es[i][js ? 'src' : 'href'].indexOf(name) != -1) return true;
     return false;
 }
 
-if(isInclude("jquery-weui.min.js")){
+if (isInclude("jquery-weui.min.js")) {
     $.toast.prototype.defaults.duration = 500;
 }
 
@@ -68,5 +68,84 @@ function loadStyles(url) {
     document.getElementsByTagName("head")[0].appendChild(link);
 }
 
+function isNull(variable1) {
+    if (variable1 === null) {
+        return true;
+    }
+    if (typeof (variable1) === 'undefined') {
+        return true;
+    }
+    if (variable1 === "") {
+        return true;
+    }
+
+    if (variable1 === "null") {
+        return true;
+    }
+
+    return false;
+}
 
 
+function getString(str) {
+    if (isNull(str)) {
+        return '无';
+    }
+    return str;
+}
+
+
+function getdata(str) {
+    if (str == null) {
+        return '无';
+    }
+    return str;
+}
+
+function getType(type) {
+    if (type === 0) {
+        return '信用贷';
+    } else if (type === 1) {
+        return '抵押';
+    } else if (type === 2) {
+        return '质押';
+    } else {
+        return '其他';
+    }
+}
+
+function getState(state) {
+    if (state === 1) {
+        return '受理';
+    } else if (state === 2) {
+        return '办结';
+    } else if (state === 3) {
+        return '被拒';
+    } else if (state === 4) {
+        return '撤单';
+    } else {
+        return '其他';
+    }
+}
+
+function get_sum(arr) {
+    var sum = 0;
+    for (var i = 0; i < arr.length; i++) {
+        sum += arr[i][6];
+    }
+    return sum;
+}
+
+function getSex(sex) {
+    if (sex === 0) {
+        return "未知";
+    } else if (sex === 1) {
+        return "男";
+    } else if (sex === 2) {
+        return "女";
+    } else {
+        return "还未见过的性别";
+    }
+
+
+}

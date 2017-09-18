@@ -1,24 +1,25 @@
 
-SELECT '' as want_money,
-       a.`service_fee_actual`  as fee,
-       a.clerk_name,
-       (SELECT name from `employee`WHERE `code`= a.`deputy_director`) as 'fu',
+SELECT
        (SELECT  name from `employee`  where code = a.`director` ) as 'zong',
-	a.`houqi` ,
-	a.`business_type` ,
-	a.`state`
+       (SELECT name from `employee`WHERE `code`= a.`deputy_director`) as 'fu',
+       a.clerk_name,
+       a.`houqi` ,
+       a.`business_type` ,
+       a.`state`,
+        '' as want_money,
+       a.`service_fee_actual`  as fee
   FROM `accepted` a
- WHERE `accept_time`= '2017-09-12'
+ WHERE `end_date`= '2017-09-12'
    and a.`state` =2
 UNION ALL
-SELECT a.want_money,
-       '' as fee,
-       a.clerk_name,
+SELECT (SELECT  name from `employee`  where code = a.`director` ) as 'zong',
        (SELECT name from `employee`WHERE `code`= a.`deputy_director`) as 'fu',
-       (SELECT  name from `employee`  where code = a.`director` ) as 'zong',
-	a.`houqi` ,
-	a.`business_type` ,
-	a.`state`
+       a.clerk_name,
+       a.`houqi` ,
+       a.`business_type` ,
+       a.`state`,
+        '' as want_money,
+       a.`service_fee_actual`  as fee
   FROM `accepted` a
  WHERE `accept_time`= '2017-09-12'
    and a.`state` =1

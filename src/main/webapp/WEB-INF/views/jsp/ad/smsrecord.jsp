@@ -50,6 +50,7 @@
                 <th>姓名</th>
                 <th>手机号码</th>
                 <th>申请时间</th>
+                <th>业务员电话</th>
                 <th>状态</th>
             </tr>
             </thead>
@@ -129,6 +130,7 @@
                                 "                <td>"+formateName(data[i].realName)+"</td>" +
                                 "                <td>"+data[i].phone+"</td>" +
                                 "                <td>"+formatDateTime(data[i].createTime)+"</td>" +
+                                "                <td>" + data[i].clerkPhone + "</td>" +
                                 "                <td>" +
                                 "                <button class=\"info-status\" onclick=\"handle(this,"+data[i].id+");\">"+tx+"</button>" +
                                 "                </td>" +

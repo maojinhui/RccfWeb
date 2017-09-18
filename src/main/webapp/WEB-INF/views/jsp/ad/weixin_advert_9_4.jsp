@@ -89,6 +89,11 @@
     </div>
 </div>
 <footer class="foot">
+
+    <input hidden id="clerk_name" name="clerk_name" value="<%=request.getAttribute("clerk_name")%>">
+    <input hidden id="clerk_phone" name="clerk_phone" value="<%=request.getAttribute("clerk_phone")%>">
+    <input hidden id="channel_name" name="channel_name" value="<%=request.getAttribute("channel_name")%>">
+    <input hidden id="channel_phone" name="channel_phone" value="<%=request.getAttribute("channel_phone")%>">
     <button id="submit" class="btn fz32">立即申请</button>
 </footer>
 </body>
@@ -107,11 +112,41 @@
 %>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+<script src="/js/comm.js"></script>
 <script type="application/javascript">
 
     $('#submit').bind('click', function () {
-        window.location.href = '/advert/weixin94apply';
+
+        var clerk_name = $('#clerk_name').val();
+        var clerk_phone = $('#clerk_phone').val();
+        var channel_name = $('#channel_name').val();
+        var channel_phone = $('#channel_phone').val();
+        var url = "/advert/weixin94apply";
+        if (isNull(clerk_name) && isNull(clerk_phone) && isNull(channel_phone) && isNull(channel_name)) {
+            window.location.href = url;
+        } else {
+            url += "?";
+        }
+        if (!isNull(clerk_name)) {
+            url = url + "clerk_name=" + clerk_name + "&";
+        }
+        if (!isNull(clerk_phone)) {
+            url = url + "clerk_phone=" + clerk_phone + "&";
+        }
+        if (!isNull(channel_name)) {
+            url = url + "channel_name=" + channel_name + "&";
+        }
+        if (!isNull(channel_phone)) {
+            url = url + "channel_phone=" + channel_phone + "&";
+        }
+        url = url.substring(0, url.length - 1);
+        window.location.href = url;
+
+
     });
+
+    <%--alert("业务员手机号"+<%=request.getAttribute("clerk_phone")%>);--%>
+
 
     var ticket = '<%=jsapi_ticket%>';
     var url = '<%=url%>';

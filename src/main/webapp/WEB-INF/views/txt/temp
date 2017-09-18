@@ -1,0 +1,38 @@
+function employee_sub() {
+        var user_id = $("#user_id").val();
+        var code = $("#code").val();
+        var name = $("#name").val();
+        var sex = $("#sex").val();
+        var age = $("#age").val();
+        var phone = $("#phone").val();
+        var entry_time = $("#entrytime").val();
+        var department = $("#department").val();
+        var role = $("#role").val();
+        var duties = $("#duties").val();
+        var leader = $("#leader").val();
+        $.ajax({
+            url: "/employee/editinfo",
+            type: "POST",
+            data: {
+                'id': user_id,
+                'code': code,
+                'name': name,
+                'sex': sex,
+                'age': age,
+                'phone': phone,
+                'entry_time': entry_time,
+                'department': department,
+                'role': role,
+                'duties': duties,
+                'leader': leader
+            },
+            success: function (result) {
+                if (result.code) {
+                    alert("OK");
+//                    $("#name").val("");
+                }
+            }
+
+
+        });
+    }

@@ -16,9 +16,11 @@ public class Loanapply {
     private Integer wantMoney;
     private Timestamp wantTime;
     private Timestamp createTime;
-    private int stat;
-
-
+    private Integer stat;
+    private String channelPhone;
+    private String clerkPhone;
+    private String clerkName;
+    private String channelName;
 
     @Id
     @Column(name = "id")
@@ -100,6 +102,56 @@ public class Loanapply {
         this.createTime = createTime;
     }
 
+    @Basic
+    @Column(name = "stat")
+    public Integer getStat() {
+        return stat;
+    }
+
+    public void setStat(Integer stat) {
+        this.stat = stat;
+    }
+
+    @Basic
+    @Column(name = "channel_phone")
+    public String getChannelPhone() {
+        return channelPhone;
+    }
+
+    public void setChannelPhone(String channelPhone) {
+        this.channelPhone = channelPhone;
+    }
+
+    @Basic
+    @Column(name = "clerk_phone")
+    public String getClerkPhone() {
+        return clerkPhone;
+    }
+
+    public void setClerkPhone(String clerkPhone) {
+        this.clerkPhone = clerkPhone;
+    }
+
+    @Basic
+    @Column(name = "clerk_name")
+    public String getClerkName() {
+        return clerkName;
+    }
+
+    public void setClerkName(String clerkName) {
+        this.clerkName = clerkName;
+    }
+
+    @Basic
+    @Column(name = "channel_name")
+    public String getChannelName() {
+        return channelName;
+    }
+
+    public void setChannelName(String channelName) {
+        this.channelName = channelName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -115,6 +167,13 @@ public class Loanapply {
         if (wantMoney != null ? !wantMoney.equals(loanapply.wantMoney) : loanapply.wantMoney != null) return false;
         if (wantTime != null ? !wantTime.equals(loanapply.wantTime) : loanapply.wantTime != null) return false;
         if (createTime != null ? !createTime.equals(loanapply.createTime) : loanapply.createTime != null) return false;
+        if (stat != null ? !stat.equals(loanapply.stat) : loanapply.stat != null) return false;
+        if (channelPhone != null ? !channelPhone.equals(loanapply.channelPhone) : loanapply.channelPhone != null)
+            return false;
+        if (clerkPhone != null ? !clerkPhone.equals(loanapply.clerkPhone) : loanapply.clerkPhone != null) return false;
+        if (clerkName != null ? !clerkName.equals(loanapply.clerkName) : loanapply.clerkName != null) return false;
+        if (channelName != null ? !channelName.equals(loanapply.channelName) : loanapply.channelName != null)
+            return false;
 
         return true;
     }
@@ -129,16 +188,11 @@ public class Loanapply {
         result = 31 * result + (wantMoney != null ? wantMoney.hashCode() : 0);
         result = 31 * result + (wantTime != null ? wantTime.hashCode() : 0);
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        result = 31 * result + (stat != null ? stat.hashCode() : 0);
+        result = 31 * result + (channelPhone != null ? channelPhone.hashCode() : 0);
+        result = 31 * result + (clerkPhone != null ? clerkPhone.hashCode() : 0);
+        result = 31 * result + (clerkName != null ? clerkName.hashCode() : 0);
+        result = 31 * result + (channelName != null ? channelName.hashCode() : 0);
         return result;
-    }
-
-    @Basic
-    @Column(name = "stat")
-    public int getStat() {
-        return stat;
-    }
-
-    public void setStat(int stat) {
-        this.stat = stat;
     }
 }

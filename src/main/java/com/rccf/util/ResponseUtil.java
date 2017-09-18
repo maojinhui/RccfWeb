@@ -114,6 +114,11 @@ public class ResponseUtil {
         return  object.toJSONString();
     }
 
+    public static String success_jsonp(String callback, Object o) {
+        return callback + "('" + JSON.toJSONString(o) + "')";
+    }
+
+
 
     public static void main(String [] args){
 

@@ -32,5 +32,10 @@
         html, body {
             overflow: auto;
         }
+
+        .w_8 {
+            width: 80%;
+        }
+
     </style>
 </head>

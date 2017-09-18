@@ -40,6 +40,12 @@
         <img class="virtue" src="/image/market/virtue.png">
     </div>
     <div class="ap_form">
+
+        <input hidden id="clerk_name" name="clerk_name" value="<%=request.getAttribute("clerk_name")%>">
+        <input hidden id="clerk_phone" name="clerk_phone" value="<%=request.getAttribute("clerk_phone")%>">
+        <input hidden id="channel_name" name="channel_name" value="<%=request.getAttribute("channel_name")%>">
+        <input hidden id="channel_phone" name="channel_phone" value="<%=request.getAttribute("channel_phone")%>">
+
         <div class="ap_input fz30">
             <span>姓&emsp;名：</span>
             <input id="name" type="text" placeholder="请输入姓名"/>
@@ -76,11 +82,9 @@
 <%--<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>--%>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
-
+<script src="/js/comm.js"></script>
 <script type="application/javascript">
     $(".btn").css("color", "white");
-
-
     var ticket = '<%=jsapi_ticket%>';
     var url = '<%=url%>';
     wx.config({
@@ -132,6 +136,8 @@
 </script>
 
 <script>
+
+
     $('#submit').bind('click', function () {
         var name = $('#name').val();
         var phone = $('#phone').val();
@@ -140,9 +146,27 @@
             return;
         }
 
+        var clerk_name = $('#clerk_name').val();
+        var clerk_phone = $('#clerk_phone').val();
+        var channel_name = $('#channel_name').val();
+        var channel_phone = $('#channel_phone').val();
+
         var info = {};
         info.phone = phone;
         info.name = name;
+        if (!isNull(clerk_name)) {
+            info.clerk_name = clerk_name;
+        }
+        if (!isNull(clerk_phone)) {
+            info.clerk_phone = clerk_phone;
+        }
+        if (!isNull(channel_name)) {
+            info.channel_name = channel_name;
+        }
+        if (!isNull(channel_phone)) {
+            info.channel_phone = channel_phone;
+        }
+
         $.ajax({
             url: '/advert/apply_nocode',
             dataType: 'json',

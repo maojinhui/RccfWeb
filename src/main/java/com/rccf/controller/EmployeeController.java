@@ -2,6 +2,7 @@ package com.rccf.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.rccf.component.Page;
 import com.rccf.constants.PageConstants;
 import com.rccf.constants.UrlConstants;
@@ -17,6 +18,7 @@ import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
 import com.rccf.util.encrypt.DesEncrypt;
 import com.rccf.util.encrypt.ShaEncript;
+import org.hibernate.Criteria;
 import org.hibernate.criterion.*;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,19 +58,22 @@ public class EmployeeController {
     @RequestMapping(value = "/editPage")
     public ModelAndView addEmployeePage(HttpServletRequest request, HttpServletResponse response) {
 //        ModelAndView modelAndView = new ModelAndView("/back/employee/add_edit");
+        String state = request.getParameter("state");
         ModelAndView modelAndView = getUserView(request, response, "/back/employee/add_edit", HeaderType.EMPLOYEE);
+        if (!Strings.isNullOrEmpty(state)) {//0添加，1编辑，2详情
+            modelAndView.addObject("state", state);
+        } else {
+            modelAndView.addObject("state", "0");
+        }
+
         Employee employee = null;
         boolean has = false;
         String code = request.getParameter("code");
         String id = request.getParameter("id");
-
-
         if (!Strings.isNullOrEmpty(code)) {
             has = true;
             employee = employeeService.findEmpolyeeByCode(code);
         }
-
-
         if (!Strings.isNullOrEmpty(id)) {
             has = true;
             try {
@@ -87,6 +92,10 @@ public class EmployeeController {
     @RequestMapping(value = "/list")
     public ModelAndView employeeList(HttpServletRequest request, HttpServletResponse response) {
         ModelAndView view = getUserView(request, response, "/back/employee/list", HeaderType.EMPLOYEE);
+        String sql_departs = "SELECT  department from employee WHERE department!= \"IT部门\" GROUP BY department;";
+        List list = baseService.queryBySql(sql_departs);
+        view.addObject("departs", list);
+
         return view;
     }
 
@@ -238,31 +247,47 @@ public class EmployeeController {
     @RequestMapping(value = "/employees")
     @ResponseBody
     public String findEmployeesByOneCode(HttpServletRequest request, HttpServletResponse response) {
-
-
-        String pageNo = request.getParameter("pageNo");
-        int n = 0;
         String code = request.getParameter("code");//编号
+        String department = request.getParameter("department");
+        String duties = request.getParameter("duties");
+        String name = request.getParameter("name");
+        String dupty = request.getParameter("dupty");
+        String director = request.getParameter("director");
+
         DetachedCriteria criteria = DetachedCriteria.forClass(Employee.class);
-        if (!Strings.isNullOrEmpty(code)) {
-            criteria.add(Restrictions.eq("leader", code));
+        criteria.add(Restrictions.not(Restrictions.eq("role", 0)));
+        if (!Strings.isNullOrEmpty(department)) {
+            criteria.add(Restrictions.eq("department", department));
         }
 
-        if (!Strings.isNullOrEmpty(pageNo)) {
-            try {
-                n = Integer.valueOf(n);
-                int count = baseService.getCount(criteria);
-                Page p = PageUtil.createPage(15, count, n);
-                List<Employee> employeeList = baseService.getList(p, criteria);
-                return ResponseUtil.success(employeeList);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            List<Employee> employeeList = baseService.getList(criteria);
-            return ResponseUtil.success(employeeList);
+        if (!Strings.isNullOrEmpty(duties)) {
+            criteria.add(Restrictions.like("duties", "%" + duties + "%"));
         }
-        return ResponseUtil.fail();
+
+        if (!Strings.isNullOrEmpty(name)) {
+            criteria.add(Restrictions.like("name", "%" + name + "%"));
+        }
+
+        if (!Strings.isNullOrEmpty(dupty)) {
+            criteria.add(Restrictions.or(
+                    Restrictions.like("duptyDirector", "%" + dupty + "%"),
+                    Restrictions.like("duptyDirectorName", "%" + dupty + "%")
+            ));
+        }
+
+        if (!Strings.isNullOrEmpty(director)) {
+            criteria.add(Restrictions.or(
+                    Restrictions.like("director", "%" + director + "%"),
+                    Restrictions.like("directorName", "%" + director + "%")
+            ));
+        }
+        criteria.add(Restrictions.eq("state", 1));
+        criteria.addOrder(Order.asc("role"));
+        List<Employee> employeeList = baseService.getList(criteria);
+        return ResponseUtil.success(employeeList);
+
+
+
     }
 
     @RequestMapping(value = "/addAccepted")
@@ -340,18 +365,15 @@ public class EmployeeController {
         if (!Strings.isNullOrEmpty(clerk)) {
             accepted.setClerk(clerk);
             Employee employee = employeeService.findEmpolyeeByCode(clerk);
-            int role = employee.getRole();
-            if (role == 4) {//业务员的时候
-                Employee duputy_director = employeeService.findEmpolyeeByCode(employee.getLeader());
-                Employee director = employeeService.findEmpolyeeByCode(duputy_director.getLeader());
-                accepted.setDeputyDirector(duputy_director.getCode());
-                accepted.setDirector(director.getCode());
-            } else if (role == 3) {//副总监的时候
-                Employee director = employeeService.findEmpolyeeByCode(employee.getLeader());
-                accepted.setDeputyDirector(employee.getCode());
-                accepted.setDirector(director.getCode());
-            } else if (role == 2) {//总监自己的单子
-                accepted.setDirector(clerk);
+            if (employee == null) {
+//                return ResponseUtil.fail(0,"请选择正确的员工");
+            } else {
+                if (null != employee.getDuptyDirector()) {
+                    accepted.setDeputyDirector(employee.getDuptyDirector());
+                }
+                if (null != employee.getDirector()) {
+                    accepted.setDirector(employee.getDirector());
+                }
             }
         }
         if (!Strings.isNullOrEmpty(clerk_name)) {
@@ -456,6 +478,7 @@ public class EmployeeController {
         String pageNo = request.getParameter("page_no");
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Accepted.class);
         detachedCriteria.addOrder(Order.desc("acceptTime"));
+        detachedCriteria.addOrder(Order.desc("acceptedNumber"));
         if (!Strings.isNullOrEmpty(accept_time)) {
             Timestamp timestamp = DateUtil.date2Timestamp(DateUtil.string2Date(accept_time));
             detachedCriteria.add(Restrictions.eq("acceptTime", timestamp));
@@ -478,25 +501,11 @@ public class EmployeeController {
     private String getLastNumber() {
         DateFormat format = new SimpleDateFormat("yyyyMMdd");
         String preFix = format.format(new Date(System.currentTimeMillis())) + "-";
-        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Accepted.class);
-//        ProjectionList list = Projections.projectionList();
-//        list.add(Projections.property("acceptedNumber"));
-////        list.add(Projections.max("acceptedNumber"));
-//        detachedCriteria.setProjection(list);
-        detachedCriteria.addOrder(Order.desc("acceptedNumber"));
-        detachedCriteria.add(Restrictions.like("acceptedNumber", preFix + "%"));
-//        detachedCriteria.setResultTransformer(Transformers.aliasToBean(Accepted.class));
-        List<Accepted> l = baseService.getList(detachedCriteria);
-        int number_now = 0;
-        if (null != l && l.size() > 1) {//查询到有记录
-            String last_number_str = l.get(0).getAcceptedNumber();
-            last_number_str = last_number_str.substring(last_number_str.indexOf("-") + 1);
-            number_now = Integer.valueOf(last_number_str) + 1;
-        } else {
-            number_now = 10000;
-        }
+        String sql = "SELECT MAX(a.acceptedNumber)  FROM Accepted a";
+        String lastString = baseService.queryMaxBySql(sql);
+        lastString = lastString.substring(lastString.indexOf("-") + 1);
+        int number_now = Integer.valueOf(lastString) + 1;
         return preFix + number_now;
-
     }
 
 
@@ -511,16 +520,19 @@ public class EmployeeController {
 
     @RequestMapping(value = "/todayData")
     public ModelAndView todayAcceptedBanjie(HttpServletRequest request, HttpServletResponse response) {
+        String day = request.getParameter("time");
         ModelAndView view = getUserView(request, response, "/back/accepted/today_state", HeaderType.EMPLOYEE);
         long current = System.currentTimeMillis();//当前时间毫秒数
         long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();//今天零点零分零秒的毫秒数
         long twelve = zero + 24 * 60 * 60 * 1000 - 1;//今天23点59分59秒的毫秒数
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String day_start = format.format(zero);
-//        day_start="2017-09-12 00:00:00";
+        if (!Strings.isNullOrEmpty(day)) {
+            day_start = day;
+        }
 
         String month_start = day_start.substring(0, 8) + "01 00:00:00";
-        String sql = "\n" +
+        String sql_banjie = "\n" +
                 "SELECT '' as want_money,\n" +
                 "       a.`service_fee_actual`  as fee,\n" +
                 "       a.clerk_name,\n" +
@@ -530,9 +542,9 @@ public class EmployeeController {
                 "\ta.`business_type` ,\n" +
                 "\ta.`state`\n" +
                 "  FROM `accepted` a\n" +
-                " WHERE `accept_time`= '" + day_start + "'\n" +
-                "   and a.`state` =2\n" +
-                "UNION ALL\n" +
+                " WHERE `end_date`= '" + day_start + "'\n" +
+                "   and a.`state` =2\n";
+        String sql_shouli =
                 "SELECT a.want_money,\n" +
                 "       '' as fee,\n" +
                 "       a.clerk_name,\n" +
@@ -544,11 +556,67 @@ public class EmployeeController {
                 "  FROM `accepted` a\n" +
                 " WHERE `accept_time`= '" + day_start + "'\n" +
                 "   and a.`state` =1\n";
-        List data = baseService.queryBySql(sql);
-        JSONArray array = JSON.parseArray(JSON.toJSONString(data));
-        view.addObject("res", array);
+        List data_banjie = baseService.queryBySql(sql_banjie);
+        List date_shouli = baseService.queryBySql(sql_shouli);
+        JSONObject object = new JSONObject();
+        JSONArray array_banjie = JSON.parseArray(JSON.toJSONString(data_banjie));
+        JSONArray array_shouli = JSON.parseArray(JSON.toJSONString(data_banjie));
+        object.put("shouli", array_shouli);
+        object.put("banjie", array_banjie);
+        view.addObject("res", object);
         return view;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/daycount")
+    public String dayShouliBanjie(HttpServletRequest request) {
+        String callback = request.getParameter("callback");
+        String day = request.getParameter("time");
+        long current = System.currentTimeMillis();//当前时间毫秒数
+        long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();//今天零点零分零秒的毫秒数
+        long twelve = zero + 24 * 60 * 60 * 1000 - 1;//今天23点59分59秒的毫秒数
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String day_start = format.format(zero);
+        if (!Strings.isNullOrEmpty(day)) {
+            day_start = day;
+        }
+        String month_start = day_start.substring(0, 8) + "01 00:00:00";
+        String sql_banjie = "SELECT\n" +
+                "       (SELECT  name from `employee`  where code = a.`director` ) as 'zong',\n" +
+                "       (SELECT name from `employee`WHERE `code`= a.`deputy_director`) as 'fu',\n" +
+                "       a.clerk_name,\n" +
+                "       a.`houqi` ,\n" +
+                "       a.`business_type` ,\n" +
+                "       a.`state`,\n" +
+                "       a.`service_fee_actual`  as fee\n" +
+                "  FROM `accepted` a\n" +
+                " WHERE `end_date`= '" + day_start + "'\n" +
+                "   and a.`state` =2";
+        String sql_shouli = "SELECT (SELECT  name from `employee`  where code = a.`director` ) as 'zong',\n" +
+                "       (SELECT name from `employee`WHERE `code`= a.`deputy_director`) as 'fu',\n" +
+                "       a.clerk_name,\n" +
+                "       a.`houqi` ,\n" +
+                "       a.`business_type` ,\n" +
+                "       a.`state`,\n" +
+                "        a. want_money\n" +
+                "  FROM `accepted` a\n" +
+                " WHERE `accept_time`= '" + day_start + "'\n" +
+                "   and a.`state` =1";
+
+        List data_banjie = baseService.queryBySql(sql_banjie);
+        List date_shouli = baseService.queryBySql(sql_shouli);
+        JSONObject object = new JSONObject();
+        JSONArray array_banjie = JSON.parseArray(JSON.toJSONString(data_banjie));
+        JSONArray array_shouli = JSON.parseArray(JSON.toJSONString(date_shouli));
+        object.put("shouli", array_shouli);
+        object.put("banjie", array_banjie);
+        if (!Strings.isNullOrEmpty(callback)) {
+            return ResponseUtil.success_jsonp(callback, object);
+        } else {
+            return ResponseUtil.success(object);
+        }
+    }
+
 
 
     /**

@@ -123,7 +123,7 @@
                         </a>
                     </li>
                     <li class="sidebar-nav-link">
-                        <a href="#">
+                        <a class="rcmenu" data-rccf-menu="/employee/editPage">
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 添加
                         </a>
                     </li>

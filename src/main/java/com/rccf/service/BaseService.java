@@ -52,5 +52,10 @@ public class BaseService {
         return list;
     }
 
+    public String queryMaxBySql(String sql) {
+        return dao.queryMaxBySql(sql);
+    }
+
+
 
 }
