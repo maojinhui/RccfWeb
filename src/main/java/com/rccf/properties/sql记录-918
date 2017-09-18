@@ -1,0 +1,36 @@
+
+
+UPDATE `employee` set `dupty_director` =`code`  where `role` =3
+UPDATE `employee` set `director` =`code`  WHERE `role` =2
+
+UPDATE `employee` a  INNER JOIN `employee`  b  on a.`dupty_director`  =b.`code` set a.`dupty_director_name`  =b.`name`
+UPDATE `employee` a  INNER JOIN `employee`  b  on a.`director` =b.`code` set a.`director_name` =b.`name`
+
+
+SELECT * FROM `accepted` WHERE accepted_number='20170831-728'
+
+UPDATE `employee` set `department`  ='金融渠道部' where `director` ='s003' AND `role` =4
+
+
+SELECT * FROM `employee` WHERE `director` is null or `dupty_director` IS NULL
+
+
+DELETE FROM `employee`  WHERE `state` =0
+
+UPDATE employee set sex=0  WHERE sex is NULL ;
+ALTER TABLE employee ADD leave_time DATETIME NULL;
+
+ALTER TABLE employee ADD email VARCHAR(225) NULL;
+
+
+ALTER TABLE employee ADD turn_time DATETIME NULL;
+ALTER TABLE employee
+  MODIFY COLUMN turn_time DATETIME AFTER entry_time;
+
+
+SELECT houqi FROM  `accepted` GROUP BY `houqi`
+
+UPDATE `accepted` set `houqi` =NULL WHERE `houqi` ='' or `houqi` ='无 '
+
+
+

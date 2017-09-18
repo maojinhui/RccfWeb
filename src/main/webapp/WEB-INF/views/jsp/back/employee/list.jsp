@@ -167,6 +167,25 @@
 <script>
 
 
+    function deleteEmp(id) {
+        $.ajax({
+            url: '/employee/del',
+            dataType: 'json',
+            data: {'id': id},
+            type: 'pOST',
+            success: function (result) {
+                if (result.code) {
+                    window.location.reload();
+                } else {
+                    alert(result.errormsg);
+                }
+            },
+            error: function () {
+
+            }
+        });
+    }
+
     var data;
     var nums = 10; //每页出现的数量
     function getData(info) {
@@ -260,7 +279,7 @@
             '                            <a onclick="changeEmployee(1,' + obj.id + ')" class="am-btn am-btn-default am-btn-xs"><span\n' +
             '                                    class="am-icon-copy"></span> 编辑\n' +
             '                            </a>\n' +
-            '                            <a class="am-btn am-btn-default am-btn-xs am-text-danger">\n' +
+            '                            <a onclick="deleteEmp(' + obj.id + ')"class="am-btn am-btn-default am-btn-xs am-text-danger">\n' +
             '                                <span class="am-icon-trash-o"></span> 删除\n' +
             '                            </a>\n' +
             '                        </td>\n' +

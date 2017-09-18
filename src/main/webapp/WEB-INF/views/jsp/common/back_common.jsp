@@ -153,6 +153,12 @@
                         </a>
                     </li>
                     <li class="sidebar-nav-link">
+                        <a class="rcmenu" data-rccf-menu="/accept/employee_info">
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 业务员日报
+                        </a>
+                    </li>
+
+                    <li class="sidebar-nav-link">
                         <a href="/export/ribao">
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 导出日报
                         </a>

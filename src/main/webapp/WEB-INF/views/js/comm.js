@@ -86,6 +86,13 @@ function isNull(variable1) {
     return false;
 }
 
+function getStringWithspace(str) {
+    if (isNull(str)) {
+        return "";
+    }
+    return str;
+}
+
 
 function getString(str) {
     if (isNull(str)) {

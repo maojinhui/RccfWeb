@@ -35,6 +35,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.TimeZone;
 
 @Controller
@@ -85,6 +86,40 @@ public class EmployeeController {
         if (has) {
             modelAndView.addObject("employee", employee);
         }
+
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Employee.class);
+        ProjectionList plist = Projections.projectionList();
+        plist.add(Projections.property("code").as("code"));
+        plist.add(Projections.property("name").as("name"));
+        detachedCriteria.setProjection(plist);
+        detachedCriteria.add(Restrictions.eq("role", 3));
+        detachedCriteria.setResultTransformer(Transformers.aliasToBean(Employee.class));
+        List<Employee> duptyemployees = baseService.getList(detachedCriteria);
+        modelAndView.addObject("duptys", duptyemployees);
+
+        DetachedCriteria detachedCriteria2 = DetachedCriteria.forClass(Employee.class);
+        ProjectionList plist2 = Projections.projectionList();
+        plist2.add(Projections.property("code").as("code"));
+        plist2.add(Projections.property("name").as("name"));
+        detachedCriteria2.setProjection(plist2);
+        detachedCriteria2.add(Restrictions.eq("role", 2));
+        detachedCriteria2.setResultTransformer(Transformers.aliasToBean(Employee.class));
+        List<Employee> directoremployees = baseService.getList(detachedCriteria2);
+        modelAndView.addObject("directors", directoremployees);
+
+
+        DetachedCriteria detachedCriteria3 = DetachedCriteria.forClass(Employee.class);
+        ProjectionList plist3 = Projections.projectionList();
+//        plist3.add(Projections.property("code").as("code"));
+        plist3.add(Projections.property("department").as("department"));
+        plist3.add(Projections.groupProperty("department"));
+        detachedCriteria3.setProjection(plist3);
+        detachedCriteria3.setResultTransformer(Transformers.aliasToBean(Employee.class));
+        List<Employee> depart = baseService.getList(detachedCriteria3);
+        modelAndView.addObject("departs", depart);
+
+
+
         return modelAndView;
     }
 
@@ -124,17 +159,24 @@ public class EmployeeController {
     public String commitEmployeeInfo(HttpServletRequest request) {
         String id = request.getParameter("id");
         String code = request.getParameter("code");
-        String phone = request.getParameter("phone");
-        String phone_fixed = request.getParameter("phone_fixed");
         String name = request.getParameter("name");
         String sex = request.getParameter("sex");
         String age = request.getParameter("age");
+        String phone = request.getParameter("phone");
+        String phone_fixed = request.getParameter("phone_fixed");
         String entry_time = request.getParameter("entry_time");
+        String turn_time = request.getParameter("turntime");
+        String department = request.getParameter("department");
+        String role = request.getParameter("role");
         String duties = request.getParameter("duties");
         String admin = request.getParameter("admin");
         String leader = request.getParameter("leader");
-        String department = request.getParameter("department");
-        String role = request.getParameter("role");
+        String email = request.getParameter("email");
+        String dupty = request.getParameter("dupty");
+        String director = request.getParameter("director");
+        String state = request.getParameter("state");
+        String leavetime = request.getParameter("leavetime");
+
 
         Employee employee = null;
         if (Strings.isNullOrEmpty(id) || id.equals("0")) {
@@ -151,9 +193,12 @@ public class EmployeeController {
             employee = employeeService.findEmpolyeeById(_id);
         }
 
-        if (!Strings.isNullOrEmpty(code)) {
+        if (!Strings.isNullOrEmpty(code)) { //如果不设置默认生成
             employee.setCode(code);
+        } else {
+            employee.setCode(getLastCode());
         }
+
         if (!Strings.isNullOrEmpty(phone)) {
             employee.setPhone(phone);
             if (!Strings.isNullOrEmpty(phone_fixed)) {
@@ -178,14 +223,41 @@ public class EmployeeController {
             employee.setEntryTime(DateUtil.date2Timestamp(date));
         }
 
+        if (!Strings.isNullOrEmpty(turn_time)) {
+            Date date = DateUtil.string2Date(turn_time);
+            employee.setTurnTime(DateUtil.date2Timestamp(date));
+        }
+
+        if (!Strings.isNullOrEmpty(email)) {
+            employee.setEmail(email);
+        }
         if (!Strings.isNullOrEmpty(duties)) {
             employee.setDuties(duties);
         }
         if (!Strings.isNullOrEmpty(admin)) {
             employee.setAdmin(admin);
         }
-        if (!Strings.isNullOrEmpty(leader)) {
-            employee.setLeader(leader);
+
+        if (!Strings.isNullOrEmpty(dupty)) {
+            Employee e = employeeService.findEmpolyeeByName(dupty);
+            if (e == null) {
+                return ResponseUtil.fail(0, "没有找到副总监" + dupty);
+            }
+            employee.setDuptyDirector(e.getCode());
+        }
+
+        if (!Strings.isNullOrEmpty(director)) {
+            Employee e = employeeService.findEmpolyeeByName(director);
+            if (e == null) {
+                return ResponseUtil.fail(0, "没有找到总监" + director);
+            }
+            employee.setDirector(e.getCode());
+        }
+        if (!Strings.isNullOrEmpty(state)) {
+            employee.setState(Integer.valueOf(state));
+        }
+        if (!Strings.isNullOrEmpty(admin)) {
+            employee.setAdmin(admin);
         }
         if (!Strings.isNullOrEmpty(department)) {
             employee.setDepartment(department);
@@ -285,7 +357,6 @@ public class EmployeeController {
         criteria.addOrder(Order.asc("role"));
         List<Employee> employeeList = baseService.getList(criteria);
         return ResponseUtil.success(employeeList);
-
 
 
     }
@@ -509,6 +580,22 @@ public class EmployeeController {
     }
 
 
+    private String getLastCode() {
+        String sql = "SELECT code FROM Employee e WHERE code LIKE 'e0%' ORDER BY id DESC ";
+        List list = baseService.queryBySql(sql);
+        String lastString = (String) list.get(0);
+        String prefix = lastString.substring(0, 2);
+        String number = lastString.substring(2);
+        int i = new Random().nextInt(1) * 10000;
+        try {
+            i = Integer.valueOf(number);
+        } catch (NumberFormatException e) {
+            return "" + i;
+        }
+        return prefix + (i + 1);
+    }
+
+
     @ResponseBody
     @RequestMapping(value = "/queryData")
     public String queryData() {
@@ -546,16 +633,16 @@ public class EmployeeController {
                 "   and a.`state` =2\n";
         String sql_shouli =
                 "SELECT a.want_money,\n" +
-                "       '' as fee,\n" +
-                "       a.clerk_name,\n" +
-                "       (SELECT name from `employee`WHERE `code`= a.`deputy_director`) as 'fu',\n" +
-                "       (SELECT  name from `employee`  where code = a.`director` ) as 'zong',\n" +
-                "\ta.`houqi` ,\n" +
-                "\ta.`business_type` ,\n" +
-                "\ta.`state`\n" +
-                "  FROM `accepted` a\n" +
-                " WHERE `accept_time`= '" + day_start + "'\n" +
-                "   and a.`state` =1\n";
+                        "       '' as fee,\n" +
+                        "       a.clerk_name,\n" +
+                        "       (SELECT name from `employee`WHERE `code`= a.`deputy_director`) as 'fu',\n" +
+                        "       (SELECT  name from `employee`  where code = a.`director` ) as 'zong',\n" +
+                        "\ta.`houqi` ,\n" +
+                        "\ta.`business_type` ,\n" +
+                        "\ta.`state`\n" +
+                        "  FROM `accepted` a\n" +
+                        " WHERE `accept_time`= '" + day_start + "'\n" +
+                        "   and a.`state` =1\n";
         List data_banjie = baseService.queryBySql(sql_banjie);
         List date_shouli = baseService.queryBySql(sql_shouli);
         JSONObject object = new JSONObject();
@@ -616,7 +703,6 @@ public class EmployeeController {
             return ResponseUtil.success(object);
         }
     }
-
 
 
     /**

@@ -4,6 +4,7 @@ package com.rccf.util;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -73,6 +74,21 @@ public class DateUtil {
     }
 
     /**
+     * Date 2 String yyyy-MM-dd HH:mm:ss
+     *
+     * @param date
+     * @return
+     */
+    public static String date2StringSimple(Date date) {
+        if (date == null) {
+            return "";
+        }
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String str = format.format(date);
+        return str;
+    }
+
+    /**
      * yyyy-mm-dd hh:mm:ss格式的时间转换成为Timestamp
      *
      * @param tsStr
@@ -109,6 +125,25 @@ public class DateUtil {
         }
         return null;
     }
+
+
+    /**
+     * 描述:获取下一个月的第一天.
+     *
+     * @return
+     */
+    public static String getPerFirstDayOfMonth(Date date) {
+        SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = Calendar.getInstance();
+        if (null != date) {
+            calendar.setTime(date);
+        }
+        calendar.add(Calendar.MONTH, 1);
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+        return dft.format(calendar.getTime());
+    }
+
+
 
 
     public static void main(String args[]) {

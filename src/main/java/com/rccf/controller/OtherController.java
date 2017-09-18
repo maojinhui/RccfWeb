@@ -562,12 +562,18 @@ public class OtherController {
 
 
     public static void main(String args[]) {
-        String s = "6270.000";
+        String s = "e0145";
 
-        s = s.substring(0, s.indexOf("."));
-        System.out.println(s);
-        int i = Integer.valueOf(s);
-        System.out.println(i);
+        String prefix = s.substring(0, 2);
+        String number = s.substring(2);
+        System.out.println(prefix);
+        int i = Integer.valueOf(number);
+        System.out.println(i + 1);
+
+
+
+
+
     }
 
 

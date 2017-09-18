@@ -1,4 +1,8 @@
-<%@ page import="com.rccf.model.Employee" %><%--
+<%@ page import="com.rccf.model.Employee" %>
+<%@ page import="com.alibaba.fastjson.JSON" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.rccf.util.DateUtil" %>
+<%@ page import="java.util.Date" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/8/30
@@ -22,6 +26,7 @@
     <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/amaze/admin.css"/>
     <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.page.css"/>
+    <link rel="stylesheet" href="/css/instyle.css"/>
     <style type="text/css">
         html, body {
             overflow: auto;
@@ -126,17 +131,22 @@
                 <span class="am-input-group-label">
                  入职日期:
                  </span>
-                    <input id="e_entrytime" class="am-form-field" type="date" readonly>
+                    <input id="e_entrytime" class="am-form-field" type="date" readonly
+                           value="<%=!eisnull&&employee.getEntryTime()!=null?DateUtil.date2StringSimple(DateUtil.timestamp2Date(employee.getEntryTime())):""%>"
+                    >
                 </div>
             </div>
         </div>
+
         <div class="am-g">
             <div class="am-u-sm-12 am-u-md-6 am-u-lg-4">
                 <div class="am-input-group am-input-group-sm">
                 <span class="am-input-group-label">
                  转正日期:
                  </span>
-                    <input id="e_turntime" class="am-form-field" type="date" readonly>
+                    <input id="e_turntime" class="am-form-field" type="date" readonly
+                           value="<%=!eisnull&&employee.getTurnTime()!=null?DateUtil.date2StringSimple(DateUtil.timestamp2Date(employee.getTurnTime())):""%>"
+                    >
                 </div>
             </div>
         </div>
@@ -148,6 +158,10 @@
                  </span>
                     <input id="e_depart" class="am-form-field" type="text" readonly
                            value="<%=!eisnull&&employee.getDepartment()!=null?employee.getDepartment():""%>">
+                    <div class="autocompleter autocompleter-closed" id="autocompleter-3">
+                        <div class="autocompleter-hint"></div>
+                        <ul class="autocompleter-list"></ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -157,8 +171,12 @@
                 <span class="am-input-group-label">
                  &emsp;副总监:
                  </span>
-                    <input id="e_dupty" class="am-form-field" type="text" readonly
+                    <input id="e_dupty" class="am-form-field " type="text" readonly
                            value="<%=!eisnull&&employee.getDuptyDirectorName()!=null?employee.getDuptyDirectorName():""%>">
+                    <div class="autocompleter autocompleter-closed" id="autocompleter-1">
+                        <div class="autocompleter-hint"></div>
+                        <ul class="autocompleter-list"></ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -170,6 +188,10 @@
                  </span>
                     <input id="e_director" class="am-form-field" type="text" readonly
                            value="<%=!eisnull&&employee.getDirectorName()!=null?employee.getDirectorName():""%>">
+                    <div class="autocompleter autocompleter-closed" id="autocompleter-2">
+                        <div class="autocompleter-hint"></div>
+                        <ul class="autocompleter-list"></ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -190,7 +212,7 @@
                 <span class="am-input-group-label">
                  职&emsp;&emsp;位:
                  </span>
-                    <select id="e_role" class="am-form-field">
+                    <select disabled id="e_role" class="am-form-field">
                         <option <%=employee != null && employee.getRole() == 4 ? "selected = \"selected\"" : ""%>
                                 value="4">普通员工
                         </option>
@@ -210,7 +232,7 @@
                 <span class="am-input-group-label">
                  员工状态:
                  </span>
-                    <select class="am-form-field" id="emp_status">
+                    <select disabled class="am-form-field" id="emp_status">
                         <option <%=employee != null && employee.getState() == 1 ? "selected = \"selected\"" : ""%>
                                 value="1">在职
                         </option>
@@ -257,7 +279,98 @@
     </div>
 </div>
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="/js/jquery.autocompleter.js"></script>
+<script src="/js/comm.js"></script>
+<%
+    List<Employee> duptys = (List<Employee>) request.getAttribute("duptys");
+    List<Employee> directors = (List<Employee>) request.getAttribute("directors");
+    List<Employee> departs = (List<Employee>) request.getAttribute("departs");
+%>
 <script>
+
+    var duptys =<%=JSON.toJSONString(duptys).replaceAll("name","label") %>;
+    var directors =<%=JSON.toJSONString(directors).replaceAll("name","label") %>;
+    var departs = <%=JSON.toJSONString(departs).replaceAll("department","label") %>;
+
+
+    $('#e_dupty').autocompleter({
+        // marker for autocomplete matches
+        highlightMatches: true,
+
+        // object to local or url to remote search
+        source: duptys,
+//
+        // custom template
+        template: '{{ label }} <span>({{ code }})</span>',
+
+//             show hint
+        hint: false,
+
+        // abort source if empty field
+        empty: false,
+
+        // max results
+        limit: 5,
+
+        callback: function (value, index, selected) {
+//            if (selected) {
+//                $('#flerk_code').val(selected.code);
+////                    console.log(selected.code);
+//            }
+        }
+    });
+
+    $('#e_director').autocompleter({
+        // marker for autocomplete matches
+        highlightMatches: true,
+
+        // object to local or url to remote search
+        source: directors,
+//
+        // custom template
+        template: '{{ label }} <span>({{ code }})</span>',
+
+//             show hint
+        hint: false,
+
+        // abort source if empty field
+        empty: false,
+
+        // max results
+        limit: 5,
+
+        callback: function (value, index, selected) {
+//            if (selected) {
+//                $('#flerk_code').val(selected.code);
+////                    console.log(selected.code);
+//            }
+        }
+    });
+
+    $('#e_depart').autocompleter({
+        // marker for autocomplete matches
+        highlightMatches: true,
+
+        // object to local or url to remote search
+        source: departs,
+//
+        // custom template
+        template: '{{ label }} <span></span>',
+
+//             show hint
+        hint: false,
+
+        // abort source if empty field
+        empty: false,
+
+        // max results
+        limit: 5,
+
+        callback: function (value, index, selected) {
+
+        }
+    });
+
 
 
     function removeReadonly() {
@@ -270,13 +383,23 @@
     <%}%>
 
     function notify() {
-        alert("123");
+        var emp = getEmployee();
+        $.ajax({
+            url: "/employee/editinfo",
+            type: "POST",
+            data: emp,
+            dataType: "json",
+            success: function (result) {
+                if (result.code) {
+                    alert("修改成功");
+                }
+            }
+        });
 
     }
 
     function cancle() {
-        alert("234");
-
+        window.parent.changeUrl("/employee/list");
     }
 
     (function () {
@@ -298,7 +421,18 @@
     });
 
     $('#edit_add').bind('click', function () {
-
+        var emp = getEmployee();
+        $.ajax({
+            url: "/employee/editinfo",
+            type: "POST",
+            data: emp,
+            dataType: "json",
+            success: function (result) {
+                if (result.code) {
+                    alert("添加成功");
+                }
+            }
+        });
 
     });
 
@@ -324,36 +458,24 @@
         var state = $('#emp_status').val();
         var leavetime = $('#leave_time').val();
 
-        $.ajax({
-            url: "/employee/editinfo",
-            type: "POST",
-            data: {
-                'id': id,
-                'code': code,
-                'name': name,
-                'sex': sex,
-                'age': age,
-                'phone': phone,
-                'email': email,
-                'entry_time': entrytime,
-                'turntime': turntime,
-                'department': depart,
-                'role': role,
-                'duties': duties,
-                'dupty': dupty,
-                'director': director,
-                'state': state,
-                'leavetime': leavetime
-            },
-            success: function (result) {
-                if (result.code) {
-                    alert("OK");
-//                    $("#name").val("");
-                }
-            }
+        emp.code = code;
+        emp.name = name;
+        emp.sex = sex;
+        emp.age = age;
+        emp.phone = phone;
+        emp.email = email;
+        emp.entry_time = entrytime;
+        emp.turntime = turntime;
+        emp.department = depart;
+        emp.role = role;
+        emp.duties = duties;
+        emp.dupty = dupty;
+        emp.director = director;
+        emp.state = state;
+        emp.leavetime = leavetime;
 
 
-        });
+        return emp;
 
 
     }

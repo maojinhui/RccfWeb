@@ -4,6 +4,7 @@
 <%@ page import="com.alibaba.fastjson.JSON" %>
 <%@ page import="com.rccf.model.Employee" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.rccf.util.DateUtil" %>
 <%--
   Created by IntelliJ IDEA.
   User: greatland
@@ -39,7 +40,7 @@
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">受理日期</span>
             <input id="accept_time" type="date" class="am-form-field whiteback"
-                   value="<%=Strings.getInputString(accepted.getAcceptTime())%>"/>
+                   value="<%=accepted.getAcceptTime()==null?"":DateUtil.date2StringSimple(DateUtil.timestamp2Date(accepted.getAcceptTime()))%>"/>
         </div>
         <!--TODO 输入提示-->
         <div class="am-input-group am-input-group-primary">
@@ -102,7 +103,7 @@
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">办结日期</span>
             <input id="end_time" type="date" class="am-form-field whiteback"
-                   value="<%=Strings.getInputString(accepted.getEndDate())%>"/>
+                   value="<%=accepted.getEndDate()==null?"":DateUtil.date2StringSimple(DateUtil.timestamp2Date(accepted.getEndDate()))%>"/>
         </div>
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">后期人员</span>
