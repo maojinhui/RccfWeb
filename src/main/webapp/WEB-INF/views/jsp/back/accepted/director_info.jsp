@@ -3,7 +3,7 @@
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/9/18
-  Time: 下午5:48
+  Time: 下午7:22
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -11,10 +11,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>业务员业绩统计</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>副总监业绩统计</title>
     <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/amaze/admin.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/ameze/admin.css"/>
     <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.page.css"/>
     <style type="text/css">
         html, body {
@@ -31,7 +30,7 @@
     <div class="am-cf am-padding am-padding-bottom-0">
         <div class="am-fl am-cf">
             <strong class="am-text-primary am-text-lg">
-                业务员业绩统计
+                副总监业绩统计
             </strong>
         </div>
     </div>
@@ -43,7 +42,7 @@
 
         <div class="am-u-sm-12 am-u-md-2">
             <div class="am-input-group am-input-group-sm">
-                <input id="time" class='w_8' type="date">
+                <input id="time" class="w_8" type="date">
             </div>
         </div>
 
@@ -66,38 +65,19 @@
                         <th>序号</th>
                         <th>部门</th>
                         <th>姓名</th>
-                        <th>直属上级</th>
-                        <th>入职时间</th>
-                        <th>职务</th>
-                        <th>任务</th>
-                        <th>当月业绩</th>
                         <th>当月受理</th>
                         <th>当月办结</th>
-                        <th>当月被拒</th>
-                        <th>当日业绩</th>
+                        <th>当月拒单</th>
+                        <th>当月业绩</th>
                         <th>当日受理</th>
                         <th>当日办结</th>
-                        <th>当日被拒</th>
+                        <th>当日拒单</th>
+                        <th>当日业绩</th>
+                        <th>当月开单人数</th>
                     </tr>
                     </thead>
                     <tbody id="content">
-                    <%--<tr>--%>
-                    <%--<td>1</td>--%>
-                    <%--<td>e023</td>--%>
-                    <%--<td>陈小三</td>--%>
-                    <%--<td>43930</td>--%>
-                    <%--<td>2012-1-1</td>--%>
-                    <%--<td>6</td>--%>
-                    <%--<td>2000</td>--%>
-                    <%--<td>8</td>--%>
-                    <%--<td>9</td>--%>
-                    <%--<td>10</td>--%>
-                    <%--<td>11</td>--%>
-                    <%--<td>12</td>--%>
-                    <%--<td>13</td>--%>
-                    <%--<td>14</td>--%>
-                    <%--<td>15</td>--%>
-                    <%--</tr>--%>
+
 
                     </tbody>
                 </table>
@@ -105,40 +85,18 @@
         </div>
     </div>
 </div>
-<%--<div id="page" class="am-align-right"></div>--%>
-<%--<div id="jump" class="am-u-lg-3 am-margin-top am-align-right">--%>
-<%--<div class="am-input-group am-g">--%>
-<%--<label class="am-input-group-label">--%>
-<%--跳转到第--%>
-<%--</label>--%>
-<%--<input id="curr" class="am-form-field" min="1" value="1" type="number">--%>
-<%--<label class="am-input-group-label">--%>
-<%--页--%>
-<%--</label>--%>
-<%--<span class="am-input-group-btn">--%>
-<%--<button id="set" class="am-btn am-btn-success am-btn-xs">go</button>--%>
-<%--</span>--%>
-<%--</div>--%>
-<%--</div>--%>
+
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-<%--<script src="/js/amazeui.page.js"></script>--%>
 <script src="/js/comm.js"></script>
+<script src="/js/amazeui.page.js"></script>
 <script src="/js/table2excel/Blob.js"></script>
 <script src="/js/table2excel/FileSaver.js"></script>
 <script src="/js/table2excel/tableExport.js"></script>
+
 <%
     List list = (List) request.getAttribute("list");
 %>
-
 <script>
-
-    function getLeader(a, b) {
-        if (isNull(a)) {
-            return b;
-        }
-        return a;
-    }
-
 
     Date.prototype.format = function (format) {
         var date = {
@@ -162,41 +120,27 @@
         return format;
     }
 
-
-    function getDate(time) {
-        var date = new Date();
-        date.setTime(time);
-        return date.format('yyyy-MM-dd')
-    }
-
-
     var datas = <%=JSON.toJSONString(list)%>;
     for (var i = 1; i < datas.length + 1; i++) {
         var da = datas[i - 1];
-        console.log(typeof (da));
-//        console.log(da);
-        console.log(da[1]);
-        var str = ' <tr>\n' +
-            '                        <td>' + i + '</td>\n' +
-            '                        <td>' + da[1] + '</td>\n' +
-            '                        <td>' + da[2] + '</td>\n' +
-            '                        <td>' + getLeader(da[3], da[4]) + '</td>\n' +
-            '                        <td>' + getDate(da[5]) + '</td>\n' +
-            '                        <td>' + da[6] + '</td>\n' +
-            '                        <td>' + da[7] + '</td>\n' +
-            '                        <td>' + getStringWithspace(da[8]) + '</td>\n' +
-            '                        <td>' + da[9] + '</td>\n' +
-            '                        <td>' + da[10] + '</td>\n' +
-            '                        <td>' + da[11] + '</td>\n' +
-            '                        <td>' + getStringWithspace(da[12]) + '</td>\n' +
-            '                        <td>' + da[13] + '</td>\n' +
-            '                        <td>' + da[14] + '</td>\n' +
-            '                        <td>' + da[15] + '</td>\n' +
-            '                    </tr>';
+        var str = '<tr>\n' +
+            '    <td>' + i + '</td>\n' +
+            '    <td>' + da[0] + '</td>\n' +
+            '    <td>' + da[1] + '</td>\n' +
+            '    <td>' + da[2] + '</td>\n' +
+            '    <td>' + da[3] + '</td>\n' +
+            '    <td>' + da[4] + '</td>\n' +
+            '    <td>' + getStringWithspace(da[5]) + '</td>\n' +
+            '    <td>' + da[6] + '</td>\n' +
+            '    <td>' + da[7] + '</td>\n' +
+            '    <td>' + da[8] + '</td>\n' +
+            '    <td>' + getStringWithspace(da[9]) + '</td>\n' +
+            '    <td>' + getStringWithspace(da[10]) + '</td>\n' +
+            '    </tr>';
 
         $('#content').append(str);
-
     }
+
 
     $(function () {
         //导出excel实现
@@ -205,12 +149,11 @@
             function (e) {
                 e.preventDefault();
                 if (e.target.nodeName === "A") {
-                    tableExport('employee_table', '业务员日报', e.target.getAttribute('data-type'))
+                    tableExport('employee_table', '总监日报', e.target.getAttribute('data-type'))
                 }
             },
             false);
     });
-
 
     $('#search').bind('click', function () {
         var time = $('#time').val();
@@ -218,13 +161,12 @@
             alert('请选择时间');
             return;
         }
-        var url = '/accept/employee_info?time=' + time;
+        var url = '/accept/director_info?time=' + time;
         window.parent.changeUrl(url);
 
     });
 
+
 </script>
-
-
 </body>
 </html>
