@@ -239,4 +239,19 @@ public class AcceptedController {
     }
 
 
+    @RequestMapping(value = "/houqidetail")
+    public ModelAndView houqiDetail(HttpServletRequest request) {
+        String houqi = request.getParameter("houqi");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/accepted/houqi_info_list");
+        String sql = "SELECT  `houqi`,`accepted_number` , `customer_name` , date_format(`accept_time`,  '%Y-%m-%d') as accept_time ,  date_format(`end_date`,  '%Y-%m-%d')  as end_date , timestampdiff(DAY, `accept_time`  , `end_date` )+1 as time   from `accepted`  \n" +
+                "WHERE   `state` = 2 and `houqi` ='" + houqi + "'  ORDER BY time DESC ";
+
+        List list = baseService.queryBySql(sql);
+        modelAndView.addObject("list", list);
+        return modelAndView;
+    }
+
+
+
 }

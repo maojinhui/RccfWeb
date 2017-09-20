@@ -11,7 +11,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>后期专员业绩统计</title>
+    <title>后期专员时效</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/amaze/admin.css"/>
@@ -25,14 +25,14 @@
 <div class="admin-content-body">
     <div class="am-cf am-padding am-padding-bottom-0">
         <div class="am-fl am-cf">
-            <strong class="am-text-primary am-text-lg">后期专员统计</strong>
+            <strong id="back" class="am-text-primary am-text-lg">后期专员统计</strong>
         </div>
     </div>
 
     <hr>
     <!--导出表格-->
     <div class="am-g am-margin am-padding-right-xl am-text-right">
-        <a id="export" data-type="csv" href="javascript:;" class="am-btn am-btn-secondary">导出表格</a>
+        <a id="export" data-type="csv" class="am-btn am-btn-secondary">导出表格</a>
     </div>
 
     <!--表格-->
@@ -44,11 +44,11 @@
                     <thead>
                     <tr>
                         <th>后期专员</th>
-                        <th>受理中/件</th>
-                        <th>已办结/件</th>
-                        <th>已拒单/件</th>
-                        <th>已撤单/件</th>
-                        <th>平均办结时效/天</th>
+                        <th>受理单号</th>
+                        <th>客户姓名</th>
+                        <th>受理时间</th>
+                        <th>办结时间</th>
+                        <th>用时/天</th>
                     </tr>
                     </thead>
                     <tbody id="content">
@@ -74,18 +74,13 @@
         return data;
     };
 
-    function todetail(name) {
-        window.parent.changeUrl("/accept/houqidetail?houqi=" + name);
-    }
-    
-    
     //导出表格
     var $exportLink = document.getElementById('export');
     $exportLink.addEventListener('click',
         function (e) {
             e.preventDefault();
             if (e.target.nodeName === "A") {
-                tableExport('accept_list', '后期业务', e.target.getAttribute('data-type'))
+                tableExport('commissioner_list', '后期专员', e.target.getAttribute('data-type'))
             }
         },
         false);
@@ -94,7 +89,7 @@
     var str = '';
     for (var i = 0; i < datas.length; i++) {
         var row = datas[i];
-        str += '<tr onclick="todetail(\'' + row[0] + '\')">\n' +
+        str += '<tr>\n' +
             '                        <td>' + row[0] + '</td>\n' +
             '                        <td>' + row[1] + '</td>\n' +
             '                        <td>' + row[2] + '</td>\n' +
@@ -104,6 +99,12 @@
             '                    </tr>'
     }
     $('#content').html(str);
+
+
+    $('#back').bind('click', function () {
+        window.history.back();
+    });
+
 
 </script>
 </body>
