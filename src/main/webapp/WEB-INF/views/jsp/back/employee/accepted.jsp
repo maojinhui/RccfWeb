@@ -120,7 +120,7 @@
             <select id="service_agreement"
                     style="width: 100%;font-size: large;margin-top: 7px; border: solid 1px deepskyblue;">
                 <option value="1">是</option>
-                <option <%=(accepted.getServiceAgreement() != null && 0 == accepted.getServiceAgreement()) ? "checked" : ""%>
+                <option <%=(accepted.getServiceAgreement() != null && 0 == accepted.getServiceAgreement()) ? "selected = \"selected\"" : ""%>
                         value="0">否
                 </option>
             </select>
@@ -130,11 +130,14 @@
             <select id="handle_status"
                     style="width: 100%;font-size: large;margin-top: 7px; border: solid 1px deepskyblue;">
                 <option value="1">受理</option>
-                <option <%=(accepted.getState() != null && 2 == accepted.getState()) ? "checked" : ""%> value="2">办结
+                <option <%=(accepted.getState() != null && 2 == accepted.getState()) ? "selected = \"selected\"" : ""%>
+                        value="2">办结
                 </option>
-                <option <%=(accepted.getState() != null && 3 == accepted.getState()) ? "checked" : ""%> value="3">被拒
+                <option <%=(accepted.getState() != null && 3 == accepted.getState()) ? "selected = \"selected\"" : ""%>
+                        value="3">被拒
                 </option>
-                <option <%=(accepted.getState() != null && 4 == accepted.getState()) ? "checked" : ""%> value="4">撤单
+                <option <%=(accepted.getState() != null && 4 == accepted.getState()) ? "selected = \"selected\"" : ""%>
+                        value="4">撤单
                 </option>
             </select>
         </div>

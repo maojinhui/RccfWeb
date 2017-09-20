@@ -549,6 +549,7 @@ public class EmployeeController {
         String accept_time = request.getParameter("accept_time");
         String end_time = request.getParameter("end_time");
         String accept_state = request.getParameter("accept_state");
+        String clerk_name = request.getParameter("clerk_name");
         String custom = request.getParameter("custom");
         String pageNo = request.getParameter("page_no");
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Accepted.class);
@@ -557,6 +558,9 @@ public class EmployeeController {
         if (!Strings.isNullOrEmpty(accept_time)) {
             Timestamp timestamp = DateUtil.date2Timestamp(DateUtil.string2Date(accept_time));
             detachedCriteria.add(Restrictions.eq("acceptTime", timestamp));
+        }
+        if (!Strings.isNullOrEmpty(clerk_name)) {
+            detachedCriteria.add(Restrictions.like("clerkName", "%" + clerk_name + "%"));
         }
         if (custom != null) {
             detachedCriteria.add(Restrictions.like("customerName", "%" + custom + "%"));

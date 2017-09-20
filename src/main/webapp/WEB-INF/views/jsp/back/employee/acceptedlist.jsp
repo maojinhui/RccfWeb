@@ -20,36 +20,62 @@
         </div>
     </div>
     <hr>
-    <div class="am-g ">
-        <div class="am-u-sm-12 am-u-md-6 am-margin-bottom ">
-            <div class="am-form-inline" role="form">
-                <div class="am-form-group">
-                    <label>客户姓名:</label>
-                </div>
-                <div class="am-form-group">
-                    <input id="custome_name" class="am-form-field" type="text" value="">
-                </div>
-                <buton id="search_cus" class="am-btn  am-btn-primary">搜索</buton>
-            </div>
-        </div>
-        <div class="am-u-sm-12 am-u-md-3 am-margin-bottom am-hide">
+    <%--<div class="am-g ">--%>
+    <%--<div class="am-u-sm-12 am-u-md-6 am-margin-bottom ">--%>
+    <%--<div class="am-form-inline" role="form">--%>
+    <%--<div class="am-form-group">--%>
+    <%--<label>客户姓名:</label>--%>
+    <%--</div>--%>
+    <%--<div class="am-form-group">--%>
+    <%--<input id="custome_name" class="am-form-field" type="text" value="">--%>
+    <%--</div>--%>
+    <%--<div class="am-form-group">--%>
+    <%--<label>业务员姓名:</label>--%>
+    <%--</div>--%>
+    <%--<div class="am-form-group">--%>
+    <%--<input id="clerk_name" class="am-form-field" type="text" value="">--%>
+    <%--</div>--%>
+    <%--<buton id="search_cus" class="am-btn  am-btn-primary">搜索</buton>--%>
+    <%--</div>--%>
+    <%--</div>--%>
+    <%--<div class="am-u-sm-12 am-u-md-3 am-margin-bottom am-hide">--%>
+    <%--<div class="am-input-group am-input-group-sm">--%>
+    <%--<label>办结日期:</label>--%>
+    <%--<input id="end_time" class="am-form-field" type="date" value="">--%>
+    <%--</div>--%>
+    <%--</div>--%>
+    <%--<div class="am-u-sm-12 am-u-md-3 am-margin-bottom am-u-end am-hide">--%>
+    <%--<div class="am-input-group am-input-group-sm">--%>
+    <%--<label>&emsp;</label>--%>
+    <%--<select id="accept_state" style="display:block;height: 2.2em;">--%>
+    <%--<option value="0">选择办理状态</option>--%>
+    <%--<option value="1">受理</option>--%>
+    <%--<option value="2">办结</option>--%>
+    <%--<option value="3">被拒</option>--%>
+    <%--</select>--%>
+    <%--</div>--%>
+    <%--</div>--%>
+    <%--</div>--%>
+
+    <div class="am-g">
+        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4">
+
             <div class="am-input-group am-input-group-sm">
-                <label>办结日期:</label>
-                <input id="end_time" class="am-form-field" type="date" value="">
-            </div>
-        </div>
-        <div class="am-u-sm-12 am-u-md-3 am-margin-bottom am-u-end am-hide">
-            <div class="am-input-group am-input-group-sm">
-                <label>&emsp;</label>
-                <select id="accept_state" style="display:block;height: 2.2em;">
-                    <option value="0">选择办理状态</option>
-                    <option value="1">受理</option>
-                    <option value="2">办结</option>
-                    <option value="3">被拒</option>
-                </select>
+                <span class="am-input-group-label">
+                 客户姓名:
+                 </span>
+                <input id="custome_name" class="am-form-field" type="text">
+                <span class="am-input-group-label">
+                 业务员姓名:
+                 </span>
+                <input id="clerk_name" class="am-form-field" type="text" value="">
+                <span class="am-input-group-btn">
+                        <button id="search_cus" class="am-btn am-btn-default" type="button">搜索</button>
+                </span>
             </div>
         </div>
     </div>
+
 
     <div class="am-g">
         <div class="am-u-sm-12">
@@ -182,6 +208,8 @@
         var end_time = $('#end_time').val();
         var accept_state = $('#accept_state').val();
         var custom = $('#custome_name').val();
+        var clerk_name = $('#clerk_name').val();
+
         $.ajax({
             url: '/employee/accept_list',
             dataType: 'json',
@@ -190,7 +218,8 @@
                 "accept_time": accept_time,
                 'end_time': end_time,
                 'accept_state': accept_state,
-                'page_no': pageNum
+                'page_no': pageNum,
+                'clerk_name': clerk_name
             },
             type: 'POST',
             success: function (result) {

@@ -253,5 +253,27 @@ public class AcceptedController {
     }
 
 
+    @RequestMapping(value = "/processmanager")
+    public ModelAndView processPage() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/accepted/process_manager");
+        return modelAndView;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/processlist")
+    public String processList(HttpServletRequest request) {
+        String houqi = request.getParameter("houqi");
+        String sql = "SELECT  a.`accepted_number` , a.`customer_name` , a.`clerk_name` ,\n" +
+                "(SELECT name from `employee` e1 WHERE e1.`code` =a.`deputy_director`  ) as fname,\n" +
+                "(SELECT name from `employee`  e2 WHERE  e2.`code` =a.`director`  ) as zname ,\n" +
+                "a.`houqi` , \n" +
+                "(SELECT  process  from  accept_process WHERE  accept_id = a.`id`   ORDER BY  update_time desc  LIMIT 1) as pro\n" +
+                "from `accepted`  a  \n" +
+                "WHERE   a.`state` = 2 and a.`houqi` ='李由'";
+        List list = baseService.queryBySql(sql);
+        return ResponseUtil.success(list);
+    }
+
 
 }
