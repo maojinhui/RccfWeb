@@ -163,7 +163,7 @@
 
         $.ajax({
             type:"POST",
-            url:"/user/resetpwd",
+            url: "/employee/resetpwd",
             dataType:"json",
             data:{"phone":phone,"phonecode":phonecode,"pwd":password},
             success:function (result) {

@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.rccf.component.Page;
+import com.rccf.component.SpyMemcachedManager;
 import com.rccf.constants.PageConstants;
+import com.rccf.constants.ResponseConstants;
 import com.rccf.constants.UrlConstants;
 import com.rccf.enmu.HeaderType;
 import com.rccf.model.*;
@@ -17,6 +19,7 @@ import com.rccf.util.PageUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
 import com.rccf.util.encrypt.DesEncrypt;
+import com.rccf.util.encrypt.PasswordUtil;
 import com.rccf.util.encrypt.ShaEncript;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.*;
@@ -46,14 +49,17 @@ public class EmployeeController {
     @Autowired
     private BaseService baseService;
 
-    @Autowired
-    UserService userService;
+//    @Autowired
+//    UserService userService;
 
     @Autowired
     private EmployeeService employeeService;
 
     @Autowired
     private AcceptedService acceptedService;
+
+    @Autowired
+    SpyMemcachedManager spyMemcachedManager;
 
 
     @RequestMapping(value = "/editPage")
@@ -240,18 +246,16 @@ public class EmployeeController {
 
         if (!Strings.isNullOrEmpty(dupty)) {
             Employee e = employeeService.findEmpolyeeByName(dupty);
-            if (e == null) {
-                return ResponseUtil.fail(0, "没有找到副总监" + dupty);
+            if (e != null) {
+                employee.setDuptyDirector(e.getCode());
             }
-            employee.setDuptyDirector(e.getCode());
         }
 
         if (!Strings.isNullOrEmpty(director)) {
             Employee e = employeeService.findEmpolyeeByName(director);
-            if (e == null) {
-                return ResponseUtil.fail(0, "没有找到总监" + director);
+            if (e != null) {
+                employee.setDirector(e.getCode());
             }
-            employee.setDirector(e.getCode());
         }
         if (!Strings.isNullOrEmpty(state)) {
             employee.setState(Integer.valueOf(state));
@@ -705,6 +709,47 @@ public class EmployeeController {
     }
 
 
+    @ResponseBody
+    @RequestMapping(value = "/resetpwd")
+    public String notifyPasswordByPhonecode(HttpServletRequest request) {
+        String phone = request.getParameter("phone");
+        String phoneCode = request.getParameter("phonecode");
+        String notifyPwd = request.getParameter("pwd");
+        if (Strings.isNullOrEmpty(phone)) {
+            return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_NOT_NULL);
+        }
+        if (Strings.isNullOrEmpty(phoneCode)) {
+            return ResponseUtil.fail(0, ResponseConstants.MSG_CODE_NOT_NULL);
+        }
+        if (Strings.isNullOrEmpty(notifyPwd)) {
+            return ResponseUtil.fail(0, ResponseConstants.MSG_PWD_FORMAT_ERROR);
+        }
+        String password = PasswordUtil.dealPassword(notifyPwd);
+        if (password.equals("1")) {
+            return ResponseUtil.fail(0, ResponseConstants.MSG_PWD_FORMAT_ERROR);
+        } else if (password.equals("2")) {
+            return ResponseUtil.fail(0, "密码处理失败！");
+        } else {
+
+        }
+        String code = (String) spyMemcachedManager.get(phone);
+        if (null == code || !code.equals(phoneCode)) {
+            return ResponseUtil.fail(0, ResponseConstants.MSG_CODE_ERROE);
+        }
+        //如果验证成功后修改密码
+        Employee user = employeeService.findEmpolyeeByPhone(phone);
+        if (null == user) {
+            return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_NOT_REGIST);
+        }
+        user.setPassword(password);
+//        userService.saveUser(user);
+        employeeService.saveOrUpdate(user);
+        return ResponseUtil.success();
+
+    }
+
+
+
     /**
      * 根据cookie获取用户信息
      *
@@ -727,7 +772,7 @@ public class EmployeeController {
             return new ModelAndView("redirect:/back/login");
         }
 
-        User user = userService.findUserById(userid);
+        Employee user = employeeService.findEmpolyeeById(Integer.valueOf(userid));
         if (null == user) {
             return new ModelAndView("redirect:/back/login");
         }

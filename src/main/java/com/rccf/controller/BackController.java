@@ -5,9 +5,11 @@ import com.rccf.constants.PageConstants;
 import com.rccf.constants.ResponseConstants;
 import com.rccf.constants.UrlConstants;
 import com.rccf.enmu.HeaderType;
+import com.rccf.model.Employee;
 import com.rccf.model.Market;
 import com.rccf.model.User;
 import com.rccf.service.BaseService;
+import com.rccf.service.EmployeeService;
 import com.rccf.service.UserService;
 import com.rccf.util.PageUtil;
 import com.rccf.util.ResponseUtil;
@@ -35,8 +37,11 @@ public class BackController {
 
     Logger logger = Logger.getLogger(getClass().getName());
 
+//    @Autowired
+//    UserService userService;
+
     @Autowired
-    UserService userService;
+    EmployeeService employeeService;
 
     @Autowired
     BaseService baseService;
@@ -94,7 +99,8 @@ public class BackController {
         }
 
 
-        User user = userService.findUserByPhone(phone);
+//        User user = userService.findUserByPhone(phone);
+        Employee user = employeeService.findEmpolyeeByPhone(phone);
         String user_pwd = user.getPassword();
         logger.info(user_pwd);
         if (null == user) {
@@ -107,21 +113,21 @@ public class BackController {
 //                CookiesUtil.addCookies("password",pwd,response);
 //            }
             if (user.getRole().equals("user")) {
-                return ResponseUtil.fail(0, "您还不是融成一员！");
+                return ResponseUtil.fail(0, "您还不是融成一员,无法登陆后台");
             }
-            Cookie nameCookie = new Cookie("username", user.getUserName());
+            Cookie nameCookie = new Cookie("username", user.getName());
             nameCookie.setPath("/");
             nameCookie.setMaxAge(60 * 60 * 24 * 30 * 12);
-            Cookie idcookie = new Cookie("userid", user.getUserId());
+            Cookie idcookie = new Cookie("userid", user.getId() + "");
             idcookie.setPath("/");
             idcookie.setMaxAge(60 * 60 * 24 * 30 * 12);
-            Cookie imgCookie = new Cookie("userimg", user.getHeadimg());
-            imgCookie.setPath("/");
-            imgCookie.setMaxAge(60 * 60 * 24 * 30 * 12);
+//            Cookie imgCookie = new Cookie("userimg", user.getHeadimg());
+//            imgCookie.setPath("/");
+//            imgCookie.setMaxAge(60 * 60 * 24 * 30 * 12);
             response.addCookie(nameCookie);
             response.addCookie(idcookie);
-            response.addCookie(imgCookie);
-            return ResponseUtil.success(user.getUserId());
+//            response.addCookie(imgCookie);
+            return ResponseUtil.success(user.getId());
         } else {
             return ResponseUtil.fail(0, ResponseConstants.MSG_PWD_ERROR);
         }
@@ -217,7 +223,8 @@ public class BackController {
         if (null == userid) {
             return new ModelAndView("redirect:/back/login");
         }
-        User user = userService.findUserById(userid);
+        int id = Integer.valueOf(userid);
+        Employee user = employeeService.findEmpolyeeById(id);
         if (null == user) {
             return new ModelAndView("redirect:/back/login");
         }
@@ -247,8 +254,8 @@ public class BackController {
         if (null == userid){
             return new ModelAndView("redirect:/back/login");
         }
-
-        User user = userService.findUserById(userid);
+        int id = Integer.valueOf(userid);
+        Employee user = employeeService.findEmpolyeeById(id);
         if(null == user){
             return new ModelAndView("redirect:/back/login");
         }

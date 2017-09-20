@@ -11,7 +11,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>副总监业绩统计</title>
+    <title>总监业绩统计</title>
     <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/ameze/admin.css"/>
     <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.page.css"/>

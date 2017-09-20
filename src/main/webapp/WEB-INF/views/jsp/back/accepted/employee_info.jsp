@@ -173,9 +173,6 @@
     var datas = <%=JSON.toJSONString(list)%>;
     for (var i = 1; i < datas.length + 1; i++) {
         var da = datas[i - 1];
-        console.log(typeof (da));
-//        console.log(da);
-        console.log(da[1]);
         var str = ' <tr>\n' +
             '                        <td>' + i + '</td>\n' +
             '                        <td>' + da[1] + '</td>\n' +

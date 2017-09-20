@@ -67,10 +67,10 @@
             <select id="business_type"
                     style="width: 100%;font-size: large;margin-top: 7px; border: solid 1px deepskyblue;">
                 <option value="0">信贷</option>
-                <option <%=(accepted.getBusinessType() != null && 1 == accepted.getBusinessType()) ? "checked" : ""%>
+                <option <%=(accepted.getBusinessType() != null && 1 == accepted.getBusinessType()) ? "selected = \"selected\"" : ""%>
                         value="1">抵押
                 </option>
-                <option <%=(accepted.getBusinessType() != null && 2 == accepted.getBusinessType()) ? "checked" : ""%>
+                <option <%=(accepted.getBusinessType() != null && 2 == accepted.getBusinessType()) ? "selected = \"selected\"" : ""%>
                         value="2">质押
                 </option>
             </select>

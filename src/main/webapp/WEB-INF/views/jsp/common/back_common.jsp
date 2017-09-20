@@ -1,4 +1,5 @@
-<%@ page import="com.rccf.model.User" %><%--
+<%@ page import="com.rccf.model.User" %>
+<%@ page import="com.rccf.model.Employee" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/9/8
@@ -24,12 +25,14 @@
         }
     }
     String headimg = "/image/header_default.png";
-    User user = (User) request.getAttribute("user");
-    if (null != user.getHeadimg()) {
-        headimg = user.getHeadimg();
-    }
-    if (null != user.getUserName()) {
-        username = user.getUserName();
+    Employee user = (Employee) request.getAttribute("user");
+
+//    User user = (User) request.getAttribute("user");
+//    if (null != user.getHeadimg()) {
+//        headimg = user.getHeadimg();
+//    }
+    if (null != user.getName()) {
+        username = user.getName();
     }
 
 %>
@@ -168,6 +171,16 @@
                         </a>
                     </li>
 
+                    <li class="sidebar-nav-link">
+                        <a class="rcmenu" data-rccf-menu="/accept/export">
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 近期受理单
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-link">
+                        <a class="rcmenu" data-rccf-menu="/accept/houqiinfo">
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 后期专员统计
+                        </a>
+                    </li>
 
                     <%--<li class="sidebar-nav-link">--%>
                     <%--<a href="/export/ribao">--%>

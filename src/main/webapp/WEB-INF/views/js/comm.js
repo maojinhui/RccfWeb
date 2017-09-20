@@ -116,7 +116,10 @@ function getType(type) {
         return '抵押';
     } else if (type === 2) {
         return '质押';
-    } else {
+    } else if (type === 3) {
+        return '权证';
+    }
+    else {
         return '其他';
     }
 }
