@@ -1,6 +1,9 @@
 package com.rccf.dao;
 
+import com.rccf.model.AcceptProcess;
 import com.rccf.model.Accepted;
+
+import java.util.List;
 
 public interface AcceptedDao {
 
@@ -9,4 +12,11 @@ public interface AcceptedDao {
     Accepted findById(int id);
 
     Accepted findByClerk(String clerk);
+
+    boolean saveProcess(AcceptProcess process);
+
+    List<AcceptProcess> listProcessDetail(int accept_id);
+
+    AcceptProcess findProcessByid(int id);
+
 }

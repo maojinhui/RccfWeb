@@ -1,8 +1,12 @@
 package com.rccf.controller;
 
 import com.rccf.constants.UrlConstants;
+import com.rccf.model.AcceptProcess;
 import com.rccf.model.Accepted;
+import com.rccf.model.Employee;
+import com.rccf.service.AcceptedService;
 import com.rccf.service.BaseService;
+import com.rccf.service.EmployeeService;
 import com.rccf.util.DateUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -29,6 +34,13 @@ public class AcceptedController {
 
     @Autowired
     BaseService baseService;
+
+    @Autowired
+    EmployeeService employeeService;
+
+    @Autowired
+    AcceptedService acceptedService;
+
 
     @RequestMapping(value = "/employee_info")
     public ModelAndView employeeRibao(HttpServletRequest request) {
@@ -264,15 +276,123 @@ public class AcceptedController {
     @RequestMapping(value = "/processlist")
     public String processList(HttpServletRequest request) {
         String houqi = request.getParameter("houqi");
-        String sql = "SELECT  a.`accepted_number` , a.`customer_name` , a.`clerk_name` ,\n" +
+        String clerkname = request.getParameter("clerk_name");
+        String custom = request.getParameter("custom");
+        Employee employee = getLoginEmployee(request);
+        String sql = "SELECT a.`id` , a.`accepted_number` , a.`customer_name` , a.`clerk_name` ,\n" +
                 "(SELECT name from `employee` e1 WHERE e1.`code` =a.`deputy_director`  ) as fname,\n" +
                 "(SELECT name from `employee`  e2 WHERE  e2.`code` =a.`director`  ) as zname ,\n" +
                 "a.`houqi` , \n" +
                 "(SELECT  process  from  accept_process WHERE  accept_id = a.`id`   ORDER BY  update_time desc  LIMIT 1) as pro\n" +
                 "from `accepted`  a  \n" +
-                "WHERE   a.`state` = 2 and a.`houqi` ='李由'";
+                "WHERE   a.`state` = 1 ";
+
+        if (Strings.isNullOrEmpty(houqi)) {
+            if (employee.getDepartment() == null || !employee.getDepartment().equals("系统管理")) {
+                return ResponseUtil.fail(0, "您还不能查看全部进度");
+            }
+        } else {
+            String tiaojian = "  and a.`houqi` like '%" + houqi + "%'";
+//            if(!Strings.isNullOrEmpty(clerkname)){
+//                tiaojian = tiaojian + "  and clerk_name like '%"+clerkname+"%'";
+//            }
+            sql = sql + tiaojian;
+        }
+        if (!Strings.isNullOrEmpty(custom)) {
+            sql = sql + "  and a.`customer_name`  like '%" + custom + "%'";
+        }
         List list = baseService.queryBySql(sql);
         return ResponseUtil.success(list);
+    }
+
+
+    @RequestMapping(value = "/processinfo")
+    public ModelAndView processInfo(HttpServletRequest request) {
+        String pid = request.getParameter("aid");//受理单id
+        if (Strings.isNullOrEmpty(pid)) {
+            return new ModelAndView("/other/import_fail");
+        }
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/accepted/process_info");
+        modelAndView.addObject("aid", pid);
+        return modelAndView;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/processdetail")
+    public String processDetail(HttpServletRequest request) {
+        String pid = request.getParameter("aid");
+        if (Strings.isNullOrEmpty(pid)) {
+            return ResponseUtil.fail(0, "获取不到详细信息");
+        }
+        try {
+            int id = Integer.valueOf(pid);
+            List<AcceptProcess> processes = acceptedService.listProcessDetail(id);
+            return ResponseUtil.success(processes);
+        } catch (Exception e) {
+            return ResponseUtil.fail(0, "参数错误");
+        }
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/addprocess")
+    public String addProcess(HttpServletRequest request) {
+        AcceptProcess process = null;
+        String pid = request.getParameter("pid");
+        if (!Strings.isNullOrEmpty(pid)) {
+            process = acceptedService.findProcessByid(Integer.valueOf(pid));
+        }
+
+        String content = request.getParameter("content");
+        String aid = request.getParameter("aid");
+        Employee employee = getLoginEmployee(request);
+        if (employee == null) {
+            return ResponseUtil.fail(0, "登录信息错误");
+        }
+        if (Strings.isNullOrEmpty(aid) && Strings.isNullOrEmpty(pid)) {
+            return ResponseUtil.fail(0, "受理单信息错误");
+        }
+        if (Strings.isNullOrEmpty(content)) {
+            return ResponseUtil.fail(0, "进度信息不能为空");
+        }
+        try {
+            if (process == null) {
+                process = new AcceptProcess();
+                process.setUpdateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
+                process.setAcceptId(Integer.valueOf(aid));
+            }
+            process.setAdmin(employee.getCode());
+            process.setProcess(content);
+            boolean stat = acceptedService.saveProcess(process);
+            if (stat) {
+                return ResponseUtil.success();
+            } else {
+                return ResponseUtil.fail(0, "保存失败");
+            }
+        } catch (Exception e) {
+            return ResponseUtil.fail();
+        }
+
+
+    }
+
+
+    private Employee getLoginEmployee(HttpServletRequest request) {
+        try {
+            String eid = null;
+            Cookie[] cookies = request.getCookies();
+            for (int i = 0; i < cookies.length; i++) {
+                if (cookies[i].getName().equals("userid")) {//获取登录用户id
+                    eid = cookies[i].getValue();
+                }
+            }
+            int id = Integer.valueOf(eid);
+            Employee employee = employeeService.findEmpolyeeById(id);
+            return employee;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 

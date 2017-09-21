@@ -1,6 +1,9 @@
 package com.rccf.service;
 
+import com.rccf.model.AcceptProcess;
 import com.rccf.model.Accepted;
+
+import java.util.List;
 
 public interface AcceptedService {
 
@@ -10,4 +13,9 @@ public interface AcceptedService {
 
     Accepted findByClerk(String clerk);
 
+    boolean saveProcess(AcceptProcess process);
+
+    List<AcceptProcess> listProcessDetail(int accept_id);
+
+    AcceptProcess findProcessByid(int id);
 }
