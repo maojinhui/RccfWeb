@@ -35,6 +35,9 @@
         username = user.getName();
     }
 
+    String depart = user.getDepartment();
+    int role = user.getRole();
+
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -114,6 +117,7 @@
                 </a>
             </li>
 
+            <% if (depart.contains("人事") || depart.equals("系统管理")) {%>
             <li class="sidebar-nav-link">
                 <a href="#" class="sidebar-nav-sub-title">
                     <i class="am-icon-users sidebar-nav-link-logo"></i> 员工管理
@@ -133,13 +137,15 @@
 
                 </ul>
             </li>
-
+            <%}%>
+            <% if (depart.contains("市场") || depart.equals("系统管理")) {%>
             <li class="sidebar-nav-link">
                 <a class="sidebar-nav-sub-title">
                     <i class="am-icon-table sidebar-nav-link-logo"></i> 受理单管理
                     <span class="am-icon-chevron-right am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                 </a>
                 <ul class="sidebar-nav sidebar-nav-sub">
+                    <%if (role < 4) {%>
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/employee/acceptedlist">
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 受理单列表
@@ -181,22 +187,17 @@
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 后期专员统计
                         </a>
                     </li>
-
+                    <%}%>
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/accept/processmanager">
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 受理单进度管理
                         </a>
                     </li>
 
-                    <%--<li class="sidebar-nav-link">--%>
-                    <%--<a href="/export/ribao">--%>
-                    <%--<span class="am-icon-angle-right sidebar-nav-link-logo"></span> 导出日报--%>
-                    <%--</a>--%>
-                    <%--</li>--%>
-
                 </ul>
             </li>
-
+            <%}%>
+            <% if (depart.contains("金融") || depart.equals("系统管理")) {%>
             <li class="sidebar-nav-link">
                 <a class="sidebar-nav-sub-title">
                     <i class="am-icon-balance-scale  sidebar-nav-link-logo"></i> 匹配方案
@@ -243,7 +244,7 @@
                 </ul>
 
             </li>
-
+            <%}%>
         </ul>
     </div>
     <div class="tpl-content-wrapper">

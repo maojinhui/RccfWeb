@@ -279,6 +279,9 @@ public class AcceptedController {
         String clerkname = request.getParameter("clerk_name");
         String custom = request.getParameter("custom");
         Employee employee = getLoginEmployee(request);
+        String depart = employee.getDepartment();//部门
+        int role = employee.getRole();
+
         String sql = "SELECT a.`id` , a.`accepted_number` , a.`customer_name` , a.`clerk_name` ,\n" +
                 "(SELECT name from `employee` e1 WHERE e1.`code` =a.`deputy_director`  ) as fname,\n" +
                 "(SELECT name from `employee`  e2 WHERE  e2.`code` =a.`director`  ) as zname ,\n" +
@@ -287,15 +290,16 @@ public class AcceptedController {
                 "from `accepted`  a  \n" +
                 "WHERE   a.`state` = 1 ";
 
+        if (depart != null && depart.contains("市场") && role == 4) {
+            houqi = employee.getName();
+        }
+
         if (Strings.isNullOrEmpty(houqi)) {
-            if (employee.getDepartment() == null || !employee.getDepartment().equals("系统管理")) {
-                return ResponseUtil.fail(0, "您还不能查看全部进度");
+            if (!depart.equals("系统管理") && !depart.contains("市场")) {
+                return ResponseUtil.fail(0, "请联系管理员");
             }
         } else {
             String tiaojian = "  and a.`houqi` like '%" + houqi + "%'";
-//            if(!Strings.isNullOrEmpty(clerkname)){
-//                tiaojian = tiaojian + "  and clerk_name like '%"+clerkname+"%'";
-//            }
             sql = sql + tiaojian;
         }
         if (!Strings.isNullOrEmpty(custom)) {

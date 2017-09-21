@@ -8,17 +8,7 @@
     <style>
         html, body {
             overflow: hidden;
-        }
-
-        .am-list input {
-            display: inline-block;
-            width: 50%;
-            vertical-align: middle;
-            word-wrap: normal; /* for IE */
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-
+            margin: 20px;
         }
 
         @media screen and (max-width: 768px) {
@@ -43,10 +33,11 @@
 
 <ul id="list" class="am-list am-list-static">
     <li>
-        <label>添加记录:&emsp;</label>
-        <input id="new_item" value="" style="width:80%;">
-        <div class="am-btn-group">
-            <button id="new_add" class="am-btn am-btn-primary am-align-right">添加</button>
+        <div><label>添加记录:&emsp;</label></div>
+        <div class="am-margin-vertical-xs am-form-group "><input id="new_item" class="am-form-field" value=""
+                                                                 placeholder="填写记录"></div>
+        <div class="am-btn-group ">
+            <button id="new_add" class="am-btn am-btn-primary am-btn-xs">添加</button>
         </div>
     </li>
 </ul>
@@ -109,11 +100,11 @@
                 for (var i = 0; i < info.length; i++) {
                     var pro = info[i];
                     var str = ' <li>\n' +
-                        '        <label>' + getDate(pro.updateTime) + '</label>\n' +
-                        '        <input id="input-' + pro.id + '" readonly="true"  value="' + pro.process + '">\n' +
+                        '        <div><label>' + getDate(pro.updateTime) + '</label></div>\n' +
+                        '        <div class="am-margin-vertical-xs am-form-group" ><input id="input-' + pro.id + '"  class="am-form-field" readonly="true"  value="' + pro.process + '"></div>\n' +
                         '        <div class="am-btn-group">\n' +
-                        '        <button id="ebtn-' + pro.id + '" onclick="editButton(' + pro.id + ')" class="am-btn am-btn-primary am-align-right">编辑</button>\n' +
-                        '        <button id="dbtn-' + pro.id + '" onclick="deleteButton(' + pro.id + ')" class="am-btn am-btn-default am-align-right">删除</button>\n' +
+                        '        <button id="ebtn-' + pro.id + '" onclick="editButton(' + pro.id + ')" class="am-btn am-btn-primary  am-btn-xs" >编辑</button>\n' +
+                        '        <button id="dbtn-' + pro.id + '" onclick="deleteButton(' + pro.id + ')" class="am-btn am-btn-default am-btn-xs">删除</button>\n' +
                         '        </div>\n ' +
                         '    </li>';
                     $('#list').append(str);
