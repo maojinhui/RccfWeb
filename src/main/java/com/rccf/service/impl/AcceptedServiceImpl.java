@@ -38,4 +38,8 @@ public class AcceptedServiceImpl implements AcceptedService {
     public AcceptProcess findProcessByid(int id) {
         return dao.findProcessByid(id);
     }
+
+    public boolean deleteProcessByID(int id) {
+        return dao.deleteProcessByID(id);
+    }
 }

@@ -19,4 +19,5 @@ public interface AcceptedDao {
 
     AcceptProcess findProcessByid(int id);
 
+    boolean deleteProcessByID(int id);
 }

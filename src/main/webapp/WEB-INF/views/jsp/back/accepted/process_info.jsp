@@ -81,7 +81,31 @@
     function deleteButton(pid) {
         var state = $('#input-' + pid).attr("readonly");
         if (state) {
+            var stat = confirm("删除前请确认");
+            if (!state) {
+                return;
+            }
             //删除
+            $.ajax({
+                type: 'POST',
+                url: '/accept/deleteprocess',
+                dataType: 'json',
+                data: {'pid': pid},
+                success: function (result) {
+                    if (result.code) {
+                        window.location.reload();
+                    } else {
+                        alert(result.errormsg);
+                    }
+                },
+                error: function () {
+
+                }
+
+
+            });
+
+
         } else {
             $('#input-' + pid).attr("readonly", 'readonly');
             $('#ebtn-' + pid).html('编辑');

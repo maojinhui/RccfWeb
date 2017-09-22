@@ -95,7 +95,7 @@
             success: function (result) {
                 if (result.code) {
                     var info = JSON.parse(result.data);
-                    if (info.length < nums) {
+                    if (info.length <= nums) {
                         $('#content').html(thisDate(1, info));
                         $('#page').hide();
                         return;

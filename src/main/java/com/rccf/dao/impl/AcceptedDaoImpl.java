@@ -64,5 +64,17 @@ public class AcceptedDaoImpl extends HibernateDaoSupport implements AcceptedDao 
         return getHibernateTemplate().get(AcceptProcess.class, id);
     }
 
+    public boolean deleteProcessByID(int id) {
+
+        try {
+            AcceptProcess process = findProcessByid(id);
+            getHibernateTemplate().delete(process);
+            return true;
+        } catch (DataAccessException e) {
+            return false;
+//            e.printStackTrace();
+        }
+    }
+
 
 }

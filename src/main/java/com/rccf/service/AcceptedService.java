@@ -18,4 +18,7 @@ public interface AcceptedService {
     List<AcceptProcess> listProcessDetail(int accept_id);
 
     AcceptProcess findProcessByid(int id);
+
+    boolean deleteProcessByID(int id);
+
 }

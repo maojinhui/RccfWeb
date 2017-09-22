@@ -382,6 +382,21 @@ public class AcceptedController {
     }
 
 
+    @ResponseBody
+    @RequestMapping(value = "/deleteprocess")
+    public String delteProcess(HttpServletRequest request) {
+        String pid = request.getParameter("pid");
+        if (Strings.isNullOrEmpty(pid)) {
+            return ResponseUtil.fail(0, "参数错误");
+        }
+        boolean state = acceptedService.deleteProcessByID(Integer.valueOf(pid));
+        if (state) {
+            return ResponseUtil.success();
+        }
+        return ResponseUtil.fail();
+    }
+
+
     private Employee getLoginEmployee(HttpServletRequest request) {
         try {
             String eid = null;
