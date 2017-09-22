@@ -1,6 +1,7 @@
 package com.rccf.util;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
@@ -115,9 +116,31 @@ public class ResponseUtil {
     }
 
     public static String success_jsonp(String callback, Object o) {
-        return callback + "('" + JSON.toJSONString(o) + "')";
+
+        if (o instanceof JSONObject || o instanceof JSONArray) {
+            return callback + "(" + o + ")";
+        } else {
+            return callback + "('" + JSON.toJSONString(o) + "')";
+        }
     }
 
+
+    public static String success_front(Object o) {
+        JSONObject object = new JSONObject();
+        object.put("code", 1);
+        object.put("state", "success");
+        object.put("errormsg", "");
+        if (null != o) {
+            if (o instanceof JSONObject || o instanceof JSONArray) {
+                object.put("data", o);
+            } else {
+                object.put("data", o.toString());
+            }
+        } else {
+            object.put("data", null);
+        }
+        return object.toString();
+    }
 
 
     public static void main(String [] args){

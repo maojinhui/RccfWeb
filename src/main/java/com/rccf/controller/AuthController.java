@@ -8,6 +8,7 @@ import com.rccf.model.User;
 import com.rccf.service.UserService;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.network.HttpUtil;
+import com.rccf.util.weixin.WeixinUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,6 +69,10 @@ public class AuthController {
             User user = userService.findUserByOpenid(openid);
             if (null == user){
                 user = new User();
+            } else {
+                if (user.getPhone() != null) {
+                    WeixinUtil.setPhone(response, user.getPhone());
+                }
             }
             if (null == user.getRegedistChannel()){
                 user.setRegedistChannel("微信公众号");
@@ -96,9 +101,7 @@ public class AuthController {
             }
             if(null != access_token)
             user.setAccessToken(access_token);
-            Cookie cookie= new Cookie("openid",openid);
-            cookie.setPath("/");
-            response.addCookie(cookie);
+            WeixinUtil.setOpenid(response, openid);
             userService.saveUser(user);
             return "front/index";
         }

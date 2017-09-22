@@ -99,6 +99,9 @@ public class BaseDao extends HibernateDaoSupport {
         return (String) getSession().createQuery(sql).uniqueResult();
     }
 
-
+    public List queryBySqlFormatClass(String sql, Class clazz) {
+        List list = getSession().createSQLQuery(sql).addEntity(clazz).list();
+        return list;
+    }
 
 }

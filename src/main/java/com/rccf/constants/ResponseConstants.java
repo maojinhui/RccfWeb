@@ -37,5 +37,13 @@ public class ResponseConstants {
     public static String MSG_PWD_FORMAT_ERROR = "请输入6-18位密码";
 
 
+    public static int NOT_BIND_PHONE = 102400;
+
+    public static int NOT_HAVE_ACCEPT = 102401;
+
+    public static int NOT_LOGIN = 102402;
+
+
+
 
 }

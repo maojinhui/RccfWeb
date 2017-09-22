@@ -60,5 +60,8 @@ public class BaseService {
         return dao.queryBySqlFormatObject(sql);
     }
 
+    public List queryBySqlFormatClass(String sql, Class clazz) {
+        return dao.queryBySqlFormatClass(sql, clazz);
+    }
 
 }

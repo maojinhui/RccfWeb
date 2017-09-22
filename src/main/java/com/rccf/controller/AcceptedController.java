@@ -1,14 +1,21 @@
 package com.rccf.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.rccf.constants.ResponseConstants;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.AcceptProcess;
 import com.rccf.model.Employee;
+import com.rccf.model.User;
 import com.rccf.service.AcceptedService;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
+import com.rccf.service.UserService;
 import com.rccf.util.DateUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
+import com.rccf.util.weixin.WeixinUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +44,9 @@ public class AcceptedController {
 
     @Autowired
     AcceptedService acceptedService;
+
+    @Autowired
+    UserService userService;
 
 
     @ResponseBody
@@ -422,6 +432,63 @@ public class AcceptedController {
             return ResponseUtil.success();
         }
         return ResponseUtil.fail();
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/processes")
+    public String frontProcesses(HttpServletRequest request) {
+        String callback = request.getParameter("callback");
+        String openid = WeixinUtil.getOpenid(request);
+        openid = "123456";
+        if (Strings.isNullOrEmpty(openid)) {
+            return ResponseUtil.fail(ResponseConstants.NOT_LOGIN, "获取登录信息失败，请重新登录");
+        }
+        User user = userService.findUserByOpenid(openid);
+        if (user == null) {
+            return ResponseUtil.fail(ResponseConstants.NOT_LOGIN, "未找到用户");
+        }
+        String phone = user.getPhone();
+        if (Strings.isNullOrEmpty(phone)) {
+            return ResponseUtil.fail(ResponseConstants.NOT_BIND_PHONE, "用户未绑定手机号");
+        }
+
+        String idlist = "SELECT a.`id` , a.`customer_name` , a.`accepted_number` , a.`accept_time` , a.`state`  ,  a.`clerk_name`  , e.`phone` \n" +
+                "from `accepted` a \n" +
+                "RIGHT JOIN  `employee` e on e.`code` =a.`clerk` \n" +
+                "WHERE `customer_phone` =  " + phone;
+        List list = baseService.queryBySqlFormatObject(idlist);
+        if (list == null || list.size() < 1) {
+            return ResponseUtil.fail(ResponseConstants.NOT_HAVE_ACCEPT, "没有查到订单号");
+        }
+        JSONObject object = null;
+        JSONArray array = new JSONArray();
+        String sql_process = "SELECT * FROM `accept_process`  WHERE  accept_id = ";
+        String sql = null;
+        for (int i = 0; i < list.size(); i++) {
+            object = new JSONObject();
+            Object[] objs = (Object[]) list.get(i);
+            int aid = (Integer) objs[0];
+            object.put("aid", aid);
+            object.put("customer_name", objs[1]);
+            object.put("accepted_number", objs[2]);
+            object.put("accept_time", objs[3]);
+            object.put("state", objs[4]);
+            object.put("clerk_name", objs[5]);
+            object.put("clerk_phone", objs[6]);
+            sql = sql_process + aid;
+            List list1 = baseService.queryBySqlFormatClass(sql, AcceptProcess.class);
+            String json_str = JSON.toJSONString(list1);
+            JSONArray json_array = JSON.parseArray(json_str);
+            object.put("da", json_array);
+            array.add(object);
+        }
+
+        if (!Strings.isNullOrEmpty(callback)) {
+            return ResponseUtil.success_jsonp(callback, array);
+        } else {
+            return ResponseUtil.success_front(array);
+        }
     }
 
 
