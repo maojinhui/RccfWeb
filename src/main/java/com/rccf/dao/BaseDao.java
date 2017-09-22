@@ -89,6 +89,11 @@ public class BaseDao extends HibernateDaoSupport {
         return list;
     }
 
+    public List queryBySqlFormatObject(String sql) {
+        List<Object> list = getSession().createSQLQuery(sql).list();
+        return list;
+    }
+
     public String queryMaxBySql(String sql) {
 //        getSession().createQuery("SELECT MAX(a.acceptedNumber)  FROM Accepted a")
         return (String) getSession().createQuery(sql).uniqueResult();

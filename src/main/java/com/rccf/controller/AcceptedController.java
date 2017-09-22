@@ -2,7 +2,6 @@ package com.rccf.controller;
 
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.AcceptProcess;
-import com.rccf.model.Accepted;
 import com.rccf.model.Employee;
 import com.rccf.service.AcceptedService;
 import com.rccf.service.BaseService;
@@ -10,8 +9,6 @@ import com.rccf.service.EmployeeService;
 import com.rccf.util.DateUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +39,37 @@ public class AcceptedController {
     AcceptedService acceptedService;
 
 
+    @ResponseBody
+    @RequestMapping(value = "/listall")
+    public String acceptListAll(HttpServletRequest request) {
+        String clerk_name = request.getParameter("clerk_name");
+        String custom = request.getParameter("custom");
+        String sql_pre = "SELECT `accepted_number` ,`accept_time` ,`letter_number` ,`customer_name` ,\n" +
+                "`customer_phone` ,`business_type` ,`agency` ,`business_nature` ,`want_money` ,\n" +
+                "`service_fee` ,`service_fee_actual` ,`clerk_name` ,\n" +
+                "(SELECT  e.`name`  from `employee` e WHERE  `code`  = a .`deputy_director` ) as deputy_name,\n" +
+                "(SELECT  e.`name`  from `employee` e WHERE  `code`  = a .`director`  ) as director_name,\n" +
+                "`houqi`,`state`, a .`end_date` , a .`loan_money` ,a.`service_agreement`,a .`id`,a .`beizhu`\n" +
+                "FROM `accepted` a    ";
+        String sql_post = " ORDER BY a.`accepted_number` DESC";
+        String sql_where = " where ";
+        if (!Strings.isNullOrEmpty(clerk_name)) {
+            sql_where = sql_where + " clerk_name like '%" + clerk_name + "%' &&";
+        }
+        if (!Strings.isNullOrEmpty(clerk_name)) {
+            sql_where = sql_where + " customer_name like '%" + custom + "%' &&";
+        }
+        String sql = null;
+        if (sql_where.length() > 10) {
+            sql_where = sql_where.substring(0, sql_where.length() - 2);
+            sql = sql_pre + sql_where + sql_post;
+        } else {
+            sql = sql_pre + sql_post;
+        }
+        List list = baseService.queryBySqlFormatObject(sql);
+        return ResponseUtil.success(list);
+    }
+
     @RequestMapping(value = "/employee_info")
     public ModelAndView employeeRibao(HttpServletRequest request) {
         long current = System.currentTimeMillis();//当前时间毫秒数
@@ -66,7 +94,7 @@ public class AcceptedController {
         String sql = "SELECT e.`code`, e.`department`,e.name,\n" +
                 " ( SELECT name from `employee` e1 WHERE e1.`code`= e.dupty_director) as fu,\n" +
                 " ( SELECT name from `employee` e1  WHERE e1.`code`= e.`director` ) as zong,\n" +
-                "  e.`entry_time` ,e.`duties` ,2000 as task,\n" +
+                "  e.`entry_time` ,e.`duties` ,20000 as task,\n" +
                 "(SELECT  sum(a.`service_fee_actual`)   FROM `accepted` a WHERE  a.`end_date`  >= '" + month_start + "' and  a.`end_date` <'" + month_end + "'  and  a.`clerk` =e.`code` and a.`state`=2 ) as monthyeji,\n" +
                 "(SELECT COUNT(*) FROM `accepted` a WHERE a.`accept_time` >='" + month_start + "'  and a.`accept_time` <'" + month_end + "'  and a.`clerk` =e.`code`  ) as monthaccept,\n" +
                 "(SELECT COUNT(*) FROM `accepted` a WHERE a.`end_date` >='" + month_start + "' and a.`end_date` <'" + month_end + "'  and a.`clerk` =e.`code` ) as monthend,\n" +

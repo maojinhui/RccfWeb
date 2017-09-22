@@ -56,6 +56,9 @@ public class BaseService {
         return dao.queryMaxBySql(sql);
     }
 
+    public List queryBySqlFormatObject(String sql) {
+        return dao.queryBySqlFormatObject(sql);
+    }
 
 
 }

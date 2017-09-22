@@ -1,0 +1,13 @@
+-- 受理单列表
+SELECT `accepted_number` ,`accept_time` ,`letter_number` ,`customer_name` ,
+`customer_phone` ,`business_type` ,`agency` ,`business_nature` ,`want_money` ,
+`service_fee` ,`service_fee_actual` ,`clerk_name` ,
+(SELECT  e.`name`  from `employee` e WHERE  `code`  = a .`deputy_director` ) as deputy_name,
+(SELECT  e.`name`  from `employee` e WHERE  `code`  = a .`director`  ) as director_name,
+`houqi`,`state`, a .`end_date` , a .`loan_money` ,a.`service_agreement`,a .`beizhu`
+FROM `accepted` a    ORDER BY a.`accepted_number` DESC
+
+
+
+
+

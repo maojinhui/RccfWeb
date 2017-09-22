@@ -95,11 +95,15 @@
                         <th>服务费比例</th>
                         <th>实收服务费</th>
                         <th>销售经理</th>
+                        <th>副总监</th>
+                        <th>总监</th>
+                        <th>后期专员</th>
                         <th>办理状态</th>
                         <th>办结日期</th>
                         <th>批贷金额</th>
                         <th>是否有服务协议</th>
                         <th>操作</th>
+                        <th>备注</th>
                     </tr>
                     </thead>
                     <tbody id="list">
@@ -118,6 +122,7 @@
 <%--<script type="text/javascript" src="/js/amaze/amazeui.page.js"></script>--%>
 <%--<script src="/js/comm.js"></script>--%>
 <script type="text/javascript" src="/js/amaze/amazeui.page.js"></script>
+<script type="text/javascript" src="/js/comm.js"></script>
 
 
 <script>
@@ -142,7 +147,7 @@
                 type = '质押';
                 break;
             default:
-                type = '未知';
+                type = '其他';
                 break;
         }
         return type;
@@ -203,7 +208,7 @@
     }
 
 
-    function getData(pageNum) {
+    function getData() {
         var accept_time = $('#accept_time').val();
         var end_time = $('#end_time').val();
         var accept_state = $('#accept_state').val();
@@ -211,14 +216,14 @@
         var clerk_name = $('#clerk_name').val();
 
         $.ajax({
-            url: '/employee/accept_list',
+            url: '/accept/listall',
             dataType: 'json',
             data: {
                 'custom': custom,
                 "accept_time": accept_time,
                 'end_time': end_time,
                 'accept_state': accept_state,
-                'page_no': pageNum,
+//                'page_no': pageNum,
                 'clerk_name': clerk_name
             },
             type: 'POST',
@@ -226,37 +231,54 @@
                 $('#list').empty();
                 if (result.code) {
                     var info = JSON.parse(result.data);
-                    for (var i = 0; i < info.length; i++) {
-                        var obj = info[i];
-                        var tr = '<tr>\n' +
-                            '                        <td>' + obj.acceptedNumber + '</td>\n' +
-                            '                        <td>' + formatDateTime(obj.acceptTime) + '</td>\n' +
-                            '                        <td>' + obj.letterNumber + '</td>\n' +
-                            '                        <td>' + obj.customerName + '</td>\n' +
-                            '                        <td>' + obj.customerPhone + '</td>\n' +
-                            '                        <td>' + getLoanType(obj.businessType) + '</td>\n' +
-                            '                        <td>' + getStr(obj.agency) + '</td>\n' +
-                            '                        <td>' + getStr(obj.businessNature) + '</td>\n' +
-                            '                        <td>' + getStr(obj.wantMoney) + '</td>\n' +
-                            '                        <td>' + getStr(obj.serviceFee) + '%</td>\n' +
-                            '                        <td>' + getStr(obj.serviceFeeActual) + '</td>\n' +
-                            '                        <td>' + getStr(obj.clerkName) + '</td>\n' +
-                            '                        <td>' + getAcceptedState(obj.state) + '</td>\n' +
-                            '                        <td>' + formatDateTime(obj.endDate) + '</td>\n' +
-                            '                        <td>' + getStr(obj.loanMoney) + '</td>\n' +
-                            '                        <td>' + getAgreement(obj.serviceAgreement) + '</td>\n' +
-                            '                        <td>\n' +
-                            '                            <a  onclick="change(' + obj.id + ')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
-                            '                                    class="am-icon-pencil-square-o"></span> 编辑\n' +
-                            '                            </a>\n' +
-                            '                            <a onclick="deleteAccepted(' + obj.id + ')" class="am-btn am-btn-default am-btn-xs am-text-danger">\n' +
-                            '                                <span class="am-icon-trash-o"></span> 删除\n' +
-                            '                            </a>\n' +
-                            '                        </td>\n' +
-                            '                    </tr>';
-                        $('#list').append(tr);
-
+                    var nums = 15;
+                    if (info.length <= nums) {
+                        $('#content').html(thisDate(1, info));
+                        $('#page').hide();
+                        return;
                     }
+                    $('#page').show();
+                    var pages = Math.ceil(info.length / nums); //得到总页数
+                    $("#curr").attr("max", pages);
+                    //返回的是一个page示例，拥有实例方法
+                    var $page = $("#page").page({
+                        ready: {},
+                        pages: pages, //页数
+                        curr: 1, //当前页
+                        theme: 'default', //主题
+                        groups: 5, //连续显示分页数
+                        prev: '<', //若不显示，设置false即可
+                        next: '>', //若不显示，设置false即可
+                        first: "首页",
+                        last: "尾页", //false则不显示
+                        before: function (context, next) { //加载前触发，如果没有执行next()则中断加载
+                            $('#list').empty();
+                            console.log('开始加载...');
+                            context.time = (new Date()).getTime(); //只是演示，并没有什么卵用，可以保存一些数据到上下文中
+                            next();
+                        },
+                        render: function (context, $element, index) { //渲染[context：对this的引用，$element：当前元素，index：当前索引]
+                            //逻辑处理
+                            if (index == 'last') { //虽然上面设置了last的文字为尾页，但是经过render处理，结果变为最后一页
+                                $element.find('a').html('最后一页');
+                                return $element; //如果有返回值则使用返回值渲染
+                            }
+                            return false; //没有返回值则按默认处理
+                        },
+                        after: function (context, next) { //加载完成后触发
+                            var time = (new Date()).getTime(); //没有什么卵用的演示
+                            console.log('分页组件加载完毕，耗时：' + (time - context.time) + 'ms');
+                            next();
+                        },
+                        /*
+                         * 触发分页后的回调，如果首次加载时后端已处理好分页数据则需要在after中判断终止或在jump中判断first是否为假
+                         */
+                        jump: function (context, first) {
+                            console.log('当前第：' + context.option.curr + "页");
+                            $('#list').html(pageData(context.option.curr, info, nums));
+
+                        }
+                    });
 
                 } else {
                     alert(result.errormsg);
@@ -269,6 +291,48 @@
 
         });
     }
+
+    function pageData(curr, info, nums) {
+        //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
+        var str = '',
+            last = curr * nums - 1;
+        last = last >= info.length ? (info.length - 1) : last;
+        for (var i = (curr * nums - nums); i <= last; i++) {
+            var da = info[i];
+            str += '<tr>\n' +
+                '                        <td>' + da[0] + '</td>\n' +
+                '                        <td>' + formatDateTime(da[1]) + '</td>\n' +
+                '                        <td>' + da[2] + '</td>\n' +
+                '                        <td>' + da[3] + '</td>\n' +
+                '                        <td>' + getStringWithspace(da[4]) + '</td>\n' +
+                '                        <td>' + getLoanType(da[5]) + '</td>\n' +
+                '                        <td>' + getStringWithspace(da[6]) + '</td>\n' +
+                '                        <td>' + getStringWithspace(da[7]) + '</td>\n' +
+                '                        <td>' + getStringWithspace(da[8]) + '</td>\n' +
+                '                        <td>' + getStringWithspace(da[9]) + '%</td>\n' +
+                '                        <td>' + getStringWithspace(da[10]) + '</td>\n' +
+                '                        <td>' + getStringWithspace(da[11]) + '</td>\n' +
+                '                        <td>' + getStringWithspace(da[12]) + '</td>\n' +
+                '                        <td>' + getStringWithspace(da[13]) + '</td>\n' +
+                '                        <td>' + getString(da[14]) + '</td>\n' +
+                '                        <td>' + getAcceptedState(da[15]) + '</td>\n' +
+                '                        <td>' + formatDateTime(da[16]) + '</td>\n' +
+                '                        <td>' + getStringWithspace(da[17]) + '</td>\n' +
+                '                        <td>' + getAgreement(da[18]) + '</td>\n' +
+                '                        <td>\n' +
+                '                            <a  onclick="change(' + da[19] + ')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
+                '                                    class="am-icon-pencil-square-o"></span> 编辑\n' +
+                '                            </a>\n' +
+                '                            <a onclick="deleteAccepted(' + da[19] + ')" class="am-btn am-btn-default am-btn-xs am-text-danger">\n' +
+                '                                <span class="am-icon-trash-o"></span> 删除\n' +
+                '                            </a>\n' +
+                '                        </td>\n' +
+                '                        <td>' + getStringWithspace(da[20]) + '</td>\n' +
+                '                    </tr>';
+        }
+        return str;
+    }
+
 
     //    href="/employee/addAccepted?id=' + obj.id + '"
     function dopage(pages) {
@@ -313,13 +377,13 @@
         });
     }
 
-    var nums = 10; //每页出现的数量
-    var pages = <%=request.getAttribute("pagecount")%>; //得到总页数
-    if (pages == 1) {
-        getData(1);
-    } else {
-        dopage(pages);
-    }
+    <%--var nums = 10; //每页出现的数量--%>
+    <%--var pages = <%=request.getAttribute("pagecount")%>; //得到总页数--%>
+    <%--if (pages == 1) {--%>
+    <%--getData(1);--%>
+    <%--} else {--%>
+    <%--dopage(pages);--%>
+    <%--}--%>
 
     $("#set").click(function () {
         var page = $("#curr").val();
@@ -331,8 +395,9 @@
 
 
     $('#search_cus').bind("click", function () {
-        getData(1);
+        getData();
     })
 
+    getData();
 
 </script>

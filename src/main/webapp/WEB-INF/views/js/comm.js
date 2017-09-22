@@ -1,5 +1,23 @@
+function isNull(variable1) {
+    if (variable1 === null) {
+        return true;
+    }
+    if (typeof (variable1) === 'undefined') {
+        return true;
+    }
+    if (variable1 === "") {
+        return true;
+    }
+
+    if (variable1 === "null") {
+        return true;
+    }
+
+    return false;
+}
+
 function formatDateTime(inputTime) {
-    if (typeof (inputTime) == 'undefined') {
+    if (typeof (inputTime) == 'undefined' || isNull(inputTime)) {
         return "";
     }
     var date = new Date();
@@ -68,23 +86,6 @@ function loadStyles(url) {
     document.getElementsByTagName("head")[0].appendChild(link);
 }
 
-function isNull(variable1) {
-    if (variable1 === null) {
-        return true;
-    }
-    if (typeof (variable1) === 'undefined') {
-        return true;
-    }
-    if (variable1 === "") {
-        return true;
-    }
-
-    if (variable1 === "null") {
-        return true;
-    }
-
-    return false;
-}
 
 function getStringWithspace(str) {
     if (isNull(str)) {
@@ -103,7 +104,7 @@ function getString(str) {
 
 
 function getdata(str) {
-    if (str == null) {
+    if (isNull(str)) {
         return '无';
     }
     return str;
