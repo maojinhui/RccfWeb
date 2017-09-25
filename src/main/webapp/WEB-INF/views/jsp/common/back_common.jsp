@@ -126,18 +126,40 @@
                 <ul class="sidebar-nav sidebar-nav-sub">
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/employee/list">
-                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 列表
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 员工列表
                         </a>
                     </li>
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/employee/editPage">
-                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 添加
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 添加员工
                         </a>
                     </li>
 
                 </ul>
             </li>
             <%}%>
+            <% if (depart.contains("市场") || depart.equals("系统管理")) {%>
+            <li class="sidebar-nav-link">
+                <a href="#" class="sidebar-nav-sub-title">
+                    <i class="am-icon-user-secret sidebar-nav-link-logo"></i> 客户管理
+                    <span class="am-icon-chevron-right am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
+                </a>
+                <ul class="sidebar-nav sidebar-nav-sub">
+                    <li class="sidebar-nav-link">
+                        <a class="rcmenu" data-rccf-menu="">
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 客户列表
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-link">
+                        <a class="rcmenu" data-rccf-menu="">
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 录入客户
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <%}%>
+
             <% if (depart.contains("市场") || depart.equals("系统管理")) {%>
             <li class="sidebar-nav-link">
                 <a class="sidebar-nav-sub-title">

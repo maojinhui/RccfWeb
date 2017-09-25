@@ -31,8 +31,8 @@
 
     <hr>
     <!--导出表格-->
-    <div class="am-g am-margin am-padding-right-xl am-text-right">
-        <a id="export" data-type="csv" href="javascript:;" class="am-btn am-btn-secondary">导出表格</a>
+    <div class="am-g am-margin am-padding-right-xl am-text-left">
+        <a id="export" data-type="xsl" class="am-btn am-btn-secondary">导出表格</a>
     </div>
 
     <!--表格-->

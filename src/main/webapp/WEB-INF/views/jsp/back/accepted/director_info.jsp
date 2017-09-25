@@ -36,7 +36,7 @@
     </div>
     <hr>
     <div class="am-g am-margin am-padding-right-xl am-text-left">
-        <a data-type="csv" id="export" class="am-btn am-btn-secondary">导出表格</a>
+        <a data-type="xsl" id="export" class="am-btn am-btn-secondary">导出表格</a>
     </div>
     <div class="am-g am-margin">
 

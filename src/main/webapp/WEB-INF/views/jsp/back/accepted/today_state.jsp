@@ -15,7 +15,7 @@
 <hr>
 <div class="am-g am-margin ">
     <div id="export" class="am-u-sm-6 am-u-md-3 am-u-lg-2 am-u-end">
-        <a data-type="csv" href="javascript:;" class="am-btn am-btn-secondary">导出本页表格excel</a>
+        <a data-type="xsl" href="javascript:;" class="am-btn am-btn-secondary">导出本页表格excel</a>
     </div>
     <div class="am-u-sm-6 am-u-md-3 am-u-lg-2 am-u-end">
         <input id="time" type="date" class="am-btn my-bordered" style="border: 1px solid #ddd;"/>
