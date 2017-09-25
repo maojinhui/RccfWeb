@@ -146,7 +146,7 @@
                 </a>
                 <ul class="sidebar-nav sidebar-nav-sub">
                     <li class="sidebar-nav-link">
-                        <a class="rcmenu" data-rccf-menu="">
+                        <a class="rcmenu" data-rccf-menu="/user/listpage">
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 客户列表
                         </a>
                     </li>

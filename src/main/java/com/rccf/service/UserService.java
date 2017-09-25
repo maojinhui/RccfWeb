@@ -16,7 +16,7 @@ public interface UserService {
 
     void save(Test test);
 
-    void saveUser(User user);
+    boolean saveUser(User user);
 
     User findUserById(String id);
 
@@ -27,5 +27,7 @@ public interface UserService {
     User findUserByOpenid(String openid);
 
     List<User> getUsers(Page p);
+
+    boolean deleteUser(User user);
 
 }

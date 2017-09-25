@@ -13,7 +13,9 @@ public interface UserDao {
 
     void save(Test test);
 
-    void saveUser(User user);
+    boolean saveUser(User user);
+
+    boolean deleteUser(User user);
 
     User findUserById(String id);
 

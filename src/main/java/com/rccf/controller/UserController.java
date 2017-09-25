@@ -1,16 +1,22 @@
 package com.rccf.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.rccf.component.Page;
 import com.rccf.component.SpyMemcachedManager;
 import com.rccf.constants.PageConstants;
 import com.rccf.constants.ResponseConstants;
+import com.rccf.model.AcceptProcess;
 import com.rccf.model.User;
+import com.rccf.model.result.UserSimple;
 import com.rccf.service.BaseService;
 import com.rccf.service.UserService;
 import com.rccf.util.PageUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
 import com.rccf.util.encrypt.PasswordUtil;
+import com.rccf.util.weixin.WeixinUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,7 +63,6 @@ public class UserController {
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(User.class);
         int count = baseService.getCount(detachedCriteria);
         Page page = PageUtil.createPage(PageConstants.EVERYPAGE, count, p);
@@ -147,7 +153,29 @@ public class UserController {
          */
         User user_phone = userService.findUserByPhone(phone);
         if (null != user_phone) {
-            return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_REGIST_ALREADY);
+            if (user_phone.getOpenid() != null) {//用户已经绑定其他微信号
+                return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_REGIST_ALREADY);
+            } else {//后台录入了本手机号
+                User user = userService.findUserByOpenid(openid);
+                user_phone.setOpenid(openid);
+                user_phone.setOpenType("weixin");
+                user_phone.setUserName(user.getUserName());
+                user_phone.setAccessToken(user.getAccessToken());
+                user_phone.setHeadimg(user.getHeadimg());
+                user_phone.setProvince(user.getProvince());
+                user_phone.setCity(user.getCity());
+                boolean save = userService.saveUser(user);
+                if (save) {
+                    boolean delete = userService.deleteUser(user);
+                    if (delete) {
+                        return ResponseUtil.success(user_phone.getUserId());
+                    } else {
+                        return ResponseUtil.fail(0, "保存失败，请稍候重试");
+                    }
+                } else {
+                    return ResponseUtil.fail(0, "保存失败，请重试");
+                }
+            }
         }
         User user = userService.findUserByOpenid(openid);
         user.setPhone(phone);
@@ -157,8 +185,135 @@ public class UserController {
 
 
     @RequestMapping(value = "/protocol")
-    public ModelAndView registProtocol(){
-return new ModelAndView("front/registProtocol");
+    public ModelAndView registProtocol() {
+        return new ModelAndView("front/registProtocol");
     }
+
+
+    @RequestMapping(value = "/listpage")
+    public ModelAndView userListPage(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/user/list");
+        return modelAndView;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/listall")
+    public String userList(HttpServletRequest request) {
+        String sql = "SELECT  `user_id` ,`user_name` ,`real_name`  , `sex` ,  `age` ,  `headimg` , `idcard` ,`phone` , `province` ,`city`, `openid`   from `user` ";
+        List list = baseService.queryBySql(sql);
+        String callback = request.getParameter("callback");
+//        String openid = WeixinUtil.getOpenid(request);
+//        String jsonData = JSON.toJSONString(list);
+//        JSONArray array = JSON.parseArray(jsonData);
+        JSONObject object = null;
+        JSONArray array = new JSONArray();
+        for (int i = 0; i < list.size(); i++) {
+            object = new JSONObject();
+            Object[] objs = (Object[]) list.get(i);
+            object.put("user_id", objs[0]);
+            object.put("user_name", objs[1]);
+            object.put("real_name", objs[2]);
+            object.put("sex", objs[3]);
+            object.put("age", objs[4]);
+            object.put("headimg", objs[5]);
+            object.put("idcard", objs[6]);
+            object.put("phone", objs[7]);
+            object.put("province", objs[8]);
+            object.put("city", objs[9]);
+            array.add(object);
+        }
+        if (Strings.isNullOrEmpty(callback)) {
+            return ResponseUtil.success_front(array);
+        } else {
+            return ResponseUtil.success_jsonp(callback, array);
+        }
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/userinfo")
+    public String userInfo(HttpServletRequest request) {
+        String callback = request.getParameter("callback");
+        String user_id = request.getParameter("user_id");
+        if (Strings.isNullOrEmpty(user_id)) {
+            return ResponseUtil.fail(0, "获取用户信息失败");
+        }
+        User user = userService.findUserById(user_id);
+        JSONObject object = JSON.parseObject(JSON.toJSONString(user));
+        if (Strings.isNullOrEmpty(callback)) {
+            return ResponseUtil.success_front(object);
+        } else {
+            return ResponseUtil.success_jsonp(callback, object);
+        }
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/edit")
+    public String modifyInfo(HttpServletRequest request) {
+        String callback = request.getParameter("callback");
+        String user_id = request.getParameter("user_id");
+        String user_name = request.getParameter("user_name");
+        String real_name = request.getParameter("real_name");
+        String age = request.getParameter("age");
+        String sex = request.getParameter("sex");
+        String idcard = request.getParameter("idcard");
+
+        User user = null;
+        if (Strings.isNullOrEmpty(user_id)) {
+            user = new User();
+        } else {
+            user = userService.findUserById(user_id);
+        }
+        if (!Strings.isNullOrEmpty(user_name)) {
+            user.setUserName(user_name);
+        }
+        if (!Strings.isNullOrEmpty(real_name)) {
+            user.setRealName(real_name);
+        }
+        if (!Strings.isNullOrEmpty(age)) {
+            try {
+                user.setAge(Integer.valueOf(age));
+            } catch (Exception e) {
+                return ResponseUtil.fail(0, "输入参数错误age");
+            }
+        }
+        if (!Strings.isNullOrEmpty(sex)) {
+            try {
+                user.setSex(Integer.valueOf(sex));
+            } catch (Exception e) {
+                return ResponseUtil.fail(0, "输入参数错误sex");
+            }
+        }
+        if (!Strings.isNullOrEmpty(idcard)) {
+            user.setIdcard(idcard);
+        }
+
+        boolean b = userService.saveUser(user);
+        if (b) {
+            if (Strings.isNullOrEmpty(callback)) {
+                return ResponseUtil.success();
+            } else {
+                return ResponseUtil.success_jsonp(callback, "{'code':1}");
+            }
+        } else {
+            if (Strings.isNullOrEmpty(callback)) {
+                return ResponseUtil.fail();
+            } else {
+                return ResponseUtil.success_jsonp(callback, "{'code':0}");
+            }
+        }
+
+
+//        if (Strings.isNullOrEmpty(callback)) {
+//            return ResponseUtil.success_front(object);
+//        } else {
+//            return ResponseUtil.success_jsonp(callback, object);
+//        }
+
+    }
+
 
 }

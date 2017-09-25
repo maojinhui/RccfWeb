@@ -248,6 +248,7 @@ public class EmployeeController {
             Employee e = employeeService.findEmpolyeeByName(dupty);
             if (e != null) {
                 employee.setDuptyDirector(e.getCode());
+                employee.setDuptyDirectorName(e.getName());
             }
         }
 
@@ -255,6 +256,7 @@ public class EmployeeController {
             Employee e = employeeService.findEmpolyeeByName(director);
             if (e != null) {
                 employee.setDirector(e.getCode());
+                employee.setDirectorName(e.getName());
             }
         }
         if (!Strings.isNullOrEmpty(state)) {

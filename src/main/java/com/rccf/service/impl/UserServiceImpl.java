@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    public void saveUser(User user) {
-        dao.saveUser(user);
+    public boolean saveUser(User user) {
+        return dao.saveUser(user);
     }
 
     public User findUserById(String id) {
@@ -46,5 +46,9 @@ public class UserServiceImpl implements UserService {
 
     public List<User> getUsers(Page page) {
         return dao.getUsers(page);
+    }
+
+    public boolean deleteUser(User user) {
+        return dao.deleteUser(user);
     }
 }

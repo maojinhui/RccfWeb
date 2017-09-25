@@ -38,20 +38,35 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
         getHibernateTemplate().save(test);
     }
 
-    public void saveUser(User user) {
-        getHibernateTemplate().saveOrUpdate(user);
+    public boolean saveUser(User user) {
+        try {
+            getHibernateTemplate().saveOrUpdate(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
+    public boolean deleteUser(User user) {
+        try {
+            getHibernateTemplate().delete(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public User findUserById(String id) {
-        return getHibernateTemplate().get(User.class,id);
+        return getHibernateTemplate().get(User.class, id);
     }
 
     public User findUserByPhone(String phone) {
         User user = null;
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(User.class);
-        detachedCriteria.add(Restrictions.eq("phone",phone));
+        detachedCriteria.add(Restrictions.eq("phone", phone));
         List<?> byCriteria = getHibernateTemplate().findByCriteria(detachedCriteria);
-        if (null != byCriteria && byCriteria.size()>0){
+        if (null != byCriteria && byCriteria.size() > 0) {
             user = (User) byCriteria.get(0);
         }
         return user;
@@ -59,7 +74,7 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 
     public User findUserByName(String name) {
         List<?> objects = getHibernateTemplate().find("from User where userName = ?", name);
-        if (null != objects && objects.size()>0){
+        if (null != objects && objects.size() > 0) {
             return (User) objects.get(0);
         }
         return null;
@@ -68,10 +83,10 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 
     public User findUserBuOpenid(String openid) {
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(User.class);
-        detachedCriteria.add(Restrictions.eq("openid",openid));
+        detachedCriteria.add(Restrictions.eq("openid", openid));
         List<?> byCriteria = getHibernateTemplate().findByCriteria(detachedCriteria);
         User user = null;
-        if (null != byCriteria && byCriteria.size()>0){
+        if (null != byCriteria && byCriteria.size() > 0) {
             user = (User) byCriteria.get(0);
         }
 //        User user = (User) getHibernateTemplate().findByNamedQuery("from User where phone = ?", phone).get(0);
