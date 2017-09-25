@@ -49,7 +49,7 @@
     <div class="am-g am-margin am-padding-right-xl am-text-left">
         <a id="display_all" data-type="xls" href="javascript:;" class="am-btn am-btn-secondary ">显示全部</a>
         <a id="display_page" data-type="xls" href="javascript:;" class="am-btn am-btn-secondary ">分页显示</a>
-        <a id="export" data-type="xsl" href="javascript:;" class="am-btn am-btn-secondary">导出表格</a>
+        <a id="export" data-type="xls" class="am-btn am-btn-secondary">导出表格</a>
     </div>
     <div class="am-g am-margin">
         <div class="am-u-sm-12 am-u-md-2">
