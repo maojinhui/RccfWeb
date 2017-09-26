@@ -343,7 +343,8 @@
     //    }
     $('.rcmenu').click(function () {
 //        $('.tpl-content-wrapper').removeClass('active');
-//        $('.left-sidebar').removeClass('active');
+        $('.left-sidebar').removeClass('active');
+
         var url = $(this).data('rccf-menu');
         $('#content_iframe').attr('src', url);
         console.log(url);

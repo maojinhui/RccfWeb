@@ -155,7 +155,7 @@ function getSex(sex) {
     } else if (sex === 2) {
         return "女";
     } else {
-        return "还未见过的性别";
+        return "未知";
     }
 
 

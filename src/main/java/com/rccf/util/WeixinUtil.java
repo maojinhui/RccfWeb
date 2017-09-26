@@ -131,7 +131,7 @@ public class WeixinUtil {
 
     public static String creatMenu() {
         String url = URL_MENU_CREAT + "?access_token=" + getAccessToken();
-        String menu = "{\"button\":[{\"type\":\"view\",\"name\":\"授权登录\",\"url\":\"http://weixin.rccfkg.com/auth/enter\"},{\"type\":\"view\",\"name\":\"营销工具\",\"url\":\"http://weixin.rccfkg.com/advert/mlist/\"},{\"name\":\"关于我们\",\"sub_button\":[{\"type\":\"view\",\"name\":\"产品介绍\",\"url\":\"http://rccfkg.com/paymentService/productDisplay.html\"},{\"type\":\"view\",\"name\":\"联系我们\",\"url\":\"http://rccfkg.com/contact.html\"}]}]}\n";
+        String menu = "{\"button\":[{\"type\":\"view\",\"name\":\"融成金服\",\"url\":\"http://weixin.rccfkg.com/auth/enter\"},{\"name\":\"管理系统\",\"sub_button\":[{\"type\":\"view\",\"name\":\"后台登录\",\"url\":\"http://weixin.rccfkg.com/back/login\"},{\"type\":\"view\",\"name\":\"营销工具\",\"url\":\"http://weixin.rccfkg.com/advert/addsign\"}]},{\"name\":\"关于我们\",\"sub_button\":[{\"type\":\"view\",\"name\":\"产品介绍\",\"url\":\"http://rccfkg.com/paymentService/productDisplay.html\"},{\"type\":\"view\",\"name\":\"联系我们\",\"url\":\"http://rccfkg.com/contact.html\"}]}]}";
         String result = HttpUtil.postJson(url, menu);
         return result;
     }

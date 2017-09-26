@@ -276,12 +276,12 @@
             '                            <a onclick="changeEmployee(2,' + obj.id + ')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
             '                                    class="am-icon-pencil-square-o"></span> 详情\n' +
             '                            </a>\n' +
-            '                            <a onclick="changeEmployee(1,' + obj.id + ')" class="am-btn am-btn-default am-btn-xs"><span\n' +
+            '                            <a onclick="changeEmployee(1,' + obj.id + ')" class="am-btn am-btn-default am-btn-xs am-text-danger"><span\n' +
             '                                    class="am-icon-copy"></span> 编辑\n' +
             '                            </a>\n' +
-            '                            <a onclick="deleteEmp(' + obj.id + ')"class="am-btn am-btn-default am-btn-xs am-text-danger">\n' +
-            '                                <span class="am-icon-trash-o"></span> 删除\n' +
-            '                            </a>\n' +
+            //            '                            <a onclick="deleteEmp(' + obj.id + ')"class="am-btn am-btn-default am-btn-xs am-text-danger">\n' +
+            //            '                                <span class="am-icon-trash-o"></span> 删除\n' +
+            //            '                            </a>\n' +
             '                        </td>\n' +
             '                    </tr>';
         return s;

@@ -266,7 +266,7 @@
                         <a id="edit_add" class="am-btn am-btn-primary field_btn" type="button">添加</a>
                     <% } else if (state.equals("1")) {%>
                         <a id="notify" onclick="notify()" class="am-btn am-btn-primary width_btn">修改</a>
-                        <a id="cancle" onclick="cancle()" class="am-btn am-btn-primary width_btn">取消</a>
+                        <a id="cancle" onclick="cancle()" class="am-btn am-btn-default width_btn">取消</a>
                     <%} else {%>
                         <a id="edit_emp" class="am-btn am-btn-primary field_btn" type="button">编辑</a>
                     <%}%>
@@ -402,14 +402,14 @@
         window.parent.changeUrl("/employee/list");
     }
 
-    (function () {
+    $("#emp_status").change(function () {
         var emp_status = $("#emp_status").val();
-        if (emp_status == "离职") {
+        if (emp_status == 0) {
             $("#quit_date").css("display", "block");
         } else {
             $("#quit_date").css("display", "none");
         }
-    })();
+    });
 
     $("#edit_emp").bind("click", function () {
         $("input").removeAttr("readonly");

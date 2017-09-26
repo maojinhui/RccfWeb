@@ -57,24 +57,24 @@
                     </thead>
                     <tbody id="content">
                     <tr>
-                        <td>张三</td>
-                        <td>张三</td>
-                        <td>12321321312</td>
-                        <td>男</td>
-                        <td>30</td>
-                        <td>123456789012345678</td>
-                        <td>
-                            <button class="am-btn am-btn-default am-btn-xs am-text-secondary"><span
-                                    class="am-icon-pencil-square-o"></span> 详情
-                            </button>
-                            <button class="am-btn am-btn-default am-btn-xs"><span
-                                    class="am-icon-copy"></span> 编辑
-                            </button>
-                            <button class="am-btn am-btn-default am-btn-xs am-text-danger">
-                                <span class="am-icon-trash-o"></span> 删除
-                            </button>
-                        </td>
-                    </tr>
+                        <%--<td>张三</td>--%>
+                        <%--<td>张三</td>--%>
+                        <%--<td>12321321312</td>--%>
+                        <%--<td>男</td>--%>
+                        <%--<td>30</td>--%>
+                        <%--<td>123456789012345678</td>--%>
+                        <%--<td>--%>
+                        <%--<button class="am-btn am-btn-default am-btn-xs am-text-secondary"><span--%>
+                        <%--class="am-icon-pencil-square-o"></span> 详情--%>
+                        <%--</button>--%>
+                        <%--<button class="am-btn am-btn-default am-btn-xs"><span--%>
+                        <%--class="am-icon-copy"></span> 编辑--%>
+                        <%--</button>--%>
+                        <%--<button class="am-btn am-btn-default am-btn-xs am-text-danger">--%>
+                        <%--<span class="am-icon-trash-o"></span> 删除--%>
+                        <%--</button>--%>
+                        <%--</td>--%>
+                        <%--</tr>--%>
 
                     </tbody>
                 </table>
@@ -99,6 +99,7 @@
 <%--</div>--%>
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="/js/amaze/amazeui.page.js"></script>
+<script src="/js/comm.js"></script>
 <script>
 
     var nums = 15;
@@ -174,12 +175,12 @@
         last = last >= data.length ? (data.length - 1) : last;
         for (var i = (curr * nums - nums); i <= last; i++) {
             str += '<tr>\n' +
-                '                        <td>' + data[i].real_name + '</td>\n' +
-                '                        <td>' + data[i].user_name + '</td>\n' +
-                '                        <td>' + data[i].phone + '</td>\n' +
-                '                        <td>' + data[i].sex + '</td>\n' +
-                '                        <td>' + data[i].age + '</td>\n' +
-                '                        <td>' + data[i].pid + '</td>\n' +
+                '                        <td>' + getStringWithspace(data[i].real_name) + '</td>\n' +
+                '                        <td>' + getStringWithspace(data[i].user_name) + '</td>\n' +
+                '                        <td>' + getStringWithspace(data[i].phone) + '</td>\n' +
+                '                        <td>' + getSex(data[i].sex) + '</td>\n' +
+                '                        <td>' + getStringWithspace(data[i].age) + '</td>\n' +
+                '                        <td>' + getStringWithspace(data[i].pid) + '</td>\n' +
                 '                        <td>\n' +
                 '                            <button class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
                 '                                    class="am-icon-pencil-square-o"></span> 详情\n' +

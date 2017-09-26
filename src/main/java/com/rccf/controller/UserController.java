@@ -12,6 +12,7 @@ import com.rccf.model.User;
 import com.rccf.model.result.UserSimple;
 import com.rccf.service.BaseService;
 import com.rccf.service.UserService;
+import com.rccf.util.CheckUtil;
 import com.rccf.util.PageUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
@@ -259,6 +260,7 @@ public class UserController {
         String real_name = request.getParameter("real_name");
         String age = request.getParameter("age");
         String sex = request.getParameter("sex");
+        String phone = request.getParameter("phone");
         String idcard = request.getParameter("idcard");
 
         User user = null;
@@ -288,7 +290,34 @@ public class UserController {
             }
         }
         if (!Strings.isNullOrEmpty(idcard)) {
-            user.setIdcard(idcard);
+            CheckUtil checkUtil = new CheckUtil();
+            if (!checkUtil.isValidatedAllIdcard(idcard)) {
+                user.setIdcard(idcard);
+            } else {
+                if (Strings.isNullOrEmpty(callback)) {
+                    return ResponseUtil.fail(0, "身份证号码不正确");
+                } else {
+                    JSONObject object = new JSONObject();
+                    object.put("code", 0);
+                    object.put("errormsg", "身份证号码不正确");
+                    return ResponseUtil.success_jsonp(callback, object);
+                }
+            }
+
+
+        }
+
+        if (Strings.isNullOrEmpty(phone) || !Strings.isMobileNO(phone)) {
+            if (Strings.isNullOrEmpty(callback)) {
+                return ResponseUtil.fail(0, "手机号格式不正确");
+            } else {
+                JSONObject object = new JSONObject();
+                object.put("code", 0);
+                object.put("errormsg", "手机号格式不正确");
+                return ResponseUtil.success_jsonp(callback, object);
+            }
+        } else {
+            user.setPhone(phone);
         }
 
         boolean b = userService.saveUser(user);
@@ -296,13 +325,17 @@ public class UserController {
             if (Strings.isNullOrEmpty(callback)) {
                 return ResponseUtil.success();
             } else {
-                return ResponseUtil.success_jsonp(callback, "{'code':1}");
+                JSONObject object = new JSONObject();
+                object.put("code", 1);
+                return ResponseUtil.success_jsonp(callback, object);
             }
         } else {
             if (Strings.isNullOrEmpty(callback)) {
                 return ResponseUtil.fail();
             } else {
-                return ResponseUtil.success_jsonp(callback, "{'code':0}");
+                JSONObject object = new JSONObject();
+                object.put("code", 0);
+                return ResponseUtil.success_jsonp(callback, object);
             }
         }
 
