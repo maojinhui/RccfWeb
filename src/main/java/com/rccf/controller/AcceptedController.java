@@ -66,7 +66,7 @@ public class AcceptedController {
         if (!Strings.isNullOrEmpty(clerk_name)) {
             sql_where = sql_where + " clerk_name like '%" + clerk_name + "%' &&";
         }
-        if (!Strings.isNullOrEmpty(clerk_name)) {
+        if (!Strings.isNullOrEmpty(custom)) {
             sql_where = sql_where + " customer_name like '%" + custom + "%' &&";
         }
         String sql = null;

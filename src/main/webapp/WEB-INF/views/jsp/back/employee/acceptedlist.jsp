@@ -228,12 +228,12 @@
             },
             type: 'POST',
             success: function (result) {
-                $('#list').empty();
+//                $('#list').empty();
                 if (result.code) {
                     var info = JSON.parse(result.data);
-                    var nums = 15;
+                    var nums = 10;
                     if (info.length <= nums) {
-                        $('#content').html(thisDate(1, info));
+                        $('#list').html(pageData(1, info, nums));
                         $('#page').hide();
                         return;
                     }
