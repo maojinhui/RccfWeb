@@ -1,5 +1,7 @@
 package com.rccf.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.rccf.component.Page;
 import com.rccf.constants.PageConstants;
 import com.rccf.constants.ResponseConstants;
@@ -8,6 +10,7 @@ import com.rccf.enmu.HeaderType;
 import com.rccf.model.Employee;
 import com.rccf.model.Market;
 import com.rccf.model.User;
+import com.rccf.model.temp.DataCount;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.service.UserService;
@@ -27,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -55,7 +59,7 @@ public class BackController {
         String userid = null;
         String userimg = null;
         //获取当前站点的所有Cookie
-        if(null != cookies){
+        if (null != cookies) {
             for (int i = 0; i < cookies.length; i++) {//对cookies中的数据进行遍历，找到用户名、密码的数据
                 if ("username".equals(cookies[i].getName())) {
                     username = cookies[i].getValue();
@@ -66,7 +70,7 @@ public class BackController {
                 }
             }
         }
-        if ( !Strings.isNullOrEmpty(userid) ) {
+        if (!Strings.isNullOrEmpty(userid)) {
             return new ModelAndView("redirect:/back/common?user_id=" + userid);
         }
         ModelAndView modelAndView = new ModelAndView();
@@ -79,6 +83,7 @@ public class BackController {
     public String login(HttpServletRequest request, HttpServletResponse response) {
         String phone = request.getParameter("phone");
         String pwd = request.getParameter("pwd");
+
         logger.info(pwd);
 
         if (Strings.isNullOrEmpty(phone)) {
@@ -143,7 +148,7 @@ public class BackController {
 
 
     @RequestMapping(value = "/index")
-    public ModelAndView backIndexPage(HttpServletRequest request,HttpServletResponse response) {
+    public ModelAndView backIndexPage(HttpServletRequest request, HttpServletResponse response) {
 //        String user_id = request.getParameter("user_id");
 //        if(null==user_id){
 //            return new ModelAndView("redirect:/back/login");
@@ -153,23 +158,41 @@ public class BackController {
 //        modelAndView.addObject("user", user);
 //        modelAndView.setViewName("back/index");
 //        return modelAndView;
-        return getUserView(request,response,"back/index",HeaderType.INDEX);
+        ModelAndView modelAndView = getUserView(request, response, "back/index", HeaderType.INDEX);
+        String sql_accept = "SELECT count(*)  as accept ,  date_format(`accept_time`,  '%Y-%m') as t1   FROM accepted a  WHERE accept_time is NOT NULL  group by date_format(accept_time, '%Y-%m')  ";
+        String sql_end = "SELECT count(*)  as end ,  date_format(end_date, '%Y-%m') as t2 FROM accepted a  WHERE  `state` =2 and end_date is not null  group by date_format(end_date, '%Y-%m') ";
+
+        List list_accept = baseService.queryBySql(sql_accept);
+        List list_end = baseService.queryBySql(sql_end);
+        List<DataCount> counts = new ArrayList<DataCount>();
+        DataCount dataCount;
+        for (int i = 0; i < list_accept.size(); i++) {
+            dataCount = new DataCount();
+            Object[] aobjs = (Object[]) list_accept.get(i);
+            Object[] bobjs = (Object[]) list_end.get(i);
+            dataCount.setTime((String) aobjs[1]);
+            dataCount.setAccept(Integer.valueOf(aobjs[0].toString()));
+            dataCount.setEnd(Integer.valueOf(bobjs[0].toString()));
+            counts.add(dataCount);
+        }
+        JSONArray darray = JSON.parseArray(JSON.toJSONString(counts));
+        modelAndView.addObject("data", darray);
+        return modelAndView;
     }
 
     @RequestMapping(value = "/market_list")
-    public ModelAndView marketToolsPage(HttpServletRequest request,HttpServletResponse response)
-    {
-        return getUserView(request,response,"back/markettools",HeaderType.MARKET);
+    public ModelAndView marketToolsPage(HttpServletRequest request, HttpServletResponse response) {
+        return getUserView(request, response, "back/markettools", HeaderType.MARKET);
     }
 
     @RequestMapping(value = "/markets")
     @ResponseBody
-    public String markets(HttpServletRequest request){
+    public String markets(HttpServletRequest request) {
         String pageNo = request.getParameter("pageNo");
-        if (Strings.isNullOrEmpty(pageNo)){
-            pageNo="0";
+        if (Strings.isNullOrEmpty(pageNo)) {
+            pageNo = "0";
         }
-        int p  ;
+        int p;
         try {
             p = Integer.valueOf(pageNo);
         } catch (NumberFormatException e) {
@@ -178,28 +201,28 @@ public class BackController {
         }
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Market.class);
         byte b = 1;
-        detachedCriteria.add(Restrictions.eq("state",b));
+        detachedCriteria.add(Restrictions.eq("state", b));
         int count = baseService.getCount(detachedCriteria);
-        Page page = PageUtil.createPage(PageConstants.EVERYPAGE,count,p);
+        Page page = PageUtil.createPage(PageConstants.EVERYPAGE, count, p);
         List markets = baseService.getList(page, detachedCriteria);
         return ResponseUtil.success(markets);
     }
 
 
     @RequestMapping(value = "product_add")
-    public ModelAndView addProduct(HttpServletRequest request ,HttpServletResponse response){
+    public ModelAndView addProduct(HttpServletRequest request, HttpServletResponse response) {
 
-        return getUserView(request , response,"back/productAdd" ,HeaderType.PRODUCT);
+        return getUserView(request, response, "back/productAdd", HeaderType.PRODUCT);
     }
 
 
     @ResponseBody
     @RequestMapping(value = "/add_product")
-    public String addProductFromPage(HttpServletRequest request,HttpServletResponse response)  {
+    public String addProductFromPage(HttpServletRequest request, HttpServletResponse response) {
         String produce_type = request.getParameter("produce_type");
         String produce_bianhao = request.getParameter("produce_bianhao");
         String produce_egency_type = request.getParameter("produce_egency_type");
-        return ResponseUtil.success("+"+produce_type+"+"+produce_bianhao+"+"+produce_egency_type);
+        return ResponseUtil.success("+" + produce_type + "+" + produce_bianhao + "+" + produce_egency_type);
     }
 
 
@@ -236,32 +259,33 @@ public class BackController {
 
     /**
      * 根据cookie获取用户信息
+     *
      * @param request
      * @param viewName
      * @return
      */
-    private ModelAndView getUserView(HttpServletRequest request , HttpServletResponse response , String viewName,HeaderType type ){
+    private ModelAndView getUserView(HttpServletRequest request, HttpServletResponse response, String viewName, HeaderType type) {
         String userid = null;
-        Cookie cookies[]  = request.getCookies();
-        if (null == cookies){
+        Cookie cookies[] = request.getCookies();
+        if (null == cookies) {
             return new ModelAndView("redirect:/back/login");
         }
-        for (Cookie cookie:cookies) {
-            if ("userid".equals(cookie.getName())){
+        for (Cookie cookie : cookies) {
+            if ("userid".equals(cookie.getName())) {
                 userid = cookie.getValue();
             }
         }
-        if (null == userid){
+        if (null == userid) {
             return new ModelAndView("redirect:/back/login");
         }
         int id = Integer.valueOf(userid);
         Employee user = employeeService.findEmpolyeeById(id);
-        if(null == user){
+        if (null == user) {
             return new ModelAndView("redirect:/back/login");
         }
 
-        if(null != type){
-            Cookie typecookie =null;
+        if (null != type) {
+            Cookie typecookie = null;
             switch (type) {
                 case MARKET:
                     typecookie = new Cookie("ctype", "market");
@@ -291,7 +315,7 @@ public class BackController {
                     typecookie = new Cookie("ctype", "index");
                     break;
             }
-            if(null != typecookie ){
+            if (null != typecookie) {
                 typecookie.setPath("/");
                 typecookie.setMaxAge(60 * 60 * 24 * 30 * 12);
                 response.addCookie(typecookie);
@@ -300,7 +324,7 @@ public class BackController {
 
         ModelAndView modelAndView = new ModelAndView(viewName);
 //        modelAndView.setViewName();
-        modelAndView.addObject("type",type);
+        modelAndView.addObject("type", type);
         modelAndView.addObject("user", user);
 
         return modelAndView;

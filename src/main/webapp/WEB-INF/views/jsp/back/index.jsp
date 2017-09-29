@@ -24,6 +24,17 @@
 <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
 <script type="text/javascript">
 
+    var dataArray = <%=request.getAttribute("data")%>;
+    var title_array = new Array();
+    var accept_array = new Array();
+    var end_array = new Array();
+    for (var i = 0; i < dataArray.length; i++) {
+        var da = dataArray[i];
+        title_array[i] = da.time;
+        accept_array[i] = da.accept;
+        end_array[i] = da.end;
+    }
+
     // 路径配置
     require.config({
         paths: {
@@ -65,7 +76,8 @@
                 xAxis: [
                     {
                         type: 'category',
-                        data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月']
+//                        data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月']
+                        data: title_array
                     }
                 ],
                 yAxis: [
@@ -77,7 +89,8 @@
                     {
                         name: '受理量',
                         type: 'bar',
-                        data: [37, 30, 72, 95, 118, 106, 125, 150, 132],
+//                        data: [37, 30, 72, 95, 118, 106, 125, 150, 132],
+                        data: accept_array,
                         markPoint: {
                             data: [
                                 {type: 'max', name: '最大值'},
@@ -93,7 +106,8 @@
                     {
                         name: '办结量',
                         type: 'bar',
-                        data: [22, 31, 54, 87, 102, 101, 128, 135, 98],
+//                        data: [22, 31, 54, 87, 102, 101, 128, 135, 98],
+                        data: end_array,
                         markPoint: {
                             data: [
                                 {type: 'max', name: '最大值'},

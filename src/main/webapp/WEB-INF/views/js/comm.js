@@ -131,7 +131,7 @@ function getState(state) {
     } else if (state === 2) {
         return '办结';
     } else if (state === 3) {
-        return '被拒';
+        return '拒单';
     } else if (state === 4) {
         return '撤单';
     } else {
@@ -157,6 +157,21 @@ function getSex(sex) {
     } else {
         return "未知";
     }
-
-
 }
+
+function getRepaymentType(type) {
+    if (isNull(type)) {
+        return '未填写';
+    } else if (type === 1) {
+        return "等额本金";
+    } else if (type === 2) {
+        return "等额本息";
+    } else if (type === 3) {
+        return "停本付息";
+    } else if (type === 4) {
+        return "先息后本";
+    } else {
+        return "其他";
+    }
+}
+

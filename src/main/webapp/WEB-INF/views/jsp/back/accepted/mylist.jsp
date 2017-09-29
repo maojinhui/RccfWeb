@@ -73,7 +73,7 @@
                         <th>办结日期</th>
                         <th>批贷金额</th>
                         <th>是否有服务协议</th>
-                        <th>操作</th>
+                        <%--<th>操作</th>--%>
                         <th>备注</th>
                     </tr>
                     </thead>
@@ -192,7 +192,7 @@
         var clerk_name = $('#clerk_name').val();
 
         $.ajax({
-            url: '/accept/listall',
+            url: '/accept/list_employee',
             dataType: 'json',
             data: {
                 'custom': custom,
@@ -299,14 +299,14 @@
                 '                        <td>' + formatDateTime(da[16]) + '</td>\n' +
                 '                        <td>' + getStringWithspace(da[17]) + '</td>\n' +
                 '                        <td>' + getAgreement(da[18]) + '</td>\n' +
-                '                        <td>\n' +
-                '                            <a  onclick="change(' + da[19] + ')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
-                '                                    class="am-icon-pencil-square-o"></span> 编辑\n' +
-                '                            </a>\n' +
-                '                            <a onclick="deleteAccepted(' + da[19] + ')" class="am-btn am-btn-default am-btn-xs am-text-danger">\n' +
-                '                                <span class="am-icon-trash-o"></span> 删除\n' +
-                '                            </a>\n' +
-                '                        </td>\n' +
+                //                '                        <td>\n' +
+                //                '                            <a  onclick="change(' + da[19] + ')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
+                //                '                                    class="am-icon-pencil-square-o"></span> 编辑\n' +
+                //                '                            </a>\n' +
+                //                '                            <a onclick="deleteAccepted(' + da[19] + ')" class="am-btn am-btn-default am-btn-xs am-text-danger">\n' +
+                //                '                                <span class="am-icon-trash-o"></span> 删除\n' +
+                //                '                            </a>\n' +
+                //                '                        </td>\n' +
                 '                        <td>' + getStringWithspace(da[20]) + '</td>\n' +
                 '                    </tr>';
         }
@@ -369,8 +369,8 @@
         $('#list').html(pageData(1, nums, true));
         $('#page').hide();
     });
-    
-    
+
+
     $("#set").click(function () {
         var page = $("#curr").val();
         $page.setCurr(page, function () {
@@ -396,7 +396,7 @@
         false);
 
 
-
     getData();
 
 </script>
+

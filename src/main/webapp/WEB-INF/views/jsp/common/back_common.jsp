@@ -138,7 +138,7 @@
                 </ul>
             </li>
             <%}%>
-            <% if (depart.contains("市场") || depart.equals("系统管理")) {%>
+            <% if (depart.equals("系统管理")) {%>
             <li class="sidebar-nav-link">
                 <a href="#" class="sidebar-nav-sub-title">
                     <i class="am-icon-user-secret sidebar-nav-link-logo"></i> 客户管理
@@ -146,7 +146,7 @@
                 </a>
                 <ul class="sidebar-nav sidebar-nav-sub">
                     <li class="sidebar-nav-link">
-                        <a class="rcmenu" data-rccf-menu="/user/listpage">
+                        <a class="rcmenu" data-rccf-menu="/customer/listpage">
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 客户列表
                         </a>
                     </li>
@@ -219,7 +219,17 @@
                 </ul>
             </li>
             <%}%>
-            <% if (depart.contains("金融") || depart.equals("系统管理")) {%>
+
+            <% if (user.getDepartment().contains("金融") || user.getDepartment().contains("系统")) {%>
+            <li class="sidebar-nav-link">
+                <a class="rcmenu" data-rccf-menu="/accept/mylistpage">
+                    <i class="am-icon-table sidebar-nav-link-logo"></i>
+                    受理中受理单
+                </a>
+            </li>
+            <%}%>
+
+            <% if (depart.equals("系统管理")) {%>
             <li class="sidebar-nav-link">
                 <a class="sidebar-nav-sub-title">
                     <i class="am-icon-balance-scale  sidebar-nav-link-logo"></i> 匹配方案
@@ -343,8 +353,10 @@
     //    }
     $('.rcmenu').click(function () {
 //        $('.tpl-content-wrapper').removeClass('active');
-        $('.left-sidebar').addClass('active');
-
+//        $('.left-sidebar').addClass('active');
+        if ($(window).width() < 1024) {
+            $('.am-icon-list').click();
+        }
         var url = $(this).data('rccf-menu');
         $('#content_iframe').attr('src', url);
         console.log(url);

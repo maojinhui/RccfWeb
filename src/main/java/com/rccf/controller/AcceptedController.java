@@ -12,6 +12,7 @@ import com.rccf.service.AcceptedService;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.service.UserService;
+import com.rccf.util.BackUtil;
 import com.rccf.util.DateUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -69,7 +71,7 @@ public class AcceptedController {
         if (!Strings.isNullOrEmpty(custom)) {
             sql_where = sql_where + " customer_name like '%" + custom + "%' &&";
         }
-        String sql = null;
+        String sql = "";
         if (sql_where.length() > 10) {
             sql_where = sql_where.substring(0, sql_where.length() - 2);
             sql = sql_pre + sql_where + sql_post;
@@ -78,6 +80,72 @@ public class AcceptedController {
         }
         List list = baseService.queryBySqlFormatObject(sql);
         return ResponseUtil.success(list);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/list_employee")
+    public String acceptListEmployee(HttpServletRequest request) {
+        Employee employee = getLoginEmployee(request);
+        if (employee.getState() == 0) {
+            return ResponseUtil.fail(0, "对不起，你现在你离职,无法进行此操作");
+        }
+        String clerk_name = request.getParameter("clerk_name");
+        String custom = request.getParameter("custom");
+        String sql_pre = "SELECT `accepted_number` ,`accept_time` ,`letter_number` ,`customer_name` ,\n" +
+                "`customer_phone` ,`business_type` ,`agency` ,`business_nature` ,`want_money` ,\n" +
+                "`service_fee` ,`service_fee_actual` ,`clerk_name` ,\n" +
+                "(SELECT  e.`name`  from `employee` e WHERE  `code`  = a .`deputy_director` ) as deputy_name,\n" +
+                "(SELECT  e.`name`  from `employee` e WHERE  `code`  = a .`director`  ) as director_name,\n" +
+                "`houqi`,`state`, a .`end_date` , a .`loan_money` ,a.`service_agreement`,a .`id`,a .`beizhu`\n" +
+                "FROM `accepted` a    ";
+        String sql_post = " ORDER BY a.`accepted_number` DESC";
+        String sql_where = " where state = 1 &&";
+        String sql_director = " director = '" + employee.getCode() + "' &&";
+        String sql_deputy_director = " a.deputy_director = '" + employee.getCode() + "' &&";
+        String sql_where_clerk = " clerk = '" + employee.getCode() + "' &&";
+        String sql_clerk = "";
+        String sql_customer = "";
+        if (!Strings.isNullOrEmpty(clerk_name)) {
+            sql_clerk += " clerk_name like '%" + clerk_name + "%' &&";
+        }
+        if (!Strings.isNullOrEmpty(custom)) {
+            sql_customer = " customer_name like '%" + custom + "%' &&";
+        }
+
+        if (employee.getDepartment().contains("金融")) {//金融部门
+            if (employee.getRole() == 2) {//总监
+                sql_where = sql_where + sql_director + sql_clerk + sql_customer;
+            } else if (employee.getRole() == 3) {//副总监
+                sql_where = sql_where + sql_deputy_director + sql_clerk + sql_customer;
+            } else if (employee.getRole() == 4) {//业务员
+                sql_where = sql_where + sql_where_clerk + sql_customer;
+            }
+        } else if (employee.getDepartment().contains("系统管理")) {//管理员
+            sql_where = sql_where + sql_clerk + sql_customer;
+        } else {//其他人
+            sql_where = " 0 ";
+        }
+        sql_where = sql_where.substring(0, sql_where.length() - 2);
+        String sql = sql_pre + sql_where + sql_post;
+        List list = baseService.queryBySqlFormatObject(sql);
+        return ResponseUtil.success(list);
+    }
+
+
+    @RequestMapping(value = "/mylistpage")
+    public ModelAndView myEmployeeList(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/accepted/mylist");
+        Employee employee = getLoginEmployee(request);
+        if (employee == null) {
+            return BackUtil.getBackUserView(request, response, employeeService, "/back/login");
+        } else {
+            if (employee.getState() != null && employee.getState() == 0) {
+                return BackUtil.getBackUserView(request, response, employeeService, "/back/login");
+            }
+        }
+
+        return modelAndView;
     }
 
     @RequestMapping(value = "/employee_info")
@@ -107,12 +175,12 @@ public class AcceptedController {
                 "  e.`entry_time` ,e.`duties` ,20000 as task,\n" +
                 "(SELECT  sum(a.`service_fee_actual`)   FROM `accepted` a WHERE  a.`end_date`  >= '" + month_start + "' and  a.`end_date` <'" + month_end + "'  and  a.`clerk` =e.`code` and a.`state`=2 ) as monthyeji,\n" +
                 "(SELECT COUNT(*) FROM `accepted` a WHERE a.`accept_time` >='" + month_start + "'  and a.`accept_time` <'" + month_end + "'  and a.`clerk` =e.`code`  ) as monthaccept,\n" +
-                "(SELECT COUNT(*) FROM `accepted` a WHERE a.`end_date` >='" + month_start + "' and a.`end_date` <'" + month_end + "'  and a.`clerk` =e.`code` ) as monthend,\n" +
+                "(SELECT COUNT(*) FROM `accepted` a WHERE a.`end_date` >='" + month_start + "' and a.`end_date` <'" + month_end + "'  and a.`clerk` =e.`code` and `state` = 2) as monthend,\n" +
                 "(SELECT COUNT(*) FROM `accepted` a WHERE a.`create_time`  >='" + month_start + "' and a.`create_time` <'" + month_end + "'  and a.`clerk` =e.`code`  and `state` = 3) as monthrefuse,\n" +
                 "\n" +
-                "(SELECT  sum(a.`service_fee_actual`)   FROM `accepted` a WHERE  a.`end_date`  >= '" + day_start + "'  and  a.`end_date` <'" + day_end + "'  and  a.`clerk` =e.`code` ) as dayyeji,\n" +
+                "(SELECT  sum(a.`service_fee_actual`)   FROM `accepted` a WHERE  a.`end_date`  >= '" + day_start + "'  and  a.`end_date` <'" + day_end + "'  and  a.`clerk` =e.`code` and `state` = 2) as dayyeji,\n" +
                 "(SELECT COUNT(*) FROM `accepted` a WHERE a.`accept_time` >='" + day_start + "'  and a.`accept_time` <'" + day_end + "'  and a.`clerk` =e.`code`  ) as dayaccept,\n" +
-                "(SELECT COUNT(*) FROM `accepted` a WHERE a.`end_date` >='" + day_start + "'  and a.`end_date` <'" + day_end + "'  and a.`clerk` =e.`code` ) as dayend,\n" +
+                "(SELECT COUNT(*) FROM `accepted` a WHERE a.`end_date` >='" + day_start + "'  and a.`end_date` <'" + day_end + "'  and a.`clerk` =e.`code` and `state` = 2) as dayend,\n" +
                 "(SELECT COUNT(*) FROM `accepted` a WHERE a.`create_time`  >='" + day_start + "'  and a.`create_time` <'" + day_end + "'  and a.`clerk` =e.`code`  and `state` = 3) as dayrefuse\n" +
                 "\n" +
                 " FROM `employee` e  WHERE department LIKE '%金融%' AND  `role`= 4 AND `state` =1 ORDER BY monthyeji DESC";
@@ -415,8 +483,6 @@ public class AcceptedController {
         } catch (Exception e) {
             return ResponseUtil.fail();
         }
-
-
     }
 
 

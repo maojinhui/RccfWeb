@@ -58,7 +58,7 @@ function getState(state) {
     } else if (state === 2) {
         return '办结';
     } else if (state === 3) {
-        return '被拒';
+        return '拒单';
     } else if (state === 4) {
         return '撤单';
     } else {
