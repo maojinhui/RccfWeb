@@ -55,7 +55,7 @@
     <a class="weui-btn weui-btn_primary" href="javascript:" id="submit">确定</a>
 </div>
 <!--底部导航栏-->
-<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
 <script src="/js/comm.js"></script>
 <script>

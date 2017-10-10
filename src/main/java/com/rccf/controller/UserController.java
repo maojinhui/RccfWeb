@@ -9,7 +9,6 @@ import com.rccf.constants.PageConstants;
 import com.rccf.constants.ResponseConstants;
 import com.rccf.model.AcceptProcess;
 import com.rccf.model.User;
-import com.rccf.model.result.UserSimple;
 import com.rccf.service.BaseService;
 import com.rccf.service.UserService;
 import com.rccf.util.CheckUtil;

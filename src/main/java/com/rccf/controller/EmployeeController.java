@@ -376,6 +376,7 @@ public class EmployeeController {
         plist.add(Projections.property("code").as("code"));
         plist.add(Projections.property("name").as("name"));
         detachedCriteria.setProjection(plist);
+        detachedCriteria.add(Restrictions.eq("state", 1));
         detachedCriteria.setResultTransformer(Transformers.aliasToBean(Employee.class));
         List<Employee> employees = baseService.getList(detachedCriteria);
         view.addObject("employees", employees);

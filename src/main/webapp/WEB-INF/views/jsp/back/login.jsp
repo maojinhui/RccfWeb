@@ -9,11 +9,11 @@
     <meta name="format-detection" content="telephone=no,email=no">
     <link rel="shortcut icon" type="image/x-icon" href="/image/rccf.ico">
     <title>融成财富-后台管理系统</title>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/js/amazeui.ie8polyfill.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/js/amazeui.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/js/amazeui.widgets.helper.min.js"></script>
+    <script type="text/javascript" src="/js/amaze//amazeui.ie8polyfill.min.js"></script>
+    <script type="text/javascript" src="/js/amaze//amazeui.min.js"></script>
+    <script type="text/javascript" src="/js/amaze/mazeui.widgets.helper.min.js"></script>
     <script type="text/javascript" src="/js/amaze/app.js"></script>
     <script type="text/javascript" src="/js/amaze/handlebars.min.js"></script>
     <script type="text/javascript" src="/js/rollups/tripledes.js"></script>
@@ -21,7 +21,7 @@
     <script type="text/javascript" src="/js/comm.js"></script>
 
     <script href="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/css/amaze/amazeui.min.css"/>
     <%--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/css/amazeui.flat.min.css"/>--%>
     <link rel="stylesheet" href="/css/amaze/admin.css"/>
     <link rel="stylesheet" href="/css/instyle.css"/>

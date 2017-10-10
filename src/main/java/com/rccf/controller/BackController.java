@@ -14,6 +14,7 @@ import com.rccf.model.temp.DataCount;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.service.UserService;
+import com.rccf.util.BackUtil;
 import com.rccf.util.PageUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
@@ -158,20 +159,45 @@ public class BackController {
 //        modelAndView.addObject("user", user);
 //        modelAndView.setViewName("back/index");
 //        return modelAndView;
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         ModelAndView modelAndView = getUserView(request, response, "back/index", HeaderType.INDEX);
-        String sql_accept = "SELECT count(*)  as accept ,  date_format(`accept_time`,  '%Y-%m') as t1   FROM accepted a  WHERE accept_time is NOT NULL  group by date_format(accept_time, '%Y-%m')  ";
-        String sql_end = "SELECT count(*)  as end ,  date_format(end_date, '%Y-%m') as t2 FROM accepted a  WHERE  `state` =2 and end_date is not null  group by date_format(end_date, '%Y-%m') ";
+        String sql_accept = "";
+        String sql_end = "";
+
+        if (employee.getDepartment().contains("金融")) {
+            if (employee.getRole() == 2) {
+                sql_accept = "SELECT count(*)  as accept ,  date_format(`accept_time`,  '%Y-%m') as t1   FROM accepted a  WHERE accept_time is NOT NULL and a.director = '" + employee.getCode() + "'  group by date_format(accept_time, '%Y-%m')  ";
+                sql_end = "SELECT count(*)  as end ,  date_format(end_date, '%Y-%m') as t2 FROM accepted a  WHERE  `state` =2 and end_date is not null and a.director = '" + employee.getCode() + "' group by date_format(end_date, '%Y-%m') ";
+            } else if (employee.getRole() == 3) {
+                sql_accept = "SELECT count(*)  as accept ,  date_format(`accept_time`,  '%Y-%m') as t1   FROM accepted a  WHERE accept_time is NOT NULL and a.deputy_director = '" + employee.getCode() + "'  group by date_format(accept_time, '%Y-%m')  ";
+                sql_end = "SELECT count(*)  as end ,  date_format(end_date, '%Y-%m') as t2 FROM accepted a  WHERE  `state` =2 and end_date is not null and a.deputy_director = '" + employee.getCode() + "' group by date_format(end_date, '%Y-%m') ";
+
+            } else if (employee.getRole() == 4) {
+                sql_accept = "SELECT count(*)  as accept ,  date_format(`accept_time`,  '%Y-%m') as t1   FROM accepted a  WHERE accept_time is NOT NULL and a.clerk = '" + employee.getCode() + "'  group by date_format(accept_time, '%Y-%m')  ";
+                sql_end = "SELECT count(*)  as end ,  date_format(end_date, '%Y-%m') as t2 FROM accepted a  WHERE  `state` =2 and end_date is not null and a.clerk = '" + employee.getCode() + "' group by date_format(end_date, '%Y-%m') ";
+            } else {
+                sql_accept = "";
+                sql_end = "";
+            }
+        } else {
+            if (employee.getDepartment().contains("系统")) {
+                sql_accept = "SELECT count(*)  as accept ,  date_format(`accept_time`,  '%Y-%m') as t1   FROM accepted a  WHERE accept_time is NOT NULL  group by date_format(accept_time, '%Y-%m')  ";
+                sql_end = "SELECT count(*)  as end ,  date_format(end_date, '%Y-%m') as t2 FROM accepted a  WHERE  `state` =2 and end_date is not null  group by date_format(end_date, '%Y-%m') ";
+            }
+        }
 
         List list_accept = baseService.queryBySql(sql_accept);
         List list_end = baseService.queryBySql(sql_end);
         List<DataCount> counts = new ArrayList<DataCount>();
+        int count = list_accept.size() > list_end.size() ? list_end.size() : list_accept.size();
+
         DataCount dataCount;
-        for (int i = 0; i < list_accept.size(); i++) {
+        for (int i = 0; i < count; i++) {
             dataCount = new DataCount();
             Object[] aobjs = (Object[]) list_accept.get(i);
-            Object[] bobjs = (Object[]) list_end.get(i);
             dataCount.setTime((String) aobjs[1]);
             dataCount.setAccept(Integer.valueOf(aobjs[0].toString()));
+            Object[] bobjs = (Object[]) list_end.get(i);
             dataCount.setEnd(Integer.valueOf(bobjs[0].toString()));
             counts.add(dataCount);
         }

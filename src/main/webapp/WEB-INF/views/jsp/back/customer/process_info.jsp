@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/css/amaze/amazeui.min.css"/>
     <style>
         html, body {
             overflow: hidden;

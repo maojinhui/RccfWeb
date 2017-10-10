@@ -9,7 +9,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="/image/rccf.ico">
     <meta charset="UTF-8">
     <title>找回密码</title>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
     <script type="text/javascript" src="/js/amazeui.ie8polyfill.js"></script>
     <script type="text/javascript" src="/js/amazeui.js"></script>

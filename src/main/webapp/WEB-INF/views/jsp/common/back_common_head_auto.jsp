@@ -16,16 +16,15 @@
     <title>融成金服</title>
     <link rel="shortcut icon" type="image/x-icon" href="/image/rccf.ico">
     <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/css/amazeui.min.css">
     <link rel="stylesheet" href="/css/amaze/admin.css">
     <link rel="stylesheet" href="/css/amaze/app.css">
     <link rel="stylesheet" href="/css/instyle.css"/>
     <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.page.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/css/amazeui.min.css">
+    <link rel="stylesheet" href="/css/amaze/amazeui.min.css">
     <link rel="stylesheet" type="text/css" href="/css/util/product_info.css"/>
     <link rel="stylesheet" type="text/css" href="/css/util/btn_style.css"/>
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/js/amazeui.min.js"></script>
+    <script src="/js/amaze/amazeui.min.js"></script>
     <script src="/js/amaze/app.js"></script>
     <script src="/js/comm.js"></script>
     <style type="text/css">
