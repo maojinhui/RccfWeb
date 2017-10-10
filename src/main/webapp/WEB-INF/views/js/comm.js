@@ -1,3 +1,26 @@
+Date.prototype.format = function (format) {
+    var date = {
+        "M+": this.getMonth() + 1,
+        "d+": this.getDate(),
+        "h+": this.getHours(),
+        "m+": this.getMinutes(),
+        "s+": this.getSeconds(),
+        "q+": Math.floor((this.getMonth() + 3) / 3),
+        "S+": this.getMilliseconds()
+    };
+    if (/(y+)/i.test(format)) {
+        format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+    }
+    for (var k in date) {
+        if (new RegExp("(" + k + ")").test(format)) {
+            format = format.replace(RegExp.$1, RegExp.$1.length == 1
+                ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+        }
+    }
+    return format;
+}
+
+
 function isNull(variable1) {
     if (variable1 === null) {
         return true;
@@ -159,10 +182,22 @@ function getSex(sex) {
     }
 }
 
+function getDate(time) {
+    var date = new Date();
+    if (isNull(time)) {
+        return '';
+    }
+    date.setTime(time);
+    return date.format('yyyy-MM-dd')
+}
+
 function getRepaymentType(type) {
     if (isNull(type)) {
         return '未填写';
-    } else if (type === 1) {
+    } else if (type === 0) {
+        return "未填写";
+    }
+    else if (type === 1) {
         return "等额本金";
     } else if (type === 2) {
         return "等额本息";
@@ -174,4 +209,41 @@ function getRepaymentType(type) {
         return "其他";
     }
 }
+
+/**
+ * 借款用途
+ */
+function getUseType(type) {
+    if (isNull(type)) {
+        return '未填写';
+    } else if (type === 1) {
+        return "个人消费";
+    } else if (type === 2) {
+        return "企业经营";
+    } else if (type === 3) {
+        return "其他";
+    } else {
+        return "其他";
+    }
+}
+
+/**
+ * 客户级别
+ */
+function getUseRank(rank) {
+    if (isNull(rank)) {
+        return '未填写';
+    } else if (rank === 0) {
+        return "未填写";
+    } else if (rank === 1) {
+        return "A";
+    } else if (rank === 2) {
+        return "B";
+    } else if (rank === 3) {
+        return "C";
+    } else {
+        return "其他";
+    }
+}
+
 

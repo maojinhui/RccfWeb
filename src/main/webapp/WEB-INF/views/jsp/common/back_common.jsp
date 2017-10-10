@@ -138,7 +138,7 @@
                 </ul>
             </li>
             <%}%>
-            <% if (depart.equals("系统管理")) {%>
+            <% if (depart.equals("系统管理") || depart.contains("金融")) {%>
             <li class="sidebar-nav-link">
                 <a href="#" class="sidebar-nav-sub-title">
                     <i class="am-icon-user-secret sidebar-nav-link-logo"></i> 客户管理
@@ -151,7 +151,7 @@
                         </a>
                     </li>
                     <li class="sidebar-nav-link">
-                        <a class="rcmenu" data-rccf-menu="">
+                        <a class="rcmenu" data-rccf-menu="/customer/addcustomerpage">
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 录入客户
                         </a>
                     </li>

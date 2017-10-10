@@ -36,6 +36,8 @@ public class ResponseConstants {
 
     public static String MSG_PWD_FORMAT_ERROR = "请输入6-18位密码";
 
+    public static String MSG_EMPLOYEE_IS_NULL = "未找到登录用户，请重新登录";
+
 
     public static int NOT_BIND_PHONE = 102400;
 

@@ -72,7 +72,6 @@ public class AcceptedDaoImpl extends HibernateDaoSupport implements AcceptedDao 
             return true;
         } catch (DataAccessException e) {
             return false;
-//            e.printStackTrace();
         }
     }
 

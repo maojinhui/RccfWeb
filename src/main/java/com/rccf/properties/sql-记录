@@ -12,4 +12,7 @@ FROM `accepted` a    ORDER BY a.`accepted_number` DESC
 SELECT count(*)  as accept ,  date_format(`accept_time`,  '%Y-%m') as t1   FROM accepted a  group by date_format(accept_time, '%Y-%m') ;
 SELECT count(*)  as end ,  date_format(end_date, '%Y-%m') as t2 FROM accepted a  WHERE  `state` =2  group by date_format(end_date, '%Y-%m')
 
+--- 优化
+SELECT count(*)  as accept ,  date_format(`accept_time`,  '%Y-%m') as t1   FROM accepted a  WHERE accept_time is NOT NULL  group by date_format(accept_time, '%Y-%m') ;
+SELECT count(*)  as end ,  date_format(end_date, '%Y-%m') as t2 FROM accepted a  WHERE  `state` =2 and end_date is not null  group by date_format(end_date, '%Y-%m')  ;
 

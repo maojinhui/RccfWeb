@@ -54,7 +54,7 @@
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="/js/common.js"></script>
 <script>
-    var accept_id =<%=request.getAttribute("aid")%>;
+    var customer_id =<%=request.getAttribute("customer_id")%>;
 
     function editButton(pid) {
         var state = $('#input-' + pid).attr("readonly");
@@ -68,7 +68,7 @@
             var content = $('#input-' + pid).val();
             $.ajax({
                 type: 'POST',
-                url: '/accept/addprocess',
+                url: '/customer/addprocess',
                 dataType: 'json',
                 data: {'pid': pid, 'content': content},
                 success: function (result) {
@@ -96,7 +96,7 @@
             //删除
             $.ajax({
                 type: 'POST',
-                url: '/accept/deleteprocess',
+                url: '/customer/deleteprocess',
                 dataType: 'json',
                 data: {'pid': pid},
                 success: function (result) {
@@ -123,9 +123,9 @@
 
 
     $.ajax({
-        url: '/accept/processdetail',
+        url: '/customer/processlist',
         dataType: 'json',
-        data: {'aid': accept_id},
+        data: {'customer_id': customer_id},
         success: function (result) {
             if (result.code) {
                 var info = JSON.parse(result.data);
@@ -155,9 +155,9 @@
         var content = $('#new_item').val();
         $.ajax({
             type: 'POST',
-            url: '/accept/addprocess',
+            url: '/customer/addprocess',
             dataType: 'json',
-            data: {'aid': accept_id, 'content': content},
+            data: {'customer_id': customer_id, 'content': content},
             success: function (result) {
                 if (result.code) {
                     alert("添加成功");

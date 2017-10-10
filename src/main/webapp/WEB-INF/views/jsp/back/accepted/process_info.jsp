@@ -83,8 +83,8 @@
         if (state) {
             var stat = confirm("删除前请确认");
             if (!state) {
-                return;
-            }
+
+            } else {
             //删除
             $.ajax({
                 type: 'POST',
@@ -104,6 +104,7 @@
 
 
             });
+            }
 
 
         } else {

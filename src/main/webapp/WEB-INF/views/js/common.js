@@ -106,3 +106,57 @@ function getDate(time) {
     return date.format('yyyy-MM-dd')
 }
 
+function getRepaymentType(type) {
+    if (isNull(type)) {
+        return '未填写';
+    } else if (type === 0) {
+        return "未填写";
+    }
+    else if (type === 1) {
+        return "等额本金";
+    } else if (type === 2) {
+        return "等额本息";
+    } else if (type === 3) {
+        return "停本付息";
+    } else if (type === 4) {
+        return "先息后本";
+    } else {
+        return "其他";
+    }
+}
+
+/**
+ * 借款用途
+ */
+function getUseType(type) {
+    if (isNull(type)) {
+        return '未填写';
+    } else if (type === 1) {
+        return "个人消费";
+    } else if (type === 2) {
+        return "企业经营";
+    } else if (type === 3) {
+        return "其他";
+    } else {
+        return "其他";
+    }
+}
+
+/**
+ * 客户级别
+ */
+function getUseRank(rank) {
+    if (isNull(rank)) {
+        return '未填写';
+    } else if (type === 0) {
+        return "未填写";
+    } else if (type === 1) {
+        return "A";
+    } else if (type === 2) {
+        return "B";
+    } else if (type === 3) {
+        return "C";
+    } else {
+        return "其他";
+    }
+}

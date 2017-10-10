@@ -38,4 +38,21 @@ public class BackUtil {
         return modelAndView;
     }
 
+
+    public static Employee getLoginEmployee(HttpServletRequest request, EmployeeService employeeService) {
+        try {
+            String eid = null;
+            Cookie[] cookies = request.getCookies();
+            for (int i = 0; i < cookies.length; i++) {
+                if (cookies[i].getName().equals("userid")) {//获取登录用户id
+                    eid = cookies[i].getValue();
+                }
+            }
+            int id = Integer.valueOf(eid);
+            Employee employee = employeeService.findEmpolyeeById(id);
+            return employee;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
