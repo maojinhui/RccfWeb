@@ -11,9 +11,9 @@
     <title>融成财富-后台管理系统</title>
     <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script type="text/javascript" src="/js/amaze/amazeui.ie8polyfill.js"></script>
-    <script type="text/javascript" src="/js/amaze/amazeui.min.js"></script>
-    <script type="text/javascript" src="/js/amaze/amazeui.widgets.helper.js"></script>
+    <script type="text/javascript" src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.ie8polyfill.min.js"></script>
+    <script type="text/javascript" src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
+    <script type="text/javascript" src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.widgets.helper.min.js"></script>
     <script type="text/javascript" src="/js/amaze/app.js"></script>
     <script type="text/javascript" src="/js/amaze/handlebars.min.js"></script>
     <script type="text/javascript" src="/js/rollups/tripledes.js"></script>
@@ -21,7 +21,7 @@
     <script type="text/javascript" src="/js/comm.js"></script>
 
     <script href="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <link rel="stylesheet" href="/css/amaze/amazeui.min.css"/>
+    <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css"/>
     <%--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/css/amazeui.flat.min.css"/>--%>
     <link rel="stylesheet" href="/css/amaze/admin.css"/>
     <link rel="stylesheet" href="/css/instyle.css"/>
@@ -68,8 +68,10 @@
     </div>
 </div>
 </body>
-
+<script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
 <script>
+
+
     //回车事件绑定
     $('#pwd').bind('keyup', function(event) {
         if (event.keyCode == "13") {
@@ -102,11 +104,17 @@
             dataType: "json",
             data: {"phone": userName, "pwd": despwd, "check": check},
             success: function (result) {
+
+                alert('请求成功');
+                alert($.cookie('userid'));
+
                 if (result.code) {
+                    alert('状态正常1');
                     if(check){
+                        alert('状态正常2');
                         $.cookie("username", userName, {expires: 30 * 24 * 60 * 60 * 1000, path: "/"});
 //                        $.cookie("password", pwd, {expires: 30 * 24 * 60 * 60 * 1000, path: "/"})
-                        $.cookie("user_id",result.data)
+                        $.cookie("userid", result.data, {expires: 30 * 24 * 60 * 60 * 1000, path: "/"})
                     }else{
                         $.cookie("username",null);
 //                        $.cookie("password",null);
@@ -118,11 +126,9 @@
                 }
             },
             error: function () {
-
+                alert("登录失败");
             }
         });
-
-
     });
 
 

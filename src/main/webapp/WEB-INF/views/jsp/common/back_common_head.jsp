@@ -20,11 +20,11 @@
     <link rel="stylesheet" href="/css/amaze/app.css">
     <link rel="stylesheet" href="/css/instyle.css"/>
     <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.page.css"/>
-    <link rel="stylesheet" href="/css/amaze/amazeui.min.css">
+    <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css">
     <link rel="stylesheet" type="text/css" href="/css/util/product_info.css"/>
     <link rel="stylesheet" type="text/css" href="/css/util/btn_style.css"/>
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="/js/amaze/amazeui.min.js"></script>
+    <script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
     <script src="/js/amaze/app.js"></script>
     <script src="/js/comm.js"></script>
 

@@ -13,7 +13,7 @@
     <title>融成财富--工具</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <link rel="shortcut icon" type="image/x-icon" href="/image/rccf.ico">
-    <link rel="stylesheet" href="/css/amaze/amazeui.min.css">
+    <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css">
     <link rel="stylesheet" href="/css/amaze/admin.css">
     <link rel="stylesheet" href="/css/amaze/app.css">
     <link rel="stylesheet" type="text/css" href="/css/util/product_info.css"/>

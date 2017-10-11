@@ -49,7 +49,7 @@
     <link rel="stylesheet" href="/css/back/amazeui.min.css"/>
     <link rel="stylesheet" href="/css/back/amazeui.datatables.min.css"/>
     <link rel="stylesheet" href="/css/back/app.css">
-    <script src="/js/back/jquery.min.js"></script>
+    <%--<script src="/js/back/jquery.min.js"></script>--%>
     <script src="/js/back/echarts.min.js"></script>
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
