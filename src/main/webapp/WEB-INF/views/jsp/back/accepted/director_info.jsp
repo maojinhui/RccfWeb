@@ -13,7 +13,7 @@
     <meta charset="UTF-8">
     <title>总监业绩统计</title>
     <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/ameze/admin.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/amaze/admin.css"/>
     <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.page.css"/>
     <style type="text/css">
         html, body {
@@ -88,7 +88,7 @@
 
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="/js/comm.js"></script>
-<script src="/js/amazeui.page.js"></script>
+<script src="/js/amaze/amazeui.page.js"></script>
 <script src="/js/table2excel/Blob.js"></script>
 <script src="/js/table2excel/FileSaver.js"></script>
 <script src="/js/table2excel/tableExport.js"></script>

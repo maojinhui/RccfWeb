@@ -24,8 +24,7 @@
     <script src="/js/market/index.js"></script>
     <link rel="stylesheet" href="/css/market/base.css"/>
     <link rel="stylesheet" href="/css/market/index.css"/>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
-
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 </head>
 <body>
 <div class="all_page">

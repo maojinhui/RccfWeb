@@ -2,6 +2,7 @@ package com.rccf.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.rccf.component.Page;
 import com.rccf.constants.PageConstants;
 import com.rccf.constants.ResponseConstants;
@@ -31,8 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 @Controller
@@ -188,19 +188,49 @@ public class BackController {
 
         List list_accept = baseService.queryBySql(sql_accept);
         List list_end = baseService.queryBySql(sql_end);
-        List<DataCount> counts = new ArrayList<DataCount>();
-        int count = list_accept.size() > list_end.size() ? list_end.size() : list_accept.size();
+        JSONObject objs1 = new JSONObject();
+        for (int i = 0; i < list_accept.size(); i++) {
+            Object[] objs = (Object[]) list_accept.get(i);
+            objs1.put(objs[1].toString(), Integer.valueOf(objs[0].toString()));
+        }
+        JSONObject objs2 = new JSONObject();
+        for (int i = 0; i < list_end.size(); i++) {
+            Object[] objs = (Object[]) list_end.get(i);
+            objs2.put(objs[1].toString(), Integer.valueOf(objs[0].toString()));
+        }
 
+        Set<String> strings = objs1.keySet();
+        Set<String> strings1 = objs2.keySet();
+        Set<String> set = new TreeSet<String>();
+        set.addAll(strings);
+        set.addAll(strings1);
+        List<DataCount> counts = new ArrayList<DataCount>();
         DataCount dataCount;
-        for (int i = 0; i < count; i++) {
+        for (String key : set) {
             dataCount = new DataCount();
-            Object[] aobjs = (Object[]) list_accept.get(i);
-            dataCount.setTime((String) aobjs[1]);
-            dataCount.setAccept(Integer.valueOf(aobjs[0].toString()));
-            Object[] bobjs = (Object[]) list_end.get(i);
-            dataCount.setEnd(Integer.valueOf(bobjs[0].toString()));
+            dataCount.setTime(key);
+            dataCount.setAccept(objs1.getIntValue(key));
+            dataCount.setEnd(objs2.getIntValue(key));
             counts.add(dataCount);
         }
+
+
+//        List<DataCount> counts = new ArrayList<DataCount>();
+//        int count = list_accept.size() < list_end.size() ? list_end.size() : list_accept.size();
+
+//        DataCount dataCount;
+//        for (int i = 0; i < count; i++) {
+//
+//            dataCount = new DataCount();
+//            Object[] aobjs = (Object[]) list_accept.get(i);
+//            dataCount.setTime((String) aobjs[1]);
+//            dataCount.setAccept(Integer.valueOf(aobjs[0].toString()));
+//            Object[] bobjs = (Object[]) list_end.get(i);
+//            dataCount.setEnd(Integer.valueOf(bobjs[0].toString()));
+//
+//
+//            counts.add(dataCount);
+//        }
         JSONArray darray = JSON.parseArray(JSON.toJSONString(counts));
         modelAndView.addObject("data", darray);
         return modelAndView;
