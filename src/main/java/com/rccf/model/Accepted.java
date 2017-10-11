@@ -33,6 +33,7 @@ public class Accepted {
     private String deputyDirector;
     private String director;
     private String process;
+    private String agreementNumber;
 
     @Id
     @Column(name = "id")
@@ -346,5 +347,15 @@ public class Accepted {
 
     public void setProcess(String process) {
         this.process = process;
+    }
+
+    @Basic
+    @Column(name = "agreement_number")
+    public String getAgreementNumber() {
+        return agreementNumber;
+    }
+
+    public void setAgreementNumber(String agreementNumber) {
+        this.agreementNumber = agreementNumber;
     }
 }

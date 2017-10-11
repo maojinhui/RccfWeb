@@ -61,7 +61,7 @@ public class AcceptedController {
                 "`service_fee` ,`service_fee_actual` ,`clerk_name` ,\n" +
                 "(SELECT  e.`name`  from `employee` e WHERE  `code`  = a .`deputy_director` ) as deputy_name,\n" +
                 "(SELECT  e.`name`  from `employee` e WHERE  `code`  = a .`director`  ) as director_name,\n" +
-                "`houqi`,`state`, a .`end_date` , a .`loan_money` ,a.`service_agreement`,a .`id`,a .`beizhu`\n" +
+                "`houqi`,`state`, a .`end_date` , a .`loan_money` ,a.`service_agreement`,a .`id`,a .`beizhu`,a .`agreement_number` \n" +
                 "FROM `accepted` a    ";
         String sql_post = " ORDER BY a.`accepted_number` DESC";
         String sql_where = " where ";

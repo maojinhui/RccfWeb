@@ -125,6 +125,11 @@
                 </option>
             </select>
         </div>
+        <div id="agreement_number_div" class="am-input-group am-input-group-primary">
+            <span class="am-input-group-label">服务协议编号</span>
+            <input id="agreement_number" type="text" class="am-form-field whiteback"
+                   value="<%=Strings.getInputString(accepted.getAgreementNumber())%>"/>
+        </div>
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">办理状态</span>
             <select id="handle_status"
@@ -168,6 +173,16 @@
          * from: https://gist.github.com/jjdelc/1868136
          */
         $(function () {
+
+            $('#service_agreement').change(function () {
+                var p1 = $(this).children('option:selected').val();//这就是selected的值
+                if (p1 === '1') {
+                    $('#agreement_number_div').show();
+                } else {
+                    $('#agreement_number_div').hide();
+                    $('#agreement_number').val('');
+                }
+            });
             $('#flerk').autocompleter({
                 // marker for autocomplete matches
                 highlightMatches: true,
@@ -240,6 +255,8 @@
                 var end_time = $('#end_time').val();
                 var loan_money = $('#loan_money').val();
                 var service_agreement = $('#service_agreement').val();
+                var agreement_number = $('#agreement_number').val();
+
                 var beizhu = $('#beizhu').val();
                 var state = $('#handle_status').val();
                 var houqi = $('#houqi').val();
@@ -265,6 +282,7 @@
                         'end_time': end_time,
                         'loan_money': loan_money,
                         'service_agreement': service_agreement,
+                        'agreement_number': agreement_number,
                         'beizhu': beizhu,
                         'state': state,
                         'houqi': houqi

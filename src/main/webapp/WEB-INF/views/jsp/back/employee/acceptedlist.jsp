@@ -73,6 +73,7 @@
                         <th>办结日期</th>
                         <th>批贷金额</th>
                         <th>是否有服务协议</th>
+                        <th>服务协议编号</th>
                         <th>操作</th>
                         <th>备注</th>
                     </tr>
@@ -299,6 +300,7 @@
                 '                        <td>' + formatDateTime(da[16]) + '</td>\n' +
                 '                        <td>' + getStringWithspace(da[17]) + '</td>\n' +
                 '                        <td>' + getAgreement(da[18]) + '</td>\n' +
+                '                        <td>' + getStringWithspace(da[21]) + '</td>\n' +
                 '                        <td>\n' +
                 '                            <a  onclick="change(' + da[19] + ')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
                 '                                    class="am-icon-pencil-square-o"></span> 编辑\n' +

@@ -421,7 +421,7 @@ public class EmployeeController {
         String beizhu = request.getParameter("beizhu");
         String state = request.getParameter("state");
         String houqi = request.getParameter("houqi");
-
+        String agreement_number = request.getParameter("agreement_number");
 
         Accepted accepted = null;
         if (!Strings.isNullOrEmpty(id)) {
@@ -440,6 +440,7 @@ public class EmployeeController {
         if (!Strings.isNullOrEmpty(latter_number)) {
             accepted.setLetterNumber(latter_number);
         }
+
         if (!Strings.isNullOrEmpty(clerk)) {
             accepted.setClerk(clerk);
             Employee employee = employeeService.findEmpolyeeByCode(clerk);
@@ -460,15 +461,17 @@ public class EmployeeController {
         if (!Strings.isNullOrEmpty(custom_name)) {
             accepted.setCustomerName(custom_name);
         }
+
         if (!Strings.isNullOrEmpty(custom_phone)) {
             accepted.setCustomerPhone(custom_phone);
         }
         if (!Strings.isNullOrEmpty(business_type)) {
             accepted.setBusinessType(Integer.valueOf(business_type));
         }
-
         if (!Strings.isNullOrEmpty(agency)) {
             accepted.setAgency(agency);
+        } else {
+            accepted.setAgency(null);
         }
 
         if (!Strings.isNullOrEmpty(business_nature)) {
@@ -476,14 +479,20 @@ public class EmployeeController {
         }
         if (!Strings.isNullOrEmpty(want_money)) {
             accepted.setWantMoney(Double.valueOf(want_money));
+        } else {
+            accepted.setWantMoney(null);
         }
         if (!Strings.isNullOrEmpty(service_fee)) {
             double _d = Double.valueOf(service_fee);
             accepted.setServiceFee(_d);
+        } else {
+            accepted.setServiceFee(null);
         }
         if (!Strings.isNullOrEmpty(service_fee_actual)) {
             int _d = Integer.valueOf(service_fee_actual);
             accepted.setServiceFeeActual(_d);
+        } else {
+            accepted.setServiceFeeActual(null);
         }
         if (!Strings.isNullOrEmpty(end_time)) {
             Date date = DateUtil.string2Date(end_time);
@@ -493,18 +502,31 @@ public class EmployeeController {
         }
         if (!Strings.isNullOrEmpty(loan_money)) {
             accepted.setLoanMoney(Double.valueOf(loan_money));
+        } else {
+            accepted.setLoanMoney(null);
         }
+
         if (!Strings.isNullOrEmpty(service_agreement)) {
             accepted.setServiceAgreement(Integer.valueOf(service_agreement));
         }
+        if (!Strings.isNullOrEmpty(agreement_number)) {
+            accepted.setAgreementNumber(agreement_number);
+        } else {
+            accepted.setAgreementNumber(null);
+        }
         if (!Strings.isNullOrEmpty(beizhu)) {
             accepted.setBeizhu(beizhu);
+        } else {
+            accepted.setBeizhu(null);
         }
+
         if (!Strings.isNullOrEmpty(state)) {
             accepted.setState(Integer.valueOf(state));
         }
         if (!Strings.isNullOrEmpty(houqi)) {
             accepted.setHouqi(houqi);
+        } else {
+            accepted.setHouqi(null);
         }
         if (acceptedService.saveOrUpdate(accepted)) {
             return ResponseUtil.success();
