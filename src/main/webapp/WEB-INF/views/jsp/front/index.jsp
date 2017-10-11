@@ -180,7 +180,7 @@
 </div>
 <script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.0.1/js/swiper.min.js"></script>
+<script src="/js/swiper.js"></script>
 <script>
     //   页首伦轮播图控制器
     var mySwiper = new Swiper('.swiper-container', {

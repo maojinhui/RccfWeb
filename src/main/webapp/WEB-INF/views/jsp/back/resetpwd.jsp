@@ -11,9 +11,9 @@
     <title>找回密码</title>
     <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script type="text/javascript" src="/js/amazeui.ie8polyfill.js"></script>
-    <script type="text/javascript" src="/js/amazeui.js"></script>
-    <script type="text/javascript" src="/js/amazeui.widgets.helper.js"></script>
+    <script type="text/javascript" src="/js/amaze/amazeui.ie8polyfill.js"></script>
+    <script type="text/javascript" src="/js/amaze/amazeui.js"></script>
+    <script type="text/javascript" src="/js/amaze/amazeui.widgets.helper.js"></script>
     <script type="text/javascript" src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <script type="text/javascript" src="/js/rollups/tripledes.js"></script>
     <script type="text/javascript" src="/js/components/mode-ecb.js"></script>
@@ -21,9 +21,8 @@
     <script type="text/javascript" src="/js/json2.js"></script>
 
 
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.0/css/amazeui.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.0/css/amazeui.flat.css"/>
+    <link rel="stylesheet" href="/css/amaze/amazeui.css"/>
+    <link rel="stylesheet" href="/css/amaze/amazeui.flat.css"/>
     <link rel="stylesheet" href="/css/amaze/admin.css"/>
     <link rel="stylesheet" href="/css/instyle.css"/>
     <style type="text/css">

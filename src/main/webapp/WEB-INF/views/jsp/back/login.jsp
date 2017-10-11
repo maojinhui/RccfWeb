@@ -11,9 +11,9 @@
     <title>融成财富-后台管理系统</title>
     <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script type="text/javascript" src="/js/amaze//amazeui.ie8polyfill.min.js"></script>
-    <script type="text/javascript" src="/js/amaze//amazeui.min.js"></script>
-    <script type="text/javascript" src="/js/amaze/mazeui.widgets.helper.min.js"></script>
+    <script type="text/javascript" src="/js/amaze/amazeui.ie8polyfill.js"></script>
+    <script type="text/javascript" src="/js/amaze/amazeui.min.js"></script>
+    <script type="text/javascript" src="/js/amaze/amazeui.widgets.helper.js"></script>
     <script type="text/javascript" src="/js/amaze/app.js"></script>
     <script type="text/javascript" src="/js/amaze/handlebars.min.js"></script>
     <script type="text/javascript" src="/js/rollups/tripledes.js"></script>

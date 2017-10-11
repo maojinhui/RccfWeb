@@ -96,7 +96,7 @@
     <title>抵押产品详情</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <link rel="shortcut icon" type="image/x-icon" href="/image/rccf.ico">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/css/amazeui.min.css">
+    <link rel="stylesheet" href="/css/amaze/amazeui.min.css">
     <link rel="stylesheet" href="/css/amaze/admin.css">
     <style type="text/css">
         body {

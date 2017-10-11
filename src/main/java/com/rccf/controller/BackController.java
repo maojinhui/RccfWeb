@@ -150,15 +150,6 @@ public class BackController {
 
     @RequestMapping(value = "/index")
     public ModelAndView backIndexPage(HttpServletRequest request, HttpServletResponse response) {
-//        String user_id = request.getParameter("user_id");
-//        if(null==user_id){
-//            return new ModelAndView("redirect:/back/login");
-//        }
-//        User user = userService.findUserById(user_id);
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.addObject("user", user);
-//        modelAndView.setViewName("back/index");
-//        return modelAndView;
         Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         ModelAndView modelAndView = getUserView(request, response, "back/index", HeaderType.INDEX);
         String sql_accept = "";
@@ -179,12 +170,14 @@ public class BackController {
                 sql_accept = "";
                 sql_end = "";
             }
+        } else if (employee.getDepartment().contains("系统")) {
+            sql_accept = "SELECT count(*)  as accept ,  date_format(`accept_time`,  '%Y-%m') as t1   FROM accepted a  WHERE accept_time is NOT NULL  group by date_format(accept_time, '%Y-%m')  ";
+            sql_end = "SELECT count(*)  as end ,  date_format(end_date, '%Y-%m') as t2 FROM accepted a  WHERE  `state` =2 and end_date is not null  group by date_format(end_date, '%Y-%m') ";
         } else {
-            if (employee.getDepartment().contains("系统")) {
-                sql_accept = "SELECT count(*)  as accept ,  date_format(`accept_time`,  '%Y-%m') as t1   FROM accepted a  WHERE accept_time is NOT NULL  group by date_format(accept_time, '%Y-%m')  ";
-                sql_end = "SELECT count(*)  as end ,  date_format(end_date, '%Y-%m') as t2 FROM accepted a  WHERE  `state` =2 and end_date is not null  group by date_format(end_date, '%Y-%m') ";
-            }
+            sql_accept = "SELECT count(*)  as accept ,  date_format(`accept_time`,  '%Y-%m') as t1   FROM accepted a  WHERE 0  group by date_format(accept_time, '%Y-%m')  ";
+            sql_end = "SELECT count(*)  as end ,  date_format(end_date, '%Y-%m') as t2 FROM accepted a  WHERE  0  group by date_format(end_date, '%Y-%m') ";
         }
+
 
         List list_accept = baseService.queryBySql(sql_accept);
         List list_end = baseService.queryBySql(sql_end);

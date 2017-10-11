@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.rccf.constants.ResponseConstants;
 import com.rccf.constants.UrlConstants;
-import com.rccf.model.AcceptProcess;
-import com.rccf.model.Customer;
-import com.rccf.model.CustomerProcess;
-import com.rccf.model.Employee;
+import com.rccf.model.*;
 import com.rccf.service.BaseService;
 import com.rccf.service.CustomerService;
 import com.rccf.service.EmployeeService;
@@ -226,8 +223,6 @@ public class CustomerController {
     }
 
 
-
-
     @ResponseBody
     @RequestMapping(value = "/addprocess")
     public String addProcess(HttpServletRequest request, HttpServletResponse response) {
@@ -288,5 +283,48 @@ public class CustomerController {
     }
 
 
+    @RequestMapping(value = "/shareApply")
+    public ModelAndView shareApplyCustomers(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        if (employee != null) {
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.setViewName("/back/customer/shareapplylist");
+            return modelAndView;
+        }
+        return new ModelAndView("redirect:/back/login");
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/shareApplyList")
+    public String sharApplyCustomersList(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        if (employee != null) {
+            String code = employee.getCode();
+            String phone = employee.getPhone();
+            String depart = employee.getDepartment();
+            int departRole = employee.getRole();
+            String sql = "";
+            if (depart.contains("金融")) {
+                if (departRole == 2) {//总监
+                    sql = "SELECT * from `loanapply`  WHERE `clerk_phone` IN ( SELECT `phone`  from `employee` WHERE `director` ='" + code + "') order by stat asc";
+                } else if (departRole == 3) {
+                    sql = "SELECT * from `loanapply`  WHERE `clerk_phone` IN ( SELECT `phone`  from `employee` WHERE `dupty_director` ='" + code + "') order by stat asc";
+                } else if (departRole == 4) {
+                    sql = "SELECT * from `loanapply`  WHERE `clerk_phone` IN ( SELECT `phone`  from `employee` WHERE `phone` ='" + phone + "') order by stat asc";
+                }
+            } else if (depart.contains("系统")) {
+                if (departRole == 0) {//系统管理
+                    sql = "SELECT * from `loanapply`  WHERE `clerk_phone` IN ( SELECT `phone`  from `employee` ) order by stat asc";
+                }
+            } else {
+                sql = "SELECT * from `loanapply`  WHERE `clerk_phone` IN ( SELECT `phone`  from `employee` where 0  ) order by stat asc";
+
+            }
+            List<Loanapply> loanapplies = baseService.queryBySqlFormatClass(sql, Loanapply.class);
+            return ResponseUtil.success(loanapplies);
+
+        }
+        return ResponseUtil.fail(0, "用户未登录");
+    }
 
 }

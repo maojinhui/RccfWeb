@@ -13,7 +13,7 @@
 
 <script src="http://libs.baidu.com/jquery/2.1.1/jquery.min.js"></script>
 <script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/js/amazeui.min.js"></script>
+<script src="/js/amazeui.min.js"></script>
 <script src="/js/amaze/app.js"></script>
 <script>
 

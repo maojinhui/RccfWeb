@@ -488,6 +488,8 @@ public class EmployeeController {
         if (!Strings.isNullOrEmpty(end_time)) {
             Date date = DateUtil.string2Date(end_time);
             accepted.setEndDate(DateUtil.date2Timestamp(date));
+        } else {
+            accepted.setEndDate(null);
         }
         if (!Strings.isNullOrEmpty(loan_money)) {
             accepted.setLoanMoney(Double.valueOf(loan_money));

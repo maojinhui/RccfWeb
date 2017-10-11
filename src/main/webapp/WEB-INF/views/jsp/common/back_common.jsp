@@ -155,6 +155,11 @@
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 录入客户
                         </a>
                     </li>
+                    <li class="sidebar-nav-link">
+                        <a class="rcmenu" data-rccf-menu="/customer/shareApply">
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 微信推广用户列表
+                        </a>
+                    </li>
 
                 </ul>
             </li>

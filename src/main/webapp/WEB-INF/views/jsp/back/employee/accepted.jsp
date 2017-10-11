@@ -86,7 +86,7 @@
                    value="<%=Strings.getInputString(accepted.getBusinessNature())%>"/>
         </div>
         <div class="am-input-group am-input-group-primary">
-            <span class="am-input-group-label">预贷金额（万元）</span>
+            <span class="am-input-group-label">预贷金额（万）</span>
             <input id="want_money" type="number" class="am-form-field whiteback"
                    value="<%=Strings.getInputString(accepted.getWantMoney())%>"/>
         </div>
@@ -101,7 +101,7 @@
                    value="<%=Strings.getInputString(accepted.getServiceFeeActual())%>"/>
         </div>
         <div class="am-input-group am-input-group-primary">
-            <span class="am-input-group-label">办结日期</span>
+            <span class="am-input-group-label">结束日期</span>
             <input id="end_time" type="date" class="am-form-field whiteback"
                    value="<%=accepted.getEndDate()==null?"":DateUtil.date2StringSimple(DateUtil.timestamp2Date(accepted.getEndDate()))%>"/>
         </div>
@@ -111,7 +111,7 @@
                    value="<%=Strings.getInputString(accepted.getHouqi())%>"/>
         </div>
         <div class="am-input-group am-input-group-primary">
-            <span class="am-input-group-label">批贷金额（万元）</span>
+            <span class="am-input-group-label">批贷金额（万）</span>
             <input id="loan_money" type="number" class="am-form-field whiteback"
                    value="<%=Strings.getInputString(accepted.getLoanMoney())%>"/>
         </div>
