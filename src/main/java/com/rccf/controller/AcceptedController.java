@@ -61,7 +61,7 @@ public class AcceptedController {
                 "`service_fee` ,`service_fee_actual` ,`clerk_name` ,\n" +
                 "(SELECT  e.`name`  from `employee` e WHERE  `code`  = a .`deputy_director` ) as deputy_name,\n" +
                 "(SELECT  e.`name`  from `employee` e WHERE  `code`  = a .`director`  ) as director_name,\n" +
-                "`houqi`,`state`, a .`end_date` , a .`loan_money` ,a.`service_agreement`,a .`id`,a .`beizhu`,a .`agreement_number` \n" +
+                "`houqi`,`state`, a .`end_date` , a .`loan_money` ,a.`service_agreement`,a .`id`,a .`beizhu`,a .`agreement_number`,a .`process` \n" +
                 "FROM `accepted` a    ";
         String sql_post = " ORDER BY a.`accepted_number` DESC";
         String sql_where = " where ";
@@ -87,7 +87,7 @@ public class AcceptedController {
     public String acceptListEmployee(HttpServletRequest request) {
         Employee employee = getLoginEmployee(request);
         if (employee.getState() == 0) {
-            return ResponseUtil.fail(0, "对不起，你现在你离职,无法进行此操作");
+            return ResponseUtil.fail(0, "对不起，你现在已离职,无法进行此操作");
         }
         String clerk_name = request.getParameter("clerk_name");
         String custom = request.getParameter("custom");
@@ -96,7 +96,8 @@ public class AcceptedController {
                 "`service_fee` ,`service_fee_actual` ,`clerk_name` ,\n" +
                 "(SELECT  e.`name`  from `employee` e WHERE  `code`  = a .`deputy_director` ) as deputy_name,\n" +
                 "(SELECT  e.`name`  from `employee` e WHERE  `code`  = a .`director`  ) as director_name,\n" +
-                "`houqi`,`state`, a .`end_date` , a .`loan_money` ,a.`service_agreement`,a .`id`,a .`beizhu`\n" +
+                "`houqi`,`state`, a .`end_date` , a .`loan_money` ,a.`service_agreement`,a .`id`,a .`beizhu` ,\n" +
+                " (SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  ',' ) m from accept_process ap  WHERE ap.accept_id=a.id   GROUP BY accept_id ) as pro \n" +
                 "FROM `accepted` a    ";
         String sql_post = " ORDER BY a.`accepted_number` DESC";
         String sql_where = " where state = 1 &&";
@@ -372,9 +373,14 @@ public class AcceptedController {
 
 
     @RequestMapping(value = "/processmanager")
-    public ModelAndView processPage() {
+    public ModelAndView processPage(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/accepted/process_manager");
+
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        if (employee != null) {
+            modelAndView.addObject("user", employee);
+        }
         return modelAndView;
     }
 
@@ -388,11 +394,12 @@ public class AcceptedController {
         String depart = employee.getDepartment();//部门
         int role = employee.getRole();
 
-        String sql = "SELECT a.`id` , a.`accepted_number` , a.`customer_name` , a.`clerk_name` ,\n" +
+        String sql = "SELECT a.`id` , a.`accepted_number` , a.accept_time ,a.business_type ,a.agency , a.want_money ,  a.`customer_name` , a.`clerk_name` ,\n" +
                 "(SELECT name from `employee` e1 WHERE e1.`code` =a.`deputy_director`  ) as fname,\n" +
                 "(SELECT name from `employee`  e2 WHERE  e2.`code` =a.`director`  ) as zname ,\n" +
                 "a.`houqi` , \n" +
-                "(SELECT  process  from  accept_process WHERE  accept_id = a.`id`   ORDER BY  update_time desc  LIMIT 1) as pro\n" +
+//                "(SELECT  process  from  accept_process WHERE  accept_id = a.`id`   ORDER BY  update_time desc  LIMIT 1) as pro\n" +
+                "(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  ',' ) m from accept_process ap  WHERE ap.accept_id=a.id   GROUP BY accept_id ) as pro  \n" +
                 "from `accepted`  a  \n" +
                 "WHERE   a.`state` = 1 ";
 
@@ -555,6 +562,27 @@ public class AcceptedController {
         } else {
             return ResponseUtil.success_front(array);
         }
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/sync_all")
+    public String syncAllProcess(HttpServletRequest request) {
+
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        if (employee != null) {
+            if (!employee.getDepartment().contains("系统")) {
+                return ResponseUtil.fail(0, "您还没有权限操作");
+            }
+            String sql = "UPDATE `accepted` a set `process` =(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  ',' ) m from accept_process ap  WHERE ap.accept_id=a.id   GROUP BY accept_id)";
+            boolean state = baseService.excuteSql(sql);
+            if (state) {
+                return ResponseUtil.success();
+            } else {
+                return ResponseUtil.fail(0, "更新失败");
+            }
+        }
+        return ResponseUtil.fail(0, "请登录");
     }
 
 

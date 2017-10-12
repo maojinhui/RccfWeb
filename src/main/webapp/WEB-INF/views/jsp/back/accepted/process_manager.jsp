@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.rccf.model.Employee" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/9/20
@@ -6,11 +6,22 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%
+    String depart = "";
+    int role = 100;
+    Employee user = (Employee) request.getAttribute("user");
+    if (user != null) {
+        depart = user.getDepartment();
+        role = user.getRole();
+    }
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>后期专员时效</title>
+    <title>受理单进度管理</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <link rel="stylesheet" type="text/css" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/amaze/admin.css"/>
@@ -29,6 +40,14 @@
     </div>
 
     <hr>
+    <div class="am-g am-margin am-padding-right-xl am-text-left">
+        <a id="display_all" class="am-btn am-btn-secondary">显示全部</a>
+        <a data-type="xls" id="export" class="am-btn am-btn-secondary">导出表格</a>
+        <% if (depart.contains("系统")) { %>
+        <a data-type="xls" id="sync" class="am-btn am-btn-secondary">同步进度到受理单列表</a>
+        <%}%>
+    </div>
+
     <div class="am-g">
         <div class="am-u-sm-12 am-u-md-6 am-u-lg-4">
 
@@ -56,8 +75,12 @@
                     <thead>
                     <tr>
                         <th>受理单号</th>
+                        <th>受理时间</th>
+                        <th>业务类型</th>
+                        <th>机构</th>
+                        <th>预贷金额</th>
                         <th>客户姓名</th>
-                        <th>业务员</th>
+                        <th>销售经理</th>
                         <th>副总监</th>
                         <th>总监</th>
                         <th>后期</th>
@@ -84,24 +107,35 @@
 <script src="/js/table2excel/tableExport.js"></script>
 
 <script>
-    var nums = 10;
 
-    function getdata(param) {
+
+    function toInfo(aid) {
+        var url = '/accept/processinfo?aid=' + aid;
+        window.parent.changeUrl(url);
+    }
+
+    $('#back').bind('click', function () {
+        window.history.back();
+    });
+
+    var data;
+    var nums = 10; //每页出现的数量
+    function getData(info) {
         //jsonp解析函数
         $.ajax({
             url: '/accept/processlist',
             dataType: 'json',
-            data: param,
+            data: info,
             success: function (result) {
                 if (result.code) {
-                    var info = JSON.parse(result.data);
-                    if (info.length <= nums) {
-                        $('#content').html(thisDate(1, info));
+                    data = JSON.parse(result.data);
+                    if (data.length <= nums) {
+                        $('#content').html(thisData(1));
                         $('#page').hide();
                         return;
                     }
                     $('#page').show();
-                    var pages = Math.ceil(info.length / nums); //得到总页数
+                    var pages = Math.ceil(data.length / nums); //得到总页数
                     $("#curr").attr("max", pages);
                     //返回的是一个page示例，拥有实例方法
                     var $page = $("#page").page({
@@ -138,7 +172,7 @@
                          */
                         jump: function (context, first) {
                             console.log('当前第：' + context.option.curr + "页");
-                            $('#content').html(thisDate(context.option.curr, info));
+                            $('#content').html(thisData(context.option.curr));
                         }
                     });
 
@@ -157,43 +191,6 @@
     }
 
 
-    function toInfo(aid) {
-        var url = '/accept/processinfo?aid=' + aid;
-        window.parent.changeUrl(url);
-    }
-
-    $('#back').bind('click', function () {
-        window.history.back();
-    });
-
-    var thisDate = function (curr, info) {
-        //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
-        var str = '',
-            last = curr * nums - 1;
-        last = last >= info.length ? (info.length - 1) : last;
-        for (var i = (curr * nums - nums); i <= last; i++) {
-            var da = info[i];
-            str += '<tr>\n' +
-                '                        <td>' + da[1] + '</td>\n' +
-                '                        <td>' + da[2] + '</td>\n' +
-                '                        <td>' + da[3] + '</td>\n' +
-                '                        <td>' + getdata_1(da[4]) + '</td>\n' +
-                '                        <td>' + getdata_1(da[5]) + '</td>\n' +
-                '                        <td>' + getdata_1(da[6]) + '</td>\n' +
-                '                        <td>\n' +
-                '                            <a onclick="toInfo(' + da[0] + ')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
-                '                                    class="am-icon-pencil-square-o"></span> 编辑进度' +
-                '                            </a>\n' +
-                '                        </td>\n' +
-                '                        <td>' + getdata_1(da[7]) + '</td>\n' +
-                '                    </tr>';
-        }
-        return str;
-    };
-
-
-    getdata();
-
     $('#search').bind('click', function () {
         var houqi = $('#houqi').val();
         var clerk_name = $('#clerk_name').val();
@@ -202,10 +199,97 @@
         param.houqi = houqi;
         param.clerk_name = clerk_name;
         param.custom = custom;
-        getdata(param);
+        getData(param);
     });
 
 
+    getData();
+
+    var thisData = function (curr) {
+        //此处只是演示，实际场景通常是返回已经当前页已经分组好的数据
+        var str = '',
+            last = curr * nums - 1;
+        last = last >= data.length ? (data.length - 1) : last;
+        for (var i = (curr * nums - nums); i <= last; i++) {
+            str += getProcess(data[i]);
+        }
+        return str;
+    };
+
+
+    function getProcess(da) {
+        var str = '<tr onclick="toInfo(' + da[0] + ')">\n' +
+            '                        <td>' + getdata_1(da[1]) + '</td>\n' +
+            '                        <td>' + getDate(da[2]) + '</td>\n' +
+            '                        <td>' + getType(da[3]) + '</td>\n' +
+            '                        <td>' + getdata_1(da[4]) + '</td>\n' +
+            '                        <td>' + getdata_1(da[5]) + '</td>\n' +
+            '                        <td>' + getdata_1(da[6]) + '</td>\n' +
+            '                        <td class="am-text-left" >' + getdata_1(da[7]) + '</td>\n' +
+            '                        <td class="am-text-left" >' + getdata_1(da[8]) + '</td>\n' +
+            '                        <td class="am-text-left" >' + getdata_1(da[9]) + '</td>\n' +
+            '                        <td class="am-text-left" >' + getdata_1(da[10]) + '</td>\n' +
+            '                        <td>\n' +
+            '                            <a onclick="toInfo(' + da[0] + ')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
+            '                                    class="am-icon-pencil-square-o"></span> 编辑进度' +
+            '                            </a>\n' +
+            '                        </td>\n' +
+            '                        <td class="am-text-left" >' + getdata_1(da[11]) + '</td>\n' +
+            '                    </tr>';
+        return str;
+
+    }
+
+    var all_Data = function () {
+        var str = '';
+        for (var i = 0; i < data.length; i++) {
+            str += getProcess(data[i]);
+        }
+        return str;
+    };
+
+    //显示全部
+    $("#display_all").bind("click", function () {
+        $("#content").html(all_Data());
+        $("#jump").hide();
+        $("#page").hide();
+    })
+
+
+    $(function () {
+        //导出excel实现
+        var $exportLink = document.getElementById('export');
+        $exportLink.addEventListener('click',
+            function (e) {
+                e.preventDefault();
+                if (e.target.nodeName === "A") {
+                    tableExport('commissioner_list', '进度表', e.target.getAttribute('data-type'))
+                }
+            },
+            false);
+    });
+
+    $('#sync').click(function () {
+        $.ajax({
+            url: '/accept/sync_all',
+            dataType: 'json',
+            data: {},
+            type: 'post',
+            success: function (result) {
+                if (result.code) {
+                    alert("执行成功");
+                } else {
+                    alert(result.errormsg);
+                }
+            },
+            error: function () {
+                alert("请求错误");
+            }
+
+        });
+
+    });
+    
 
 </script>
 </body>

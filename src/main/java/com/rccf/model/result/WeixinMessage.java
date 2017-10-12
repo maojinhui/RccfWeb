@@ -110,6 +110,13 @@ public class WeixinMessage implements Serializable{
     @XStreamCDATA
     protected String url;
 
+    /**
+     * Url
+     */
+    @XStreamAlias("MenuId")
+    @XStreamCDATA
+    protected String menu_id;
+
 
     public String getContent() {
         return content;
@@ -224,6 +231,14 @@ public class WeixinMessage implements Serializable{
         this.ticket = ticket;
     }
 
+
+    public String getMenu_id() {
+        return menu_id;
+    }
+
+    public void setMenu_id(String menu_id) {
+        this.menu_id = menu_id;
+    }
 
     @Override
     public String toString() {

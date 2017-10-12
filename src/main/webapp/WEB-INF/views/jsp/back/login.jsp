@@ -71,7 +71,6 @@
 <script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
 <script>
 
-
     //回车事件绑定
     $('#pwd').bind('keyup', function(event) {
         if (event.keyCode == "13") {
@@ -105,13 +104,13 @@
             data: {"phone": userName, "pwd": despwd, "check": check},
             success: function (result) {
 
-                alert('请求成功');
-                alert($.cookie('userid'));
+//                alert('请求成功');
+//                alert($.cookie('userid'));
 
                 if (result.code) {
-                    alert('状态正常1');
+//                    alert('状态正常1');
                     if(check){
-                        alert('状态正常2');
+//                        alert('状态正常2');
                         $.cookie("username", userName, {expires: 30 * 24 * 60 * 60 * 1000, path: "/"});
 //                        $.cookie("password", pwd, {expires: 30 * 24 * 60 * 60 * 1000, path: "/"})
                         $.cookie("userid", result.data, {expires: 30 * 24 * 60 * 60 * 1000, path: "/"})

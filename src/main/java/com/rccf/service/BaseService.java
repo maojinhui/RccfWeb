@@ -64,4 +64,8 @@ public class BaseService {
         return dao.queryBySqlFormatClass(sql, clazz);
     }
 
+    public boolean excuteSql(String sql) {
+        return dao.excuteSql(sql);
+    }
+
 }

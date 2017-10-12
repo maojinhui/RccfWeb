@@ -94,8 +94,10 @@
                         <th>办理状态</th>
                         <th>批贷金额</th>
                         <th>是否有服务协议</th>
+                        <th>服务协议编号</th>
                         <th>更新时间</th>
                         <th>后期专员</th>
+                        <th>受理单进度</th>
                         <th>备注</th>
                     </tr>
                     </thead>
@@ -162,20 +164,22 @@
                         '                        <td>' + getdata_1(row[5]) + '</td>\n' +
                         '                        <td>' + getType(row[6]) + '</td>\n' +
                         '                        <td>' + row[7] + '</td>\n' +
-                        '                        <td>' + row[8] + '</td>\n' +
-                        '                        <td>' + row[9] + '</td>\n' +
+                        '                        <td>' + getdata_1(row[8]) + '</td>\n' +
+                        '                        <td>' + getdata_1(row[9]) + '</td>\n' +
                         '                        <td>' + getdata(row[10]) + "%" + '</td>\n' +
                         '                        <td>' + getdata(row[11]) + '</td>\n' +
                         '                        <td>' + getDate(row[12]) + '</td>\n' +
                         '                        <td>' + row[14] + '</td>\n' +
-                        '                        <td>' + row[25] + '</td>\n' +
                         '                        <td>' + row[26] + '</td>\n' +
+                        '                        <td>' + row[27] + '</td>\n' +
                         '                        <td>' + getState(row[15]) + '</td>\n' +
                         '                        <td>' + getdata(row[16]) + '</td>\n' +
                         '                        <td>' + have(row[17]) + '</td>\n' +
+                        '                        <td>' + getdata_1(row[25]) + '</td>\n' +
                         '                        <td>' + getDate(row[19]) + '</td>\n' +
                         '                        <td>' + getdata_1(row[21]) + '</td>\n' +
-                        '                        <td>' + getdata_1(row[18]) + '</td>\n' +
+                        '                        <td class="am-text-left" >' + getdata_1(row[24]) + '</td>\n' +
+                        '                        <td class="am-text-left" >' + getdata_1(row[18]) + '</td>\n' +
                         '                    </tr>'
                 }
                 $('#content').html(str);

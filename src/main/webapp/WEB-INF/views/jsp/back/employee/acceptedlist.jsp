@@ -75,6 +75,7 @@
                         <th>是否有服务协议</th>
                         <th>服务协议编号</th>
                         <th>操作</th>
+                        <th>受理单进度</th>
                         <th>备注</th>
                     </tr>
                     </thead>
@@ -309,7 +310,8 @@
                 '                                <span class="am-icon-trash-o"></span> 删除\n' +
                 '                            </a>\n' +
                 '                        </td>\n' +
-                '                        <td>' + getStringWithspace(da[20]) + '</td>\n' +
+                '                        <td class="am-text-left" >' + getStringWithspace(da[22]) + '</td>\n' +
+                '                        <td class="am-text-left">' + getStringWithspace(da[20]) + '</td>\n' +
                 '                    </tr>';
         }
         return str;

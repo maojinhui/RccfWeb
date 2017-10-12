@@ -104,4 +104,16 @@ public class BaseDao extends HibernateDaoSupport {
         return list;
     }
 
+
+    public boolean excuteSql(String sql) {
+        try {
+            SQLQuery sqlQuery = getSession().createSQLQuery(sql);
+            sqlQuery.executeUpdate();
+            return true;
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
