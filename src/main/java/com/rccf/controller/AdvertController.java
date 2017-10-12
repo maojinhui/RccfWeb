@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -127,9 +128,30 @@ public class AdvertController {
         }
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Loanapply.class);
         detachedCriteria.add(Restrictions.eq("phone", phone));
+        detachedCriteria.addOrder(Order.desc("createTime"));
         List list = baseService.getList(detachedCriteria);
+
         if (list != null && list.size() > 0) {
-            return ResponseUtil.fail(0, "您已经申请成功了，您还可以打电话联系我们，客服电话:4006-810-688。");
+            Loanapply loan = (Loanapply) list.get(0);
+            Date date_loan = DateUtil.timestamp2Date(loan.getCreateTime());
+            Date date_now = new Date(System.currentTimeMillis());
+            Calendar cal1 = Calendar.getInstance();
+            cal1.setTime(date_loan);
+
+            Calendar cal2 = Calendar.getInstance();
+            cal2.setTime(date_now);
+
+            boolean isSameYear = cal1.get(Calendar.YEAR) == cal2
+                    .get(Calendar.YEAR);
+            boolean isSameMonth = isSameYear
+                    && cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH);
+            boolean isSameDate = isSameMonth
+                    && cal1.get(Calendar.DAY_OF_MONTH) == cal2
+                    .get(Calendar.DAY_OF_MONTH);
+
+            if (isSameDate) {
+                return ResponseUtil.fail(0, "您已经申请成功了，您还可以打电话联系我们，客服电话:4006-810-688。");
+            }
         }
         Loanapply loanapply = new Loanapply();
         loanapply.setCreateTime(DateUtil.date2Timestamp(new Date()));
@@ -210,7 +232,6 @@ public class AdvertController {
     @RequestMapping(value = "/notifyloanapply")
     public String dealState(HttpServletRequest request) {
         String stat = request.getParameter("stat");
-
         String id = request.getParameter("id");
         if (null == id) {
             return ResponseUtil.fail(0, ResponseConstants.MSG_PARAMTER_ERROR);
