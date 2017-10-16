@@ -394,10 +394,10 @@ public class AcceptedController {
         String depart = employee.getDepartment();//部门
         int role = employee.getRole();
 
-        String sql = "SELECT a.`id` , a.`accepted_number` , a.accept_time ,a.business_type ,a.agency , a.want_money ,  a.`customer_name` , a.`clerk_name` ,\n" +
+        String sql = "SELECT a.`id` , a.`accepted_number` , a.accept_time , a.`customer_name` , a.`clerk_name` ,  \n" +
                 "(SELECT name from `employee` e1 WHERE e1.`code` =a.`deputy_director`  ) as fname,\n" +
                 "(SELECT name from `employee`  e2 WHERE  e2.`code` =a.`director`  ) as zname ,\n" +
-                "a.`houqi` , \n" +
+                "  a.business_type ,a.agency , a.want_money , a.service_fee , a.`houqi` ,\n" +
 //                "(SELECT  process  from  accept_process WHERE  accept_id = a.`id`   ORDER BY  update_time desc  LIMIT 1) as pro\n" +
                 "(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  ',' ) m from accept_process ap  WHERE ap.accept_id=a.id   GROUP BY accept_id ) as pro  \n" +
                 "from `accepted`  a  \n" +

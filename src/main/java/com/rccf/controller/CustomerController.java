@@ -327,4 +327,50 @@ public class CustomerController {
         return ResponseUtil.fail(0, "用户未登录");
     }
 
+
+    @RequestMapping(value = "/shareApplyFromOhter")
+    public ModelAndView shareApplyFromOtherCustomers(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        if (employee != null) {
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.setViewName("/back/customer/shareapplyfromotherlist");
+            return modelAndView;
+        }
+        return new ModelAndView("redirect:/back/login");
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/shareApplyFromOtherList")
+    public String sharApplyFromOtherCustomersList(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        if (employee != null) {
+            String code = employee.getCode();
+            String phone = employee.getPhone();
+            String depart = employee.getDepartment();
+            int departRole = employee.getRole();
+            String sql = "";
+//            if (depart.contains("金融")) {
+////                if (departRole == 2) {//总监
+////                    sql = "SELECT * from `loanapply`  WHERE `clerk_phone` NOT IN ( SELECT `phone`  from `employee` WHERE `director` ='" + code + "') order by stat asc";
+////                } else if (departRole == 3) {
+////                    sql = "SELECT * from `loanapply`  WHERE `clerk_phone` NOT IN ( SELECT `phone`  from `employee` WHERE `dupty_director` ='" + code + "') order by stat asc";
+////                } else if (departRole == 4) {
+////                    sql = "SELECT * from `loanapply`  WHERE `clerk_phone` NOT IN ( SELECT `phone`  from `employee` WHERE `phone` ='" + phone + "') order by stat asc";
+////                }
+//            } else
+            if (depart.contains("系统")) {
+                if (departRole == 0) {//系统管理
+                    sql = "SELECT * from `loanapply`  WHERE `clerk_phone` NOT IN ( SELECT `phone`  from `employee` WHERE phone IS NOT NULL AND phone  != '') order by stat asc";
+                }
+            } else {
+                sql = "SELECT * from `loanapply`  WHERE `clerk_phone` IN ( SELECT `phone`  from `employee` where 0  ) order by stat asc";
+
+            }
+            List<Loanapply> loanapplies = baseService.queryBySqlFormatClass(sql, Loanapply.class);
+            return ResponseUtil.success(loanapplies);
+
+        }
+        return ResponseUtil.fail(0, "用户未登录");
+    }
+
 }

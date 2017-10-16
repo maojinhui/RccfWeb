@@ -160,7 +160,13 @@
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 微信推广用户列表
                         </a>
                     </li>
-
+                    <% if (depart.contains("系统")) {%>
+                    <li class="sidebar-nav-link">
+                        <a class="rcmenu" data-rccf-menu="/customer/shareApplyFromOhter">
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 非公司在职员工推广
+                        </a>
+                    </li>
+                    <%}%>
                 </ul>
             </li>
             <%}%>

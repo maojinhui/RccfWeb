@@ -76,13 +76,14 @@
                     <tr>
                         <th>受理单号</th>
                         <th>受理时间</th>
-                        <th>业务类型</th>
-                        <th>机构</th>
-                        <th>预贷金额</th>
                         <th>客户姓名</th>
                         <th>销售经理</th>
                         <th>副总监</th>
                         <th>总监</th>
+                        <th>业务类型</th>
+                        <th>机构</th>
+                        <th>预贷金额</th>
+                        <th>服务费比例</th>
                         <th>后期</th>
                         <th>编辑</th>
                         <th>当前进度</th>
@@ -109,6 +110,13 @@
 <script>
 
 
+    function getFee(fee) {
+        if (isNull(fee)) {
+            return "未填写";
+        }
+        return fee + '%';
+    }
+    
     function toInfo(aid) {
         var url = '/accept/processinfo?aid=' + aid;
         window.parent.changeUrl(url);
@@ -221,20 +229,21 @@
         var str = '<tr onclick="toInfo(' + da[0] + ')">\n' +
             '                        <td>' + getdata_1(da[1]) + '</td>\n' +
             '                        <td>' + getDate(da[2]) + '</td>\n' +
-            '                        <td>' + getType(da[3]) + '</td>\n' +
+            '                        <td>' + getdata_1(da[3]) + '</td>\n' +
             '                        <td>' + getdata_1(da[4]) + '</td>\n' +
             '                        <td>' + getdata_1(da[5]) + '</td>\n' +
             '                        <td>' + getdata_1(da[6]) + '</td>\n' +
-            '                        <td class="am-text-left" >' + getdata_1(da[7]) + '</td>\n' +
+            '                        <td class="am-text-left" >' + getType(da[7]) + '</td>\n' +
             '                        <td class="am-text-left" >' + getdata_1(da[8]) + '</td>\n' +
             '                        <td class="am-text-left" >' + getdata_1(da[9]) + '</td>\n' +
-            '                        <td class="am-text-left" >' + getdata_1(da[10]) + '</td>\n' +
+            '                        <td class="am-text-left" >' + getFee(da[10]) + '</td>\n' +
+            '                        <td class="am-text-left" >' + getdata_1(da[11]) + '</td>\n' +
             '                        <td>\n' +
             '                            <a onclick="toInfo(' + da[0] + ')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
             '                                    class="am-icon-pencil-square-o"></span> 编辑进度' +
             '                            </a>\n' +
             '                        </td>\n' +
-            '                        <td class="am-text-left" >' + getdata_1(da[11]) + '</td>\n' +
+            '                        <td class="am-text-left" >' + getdata_1(da[12]) + '</td>\n' +
             '                    </tr>';
         return str;
 
