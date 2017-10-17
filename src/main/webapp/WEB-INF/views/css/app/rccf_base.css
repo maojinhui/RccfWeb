@@ -169,8 +169,20 @@ a:hover, a:visited, a:link, a:active {
     margin-top: 0.466667rem;
 }
 
+.rccf_margin_top_lg {
+    margin-top: 0.666667rem;
+}
+
+.rccf_margin_top_xl {
+    margin-top: 1rem;
+}
+
 .rccf_margin_bottom {
     margin-bottom: 0.466667rem;
+}
+
+.rccf_margin_bottom_xs {
+    margin-bottom: 0.266667rem;
 }
 
 .rccf_text_center {
@@ -186,7 +198,7 @@ a:hover, a:visited, a:link, a:active {
 }
 
 .rccf_body {
-    margin-bottom: 1.333333rem;
+    margin-bottom: 2.333333rem;
 }
 
 .rccf_grey_body {

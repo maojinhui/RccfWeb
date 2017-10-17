@@ -12,7 +12,7 @@
     <meta charset="UTF-8">
     <title>客户详情</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <link rel="stylesheet" type="text/css" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/zmaze/admin.css"/>
     <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.page.css"/>
     <link rel="stylesheet" type="text/css" href="/css/back/style.css"/>

@@ -75,11 +75,11 @@
     height: 1.333333rem;
 }
 
+
 /*底部导航*/
 .rccf_tabbar {
     position: fixed;
 }
-
 .rccf_tabbar_icon {
     display: inline-block;
     width: 0.5rem;
@@ -97,7 +97,7 @@
 /*我要贷款*/
 
 .rccf_loan .rccf_loan_btn {
-    height: 0.55rem;
+    height: 0.8rem;
     width: 3.066667rem;
 }
 
@@ -106,8 +106,11 @@
 }
 
 .rccf_loan_btn {
+    font-size: 0.4rem;
     color: #FFFFFF;
     background-color: #0c7cb5;
+    box-shadow: none;
+    border: none;
 
 }
 

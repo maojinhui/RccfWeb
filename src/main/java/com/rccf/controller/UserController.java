@@ -134,7 +134,7 @@ public class UserController {
     public String bindPhone(HttpServletRequest request) {
         String code = request.getParameter("code");
         String phone = request.getParameter("phone");
-        String openid = request.getParameter("openid");
+        String openid = WeixinUtil.getOpenid(request);
         if (!Strings.isMobileNO(phone)) {
             return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_FORMAT_ERROR);
         }

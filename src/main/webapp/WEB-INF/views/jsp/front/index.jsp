@@ -167,7 +167,7 @@
             <img src="/image/app/tabbar/home_on.png" alt="" class="rccf_tabbar_icon">
             <p class="weui-tabbar__label fz30 rccf_tabbar_text">首页</p>
         </a>
-        <a href="rccf_myloan.html" class="weui-tabbar__item">
+        <a href="/app/progresspage" class="weui-tabbar__item">
             <img src="/image/app/tabbar/loan.png" alt="" class="rccf_tabbar_icon">
             <p class="weui-tabbar__label fz30 ">我的贷款</p>
         </a>

@@ -15,7 +15,7 @@
 <head>
     <meta charset="UTF-8">
     <title>数据信息</title>
-    <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/css/amaze/amazeui.min.css"/>
 </head>
 <body>
 <div class="am-container am-margin-top-lg">

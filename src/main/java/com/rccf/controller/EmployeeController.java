@@ -390,6 +390,19 @@ public class EmployeeController {
         List<LatterNumber> numbers = baseService.getList(criteria);
         view.addObject("numbers", numbers);
 
+
+        DetachedCriteria houqiCriteria = DetachedCriteria.forClass(Employee.class);
+        ProjectionList houqiplist = Projections.projectionList();
+        houqiplist.add(Projections.property("code").as("code"));
+        houqiplist.add(Projections.property("name").as("name"));
+        houqiCriteria.setProjection(houqiplist);
+        houqiCriteria.add(Restrictions.eq("state", 1));
+        houqiCriteria.add(Restrictions.eq("department", "市场部"));
+        houqiCriteria.setResultTransformer(Transformers.aliasToBean(Employee.class));
+        List<Employee> houqis = baseService.getList(houqiCriteria);
+        view.addObject("houqis", houqis);
+
+
         if (!Strings.isNullOrEmpty(id)) {
             int _id = Integer.valueOf(id);
             Accepted accepted = acceptedService.findById(_id);
@@ -449,9 +462,13 @@ public class EmployeeController {
             } else {
                 if (null != employee.getDuptyDirector()) {
                     accepted.setDeputyDirector(employee.getDuptyDirector());
+                } else {
+                    accepted.setDeputyDirector(null);
                 }
                 if (null != employee.getDirector()) {
                     accepted.setDirector(employee.getDirector());
+                } else {
+                    accepted.setDirector(null);
                 }
             }
         }
@@ -665,7 +682,7 @@ public class EmployeeController {
                 "\ta.`state`\n" +
                 "  FROM `accepted` a\n" +
                 " WHERE `end_date`= '" + day_start + "'\n" +
-                "   and a.`state` =2\n";
+                "   and a.`state` =2 and a.clerk in (select code from employee e where e.department like '%金融%') \n";
         String sql_shouli =
                 "SELECT a.want_money,\n" +
                         "       '' as fee,\n" +
@@ -677,7 +694,7 @@ public class EmployeeController {
                         "\ta.`state`\n" +
                         "  FROM `accepted` a\n" +
                         " WHERE `accept_time`= '" + day_start + "'\n" +
-                        "   and a.`state` =1\n";
+                        "   and a.`state` =1 and a.clerk in (select code from employee e where e.department like '%金融%')\n";
         List data_banjie = baseService.queryBySql(sql_banjie);
         List date_shouli = baseService.queryBySql(sql_shouli);
         JSONObject object = new JSONObject();
@@ -713,7 +730,7 @@ public class EmployeeController {
                 "       a.`service_fee_actual`  as fee\n" +
                 "  FROM `accepted` a\n" +
                 " WHERE `end_date`= '" + day_start + "'\n" +
-                "   and a.`state` =2";
+                "   and a.`state` =2  and a.clerk in (select code from employee e where e.department like '%金融%')";
         String sql_shouli = "SELECT (SELECT  name from `employee`  where code = a.`director` ) as 'zong',\n" +
                 "       (SELECT name from `employee`WHERE `code`= a.`deputy_director`) as 'fu',\n" +
                 "       a.clerk_name,\n" +
@@ -723,7 +740,7 @@ public class EmployeeController {
                 "        a. want_money\n" +
                 "  FROM `accepted` a\n" +
                 " WHERE `accept_time`= '" + day_start + "'\n" +
-                "   and a.`state` =1";
+                "   and a.`state` =1  and a.clerk in (select code from employee e where e.department like '%金融%')";
 
         List data_banjie = baseService.queryBySql(sql_banjie);
         List date_shouli = baseService.queryBySql(sql_shouli);

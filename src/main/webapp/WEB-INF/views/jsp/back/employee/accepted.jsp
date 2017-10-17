@@ -109,6 +109,10 @@
             <span class="am-input-group-label">后期人员</span>
             <input id="houqi" type="text" class="am-form-field whiteback"
                    value="<%=Strings.getInputString(accepted.getHouqi())%>"/>
+            <div class="autocompleter autocompleter-closed" id="autocompleter-3">
+                <div class="autocompleter-hint"></div>
+                <ul class="autocompleter-list"></ul>
+            </div>
         </div>
         <div class="am-input-group am-input-group-primary">
             <span class="am-input-group-label">批贷金额（万）</span>
@@ -160,14 +164,16 @@
 <%
     List<Employee> employees = (List<Employee>) request.getAttribute("employees");
     List<LatterNumber> numbers = (List<LatterNumber>) request.getAttribute("numbers");
+    List<Employee> houqis = (List<Employee>) request.getAttribute("houqis");
 %>
 <script src="/js/jquery.autocompleter.js"></script>
 <script>
 
     var employees =<%=JSON.toJSONString(employees).replaceAll("name","label") %>;
 
-    var numbers = <%=JSON.toJSONString(numbers).replaceAll("code","label")%>
+    var numbers = <%=JSON.toJSONString(numbers).replaceAll("code","label")%>;
 
+    var houqis = <%=JSON.toJSONString(houqis).replaceAll("name","label")%>
         /**
          * Crayola colors in JSON format
          * from: https://gist.github.com/jjdelc/1868136
@@ -205,6 +211,32 @@
                 callback: function (value, index, selected) {
                     if (selected) {
                         $('#flerk_code').val(selected.code);
+//                    console.log(selected.code);
+                    }
+                }
+            });
+
+            $('#houqi').autocompleter({
+                // marker for autocomplete matches
+                highlightMatches: true,
+
+                // object to local or url to remote search
+                source: houqis,
+//
+                // custom template
+                template: '{{ label }} <span>({{ code }})</span>',
+
+//             show hint
+                hint: false,
+
+                // abort source if empty field
+                empty: false,
+
+                // max results
+                limit: 5,
+
+                callback: function (value, index, selected) {
+                    if (selected) {
 //                    console.log(selected.code);
                     }
                 }

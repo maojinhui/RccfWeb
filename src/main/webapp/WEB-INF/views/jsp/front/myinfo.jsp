@@ -37,8 +37,8 @@
 <div class="rccf_body">
     <div class="rccf_grey_body">
         <header class="rccf_padding rccf_text_center fz40">
-            <div class="rccf_text_center">
-                <img src="<%=headimg%>">
+            <div class="rccf_text_center rccf_margin_bottom_xs">
+                <img style="width: 1.6rem;height: 1.6rem;" src="<%=headimg%>">
             </div>
             <p><%=user.getUserName()%></p>
         </header>
@@ -67,12 +67,12 @@
                 </a>
             </div>
             <div class="weui-cells rccf_margin_zero fz32">
-                <a href="rccf_tiephone.html" class="weui-cell weui-cell_access" href="javascript:;">
+                <a class="weui-cell weui-cell_access" href="javascript:bindPhone();">
                     <div class="weui-cell__hd"><img src="/image/app/user/tie.png"></div>
                     <div class="weui-cell__bd">
                         <p>绑定手机号</p>
                     </div>
-                    <div class="weui-cell__ft">
+                    <div class="weui-cell__ft" id="bindtext">
                         <%=bindText%>
                     </div>
                 </a>
@@ -90,7 +90,7 @@
                 </a>
             </div>
             <div class="weui-cells rccf_margin_zero fz32">
-                <a class="weui-cell weui-cell_access" href="javascript:;">
+                <a class="weui-cell weui-cell_access" href="/appother/versionPage">
                     <div class="weui-cell__hd"><img src="/image/app/user/version.png"></div>
                     <div class="weui-cell__bd">
                         <p>版本信息</p>
@@ -104,10 +104,10 @@
 </div>
 <div class="weui-tabbar rccf_tabbar">
     <a href="/app/index" class="weui-tabbar__item">
-        <img src="/app/mypage" alt="" class="rccf_tabbar_icon">
+        <img src="/image/app/tabbar/home.png" alt="" class="rccf_tabbar_icon">
         <p class="weui-tabbar__label fz30 ">首页</p>
     </a>
-    <a href="rccf_myloan.html" class="weui-tabbar__item">
+    <a href="/app/progresspage" class="weui-tabbar__item">
         <img src="/image/app/tabbar/loan.png" alt="" class="rccf_tabbar_icon">
         <p class="weui-tabbar__label fz30 ">我的贷款</p>
     </a>

@@ -564,7 +564,6 @@ public class AcceptedController {
         }
     }
 
-
     @ResponseBody
     @RequestMapping(value = "/sync_all")
     public String syncAllProcess(HttpServletRequest request) {

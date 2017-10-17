@@ -15,14 +15,14 @@
     <link rel="shortcut icon" type="image/x-icon" href="/image/rccf.ico">
     <title>融成金服</title>
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
-    <script type="text/javascript" src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.ie8polyfill.js"></script>
-    <script type="text/javascript" src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.js"></script>
-    <script type="text/javascript" src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.widgets.helper.js"></script>
+    <script type="text/javascript" src="/js/amaze/amazeui.ie8polyfill.js"></script>
+    <script type="text/javascript" src="/js/amaze/amazeui.js"></script>
+    <script type="text/javascript" src="/js/amaze/amazeui.widgets.helper.js"></script>
     <script type="text/javascript" src="/js/amaze/app.js"></script>
     <script type="text/javascript" src="/js/amaze/handlebars.min.js"></script>
     <script href="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.css"/>
-    <link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/css/amaze/amazeui.css"/>
+    <link rel="stylesheet" href="/css/amaze/amazeui.min.css"/>
     <%--<link rel="stylesheet" href="css/amaze/amazeui.flat.css"/>--%>
     <%--<link rel="stylesheet" href="css/font-awesome.css">--%>
     <link rel="stylesheet" href="/css/overflow.css">
