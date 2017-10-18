@@ -211,7 +211,9 @@
                 callback: function (value, index, selected) {
                     if (selected) {
                         $('#flerk_code').val(selected.code);
-//                    console.log(selected.code);
+                        console.log(selected.code);
+                    } else {
+                        $('#flerk_code').val('');
                     }
                 }
             });

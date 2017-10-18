@@ -454,27 +454,40 @@ public class EmployeeController {
             accepted.setLetterNumber(latter_number);
         }
 
-        if (!Strings.isNullOrEmpty(clerk)) {
-            accepted.setClerk(clerk);
-            Employee employee = employeeService.findEmpolyeeByCode(clerk);
-            if (employee == null) {
-//                return ResponseUtil.fail(0,"请选择正确的员工");
+//        if (!Strings.isNullOrEmpty(clerk)) {
+//            accepted.setClerk(clerk);
+//            Employee employee = employeeService.findEmpolyeeByCode(clerk);
+//            if (employee == null) {
+////                return ResponseUtil.fail(0,"请选择正确的员工");
+//            } else {
+//                if (null != employee.getDuptyDirector()) {
+//                    accepted.setDeputyDirector(employee.getDuptyDirector());
+//                } else {
+//                    accepted.setDeputyDirector(null);
+//                }
+//                if (null != employee.getDirector()) {
+//                    accepted.setDirector(employee.getDirector());
+//                } else {
+//                    accepted.setDirector(null);
+//                }
+//            }
+//        }
+
+
+        if (!Strings.isNullOrEmpty(clerk_name)) { //根据业务员名字查询业务员
+            accepted.setClerkName(clerk_name);
+            Employee employee = employeeService.findEmpolyeeByName(clerk_name);
+            if (employee != null) {
+                accepted.setClerk(employee.getCode());
+                accepted.setDeputyDirector(employee.getDuptyDirector());
+                accepted.setDirector(employee.getDirector());
             } else {
-                if (null != employee.getDuptyDirector()) {
-                    accepted.setDeputyDirector(employee.getDuptyDirector());
-                } else {
-                    accepted.setDeputyDirector(null);
-                }
-                if (null != employee.getDirector()) {
-                    accepted.setDirector(employee.getDirector());
-                } else {
-                    accepted.setDirector(null);
-                }
+                accepted.setClerk(null);
+                accepted.setDeputyDirector(null);
+                accepted.setDirector(null);
             }
         }
-        if (!Strings.isNullOrEmpty(clerk_name)) {
-            accepted.setClerkName(clerk_name);
-        }
+
         if (!Strings.isNullOrEmpty(custom_name)) {
             accepted.setCustomerName(custom_name);
         }
