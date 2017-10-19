@@ -26,6 +26,6 @@
     <mvc:resources mapping="/image/**" location="/WEB-INF/views/img/"/>
     <mvc:resources mapping="/easyui/**" location="/WEB-INF/views/easyui/"/>
     <mvc:resources mapping="/*.txt" location="/WEB-INF/views/txt/" />
-
+    <mvc:resources mapping="/file/**" location="/upload/"/>
 
 </beans>

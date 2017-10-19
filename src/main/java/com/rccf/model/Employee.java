@@ -29,6 +29,10 @@ public class Employee {
     private Timestamp leaveTime;
     private String email;
     private Timestamp turnTime;
+    private Integer accessControlNumber;
+    private String nameOnce;
+    private String nameEn;
+    private String leaveReason;
 
     @Id
     @Column(name = "id")
@@ -313,5 +317,45 @@ public class Employee {
 
     public void setTurnTime(Timestamp turnTime) {
         this.turnTime = turnTime;
+    }
+
+    @Basic
+    @Column(name = "access_control_number")
+    public Integer getAccessControlNumber() {
+        return accessControlNumber;
+    }
+
+    public void setAccessControlNumber(Integer accessControlNumber) {
+        this.accessControlNumber = accessControlNumber;
+    }
+
+    @Basic
+    @Column(name = "name_once")
+    public String getNameOnce() {
+        return nameOnce;
+    }
+
+    public void setNameOnce(String nameOnce) {
+        this.nameOnce = nameOnce;
+    }
+
+    @Basic
+    @Column(name = "name_en")
+    public String getNameEn() {
+        return nameEn;
+    }
+
+    public void setNameEn(String nameEn) {
+        this.nameEn = nameEn;
+    }
+
+    @Basic
+    @Column(name = "leave_reason")
+    public String getLeaveReason() {
+        return leaveReason;
+    }
+
+    public void setLeaveReason(String leaveReason) {
+        this.leaveReason = leaveReason;
     }
 }
