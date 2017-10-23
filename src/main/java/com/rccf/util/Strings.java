@@ -1,7 +1,9 @@
 package com.rccf.util;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.util.StringUtils;
 
+import java.lang.reflect.Method;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -88,6 +90,17 @@ public class Strings {
         return o.toString();
     }
 
+    public static String getInputString(Object o, Object data) {
+        if (o == null) {
+            return "";
+        } else {
+            if (data == null) {
+                return "";
+            } else {
+                return data.toString();
+            }
+        }
+    }
 
 
 }

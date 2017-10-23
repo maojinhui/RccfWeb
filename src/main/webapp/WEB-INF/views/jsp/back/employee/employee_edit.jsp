@@ -1,4 +1,5 @@
-<%--
+<%@ page import="com.rccf.model.*" %>
+<%@ page import="com.rccf.util.Strings" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/10/19
@@ -6,6 +7,16 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    Employee employee = (Employee) request.getAttribute("employee");
+    EmployeeBase base = (EmployeeBase) request.getAttribute("base");
+    EmployeeContactOther contactOther = (EmployeeContactOther) request.getAttribute("contactOther");
+    EmployeeContract contract = (EmployeeContract) request.getAttribute("contract");
+    EmployeeDocuments documents = (EmployeeDocuments) request.getAttribute("documents");
+
+
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,7 +66,8 @@
         }
 
         .info-img {
-            display: none;
+            /*display: none;*/
+            width: 18.5em;
             height: 200px;
             border: solid 1px #eeeeee;
             color: #ea6e0c;
@@ -66,11 +78,20 @@
             height: 200px;
         }
 
+        .margin-auto {
+            margin: 0 auto;
+        }
+
+        @media screen and (max-width: 980px) {
+            .margin-auto {
+                margin: inherit;
+            }
+        }
+
     </style>
 </head>
 <body>
 <div class="admin-content-body am-margin-top-lg">
-
 
     <div class="am-tabs" data-am-tabs="{noSwipe: 1}" id="doc-tab-demo-1">
         <ul class="am-tabs-nav am-nav am-nav-tabs">
@@ -78,7 +99,6 @@
             <li><a href="javascript: void(0)">劳动合同信息</a></li>
             <li><a href="javascript: void(0)">基础信息</a></li>
             <li><a href="javascript: void(0)">联系方式</a></li>
-
             <li><a href="javascript: void(0)">证件审核</a></li>
         </ul>
 
@@ -93,7 +113,8 @@
                         <span class="am-input-group-label">
                          部&emsp;&emsp;门:
                          </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=Strings.getInputString(employee,employee.getDepartment())%>">
                             </div>
                         </div>
                     </div>
@@ -103,7 +124,8 @@
                         <span class="am-input-group-label">
                          总&emsp;&emsp;监:
                          </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=Strings.getInputString(employee,employee.getDirectorName())%>">
                             </div>
                         </div>
                     </div>
@@ -113,7 +135,8 @@
                         <span class="am-input-group-label">
                          &emsp;副总监:
                          </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=Strings.getInputString(employee,employee.getDuptyDirectorName())%>">
                             </div>
                         </div>
                     </div>
@@ -123,7 +146,8 @@
                         <span class="am-input-group-label">
                          岗&emsp;&emsp;位:
                          </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=Strings.getInputString(employee,employee.getDuties())%>">
                             </div>
                         </div>
                     </div>
@@ -133,7 +157,8 @@
                             <span class="am-input-group-label">
                              姓&emsp;&emsp;名:
                              </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=Strings.getInputString(employee,employee.getName())%>">
                             </div>
                         </div>
                     </div>
@@ -143,7 +168,8 @@
                     <span class="am-input-group-label">
                      入职时间:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=Strings.getInputString(employee,employee.getEntryTime())%>">
                             </div>
                         </div>
                     </div>
@@ -153,7 +179,8 @@
                     <span class="am-input-group-label">
                      转正日期:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=Strings.getInputString(employee,employee.getTurnTime())%>">
                             </div>
                         </div>
                     </div>
@@ -163,7 +190,8 @@
                         <span class="am-input-group-label">
                          编&emsp;&emsp;号:
                          </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=Strings.getInputString(employee,employee.getCode())%>">
                             </div>
                         </div>
                     </div>
@@ -173,7 +201,8 @@
                         <span class="am-input-group-label">
                          &emsp;门禁号:
                          </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=Strings.getInputString(employee,employee.getAccessControlNumber())%>">
                             </div>
                         </div>
                     </div>
@@ -183,7 +212,8 @@
                         <span class="am-input-group-label">
                          &emsp;曾用名:
                          </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=Strings.getInputString(employee,employee.getNameOnce())%>">
                             </div>
                         </div>
                     </div>
@@ -193,7 +223,8 @@
                         <span class="am-input-group-label">
                          &emsp;英文名:
                          </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=Strings.getInputString(employee,employee.getNameEn())%>">
                             </div>
                         </div>
                     </div>
@@ -203,7 +234,8 @@
                     <span class="am-input-group-label">
                      性&emsp;&emsp;别:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=Strings.getInputString(employee,employee.getSex())%>">
                             </div>
                         </div>
                     </div>
@@ -213,7 +245,8 @@
                     <span class="am-input-group-label">
                      状&emsp;&emsp;态:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=Strings.getInputString(employee,employee.getState())%>">
                             </div>
                         </div>
                     </div>
@@ -223,7 +256,8 @@
                     <span class="am-input-group-label">
                      离职日期:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=Strings.getInputString(employee,employee.getLeaveTime())%>">
                             </div>
                         </div>
                     </div>
@@ -233,7 +267,8 @@
                     <span class="am-input-group-label">
                      离职原因:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=Strings.getInputString(employee,employee.getLeaveReason())%>">
                             </div>
                         </div>
                     </div>
@@ -546,10 +581,10 @@
                 <!--证件审核-->
                 <div class="am-margin-bottom-lg">
 
-                    <div class="am-g am-margin-bottom-0">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="am-input-group am-input-group-sm am-form-file">
-                                <span class="am-input-group-label">
+                    <div class="am-g">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-6 ">
+                            <div class="am-input-group am-input-group-sm am-form-file margin-auto">
+                                <span class="am-input-group-label ">
                                  身份证正面:
                                  </span>
                                 <button type="button" class="am-btn am-btn-default am-btn-sm am-vertical-align-bottom">
@@ -557,19 +592,18 @@
                                 </button>
                                 <input id="IDCard_face" class="am-form-field " accept="image/*" type="file" multiple>
                             </div>
-                        </div>
-                    </div>
-                    <div class="am-g am-margin-bottom">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="info-img">
-                                <img id="img_IDCard_face" src="" alt="身份证正面"/>
+                            <div class="am-g am-margin-bottom">
+                                <div class="am-u-sm-12  ">
+                                    <div class="info-img ">
+                                        <img id="img_IDCard_face"
+                                             src="<%=documents!=null ? Strings.getInputString(documents.getIdcardPositive()):""%>"
+                                             alt="身份证正面"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-
-                    <div class="am-g">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-6 ">
                             <div class="am-input-group am-input-group-sm am-form-file">
                                 <span class="am-input-group-label">
                                  身份证背面:
@@ -579,19 +613,20 @@
                                 </button>
                                 <input id="IDCard_back" class="am-form-field " accept="image/*" type="file" multiple>
                             </div>
-                        </div>
-                    </div>
-                    <div class="am-g am-margin-bottom">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="info-img">
-                                <img id="img_IDCard_back" src="" alt="身份证背面"/>
+                            <div class="am-g am-margin-bottom">
+                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 ">
+                                    <div class="info-img">
+                                        <img id="img_IDCard_back"
+                                             src="<%=documents!=null ? Strings.getInputString(documents.getIdcardNegative()):""%>"
+                                             alt="身份证背面"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="am-g">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="am-input-group am-input-group-sm am-form-file">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-6 ">
+                            <div class="am-input-group am-input-group-sm am-form-file margin-auto">
                                 <span class="am-input-group-label">
                                  &emsp;学历证:
                                  </span>
@@ -600,19 +635,17 @@
                                 </button>
                                 <input id="diploma" class="am-form-field " accept="image/*" type="file" multiple>
                             </div>
-                        </div>
-                    </div>
-                    <div class="am-g am-margin-bottom">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="info-img">
-                                <img id="img_diploma" src="" alt="学历证"/>
+                            <div class="am-g am-margin-bottom">
+                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 ">
+                                    <div class="info-img">
+                                        <img id="img_diploma"
+                                             src="<%=documents!=null ? Strings.getInputString(documents.getEducation()):""%>"
+                                             alt="学历证"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    <div class="am-g">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-6 ">
                             <div class="am-input-group am-input-group-sm am-form-file">
                                 <span class="am-input-group-label">
                                  &emsp;职称证:
@@ -622,19 +655,20 @@
                                 </button>
                                 <input id="certificate" class="am-form-field " accept="image/*" type="file" multiple>
                             </div>
-                        </div>
-                    </div>
-                    <div class="am-g am-margin-bottom">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="info-img">
-                                <img id="img_certificate" src="" alt="职称证"/>
+                            <div class="am-g am-margin-bottom">
+                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 ">
+                                    <div class="info-img">
+                                        <img id="img_certificate"
+                                             src="<%=documents!=null ? Strings.getInputString(documents.getJobTitle()):""%>"
+                                             alt="职称证"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="am-g">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="am-input-group am-input-group-sm am-form-file">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-6 ">
+                            <div class="am-input-group am-input-group-sm am-form-file margin-auto">
                                 <span class="am-input-group-label">
                                  照&emsp;&emsp;片:
                                  </span>
@@ -643,19 +677,17 @@
                                 </button>
                                 <input id="photo" class="am-form-field " accept="image/*" type="file" multiple>
                             </div>
-                        </div>
-                    </div>
-                    <div class="am-g am-margin-bottom">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="info-img">
-                                <img id="img_photo" src="" alt="照片"/>
+                            <div class="am-g am-margin-bottom">
+                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 ">
+                                    <div class="info-img">
+                                        <img id="img_photo"
+                                             src="<%=documents!=null ? Strings.getInputString(documents.getPicture()):""%>"
+                                             alt="照片"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    <div class="am-g">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-6 ">
                             <div class="am-input-group am-input-group-sm am-form-file">
                                 <span class="am-input-group-label">
                                  离职证明:
@@ -665,22 +697,22 @@
                                 </button>
                                 <input id="leave_proof" class="am-form-field " accept="image/*" type="file" multiple>
                             </div>
-                        </div>
-                    </div>
-                    <div class="am-g am-margin-bottom">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="info-img">
-                                <img id="img_leave_proof" src="" alt="离职证明"/>
+                            <div class="am-g am-margin-bottom">
+                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 ">
+                                    <div class="info-img">
+                                        <img id="img_leave_proof"
+                                             src="<%=documents!=null ? Strings.getInputString(documents.getLeavingProof()):""%>"
+                                             alt="离职证明"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-
                     <div class="am-g">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="am-input-group am-input-group-sm am-form-file">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-6 ">
+                            <div class="am-input-group am-input-group-sm am-form-file margin-auto">
                                 <span class="am-input-group-label">
-                                 <small>个人信用报告:</small>
+                                 个人信用报告:
                                  </span>
                                 <button type="button" class="am-btn am-btn-default am-btn-sm am-vertical-align-bottom">
                                     <i class="am-icon-cloud-upload"></i> 选择要上传的文件
@@ -688,56 +720,56 @@
                                 <input id="personal_credit" class="am-form-field " accept="image/*" type="file"
                                        multiple>
                             </div>
-                        </div>
-                    </div>
-                    <div class="am-g am-margin-bottom">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="info-img">
-                                <img id="img_personal_credit" src="" alt="个人信用报告"/>
+                            <div class="am-g am-margin-bottom">
+                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 ">
+                                    <div class="info-img">
+                                        <img id="img_personal_credit"
+                                             src="<%=documents!=null ? Strings.getInputString(documents.getCriditReport()):""%>"
+                                             alt="个人信用报告"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    <div class="am-g">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-6 ">
                             <div class="am-input-group am-input-group-sm am-form-file">
                                 <span class="am-input-group-label">
-                                 <small>无犯罪证明:</small>
+                                 无犯罪证明:
                                  </span>
                                 <button type="button" class="am-btn am-btn-default am-btn-sm am-vertical-align-bottom">
                                     <i class="am-icon-cloud-upload"></i> 选择要上传的文件
                                 </button>
                                 <input id="no_crime" class="am-form-field " accept="image/*" type="file" multiple>
                             </div>
-                        </div>
-                    </div>
-                    <div class="am-g am-margin-bottom">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="info-img">
-                                <img id="img_no_crime" src="" alt="无犯罪证明"/>
+                            <div class="am-g am-margin-bottom">
+                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 ">
+                                    <div class="info-img">
+                                        <img id="img_no_crime"
+                                             src="<%=documents!=null ? Strings.getInputString(documents.getNocrimeReport()):""%>"
+                                             alt="无犯罪证明"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-
                     <div class="am-g">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="am-input-group am-input-group-sm am-form-file">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-6 am-u-end">
+                            <div class="am-input-group am-input-group-sm am-form-file margin-auto">
                                 <span class="am-input-group-label">
-                                 <small>体检报告:</small>
+                                 体检报告:
                                  </span>
                                 <button type="button" class="am-btn am-btn-default am-btn-sm am-vertical-align-bottom">
                                     <i class="am-icon-cloud-upload"></i> 选择要上传的文件
                                 </button>
                                 <input id="check" class="am-form-field " accept="image/*" type="file" multiple>
                             </div>
-                        </div>
-                    </div>
-                    <div class="am-g am-margin-bottom">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="info-img">
-                                <img id="img_check" src="" alt="体检报告"/>
+                            <div class="am-g am-margin-bottom">
+                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 ">
+                                    <div class="info-img">
+                                        <img id="img_check"
+                                             src="<%=documents!=null ? Strings.getInputString(documents.getExamination()):""%>"
+                                             alt="体检报告"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -757,14 +789,12 @@
             </div>
         </div>
     </div>
-    <br/>
 
-    <div class="am-g">
-        <div class="am-u-sm-4 am-u-sm-centered">
-            <button type="button" class="am-btn am-btn-primary am-margin-left-lg am-u-sm-3">确认保存</button>
-            <button type="button" class="am-btn am-btn-default am-margin-left-lg am-u-sm-3 am-u-end">取消编辑</button>
+    <div class="am-g am-margin-bottom-lg">
+        <div class="am-u-sm-12 am-u-md-8 am-u-lg-4 am-u-sm-centered">
+            <button type="button" class="am-btn am-btn-primary  am-u-sm-6">确认保存</button>
+            <button type="button" class="am-btn am-btn-default  am-u-sm-6 am-u-end">取消编辑</button>
         </div>
-
     </div>
 
 </div>
@@ -774,6 +804,8 @@
 <script>
 
     $(function () {
+
+        var e_eid = '<%=employee.getId()%>';
 
         function uploadFile(form, dvPreview, e) {
             $.ajax({
@@ -836,83 +868,50 @@
 
         $("#IDCard_face").change(function () {
             var dvPreview = $("#img_IDCard_face");
-            changeFn(dvPreview, $(this), 1, 'idcard_positive');
+            changeFn(dvPreview, $(this), e_eid, 'idcard_positive');
         });
 
         $("#IDCard_back").change(function () {
             var dvPreview = $("#img_IDCard_back");
-            changeFn(dvPreview, $(this), 1, 'idcard_negative');
+            changeFn(dvPreview, $(this), e_eid, 'idcard_negative');
         });
 
         $('#diploma').change(function () {
             var dvPreview = $("#img_diploma");
-            changeFn(dvPreview, $(this), 1, 'education');
+            changeFn(dvPreview, $(this), e_eid, 'education');
         });
 
         $('#certificate').change(function () {
             var dvPreview = $("#img_certificate");
-            changeFn(dvPreview, $(this), 1, 'job_title');
+            changeFn(dvPreview, $(this), e_eid, 'job_title');
         });
 
         $('#photo').change(function () {
             var dvPreview = $("#img_photo");
-            changeFn(dvPreview, $(this), 1, 'picture');
+            changeFn(dvPreview, $(this), e_eid, 'picture');
         });
 
         $('#leave_proof').change(function () {
             var dvPreview = $("#img_leave_proof");
-            changeFn(dvPreview, $(this), 1, 'leavingproof');
+            changeFn(dvPreview, $(this), e_eid, 'leavingproof');
         });
 
         $('#personal_credit').change(function () {
             var dvPreview = $("#img_personal_credit");
-            changeFn(dvPreview, $(this), 1, 'cridit_report');
+            changeFn(dvPreview, $(this), e_eid, 'cridit_report');
         });
 
         $('#no_crime').change(function () {
             var dvPreview = $("#img_no_crime");
-            changeFn(dvPreview, $(this), 1, 'nocrime_report');
+            changeFn(dvPreview, $(this), e_eid, 'nocrime_report');
         });
 
         $('#check').change(function () {
             var dvPreview = $("#img_check");
-            changeFn(dvPreview, $(this), 1, 'examination');
+            changeFn(dvPreview, $(this), e_eid, 'examination');
         });
 
-
-        var tabCounter = 0;
-        var $tab = $('#doc-tab-demo-1');
-        var $nav = $tab.find('.am-tabs-nav');
-        var $bd = $tab.find('.am-tabs-bd');
-
-        function addTab() {
-            var nav = '<li><span class="am-icon-close"></span>' +
-                '<a href="javascript: void(0)">标签 ' + tabCounter + '</a></li>';
-            var content = '<div class="am-tab-panel">动态插入的标签内容' + tabCounter + '</div>';
-
-            $nav.append(nav);
-            $bd.append(content);
-            tabCounter++;
-            $tab.tabs('refresh');
-        }
-
-        // 动态添加标签页
-        $('.js-append-tab').on('click', function () {
-            addTab();
-        });
-
-        // 移除标签页
-        $nav.on('click', '.am-icon-close', function () {
-            var $item = $(this).closest('li');
-            var index = $nav.children('li').index($item);
-
-            $item.remove();
-            $bd.find('.am-tab-panel').eq(index).remove();
-
-            $tab.tabs('open', index > 0 ? index - 1 : index + 1);
-            $tab.tabs('refresh');
-        });
-    });
+    })
 </script>
 </body>
 </html>

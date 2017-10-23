@@ -19,7 +19,7 @@ public class Accepted {
     private String businessNature;
     private Double wantMoney;
     private Double serviceFee;
-    private Integer serviceFeeActual;
+    private Double serviceFeeActual;
     private Timestamp endDate;
     private String clerk;
     private Integer state;
@@ -34,6 +34,7 @@ public class Accepted {
     private String director;
     private String process;
     private String agreementNumber;
+
 
     @Id
     @Column(name = "id")
@@ -147,11 +148,11 @@ public class Accepted {
 
     @Basic
     @Column(name = "service_fee_actual")
-    public Integer getServiceFeeActual() {
+    public Double getServiceFeeActual() {
         return serviceFeeActual;
     }
 
-    public void setServiceFeeActual(Integer serviceFeeActual) {
+    public void setServiceFeeActual(Double serviceFeeActual) {
         this.serviceFeeActual = serviceFeeActual;
     }
 

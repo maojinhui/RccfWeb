@@ -6,6 +6,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Service
@@ -25,6 +26,10 @@ public class BaseService {
 
     public boolean delete(Object o) {
         return dao.delete(o);
+    }
+
+    public Object get(Class clazz, Serializable id) {
+        return dao.get(clazz, id);
     }
 
     /**

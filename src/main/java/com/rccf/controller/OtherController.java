@@ -513,14 +513,14 @@ public class OtherController {
         return d;
     }
 
-    private int getActual(String s) {
+    private Double getActual(String s) {
         if (s == null || s.equals("")) {
-            return 0;
+            return null;
         }
         if (s.contains(".")) {
             s = s.substring(0, s.indexOf("."));
         }
-        int i = Integer.valueOf(s);
+        Double i = Double.valueOf(s);
         return i;
     }
 

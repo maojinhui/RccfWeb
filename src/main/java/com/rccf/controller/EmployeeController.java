@@ -14,10 +14,7 @@ import com.rccf.service.AcceptedService;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.service.UserService;
-import com.rccf.util.DateUtil;
-import com.rccf.util.PageUtil;
-import com.rccf.util.ResponseUtil;
-import com.rccf.util.Strings;
+import com.rccf.util.*;
 import com.rccf.util.encrypt.DesEncrypt;
 import com.rccf.util.encrypt.PasswordUtil;
 import com.rccf.util.encrypt.ShaEncript;
@@ -125,7 +122,26 @@ public class EmployeeController {
         modelAndView.addObject("departs", depart);
 
 
+        return modelAndView;
+    }
 
+
+    @RequestMapping(value = "/editEmployeePage")
+    public ModelAndView editEmployeePage(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView modelAndView =
+                BackUtil.getBackUserView(request, response, employeeService, "/back/employee/employee_edit");
+        String eid = request.getParameter("eid");
+        int id = Integer.valueOf(eid);
+        Employee employee = employeeService.findEmpolyeeById(id);
+        EmployeeBase base = (EmployeeBase) baseService.get(EmployeeBase.class, id);
+        EmployeeContactOther contactOther = (EmployeeContactOther) baseService.get(EmployeeContactOther.class, id);
+        EmployeeContract contract = (EmployeeContract) baseService.get(EmployeeContract.class, id);
+        EmployeeDocuments documents = (EmployeeDocuments) baseService.get(EmployeeDocuments.class, id);
+        modelAndView.addObject("employee", employee);
+        modelAndView.addObject("base", base);
+        modelAndView.addObject("contactOther", contactOther);
+        modelAndView.addObject("contract", contract);
+        modelAndView.addObject("documents", documents);
         return modelAndView;
     }
 
@@ -519,7 +535,7 @@ public class EmployeeController {
             accepted.setServiceFee(null);
         }
         if (!Strings.isNullOrEmpty(service_fee_actual)) {
-            int _d = Integer.valueOf(service_fee_actual);
+            double _d = Double.valueOf(service_fee_actual);
             accepted.setServiceFeeActual(_d);
         } else {
             accepted.setServiceFeeActual(null);

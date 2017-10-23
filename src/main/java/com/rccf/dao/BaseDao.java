@@ -13,6 +13,7 @@ import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.List;
 
 @Repository
@@ -50,6 +51,11 @@ public class BaseDao extends HibernateDaoSupport {
             return false;
         }
 
+    }
+
+
+    public Object get(Class clazz, Serializable id) {
+        return getHibernateTemplate().get(clazz, id);
     }
 
     /**
