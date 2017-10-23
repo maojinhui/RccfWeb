@@ -134,7 +134,7 @@ public class EmployeeController {
         int id = Integer.valueOf(eid);
         Employee employee = employeeService.findEmpolyeeById(id);
         EmployeeBase base = (EmployeeBase) baseService.get(EmployeeBase.class, id);
-        EmployeeContactOther contactOther = (EmployeeContactOther) baseService.get(EmployeeContactOther.class, id);
+        EmployeeConnectOther contactOther = (EmployeeConnectOther) baseService.get(EmployeeConnectOther.class, id);
         EmployeeContract contract = (EmployeeContract) baseService.get(EmployeeContract.class, id);
         EmployeeDocuments documents = (EmployeeDocuments) baseService.get(EmployeeDocuments.class, id);
         modelAndView.addObject("employee", employee);
@@ -653,8 +653,11 @@ public class EmployeeController {
     private String getLastNumber() {
         DateFormat format = new SimpleDateFormat("yyyyMMdd");
         String preFix = format.format(new Date(System.currentTimeMillis())) + "-";
-        String sql = "SELECT MAX(a.acceptedNumber)  FROM Accepted a";
-        String lastString = baseService.queryMaxBySql(sql);
+//        String sql = "SELECT a.acceptedNumber   from Accepted  a ORDER BY  id DESC ";
+        String sql = " SELECT a.`accepted_number`   from `accepted`  a ORDER BY  id DESC limit 1";
+        List list = baseService.queryBySql(sql);
+        String lastString = (String) list.get(0);
+//         = baseService.queryMaxBySql(sql);
         lastString = lastString.substring(lastString.indexOf("-") + 1);
         int number_now = Integer.valueOf(lastString) + 1;
         return preFix + number_now;
@@ -897,6 +900,19 @@ public class EmployeeController {
         modelAndView.addObject("user", user);
 
         return modelAndView;
+    }
+
+
+    public static void main(String args[]) {
+        String data = "20171023-1000";
+        DateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String preFix = format.format(new Date(System.currentTimeMillis())) + "-";
+        String lastString = data.substring(data.indexOf("-") + 1);
+        int number_now = Integer.valueOf(lastString) + 1;
+        System.out.println(lastString + "==" + number_now);
+        System.out.println(preFix + number_now);
+
+
     }
 
 

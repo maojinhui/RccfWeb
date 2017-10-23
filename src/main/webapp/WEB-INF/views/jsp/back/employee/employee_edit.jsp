@@ -10,7 +10,7 @@
 <%
     Employee employee = (Employee) request.getAttribute("employee");
     EmployeeBase base = (EmployeeBase) request.getAttribute("base");
-    EmployeeContactOther contactOther = (EmployeeContactOther) request.getAttribute("contactOther");
+    EmployeeConnectOther connectOther = (EmployeeConnectOther) request.getAttribute("contactOther");
     EmployeeContract contract = (EmployeeContract) request.getAttribute("contract");
     EmployeeDocuments documents = (EmployeeDocuments) request.getAttribute("documents");
 
@@ -114,7 +114,7 @@
                          部&emsp;&emsp;门:
                          </span>
                                 <input class="am-form-field" type="text"
-                                       value="<%=Strings.getInputString(employee,employee.getDepartment())%>">
+                                       value="<%=employee!=null ? Strings.getInputString(employee.getDepartment()):""%>">
                             </div>
                         </div>
                     </div>
@@ -125,7 +125,7 @@
                          总&emsp;&emsp;监:
                          </span>
                                 <input class="am-form-field" type="text"
-                                       value="<%=Strings.getInputString(employee,employee.getDirectorName())%>">
+                                       value="<%=employee!=null?Strings.getInputString(employee.getDirectorName()):""%>">
                             </div>
                         </div>
                     </div>
@@ -136,7 +136,7 @@
                          &emsp;副总监:
                          </span>
                                 <input class="am-form-field" type="text"
-                                       value="<%=Strings.getInputString(employee,employee.getDuptyDirectorName())%>">
+                                       value="<%=employee!=null ? Strings.getInputString(employee.getDuptyDirectorName()):"" %>">
                             </div>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
                          岗&emsp;&emsp;位:
                          </span>
                                 <input class="am-form-field" type="text"
-                                       value="<%=Strings.getInputString(employee,employee.getDuties())%>">
+                                       value="<%=employee!=null?Strings.getInputString(employee.getDuties()):""%>">
                             </div>
                         </div>
                     </div>
@@ -158,7 +158,7 @@
                              姓&emsp;&emsp;名:
                              </span>
                                 <input class="am-form-field" type="text"
-                                       value="<%=Strings.getInputString(employee,employee.getName())%>">
+                                       value="<%=employee!=null?Strings.getInputString(employee,employee.getName()):""%>">
                             </div>
                         </div>
                     </div>
@@ -169,7 +169,7 @@
                      入职时间:
                      </span>
                                 <input class="am-form-field" type="text"
-                                       value="<%=Strings.getInputString(employee,employee.getEntryTime())%>">
+                                       value="<%=employee!=null ?Strings.getInputString(employee,employee.getEntryTime()):""%>">
                             </div>
                         </div>
                     </div>
@@ -180,7 +180,7 @@
                      转正日期:
                      </span>
                                 <input class="am-form-field" type="text"
-                                       value="<%=Strings.getInputString(employee,employee.getTurnTime())%>">
+                                       value="<%=employee!=null ?Strings.getInputString(employee,employee.getTurnTime()):""%>">
                             </div>
                         </div>
                     </div>
@@ -191,7 +191,7 @@
                          编&emsp;&emsp;号:
                          </span>
                                 <input class="am-form-field" type="text"
-                                       value="<%=Strings.getInputString(employee,employee.getCode())%>">
+                                       value="<%=employee!=null ? Strings.getInputString(employee,employee.getCode()):""%>">
                             </div>
                         </div>
                     </div>
@@ -202,7 +202,7 @@
                          &emsp;门禁号:
                          </span>
                                 <input class="am-form-field" type="text"
-                                       value="<%=Strings.getInputString(employee,employee.getAccessControlNumber())%>">
+                                       value="<%=employee!=null ? Strings.getInputString(employee,employee.getAccessControlNumber()):""%>">
                             </div>
                         </div>
                     </div>
@@ -213,7 +213,7 @@
                          &emsp;曾用名:
                          </span>
                                 <input class="am-form-field" type="text"
-                                       value="<%=Strings.getInputString(employee,employee.getNameOnce())%>">
+                                       value="<%=employee!=null ? Strings.getInputString(employee,employee.getNameOnce()):""%>">
                             </div>
                         </div>
                     </div>
@@ -224,7 +224,7 @@
                          &emsp;英文名:
                          </span>
                                 <input class="am-form-field" type="text"
-                                       value="<%=Strings.getInputString(employee,employee.getNameEn())%>">
+                                       value="<%=employee!=null ?Strings.getInputString(employee,employee.getNameEn()):""%>">
                             </div>
                         </div>
                     </div>
@@ -246,7 +246,7 @@
                      状&emsp;&emsp;态:
                      </span>
                                 <input class="am-form-field" type="text"
-                                       value="<%=Strings.getInputString(employee,employee.getState())%>">
+                                       value="<%=employee!=null ? Strings.getInputString(employee,employee.getState()):""%>">
                             </div>
                         </div>
                     </div>
@@ -257,7 +257,7 @@
                      离职日期:
                      </span>
                                 <input class="am-form-field" type="text"
-                                       value="<%=Strings.getInputString(employee,employee.getLeaveTime())%>">
+                                       value="<%=employee !=null ?Strings.getInputString(employee,employee.getLeaveTime()):""%>">
                             </div>
                         </div>
                     </div>
@@ -268,7 +268,7 @@
                      离职原因:
                      </span>
                                 <input class="am-form-field" type="text"
-                                       value="<%=Strings.getInputString(employee,employee.getLeaveReason())%>">
+                                       value="<%=employee!=null ? Strings.getInputString(employee,employee.getLeaveReason()):""%>">
                             </div>
                         </div>
                     </div>
@@ -283,7 +283,8 @@
                     <span class="am-input-group-label">
                      用工形式:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=contract!=null ? Strings.getInputString(contract.getWorkType()):""%>">
                             </div>
                         </div>
                     </div>
@@ -293,7 +294,8 @@
                     <span class="am-input-group-label">
                      合同编号:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=contract!=null ?Strings.getInputString(contract.getContractCode()):""%>">
                             </div>
                         </div>
                     </div>
@@ -303,7 +305,8 @@
                     <span class="am-input-group-label">
                      合同发放:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=contract!=null ?Strings.getInputString(contract.getContractReleaseDate()):""%>">
                             </div>
                         </div>
                     </div>
@@ -313,7 +316,8 @@
                     <span class="am-input-group-label">
                      合同类型:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=contract!=null ? Strings.getInputString(contract.getContractType()):""%>">
                             </div>
                         </div>
                     </div>
@@ -323,7 +327,8 @@
                     <span class="am-input-group-label">
                      合同期限:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=contract!=null ? Strings.getInputString(contract.getContractDeadline()):""%>">
                             </div>
                         </div>
                     </div>
@@ -334,7 +339,8 @@
                     <span class="am-input-group-label">
                      <small>签定合同日期:</small>
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=contract!=null ? Strings.getInputString(contract.getContractSignDate()):""%>">
                             </div>
                         </div>
                     </div>
@@ -344,7 +350,8 @@
                     <span class="am-input-group-label">
                      <small>合同生效日期:</small>
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=contract!=null ? Strings.getInputString(contract.getContractEffectDate()):""%>">
                             </div>
                         </div>
                     </div>
@@ -355,7 +362,8 @@
                     <span class="am-input-group-label">
                      <small>合同终止日期:</small>
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=contract!=null ? Strings.getInputString(contract.getContractEffectDate()):""%>">
                             </div>
                         </div>
                     </div>
@@ -365,7 +373,8 @@
                     <span class="am-input-group-label">
                      <small>合同剩余天数:</small>
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=contract!=null ?Strings.getInputString(contract.getContractLaveDay()):""%>">
                             </div>
                         </div>
                     </div>
@@ -375,7 +384,8 @@
                     <span class="am-input-group-label">
                      <small>换签劳动合同:</small>
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=contract!=null ?Strings.getInputString(contract.getContractChange()):""%>">
                             </div>
                         </div>
                     </div>
@@ -385,7 +395,8 @@
                     <span class="am-input-group-label">
                      <small>合同续签情况:</small>
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=contract!=null ?Strings.getInputString(contract.getContractContinue()):""%>">
                             </div>
                         </div>
                     </div>
@@ -401,7 +412,8 @@
                     <span class="am-input-group-label">
                      户籍所在地:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=base!=null ? Strings.getInputString(base.getNation()):""%>">
                             </div>
                         </div>
                     </div>
@@ -413,7 +425,8 @@
                     <span class="am-input-group-label">
                      民&emsp;&emsp;族:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=base!=null ? Strings.getInputString(base.getNation()):""%>">
                             </div>
                         </div>
                     </div>
@@ -423,7 +436,8 @@
                     <span class="am-input-group-label">
                      血&emsp;&emsp;型:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=base!=null ? Strings.getInputString(base.getBloodtype()):""%>">
                             </div>
                         </div>
                     </div>
@@ -433,7 +447,8 @@
                     <span class="am-input-group-label">
                      婚&emsp;&emsp;否:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=base!=null ? Strings.getInputString(base.getMarried()):""%>">
                             </div>
                         </div>
                     </div>
@@ -443,27 +458,29 @@
                     <span class="am-input-group-label">
                      政治面貌:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=base!=null ? Strings.getInputString(base.getPolitical()):""%>">
                             </div>
                         </div>
                     </div>
-                    <div class="am-g">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="am-input-group am-input-group-sm">
-                    <span class="am-input-group-label">
-                     年&emsp;&emsp;龄:
-                     </span>
-                                <input class="am-form-field" type="text">
-                            </div>
-                        </div>
-                    </div>
+                    <%--<div class="am-g">--%>
+                    <%--<div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">--%>
+                    <%--<div class="am-input-group am-input-group-sm">--%>
+                    <%--<span class="am-input-group-label">--%>
+                    <%--年&emsp;&emsp;龄:--%>
+                    <%--</span>--%>
+                    <%--<input class="am-form-field" type="text">--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
                     <div class="am-g">
                         <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
                             <div class="am-input-group am-input-group-sm">
                     <span class="am-input-group-label">
                      出生年月:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=base!=null ? Strings.getInputString(base.getBirthday()):""%>">
                             </div>
                         </div>
                     </div>
@@ -473,7 +490,8 @@
                     <span class="am-input-group-label">
                      身份证号:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=base!=null ? Strings.getInputString(base.getIdcard()):""%>">
                             </div>
                         </div>
                     </div>
@@ -483,7 +501,8 @@
                     <span class="am-input-group-label">
                      <small>参加工作时间:</small>
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=base!=null ? Strings.getInputString(base.getBeginWorkTime()):""%>">
                             </div>
                         </div>
                     </div>
@@ -500,47 +519,8 @@
                     <span class="am-input-group-label">
                      联系电话:
                      </span>
-                                <input class="am-form-field" type="text">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="am-g">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="am-input-group am-input-group-sm">
-                    <span class="am-input-group-label">
-                     紧急联系人:
-                     </span>
-                                <input class="am-form-field" type="text">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="am-g">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="am-input-group am-input-group-sm">
-                    <span class="am-input-group-label">
-                     <small>紧急联系电话:</small>
-                     </span>
-                                <input class="am-form-field" type="text">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="am-g">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="am-input-group am-input-group-sm">
-                    <span class="am-input-group-label">
-                     与本人关系:
-                     </span>
-                                <input class="am-form-field" type="text">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="am-g">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="am-input-group am-input-group-sm">
-                    <span class="am-input-group-label">
-                     身份证地址:
-                     </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=employee!=null ? Strings.getInputString(employee.getPhone()):"" %>">
                             </div>
                         </div>
                     </div>
@@ -550,17 +530,8 @@
                     <span class="am-input-group-label">
                      家庭住址:
                      </span>
-                                <input class="am-form-field" type="text">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="am-g">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="am-input-group am-input-group-sm">
-                    <span class="am-input-group-label">
-                     邮&emsp;&emsp;编:
-                     </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=employee != null ? Strings.getInputString(employee.getAddressIdcard()):"" %>">
                             </div>
                         </div>
                     </div>
@@ -570,10 +541,71 @@
                     <span class="am-input-group-label">
                      &emsp;现住址:
                      </span>
-                                <input class="am-form-field" type="text">
+                                <input class="am-form-field" type="text"
+                                       value="<%=employee!=null?Strings.getInputString(employee.getAddressNow()):""%>">
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="am-g">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
+                            <div class="am-input-group am-input-group-sm">
+                    <span class="am-input-group-label">
+                     紧急联系人:
+                     </span>
+                                <input class="am-form-field" type="text"
+                                       value="<%=connectOther!=null?Strings.getInputString(connectOther.getName()):""%>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="am-g">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
+                            <div class="am-input-group am-input-group-sm">
+                    <span class="am-input-group-label">
+                     与本人关系:
+                     </span>
+                                <input class="am-form-field" type="text"
+                                       value="<%=connectOther!=null?Strings.getInputString(connectOther.getRelationship()):""%>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="am-g">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
+                            <div class="am-input-group am-input-group-sm">
+                    <span class="am-input-group-label">
+                     <small>紧急联系电话:</small>
+                     </span>
+                                <input class="am-form-field" type="text"
+                                       value="<%=connectOther!=null?Strings.getInputString(connectOther.getPhone()):""%>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <%--<div class="am-g">--%>
+                    <%--<div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">--%>
+                    <%--<div class="am-input-group am-input-group-sm">--%>
+                    <%--<span class="am-input-group-label">--%>
+                    <%--身份证地址:--%>
+                    <%--</span>--%>
+                    <%--<input class="am-form-field" type="text" value="<%=connectOther!=null?Strings.getInputString(connectOther.getName()):""%>">--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
+                    <div class="am-g">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
+                            <div class="am-input-group am-input-group-sm">
+                    <span class="am-input-group-label">
+                     紧急联系人地址:
+                     </span>
+                                <input class="am-form-field" type="text"
+                                       value="<%=connectOther!=null?Strings.getInputString(connectOther.getAddress()):""%>">
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -594,7 +626,7 @@
                             </div>
                             <div class="am-g am-margin-bottom">
                                 <div class="am-u-sm-12  ">
-                                    <div class="info-img ">
+                                    <div class="info-img margin-auto">
                                         <img id="img_IDCard_face"
                                              src="<%=documents!=null ? Strings.getInputString(documents.getIdcardPositive()):""%>"
                                              alt="身份证正面"/>
@@ -602,7 +634,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="am-u-sm-12 am-u-md-6 am-u-lg-6 ">
                             <div class="am-input-group am-input-group-sm am-form-file">
                                 <span class="am-input-group-label">
@@ -615,7 +646,7 @@
                             </div>
                             <div class="am-g am-margin-bottom">
                                 <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 ">
-                                    <div class="info-img">
+                                    <div class="info-img margin-auto">
                                         <img id="img_IDCard_back"
                                              src="<%=documents!=null ? Strings.getInputString(documents.getIdcardNegative()):""%>"
                                              alt="身份证背面"/>
@@ -636,8 +667,8 @@
                                 <input id="diploma" class="am-form-field " accept="image/*" type="file" multiple>
                             </div>
                             <div class="am-g am-margin-bottom">
-                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 ">
-                                    <div class="info-img">
+                                <div class="am-u-sm-12  ">
+                                    <div class="info-img margin-auto">
                                         <img id="img_diploma"
                                              src="<%=documents!=null ? Strings.getInputString(documents.getEducation()):""%>"
                                              alt="学历证"/>
@@ -656,8 +687,8 @@
                                 <input id="certificate" class="am-form-field " accept="image/*" type="file" multiple>
                             </div>
                             <div class="am-g am-margin-bottom">
-                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 ">
-                                    <div class="info-img">
+                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-6 ">
+                                    <div class="info-img margin-auto">
                                         <img id="img_certificate"
                                              src="<%=documents!=null ? Strings.getInputString(documents.getJobTitle()):""%>"
                                              alt="职称证"/>
@@ -678,8 +709,8 @@
                                 <input id="photo" class="am-form-field " accept="image/*" type="file" multiple>
                             </div>
                             <div class="am-g am-margin-bottom">
-                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 ">
-                                    <div class="info-img">
+                                <div class="am-u-sm-12  ">
+                                    <div class="info-img margin-auto">
                                         <img id="img_photo"
                                              src="<%=documents!=null ? Strings.getInputString(documents.getPicture()):""%>"
                                              alt="照片"/>
@@ -698,8 +729,8 @@
                                 <input id="leave_proof" class="am-form-field " accept="image/*" type="file" multiple>
                             </div>
                             <div class="am-g am-margin-bottom">
-                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 ">
-                                    <div class="info-img">
+                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-6 ">
+                                    <div class="info-img margin-auto">
                                         <img id="img_leave_proof"
                                              src="<%=documents!=null ? Strings.getInputString(documents.getLeavingProof()):""%>"
                                              alt="离职证明"/>
@@ -721,8 +752,8 @@
                                        multiple>
                             </div>
                             <div class="am-g am-margin-bottom">
-                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 ">
-                                    <div class="info-img">
+                                <div class="am-u-sm-12  ">
+                                    <div class="info-img margin-auto">
                                         <img id="img_personal_credit"
                                              src="<%=documents!=null ? Strings.getInputString(documents.getCriditReport()):""%>"
                                              alt="个人信用报告"/>
@@ -741,8 +772,8 @@
                                 <input id="no_crime" class="am-form-field " accept="image/*" type="file" multiple>
                             </div>
                             <div class="am-g am-margin-bottom">
-                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 ">
-                                    <div class="info-img">
+                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-6 ">
+                                    <div class="info-img margin-auto">
                                         <img id="img_no_crime"
                                              src="<%=documents!=null ? Strings.getInputString(documents.getNocrimeReport()):""%>"
                                              alt="无犯罪证明"/>
@@ -763,8 +794,8 @@
                                 <input id="check" class="am-form-field " accept="image/*" type="file" multiple>
                             </div>
                             <div class="am-g am-margin-bottom">
-                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 ">
-                                    <div class="info-img">
+                                <div class="am-u-sm-12  ">
+                                    <div class="info-img margin-auto">
                                         <img id="img_check"
                                              src="<%=documents!=null ? Strings.getInputString(documents.getExamination()):""%>"
                                              alt="体检报告"/>
@@ -780,13 +811,13 @@
                     <span class="am-input-group-label">
                      备&emsp;&emsp;注:
                      </span>
-                                <textarea rows="3" cols="50">
-                                </textarea>
+                                <textarea rows="3" cols="50"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 

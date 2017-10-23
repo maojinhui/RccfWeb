@@ -1,6 +1,9 @@
 package com.rccf.model;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 
 @Entity
@@ -13,6 +16,7 @@ public class Employee {
     private Integer sex;
     private Integer age;
     private Timestamp entryTime;
+    private Timestamp turnTime;
     private String duties;
     private Timestamp createTime;
     private String admin;
@@ -27,16 +31,16 @@ public class Employee {
     private String director;
     private String directorName;
     private Timestamp leaveTime;
+    private String leaveReason;
     private String email;
-    private Timestamp turnTime;
     private Integer accessControlNumber;
     private String nameOnce;
     private String nameEn;
-    private String leaveReason;
+    private String addressNow;
+    private String addressIdcard;
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
     }
@@ -116,6 +120,16 @@ public class Employee {
     }
 
     @Basic
+    @Column(name = "turn_time")
+    public Timestamp getTurnTime() {
+        return turnTime;
+    }
+
+    public void setTurnTime(Timestamp turnTime) {
+        this.turnTime = turnTime;
+    }
+
+    @Basic
     @Column(name = "duties")
     public String getDuties() {
         return duties;
@@ -173,50 +187,6 @@ public class Employee {
 
     public void setDepartment(String department) {
         this.department = department;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Employee employee = (Employee) o;
-
-        if (id != employee.id) return false;
-        if (code != null ? !code.equals(employee.code) : employee.code != null) return false;
-        if (phone != null ? !phone.equals(employee.phone) : employee.phone != null) return false;
-        if (phoneFixed != null ? !phoneFixed.equals(employee.phoneFixed) : employee.phoneFixed != null) return false;
-        if (name != null ? !name.equals(employee.name) : employee.name != null) return false;
-        if (sex != null ? !sex.equals(employee.sex) : employee.sex != null) return false;
-        if (age != null ? !age.equals(employee.age) : employee.age != null) return false;
-        if (entryTime != null ? !entryTime.equals(employee.entryTime) : employee.entryTime != null) return false;
-        if (duties != null ? !duties.equals(employee.duties) : employee.duties != null) return false;
-        if (createTime != null ? !createTime.equals(employee.createTime) : employee.createTime != null) return false;
-        if (admin != null ? !admin.equals(employee.admin) : employee.admin != null) return false;
-        if (recommend != null ? !recommend.equals(employee.recommend) : employee.recommend != null) return false;
-        if (leader != null ? !leader.equals(employee.leader) : employee.leader != null) return false;
-        if (department != null ? !department.equals(employee.department) : employee.department != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (code != null ? code.hashCode() : 0);
-        result = 31 * result + (phone != null ? phone.hashCode() : 0);
-        result = 31 * result + (phoneFixed != null ? phoneFixed.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (sex != null ? sex.hashCode() : 0);
-        result = 31 * result + (age != null ? age.hashCode() : 0);
-        result = 31 * result + (entryTime != null ? entryTime.hashCode() : 0);
-        result = 31 * result + (duties != null ? duties.hashCode() : 0);
-        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
-        result = 31 * result + (admin != null ? admin.hashCode() : 0);
-        result = 31 * result + (recommend != null ? recommend.hashCode() : 0);
-        result = 31 * result + (leader != null ? leader.hashCode() : 0);
-        result = 31 * result + (department != null ? department.hashCode() : 0);
-        return result;
     }
 
     @Basic
@@ -300,6 +270,16 @@ public class Employee {
     }
 
     @Basic
+    @Column(name = "leave_reason")
+    public String getLeaveReason() {
+        return leaveReason;
+    }
+
+    public void setLeaveReason(String leaveReason) {
+        this.leaveReason = leaveReason;
+    }
+
+    @Basic
     @Column(name = "email")
     public String getEmail() {
         return email;
@@ -307,16 +287,6 @@ public class Employee {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    @Basic
-    @Column(name = "turn_time")
-    public Timestamp getTurnTime() {
-        return turnTime;
-    }
-
-    public void setTurnTime(Timestamp turnTime) {
-        this.turnTime = turnTime;
     }
 
     @Basic
@@ -350,12 +320,104 @@ public class Employee {
     }
 
     @Basic
-    @Column(name = "leave_reason")
-    public String getLeaveReason() {
-        return leaveReason;
+    @Column(name = "address_now")
+    public String getAddressNow() {
+        return addressNow;
     }
 
-    public void setLeaveReason(String leaveReason) {
-        this.leaveReason = leaveReason;
+    public void setAddressNow(String addressNow) {
+        this.addressNow = addressNow;
+    }
+
+    @Basic
+    @Column(name = "address_idcard")
+    public String getAddressIdcard() {
+        return addressIdcard;
+    }
+
+    public void setAddressIdcard(String addressIdcard) {
+        this.addressIdcard = addressIdcard;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Employee employee = (Employee) o;
+
+        if (id != employee.id) return false;
+        if (code != null ? !code.equals(employee.code) : employee.code != null) return false;
+        if (phone != null ? !phone.equals(employee.phone) : employee.phone != null) return false;
+        if (phoneFixed != null ? !phoneFixed.equals(employee.phoneFixed) : employee.phoneFixed != null) return false;
+        if (name != null ? !name.equals(employee.name) : employee.name != null) return false;
+        if (sex != null ? !sex.equals(employee.sex) : employee.sex != null) return false;
+        if (age != null ? !age.equals(employee.age) : employee.age != null) return false;
+        if (entryTime != null ? !entryTime.equals(employee.entryTime) : employee.entryTime != null) return false;
+        if (turnTime != null ? !turnTime.equals(employee.turnTime) : employee.turnTime != null) return false;
+        if (duties != null ? !duties.equals(employee.duties) : employee.duties != null) return false;
+        if (createTime != null ? !createTime.equals(employee.createTime) : employee.createTime != null) return false;
+        if (admin != null ? !admin.equals(employee.admin) : employee.admin != null) return false;
+        if (recommend != null ? !recommend.equals(employee.recommend) : employee.recommend != null) return false;
+        if (leader != null ? !leader.equals(employee.leader) : employee.leader != null) return false;
+        if (department != null ? !department.equals(employee.department) : employee.department != null) return false;
+        if (role != null ? !role.equals(employee.role) : employee.role != null) return false;
+        if (password != null ? !password.equals(employee.password) : employee.password != null) return false;
+        if (state != null ? !state.equals(employee.state) : employee.state != null) return false;
+        if (duptyDirector != null ? !duptyDirector.equals(employee.duptyDirector) : employee.duptyDirector != null)
+            return false;
+        if (duptyDirectorName != null ? !duptyDirectorName.equals(employee.duptyDirectorName) : employee.duptyDirectorName != null)
+            return false;
+        if (director != null ? !director.equals(employee.director) : employee.director != null) return false;
+        if (directorName != null ? !directorName.equals(employee.directorName) : employee.directorName != null)
+            return false;
+        if (leaveTime != null ? !leaveTime.equals(employee.leaveTime) : employee.leaveTime != null) return false;
+        if (leaveReason != null ? !leaveReason.equals(employee.leaveReason) : employee.leaveReason != null)
+            return false;
+        if (email != null ? !email.equals(employee.email) : employee.email != null) return false;
+        if (accessControlNumber != null ? !accessControlNumber.equals(employee.accessControlNumber) : employee.accessControlNumber != null)
+            return false;
+        if (nameOnce != null ? !nameOnce.equals(employee.nameOnce) : employee.nameOnce != null) return false;
+        if (nameEn != null ? !nameEn.equals(employee.nameEn) : employee.nameEn != null) return false;
+        if (addressNow != null ? !addressNow.equals(employee.addressNow) : employee.addressNow != null) return false;
+        if (addressIdcard != null ? !addressIdcard.equals(employee.addressIdcard) : employee.addressIdcard != null)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (code != null ? code.hashCode() : 0);
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (phoneFixed != null ? phoneFixed.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (sex != null ? sex.hashCode() : 0);
+        result = 31 * result + (age != null ? age.hashCode() : 0);
+        result = 31 * result + (entryTime != null ? entryTime.hashCode() : 0);
+        result = 31 * result + (turnTime != null ? turnTime.hashCode() : 0);
+        result = 31 * result + (duties != null ? duties.hashCode() : 0);
+        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        result = 31 * result + (admin != null ? admin.hashCode() : 0);
+        result = 31 * result + (recommend != null ? recommend.hashCode() : 0);
+        result = 31 * result + (leader != null ? leader.hashCode() : 0);
+        result = 31 * result + (department != null ? department.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (state != null ? state.hashCode() : 0);
+        result = 31 * result + (duptyDirector != null ? duptyDirector.hashCode() : 0);
+        result = 31 * result + (duptyDirectorName != null ? duptyDirectorName.hashCode() : 0);
+        result = 31 * result + (director != null ? director.hashCode() : 0);
+        result = 31 * result + (directorName != null ? directorName.hashCode() : 0);
+        result = 31 * result + (leaveTime != null ? leaveTime.hashCode() : 0);
+        result = 31 * result + (leaveReason != null ? leaveReason.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (accessControlNumber != null ? accessControlNumber.hashCode() : 0);
+        result = 31 * result + (nameOnce != null ? nameOnce.hashCode() : 0);
+        result = 31 * result + (nameEn != null ? nameEn.hashCode() : 0);
+        result = 31 * result + (addressNow != null ? addressNow.hashCode() : 0);
+        result = 31 * result + (addressIdcard != null ? addressIdcard.hashCode() : 0);
+        return result;
     }
 }

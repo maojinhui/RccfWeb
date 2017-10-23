@@ -6,8 +6,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "employee_contract", schema = "rccf", catalog = "")
 public class EmployeeContract {
-    private int id;
-    private Integer eid;
+    private int eid;
     private String workType;
     private String contractCode;
     private Date contractReleaseDate;
@@ -23,22 +22,12 @@ public class EmployeeContract {
     private String contractContinue;
 
     @Id
-    @Column(name = "id")
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Basic
     @Column(name = "eid")
-    public Integer getEid() {
+    public int getEid() {
         return eid;
     }
 
-    public void setEid(Integer eid) {
+    public void setEid(int eid) {
         this.eid = eid;
     }
 
@@ -177,32 +166,33 @@ public class EmployeeContract {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        EmployeeContract that = (EmployeeContract) o;
+        EmployeeContract contract = (EmployeeContract) o;
 
-        if (id != that.id) return false;
-        if (eid != null ? !eid.equals(that.eid) : that.eid != null) return false;
-        if (workType != null ? !workType.equals(that.workType) : that.workType != null) return false;
-        if (contractCode != null ? !contractCode.equals(that.contractCode) : that.contractCode != null) return false;
-        if (contractReleaseDate != null ? !contractReleaseDate.equals(that.contractReleaseDate) : that.contractReleaseDate != null)
+        if (eid != contract.eid) return false;
+        if (workType != null ? !workType.equals(contract.workType) : contract.workType != null) return false;
+        if (contractCode != null ? !contractCode.equals(contract.contractCode) : contract.contractCode != null)
             return false;
-        if (contractType != null ? !contractType.equals(that.contractType) : that.contractType != null) return false;
-        if (contractDeadline != null ? !contractDeadline.equals(that.contractDeadline) : that.contractDeadline != null)
+        if (contractReleaseDate != null ? !contractReleaseDate.equals(contract.contractReleaseDate) : contract.contractReleaseDate != null)
             return false;
-        if (contractEntryTime != null ? !contractEntryTime.equals(that.contractEntryTime) : that.contractEntryTime != null)
+        if (contractType != null ? !contractType.equals(contract.contractType) : contract.contractType != null)
             return false;
-        if (contractSignDate != null ? !contractSignDate.equals(that.contractSignDate) : that.contractSignDate != null)
+        if (contractDeadline != null ? !contractDeadline.equals(contract.contractDeadline) : contract.contractDeadline != null)
             return false;
-        if (contractEffectDate != null ? !contractEffectDate.equals(that.contractEffectDate) : that.contractEffectDate != null)
+        if (contractEntryTime != null ? !contractEntryTime.equals(contract.contractEntryTime) : contract.contractEntryTime != null)
             return false;
-        if (contractTurnDate != null ? !contractTurnDate.equals(that.contractTurnDate) : that.contractTurnDate != null)
+        if (contractSignDate != null ? !contractSignDate.equals(contract.contractSignDate) : contract.contractSignDate != null)
             return false;
-        if (contractEndDate != null ? !contractEndDate.equals(that.contractEndDate) : that.contractEndDate != null)
+        if (contractEffectDate != null ? !contractEffectDate.equals(contract.contractEffectDate) : contract.contractEffectDate != null)
             return false;
-        if (contractLaveDay != null ? !contractLaveDay.equals(that.contractLaveDay) : that.contractLaveDay != null)
+        if (contractTurnDate != null ? !contractTurnDate.equals(contract.contractTurnDate) : contract.contractTurnDate != null)
             return false;
-        if (contractChange != null ? !contractChange.equals(that.contractChange) : that.contractChange != null)
+        if (contractEndDate != null ? !contractEndDate.equals(contract.contractEndDate) : contract.contractEndDate != null)
             return false;
-        if (contractContinue != null ? !contractContinue.equals(that.contractContinue) : that.contractContinue != null)
+        if (contractLaveDay != null ? !contractLaveDay.equals(contract.contractLaveDay) : contract.contractLaveDay != null)
+            return false;
+        if (contractChange != null ? !contractChange.equals(contract.contractChange) : contract.contractChange != null)
+            return false;
+        if (contractContinue != null ? !contractContinue.equals(contract.contractContinue) : contract.contractContinue != null)
             return false;
 
         return true;
@@ -210,8 +200,7 @@ public class EmployeeContract {
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (eid != null ? eid.hashCode() : 0);
+        int result = eid;
         result = 31 * result + (workType != null ? workType.hashCode() : 0);
         result = 31 * result + (contractCode != null ? contractCode.hashCode() : 0);
         result = 31 * result + (contractReleaseDate != null ? contractReleaseDate.hashCode() : 0);

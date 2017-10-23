@@ -3,32 +3,21 @@ package com.rccf.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "employee_contact_other", schema = "rccf", catalog = "")
-public class EmployeeContactOther {
-    private int id;
-    private Integer eid;
+@Table(name = "employee_connect_other", schema = "rccf", catalog = "")
+public class EmployeeConnectOther {
+    private int eid;
     private String name;
     private String relationship;
     private String phone;
     private String address;
 
     @Id
-    @Column(name = "id")
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Basic
     @Column(name = "eid")
-    public Integer getEid() {
+    public int getEid() {
         return eid;
     }
 
-    public void setEid(Integer eid) {
+    public void setEid(int eid) {
         this.eid = eid;
     }
 
@@ -77,10 +66,9 @@ public class EmployeeContactOther {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        EmployeeContactOther that = (EmployeeContactOther) o;
+        EmployeeConnectOther that = (EmployeeConnectOther) o;
 
-        if (id != that.id) return false;
-        if (eid != null ? !eid.equals(that.eid) : that.eid != null) return false;
+        if (eid != that.eid) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (relationship != null ? !relationship.equals(that.relationship) : that.relationship != null) return false;
         if (phone != null ? !phone.equals(that.phone) : that.phone != null) return false;
@@ -91,8 +79,7 @@ public class EmployeeContactOther {
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (eid != null ? eid.hashCode() : 0);
+        int result = eid;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (relationship != null ? relationship.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
