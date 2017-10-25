@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.alibaba.fastjson.JSON" %><%--
+<%@ page import="com.alibaba.fastjson.JSON" %>
+<%@ page import="java.util.logging.Logger" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/9/18
@@ -98,6 +99,13 @@
 %>
 <script>
 
+    function getNumber(n) {
+        if (isNull(n)) {
+            return "";
+        }
+        return Math.floor(n * 100) / 100;
+    }
+
     Date.prototype.format = function (format) {
         var date = {
             "M+": this.getMonth() + 1,
@@ -119,8 +127,12 @@
         }
         return format;
     }
-
-    var datas = <%=JSON.toJSONString(list)%>;
+    <%
+    String dataList=JSON.toJSONString(list);
+    Logger logger = Logger.getLogger("Director_info");
+    logger.info(dataList);
+    %>
+    var datas = <%=dataList%>;
     for (var i = 1; i < datas.length + 1; i++) {
         var da = datas[i - 1];
         var str = '<tr>\n' +
@@ -130,7 +142,7 @@
             '    <td>' + da[2] + '</td>\n' +
             '    <td>' + da[3] + '</td>\n' +
             '    <td>' + da[4] + '</td>\n' +
-            '    <td>' + getStringWithspace(da[5]) + '</td>\n' +
+            '    <td>' + getNumber(da[5]) + '</td>\n' +
             '    <td>' + da[6] + '</td>\n' +
             '    <td>' + da[7] + '</td>\n' +
             '    <td>' + da[8] + '</td>\n' +

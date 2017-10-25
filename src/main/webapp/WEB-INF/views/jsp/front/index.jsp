@@ -217,6 +217,7 @@
         window.location.href = 'http://localhost:63342/rccf_back/app/rccf_personal_loan.html'
     })
 
+
 </script>
 </body>
 </html>

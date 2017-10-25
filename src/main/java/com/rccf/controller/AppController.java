@@ -6,6 +6,7 @@ import com.rccf.model.Accepted;
 import com.rccf.model.User;
 import com.rccf.service.BaseService;
 import com.rccf.service.UserService;
+import com.rccf.util.CookiesUtil;
 import com.rccf.util.Strings;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -22,7 +23,6 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/app", produces = UrlConstants.PRODUCES)
 public class AppController {
-
 
 
     @Autowired
@@ -45,11 +45,12 @@ public class AppController {
 
 
     @RequestMapping(value = "/mypage")
-    public ModelAndView myinfoPage(HttpServletRequest request){
+    public ModelAndView myinfoPage(HttpServletRequest request) {
         return getAppUserView(request, "front/myinfo");
     }
+
     @RequestMapping(value = "/producepage")
-    public String producePage(){
+    public String producePage() {
         return "/front/produce";
     }
 
@@ -83,8 +84,64 @@ public class AppController {
     }
 
     @RequestMapping(value = "/bindphone")
-    public ModelAndView bindPhone(HttpServletRequest request){
+    public ModelAndView bindPhone(HttpServletRequest request) {
         return getAppUserView(request, "front/bindphone");
+    }
+
+
+    @RequestMapping(value = "/datapage")
+    public ModelAndView myDataPage(HttpServletRequest request, HttpServletResponse response) {
+        User user = getLoginUser(request);
+        if (user == null) {
+            return new ModelAndView("redirect:/auth/enter");
+        }
+        CookiesUtil.addCookies("user_name", user.getRealName(), response);
+        if (user.getSex() != null) {
+            CookiesUtil.addCookies("user_sex", user.getSex().toString(), response);
+        }
+        CookiesUtil.addCookies("user_address", user.getAddress(), response);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/front/my/data");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/data_name")
+    public ModelAndView myDataNamePage(HttpServletRequest request, HttpServletResponse response) {
+        User user = getLoginUser(request);
+        if (user == null) {
+            return new ModelAndView("redirect:/auth/enter");
+        }
+        CookiesUtil.addCookies("user_name", user.getRealName(), response);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/front/my/edit_name");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/data_sex")
+    public ModelAndView myDataSexPage(HttpServletRequest request, HttpServletResponse response) {
+        User user = getLoginUser(request);
+        if (user == null) {
+            return new ModelAndView("redirect:/auth/enter");
+        }
+        if (user.getSex() != null) {
+            CookiesUtil.addCookies("user_sex", user.getSex().toString(), response);
+        }
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/front/my/edit_sex");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/data_address")
+    public ModelAndView myDataAddressPage(HttpServletRequest request, HttpServletResponse response) {
+        User user = getLoginUser(request);
+        if (user == null) {
+            return new ModelAndView("redirect:/auth/enter");
+        }
+        CookiesUtil.addCookies("user_address", user.getAddress(), response);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/front/my/edit_address");
+        return modelAndView;
     }
 
 
@@ -111,8 +168,8 @@ public class AppController {
     private User getLoginUser(HttpServletRequest request) {
         String openid = null;
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie:cookies) {
-            if ("openid".equals(cookie.getName())){
+        for (Cookie cookie : cookies) {
+            if ("openid".equals(cookie.getName())) {
                 openid = cookie.getValue();
             }
         }
@@ -126,12 +183,13 @@ public class AppController {
 
     /**
      * 测试随便给的openid
+     *
      * @param response
      * @return
      */
     @RequestMapping(value = "/admin")
-    public ModelAndView addOpenid(HttpServletResponse response){
-        Cookie cookie = new Cookie("openid","123456");
+    public ModelAndView addOpenid(HttpServletResponse response) {
+        Cookie cookie = new Cookie("openid", "123456");
         cookie.setPath("/");
         response.addCookie(cookie);
         return new ModelAndView("/front/index");
