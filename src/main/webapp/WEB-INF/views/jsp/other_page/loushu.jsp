@@ -10,7 +10,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>曼谷壹号院项目推荐会</title>
+    <title>曼谷壹号公馆项目推介会</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scale=0"/>
     <style>
         * {

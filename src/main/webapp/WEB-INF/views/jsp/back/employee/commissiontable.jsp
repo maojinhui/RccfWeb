@@ -53,6 +53,8 @@
             "        </thead>\n" +
             "        <tbody>");
     JSONArray array = (JSONArray) request.getAttribute("data");
+    System.out.println(array.toString());
+
     for (int i = 0; i < array.size(); i++) {
         JSONObject object = array.getJSONObject(i);
         JSONArray fuzongjianArray = object.getJSONArray("data");

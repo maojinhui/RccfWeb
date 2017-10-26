@@ -346,7 +346,7 @@ public class CommissionController {
                 "(SELECT count(*) from `employee`  e1 where `director` =e.code \n" +
                 " and  e1.code IN \n" +
                 " (SELECT cs.clerk from \n" +
-                "(SELECT  a.`clerk`, SUM(a.`service_fee_actual`) as fee   from `accepted` a  WHERE  a.`clerk` IS NOT NULL and  a.`end_date` >'"+month_start+"' AND a.`end_date` <'"+month_end+"'  GROUP BY clerk )  AS  cs\n" +
+                "(SELECT  a.`clerk`, SUM(a.`service_fee_actual`) as fee   from `accepted` a  WHERE  a.`clerk` IS NOT NULL and  a.`end_date` >='" + month_start + "' AND a.`end_date` <'" + month_end + "'  GROUP BY clerk )  AS  cs\n" +
                 "where cs.fee >0  )\n" +
                 " and  `role` =4) as length,\n" +
                 "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '"+month_start+"' and a.`end_date`< '"+month_end+"'   and  (a.`director`=e.`code`   or a.`deputy_director` =e.`code` ) AND a.`state` =2  and a.`clerk` !=e.`code`   ) AS yeji\n" +
@@ -389,7 +389,7 @@ public class CommissionController {
                     "(SELECT count(*) from `employee`  e1 where `dupty_director` =e.code \n" +
                     " and  e1.code IN \n" +
                     " (SELECT cs.clerk from \n" +
-                    "(SELECT  a.`clerk`,SUM(a.`service_fee_actual`) as fee   from `accepted` a  WHERE  a.`clerk` IS NOT NULL and  a.`end_date` >'"+month_start+"' AND a.`end_date` <'"+month_end+"'  GROUP BY clerk )  AS  cs\n" +
+                    "(SELECT  a.`clerk`,SUM(a.`service_fee_actual`) as fee   from `accepted` a  WHERE  a.`clerk` IS NOT NULL and  a.`end_date` >='" + month_start + "' AND a.`end_date` <'" + month_end + "'  GROUP BY clerk )  AS  cs\n" +
                     "where cs.fee >0  )\n" +
                     " and  `role` =4) as length,\n" +
                     "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '"+month_start+"' and a.`end_date`< '"+month_end+"'   and  (a.`director`=e.`code`   or a.`deputy_director` =e.`code` )   AND a.`state` =2  and a.`clerk` !=e.`code`   ) AS yeji\n" +
@@ -413,8 +413,8 @@ public class CommissionController {
 
                 String sql_yewuyuan = "SELECT * from \n" +
                         "(SELECT e.`id` ,e.`name` ,e.`code` , e.`department`,  1 as length,\n" +
-                        "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '"+month_start+"' and a.`end_date`< '2017-11-01'   and  a.`clerk`=e.code  AND a.`state` =2) AS yeji\n" +
-                        "from `employee`  e  WHERE e.`role` =4    and e.`dupty_director` ='"+zobj.getString("code")+"'  ORDER BY yeji DESC ) as  ey\n" +
+                        "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'   and  a.`clerk`=e.code  AND a.`state` =2) AS yeji\n" +
+                        "from `employee`  e  WHERE e.`role` =4    and e.`director` ='" + zobj.getString("code") + "'  ORDER BY yeji DESC ) as  ey\n" +
                         "WHERE ey.yeji>0 ";
 
 
@@ -452,6 +452,7 @@ public class CommissionController {
                 zobj.put("data", farray);
                 array.add(zobj);
             } else {
+
                 for (int j = 0; j < list1.size(); j++) {
                     JSONObject objf = new JSONObject();
                     Commission commissionf = list1.get(j);
@@ -482,7 +483,7 @@ public class CommissionController {
 
                     String sql_yewuyuan = "SELECT * from \n" +
                             "(SELECT e.`id` ,e.`name` ,e.`code` , e.`department`,  1 as length,\n" +
-                            "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '"+month_start+"' and a.`end_date`< '2017-11-01'   and  a.`clerk`=e.code  AND a.`state` =2) AS yeji\n" +
+                            "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'   and  a.`clerk`=e.code  AND a.`state` =2) AS yeji\n" +
                             "from `employee`  e  WHERE e.`role` =4    and e.`dupty_director` ='"+objf.getString("code")+"'  ORDER BY yeji DESC ) as  ey\n" +
                             "WHERE ey.yeji>0 ";
                     JSONArray arrayY = new JSONArray();
@@ -614,7 +615,7 @@ public class CommissionController {
      (SELECT count(*) from `employee`  e1 where `director` =e.code
      and  e1.code IN
      (SELECT cs.clerk from
-     (SELECT  a.`clerk`, SUM(a.`service_fee_actual`) as fee   from `accepted` a  WHERE  a.`clerk` IS NOT NULL and  a.`end_date` >'"+month_start+"' AND a.`end_date` <'"+month_end+"'  GROUP BY clerk )  AS  cs
+     (SELECT  a.`clerk`, SUM(a.`service_fee_actual`) as fee   from `accepted` a  WHERE  a.`clerk` IS NOT NULL and  a.`end_date` >='"+month_start+"' AND a.`end_date` <'"+month_end+"'  GROUP BY clerk )  AS  cs
      where cs.fee >0  )
      and  `role` =4) as length,
      (SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '"+month_start+"' and a.`end_date`< '"+month_end+"'   and  (a.`director`=e.`code`   or a.`deputy_director` =e.`code` ) AND a.`state` =2  and a.`clerk` !=e.`code`   ) AS yeji
