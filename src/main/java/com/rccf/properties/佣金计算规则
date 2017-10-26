@@ -1,0 +1,75 @@
+-- 佣金
+SELECT e.id,e.`name` ,e.`code` ,e.`department`,
+(SELECT count(*) from `employee`  e1 where `director` =e.code and `state` =1 and  `role` =4) as length,
+(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '2017-10-01' and a.`end_date`< '2017-11-01'   and  a.`director`=e.director  AND a.`state` =2  and a.`clerk` !=e.`code`   ) AS yeji
+from `employee`  e
+WHERE e.`role` =2 and e.`state` =1 and e.`department`  LIKE '%金融%' ORDER BY yeji DESC
+
+SELECT e.id,e.`name` ,e.`code` ,e.`department`,
+(SELECT count(*) from `employee`  e1 where e1.`dupty_director`  =e.code and `state` =1 and  `role` =4) as length,
+(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '2017-10-01' and a.`end_date`< '2017-11-01'   and  a.`deputy_director` =e.`dupty_director`   AND a.`state` =2  and a.`clerk` !=e.`code`   ) AS yeji
+from `employee`  e
+WHERE e.`role` =3 and e.`state` =1 and e.`department`  LIKE '%金融%'  and  e.`director` ='s001'    ORDER BY yeji DESC
+
+SELECT e.`id` ,e.`name` ,e.`code` , e.`department`,  1 as length,
+(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '2017-10-01' and a.`end_date`< '2017-11-01'   and  a.`clerk`=e.code  AND a.`state` =2) AS yeji
+from `employee`  e  WHERE e.`role` =4  and e.`state` =1  and e.`dupty_director` ='e023' ORDER BY yeji DESC
+
+
+-- 个人业绩
+SELECT e.`id` ,e.`name` ,e.`code` , e.`department`,
+(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '2017-10-01' and a.`end_date`< '2017-11-01'   and  a.`clerk`=e.code  AND a.`state` =2) AS yeji
+from `employee`  e  WHERE  (e.`role` =3  or e.`role` =2)  and e.`state` =1 AND e.`department` LIKE '%金融%'    ORDER BY yeji DESC
+
+
+
+
+/****佣金计算****/
+
+SELECT e.id,e.`name` ,e.`code` ,e.`department`,
+(SELECT count(*) from `employee`  e1 where `director` =e.code
+ and  e1.code IN
+ (SELECT cs.clerk from
+(SELECT  a.`clerk`, SUM(a.`service_fee_actual`) as fee   from `accepted` a  WHERE  a.`clerk` IS NOT NULL and  a.`end_date` >'2017-10-01' AND a.`end_date` <'2017-11-01'  GROUP BY clerk )  AS  cs
+where cs.fee >0  )
+ and  `role` =4) as length,
+(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '2017-10-01' and a.`end_date`< '2017-11-01'   and  (a.`director`=e.`code`   or a.`deputy_director` =e.`code` ) AND a.`state` =2  and a.`clerk` !=e.`code`   ) AS yeji
+from `employee`  e
+WHERE e.`role` =2  and e.`department`  LIKE '%金融%' ORDER BY yeji DESC
+
+
+
+SELECT e.id,e.`name` ,e.`code` ,e.`department`,
+-- (SELECT count(*) from `employee`  e1 where e1.`dupty_director`  =e.code and `state` =1 and  `role` =4) as length,
+(SELECT count(*) from `employee`  e1 where `dupty_director` =e.code
+ and  e1.code IN
+ (SELECT cs.clerk from
+(SELECT  a.`clerk`,SUM(a.`service_fee_actual`) as fee   from `accepted` a  WHERE  a.`clerk` IS NOT NULL and  a.`end_date` >'2017-10-01' AND a.`end_date` <'2017-11-01'  GROUP BY clerk )  AS  cs
+where cs.fee >0  )
+ and  `role` =4) as length,
+(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '2017-10-01' and a.`end_date`< '2017-11-01'   and  (a.`director`=e.`code`   or a.`deputy_director` =e.`code` )   AND a.`state` =2  and a.`clerk` !=e.`code`   ) AS yeji
+from `employee`  e
+WHERE e.`role` =3     and e.`department`  LIKE '%金融%'  and  e.`director` ='s001'    ORDER BY yeji DESC
+
+
+
+SELECT * from
+(SELECT e.`id` ,e.`name` ,e.`code` , e.`department`,  1 as length,
+(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '2017-10-01' and a.`end_date`< '2017-11-01'   and  a.`clerk`=e.code  AND a.`state` =2) AS yeji
+from `employee`  e  WHERE e.`role` =4    and e.`dupty_director` ='e023'  ORDER BY yeji DESC ) as  ey
+WHERE ey.yeji>0
+
+
+
+SELECT e.`id` ,e.`name` ,e.`code` , e.`department`,
+(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '2017-10-01' and a.`end_date`< '2017-11-01'   and  a.`clerk`=e.code  AND a.`state` =2) AS yeji
+from `employee`  e  WHERE  (e.`role` =3  or e.`role` =2)  and e.`state` =1 AND e.`department` LIKE '%金融%'    ORDER BY yeji DESC
+
+SELECT cs.clerk from
+(SELECT  a.`clerk`,SUM(a.`service_fee_actual`) as fee   from `accepted` a  WHERE  a.`clerk` IS NOT NULL and  a.`end_date` >'2017-10-01' AND a.`end_date` <'2017-11-01'  GROUP BY clerk) cs
+where cs.fee >0
+
+
+
+
+
