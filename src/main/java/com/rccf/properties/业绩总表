@@ -1,0 +1,33 @@
+-- 业绩总表
+SELECT e.id ,e.name,e.department,e.role,e.dupty_director_name,
+ (SELECT id from employee e1 where e1.code = e.dupty_director) as fid ,e.director_name, (SELECT id from employee e1 where e1.code = e.director) as zid ,
+ (SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '2017-10-01' and a.`end_date`< '2017-11-01'   and  a.`clerk`=e.code  AND a.`state` =2) AS yeji ,
+ (SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '2017-10-01' and a.`end_date`< '2017-11-01'   and  a.`deputy_director`=e.dupty_director  AND a.`state` =2) AS fyeji,
+ (SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '2017-10-01' and a.`end_date`< '2017-11-01'   and  a.`director`=e.director  AND a.`state` =2) AS zyeji
+from employee e where e.department LIKE "%金融%" AND role = 4 AND state=1 ORDER BY zyeji DESC  , fyeji DESC , yeji DESC;
+
+-- 总监副总监目标
+SELECT e.`id`,
+       e.`role`,
+       e.`name`,
+       et.`target`
+  from `employee` e
+  LEFT JOIN `employee_target` et on e.`id`= et.`eid`
+ WHERE(e.`role`= 2
+    or e.`role`= 3)
+   and e.`state`= 1
+   AND `department` LIKE "%金融%"
+ ORDER BY `director` asc ;
+
+
+
+
+
+
+
+
+
+
+
+
+

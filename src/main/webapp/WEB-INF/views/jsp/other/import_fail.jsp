@@ -6,13 +6,22 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String data = (String) request.getAttribute("data");
+
+    String str = "提交失败";
+    if (data != null) {
+        str = data;
+    }
+%>
 <html>
 <head>
-    <title>提交受理单</title>
+    <title></title>
 </head>
 <body>
 
-<h1>提交失败</h1>
+<h1><%=str%>
+</h1>
 
 </body>
 </html>

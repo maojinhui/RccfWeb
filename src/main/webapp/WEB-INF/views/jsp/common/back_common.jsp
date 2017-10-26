@@ -134,7 +134,16 @@
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 添加员工
                         </a>
                     </li>
-
+                    <li class="sidebar-nav-link">
+                        <a class="rcmenu" data-rccf-menu="/commission/notifytarget">
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 业绩目标制定
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-link">
+                        <a class="rcmenu" data-rccf-menu="/commission/ctables">
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 佣金表
+                        </a>
+                    </li>
                 </ul>
             </li>
             <%}%>
@@ -389,6 +398,12 @@
     function changeUrl(url) {
         $('#content_iframe').attr('src', url);
     }
+
+    //    var iframe = document.getElementById('content_iframe');
+    //    iframe.contentWindow.focus();
+    //    iframe.contentWindow.print();
+
+
 
 </script>
 
