@@ -3,5 +3,5 @@ SELECT   a.`id` ,a.`accepted_number` , a.`customer_name` , a.`clerk_name` ,
 (SELECT name from `employee`  e2 WHERE  e2.`code` =a.`director`  ) as zname ,
 a.`houqi` ,
 (SELECT  process  from  accept_process WHERE  accept_id = a.`id`   ORDER BY  update_time desc  LIMIT 1) as pro
-from `accepted`  a
+from accepted_back  a
 WHERE   a.`state` = 1 and a.`houqi` ='李由'  AND a.`customer_name`

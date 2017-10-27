@@ -1,15 +1,15 @@
 SELECT  name ,
-(SELECT COUNT(*) FROM `accepted` WHERE `state` =1  and `houqi` = name) as acceptcount,
-(SELECT COUNT(*) FROM `accepted` WHERE `state` =2  and `houqi` = name) as endcount,
-(SELECT COUNT(*) FROM `accepted` WHERE `state` =3  and `houqi` = name) as refusecount,
-(SELECT COUNT(*) FROM `accepted` WHERE `state` =4  and `houqi` = name) as removecount,
-(SELECT  AVG ( TIMESTAMPDIFF (DAY , `accept_time` ,`end_date`  )+1) from `accepted`  WHERE `houqi` = name AND `state` =2) as time
+(SELECT COUNT(*) FROM accepted_back WHERE `state` =1  and `houqi` = name) as acceptcount,
+(SELECT COUNT(*) FROM accepted_back WHERE `state` =2  and `houqi` = name) as endcount,
+(SELECT COUNT(*) FROM accepted_back WHERE `state` =3  and `houqi` = name) as refusecount,
+(SELECT COUNT(*) FROM accepted_back WHERE `state` =4  and `houqi` = name) as removecount,
+(SELECT  AVG ( TIMESTAMPDIFF (DAY , `accept_time` ,`end_date`  )+1) from accepted_back  WHERE `houqi` = name AND `state` =2) as time
 from `employee` WHERE `department` like '%市场%' AND `role` =4 ;
 
 
-SELECT COUNT(*) FROM `accepted` WHERE `houqi` ='武丽' AND `state` =2 ;
+SELECT COUNT(*) FROM accepted_back WHERE `houqi` ='武丽' AND `state` =2 ;
 
-SELECT  sum(TIMESTAMPDIFF (DAY , `accept_time` ,`end_date`  )+1) from `accepted`  WHERE `houqi` = '武丽' AND `state` =2
+SELECT  sum(TIMESTAMPDIFF (DAY , `accept_time` ,`end_date`  )+1) from accepted_back  WHERE `houqi` = '武丽' AND `state` =2
 
 
 

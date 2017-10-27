@@ -308,7 +308,6 @@ public class CommissionController {
         long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();//今天零点零分零秒的毫秒数
         long twelve = zero + 24 * 60 * 60 * 1000 - 1;//今天23点59分59秒的毫秒数
         String time = request.getParameter("time");
-        time = "2017-09-25";
         Date date = null;
         if (!Strings.isNullOrEmpty(time)) {
             date = DateUtil.string2Date(time);
@@ -451,6 +450,7 @@ public class CommissionController {
                 farray.add(objf);
                 zobj.put("data", farray);
                 array.add(zobj);
+
             } else {
 
                 for (int j = 0; j < list1.size(); j++) {
@@ -514,6 +514,8 @@ public class CommissionController {
                         }
                         arrayY.add(objY);
                     }
+
+
                     objf.put("data", arrayY);
                     farray.add(objf);
                 }

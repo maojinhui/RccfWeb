@@ -10,8 +10,8 @@ UPDATE employee set department="金融三部" where department="金融四部";
 
 
 
-DELETE  from accepted where create_time >= '2017-09-01 00:00:00';
+DELETE  from accepted_back where create_time >= '2017-09-01 00:00:00';
 update `rccf`.`employee` set duduties='金融顾问', `state`=1 where `id`=107;
 update `rccf`.`employee` set duduties='金融顾问',`role`=4,`state`=1 where `id`=93;
 
-DELETE FROM accepted;
+DELETE FROM accepted_back;

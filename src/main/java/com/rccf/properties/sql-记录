@@ -5,14 +5,14 @@ SELECT `accepted_number` ,`accept_time` ,`letter_number` ,`customer_name` ,
 (SELECT  e.`name`  from `employee` e WHERE  `code`  = a .`deputy_director` ) as deputy_name,
 (SELECT  e.`name`  from `employee` e WHERE  `code`  = a .`director`  ) as director_name,
 `houqi`,`state`, a .`end_date` , a .`loan_money` ,a.`service_agreement`,a .`beizhu`
-FROM `accepted` a    ORDER BY a.`accepted_number` DESC
+FROM accepted_back a    ORDER BY a.`accepted_number` DESC
 
 
 -- 按月查询数量
-SELECT count(*)  as accept ,  date_format(`accept_time`,  '%Y-%m') as t1   FROM accepted a  group by date_format(accept_time, '%Y-%m') ;
+SELECT count(*)  as accept ,  date_format(`accept_time`,  '%Y-%m') as t1   FROM accepted_back a  group by date_format(accept_time, '%Y-%m') ;
 SELECT count(*)  as end ,  date_format(end_date, '%Y-%m') as t2 FROM accepted a  WHERE  `state` =2  group by date_format(end_date, '%Y-%m')
 
 --- 优化
-SELECT count(*)  as accept ,  date_format(`accept_time`,  '%Y-%m') as t1   FROM accepted a  WHERE accept_time is NOT NULL  group by date_format(accept_time, '%Y-%m') ;
+SELECT count(*)  as accept ,  date_format(`accept_time`,  '%Y-%m') as t1   FROM accepted_back a  WHERE accept_time is NOT NULL  group by date_format(accept_time, '%Y-%m') ;
 SELECT count(*)  as end ,  date_format(end_date, '%Y-%m') as t2 FROM accepted a  WHERE  `state` =2 and end_date is not null  group by date_format(end_date, '%Y-%m')  ;
 

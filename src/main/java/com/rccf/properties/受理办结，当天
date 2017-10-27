@@ -7,7 +7,7 @@ SELECT '' as want_money,
 a.`houqi` ,
 a.`business_type` ,
 a.`state`
-  FROM `accepted` a
+  FROM accepted_back a
  WHERE `end_date`= '2017-10-17'
    and a.`state` =2
    and a.clerk in (select code from employee e where e.department like '%金融%');

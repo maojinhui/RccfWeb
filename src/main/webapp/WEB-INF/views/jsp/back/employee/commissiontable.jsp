@@ -3,7 +3,8 @@
 <%@ page import="javax.swing.text.Document" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="com.rccf.util.FormatUtil" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/10/25
@@ -52,8 +53,10 @@
             "        </tr>\n" +
             "        </thead>\n" +
             "        <tbody>");
+
+    List<String> special = new ArrayList<String>();
     JSONArray array = (JSONArray) request.getAttribute("data");
-    System.out.println(array.toString());
+//    System.out.println(array.toString());
 
     for (int i = 0; i < array.size(); i++) {
         JSONObject object = array.getJSONObject(i);
@@ -67,37 +70,64 @@
         for (int j = 0; j < fuzongjianArray.size(); j++) {
             JSONObject fuzongjianobj = fuzongjianArray.getJSONObject(j);
             JSONArray yewuyuanArray = fuzongjianobj.getJSONArray("data");
-            if (j == 0) {
-                printWriter.println("<td class='am-text-middle' rowspan='" + fuzongjianobj.getIntValue("length") + "'>" + fuzongjianobj.getString("name") + "</td>\n" +
-                        "            <td class='am-text-middle' rowspan='" + fuzongjianobj.getIntValue("length") + "'>" + FormatUtil.formatDouble2(fuzongjianobj.getDoubleValue("yeji")) + "</td>\n" +
-                        "            <td class='am-text-middle' rowspan='" + fuzongjianobj.getIntValue("length") + "'>" + fuzongjianobj.getString("rate") + "</td>\n" +
-                        "            <td class='am-text-middle' rowspan='" + fuzongjianobj.getIntValue("length") + "'>" + FormatUtil.formatDouble2(fuzongjianobj.getDoubleValue("commission")) + "</td>");
+            if (fuzongjianobj.getIntValue("length") < 1) {
+                String str = "<tr>\n" +
+                        "            <td class='am-text-middle' ></td>\n" +
+                        "            <td class='am-text-middle' ></td>\n" +
+                        "            <td class='am-text-middle' ></td>\n" +
+                        "            <td class='am-text-middle' ></td>\n" +
+                        "            <td class='am-text-middle' ></td>\n" +
+                        "            <td class='am-text-middle' >" + fuzongjianobj.getString("name") + "</td>\n" +
+                        "            <td class='am-text-middle' >" + FormatUtil.formatDouble2(fuzongjianobj.getDoubleValue("yeji")) + "</td>\n" +
+                        "            <td class='am-text-middle' >" + fuzongjianobj.getString("rate") + "</td>\n" +
+                        "            <td class='am-text-middle' >" + FormatUtil.formatDouble2(fuzongjianobj.getDoubleValue("commission")) + "</td>" +
+                        "            <td class=''></td>\n" +
+                        "            <td class=''></td>\n" +
+                        "            <td class=''></td>\n" +
+                        "            <td class=''></td>\n" +
+                        "        </tr>";
+
+                special.add(str);
             } else {
-
-                printWriter.println("<tr><td class='am-text-middle' rowspan='" + fuzongjianobj.getIntValue("length") + "'>" + fuzongjianobj.getString("name") + "</td>\n" +
-                        "            <td class='am-text-middle' rowspan='" + fuzongjianobj.getIntValue("length") + "'>" + FormatUtil.formatDouble2(fuzongjianobj.getDoubleValue("yeji")) + "</td>\n" +
-                        "            <td class='am-text-middle' rowspan='" + fuzongjianobj.getIntValue("length") + "'>" + fuzongjianobj.getString("rate") + "</td>\n" +
-                        "            <td class='am-text-middle' rowspan='" + fuzongjianobj.getIntValue("length") + "'>" + FormatUtil.formatDouble2(fuzongjianobj.getDoubleValue("commission")) + "</td>");
-
-            }
-
-            for (int k = 0; k < yewuyuanArray.size(); k++) {
-                JSONObject yewuyuanObj = yewuyuanArray.getJSONObject(k);
-                if (k == 0) {
-                    printWriter.println("<td class='' >" + yewuyuanObj.getString("name") + "</td>\n" +
-                            "            <td class='' >" + FormatUtil.formatDouble2(yewuyuanObj.getDoubleValue("yeji")) + "</td>\n" +
-                            "            <td class='' >" + yewuyuanObj.getString("rate") + "</td>\n" +
-                            "            <td class='' >" + FormatUtil.formatDouble2(yewuyuanObj.getDoubleValue("commission")) + "</td> </tr>");
+                if (j == 0) {
+                    printWriter.println("<td class='am-text-middle' rowspan='" + fuzongjianobj.getIntValue("length") + "'>" + fuzongjianobj.getString("name") + "</td>\n" +
+                            "            <td class='am-text-middle' rowspan='" + fuzongjianobj.getIntValue("length") + "'>" + FormatUtil.formatDouble2(fuzongjianobj.getDoubleValue("yeji")) + "</td>\n" +
+                            "            <td class='am-text-middle' rowspan='" + fuzongjianobj.getIntValue("length") + "'>" + fuzongjianobj.getString("rate") + "</td>\n" +
+                            "            <td class='am-text-middle' rowspan='" + fuzongjianobj.getIntValue("length") + "'>" + FormatUtil.formatDouble2(fuzongjianobj.getDoubleValue("commission")) + "</td>");
                 } else {
 
-                    printWriter.println("<tr><td class='' >" + yewuyuanObj.getString("name") + "</td>\n" +
-                            "            <td class='' >" + FormatUtil.formatDouble2(yewuyuanObj.getDoubleValue("yeji")) + "</td>\n" +
-                            "            <td class='' >" + yewuyuanObj.getString("rate") + "</td>\n" +
-                            "            <td class='' >" + FormatUtil.formatDouble2(yewuyuanObj.getDoubleValue("commission")) + "</td></tr>");
+                    printWriter.println("<tr><td class='am-text-middle' rowspan='" + fuzongjianobj.getIntValue("length") + "'>" + fuzongjianobj.getString("name") + "</td>\n" +
+                            "            <td class='am-text-middle' rowspan='" + fuzongjianobj.getIntValue("length") + "'>" + FormatUtil.formatDouble2(fuzongjianobj.getDoubleValue("yeji")) + "</td>\n" +
+                            "            <td class='am-text-middle' rowspan='" + fuzongjianobj.getIntValue("length") + "'>" + fuzongjianobj.getString("rate") + "</td>\n" +
+                            "            <td class='am-text-middle' rowspan='" + fuzongjianobj.getIntValue("length") + "'>" + FormatUtil.formatDouble2(fuzongjianobj.getDoubleValue("commission")) + "</td>");
 
                 }
+
+                for (int k = 0; k < yewuyuanArray.size(); k++) {
+                    JSONObject yewuyuanObj = yewuyuanArray.getJSONObject(k);
+                    if (k == 0) {
+                        printWriter.println("<td class='' >" + yewuyuanObj.getString("name") + "</td>\n" +
+                                "            <td class='' >" + FormatUtil.formatDouble2(yewuyuanObj.getDoubleValue("yeji")) + "</td>\n" +
+                                "            <td class='' >" + yewuyuanObj.getString("rate") + "</td>\n" +
+                                "            <td class='' >" + FormatUtil.formatDouble2(yewuyuanObj.getDoubleValue("commission")) + "</td> </tr>");
+                    } else {
+
+                        printWriter.println("<tr><td class='' >" + yewuyuanObj.getString("name") + "</td>\n" +
+                                "            <td class='' >" + FormatUtil.formatDouble2(yewuyuanObj.getDoubleValue("yeji")) + "</td>\n" +
+                                "            <td class='' >" + yewuyuanObj.getString("rate") + "</td>\n" +
+                                "            <td class='' >" + FormatUtil.formatDouble2(yewuyuanObj.getDoubleValue("commission")) + "</td></tr>");
+
+                    }
+                }
             }
+
+
         }
+    }
+
+    for (int i = 0; i < special.size(); i++) {
+        String str = special.get(i);
+        printWriter.write(str);
     }
 
     List personalList = (List) request.getAttribute("personal");
@@ -118,6 +148,7 @@
                     "    </tr>");
         }
     }
+
 
     printWriter.print("</tbody>\n" +
             "    </table>\n" +

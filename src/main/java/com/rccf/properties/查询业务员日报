@@ -6,7 +6,7 @@ FROM employee
   (SELECT
      count(*) AS d_c1,
      clerk    AS d1clerk
-   FROM accepted
+   FROM accepted_back
    WHERE clerk IN (SELECT code
                    FROM employee) && state = 1 &&
          accept_time >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
@@ -15,7 +15,7 @@ FROM employee
   (SELECT
      count(*) AS d_c2,
      clerk    AS d2clerk
-   FROM accepted
+   FROM accepted_back
    WHERE clerk IN (SELECT code
                    FROM employee) && state = 2 &&
          end_date >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
@@ -24,7 +24,7 @@ FROM employee
   (SELECT
      count(*) AS d_c3,
      clerk    AS d3clerk
-   FROM accepted
+   FROM accepted_back
    WHERE clerk IN (SELECT code
                    FROM employee) && state = 3 &&
          create_time >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
@@ -33,7 +33,7 @@ FROM employee
   (SELECT
      count(*) AS m_c1,
      clerk    AS m1clerk
-   FROM accepted
+   FROM accepted_back
    WHERE clerk IN (SELECT code
                    FROM employee) && state = 1 &&
          accept_time >= DATE_FORMAT(@month_start, '%Y-%m-%d %H:%i:%S')
@@ -42,7 +42,7 @@ FROM employee
   (SELECT
      count(*) AS m_c2,
      clerk    AS m2clerk
-   FROM accepted
+   FROM accepted_back
    WHERE clerk IN (SELECT code
                    FROM employee) && state = 2 &&
          end_date >= DATE_FORMAT(@month_start, '%Y-%m-%d %H:%i:%S')
@@ -51,7 +51,7 @@ FROM employee
   (SELECT
      count(*) AS m_c3,
      clerk    AS m3clerk
-   FROM accepted
+   FROM accepted_back
    WHERE clerk IN (SELECT code
                    FROM employee) && state = 3 &&
          create_time >= DATE_FORMAT(@month_start, '%Y-%m-%d %H:%i:%S')
@@ -60,7 +60,7 @@ FROM employee
   (SELECT
      sum(service_fee_actual) AS d_y_c1,
      clerk                   AS dyclerk
-   FROM accepted
+   FROM accepted_back
    WHERE clerk IN (SELECT code
                    FROM employee) && state = 2 &&
          end_date >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
@@ -69,7 +69,7 @@ FROM employee
   (SELECT
      sum(service_fee_actual) AS m_y_c1,
      clerk                   AS myclerk
-   FROM accepted
+   FROM accepted_back
    WHERE clerk IN (SELECT code
                    FROM employee) && state = 2 &&
          end_date >= DATE_FORMAT(@month_start, '%Y-%m-%d %H:%i:%S')
@@ -84,4 +84,4 @@ FROM employee
 WHERE role = 4 AND state =1;
 
 
-# SELECT * from accepted where end_date>='2017-09-01 00:00:00';
+# SELECT * from accepted_back where end_date>='2017-09-01 00:00:00';
