@@ -37,6 +37,14 @@
         </tr>
         </thead>
         <tbody id="tbody">
+        <%--<tr>--%>
+        <%--&lt;%&ndash;<td class="am-hide"><%=row[0]%></td>&ndash;%&gt;--%>
+        <%--<td>业务员--%>
+        <%--</td>--%>
+        <%--<td><span>默认目标</span></td>--%>
+        <%--<td><input data-rccf-id="100000" type="number" value=""></td>--%>
+        <%--</tr>--%>
+
         <% List<Object[]> list = (List<Object[]>) request.getAttribute("list"); %>
         <%
             for (Object[] row : list) {
@@ -105,7 +113,7 @@
                 data: {'data': udata},
                 success: function (result) {
                     if (result.code) {
-
+                        alert("提交成功");
                     } else {
                         alert(result.errormsg);
                     }

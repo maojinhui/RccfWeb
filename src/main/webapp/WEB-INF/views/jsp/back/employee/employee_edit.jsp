@@ -14,7 +14,6 @@
     EmployeeContract contract = (EmployeeContract) request.getAttribute("contract");
     EmployeeDocuments documents = (EmployeeDocuments) request.getAttribute("documents");
 
-
 %>
 
 <!DOCTYPE html>
@@ -234,8 +233,14 @@
                     <span class="am-input-group-label">
                      性&emsp;&emsp;别:
                      </span>
-                                <input class="am-form-field" type="text"
-                                       value="<%=Strings.getInputString(employee,employee.getSex())%>">
+                                <%--<input class="am-form-field" type="text"--%>
+                                <%--value="<%=Strings.getInputString(employee,employee.getSex())%>">--%>
+                                <select id="sex">
+                                    <option value="0">未知</option>
+                                    <option value="1">男</option>
+                                    <option value="2">女</option>
+                                </select>
+
                             </div>
                         </div>
                     </div>

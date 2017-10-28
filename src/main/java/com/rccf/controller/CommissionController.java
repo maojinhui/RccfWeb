@@ -527,17 +527,100 @@ public class CommissionController {
         }
 
 
+        String sql_shichang = "SELECT e.id,e.department,e.name,e.role,\n" +
+                "  (SELECT sum(a.service_fee_actual) from accepted a where a.houqi = e.name and end_date>'2017-09-01' and end_date<'2017-10-01') as yeji\n" +
+                "from employee e\n" +
+                "WHERE department = '市场部'";
+        List<Object[]> list_shichang = baseService.queryBySql(sql_shichang);
+        String name_shichang_zong = "";
+        String department_shichang = "";
+        double yejizong = 0;
+        double rate_shichang_4 = 0.06;
+        double rate_shichang_2 = 0.04;
+        JSONObject shichang_object = new JSONObject();
+        JSONArray array_shichang = new JSONArray();
+        for (int i = 0; i < list_shichang.size(); i++) {
+
+            Object[] obj = list_shichang.get(i);
+            int role = Integer.valueOf(obj[3].toString());
+            if (role == 4) {
+                JSONObject object = new JSONObject();
+                double yeji = Double.valueOf(obj[4].toString());
+                double commission = yeji * rate_shichang_4;
+                yejizong += yeji;
+                object.put("yeji", yeji);
+                object.put("commission", commission);
+                object.put("name", obj[2].toString());
+                object.put("rate", percentData(rate_shichang_4));
+                array_shichang.add(object);
+            } else if (role == 2) {
+                name_shichang_zong = obj[2].toString();
+                department_shichang = obj[1].toString();
+            }
+        }
+        shichang_object.put("department", department_shichang);
+        shichang_object.put("length", array_shichang.size());
+        shichang_object.put("yeji", yejizong);
+        double commission_shichang = yejizong * rate_shichang_2;
+        shichang_object.put("rate", percentData(rate_shichang_2));
+        shichang_object.put("commission", commission_shichang);
+        shichang_object.put("name", name_shichang_zong);
+        shichang_object.put("data", array_shichang);
+
+
+        String sql_other_department = "SELECT * from\n" +
+                "(SELECT e.id,e.department,e.name,e.role,\n" +
+                "(SELECT sum(a.service_fee_actual) from accepted a where a.clerk = e.code and end_date>'2017-09-01' and end_date<'2017-10-01') as yeji\n" +
+                "from employee e\n" +
+                "WHERE department NOT LIKE '金融%' and department  NOT  LIKE '市场部%') as other\n" +
+                "WHERE yeji>0";
+        List<Object[]> list_other_department = baseService.queryBySql(sql_other_department);
+        double rate_other_2 = 0.1;
+        double rate_other_3 = 0.2;
+        double rate_other_4 = 0.2;
+
+        JSONArray array_other_department = new JSONArray();
+        for (int i = 0; i < list_other_department.size(); i++) {
+            Object[] objs = list_other_department.get(i);
+            int role = Integer.valueOf(objs[3].toString());
+            double yeji = Double.valueOf(objs[4].toString());
+            double commission = 0;
+            JSONObject object = new JSONObject();
+            object.put("department", objs[1].toString());
+            object.put("name", objs[2].toString());
+            object.put("yeji", yeji);
+            if (role == 2) {
+                object.put("rate", percentData(rate_other_2));
+                commission = yeji * rate_other_2;
+                object.put("commission", commission);
+            } else if (role == 3) {
+                object.put("rate", percentData(rate_other_3));
+                commission = yeji * rate_other_3;
+                object.put("commission", commission);
+            } else if (role == 4) {
+                object.put("rate", percentData(rate_other_4));
+                commission = yeji * rate_other_3;
+                object.put("commission", commission);
+            }
+            array_other_department.add(object);
+        }
+
+
+
+
+
+
 //        String sql = "SELECT e.`id` ,e.`name` ,e.`code` , e.`department`, " +
 //                "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '"+month_start+"' and a.`end_date`< '"+month_end+"'   and  a.`clerk`=e.code  AND a.`state` =2) AS yeji\n" +
 //                "from `employee`  e  WHERE  (e.`role` =3  or e.`role` =2)  and e.`state` =1   and  'yeji' > 0 ORDER BY yeji DESC ";
-        String sql = "SELECT * FROM\n" +
+        String sql_personal = "SELECT * FROM\n" +
                 "  (SELECT e.`id` ,e.`name` ,e.`code` , e.`department`,\n" +
                 "      (SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '"+month_start+"' and a.`end_date`< '"+month_end+"'   and  a.`clerk`=e.code  AND a.`state` = 2)  yeji\n" +
                 "    from `employee`  e\n" +
                 "    WHERE  (e.`role` =3  or e.`role` =2)  and e.`state` =1 AND e.`department` LIKE '%金融%' ORDER BY yeji DESC) p\n" +
                 "WHERE p.yeji > 0";
 
-        List personalList = baseService.queryBySql(sql);
+        List personalList = baseService.queryBySql(sql_personal);
         JSONArray personalArray = JSON.parseArray(JSON.toJSONString(personalList));
         logger.info("personalArray:" + personalArray.toString());
 
@@ -545,6 +628,8 @@ public class CommissionController {
         ModelAndView modelAndView = new ModelAndView("/back/employee/commissiontable");
         modelAndView.addObject("data", array);
         modelAndView.addObject("personal", personalList);
+        modelAndView.addObject("shichang", shichang_object);
+        modelAndView.addObject("other", array_other_department);
         return modelAndView;
     }
 

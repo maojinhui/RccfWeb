@@ -149,7 +149,53 @@
         }
     }
 
+    JSONObject shichang_object = (JSONObject) request.getAttribute("shichang");
+    JSONArray shichang_array = shichang_object.getJSONArray("data");
+    for (int i = 0; i < shichang_array.size(); i++) {
+        JSONObject obj = shichang_array.getJSONObject(i);
+        if (i == 0) {
+            printWriter.print("<tr>\n" +
+                    "            <td class='am-text-middle' rowspan='" + shichang_object.getIntValue("length") + "'>" + shichang_object.getString("department") + "</td>\n" +
+                    "            <td class='am-text-middle' rowspan='" + shichang_object.getIntValue("length") + "'>" + shichang_object.getString("name") + "</td>\n" +
+                    "            <td class='am-text-middle' rowspan='" + shichang_object.getIntValue("length") + "'>" + FormatUtil.formatDouble2(shichang_object.getDoubleValue("yeji")) + "</td>\n" +
+                    "            <td class='am-text-middle' rowspan='" + shichang_object.getIntValue("length") + "'>" + shichang_object.getString("rate") + "</td>\n" +
+                    "            <td class='am-text-middle' rowspan='" + shichang_object.getIntValue("length") + "'>" + FormatUtil.formatDouble2(shichang_object.getDoubleValue("commission")) + "</td>" +
+                    "            <td class='am-text-middle' rowspan='" + shichang_object.getIntValue("length") + "'></td>\n" +
+                    "            <td class='am-text-middle' rowspan='" + shichang_object.getIntValue("length") + "'></td>\n" +
+                    "            <td class='am-text-middle' rowspan='" + shichang_object.getIntValue("length") + "'></td>\n" +
+                    "            <td class='am-text-middle' rowspan='" + shichang_object.getIntValue("length") + "'></td>\n" +
+                    "            <td class='' >" + obj.getString("name") + "</td>\n" +
+                    "            <td class='' >" + FormatUtil.formatDouble2(obj.getDoubleValue("yeji")) + "</td>\n" +
+                    "            <td class='' >" + obj.getString("rate") + "</td>\n" +
+                    "            <td class='' >" + FormatUtil.formatDouble2(obj.getDoubleValue("commission")) + "</td> </tr>"
+            );
+        } else {
+            printWriter.print("<tr><td class='' >" + obj.getString("name") + "</td>\n" +
+                    "            <td class='' >" + FormatUtil.formatDouble2(obj.getDoubleValue("yeji")) + "</td>\n" +
+                    "            <td class='' >" + obj.getString("rate") + "</td>\n" +
+                    "            <td class='' >" + FormatUtil.formatDouble2(obj.getDoubleValue("commission")) + "</td></tr>");
+        }
+    }
 
+    JSONArray array_other_department = (JSONArray) request.getAttribute("other");
+    for (int i = 0; i < array_other_department.size(); i++) {
+        JSONObject object = array_other_department.getJSONObject(i);
+        if (i == 0) {
+            printWriter.print("<tr>" +
+                    "<td class='' >部门</td>\n" +
+                    "<td class='' >姓名</td>\n" +
+                    "            <td class='' >业绩</td>\n" +
+                    "            <td class='' >提成比例</td>\n" +
+                    "            <td class='' >佣金</td></tr>");
+        }
+        printWriter.print("<tr>" +
+                "<td class='' >" + object.getString("department") + "</td>\n" +
+                "<td class='' >" + object.getString("name") + "</td>\n" +
+                "            <td class='' >" + FormatUtil.formatDouble2(object.getDoubleValue("yeji")) + "</td>\n" +
+                "            <td class='' >" + object.getString("rate") + "</td>\n" +
+                "            <td class='' >" + FormatUtil.formatDouble2(object.getDoubleValue("commission")) + "</td></tr>");
+
+    }
     printWriter.print("</tbody>\n" +
             "    </table>\n" +
             "</div>\n" +
