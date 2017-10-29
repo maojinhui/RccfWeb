@@ -30,11 +30,14 @@
             "</style>" +
             "</head>\n" +
             "<body>\n" +
-            "<div class=\"am-g am-margin am-padding-right-xl am-text-left\">\n" +
-            "    <a id=\"export\" data-type=\"xls\" class=\"am-btn am-btn-secondary\">导出表格</a>\n" +
+            "<div class='am-g am-margin am-padding-right-xl am-text-left'>\n" +
+            "    <a id='export' data-type='xls' class='am-btn am-btn-secondary'>导出表格</a>\n" +
+            "" +
+            "        <input id='time' type='date' class='am-btn my-bordered' style='border: 1px solid #ddd;'/>\n" +
+            "    " +
             "</div>" +
-            "<div class=\"am-container am-margin-lg\">\n" +
-            "    <table id='commission_table' class=\"am-table am-table-bordered am-text-center am-text-nowrap\">\n" +
+            "<div class='am-container am-margin-lg'>\n" +
+            "    <table id='commission_table' class='am-table am-table-bordered am-text-center am-text-nowrap'>\n" +
             "        <thead>\n" +
             "        <tr>\n" +
             "            <th>部门</th>\n" +
@@ -133,10 +136,10 @@
     List personalList = (List) request.getAttribute("personal");
     if (personalList != null && personalList.size() > 0) {
         printWriter.print(" <tr>\n" +
-                "      <td class=\"am-text-middle\">部门</td>\n" +
-                "      <td class=\"am-text-middle\">姓名</td>\n" +
-                "      <td class=\"am-text-middle\">总监/副总监个人业绩</td>\n" +
-                "      <td class=\"am-text-middle\">个人业绩佣金</td>\n" +
+                "      <td class='am-text-middle'>部门</td>\n" +
+                "      <td class='am-text-middle'>姓名</td>\n" +
+                "      <td class='am-text-middle'>总监/副总监个人业绩</td>\n" +
+                "      <td class='am-text-middle'>个人业绩佣金</td>\n" +
                 "    </tr>");
         for (int i = 0; i < personalList.size(); i++) {
             Object[] obj = (Object[]) personalList.get(i);
@@ -199,24 +202,28 @@
     printWriter.print("</tbody>\n" +
             "    </table>\n" +
             "</div>\n" +
-            "<script src=\"http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js\"></script>\n" +
-            "<script src=\"/js/amaze/amazeui.page.js\"></script>\n" +
-            "<script src=\"/js/table2excel/Blob.js\"></script>\n" +
-            "<script src=\"/js/table2excel/FileSaver.js\"></script>\n" +
-            "<script src=\"/js/table2excel/tableExport.js\"></script>\n" +
-            "<script src=\"/js/comm.js\"></script>" +
+            "<script src='http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js'></script>\n" +
+            "<script src='/js/amaze/amazeui.page.js'></script>\n" +
+            "<script src='/js/table2excel/Blob.js'></script>\n" +
+            "<script src='/js/table2excel/FileSaver.js'></script>\n" +
+            "<script src='/js/table2excel/tableExport.js'></script>\n" +
+            "<script src='/js/comm.js'></script>" +
             "<script>\n" +
-            "  // 使用outerHTML属性获取整个table元素的HTML代码（包括<table>标签），然后包装成一个完整的HTML文档，设置charset为urf-8以防止中文乱码\n" +
-            "  var html = \"<html><head><meta charset='utf-8' /></head><body>\" + document.getElementsByTagName(\"table\")[0].outerHTML + \"</body></html>\";\n" +
-            "  // 实例化一个Blob对象，其构造函数的第一个参数是包含文件内容的数组，第二个参数是包含文件类型属性的对象\n" +
-            "  var blob = new Blob([html], {type: \"application/vnd.ms-excel\"});\n" +
-            "//  var a = document.getElementsByTagName(\"a\")[0];\n" +
-            "  var a = document.getElementById(\"export\");\n" +
-            "  // 利用URL.createObjectURL()方法为a元素生成blob URL\n" +
-            "  a.href = URL.createObjectURL(blob);\n" +
-            "  // 设置文件名，目前只有Chrome和FireFox支持此属性\n" +
-            "  a.download = \"佣金表.xls\";\n" +
-            "" +
+            "// 使用outerHTML属性获取整个table元素的HTML代码（包括<table>标签），然后包装成一个完整的HTML文档，设置charset为urf-8以防止中文乱码\n" +
+            "    var html = \"<html><head><meta charset='utf-8' /></head><body>\" + document.getElementsByTagName(\"table\")[0].outerHTML + \"</body></html>\";\n" +
+            "    // 实例化一个Blob对象，其构造函数的第一个参数是包含文件内容的数组，第二个参数是包含文件类型属性的对象\n" +
+            "    var blob = new Blob([html], {type: \"application/vnd.ms-excel\"});\n" +
+            "    //  var a = document.getElementsByTagName(\"a\")[0];\n" +
+            "    var a = document.getElementById(\"export\");\n" +
+            "    // 利用URL.createObjectURL()方法为a元素生成blob URL\n" +
+            "    a.href = URL.createObjectURL(blob);\n" +
+            "    // 设置文件名，目前只有Chrome和FireFox支持此属性\n" +
+            "    a.download = \"佣金表.xls\";" +
+            "$('#time').change(function () {\n" +
+            "        time = $('#time').val();\n" +
+            "        var url = '/commission/ctables?time=' + time;\n" +
+            "        window.parent.changeUrl(url);\n" +
+            "    });" +
 
             "</script>" +
             "</body>\n" +
