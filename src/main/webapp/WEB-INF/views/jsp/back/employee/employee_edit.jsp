@@ -1,5 +1,6 @@
 <%@ page import="com.rccf.model.*" %>
-<%@ page import="com.rccf.util.Strings" %><%--
+<%@ page import="com.rccf.util.Strings" %>
+<%@ page import="com.rccf.util.DateUtil" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/10/19
@@ -167,8 +168,8 @@
                     <span class="am-input-group-label">
                      入职时间:
                      </span>
-                                <input class="am-form-field" type="text"
-                                       value="<%=employee!=null ?Strings.getInputString(employee,employee.getEntryTime()):""%>">
+                                <input class="am-form-field" type="date"
+                                       value="<%=employee!=null&&employee.getEntryTime()!=null?DateUtil.date2StringSimple(DateUtil.timestamp2Date(employee.getEntryTime())):""%>">
                             </div>
                         </div>
                     </div>
@@ -236,9 +237,15 @@
                                 <%--<input class="am-form-field" type="text"--%>
                                 <%--value="<%=Strings.getInputString(employee,employee.getSex())%>">--%>
                                 <select id="sex">
-                                    <option value="0">未知</option>
-                                    <option value="1">男</option>
-                                    <option value="2">女</option>
+                                    <option value="0" <%=employee != null && employee.getSex() == 0 ? "selected = \"selected\"" : ""%>>
+                                        未知
+                                    </option>
+                                    <option value="1" <%=employee != null && employee.getSex() == 1 ? "selected = \"selected\"" : ""%>>
+                                        男
+                                    </option>
+                                    <option value="2" <%=employee != null && employee.getSex() == 2 ? "selected = \"selected\"" : ""%>>
+                                        女
+                                    </option>
                                 </select>
 
                             </div>
@@ -250,8 +257,18 @@
                     <span class="am-input-group-label">
                      状&emsp;&emsp;态:
                      </span>
-                                <input class="am-form-field" type="text"
-                                       value="<%=employee!=null ? Strings.getInputString(employee,employee.getState()):""%>">
+                                <%--<input class="am-form-field" type="text"--%>
+                                <%--value="<%=employee!=null ? Strings.getInputString(employee,employee.getState()):""%>">--%>
+                                <select id="state">
+                                    <option value="0" <%=employee != null && employee.getState() == 0 ? "selected = \"selected\"" : ""%>>
+                                        离职
+                                    </option>
+                                    <option value="1" <%=employee != null && employee.getState() == 1 ? "selected = \"selected\"" : ""%>>
+                                        在职
+                                    </option>
+                                </select>
+
+
                             </div>
                         </div>
                     </div>

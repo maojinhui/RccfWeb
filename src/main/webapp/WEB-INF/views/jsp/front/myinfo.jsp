@@ -45,7 +45,7 @@
 
         <div class="rccf_list rccf_margin_bottom ">
             <div class="weui-cells fz32">
-                <a class="weui-cell weui-cell_access" href="rccf_mine_invitation.html">
+                <a class="weui-cell weui-cell_access" href="/invite/myinvite">
                     <div class="weui-cell__hd"><img src="/image/app/user/mine.png"></div>
                     <div class="weui-cell__bd">
                         <p>我的邀请</p>
