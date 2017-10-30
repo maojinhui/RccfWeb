@@ -113,7 +113,7 @@
                         <span class="am-input-group-label">
                          部&emsp;&emsp;门:
                          </span>
-                                <input class="am-form-field" type="text"
+                                <input id="department" class="am-form-field" type="text"
                                        value="<%=employee!=null ? Strings.getInputString(employee.getDepartment()):""%>">
                             </div>
                         </div>
@@ -124,7 +124,7 @@
                         <span class="am-input-group-label">
                          总&emsp;&emsp;监:
                          </span>
-                                <input class="am-form-field" type="text"
+                                <input id="director" class="am-form-field" type="text"
                                        value="<%=employee!=null?Strings.getInputString(employee.getDirectorName()):""%>">
                             </div>
                         </div>
@@ -135,7 +135,7 @@
                         <span class="am-input-group-label">
                          &emsp;副总监:
                          </span>
-                                <input class="am-form-field" type="text"
+                                <input id="deputy_director" class="am-form-field" type="text"
                                        value="<%=employee!=null ? Strings.getInputString(employee.getDuptyDirectorName()):"" %>">
                             </div>
                         </div>
@@ -146,7 +146,7 @@
                         <span class="am-input-group-label">
                          岗&emsp;&emsp;位:
                          </span>
-                                <input class="am-form-field" type="text"
+                                <input id="duties" class="am-form-field" type="text"
                                        value="<%=employee!=null?Strings.getInputString(employee.getDuties()):""%>">
                             </div>
                         </div>
@@ -157,7 +157,7 @@
                             <span class="am-input-group-label">
                              姓&emsp;&emsp;名:
                              </span>
-                                <input class="am-form-field" type="text"
+                                <input id="name" class="am-form-field" type="text"
                                        value="<%=employee!=null?Strings.getInputString(employee,employee.getName()):""%>">
                             </div>
                         </div>
@@ -168,7 +168,7 @@
                     <span class="am-input-group-label">
                      入职时间:
                      </span>
-                                <input class="am-form-field" type="date"
+                                <input id="entrytime" class="am-form-field" type="date"
                                        value="<%=employee!=null&&employee.getEntryTime()!=null?DateUtil.date2StringSimple(DateUtil.timestamp2Date(employee.getEntryTime())):""%>">
                             </div>
                         </div>
@@ -179,7 +179,7 @@
                     <span class="am-input-group-label">
                      转正日期:
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="turntime" class="am-form-field" type="date"
                                        value="<%=employee!=null ?Strings.getInputString(employee,employee.getTurnTime()):""%>">
                             </div>
                         </div>
@@ -188,9 +188,9 @@
                         <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
                             <div class="am-input-group am-input-group-sm">
                         <span class="am-input-group-label">
-                         编&emsp;&emsp;号:
+                         员工编号:
                          </span>
-                                <input class="am-form-field" type="text"
+                                <input id="code" class="am-form-field" type="text"
                                        value="<%=employee!=null ? Strings.getInputString(employee,employee.getCode()):""%>">
                             </div>
                         </div>
@@ -201,7 +201,7 @@
                         <span class="am-input-group-label">
                          &emsp;门禁号:
                          </span>
-                                <input class="am-form-field" type="text"
+                                <input id="access_control_number" class="am-form-field" type="text"
                                        value="<%=employee!=null ? Strings.getInputString(employee,employee.getAccessControlNumber()):""%>">
                             </div>
                         </div>
@@ -212,7 +212,7 @@
                         <span class="am-input-group-label">
                          &emsp;曾用名:
                          </span>
-                                <input class="am-form-field" type="text"
+                                <input id="name_once" class="am-form-field" type="text"
                                        value="<%=employee!=null ? Strings.getInputString(employee,employee.getNameOnce()):""%>">
                             </div>
                         </div>
@@ -223,7 +223,7 @@
                         <span class="am-input-group-label">
                          &emsp;英文名:
                          </span>
-                                <input class="am-form-field" type="text"
+                                <input id="name_en" class="am-form-field" type="text"
                                        value="<%=employee!=null ?Strings.getInputString(employee,employee.getNameEn()):""%>">
                             </div>
                         </div>
@@ -278,7 +278,7 @@
                     <span class="am-input-group-label">
                      离职日期:
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="leavetime" class="am-form-field" type="date"
                                        value="<%=employee !=null ?Strings.getInputString(employee,employee.getLeaveTime()):""%>">
                             </div>
                         </div>
@@ -289,11 +289,14 @@
                     <span class="am-input-group-label">
                      离职原因:
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="leavereason" class="am-form-field" type="text"
                                        value="<%=employee!=null ? Strings.getInputString(employee,employee.getLeaveReason()):""%>">
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
+                    <button id="btn_gangwei" type="button" class="am-btn am-btn-primary  am-u-sm-6">确认保存</button>
                 </div>
             </div>
             <div class="am-tab-panel">
@@ -843,12 +846,12 @@
         </div>
     </div>
 
-    <div class="am-g am-margin-bottom-lg">
-        <div class="am-u-sm-12 am-u-md-8 am-u-lg-4 am-u-sm-centered">
-            <button type="button" class="am-btn am-btn-primary  am-u-sm-6">确认保存</button>
-            <button type="button" class="am-btn am-btn-default  am-u-sm-6 am-u-end">取消编辑</button>
-        </div>
-    </div>
+    <%--<div class="am-g am-margin-bottom-lg">--%>
+    <%--<div class="am-u-sm-12 am-u-md-8 am-u-lg-4 am-u-sm-centered">--%>
+    <%--<button type="button" class="am-btn am-btn-primary  am-u-sm-6">确认保存</button>--%>
+    <%--<button type="button" class="am-btn am-btn-default  am-u-sm-6 am-u-end">取消编辑</button>--%>
+    <%--</div>--%>
+    <%--</div>--%>
 
 </div>
 
@@ -964,6 +967,61 @@
             changeFn(dvPreview, $(this), e_eid, 'examination');
         });
 
+        function network(url, data) {
+            data.eid = '<%=employee!=null?employee.getId():"-1"%>';
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                data: data,
+                type: 'POST',
+                success: function (result) {
+                    if (result.code) {
+                        alert('提交成功');
+                    } else {
+                        alert(result.errormsg);
+                    }
+                }
+            });
+
+
+        }
+
+
+        $('#btn_gangwei').click(function () {
+            var info = {};
+            var department = $('#department').val();
+            var director = $('#director').val();
+            var deputy_director = $('#deputy_director').val();
+            var duties = $('#duties').val();
+            var name = $('#name').val();
+            var entrytime = $('#entrytime').val();
+            var turntime = $('#turntime').val();
+            var code = $('#code').val();
+            var access_control_number = $('#access_control_number').val();
+            var name_once = $('#name_once').val();
+            var name_en = $('#name_en').val();
+            var sex = $('#sex').val();
+            var state = $('#state').val();
+            var leavetime = $('#leavetime').val();
+            var leavereason = $('#leavereason').val();
+
+            info.department = department;
+            info.director = director;
+            info.deputy_director = deputy_director;
+            info.duties = duties;
+            info.name = name;
+            info.entrytime = entrytime;
+            info.turntime = turntime;
+            info.code = code;
+            info.access_control_number = access_control_number;
+            info.name_once = name_once;
+            info.name_en = name_en;
+            info.sex = sex;
+            info.state = state;
+            info.leavetime = leavetime;
+            info.leavereason = leavereason;
+            network('/employee/editPost', info);
+        });
     })
 </script>
 </body>

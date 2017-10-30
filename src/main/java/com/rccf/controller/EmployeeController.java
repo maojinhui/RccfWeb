@@ -59,6 +59,85 @@ public class EmployeeController {
     SpyMemcachedManager spyMemcachedManager;
 
 
+    @ResponseBody
+    @RequestMapping(value = "/editPost")
+    public String editEmployeeGangwei(HttpServletRequest request) throws Exception {
+        String eid = request.getParameter("eid");
+        String department = request.getParameter("department");
+        String director_name = request.getParameter("director");
+        String deputy_director_name = request.getParameter("deputy_director");
+        String duties = request.getParameter("duties");
+        String name = request.getParameter("name");
+        String entrytime = request.getParameter("entrytime");
+        String turntime = request.getParameter("turntime");
+        String code = request.getParameter("code");
+        String access_control_number = request.getParameter("access_control_number");
+        String name_once = request.getParameter("name_once");
+        String name_en = request.getParameter("name_en");
+        String sex = request.getParameter("sex");
+        String state = request.getParameter("state");
+        String leavetime = request.getParameter("leavetime");
+        String leavereason = request.getParameter("leavereason");
+        if (Strings.isNullOrEmpty(eid)) {
+            return ResponseUtil.fail(0, "用户id错误");
+        }
+        int id = Integer.valueOf(eid);
+        Employee employee;
+        if (id < 1) {
+            employee = new Employee();
+            employee.setCode(getLastCode());
+            String pass = new DesEncrypt().encrypt("123456");
+            pass = ShaEncript.encryptSHA(pass);
+            employee.setPassword(pass);
+
+
+        } else {
+            employee = employeeService.findEmpolyeeById(id);
+        }
+        employee.setDepartment(department);
+        if (Strings.isNullOrEmpty(deputy_director_name)) {
+            Employee deputy = employeeService.findEmpolyeeByName(deputy_director_name);
+            if (deputy != null) {
+                employee.setDuptyDirectorName(deputy.getName());
+                employee.setDuptyDirector(deputy.getCode());
+            }
+        }
+
+        if (Strings.isNullOrEmpty(director_name)) {
+            Employee directorE = employeeService.findEmpolyeeByName(director_name);
+            if (directorE != null) {
+                employee.setDirectorName(directorE.getName());
+                employee.setDirector(directorE.getCode());
+            }
+        }
+
+        employee.setDuties(duties);
+        employee.setName(name);
+        employee.setEntryTime(DateUtil.date2Timestamp(DateUtil.string2Date(entrytime)));
+        employee.setTurnTime(DateUtil.date2Timestamp(DateUtil.string2Date(turntime)));
+//        employee.setCode(code);
+        if (!Strings.isNullOrEmpty(access_control_number)) {
+            employee.setAccessControlNumber(Integer.valueOf(access_control_number));
+        }
+        employee.setNameOnce(name_once);
+        employee.setNameEn(name_en);
+        employee.setSex(Integer.valueOf(sex));
+        int state_ = Integer.valueOf(state);
+        employee.setState(state_);
+        if (state_ == 0) {
+            employee.setLeaveTime(DateUtil.date2Timestamp(DateUtil.string2Date(leavetime)));
+            employee.setLeaveReason(leavereason);
+        }
+        boolean save = employeeService.saveOrUpdate(employee);
+        if (save) {
+            return ResponseUtil.success();
+        } else {
+            return ResponseUtil.fail();
+        }
+    }
+
+
+
     @RequestMapping(value = "/editPage")
     public ModelAndView addEmployeePage(HttpServletRequest request, HttpServletResponse response) {
 //        ModelAndView modelAndView = new ModelAndView("/back/employee/add_edit");
@@ -678,6 +757,7 @@ public class EmployeeController {
         }
         return prefix + (i + 1);
     }
+
 
 
     @ResponseBody
