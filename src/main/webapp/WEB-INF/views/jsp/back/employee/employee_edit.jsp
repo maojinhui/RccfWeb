@@ -180,7 +180,7 @@
                      转正日期:
                      </span>
                                 <input id="turntime" class="am-form-field" type="date"
-                                       value="<%=employee!=null ?Strings.getInputString(employee,employee.getTurnTime()):""%>">
+                                       value="<%=employee!=null ?DateUtil.date2StringSimple(DateUtil.timestamp2Date(employee.getTurnTime())):""%>">
                             </div>
                         </div>
                     </div>
@@ -190,7 +190,7 @@
                         <span class="am-input-group-label">
                          员工编号:
                          </span>
-                                <input id="code" class="am-form-field" type="text"
+                                <input id="code" class="am-form-field" type="text" readonly
                                        value="<%=employee!=null ? Strings.getInputString(employee,employee.getCode()):""%>">
                             </div>
                         </div>
@@ -279,7 +279,7 @@
                      离职日期:
                      </span>
                                 <input id="leavetime" class="am-form-field" type="date"
-                                       value="<%=employee !=null ?Strings.getInputString(employee,employee.getLeaveTime()):""%>">
+                                       value="<%=employee !=null ? DateUtil.date2StringSimple(DateUtil.timestamp2Date(employee.getLeaveTime())):""%>">
                             </div>
                         </div>
                     </div>
@@ -308,7 +308,7 @@
                     <span class="am-input-group-label">
                      用工形式:
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="contract_worktype" class="am-form-field" type="text"
                                        value="<%=contract!=null ? Strings.getInputString(contract.getWorkType()):""%>">
                             </div>
                         </div>
@@ -319,7 +319,7 @@
                     <span class="am-input-group-label">
                      合同编号:
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="contract_code" class="am-form-field" type="text"
                                        value="<%=contract!=null ?Strings.getInputString(contract.getContractCode()):""%>">
                             </div>
                         </div>
@@ -330,8 +330,8 @@
                     <span class="am-input-group-label">
                      合同发放:
                      </span>
-                                <input class="am-form-field" type="text"
-                                       value="<%=contract!=null ?Strings.getInputString(contract.getContractReleaseDate()):""%>">
+                                <input id="contract_releasedate" class="am-form-field" type="date"
+                                       value="<%=contract!=null&&contract.getContractReleaseDate()!=null?DateUtil.date2StringSimple(contract.getContractReleaseDate()):""%>">
                             </div>
                         </div>
                     </div>
@@ -341,7 +341,7 @@
                     <span class="am-input-group-label">
                      合同类型:
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="contract_type" class="am-form-field" type="text"
                                        value="<%=contract!=null ? Strings.getInputString(contract.getContractType()):""%>">
                             </div>
                         </div>
@@ -352,7 +352,7 @@
                     <span class="am-input-group-label">
                      合同期限:
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="contract_term" class="am-form-field" type="text"
                                        value="<%=contract!=null ? Strings.getInputString(contract.getContractDeadline()):""%>">
                             </div>
                         </div>
@@ -364,8 +364,8 @@
                     <span class="am-input-group-label">
                      <small>签定合同日期:</small>
                      </span>
-                                <input class="am-form-field" type="text"
-                                       value="<%=contract!=null ? Strings.getInputString(contract.getContractSignDate()):""%>">
+                                <input id="contract_sign_date" class="am-form-field" type="date"
+                                       value="<%=contract!=null? DateUtil.date2StringSimple(contract.getContractSignDate()):""%>">
                             </div>
                         </div>
                     </div>
@@ -375,8 +375,8 @@
                     <span class="am-input-group-label">
                      <small>合同生效日期:</small>
                      </span>
-                                <input class="am-form-field" type="text"
-                                       value="<%=contract!=null ? Strings.getInputString(contract.getContractEffectDate()):""%>">
+                                <input id="contract_effact_date" class="am-form-field" type="date"
+                                       value="<%=contract!=null ? DateUtil.date2StringSimple(contract.getContractEffectDate()):""%>">
                             </div>
                         </div>
                     </div>
@@ -387,8 +387,8 @@
                     <span class="am-input-group-label">
                      <small>合同终止日期:</small>
                      </span>
-                                <input class="am-form-field" type="text"
-                                       value="<%=contract!=null ? Strings.getInputString(contract.getContractEffectDate()):""%>">
+                                <input id="contract_enddate" class="am-form-field" type="date"
+                                       value="<%=contract!=null ? DateUtil.date2StringSimple(contract.getContractEndDate()):""%>">
                             </div>
                         </div>
                     </div>
@@ -398,7 +398,7 @@
                     <span class="am-input-group-label">
                      <small>合同剩余天数:</small>
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="contract_laveday" class="am-form-field" type="text"
                                        value="<%=contract!=null ?Strings.getInputString(contract.getContractLaveDay()):""%>">
                             </div>
                         </div>
@@ -409,7 +409,7 @@
                     <span class="am-input-group-label">
                      <small>换签劳动合同:</small>
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="contract_change" class="am-form-field" type="text"
                                        value="<%=contract!=null ?Strings.getInputString(contract.getContractChange()):""%>">
                             </div>
                         </div>
@@ -420,37 +420,41 @@
                     <span class="am-input-group-label">
                      <small>合同续签情况:</small>
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="contract_continue" class="am-form-field" type="text"
                                        value="<%=contract!=null ?Strings.getInputString(contract.getContractContinue()):""%>">
                             </div>
                         </div>
                     </div>
 
                 </div>
+                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
+                    <button id="btn_contract" type="button" class="am-btn am-btn-primary  am-u-sm-6">确认保存</button>
+                </div>
+
             </div>
             <div class="am-tab-panel">
                 <!--基础信息-->
                 <div class="am-margin-bottom-lg">
-                    <div class="am-g">
-                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
-                            <div class="am-input-group am-input-group-sm">
-                    <span class="am-input-group-label">
-                     户籍所在地:
-                     </span>
-                                <input class="am-form-field" type="text"
-                                       value="<%=base!=null ? Strings.getInputString(base.getNation()):""%>">
-                            </div>
-                        </div>
-                    </div>
+                    <%--<div class="am-g">--%>
+                    <%--<div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">--%>
+                    <%--<div class="am-input-group am-input-group-sm">--%>
+                    <%--<span class="am-input-group-label">--%>
+                    <%--户籍所在地:--%>
+                    <%--</span>--%>
+                    <%--<input id="base_nation" class="am-form-field" type="text"--%>
+                    <%--value="<%=base!=null ? Strings.getInputString(base.getNation()):""%>">--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
 
-                    <!--民族	血型	婚否	政治面貌	年龄	出生年月	身份证号	参   加   工作时间	子女姓名	子女生日-->
+                    <!--民族	血型	婚否	政治面貌	年龄	出生年月	身份证号 参加工作时间	子女姓名	子女生日-->
                     <div class="am-g">
                         <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
                             <div class="am-input-group am-input-group-sm">
                     <span class="am-input-group-label">
                      民&emsp;&emsp;族:
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="base_nation" class="am-form-field" type="text"
                                        value="<%=base!=null ? Strings.getInputString(base.getNation()):""%>">
                             </div>
                         </div>
@@ -461,7 +465,7 @@
                     <span class="am-input-group-label">
                      血&emsp;&emsp;型:
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="base_bloodtype" class="am-form-field" type="text"
                                        value="<%=base!=null ? Strings.getInputString(base.getBloodtype()):""%>">
                             </div>
                         </div>
@@ -472,8 +476,19 @@
                     <span class="am-input-group-label">
                      婚&emsp;&emsp;否:
                      </span>
-                                <input class="am-form-field" type="text"
-                                       value="<%=base!=null ? Strings.getInputString(base.getMarried()):""%>">
+                                <%--<input class="am-form-field" type="text"--%>
+                                <%--value="<%=base!=null ? Strings.getInputString(base.getMarried()):""%>">--%>
+                                <select id="base_married">
+                                    <option value="-1" <%=base != null && base.getMarried() != null && base.getMarried() == -1 ? "selected = 'selected'" : ""%>>
+                                        未知
+                                    </option>
+                                    <option value="0" <%=base != null && base.getMarried() != null && base.getMarried() == 0 ? "selected = 'selected'" : ""%>>
+                                        未婚
+                                    </option>
+                                    <option value="1" <%=base != null && base.getMarried() != null && base.getMarried() == 1 ? "selected = 'selected'" : ""%>>
+                                        已婚
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -483,8 +498,26 @@
                     <span class="am-input-group-label">
                      政治面貌:
                      </span>
-                                <input class="am-form-field" type="text"
-                                       value="<%=base!=null ? Strings.getInputString(base.getPolitical()):""%>">
+                                <%--<input id="base_political" class="am-form-field" type="text"--%>
+                                <%--value="<%=base!=null ? Strings.getInputString(base.getPolitical()):""%>">--%>
+                                <select id="base_political">
+                                    <option value="0" <%=base != null && base.getPolitical() != null && base.getPolitical() == 0 ? "selected = 'selected'" : ""%>>
+                                        未知
+                                    </option>
+                                    <option value="1" <%=base != null && base.getPolitical() != null && base.getPolitical() == 1 ? "selected = 'selected'" : ""%>>
+                                        党员
+                                    </option>
+                                    <option value="2" <%=base != null && base.getPolitical() != null && base.getPolitical() == 2 ? "selected = 'selected'" : ""%>>
+                                        预备党员
+                                    </option>
+                                    <option value="3" <%=base != null && base.getPolitical() != null && base.getPolitical() == 3 ? "selected = 'selected'" : ""%>>
+                                        团员
+                                    </option>
+                                    <option value="4" <%=base != null && base.getPolitical() != null && base.getPolitical() == 4 ? "selected = 'selected'" : ""%>>
+                                        群众
+                                    </option>
+                                </select>
+
                             </div>
                         </div>
                     </div>
@@ -504,8 +537,8 @@
                     <span class="am-input-group-label">
                      出生年月:
                      </span>
-                                <input class="am-form-field" type="text"
-                                       value="<%=base!=null ? Strings.getInputString(base.getBirthday()):""%>">
+                                <input id="base_birthday" class="am-form-field" type="date"
+                                       value="<%=base!=null ? DateUtil.date2StringSimple(base.getBirthday()) :""%>">
                             </div>
                         </div>
                     </div>
@@ -515,7 +548,7 @@
                     <span class="am-input-group-label">
                      身份证号:
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="base_idcard" class="am-form-field" type="text"
                                        value="<%=base!=null ? Strings.getInputString(base.getIdcard()):""%>">
                             </div>
                         </div>
@@ -526,13 +559,18 @@
                     <span class="am-input-group-label">
                      <small>参加工作时间:</small>
                      </span>
-                                <input class="am-form-field" type="text"
-                                       value="<%=base!=null ? Strings.getInputString(base.getBeginWorkTime()):""%>">
+                                <input id="base_beginwork" class="am-form-field" type="date"
+                                       value="<%=base!=null ? DateUtil.date2StringSimple(base.getBirthday()) :""%>">
                             </div>
                         </div>
                     </div>
 
                 </div>
+
+                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
+                    <button id="btn_base" type="button" class="am-btn am-btn-primary  am-u-sm-6">确认保存</button>
+                </div>
+
             </div>
 
             <div class="am-tab-panel">
@@ -544,7 +582,7 @@
                     <span class="am-input-group-label">
                      联系电话:
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="connect_phone" class="am-form-field" type="text"
                                        value="<%=employee!=null ? Strings.getInputString(employee.getPhone()):"" %>">
                             </div>
                         </div>
@@ -555,7 +593,7 @@
                     <span class="am-input-group-label">
                      家庭住址:
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="connect_address_idcard" class="am-form-field" type="text"
                                        value="<%=employee != null ? Strings.getInputString(employee.getAddressIdcard()):"" %>">
                             </div>
                         </div>
@@ -566,7 +604,7 @@
                     <span class="am-input-group-label">
                      &emsp;现住址:
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="connect_address_now" class="am-form-field" type="text"
                                        value="<%=employee!=null?Strings.getInputString(employee.getAddressNow()):""%>">
                             </div>
                         </div>
@@ -579,7 +617,7 @@
                     <span class="am-input-group-label">
                      紧急联系人:
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="connect_urgent_name" class="am-form-field" type="text"
                                        value="<%=connectOther!=null?Strings.getInputString(connectOther.getName()):""%>">
                             </div>
                         </div>
@@ -591,7 +629,7 @@
                     <span class="am-input-group-label">
                      与本人关系:
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="connect_relationship" class="am-form-field" type="text"
                                        value="<%=connectOther!=null?Strings.getInputString(connectOther.getRelationship()):""%>">
                             </div>
                         </div>
@@ -603,7 +641,7 @@
                     <span class="am-input-group-label">
                      <small>紧急联系电话:</small>
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="connect_urgent_phone" class="am-form-field" type="text"
                                        value="<%=connectOther!=null?Strings.getInputString(connectOther.getPhone()):""%>">
                             </div>
                         </div>
@@ -625,13 +663,17 @@
                     <span class="am-input-group-label">
                      紧急联系人地址:
                      </span>
-                                <input class="am-form-field" type="text"
+                                <input id="connect_urgent_address" class="am-form-field" type="text"
                                        value="<%=connectOther!=null?Strings.getInputString(connectOther.getAddress()):""%>">
                             </div>
                         </div>
                     </div>
 
                 </div>
+                <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-sm-centered">
+                    <button id="btn_connect" type="button" class="am-btn am-btn-primary  am-u-sm-6">确认保存</button>
+                </div>
+
             </div>
 
             <div class="am-tab-panel">
@@ -906,7 +948,6 @@
                             form.append('type', type);
                             form.append('file', file[0]);
                             uploadFile(form, dvPreview, e);
-
                         };
                         reader.readAsDataURL(file[0]);
 
@@ -977,6 +1018,8 @@
                 success: function (result) {
                     if (result.code) {
                         alert('提交成功');
+
+
                     } else {
                         alert(result.errormsg);
                     }
@@ -1022,6 +1065,75 @@
             info.leavereason = leavereason;
             network('/employee/editPost', info);
         });
+
+        $('#btn_contract').click(function () {
+            var info = {};
+            var contract_worktype = $('#contract_worktype').val();
+            var contract_code = $('#contract_code').val();
+            var contract_releasedate = $('#contract_releasedate').val();
+            var contract_type = $('#contract_type').val();
+            var contract_term = $('#contract_term').val();
+            var contract_sign_date = $('#contract_sign_date').val();
+            var contract_effact_date = $('#contract_effact_date').val();
+            var contract_enddate = $('#contract_enddate').val();
+            var contract_laveday = $('#contract_laveday').val();
+            var contract_change = $('#contract_change').val();
+            var contract_continue = $('#contract_continue').val();
+            info.contract_worktype = contract_worktype;
+            info.contract_code = contract_code;
+            info.contract_releasedate = contract_releasedate;
+            info.contract_type = contract_type;
+            info.contract_term = contract_term;
+            info.contract_sign_date = contract_sign_date;
+            info.contract_effact_date = contract_effact_date;
+            info.contract_enddate = contract_enddate;
+            info.contract_laveday = contract_laveday;
+            info.contract_change = contract_change;
+            info.contract_continue = contract_continue;
+            network("/employee/editContract", info);
+        });
+
+        $('#btn_base').click(function () {
+            var info = {};
+            var base_nation = $('#base_nation').val();
+            var base_bloodtype = $('#base_bloodtype').val();
+            var base_married = $('#base_married').val();
+            var base_political = $('#base_political').val();
+            var base_birthday = $('#base_birthday').val();
+            var base_idcard = $('#base_idcard').val();
+            var base_beginwork = $('#base_beginwork').val();
+            info.base_nation = base_nation;
+            info.base_bloodtype = base_bloodtype;
+            info.base_married = base_married;
+            info.base_political = base_political;
+            info.base_birthday = base_birthday;
+            info.base_idcard = base_idcard;
+            info.base_beginwork = base_beginwork;
+            network('/employee/editBase', info);
+
+        });
+
+        $('#btn_connect').click(function () {
+            info = {};
+            var connect_phone = $('#connect_phone').val();
+            var connect_address_idcard = $('#connect_address_idcard').val();
+            var connect_address_now = $('#connect_address_now').val();
+            var connect_urgent_name = $('#connect_urgent_name').val();
+            var connect_relationship = $('#connect_relationship').val();
+            var connect_urgent_phone = $('#connect_urgent_phone').val();
+            var connect_urgent_address = $('#connect_urgent_address').val();
+            info.connect_phone = connect_phone;
+            info.connect_address_idcard = connect_address_idcard;
+            info.connect_address_now = connect_address_now;
+            info.connect_urgent_name = connect_urgent_name;
+            info.connect_relationship = connect_relationship;
+            info.connect_urgent_phone = connect_urgent_phone;
+            info.connect_urgent_address = connect_urgent_address;
+            network("/employee/editConnect", info);
+        });
+
+
+
     })
 </script>
 </body>

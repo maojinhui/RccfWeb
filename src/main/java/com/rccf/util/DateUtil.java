@@ -111,6 +111,9 @@ public class DateUtil {
      * @return
      */
     public static Date timestamp2Date(Timestamp ts) {
+        if (ts == null) {
+            return null;
+        }
         return new Date(ts.getTime());
 
     }
@@ -143,7 +146,21 @@ public class DateUtil {
         return dft.format(calendar.getTime());
     }
 
-
+    /**
+     * @param strDate 返回java.sql.Date格式的
+     */
+    public static java.sql.Date strToSqlDate(String strDate) {
+        String str = strDate;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
+        java.util.Date d = null;
+        try {
+            d = format.parse(str);
+        } catch (Exception e) {
+            return null;
+        }
+        java.sql.Date date = new java.sql.Date(d.getTime());
+        return date;
+    }
 
 
     public static void main(String args[]) {

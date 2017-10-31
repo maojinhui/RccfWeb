@@ -137,6 +137,165 @@ public class EmployeeController {
     }
 
 
+    @ResponseBody
+    @RequestMapping(value = "/editContract")
+    public String editEmployeeContract(HttpServletRequest request) {
+        String eid = request.getParameter("eid");
+        if (Strings.isNullOrEmpty(eid)) {
+            return ResponseUtil.fail(0, "用户id错误");
+        }
+        int id = Integer.valueOf(eid);
+        EmployeeContract contract = null;
+        if (id < 1) {
+//            contract = new EmployeeContract();
+//            contract.setEid(id);
+            return ResponseUtil.fail(0, "参数错误");
+        } else {
+//            contract= (EmployeeContract) baseService.get(EmployeeContract.class,id);
+            contract = employeeService.findContractByid(id);
+        }
+        String contract_worktype = request.getParameter("contract_worktype");
+        String contract_code = request.getParameter("contract_code");
+        String contract_releasedate = request.getParameter("contract_releasedate");
+        String contract_type = request.getParameter("contract_type");
+        String contract_term = request.getParameter("contract_term");
+        String contract_sign_date = request.getParameter("contract_sign_date");
+        String contract_effact_date = request.getParameter("contract_effact_date");
+        String contract_enddate = request.getParameter("contract_enddate");
+        String contract_laveday = request.getParameter("contract_laveday");
+        String contract_change = request.getParameter("contract_change");
+        String contract_continue = request.getParameter("contract_continue");
+
+        if (contract == null) {
+            contract = new EmployeeContract();
+            contract.setEid(id);
+        }
+
+        contract.setWorkType(contract_worktype);
+        contract.setContractCode(contract_code);
+        contract.setContractReleaseDate(DateUtil.strToSqlDate(contract_releasedate));
+        contract.setContractType(contract_type);
+        contract.setContractDeadline(contract_term);
+        contract.setContractSignDate(DateUtil.strToSqlDate(contract_sign_date));
+        contract.setContractEffectDate(DateUtil.strToSqlDate(contract_effact_date));
+        contract.setContractEndDate(DateUtil.strToSqlDate(contract_enddate));
+        if (!Strings.isNullOrEmpty(contract_laveday)) {
+            contract.setContractLaveDay(Integer.valueOf(contract_laveday));
+        }
+        contract.setContractChange(contract_change);
+        contract.setContractContinue(contract_continue);
+
+        boolean save = baseService.save(contract);
+
+        if (save) {
+            return ResponseUtil.success();
+        } else {
+            return ResponseUtil.fail();
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/editBase")
+    public String editEmployeeBase(HttpServletRequest request) {
+        String eid = request.getParameter("eid");
+        if (Strings.isNullOrEmpty(eid)) {
+            return ResponseUtil.fail(0, "用户id错误");
+        }
+        int id = Integer.valueOf(eid);
+        EmployeeBase base = null;
+        if (id < 1) {
+//            base = new EmployeeBase();
+//            base.setEid(id);
+            return ResponseUtil.fail(0, "参数错误");
+        } else {
+//            contract= (EmployeeContract) baseService.get(EmployeeContract.class,id);
+            base = employeeService.findBaseById(id);
+        }
+        String base_nation = request.getParameter("base_nation");
+        String base_bloodtype = request.getParameter("base_bloodtype");
+        String base_married = request.getParameter("base_married");
+        String base_political = request.getParameter("base_political");
+        String base_birthday = request.getParameter("base_birthday");
+        String base_idcard = request.getParameter("base_idcard");
+        String base_beginwork = request.getParameter("base_beginwork");
+        if (base == null) {
+            base = new EmployeeBase();
+            base.setEid(id);
+        }
+        base.setNation(base_nation);
+        base.setBloodtype(base_bloodtype);
+        base.setMarried(Integer.valueOf(base_married));
+        base.setPolitical(Integer.valueOf(base_political));
+        base.setBirthday(DateUtil.strToSqlDate(base_birthday));
+        base.setIdcard(base_idcard);
+        base.setBeginWorkTime(DateUtil.strToSqlDate(base_beginwork));
+
+        boolean save = baseService.save(base);
+        if (save) {
+            return ResponseUtil.success();
+        }
+        return ResponseUtil.fail();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/editConnect")
+    public String editEmployeeConnect(HttpServletRequest request) {
+        String eid = request.getParameter("eid");
+        if (Strings.isNullOrEmpty(eid)) {
+            return ResponseUtil.fail(0, "用户id错误");
+        }
+        int id = Integer.valueOf(eid);
+        EmployeeConnectOther connectOther = null;
+        Employee employee = null;
+        if (id < 1) {
+            connectOther = new EmployeeConnectOther();
+        } else {
+            connectOther = (EmployeeConnectOther) baseService.get(EmployeeConnectOther.class, id);
+            employee = employeeService.findEmpolyeeById(id);
+        }
+
+        String connect_phone = request.getParameter("connect_phone");
+        String connect_address_idcard = request.getParameter("connect_address_idcard");
+        String connect_address_now = request.getParameter("connect_address_now");
+        String connect_urgent_name = request.getParameter("connect_urgent_name");
+        String connect_relationship = request.getParameter("connect_relationship");
+        String connect_urgent_phone = request.getParameter("connect_urgent_phone");
+        String connect_urgent_address = request.getParameter("connect_urgent_address");
+        if (connectOther == null) {
+            connectOther = new EmployeeConnectOther();
+            connectOther.setEid(id);
+        }
+        if (employee == null) {
+            return ResponseUtil.fail(0, "没有找到该员工");
+        }
+
+        if (Strings.isMobileNO(connect_phone)) {
+            employee.setPhone(connect_phone);
+        } else {
+            return ResponseUtil.fail(0, "手机号格式错误");
+        }
+        employee.setAddressIdcard(connect_address_idcard);
+        employee.setAddressNow(connect_address_now);
+
+//        connectOther.setEid(id);
+        connectOther.setName(connect_urgent_name);
+        connectOther.setRelationship(connect_relationship);
+        connectOther.setPhone(connect_urgent_phone);
+        connectOther.setAddress(connect_urgent_address);
+
+        boolean save = employeeService.saveOrUpdate(employee);
+
+        boolean save2 = baseService.save(connectOther);
+        if (!save) {
+            return ResponseUtil.fail(0, "员工保存失败");
+        }
+        if (!save2) {
+            return ResponseUtil.fail(0, "紧急联系人保存失败");
+        }
+        return ResponseUtil.success();
+
+    }
+
 
     @RequestMapping(value = "/editPage")
     public ModelAndView addEmployeePage(HttpServletRequest request, HttpServletResponse response) {

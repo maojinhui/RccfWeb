@@ -6,7 +6,6 @@ import java.sql.Date;
 @Entity
 @Table(name = "employee_base", schema = "rccf", catalog = "")
 public class EmployeeBase {
-    private int id;
     private int eid;
     private String nation;
     private String bloodtype;
@@ -15,18 +14,9 @@ public class EmployeeBase {
     private Date birthday;
     private String idcard;
     private Date beginWorkTime;
+    private int id;
 
     @Id
-    @Column(name = "id")
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Basic
     @Column(name = "eid")
     public int getEid() {
         return eid;
@@ -106,6 +96,16 @@ public class EmployeeBase {
         this.beginWorkTime = beginWorkTime;
     }
 
+    @Basic
+    @Column(name = "id")
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -113,8 +113,8 @@ public class EmployeeBase {
 
         EmployeeBase that = (EmployeeBase) o;
 
-        if (id != that.id) return false;
         if (eid != that.eid) return false;
+        if (id != that.id) return false;
         if (nation != null ? !nation.equals(that.nation) : that.nation != null) return false;
         if (bloodtype != null ? !bloodtype.equals(that.bloodtype) : that.bloodtype != null) return false;
         if (married != null ? !married.equals(that.married) : that.married != null) return false;
@@ -129,8 +129,7 @@ public class EmployeeBase {
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + eid;
+        int result = eid;
         result = 31 * result + (nation != null ? nation.hashCode() : 0);
         result = 31 * result + (bloodtype != null ? bloodtype.hashCode() : 0);
         result = 31 * result + (married != null ? married.hashCode() : 0);
@@ -138,6 +137,7 @@ public class EmployeeBase {
         result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
         result = 31 * result + (idcard != null ? idcard.hashCode() : 0);
         result = 31 * result + (beginWorkTime != null ? beginWorkTime.hashCode() : 0);
+        result = 31 * result + id;
         return result;
     }
 }
