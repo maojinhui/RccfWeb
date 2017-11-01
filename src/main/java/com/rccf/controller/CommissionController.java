@@ -552,7 +552,10 @@ public class CommissionController {
             int role = Integer.valueOf(obj[3].toString());
             if (role == 4) {
                 JSONObject object = new JSONObject();
-                double yeji = Double.valueOf(obj[4].toString());
+                double yeji = 0;
+                if (obj[4] != null) {
+                    yeji = Double.valueOf(obj[4].toString());
+                }
                 double commission = yeji * rate_shichang_4;
                 yejizong += yeji;
                 object.put("yeji", yeji);
@@ -565,7 +568,11 @@ public class CommissionController {
                 department_shichang = obj[1].toString();
                 if (list_shichang_zongjian != null && list_shichang_zongjian.size() > 0) {
                     Object[] zongjianobject = list_shichang_zongjian.get(0);
-                    yejizongjian = Double.valueOf(zongjianobject[4].toString());
+                    if (zongjianobject[4] != null) {
+                        yejizongjian = Double.valueOf(zongjianobject[4].toString());
+                    } else {
+                        yejizongjian = 0;
+                    }
                 }
             }
         }
