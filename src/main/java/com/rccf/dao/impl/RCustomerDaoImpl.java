@@ -2,6 +2,7 @@ package com.rccf.dao.impl;
 
 import com.rccf.dao.RCustomerDao;
 import com.rccf.model.RCustomer;
+import com.rccf.model.RCustomerWork;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
@@ -41,5 +42,17 @@ public class RCustomerDaoImpl extends HibernateDaoSupport implements RCustomerDa
         detachedCriteria.add(Restrictions.like("phone", phone, MatchMode.ANYWHERE));
         List<RCustomer> rCustomers = (List<RCustomer>) getHibernateTemplate().findByCriteria(detachedCriteria);
         return rCustomers;
+    }
+
+    @Override
+    public RCustomerWork findRCustomerWorkByCustomerid(String customer_id) {
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(RCustomerWork.class);
+        detachedCriteria.add(Restrictions.eq("customerId", customer_id));
+        List<?> byCriteria = getHibernateTemplate().findByCriteria(detachedCriteria);
+        if (byCriteria != null && byCriteria.size() > 0) {
+            RCustomerWork work = (RCustomerWork) byCriteria.get(0);
+            return work;
+        }
+        return null;
     }
 }

@@ -4,6 +4,7 @@ package com.rccf.controller.customer;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.Employee;
 import com.rccf.model.RCustomer;
+import com.rccf.model.RCustomerWork;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.service.RCustomerService;
@@ -11,9 +12,6 @@ import com.rccf.util.BackUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
 import com.rccf.util.verify.CustomerVerify;
-import com.sun.org.apache.regexp.internal.RE;
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import com.sun.xml.internal.rngom.parse.host.Base;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/customer/info", produces = UrlConstants.PRODUCES)
@@ -38,8 +35,8 @@ public class CustomerInfoController {
     @Autowired
     EmployeeService employeeService;
 
-    @RequestMapping(value = "/list")
-    public ModelAndView customerList(HttpServletRequest request) {
+    @RequestMapping(value = "/listpage")
+    public ModelAndView customerListPage(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView("/back/customer/c_customer_list");
         Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         if (employee == null) {
@@ -55,6 +52,17 @@ public class CustomerInfoController {
         return modelAndView;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/list")
+    public String customerList(HttpServletRequest request) {
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(RCustomer.class);
+        detachedCriteria.createAlias("id", "id");
+        detachedCriteria.createAlias("name", "name");
+        detachedCriteria.createAlias("phone", "phone");
+
+
+        return ResponseUtil.fail();
+    }
 
     @RequestMapping(value = "/addpage")
     public ModelAndView addCustomerPage() {
@@ -73,24 +81,46 @@ public class CustomerInfoController {
             return ResponseUtil.fail(0, "客户姓名不能为空");
         }
         if (!Strings.isNullOrEmpty(phone)) {
-            boolean hasCustomer = CustomerVerify.hasCustomerByPhone(phone);
+            boolean hasCustomer = CustomerVerify.hasCustomerByPhone(baseService, phone);
             if (hasCustomer) {
                 return ResponseUtil.fail(0, "该客户已经被别人录入");
             }
         } else {
-            boolean hasCustomer = CustomerVerify.hasCustomerByName(name);
-            if (hasCustomer) {
-                return ResponseUtil.fail(0, "未填写手机号，并且客户姓名已录入系统");
-            }
+            return ResponseUtil.fail(0, "请填写客户手机号");
         }
+
+//        else {
+//            boolean hasCustomer = CustomerVerify.hasCustomerByName( baseService , name);
+//            if (hasCustomer) {
+//                return ResponseUtil.fail(0, "未填写手机号，并且客户姓名已录入系统");
+//            }
+//        }
         RCustomer rCustomer = new RCustomer();
         rCustomer.setName(name);
         rCustomer.setPhone(phone);
         boolean save = baseService.save(rCustomer);
         if (save) {
-            return ResponseUtil.success();
+            return ResponseUtil.success(rCustomer.getId());
         }
         return ResponseUtil.fail(0, "保存失败");
+    }
+
+    @RequestMapping(value = "/editpage")
+    public ModelAndView editCustomerPage(HttpServletRequest request) {
+        String customer_id = request.getParameter("customer_id");
+        RCustomer rCustomer = null;
+        if (Strings.isNullOrEmpty(customer_id)) {
+            return new ModelAndView("/other/import_fail").addObject("data", "客户id上传错误");
+        } else {
+            rCustomer = rCustomerService.findRCustomerByID(customer_id);
+            if (rCustomer == null) {
+                return new ModelAndView("/other/import_fail").addObject("data", "客户id上传错误");
+            }
+        }
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("customer", rCustomer);
+        modelAndView.setViewName("/back/customer/c_customer_editpage");
+        return modelAndView;
     }
 
 
@@ -99,14 +129,7 @@ public class CustomerInfoController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/customer/c_info_base");
         String customer_id = request.getParameter("customer_id");
-        if (!Strings.isNullOrEmpty(customer_id)) {
-            try {
-                RCustomer customer = rCustomerService.findRCustomerByID(customer_id);
-                modelAndView.addObject("customer", customer);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        addCustomer(modelAndView, customer_id);
         return modelAndView;
     }
 
@@ -140,7 +163,7 @@ public class CustomerInfoController {
             return ResponseUtil.fail(0, "没有找到该客户");
         }
         rcustomer.setName(customer_name);
-        if (Strings.isNullOrEmpty(customer_sex)) {
+        if (!Strings.isNullOrEmpty(customer_sex)) {
             rcustomer.setSex(Integer.valueOf(customer_sex));
         }
         if (!Strings.isNullOrEmpty(customer_age)) {
@@ -170,6 +193,47 @@ public class CustomerInfoController {
             return ResponseUtil.success();
         }
         return ResponseUtil.fail(0, "保存失败");
+    }
+
+
+    @RequestMapping(value = "/work")
+    public ModelAndView workInfoPage(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/customer/c_info_work");
+        String customer_id = request.getParameter("customer_id");
+        if (!Strings.isNullOrEmpty(customer_id)) {
+            RCustomerWork work = rCustomerService.findRCustomerWorkByCustomerid(customer_id);
+            if (work != null) {
+                modelAndView.addObject("work", work);
+            }
+        }
+        return modelAndView;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/editwork")
+    public String editWorkInfo(HttpServletRequest request) {
+        return null;
+    }
+
+
+    /**
+     * 在页面中添加客户信息
+     *
+     * @param modelAndView
+     * @param customer_id
+     * @return
+     */
+    private void addCustomer(ModelAndView modelAndView, String customer_id) {
+        if (!Strings.isNullOrEmpty(customer_id)) {
+            try {
+                RCustomer customer = rCustomerService.findRCustomerByID(customer_id);
+                modelAndView.addObject("customer", customer);
+            } catch (Exception e) {
+//                e.printStackTrace();
+            }
+        } else {
+        }
     }
 
 

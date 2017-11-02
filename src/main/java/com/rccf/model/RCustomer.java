@@ -1,5 +1,6 @@
 package com.rccf.model;
 
+
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -28,8 +29,8 @@ public class RCustomer {
 
     @Id
     @Column(name = "id", nullable = false, length = 16)
-    @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
+    @GeneratedValue(generator = "uuid")
     public String getId() {
         return id;
     }

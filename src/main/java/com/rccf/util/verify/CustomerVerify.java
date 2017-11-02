@@ -10,17 +10,13 @@ import java.util.List;
 
 public class CustomerVerify {
 
-
-    @Autowired
-    private static BaseService baseService;
-
     /**
      * 查询手机号是否已经存在在客户
      *
      * @param phone
      * @return
      */
-    public static boolean hasCustomerByPhone(String phone) {
+    public static boolean hasCustomerByPhone(BaseService baseService, String phone) {
         DetachedCriteria criteria = DetachedCriteria.forClass(RCustomer.class);
         criteria.add(Restrictions.eq("phone", phone));
         List list = baseService.getList(criteria);
@@ -37,7 +33,7 @@ public class CustomerVerify {
      * @param name
      * @return
      */
-    public static boolean hasCustomerByName(String name) {
+    public static boolean hasCustomerByName(BaseService baseService, String name) {
         DetachedCriteria criteria = DetachedCriteria.forClass(RCustomer.class);
         criteria.add(Restrictions.eq("name", name));
         List list = baseService.getList(criteria);

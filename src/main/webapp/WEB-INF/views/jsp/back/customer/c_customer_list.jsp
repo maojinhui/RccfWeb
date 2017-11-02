@@ -6,6 +6,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String department = (String) request.getAttribute("department");
+    int role = (int) request.getAttribute("role");
+%>
 <!DOCTYPE html>
 <!--suppress CssUnusedSymbol -->
 <html lang="en">
@@ -60,7 +64,8 @@
                 <label class="am-u-sm-6" style="background-color: #2c4666;color: #ffffff;">手机号</label>
             </div>
         </div>
-        <div class="am-u-sm-12 am-u-md-8 am-u-lg-6 am-text-center">
+        <div onclick="toDetail('402881d45f7c1b00015f7c2de8ec0002')"
+             class="am-u-sm-12 am-u-md-8 am-u-lg-6 am-text-center">
             <div class="am-input-group am-u-sm-12">
                 <label class="am-u-sm-6 ">张三</label>
                 <label class="am-u-sm-6 ">12345678900</label>
@@ -85,6 +90,36 @@
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
 
 <script>
+
+    var i = 1;
+    var department = '<%=department%>';
+    var role = <%=role%>;
+
+    function getData() {
+        var info = {};
+        info.department = department;
+        info.role = role;
+        $.ajax({
+            url: '',
+            dataType: '',
+            type: 'POST',
+            data: info,
+            success: function () {
+
+            },
+            error: function () {
+
+            }
+
+
+        });
+    }
+
+
+    function toDetail(customer_id) {
+        window.location.href = '/customer/info/editpage?customer_id=' + customer_id;
+    }
+
 
     $('#add_customer').click(function () {
         window.parent.changeUrl('/customer/info/addpage');

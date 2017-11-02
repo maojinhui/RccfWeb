@@ -2,6 +2,7 @@ package com.rccf.service.impl;
 
 import com.rccf.dao.RCustomerDao;
 import com.rccf.model.RCustomer;
+import com.rccf.model.RCustomerWork;
 import com.rccf.service.RCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,5 +31,10 @@ public class RCustomerServiceImpl implements RCustomerService {
     @Override
     public List<RCustomer> findRCustomerByPhone(String phone) {
         return dao.findRCustomerByPhone(phone);
+    }
+
+    @Override
+    public RCustomerWork findRCustomerWorkByCustomerid(String customer_id) {
+        return null;
     }
 }

@@ -73,20 +73,20 @@
                 <div class="am-input-group am-u-sm-12">
                     <label class="am-u-sm-4 ">客户姓名</label>
                     <input id="customer_name" class="am-u-sm-8" type="text"
-                           value="<%=customer!=null?Strings.getInputString(customer.getId()):""%>">
+                           value="<%=customer!=null?Strings.getInputString(customer.getName()):""%>">
                 </div>
             </div>
             <div class="am-u-sm-12 am-u-md-8 am-u-lg-6">
                 <div class="am-input-group am-u-sm-12">
                     <label class="am-u-sm-4 ">客户性别</label>
                     <select id="customer_sex" class="am-u-sm-8">
-                        <option value="0" <%=customer != null && customer.getSex() != null && customer.getSex() == 0 ? "selected='selected'" : "" %> >
+                        <option value="0" <%=customer != null && customer.getSex() != null && customer.getSex().intValue() == 0 ? "selected='selected'" : "" %> >
                             未知
                         </option>
-                        <option value="1" <%=customer != null && customer.getSex() != null && customer.getSex() == 1 ? "selected='selected'" : "" %> >
+                        <option value="1" <%=customer != null && customer.getSex() != null && customer.getSex().intValue() == 1 ? "selected='selected'" : "" %> >
                             男
                         </option>
-                        <option value="2" <%=customer != null && customer.getSex() != null && customer.getSex() == 2 ? "selected='selected'" : "" %> >
+                        <option value="2" <%=customer != null && customer.getSex() != null && customer.getSex().intValue() == 2 ? "selected='selected'" : "" %> >
                             女
                         </option>
                     </select>
@@ -125,13 +125,13 @@
                 <div class="am-input-group am-u-sm-12">
                     <label class="am-u-sm-4 ">婚姻状况</label>
                     <select id="customer_married" class="am-u-sm-8">
-                        <option value="0" <%=customer != null && customer.getMarried() != null && customer.getMarried() == -1 ? "selected='selected'" : "" %>>
+                        <option value="0" <%=customer != null && customer.getMarried() != null && customer.getMarried().intValue() == 0 ? "selected='selected'" : "" %>>
                             未知
                         </option>
-                        <option value="1" <%=customer != null && customer.getMarried() != null && customer.getMarried() == 0 ? "selected='selected'" : "" %>>
+                        <option value="1" <%=customer != null && customer.getMarried() != null && customer.getMarried().intValue() == 1 ? "selected='selected'" : "" %>>
                             未婚
                         </option>
-                        <option value="2" <%=customer != null && customer.getMarried() != null && customer.getMarried() == 1 ? "selected='selected'" : "" %>>
+                        <option value="2" <%=customer != null && customer.getMarried() != null && customer.getMarried().intValue() == 2 ? "selected='selected'" : "" %>>
                             已婚
                         </option>
                     </select>
@@ -141,15 +141,33 @@
                 <div class="am-input-group am-u-sm-12">
                     <label class="am-u-sm-4 ">教育程度</label>
                     <select id="customer_education_leval" class="am-u-sm-8">
-                        <option value="0">未知</option>
-                        <option value="1">小学</option>
-                        <option value="2">初中</option>
-                        <option value="3">高中/中专</option>
-                        <option value="4">专科</option>
-                        <option value="5">本科</option>
-                        <option value="6">硕士</option>
-                        <option value="7">博士</option>
-                        <option value="8">博士后</option>
+                        <option value="0"  <%=customer != null && customer.getEducationLevel() != null && customer.getEducationLevel().intValue() == 0 ? "selected='selected'" : "" %>>
+                            未知
+                        </option>
+                        <option value="1"  <%=customer != null && customer.getEducationLevel() != null && customer.getEducationLevel().intValue() == 1 ? "selected='selected'" : "" %>>
+                            小学
+                        </option>
+                        <option value="2"  <%=customer != null && customer.getEducationLevel() != null && customer.getEducationLevel().intValue() == 2 ? "selected='selected'" : "" %>>
+                            初中
+                        </option>
+                        <option value="3"  <%=customer != null && customer.getEducationLevel() != null && customer.getEducationLevel().intValue() == 3 ? "selected='selected'" : "" %>>
+                            高中/中专
+                        </option>
+                        <option value="4"  <%=customer != null && customer.getEducationLevel() != null && customer.getEducationLevel().intValue() == 4 ? "selected='selected'" : "" %>>
+                            专科
+                        </option>
+                        <option value="5"  <%=customer != null && customer.getEducationLevel() != null && customer.getEducationLevel().intValue() == 5 ? "selected='selected'" : "" %>>
+                            本科
+                        </option>
+                        <option value="6"  <%=customer != null && customer.getEducationLevel() != null && customer.getEducationLevel().intValue() == 6 ? "selected='selected'" : "" %>>
+                            硕士
+                        </option>
+                        <option value="7"  <%=customer != null && customer.getEducationLevel() != null && customer.getEducationLevel().intValue() == 7 ? "selected='selected'" : "" %>>
+                            博士
+                        </option>
+                        <option value="8"  <%=customer != null && customer.getEducationLevel() != null && customer.getEducationLevel().intValue() == 8 ? "selected='selected'" : "" %>>
+                            博士后
+                        </option>
                     </select>
                 </div>
             </div>
@@ -236,8 +254,22 @@
          *
          * */
         $('#edit').click(function () {
-            $('fieldset').attr('disabled', false);
-            $('#btns').removeClass('am-hide');
+            var isEdit = $('fieldset').attr('disabled');
+            if (isEdit) {
+                $('fieldset').attr('disabled', false);
+                $('#btns').removeClass('am-hide');
+                $(this).html("取消编辑&emsp;&emsp;");
+
+            } else {
+
+                $('fieldset').attr('disabled', true);
+                $('#btns').addClass('am-hide');
+                $('#customer_id').attr('readonly', 'readonly');
+                $(this).html("编辑&emsp;&emsp;");
+
+            }
+
+
         });
     });
     /**
@@ -249,6 +281,8 @@
         $('fieldset').attr('disabled', true);
         $('#btns').addClass('am-hide');
         $('#customer_id').attr('readonly', 'readonly');
+
+        $('#edit').html("编辑&emsp;&emsp;");
     };
     /**
      *
@@ -303,7 +337,6 @@
             success: function (result) {
                 if (result.code) {
                     alert('提交成功');
-
                 } else {
                     alert(result.errormsg);
                 }

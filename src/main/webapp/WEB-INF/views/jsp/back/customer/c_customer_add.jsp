@@ -75,20 +75,29 @@
         jsonObject.name = $('#name').val();
         jsonObject.phone = $('#phone').val();
         $.ajax({
-            url: '',
+            url: '/customer/info/add',
             data: jsonObject,
-            success: function () {
+            type: 'POST',
+            dataType: 'json',
+            success: function (result) {
+
+                if (result.code) {
                 var msg = confirm('添加成功，是否转到客户编辑页面？');
                 if (msg) {
                     window.location.href =
-                        "http://localhost:63342/rccf_manager/html/customer-of-employee/customer_info_mobile.html";
+                        "/customer/info/editpage?customer_id=" + result.data;
                 } else {
-                    window.location.href =
-                        "http://localhost:63342/rccf_manager/html/customer-of-employee/customer_all.html";
+                    $('#name').val('');
+                    $('#phone').val('');
                 }
+                } else {
+                    alert(result.errormsg);
+                }
+
+
             },
             error: function () {
-                alert("出错了！")
+                alert("网络错误！")
             }
         })
     });
