@@ -147,7 +147,7 @@
                 </ul>
             </li>
             <%}%>
-            <% if (depart.equals("系统管理") || depart.contains("金融")) {%>
+            <% if (depart.contains("系统") || depart.contains("金融")) {%>
             <li class="sidebar-nav-link">
                 <a href="#" class="sidebar-nav-sub-title">
                     <i class="am-icon-user-secret sidebar-nav-link-logo"></i> 客户管理
@@ -155,7 +155,7 @@
                 </a>
                 <ul class="sidebar-nav sidebar-nav-sub">
                     <li class="sidebar-nav-link">
-                        <a class="rcmenu" data-rccf-menu="/customer/listpage">
+                        <a class="rcmenu" data-rccf-menu="/customer/info/list">
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 客户列表
                         </a>
                     </li>
@@ -187,7 +187,7 @@
                     <span class="am-icon-chevron-right am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                 </a>
                 <ul class="sidebar-nav sidebar-nav-sub">
-                    <%if (role < 4) {%>
+                    <%if (role < 4 || role > 4) {%>
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/employee/acceptedlist">
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 受理单列表
@@ -218,12 +218,13 @@
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 总监日报
                         </a>
                     </li>
-
+                    <% if (role <= 2) {%>
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/accept/export">
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 近期受理单
                         </a>
                     </li>
+                    <%}%>
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/accept/houqiinfo">
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 后期专员统计

@@ -846,11 +846,17 @@ public class EmployeeController {
      */
     @RequestMapping(value = "/acceptedlist")
     public ModelAndView acceptListPage(HttpServletRequest request, HttpServletResponse response) {
+
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        if (employee == null) {
+            return new ModelAndView("redirect:/back/login");
+        }
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Accepted.class);
         int count = baseService.getCount(detachedCriteria);
         int pagecount = count / PageConstants.EVERYPAGE + 1;
         ModelAndView modelAndView = getUserView(request, response, "/back/employee/acceptedlist", HeaderType.EMPLOYEE);
         modelAndView.addObject("pagecount", pagecount);
+        modelAndView.addObject("employee", employee);
         return modelAndView;
     }
 
