@@ -36,6 +36,16 @@
         window.location.href = url;
 
     }
+
+    function changeEditEmployee(eid) {
+        var url = '/employee/editEmployeePage?eid=' + eid;
+//        console.log(url);
+//        parent.changeUrl(url);
+        window.location.href = url;
+
+    }
+
+
 </script>
 
 <div class="admin-content-body">
@@ -276,7 +286,7 @@
             '                            <a onclick="changeEmployee(2,' + obj.id + ')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
             '                                    class="am-icon-pencil-square-o"></span> 详情\n' +
             '                            </a>\n' +
-            '                            <a onclick="changeEmployee(1,' + obj.id + ')" class="am-btn am-btn-default am-btn-xs am-text-danger"><span\n' +
+            '                            <a onclick="changeEditEmployee(' + obj.id + ')" class="am-btn am-btn-default am-btn-xs am-text-danger"><span\n' +
             '                                    class="am-icon-copy"></span> 编辑\n' +
             '                            </a>\n' +
             //            '                            <a onclick="deleteEmp(' + obj.id + ')"class="am-btn am-btn-default am-btn-xs am-text-danger">\n' +

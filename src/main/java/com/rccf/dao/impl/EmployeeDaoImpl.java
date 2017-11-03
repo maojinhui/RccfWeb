@@ -2,6 +2,8 @@ package com.rccf.dao.impl;
 
 import com.rccf.dao.EmployeeDao;
 import com.rccf.model.Employee;
+import com.rccf.model.EmployeeBase;
+import com.rccf.model.EmployeeContract;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -89,5 +91,15 @@ public class EmployeeDaoImpl extends HibernateDaoSupport implements EmployeeDao 
         DetachedCriteria criteria = DetachedCriteria.forClass(Employee.class);
         criteria.add(Restrictions.eq("leader", code));
         return (List<Employee>) getHibernateTemplate().findByCriteria(criteria);
+    }
+
+    @Override
+    public EmployeeContract findEmployeeContractById(int id) {
+        return getHibernateTemplate().get(EmployeeContract.class, id);
+    }
+
+    @Override
+    public EmployeeBase findBaseById(int id) {
+        return getHibernateTemplate().get(EmployeeBase.class, id);
     }
 }

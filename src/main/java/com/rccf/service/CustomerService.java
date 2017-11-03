@@ -24,4 +24,5 @@ public interface CustomerService {
 
     boolean deleteCustomerProcess(int processid);
 
+
 }

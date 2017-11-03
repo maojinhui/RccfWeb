@@ -139,6 +139,12 @@
         return a;
     }
 
+    function getNumber(n) {
+        if (isNull(n)) {
+            return "";
+        }
+        return Math.floor(n * 100) / 100;
+    }
 
     Date.prototype.format = function (format) {
         var date = {
@@ -181,7 +187,7 @@
             '                        <td>' + getDate(da[5]) + '</td>\n' +
             '                        <td>' + da[6] + '</td>\n' +
             '                        <td>' + da[7] + '</td>\n' +
-            '                        <td>' + getStringWithspace(da[8]) + '</td>\n' +
+            '                        <td>' + getNumber(da[8]) + '</td>\n' +
             '                        <td>' + da[9] + '</td>\n' +
             '                        <td>' + da[10] + '</td>\n' +
             '                        <td>' + da[11] + '</td>\n' +

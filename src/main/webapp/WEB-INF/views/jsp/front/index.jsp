@@ -41,7 +41,7 @@
     </div>
     <!--导航按钮-->
     <div class="weui-flex rccf_nav_containar">
-        <a class="weui-flex__item rccf_nav" href="rccf_loan.html">
+        <a class="weui-flex__item rccf_nav" href="/loan/default">
             <div class="weui-grid__icon rccf_icon">
                 <img src="/image/app/navigation/loan.PNG" alt="">
             </div>
@@ -49,7 +49,7 @@
                 我要贷款
             </p>
         </a>
-        <a class="weui-flex__item rccf_nav" href="rccf_invitation.html">
+        <a class="weui-flex__item rccf_nav" href="/invite/index">
             <div class="weui-grid__icon rccf_icon">
                 <img src="/image/app/navigation/invite.PNG" alt="">
             </div>
@@ -214,8 +214,9 @@
     });
 
     $('.rccf_product_btn').bind('click', function () {
-        window.location.href = 'http://localhost:63342/rccf_back/app/rccf_personal_loan.html'
+        window.location.href = '/loan/default';
     })
+
 
 </script>
 </body>

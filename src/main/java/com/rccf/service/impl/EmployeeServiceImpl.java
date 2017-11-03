@@ -2,6 +2,8 @@ package com.rccf.service.impl;
 
 import com.rccf.dao.EmployeeDao;
 import com.rccf.model.Employee;
+import com.rccf.model.EmployeeBase;
+import com.rccf.model.EmployeeContract;
 import com.rccf.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,5 +48,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employee> findEmployeesByCode(String code) {
         return employeeDao.findEmployeesByCode(code);
     }
+
+    @Override
+    public EmployeeContract findContractByid(int id) {
+        return employeeDao.findEmployeeContractById(id);
+    }
+
+    @Override
+    public EmployeeBase findBaseById(int id) {
+        return employeeDao.findBaseById(id);
+    }
+
 
 }

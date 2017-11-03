@@ -1,4 +1,5 @@
-<%--
+<%@ page import="com.rccf.model.Employee" %>
+<%@ page import="com.rccf.util.BackUtil" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/9/1
@@ -7,6 +8,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="../../common/back_common_head.jsp" %>
+<%
+    Employee employee = (Employee) request.getAttribute("employee");
+    String department = employee.getDepartment();
+    int role = employee.getRole();
+%>
+
+
 <script>
     function change(id) {
         url = "/employee/addAccepted?id=" + id;
@@ -23,7 +31,9 @@
 
     <div class="am-g am-margin am-padding-right-xl am-text-left">
         <a id="display_all" data-type="xls" href="javascript:;" class="am-btn am-btn-secondary ">显示全部</a>
+        <%if (department.contains("市场") && role <= 2) {%>
         <a id="export" data-type="xls" class="am-btn am-btn-secondary">导出表格</a>
+        <%}%>
     </div>
 
 
@@ -388,18 +398,19 @@
         getData();
     })
 
+
     //导出excel实现
     var $exportLink = document.getElementById('export');
-    $exportLink.addEventListener('click',
-        function (e) {
-            e.preventDefault();
-            if (e.target.nodeName === "A") {
-                tableExport('acceplist', '受理单列表', e.target.getAttribute('data-type'))
-            }
-        },
-        false);
-
-
+    if (!isNull($exportLink)) {
+        $exportLink.addEventListener('click',
+            function (e) {
+                e.preventDefault();
+                if (e.target.nodeName === "A") {
+                    tableExport('acceplist', '受理单列表', e.target.getAttribute('data-type'))
+                }
+            },
+            false);
+    }
 
     getData();
 

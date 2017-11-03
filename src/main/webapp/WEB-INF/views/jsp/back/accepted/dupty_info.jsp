@@ -98,6 +98,13 @@
 %>
 <script>
 
+    function getNumber(n) {
+        if (isNull(n)) {
+            return "";
+        }
+        return Math.floor(n * 100) / 100;
+    }
+
     Date.prototype.format = function (format) {
         var date = {
             "M+": this.getMonth() + 1,
@@ -130,7 +137,7 @@
             '    <td>' + da[2] + '</td>\n' +
             '    <td>' + da[3] + '</td>\n' +
             '    <td>' + da[4] + '</td>\n' +
-            '    <td>' + getStringWithspace(da[5]) + '</td>\n' +
+            '    <td>' + getNumber(da[5]) + '</td>\n' +
             '    <td>' + da[6] + '</td>\n' +
             '    <td>' + da[7] + '</td>\n' +
             '    <td>' + da[8] + '</td>\n' +

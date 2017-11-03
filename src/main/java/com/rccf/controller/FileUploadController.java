@@ -85,10 +85,10 @@ public class FileUploadController extends UploadController {
 
         EmployeeDocuments document = null;
         if (!Strings.isNullOrEmpty(eid)) {
-            document = documentService.findDocumentByeID(eid);
+            document = (EmployeeDocuments) baseService.get(EmployeeDocuments.class, Integer.valueOf(eid));
             if (document == null) {
                 document = new EmployeeDocuments();
-                document.setEid(eid);
+                document.setEid(Integer.valueOf(eid));
             }
             if (type.equals("idcard_positive")) {
                 document.setIdcardPositive(url_path);

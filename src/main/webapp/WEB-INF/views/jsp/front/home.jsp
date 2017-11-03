@@ -13,9 +13,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>首页</title>
     <link rel="shortcut icon" type="image/x-icon" href="/image/rccf.ico">
-    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
-    <link href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+    <link href="https://cdn.bootcss.com/Swiper/4.0.1/css/swiper.min.css" rel="stylesheet">
 
     <style>
         html, body {
@@ -101,9 +101,9 @@
         <p class="weui-tabbar__label">我的</p>
     </a>
 </div>
-<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
-<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/swiper.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+<script src="https://cdn.bootcss.com/Swiper/4.0.1/js/swiper.js"></script>
 <script>
     var swiper = new Swiper('.swiper-container', {
         pagination: '.swiper-pagination',

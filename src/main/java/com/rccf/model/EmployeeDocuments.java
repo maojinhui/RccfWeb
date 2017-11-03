@@ -5,7 +5,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "employee_documents", schema = "rccf", catalog = "")
 public class EmployeeDocuments {
-    private int id;
+    private int eid;
+    private String idcardPositive;
+    private String idcardNegative;
     private String education;
     private String jobTitle;
     private String picture;
@@ -14,20 +16,37 @@ public class EmployeeDocuments {
     private String nocrimeReport;
     private String examination;
     private String remarks;
-    private String eid;
-    private String idcardPositive;
-    private String idcardNegative;
+    private int id;
 
     @Id
-    @Column(name = "id")
-    public int getId() {
-        return id;
+    @Column(name = "eid")
+    public int getEid() {
+        return eid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setEid(int eid) {
+        this.eid = eid;
     }
 
+    @Basic
+    @Column(name = "idcard_positive")
+    public String getIdcardPositive() {
+        return idcardPositive;
+    }
+
+    public void setIdcardPositive(String idcardPositive) {
+        this.idcardPositive = idcardPositive;
+    }
+
+    @Basic
+    @Column(name = "idcard_negative")
+    public String getIdcardNegative() {
+        return idcardNegative;
+    }
+
+    public void setIdcardNegative(String idcardNegative) {
+        this.idcardNegative = idcardNegative;
+    }
 
     @Basic
     @Column(name = "education")
@@ -109,30 +128,50 @@ public class EmployeeDocuments {
         this.remarks = remarks;
     }
 
+    @Basic
+    @Column(name = "id")
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        EmployeeDocuments that = (EmployeeDocuments) o;
+        EmployeeDocuments documents = (EmployeeDocuments) o;
 
-        if (id != that.id) return false;
-        if (education != null ? !education.equals(that.education) : that.education != null) return false;
-        if (jobTitle != null ? !jobTitle.equals(that.jobTitle) : that.jobTitle != null) return false;
-        if (picture != null ? !picture.equals(that.picture) : that.picture != null) return false;
-        if (leavingProof != null ? !leavingProof.equals(that.leavingProof) : that.leavingProof != null) return false;
-        if (criditReport != null ? !criditReport.equals(that.criditReport) : that.criditReport != null) return false;
-        if (nocrimeReport != null ? !nocrimeReport.equals(that.nocrimeReport) : that.nocrimeReport != null)
+        if (eid != documents.eid) return false;
+        if (id != documents.id) return false;
+        if (idcardPositive != null ? !idcardPositive.equals(documents.idcardPositive) : documents.idcardPositive != null)
             return false;
-        if (examination != null ? !examination.equals(that.examination) : that.examination != null) return false;
-        if (remarks != null ? !remarks.equals(that.remarks) : that.remarks != null) return false;
+        if (idcardNegative != null ? !idcardNegative.equals(documents.idcardNegative) : documents.idcardNegative != null)
+            return false;
+        if (education != null ? !education.equals(documents.education) : documents.education != null) return false;
+        if (jobTitle != null ? !jobTitle.equals(documents.jobTitle) : documents.jobTitle != null) return false;
+        if (picture != null ? !picture.equals(documents.picture) : documents.picture != null) return false;
+        if (leavingProof != null ? !leavingProof.equals(documents.leavingProof) : documents.leavingProof != null)
+            return false;
+        if (criditReport != null ? !criditReport.equals(documents.criditReport) : documents.criditReport != null)
+            return false;
+        if (nocrimeReport != null ? !nocrimeReport.equals(documents.nocrimeReport) : documents.nocrimeReport != null)
+            return false;
+        if (examination != null ? !examination.equals(documents.examination) : documents.examination != null)
+            return false;
+        if (remarks != null ? !remarks.equals(documents.remarks) : documents.remarks != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = eid;
+        result = 31 * result + (idcardPositive != null ? idcardPositive.hashCode() : 0);
+        result = 31 * result + (idcardNegative != null ? idcardNegative.hashCode() : 0);
         result = 31 * result + (education != null ? education.hashCode() : 0);
         result = 31 * result + (jobTitle != null ? jobTitle.hashCode() : 0);
         result = 31 * result + (picture != null ? picture.hashCode() : 0);
@@ -141,36 +180,7 @@ public class EmployeeDocuments {
         result = 31 * result + (nocrimeReport != null ? nocrimeReport.hashCode() : 0);
         result = 31 * result + (examination != null ? examination.hashCode() : 0);
         result = 31 * result + (remarks != null ? remarks.hashCode() : 0);
+        result = 31 * result + id;
         return result;
-    }
-
-    @Basic
-    @Column(name = "eid")
-    public String getEid() {
-        return eid;
-    }
-
-    public void setEid(String eid) {
-        this.eid = eid;
-    }
-
-    @Basic
-    @Column(name = "idcard_positive")
-    public String getIdcardPositive() {
-        return idcardPositive;
-    }
-
-    public void setIdcardPositive(String idcardPositive) {
-        this.idcardPositive = idcardPositive;
-    }
-
-    @Basic
-    @Column(name = "idcard_negative")
-    public String getIdcardNegative() {
-        return idcardNegative;
-    }
-
-    public void setIdcardNegative(String idcardNegative) {
-        this.idcardNegative = idcardNegative;
     }
 }

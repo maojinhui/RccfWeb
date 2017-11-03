@@ -5,7 +5,7 @@ FROM employee
   (SELECT
      sum(service_fee_actual) AS dy_fee,
      director                AS dy
-   FROM accepted
+   FROM accepted_back
    WHERE director IN (SELECT code
                       FROM employee) && end_date >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
    GROUP BY director)
@@ -15,7 +15,7 @@ FROM employee
   (SELECT
      sum(service_fee_actual) AS my_fee,
      director                AS my
-   FROM accepted
+   FROM accepted_back
    WHERE director IN (SELECT code
                       FROM employee) && end_date >= DATE_FORMAT(@month_start, '%Y-%m-%d %H:%i:%S')
    GROUP BY director)
@@ -25,9 +25,9 @@ FROM employee
   (SELECT
      count(*) AS d_1,
      director AS deputy1
-   FROM accepted
+   FROM accepted_back
    WHERE director IN (SELECT code
-                      FROM employee) && accepted.state = 1 &&
+                      FROM employee) && accepted_back.state = 1 &&
          accept_time >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
    GROUP BY director)
     AS d1
@@ -36,9 +36,9 @@ FROM employee
   (SELECT
      count(*) AS d_2,
      director AS deputy2
-   FROM accepted
+   FROM accepted_back
    WHERE director IN (SELECT code
-                      FROM employee) && accepted.state = 2 &&
+                      FROM employee) && accepted_back.state = 2 &&
          end_date >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
    GROUP BY director)
     AS d2
@@ -47,9 +47,9 @@ FROM employee
   (SELECT
      count(*) AS d_3,
      director AS deputy3
-   FROM accepted
+   FROM accepted_back
    WHERE director IN (SELECT code
-                      FROM employee) && accepted.state = 3 &&
+                      FROM employee) && accepted_back.state = 3 &&
          create_time >= DATE_FORMAT(@day_start, '%Y-%m-%d %H:%i:%S')
    GROUP BY director)
     AS d3
@@ -58,9 +58,9 @@ FROM employee
   (SELECT
      count(*) AS m_1,
      director AS m_deputy1
-   FROM accepted
+   FROM accepted_back
    WHERE director IN (SELECT code
-                      FROM employee) && accepted.state = 1 &&
+                      FROM employee) && accepted_back.state = 1 &&
          accept_time >= DATE_FORMAT(@month_start, '%Y-%m-%d %H:%i:%S')
    GROUP BY director)
     AS m1
@@ -69,9 +69,9 @@ FROM employee
   (SELECT
      count(*) AS m_2,
      director AS m_deputy2
-   FROM accepted
+   FROM accepted_back
    WHERE director IN (SELECT code
-                      FROM employee) && accepted.state = 2 &&
+                      FROM employee) && accepted_back.state = 2 &&
          end_date >= DATE_FORMAT(@month_date, '%Y-%m-%d %H:%i:%S')
    GROUP BY director)
     AS m2
@@ -80,9 +80,9 @@ FROM employee
   (SELECT
      count(*) AS m_3,
      director AS m_deputy3
-   FROM accepted
+   FROM accepted_back
    WHERE director IN (SELECT code
-                      FROM employee) && accepted.state = 3 &&
+                      FROM employee) && accepted_back.state = 3 &&
          create_time >= DATE_FORMAT(@month_start, '%Y-%m-%d %H:%i:%S')
    GROUP BY director)
     AS m3
@@ -92,7 +92,7 @@ FROM employee
      count(*) AS cound,
      director AS ded
    FROM (SELECT *
-         FROM accepted
+         FROM accepted_back
          WHERE end_date >= @day_start AND state = 2) AS ad2
    GROUP BY director)
     AS cound
@@ -102,7 +102,7 @@ FROM employee
      count(*) AS counm,
      director AS dem
    FROM (SELECT *
-         FROM accepted
+         FROM accepted_back
          WHERE end_date >= @day_start AND state = 2) AS am2
    GROUP BY director)
     AS counm
