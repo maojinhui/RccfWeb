@@ -30,4 +30,5 @@ public class OtherPageController {
         baseService.save(accessCount);
         return new ModelAndView("/other_page/loushu");
     }
+
 }

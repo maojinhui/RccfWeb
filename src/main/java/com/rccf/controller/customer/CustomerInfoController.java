@@ -2,17 +2,18 @@ package com.rccf.controller.customer;
 
 
 import com.rccf.constants.UrlConstants;
-import com.rccf.model.Employee;
-import com.rccf.model.RCustomer;
-import com.rccf.model.RCustomerWork;
+import com.rccf.model.*;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.service.RCustomerService;
 import com.rccf.util.BackUtil;
+import com.rccf.util.DateUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
 import com.rccf.util.verify.CustomerVerify;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
+import org.omg.PortableInterceptor.HOLDING;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/customer/info", produces = UrlConstants.PRODUCES)
@@ -201,21 +203,410 @@ public class CustomerInfoController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/customer/c_info_work");
         String customer_id = request.getParameter("customer_id");
+
         if (!Strings.isNullOrEmpty(customer_id)) {
             RCustomerWork work = rCustomerService.findRCustomerWorkByCustomerid(customer_id);
             if (work != null) {
                 modelAndView.addObject("work", work);
             }
         }
+        modelAndView.addObject("customer_id", customer_id);
         return modelAndView;
     }
 
     @ResponseBody
     @RequestMapping(value = "/editwork")
     public String editWorkInfo(HttpServletRequest request) {
-        return null;
+        String customer_id = request.getParameter("customer_id");
+
+        if (Strings.isNullOrEmpty(customer_id)) {
+            return ResponseUtil.fail(0, "客户id为空");
+        }
+        String company_name = request.getParameter("company_name");
+        String company_tel = request.getParameter("company_tel");
+        String company_address = request.getParameter("company_address");
+        String company_nature = request.getParameter("company_nature");
+        String company_department = request.getParameter("company_department");
+        String company_duties = request.getParameter("company_duties");
+        String company_salary = request.getParameter("company_salary");
+
+
+        RCustomerWork rcustomer = rCustomerService.findRCustomerWorkByCustomerid(customer_id);
+        if (rcustomer == null) {
+            rcustomer = new RCustomerWork();
+            rcustomer.setCustomerId(customer_id);
+        }
+        rcustomer.setCpmpanyName(company_name);
+        rcustomer.setCompanyTel(company_tel);
+        rcustomer.setCompanyAddress(company_address);
+        rcustomer.setCompanyNature(Integer.valueOf(company_nature));
+        rcustomer.setCompanyDepartment(company_department);
+        rcustomer.setCompanyDuties(company_duties);
+        if (!Strings.isNullOrEmpty(company_salary)) {
+            rcustomer.setCompanySalary(Integer.valueOf(company_salary));
+        }
+        boolean save = baseService.save(rcustomer);
+        if (save) {
+            return ResponseUtil.success();
+        }
+        return ResponseUtil.fail(0, "修改失败");
     }
 
+    @RequestMapping(value = "/mate")
+    public ModelAndView mateInfoPage(HttpServletRequest request) {
+        String customer_id = request.getParameter("customer_id");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/customer/c_info_mate");
+        modelAndView.addObject("customer_id", customer_id);
+        if (!Strings.isNullOrEmpty(customer_id)) {
+            DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerSpouse.class);
+            criteria.add(Restrictions.eq("customerId", customer_id));
+            List list = baseService.getList(criteria);
+            if (list != null && list.size() > 0) {
+                RCustomerSpouse spouse = (RCustomerSpouse) list.get(0);
+                modelAndView.addObject("spouse", spouse);
+            }
+        }
+        return modelAndView;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/editmate")
+    public String editMateInfo(HttpServletRequest request) {
+        String customer_id = request.getParameter("customer_id");
+        if (Strings.isNullOrEmpty(customer_id)) {
+            return ResponseUtil.fail(0, "客户id为空");
+        }
+        RCustomerSpouse spouse = null;
+        DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerSpouse.class);
+        criteria.add(Restrictions.eq("customerId", customer_id));
+        List list = baseService.getList(criteria);
+        if (list != null && list.size() > 0) {
+            spouse = (RCustomerSpouse) list.get(0);
+        } else {
+            spouse = new RCustomerSpouse();
+            spouse.setCustomerId(customer_id);
+        }
+
+        String spouse_name = request.getParameter("spouse_name");
+        String spouse_age = request.getParameter("spouse_age");
+        String spouse_phone = request.getParameter("spouse_phone");
+        String spouse_idcard = request.getParameter("spouse_idcard");
+        String spouse_company_name = request.getParameter("spouse_company_name");
+        String spouse_company_address = request.getParameter("spouse_company_address");
+        String spouse_company_tel = request.getParameter("spouse_company_tel");
+        String spouse_company_duties = request.getParameter("spouse_company_duties");
+        String spouse_company_salary = request.getParameter("spouse_company_salary");
+        spouse.setSpouseName(spouse_name);
+        if (!Strings.isNullOrEmpty(spouse_age)) {
+            spouse.setSpouseAge(Integer.valueOf(spouse_age));
+        } else {
+            spouse.setSpouseAge(null);
+        }
+        if (!Strings.isNullOrEmpty(spouse_phone)) {
+            spouse.setSpousePhone(Integer.valueOf(spouse_phone));
+        } else {
+            spouse.setSpouseAge(null);
+        }
+        spouse.setSpouseIdcard(spouse_idcard);
+        spouse.setSpouseCompanyName(spouse_company_name);
+        spouse.setSpouseCompanyAddress(spouse_company_address);
+        spouse.setSpouseCompanyTel(spouse_company_tel);
+        spouse.setSpouseCompanyDuties(spouse_company_duties);
+        if (!Strings.isNullOrEmpty(spouse_company_salary)) {
+            spouse.setSpouseCompanySalary(Integer.valueOf(spouse_company_salary));
+        } else {
+            spouse.setSpouseCompanySalary(null);
+        }
+        boolean save = baseService.save(spouse);
+        if (save) {
+            return ResponseUtil.success();
+        } else {
+            return ResponseUtil.fail(0, "保存失败");
+        }
+
+    }
+
+    /*********************房屋信息***************************************/
+    @RequestMapping(value = "/houselist")
+    public ModelAndView houseListPage(HttpServletRequest request) {
+        String customer_id = request.getParameter("customer_id");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/customer/c_customer_houselist");
+        modelAndView.addObject("customer_id", customer_id);
+        DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerHouse.class);
+        criteria.add(Restrictions.eq("customerId", customer_id));
+        List<RCustomerHouse> houses = baseService.getList(criteria);
+        modelAndView.addObject("houses", houses);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/addhouse")
+    public ModelAndView houseAddPage(HttpServletRequest request) {
+        String customer_id = request.getParameter("customer_id");
+        ModelAndView modelAndView = new ModelAndView("/back/customer/c_customer_addhouse");
+        modelAndView.addObject("customer_id", customer_id);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/house")
+    public ModelAndView houseInfoPage(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/customer/c_info_house");
+        String house_id = request.getParameter("house_id");
+        if (Strings.isNullOrEmpty(house_id)) {
+            return new ModelAndView("/other/import_fail").addObject("data", "信息有误");
+        }
+        RCustomerHouse house = (RCustomerHouse) baseService.get(RCustomerHouse.class, Integer.valueOf(house_id));
+        modelAndView.addObject("house", house);
+        return modelAndView;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/edithouse")
+    public String editHoustInfo(HttpServletRequest request) {
+        String house_id = request.getParameter("house_id");
+        String customer_id = request.getParameter("customer_id");
+        RCustomerHouse house = null;
+        if (!Strings.isNullOrEmpty(house_id)) {
+            house = (RCustomerHouse) baseService.get(RCustomerHouse.class, Integer.valueOf(house_id));
+        } else {
+            if (!Strings.isNullOrEmpty(customer_id)) {
+                house = new RCustomerHouse();
+                house.setCustomerId(customer_id);
+            } else {
+                return ResponseUtil.fail();
+            }
+        }
+        String house_type = request.getParameter("house_type");
+        String house_address = request.getParameter("house_address");
+        String house_area = request.getParameter("house_area");
+        String house_paytime = request.getParameter("house_paytime");
+        String house_price = request.getParameter("house_price");
+        String house_mortgage_amount = request.getParameter("house_mortgage_amount");
+        String house_month_supply = request.getParameter("house_month_supply");
+        String house_is_diya = request.getParameter("house_is_diya");
+        String house_diya_amount = request.getParameter("house_diya_amount");
+        String house_property_rights = request.getParameter("house_property_rights");
+        String house_altogether = request.getParameter("house_altogether");
+        String house_use_situation = request.getParameter("house_use_situation");
+        String house_year_rent = request.getParameter("house_year_rent");
+
+        house.setHouseType(house_type);
+        house.setHouseAddress(house_address);
+        house.setHouseArea(house_area);
+        if (!Strings.isNullOrEmpty(house_paytime)) {
+            house.setHousePaytime(new java.sql.Date(DateUtil.string2Date2(house_paytime).getTime()));
+        } else {
+            house.setHousePaytime(null);
+        }
+
+        if (!Strings.isNullOrEmpty(house_price)) {
+            house.setHousePrice(Integer.valueOf(house_price));
+        } else {
+            house.setHousePrice(null);
+        }
+        if (!Strings.isNullOrEmpty(house_mortgage_amount)) {
+            house.setHouseMortgageAmount(Integer.valueOf(house_mortgage_amount));
+        } else {
+            house.setHouseMortgageAmount(null);
+        }
+        if (!Strings.isNullOrEmpty(house_month_supply)) {
+            house.setHouseMonthSupply(Double.valueOf(house_month_supply));
+        } else {
+            house.setHouseMonthSupply(null);
+        }
+        house.setHouseIsDiya(Integer.valueOf(house_is_diya));
+        if (!Strings.isNullOrEmpty(house_diya_amount)) {
+            house.setHouseDiyaAmount(Integer.parseInt(house_diya_amount));
+        } else {
+            house.setHouseDiyaAmount(null);
+        }
+        house.setHousePropertyRights(house_property_rights);
+        house.setHouseAltogether(house_altogether);
+        house.setHouseUseSituation(house_use_situation);
+        if (!Strings.isNullOrEmpty(house_year_rent)) {
+            house.setHouseYearRent(Integer.valueOf(house_year_rent));
+        }
+
+        boolean save = baseService.save(house);
+        if (save) {
+            return ResponseUtil.success();
+        }
+        return ResponseUtil.fail(0, "保存失败");
+    }
+
+/*********************房屋信息***************************************/
+    /*********************公司信息***************************************/
+    @RequestMapping(value = "/companylist")
+    public ModelAndView companyListPage(HttpServletRequest request) {
+        String customer_id = request.getParameter("customer_id");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/customer/c_customer_companylist");
+        modelAndView.addObject("customer_id", customer_id);
+        DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerCompany.class);
+        criteria.add(Restrictions.eq("customerId", customer_id));
+        List<RCustomerCompany> companys = baseService.getList(criteria);
+        modelAndView.addObject("companys", companys);
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/addcompany")
+    public ModelAndView companyAddPage(HttpServletRequest request) {
+        String customer_id = request.getParameter("customer_id");
+        ModelAndView modelAndView = new ModelAndView("/back/customer/c_customer_addcompany");
+        modelAndView.addObject("customer_id", customer_id);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/company")
+    public ModelAndView hcompanyInfoPage(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/customer/c_info_company");
+        String company_id = request.getParameter("company_id");
+        if (Strings.isNullOrEmpty(company_id)) {
+            return new ModelAndView("/other/import_fail").addObject("data", "信息有误");
+        }
+        RCustomerCompany company = (RCustomerCompany) baseService.get(RCustomerCompany.class, Integer.valueOf(company_id));
+        modelAndView.addObject("company", company);
+        return modelAndView;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/editcompany")
+    public String editCompanyInfo(HttpServletRequest request) {
+        String company_id = request.getParameter("company_id");
+        String customer_id = request.getParameter("customer_id");
+        RCustomerCompany company = null;
+        if (!Strings.isNullOrEmpty(company_id)) {
+            company = (RCustomerCompany) baseService.get(RCustomerCompany.class, Integer.valueOf(company_id));
+        } else {
+            if (!Strings.isNullOrEmpty(customer_id)) {
+                company = new RCustomerCompany();
+                company.setCustomerId(customer_id);
+            } else {
+                return ResponseUtil.fail();
+            }
+        }
+        String company_name = request.getParameter("company_name");
+        String company_regist_address = request.getParameter("company_regist_address");
+        String company_office_address = request.getParameter("company_office_address");
+        String company_regist_capital = request.getParameter("company_regist_capital");
+        String company_established_time = request.getParameter("company_established_time");
+        String company_business_time = request.getParameter("company_business_time");
+        String company_nature = request.getParameter("company_nature");
+        String company_main_business = request.getParameter("company_main_business");
+        String company_pay_capital = request.getParameter("company_pay_capital");
+        String company_equity = request.getParameter("company_equity");
+
+        company.setCompanyName(company_name);
+        company.setCompanyRegistAddress(company_regist_address);
+        company.setCompanyOfficeAddress(company_office_address);
+        company.setCompanyRegistCapital(company_regist_capital);
+        if (!Strings.isNullOrEmpty(company_established_time)) {
+            company.setCompanyEstablishedTime(DateUtil.strToSqlDate(company_established_time));
+        } else {
+            company.setCompanyEstablishedTime(null);
+        }
+        if (!Strings.isNullOrEmpty(company_business_time)) {
+            company.setCompanyBusinessTime(DateUtil.strToSqlDate(company_business_time));
+        } else {
+            company.setCompanyEstablishedTime(null);
+        }
+        company.setCompanyNature(Integer.valueOf(company_nature));
+        company.setCompanyMainBusiness(company_main_business);
+        company.setCompanyPayCapital(company_pay_capital);
+        company.setCompanyEquity(company_equity);
+
+        boolean save = baseService.save(company);
+        if (save) {
+            return ResponseUtil.success();
+        }
+        return ResponseUtil.fail(0, "保存失败");
+    }
+
+
+/*********************公司信息***************************************/
+
+
+    /*********************联系人信息***************************************/
+    @RequestMapping(value = "/contactlist")
+    public ModelAndView contactListPage(HttpServletRequest request) {
+        String customer_id = request.getParameter("customer_id");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/customer/c_customer_contactlist");
+        modelAndView.addObject("customer_id", customer_id);
+        DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerContacts.class);
+        criteria.add(Restrictions.eq("customerId", customer_id));
+        List<RCustomerContacts> contacts = baseService.getList(criteria);
+        modelAndView.addObject("contacts", contacts);
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/addcontact")
+    public ModelAndView comtactsAddPage(HttpServletRequest request) {
+        String customer_id = request.getParameter("customer_id");
+        ModelAndView modelAndView = new ModelAndView("/back/customer/c_customer_addcontact");
+        modelAndView.addObject("customer_id", customer_id);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/contact")
+    public ModelAndView comtactsInfoPage(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/customer/c_info_contact");
+        String contact_id = request.getParameter("contact_id");
+        if (Strings.isNullOrEmpty(contact_id)) {
+            return new ModelAndView("/other/import_fail").addObject("data", "信息有误");
+        }
+        RCustomerContacts contact = (RCustomerContacts) baseService.get(RCustomerContacts.class, Integer.valueOf(contact_id));
+        modelAndView.addObject("contact", contact);
+        return modelAndView;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/editcontact")
+    public String editComtactsInfo(HttpServletRequest request) {
+        String contact_id = request.getParameter("contact_id");
+        String customer_id = request.getParameter("customer_id");
+        RCustomerContacts contact = null;
+        if (!Strings.isNullOrEmpty(contact_id)) {
+            contact = (RCustomerContacts) baseService.get(RCustomerContacts.class, Integer.valueOf(contact_id));
+        } else {
+            if (!Strings.isNullOrEmpty(customer_id)) {
+                contact = new RCustomerContacts();
+                contact.setCustomerId(customer_id);
+            } else {
+                return ResponseUtil.fail();
+            }
+        }
+        String contact_name = request.getParameter("contact_name");
+        String contact_relationship = request.getParameter("contact_relationship");
+        String contact_phone = request.getParameter("contact_phone");
+        String contact_address = request.getParameter("contact_address");
+        String contact_is_loan = request.getParameter("contact_is_loan");
+
+        if (Strings.isNullOrEmpty(contact_name) || Strings.isNullOrEmpty(contact_name) || Strings.isNullOrEmpty(contact_phone)) {
+            return ResponseUtil.fail(0, "姓名，关系，电话为必填项");
+        }
+
+        contact.setContactName(contact_name);
+        contact.setContactRelationship(contact_relationship);
+        contact.setContactPhone(contact_phone);
+        contact.setContacctAddress(contact_address);
+        contact.setContactIsLoan(Integer.valueOf(contact_is_loan));
+
+        boolean save = baseService.save(contact);
+        if (save) {
+            return ResponseUtil.success();
+        }
+        return ResponseUtil.fail(0, "保存失败");
+    }
+
+
+/*********************联系人信息***************************************/
 
     /**
      * 在页面中添加客户信息

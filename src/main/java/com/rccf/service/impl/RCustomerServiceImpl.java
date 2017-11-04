@@ -35,6 +35,6 @@ public class RCustomerServiceImpl implements RCustomerService {
 
     @Override
     public RCustomerWork findRCustomerWorkByCustomerid(String customer_id) {
-        return null;
+        return dao.findRCustomerWorkByCustomerid(customer_id);
     }
 }
