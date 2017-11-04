@@ -122,4 +122,13 @@ public class BaseDao extends HibernateDaoSupport {
         }
     }
 
+
+    public int getCount(String sql) {
+        Query query = getSessionFactory().getCurrentSession().createSQLQuery(sql);
+        List list = query.list();
+        int count = Integer.valueOf(list.get(0).toString());
+        return count;
+    }
+
+
 }

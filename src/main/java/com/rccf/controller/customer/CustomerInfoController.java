@@ -3,6 +3,7 @@ package com.rccf.controller.customer;
 
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.*;
+import com.rccf.model.temp.CustomerTmp;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.service.RCustomerService;
@@ -10,6 +11,7 @@ import com.rccf.util.BackUtil;
 import com.rccf.util.DateUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
+import com.rccf.util.response.Page;
 import com.rccf.util.verify.CustomerVerify;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -57,11 +60,46 @@ public class CustomerInfoController {
     @ResponseBody
     @RequestMapping(value = "/list")
     public String customerList(HttpServletRequest request) {
-        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(RCustomer.class);
-        detachedCriteria.createAlias("id", "id");
-        detachedCriteria.createAlias("name", "name");
-        detachedCriteria.createAlias("phone", "phone");
-
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        if (employee == null) {
+            return ResponseUtil.fail(0, "请重新登录");
+        }
+        String pageNo = request.getParameter("pageNo");
+        int p = 0;
+        if (!Strings.isNullOrEmpty(pageNo)) {
+            p = Integer.valueOf(pageNo);
+        }
+        int offset = 10 * p;
+        String limit = " limit " + offset + ",10";
+        String department = employee.getDepartment();
+        if (department.contains("金融") || department.contains("系统")) {
+            if (department.contains("系统")) {
+                String sql_count = "SELECT COUNT(`id`)  from `r_customer` ";
+                String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer` " + limit;
+                String data = Page.limit(baseService, sql_count, sql_info, CustomerTmp.class);
+                return data;
+            } else {
+                int role = employee.getRole();
+                if (role == 2) {
+                    String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`director` =" + employee.getId() + ")";
+                    String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`director` =" + employee.getId() + ") " + limit;
+                    String data = Page.limit(baseService, sql_count, sql_info, CustomerTmp.class);
+                    return data;
+                } else if (role == 2) {
+                    String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ")";
+                    String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ") " + limit;
+                    String data = Page.limit(baseService, sql_count, sql_info, CustomerTmp.class);
+                    return data;
+                } else if (role == 4) {
+                    String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ")";
+                    String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ") " + limit;
+                    String data = Page.limit(baseService, sql_count, sql_info, CustomerTmp.class);
+                    return data;
+                }
+            }
+        } else {
+            return ResponseUtil.fail(0, "信息有误");
+        }
 
         return ResponseUtil.fail();
     }
@@ -77,6 +115,7 @@ public class CustomerInfoController {
     @ResponseBody
     @RequestMapping(value = "/add")
     public String addCustomer(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         String name = request.getParameter("name");
         String phone = request.getParameter("phone");
         if (Strings.isNullOrEmpty(name)) {
@@ -102,7 +141,39 @@ public class CustomerInfoController {
         rCustomer.setPhone(phone);
         boolean save = baseService.save(rCustomer);
         if (save) {
-            return ResponseUtil.success(rCustomer.getId());
+            String id = rCustomer.getId();
+            RCustomerAssign assign = new RCustomerAssign();
+            assign.setCustomerId(id);
+            String sql = "SELECT id,\n" +
+                    "(SELECT `id` from `employee` WHERE `code` =e.`dupty_director` ) as deputy_director ,\n" +
+                    "(SELECT `id` from `employee` WHERE `code` =e.`director` ) as director \n" +
+                    "from `employee`  e  WHERE id = " + employee.getId();
+            List<Object[]> list = baseService.queryBySql(sql);
+            if (list != null && list.size() > 0) {
+                Object[] objs = list.get(0);
+                if (objs[1] != null) {
+                    int eDuptyid = Integer.valueOf(objs[1].toString());
+                    assign.setDeputyDirector(eDuptyid);
+                }
+                if (objs[2] != null) {
+                    int eDuptyid = Integer.valueOf(objs[2].toString());
+                    assign.setDirector(eDuptyid);
+                }
+
+            }
+            if (employee.getRole() == 4) {
+                assign.setSalesman(employee.getId());
+            }
+
+            assign.setAdmin(employee.getId());
+            assign.setAdminTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
+            boolean s = baseService.save(assign);
+            if (s) {
+                return ResponseUtil.success(rCustomer.getId());
+            } else {
+                return ResponseUtil.fail(0, "分配情况保存失败");
+            }
+//            return ResponseUtil.success(rCustomer.getId());
         }
         return ResponseUtil.fail(0, "保存失败");
     }

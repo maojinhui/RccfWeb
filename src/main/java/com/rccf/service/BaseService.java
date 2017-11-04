@@ -73,4 +73,8 @@ public class BaseService {
         return dao.excuteSql(sql);
     }
 
+    public int getCount(String sql) {
+        return dao.getCount(sql);
+    }
+
 }
