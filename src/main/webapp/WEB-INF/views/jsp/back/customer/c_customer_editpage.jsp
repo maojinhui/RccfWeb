@@ -53,32 +53,32 @@
             <img src="/image/customerinfo/客户工作单位信息.png">
             <div><label>客户工作单位信息</label></div>
         </div>
-        <div data-html="customer_mate" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
+        <div data-html="mate" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
             <img src="/image/customerinfo/客户配偶信息.png">
             <div><label>客户配偶信息</label></div>
         </div>
-        <div data-html="customer_house_list" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
+        <div data-html="houselist" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
             <img src="/image/customerinfo/客户房产信息.png">
             <div><label>客户房产信息</label></div>
         </div>
-        <div data-html="customer_car" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
-            <img src="/image/customerinfo/客户车产信息.png">
-            <div><label>客户车产信息</label></div>
-        </div>
-        <div data-html="customer_company_list"
+        <div data-html="companylist"
              class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
             <img src="/image/customerinfo/客户公司信息.png">
             <div><label>客户公司信息</label></div>
         </div>
-        <div data-html="customer_other_list" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
+        <div data-html="contactlist" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
             <img src="/image/customerinfo/其他联系人信息.png">
             <div><label>其他联系人信息</label></div>
         </div>
-        <div data-html="customer_loan_want" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
+        <div data-html="car" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
+            <img src="/image/customerinfo/客户车产信息.png">
+            <div><label>客户车产信息</label></div>
+        </div>
+        <div data-html="loan_want" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
             <img src="/image/customerinfo/客户贷款意向.png">
             <div><label>客户贷款意向</label></div>
         </div>
-        <div class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-u-end am-text-center am-margin-vertical-xs">
+        <div data-html="credit" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-u-end am-text-center am-margin-vertical-xs">
             <img src="/image/customerinfo/客户信用资料.png">
             <div><label>客户信用资料</label></div>
         </div>
@@ -92,9 +92,15 @@
     $('[data-html]').click(function () {
         $(this).addClass('animated flash');
         var name = $(this).data("html");
-        setTimeout(function () {
-            window.location.href = '/customer/info/' + name + '?customer_id=<%=customer_id%>';
-        }, 1000)
+        if (name === 'car' || name === 'loan_want' || name === 'credit') {
+            alert("信息待完善");
+        } else {
+            setTimeout(function () {
+                window.location.href = '/customer/info/' + name + '?customer_id=<%=customer_id%>';
+            }, 500)
+        }
+
+
     });
 </script>
 </body>

@@ -9,8 +9,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     RCustomer customer = (RCustomer) request.getAttribute("customer");
-
-
 %>
 
 <!DOCTYPE html>
@@ -57,8 +55,8 @@
 <body>
 <div class="am-container am-margin-vertical">
 
-    <div class="am-text-right am-margin-vertical-xs">
-        <btn id="edit">编辑&emsp;&emsp;</btn>
+    <div class="am-text-right am-margin-vertical-xs ">
+        <span class="am-btn am-btn-warning" id="edit">编辑</span>
     </div>
     <div class="am-g">
         <fieldset disabled>

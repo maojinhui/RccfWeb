@@ -64,6 +64,7 @@
                 <label class="am-u-sm-6" style="background-color: #2c4666;color: #ffffff;">手机号</label>
             </div>
         </div>
+
         <div onclick="toDetail('402881d45f7c1b00015f7c2de8ec0002')"
              class="am-u-sm-12 am-u-md-8 am-u-lg-6 am-text-center">
             <div class="am-input-group am-u-sm-12">
@@ -100,12 +101,12 @@
         info.department = department;
         info.role = role;
         $.ajax({
-            url: '',
-            dataType: '',
+            url: '/customer/info/list',
+            dataType: 'json',
             type: 'POST',
             data: info,
-            success: function () {
-
+            success: function (result) {
+                console.info(result);
             },
             error: function () {
 
@@ -114,6 +115,9 @@
 
         });
     }
+
+    getData();
+
 
 
     function toDetail(customer_id) {

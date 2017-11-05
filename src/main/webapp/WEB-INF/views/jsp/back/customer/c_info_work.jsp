@@ -8,12 +8,14 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+
+    String customer_id = (String) request.getAttribute("customer_id");
     RCustomerWork work = (RCustomerWork) request.getAttribute("work");
     boolean notnull = true;
     if (work == null) {
-        notnull = true;
-    } else {
         notnull = false;
+    } else {
+        notnull = true;
     }
 
 %>
@@ -140,7 +142,7 @@
             <div class="am-u-sm-12 am-u-md-8 am-u-lg-6">
                 <div class="am-input-group am-u-sm-12">
                     <label class="am-u-sm-4 ">月收入状况</label>
-                    <input id="company_salary" class="am-u-sm-8" type="text"
+                    <input id="company_salary" class="am-u-sm-8" type="number"
                            value="<%=notnull?Strings.getInputString(work.getCompanySalary()):""%>">
                 </div>
             </div>
@@ -191,7 +193,9 @@
      *
      * */
     $('#edit-confirm').click(function () {
+
         var info = {};
+        var customer_id = '<%=customer_id%>';
         var company_name = $('#company_name').val();
         var company_tel = $('#company_tel').val();
         var company_address = $('#company_address').val();
@@ -199,6 +203,7 @@
         var company_department = $('#company_department').val();
         var company_duties = $('#company_duties').val();
         var company_salary = $('#company_salary').val();
+        info.customer_id = customer_id;
         info.company_name = company_name;
         info.company_tel = company_tel;
         info.company_address = company_address;

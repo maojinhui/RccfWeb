@@ -143,6 +143,11 @@ public class ResponseUtil {
     }
 
 
+//    public static String pageData(String data){
+//
+//    }
+
+
     public static void main(String [] args){
 
         System.out.println(success("abc"));
