@@ -7,7 +7,7 @@ body {
     overflow-y: auto;
 }
 /*移动端页面*/
-.content_phone {
+.content_phone{
     max-width: 400px;
     margin: 0 auto;
 }
@@ -24,7 +24,7 @@ body {
     margin-left: 2em;
 }
 /*轮播信息样式*/
-.my_container {
+.my_container{
     box-sizing: content-box;
     width: 21em;
     margin-top: 1em;
@@ -68,15 +68,13 @@ body {
 .money strong {
     font-size: 2.2em;
 }
-
-.do_money {
+.do_money{
     color: #ff6600;
     margin-top: 0.5em;
     padding-left: 1em;
     font-size: 1.6em;
 }
-
-.do_rate_month {
+.do_rate_month{
 
 }
 .rate_month {
@@ -88,8 +86,7 @@ body {
 .rate_month strong {
     color: #ff6600;
 }
-
-.salesman {
+.salesman{
     width: 95%;
     height: 8em;
 
@@ -105,7 +102,7 @@ body {
     background: linear-gradient(to right, #FFB874, #FF8187);
 }
 /*闪烁字体效果区域*/
-.call_me {
+.call_me{
     width: 95%;
     border: none;
     /*border-bottom:1px solid #0b76ac;*/
@@ -118,11 +115,11 @@ body {
     width: 100%;
     bottom: 5px;
     color: whitesmoke;
-    background: rgba(51, 51, 51, 0.5);
+    background: rgba(51,51,51,0.5);
     font-size: 21px;
 }
 /*标题字体*/
-.ti_info {
+.ti_info{
     display: block;
     margin: 0.8em;
     color: #0c7cb5;
@@ -130,29 +127,27 @@ body {
     /*border-bottom: 1px solid #eee;*/
 }
 /*内容div*/
-.st_info {
+.st_info{
     margin-top: 1em;
     margin-left: 5%;
     width: 90%;
 }
 /*内容字体*/
-.th_info {
+.th_info{
     color: #8f8f8f;
 }
 /*固定底部*/
-.fix_bottom {
+.fix_bottom{
     position: fixed;
 }
 /*包含内容体*/
-.body_container {
+.body_container{
     margin-bottom: 4em;
 }
-
-.rule {
+.rule{
     margin: 1rem;
     color: #843534;
 }
-
-.rule ol {
+.rule ol{
     margin-left: 2rem;
 }

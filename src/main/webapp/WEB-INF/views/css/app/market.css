@@ -1,4 +1,4 @@
-* {
+*{
     margin: 0;
     padding: 0;
 }
@@ -19,42 +19,37 @@ body {
     margin: 0 auto;
     max-width: 480px;
 }
-
-.head {
+.head{
     height: 5.5em;
-    background: url("../image/market/head.jpg") no-repeat;
+    background:url("../image/market/head.jpg") no-repeat;
 }
-
-.company {
+.company{
     margin-top: 2em;
     margin-left: 2.5em;
     color: #E5F344;
     height: 1.7em;
 }
-
-.title {
+.title{
     display: block;
     margin-top: 0em;
     margin-left: 2.5em;
     height: 0.5em;
 }
-
-.container {
+.container{
     width: 100%;
     margin-top: 0.4em;
     /*border-bottom:0.3em solid #F3F3F3;*/
 
 }
 .container:before,
-.container:after {
+.container:after{
     content: "";
     clear: both;
 }
-
-.explanation {
+.explanation{
     display: block;
     font-size: 0.6em;
-    margin: 0 auto;
+    margin:0 auto;
     padding: 0.1em;
     width: 10em;
     text-align: center;
@@ -62,34 +57,29 @@ body {
     color: white;
     border-radius: 25px;
 }
-
-.my_container {
+.my_container{
     padding-right: 15px;
     padding-left: 15px;
     margin-right: auto;
     margin-left: auto;
 
-}
 
-.my_container div {
+}
+.my_container div{
     height: 50px;
 }
-
-.my_row {
+.my_row{
     margin-right: -15px;
     margin-left: -15px;
 }
-
-.my_col {
+.my_col{
     display: inline-block;
     width: 23%;
 }
-
-.my_col img {
+.my_col img{
     width: 80%;
 }
-
-.my_col p {
+.my_col p{
     font-size: small;
 }
 @media only screen and (min-width: 400px) {

@@ -12,7 +12,6 @@
     <meta charset="UTF-8">
     <title>首页</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scale=0"/>
-    <script src="/js/app/pace.js"></script>
     <link rel="stylesheet" href="/css/app/pace-theme-flash.css"/>
 
     <link rel="stylesheet" href="/css/app/weui.min.css"/>
@@ -22,11 +21,7 @@
     <link rel="stylesheet" href="/css/app/rccf_index.css">
 </head>
 <body>
-<div class="rccf_grey_body fz30" style="position: absolute;">
-    <div>
-        努力加载中……
-    </div>
-</div>
+
 <div class="rccf_body">
     <!-- 首页轮播图 -->
     <div class="swiper-container">
@@ -81,57 +76,71 @@
                 <div class="swiper-slide">
                     <div class="rccf_product">
                         <div class="rccf_product_head fz30 rccf_margin_left_sm rccf_padding_vertival_sm">
-                            融成金服-个人消费贷
+                            融成金服-保单贷
                         </div>
                         <div class="rccf_product_info rccf_padding_vertival_sm fz26">
-                            <span>¥&emsp;<b class="fz40">0-100</b>&emsp;万</span>
+                            <span>¥&emsp;<b class="fz40">1-50</b>&emsp;万</span>
                         </div>
                         <div class="rccf_product_detail rccf_margin_left_sm fz20">
-                            <span>贷款年限：3-25年&emsp;&emsp;贷款用途：个人消费</span>
+                            <span>产品优势：无抵押，无担保，有保单即可贷</span>
                         </div>
-                        <button class="rccf_product_btn  fz26">立即申请</button>
+                        <button data-html="baodan" class="rccf_product_btn  fz26">立即申请</button>
                     </div>
                 </div>
                 <div class="swiper-slide">
                     <div class="rccf_product">
                         <div class="rccf_product_head fz30 rccf_margin_left_sm rccf_padding_vertival_sm">
-                            融成金服-企业经营贷
+                            融成金服-薪水贷
                         </div>
                         <div class="rccf_product_info rccf_padding_vertival_sm fz26">
-                            <span>¥&emsp;<b class="fz40">0-3000</b>&emsp;万</span>
+                            <span>¥&emsp;<b class="fz40">1-50</b>&emsp;万</span>
                         </div>
                         <div class="rccf_product_detail rccf_margin_left_sm fz20">
-                            <span>贷款年限：1-5年&emsp;&emsp;贷款用途：企业经营</span>
+                            <span>产品优势：无抵押，无担保，手续简便</span>
                         </div>
-                        <button class="rccf_product_btn  fz26">立即申请</button>
+                        <button data-html="xinshui" class="rccf_product_btn  fz26">立即申请</button>
                     </div>
                 </div>
                 <div class="swiper-slide">
                     <div class="rccf_product">
                         <div class="rccf_product_head fz30 rccf_margin_left_sm rccf_padding_vertival_sm">
-                            融成金服-质押贷
+                            融成金服-生意贷
                         </div>
                         <div class="rccf_product_info rccf_padding_vertival_sm fz26">
-                            <span>¥&emsp;<b class="fz40">20-1000</b>&emsp;万</span>
+                            <span>¥&emsp;<b class="fz40">1-50</b>&emsp;万</span>
                         </div>
                         <div class="rccf_product_detail rccf_margin_left_sm fz20">
-                            <span>贷款年限：1-6年&emsp;&emsp;贷款条件：北京项目</span>
+                            <span>产品优势：无抵押，无担保，手续简便</span>
                         </div>
-                        <button class="rccf_product_btn  fz26">立即申请</button>
+                        <button data-html="shengyi" class="rccf_product_btn  fz26">立即申请</button>
                     </div>
                 </div>
                 <div class="swiper-slide">
                     <div class="rccf_product">
                         <div class="rccf_product_head fz30 rccf_margin_left_sm rccf_padding_vertival_sm">
-                            融成金服-信用贷
+                            融成金服-车抵贷
                         </div>
                         <div class="rccf_product_info rccf_padding_vertival_sm fz26">
-                            <span>&emsp;</span>
+                            <span>¥&emsp;<b class="fz40">5-500</b>&emsp;万</span>
                         </div>
                         <div class="rccf_product_detail rccf_margin_left_sm fz20">
-                            <span>产品特色：放款速度快，产品利息低，<br>准备资料简单</span>
+                            <span>产品优势：无抵押，无担保，额度高</span>
                         </div>
-                        <button class="rccf_product_btn  fz26">立即申请</button>
+                        <button data-html="chedai" class="rccf_product_btn  fz26">立即申请</button>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="rccf_product">
+                        <div class="rccf_product_head fz30 rccf_margin_left_sm rccf_padding_vertival_sm">
+                            融成金服-精英贷
+                        </div>
+                        <div class="rccf_product_info rccf_padding_vertival_sm fz26">
+                            <span>¥&emsp;<b class="fz40">1-50</b>&emsp;万</span>
+                        </div>
+                        <div class="rccf_product_detail rccf_margin_left_sm fz20">
+                            <span>产品优势：无抵押，无担保，手续简便</span>
+                        </div>
+                        <button data-html="jingyingdai" class="rccf_product_btn  fz26">立即申请</button>
                     </div>
                 </div>
             </div>
@@ -177,22 +186,22 @@
         </a>
     </div>
 </div>
-<script src="/js/app/jquery.min.js"></script>
-<script src="/js/app/jquery-weui.min.js"></script>
-<script src="/js/app/swiper.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+<script src="https://cdn.bootcss.com/Swiper/4.0.1/js/swiper.min.js"></script>
 <script src="/js/app/self_adaption.js"></script>
+<script src="/js/app/nprogress.js"></script>
 <script>
-    paceOptions = {
-        ajax: true, // disabled
-        document: true, // disabled
-        eventLag: true, // disabled
-        elements: {
-            selectors: ['.my-page']
-        }
-    };
-    Pace.on('done', function () {
-        $('.rccf_grey_body').css('display', 'none');
-    });
+    $('body').show();
+    $('.version').text(NProgress.version);
+    NProgress.start();
+    setTimeout(function () {
+        NProgress.done();
+        $('.page-header').css('display', 'none');
+        $('.fade').removeClass('out');
+    }, 0);
+
+
     //   页首伦轮播图控制器
     var mySwiper = new Swiper('.swiper-container', {
         effect: "slide",
@@ -213,8 +222,9 @@
 
     });
 
-    $('.rccf_product_btn').bind('click', function () {
-        window.location.href = '/loan/default';
+    $('[data-html]').click(function () {
+        var name = $(this).data('html');
+        window.location.href = "/loan/"+name;
     })
 
 

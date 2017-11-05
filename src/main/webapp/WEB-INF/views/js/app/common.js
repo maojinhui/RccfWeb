@@ -23,21 +23,18 @@ function getdata(str) {
     }
     return str;
 }
-
 function getdata_1(str) {
     if (isNull(str)) {
         return '无';
     }
     return str;
 }
-
 function have(num) {
     if (num == 0) {
         return '无';
     }
     return '有';
 }
-
 function getType(type) {
     if (type === 0) {
         return '信用贷';
@@ -65,10 +62,9 @@ function getState(state) {
         return '其他';
     }
 }
-
 function get_sum(arr) {
     var sum = 0;
-    for (var i = 0; i < arr.length; i++) {
+    for(var i=0 ; i<arr.length;i++){
         sum += arr[i][6];
     }
     return sum;
@@ -99,7 +95,7 @@ Date.prototype.format = function (format) {
 
 function getDate(time) {
     var date = new Date();
-    if (isNull(time)) {
+    if(isNull(time)){
         return '';
     }
     date.setTime(time);
