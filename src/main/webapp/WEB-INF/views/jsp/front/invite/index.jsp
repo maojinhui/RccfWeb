@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.rccf.util.WeixinUtil" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/10/30
@@ -20,6 +20,7 @@
 </head>
 <body>
 <div class="rccf_grey_body">
+
     <div class="weui-cells">
         <div class="weui-cell fz30">
             <div id="back" class="weui-cell__hd">
@@ -34,11 +35,12 @@
             <!--</div>-->
         </div>
     </div>
+
 </div>
 <div class="rccf_all">
-    <img class="rccf_width_100" src="/image/app/invitation.png">
+    <img class="rccf_width_100"  src="/image/app/invitation.png" >
 </div>
-
+<img style="position: absolute;top: 8.8rem ; left: 1.86rem;width: 6.4rem;height: 6.4rem;" src="<%=WeixinUtil.URL_QRCODE_TICKET+request.getAttribute("ticket")%>" />
 
 <script src="/js/app/self_adaption.js"></script>
 <script src="/js/app/jquery.min.js"></script>
@@ -47,6 +49,19 @@
     $('#back').bind('click', function () {
         window.history.back();
     })
+
+    $.ajax({
+        url:'/invite/qrcode/ticket',
+        dataType:'json',
+        data:{},
+        success:function (result) {
+
+        },
+        error:function () {
+
+        }
+    });
+
 </script>
 
 </body>

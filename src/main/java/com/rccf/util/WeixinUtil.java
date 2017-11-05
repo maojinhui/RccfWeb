@@ -1,6 +1,7 @@
 package com.rccf.util;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.rccf.component.SpyMemcachedManager;
 import com.rccf.constants.AccountConstants;
 import com.rccf.model.result.WeixinMessage;
@@ -37,6 +38,9 @@ public class WeixinUtil {
 
     private static String URL_JSAPI_TICKET="https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&";
 
+    public static String URL_QRCODE= "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=";
+
+    public static String URL_QRCODE_TICKET = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=";
 
     /**
      * 获取微信请求到的accesstoken
@@ -164,7 +168,32 @@ public class WeixinUtil {
     }
 
 
+    /**
+     *
+     * @param userid
+     * @return
+     */
+    public static String getQRcode(String userid){
+        String url = URL_QRCODE+getAccessToken();
+        JSONObject object = new JSONObject();
+        object.put("expire_seconds",2591000);
+        object.put("action_name","QR_STR_SCENE");
+        JSONObject infoObj = new JSONObject();
+        JSONObject senceObj = new JSONObject();
+        senceObj.put("scene_str",userid);
+        infoObj.put("scene",senceObj);
+        object.put("action_info",infoObj);
+        String result = HttpUtil.postJson(url, object.toJSONString());
+        JSONObject resultObj = JSON.parseObject(result);
+        if(resultObj.containsKey("ticket")){
 
+        }else{
+
+        }
+
+        return null;
+
+    }
 
 
 
