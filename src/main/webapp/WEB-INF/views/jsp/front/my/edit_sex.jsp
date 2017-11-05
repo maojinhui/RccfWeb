@@ -6,6 +6,18 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    int sex = -1;
+ Integer sexInt = (Integer) request.getAttribute("sex");
+ if (sexInt!=null){
+     if(sexInt.intValue() == 1){
+            sex = 1;
+     }else if(sexInt.intValue() == 2){
+            sex = 2;
+     }
+ }
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,7 +53,9 @@
                 <p>男</p>
             </div>
             <div class="weui-cell__ft">
-                <input type="radio" class="weui-check" name="gender" value="1" id="x11">
+                <input type="radio" class="weui-check" name="gender" value="2" id="x11"
+
+                <%=sex==2?"checked='checked'":""%>>
                 <span class="weui-icon-checked"></span>
             </div>
         </label>
@@ -51,7 +65,8 @@
                 <p>女</p>
             </div>
             <div class="weui-cell__ft">
-                <input type="radio" name="gender" value="2" class="weui-check" id="x12" checked="checked">
+                <input type="radio" class="weui-check" name="gender" value="1"  id="x12"
+                    <%=sex==1?"checked='checked'":""%>>
                 <span class="weui-icon-checked"></span>
             </div>
         </label>
@@ -64,18 +79,26 @@
 <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script>
     $('#back').bind('click', function () {
-        window.history.back();
+//        window.history.back();
         window.close();
-    })
+        window.location.href="/app/datapage";
+    });
     $('#confirm').bind('click', function () {
-        var phone = $('#phone').val();
+        var sex = $("input[name='gender']:checked").val();
+        console.log(sex);
         $.ajax({
-            url: '',
-            data: {},
-            success: function () {
-                window.location.href = 'http://localhost:63342/rccf_back/app/rccf_mine_info.html';
+            url: '/app/my/editSex',
+            type:"POST",
+            dataType:"json",
+            data: {"sex":sex},
+            success: function (result) {
+                if (result.code){
+                    alert("修改成功");
+                }else{
+                    alert(result.errormsg);
+                }
             }
-        })
+        });
     })
 </script>
 </body>

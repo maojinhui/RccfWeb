@@ -103,6 +103,22 @@ public class AppController {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/front/my/data");
+        modelAndView.addObject("name", user.getRealName());
+        if (user.getSex() != null) {
+            String sexStr = "";
+            int sex = user.getSex().intValue();
+            if(sex ==0){
+                sexStr = "未知";
+            }else if (sex ==1){
+                sexStr="女";
+            }else if(sex==2){
+                sexStr="男";
+            }
+            modelAndView.addObject("sex", sexStr);
+        }
+
+        modelAndView.addObject("address", user.getAddress());
+
         return modelAndView;
     }
 
@@ -115,6 +131,7 @@ public class AppController {
         CookiesUtil.addCookies("user_name", user.getRealName(), response);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/front/my/edit_name");
+        modelAndView.addObject("name",user.getRealName());
         return modelAndView;
     }
 
@@ -129,6 +146,7 @@ public class AppController {
         }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/front/my/edit_sex");
+        modelAndView.addObject("sex",user.getSex());
         return modelAndView;
     }
 
@@ -141,6 +159,7 @@ public class AppController {
         CookiesUtil.addCookies("user_address", user.getAddress(), response);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/front/my/edit_address");
+        modelAndView.addObject("address",user.getAddress());
         return modelAndView;
     }
 

@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.rccf.util.Strings" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/10/24
@@ -29,9 +29,9 @@
             <div class="weui-cell__bd rccf_text_center">
                 我的资料&emsp;&emsp;
             </div>
-            <div id="confirm" class="weui-cell__ft rccf_text_black">
-                确定
-            </div>
+            <%--<div id="confirm" class="weui-cell__ft rccf_text_black">--%>
+                <%--确定--%>
+            <%--</div>--%>
         </div>
     </div>
     <div class="weui-cells">
@@ -40,7 +40,7 @@
                 <p>姓名</p>
             </div>
             <div class="weui-cell__ft">
-                <span id="data-name"></span>
+                <span id="data-name"><%=Strings.getInputString(request.getAttribute("name"))%></span>
             </div>
         </a>
         <a class="weui-cell weui-cell_access" href="/app/data_sex">
@@ -48,7 +48,7 @@
                 <p>性别</p>
             </div>
             <div class="weui-cell__ft">
-                <span id="data-sex"></span>
+                <span id="data-sex"><%=Strings.getInputString(request.getAttribute("sex"))%></span>
             </div>
         </a>
         <a class="weui-cell weui-cell_access" href="/app/data_address">
@@ -56,7 +56,7 @@
                 <p>地址</p>
             </div>
             <div class="weui-cell__ft">
-                <span id="data-address"></span>
+                <span id="data-address"><%=Strings.getInputString(request.getAttribute("address"))%></span>
             </div>
         </a>
     </div>
@@ -70,18 +70,24 @@
 
     $('#back').bind('click', function () {
         window.close();
-        window.history.back();
+//        window.history.back();
+        window.location.href="/app/mypage";
     })
-    $('#confirm').bind('click', function () {
-        var phone = $('#phone').val();
-        $.ajax({
-            url: '',
-            data: {},
-            success: function () {
-                window.location.href = 'http://localhost:63342/rccf_back/app/rccf_mine.html';
-            }
-        })
-    })
+
+//    var name = $.cookie("user_name");
+//
+//    var sex = $.cookie("user_sex");
+//
+//    var address = $.cookie("user_address");
+//
+//    $('#data-name').val(name);
+//    $('#data-sex').val(sex);
+//    $('#data-address').val(address);
+
+
+
+
+
 </script>
 </body>
 </html>

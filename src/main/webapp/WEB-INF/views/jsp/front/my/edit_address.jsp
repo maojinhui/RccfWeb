@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.rccf.util.Strings" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/10/24
@@ -37,7 +37,8 @@
     <div class="weui-cells">
         <div class="weui-cell">
             <div class="weui-cell__bd">
-                <input id="address" class="weui-input" type="text" placeholder="请输入地址">
+                <input id="address" class="weui-input" type="text" placeholder="请输入地址"
+                       value="<%=Strings.getInputString(request.getAttribute("address"))%>">
             </div>
         </div>
     </div>
@@ -48,19 +49,26 @@
 <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script>
     $('#back').bind('click', function () {
-        window.history.back();
         window.close();
+        window.location.href="/app/datapage";
 
     })
     $('#confirm').bind('click', function () {
-        var phone = $('#phone').val();
+        var address = $('#address').val();
+        console.log(address);
         $.ajax({
-            url: '',
-            data: {},
-            success: function () {
-                window.location.href = 'http://localhost:63342/rccf_back/app/rccf_mine_info.html';
+            url: '/app/my/editAddress',
+            type:"POST",
+            dataType:"json",
+            data: {"address":address},
+            success: function (result) {
+                if (result.code){
+                    alert("修改成功");
+                }else{
+                    alert(result.errormsg);
+                }
             }
-        })
+        });
     })
 
 
