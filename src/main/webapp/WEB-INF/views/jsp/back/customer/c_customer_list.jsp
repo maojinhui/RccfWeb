@@ -60,64 +60,150 @@
     <div id="wrapper" class="am-g">
         <div class="am-u-sm-12 am-u-md-8 am-u-lg-6">
             <div class="am-input-group am-u-sm-12">
-                <label class="am-u-sm-6 am-text" style="background-color: #2c4666;color: #ffffff;">客户姓名</label>
+                <label class="am-u-sm-2 am-text" style="background-color: #2c4666;color: #ffffff;">序号</label>
+                <label class="am-u-sm-4 am-text" style="background-color: #2c4666;color: #ffffff;">客户姓名</label>
                 <label class="am-u-sm-6" style="background-color: #2c4666;color: #ffffff;">手机号</label>
             </div>
         </div>
 
-        <div onclick="toDetail('402881d45f7c1b00015f7c2de8ec0002')"
-             class="am-u-sm-12 am-u-md-8 am-u-lg-6 am-text-center">
-            <div class="am-input-group am-u-sm-12">
-                <label class="am-u-sm-6 ">张三</label>
-                <label class="am-u-sm-6 ">12345678900</label>
-            </div>
-        </div>
-        <%--<div id="add_form" class="am-u-sm-12 am-u-md-8 am-u-lg-6 am-text-center am-hide">--%>
-        <%--<div class="am-input-group am-u-sm-12">--%>
-        <%--<input id="order_number" class="am-u-sm-2 " type="number" >--%>
-        <%--<input id="phone" class="am-u-sm-6 " type="number">--%>
-        <%--<input id="name" class="am-u-sm-4 " type="text">--%>
-        <%--</div>--%>
-        <%--</div>--%>
-        <%--<div id="add_btns" class="am-u-sm-12 am-u-md-8 am-u-lg-6 am-margin-vertical am-hide">--%>
-        <%--<div class="am-input-group am-u-sm-12">--%>
-        <%--<button id="edit-confirm" class="am-u-sm-6 am-btn am-btn-primary">添加客户</button>--%>
-        <%--<button id="edit-cancel" onclick="cancel()" class="am-u-sm-6 am-btn am-btn-default">取消添加</button>--%>
-        <%--</div>--%>
-        <%--</div>--%>
+
     </div>
 </div>
+<div id="page"></div>
+
 
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script src="/js/amaze/amazeui.page.js"></script>
 
 <script>
+
+
+    function doPage(pageNumber, curr) {
+        var first = false;
+        var last = false;
+        if (pageNumber > 5) {
+            first = '首页';
+            last = '尾页';
+        }
+        var page = $('#page').page({
+            pages: pageNumber, //页数
+            curr: curr, //当前页
+            type: 'default', //主题
+            groups: 5, //连续显示分页数
+            prev: false, //若不显示，设置false即可
+            next: false, //若不显示，设置false即可
+            first: first,
+            last: last, //false则不显示
+            before: function (context, next) { //加载前触发，如果没有执行next()则中断加载
+                console.log('开始加载...');
+                context.time = (new Date()).getTime(); //只是演示，并没有什么卵用，可以保存一些数据到上下文中
+                next();
+            },
+            render: function (context, $el, index) { //渲染[context：对this的引用，$el：当前元素，index：当前索引]
+                //逻辑处理
+//                if (index == 'last') { //虽然上面设置了last的文字为尾页，但是经过render处理，结果变为最后一页
+//                    $el.find('a').html('最后一页');
+//                    return $el; //如果有返回值则使用返回值渲染
+//                }
+                return false; //没有返回值则按默认处理
+            },
+            after: function (context, next) { //加载完成后触发
+                var time = (new Date()).getTime(); //没有什么卵用的演示
+                console.log('分页组件加载完毕，耗时：' + (time - context.time) + 'ms');
+                next();
+            },
+            /*
+             * 触发分页后的回调，如果首次加载时后端已处理好分页数据则需要在after中判断终止或在jump中判断first是否为假
+             */
+            jump: function (context, first) {
+                console.log('当前第：' + context.option.curr + "页");
+//                $("#content").html(dealData(context.option.curr, false));
+                getData(context.option.curr);
+
+            }
+        });
+    }
+
 
     var i = 1;
     var department = '<%=department%>';
     var role = <%=role%>;
 
-    function getData() {
+    function getData(currentPage) {
+        var info = {};
+        info.department = department;
+        info.role = role;
+        info.pageNo = currentPage;
+
+        $.ajax({
+            url: '/customer/info/list',
+            dataType: 'json',
+            type: 'GET',
+            data: info,
+            success: function (result) {
+                $('#wrapper').empty();
+                var html = '<div class="am-u-sm-12 am-u-md-8 am-u-lg-6">\n' +
+                    '            <div class="am-input-group am-u-sm-12">\n' +
+                    '<label class="am-u-sm-2 am-text" style="background-color: #2c4666;color: #ffffff;">序号</label>\n' +
+                    '                <label class="am-u-sm-4 am-text" style="background-color: #2c4666;color: #ffffff;">客户姓名</label>\n' +
+                    '                <label class="am-u-sm-6" style="background-color: #2c4666;color: #ffffff;">手机号</label>\n' +
+                    '            </div>\n' +
+                    '        </div>';
+                var info = result.data;
+                var epage = result.epage;
+                var start = (currentPage - 1) * epage + 1;
+                for (var i = 0; i < info.length; i++) {
+                    var obj = info[i];
+                    var str = '<div  onclick="toDetail(\'' + obj.id + '\')"\n' +
+                        '             class="am-u-sm-12 am-u-md-8 am-u-lg-6 am-text-center ">\n' +
+                        '            <div class="am-input-group am-u-sm-12">\n' +
+                        '                <label class="am-u-sm-2 ">' + start + '</label>\n' +
+                        '                <label class="am-u-sm-4 ">' + obj.name + '</label>\n' +
+                        '                <label class="am-u-sm-6 ">' + obj.phone + '</label>\n' +
+                        '            </div>\n' +
+                        '        </div>';
+                    start++;
+                    html += str;
+                }
+
+                $('#wrapper').html(html);
+
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+    function getPage() {
         var info = {};
         info.department = department;
         info.role = role;
         $.ajax({
             url: '/customer/info/list',
             dataType: 'json',
-            type: 'POST',
+            type: 'GET',
             data: info,
             success: function (result) {
-                console.info(result);
+                console.info('getPage' + result);
+                var total = result.total;
+                var every = result.epage;
+                var t2e = total % every;
+                var pages = 0;
+                if (t2e === 0) {
+                    pages = total / every;
+                } else {
+                    pages = total / every + 1;
+                }
+                doPage(pages, 1);
             },
             error: function () {
 
             }
-
-
         });
     }
 
-    getData();
-
+    getPage();
 
 
     function toDetail(customer_id) {

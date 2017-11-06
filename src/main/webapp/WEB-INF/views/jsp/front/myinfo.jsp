@@ -8,7 +8,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    String headimg = "//image/app/header_default.png";
+    String headimg = "/image/app/header_default.png";
     User user = (User) request.getAttribute("user");
     if (null != user.getHeadimg()) {
         headimg = user.getHeadimg();
@@ -36,17 +36,17 @@
 <body>
 <div class="rccf_body">
     <div class="rccf_grey_body">
-        <header class="rccf_padding rccf_text_center fz40">
-            <div class="rccf_text_center rccf_margin_bottom_xs">
-                <img style="width: 1.6rem;height: 1.6rem;" src="<%=headimg%>">
-            </div>
-            <p><%=user.getUserName()%></p>
-        </header>
+        <%--<header class="rccf_padding rccf_text_center fz40">--%>
+        <%--<div class="rccf_text_center rccf_margin_bottom_xs">--%>
+        <%--<img style="width: 1.6rem;height: 1.6rem;" src="<%=headimg%>">--%>
+        <%--</div>--%>
+        <%--<p><%=user.getUserName()%></p>--%>
+        <%--</header>--%>
 
-        <div class="rccf_list rccf_margin_bottom ">
-            <div class="weui-cells fz32">
+        <div class="rccf_list rccf_margin_bottom rccf_margin_top_sm">
+            <div class="weui-cells rccf_margin_zero fz32">
                 <a class="weui-cell weui-cell_access" href="/invite/myinvite">
-                    <div class="weui-cell__hd"><img src="/image/app/user/mine.png"></div>
+                    <div class="weui-cell__hd"><img src="/image/app/user/mine.png" style="width: 1em;height: 1em"></div>
                     <div class="weui-cell__bd">
                         <p>我的邀请</p>
                     </div>
@@ -58,7 +58,7 @@
         <div class="rccf_list rccf_margin_bottom ">
             <div class="weui-cells rccf_margin_zero fz32">
                 <a class="weui-cell weui-cell_access" href="/app/datapage">
-                    <div class="weui-cell__hd"><img src="/image/app/user/info.png"></div>
+                    <div class="weui-cell__hd"><img src="/image/app/user/info.png" style="width: 1em;height: 1em"></div>
                     <div class="weui-cell__bd">
                         <p>资料</p>
                     </div>
@@ -68,7 +68,7 @@
             </div>
             <div class="weui-cells rccf_margin_zero fz32">
                 <a class="weui-cell weui-cell_access" href="javascript:bindPhone();">
-                    <div class="weui-cell__hd"><img src="/image/app/user/tie.png"></div>
+                    <div class="weui-cell__hd"><img src="/image/app/user/tie.png" style="width: 1em;height: 1em"></div>
                     <div class="weui-cell__bd">
                         <p>绑定手机号</p>
                     </div>
@@ -81,7 +81,8 @@
         <div class="rccf_list rccf_margin_bottom">
             <div class="weui-cells rccf_margin_zero fz32">
                 <a class="weui-cell weui-cell_access" href="javascript:;">
-                    <div class="weui-cell__hd"><img src="/image/app/user/setting.png"></div>
+                    <div class="weui-cell__hd"><img src="/image/app/user/setting.png" style="width: 1em;height: 1em">
+                    </div>
                     <div class="weui-cell__bd">
                         <p>选项</p>
                     </div>
@@ -91,7 +92,8 @@
             </div>
             <div class="weui-cells rccf_margin_zero fz32">
                 <a class="weui-cell weui-cell_access" href="/appother/versionPage">
-                    <div class="weui-cell__hd"><img src="/image/app/user/version.png"></div>
+                    <div class="weui-cell__hd"><img src="/image/app/user/version.png" style="width: 1em;height: 1em">
+                    </div>
                     <div class="weui-cell__bd">
                         <p>版本信息</p>
                     </div>

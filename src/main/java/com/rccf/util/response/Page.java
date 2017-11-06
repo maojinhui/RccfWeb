@@ -30,7 +30,7 @@ public class Page {
 //        if(every>0){
 //            object.put("every",every);
 //        }else {
-        object.put("every", EVERYPAGE_COUNT);
+        object.put("epage", EVERYPAGE_COUNT);
 //        }
         object.put("data", array);
         return object.toString();
@@ -56,7 +56,7 @@ public class Page {
 //        if(every>0){
 //            object.put("every",every);
 //        }else {
-        object.put("every", EVERYPAGE_COUNT);
+        object.put("epage", EVERYPAGE_COUNT);
 //        }
         object.put("data", array);
         return object.toString();

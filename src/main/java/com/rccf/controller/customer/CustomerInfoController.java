@@ -1,6 +1,7 @@
 package com.rccf.controller.customer;
 
 
+import com.alibaba.fastjson.JSON;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.*;
 import com.rccf.model.temp.CustomerTmp;
@@ -60,16 +61,17 @@ public class CustomerInfoController {
     @ResponseBody
     @RequestMapping(value = "/list")
     public String customerList(HttpServletRequest request) {
+        String callback = request.getParameter("callback");
         Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         if (employee == null) {
             return ResponseUtil.fail(0, "请重新登录");
         }
         String pageNo = request.getParameter("pageNo");
-        int p = 0;
+        int p = 1;
         if (!Strings.isNullOrEmpty(pageNo)) {
             p = Integer.valueOf(pageNo);
         }
-        int offset = 10 * p;
+        int offset = 10 * (p - 1);
         String limit = " limit " + offset + ",10";
         String department = employee.getDepartment();
         if (department.contains("金融") || department.contains("系统")) {
@@ -77,24 +79,41 @@ public class CustomerInfoController {
                 String sql_count = "SELECT COUNT(`id`)  from `r_customer` ";
                 String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer` " + limit;
                 String data = Page.limit(baseService, sql_count, sql_info, CustomerTmp.class);
-                return data;
+                if (!Strings.isNullOrEmpty(callback)) {
+                    return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
+                } else {
+                    return data;
+                }
             } else {
                 int role = employee.getRole();
                 if (role == 2) {
                     String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`director` =" + employee.getId() + ")";
                     String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`director` =" + employee.getId() + ") " + limit;
                     String data = Page.limit(baseService, sql_count, sql_info, CustomerTmp.class);
-                    return data;
+                    if (!Strings.isNullOrEmpty(callback)) {
+                        return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
+                    } else {
+                        return data;
+                    }
+
                 } else if (role == 2) {
                     String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ")";
                     String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ") " + limit;
                     String data = Page.limit(baseService, sql_count, sql_info, CustomerTmp.class);
-                    return data;
+                    if (!Strings.isNullOrEmpty(callback)) {
+                        return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
+                    } else {
+                        return data;
+                    }
                 } else if (role == 4) {
                     String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ")";
                     String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ") " + limit;
                     String data = Page.limit(baseService, sql_count, sql_info, CustomerTmp.class);
-                    return data;
+                    if (!Strings.isNullOrEmpty(callback)) {
+                        return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
+                    } else {
+                        return data;
+                    }
                 }
             }
         } else {
