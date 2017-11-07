@@ -38,6 +38,9 @@
 </head>
 <body>
 <div class="am-container am-margin-vertical">
+    <div id="back" class="am-text-lg">
+        <i class="am-icon-chevron-left"></i>返回
+    </div>
     <div class="am-text-default ">
         <div class="am-u-sm-12  am-text-center am-margin-vertical-xs">客户姓名：<span class="am-icon-border"><%=name%></span>
         </div>
@@ -70,7 +73,7 @@
             <img src="/image/customerinfo/其他联系人信息.png">
             <div><label>其他联系人信息</label></div>
         </div>
-        <div data-html="car" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
+        <div data-html="carlist" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
             <img src="/image/customerinfo/客户车产信息.png">
             <div><label>客户车产信息</label></div>
         </div>
@@ -88,11 +91,16 @@
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
 <script>
 
+    $('#back').click(function () {
+//        document.getElementById('content_iframe').contentWindow.history.back();
+        parent.document.getElementById('content_iframe').contentWindow.history.back();
+
+    });
 
     $('[data-html]').click(function () {
         $(this).addClass('animated flash');
         var name = $(this).data("html");
-        if (name === 'car' || name === 'loan_want' || name === 'credit') {
+        if (name === 'loan_want' || name === 'credit') {
             alert("信息待完善");
         } else {
             setTimeout(function () {

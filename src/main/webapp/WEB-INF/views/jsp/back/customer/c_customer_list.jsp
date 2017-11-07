@@ -71,11 +71,17 @@
 </div>
 <div id="page"></div>
 
+</body>
 
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
 <script src="/js/amaze/amazeui.page.js"></script>
-
+<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script>
+
+    function toDetail(customer_id, curr) {
+
+        window.location.href = '/customer/info/editpage?customer_id=' + customer_id;
+    }
 
 
     function doPage(pageNumber, curr) {
@@ -124,6 +130,35 @@
         });
     }
 
+    function getPage() {
+        var info = {};
+        info.department = department;
+        info.role = role;
+        $.ajax({
+            url: '/customer/info/list',
+            dataType: 'json',
+            type: 'GET',
+            data: info,
+            success: function (result) {
+                console.info('getPage' + result);
+                var total = result.total;
+                var every = result.epage;
+//                var t2e = total % every;
+//                var pages = 0;
+//                if (t2e === 0) {
+//                    pages = total / every;
+//                } else {
+//                    pages = total / every + 1;
+//                }
+                var pages = Math.ceil(total / every);
+
+                doPage(pages, 1);
+            },
+            error: function () {
+
+            }
+        });
+    }
 
     var i = 1;
     var department = '<%=department%>';
@@ -134,7 +169,6 @@
         info.department = department;
         info.role = role;
         info.pageNo = currentPage;
-
         $.ajax({
             url: '/customer/info/list',
             dataType: 'json',
@@ -154,7 +188,7 @@
                 var start = (currentPage - 1) * epage + 1;
                 for (var i = 0; i < info.length; i++) {
                     var obj = info[i];
-                    var str = '<div  onclick="toDetail(\'' + obj.id + '\')"\n' +
+                    var str = '<div  onclick="toDetail(\'' + obj.id + '\',' + currentPage + ')"' +
                         '             class="am-u-sm-12 am-u-md-8 am-u-lg-6 am-text-center ">\n' +
                         '            <div class="am-input-group am-u-sm-12">\n' +
                         '                <label class="am-u-sm-2 ">' + start + '</label>\n' +
@@ -175,40 +209,7 @@
         });
     }
 
-    function getPage() {
-        var info = {};
-        info.department = department;
-        info.role = role;
-        $.ajax({
-            url: '/customer/info/list',
-            dataType: 'json',
-            type: 'GET',
-            data: info,
-            success: function (result) {
-                console.info('getPage' + result);
-                var total = result.total;
-                var every = result.epage;
-                var t2e = total % every;
-                var pages = 0;
-                if (t2e === 0) {
-                    pages = total / every;
-                } else {
-                    pages = total / every + 1;
-                }
-                doPage(pages, 1);
-            },
-            error: function () {
-
-            }
-        });
-    }
-
     getPage();
-
-
-    function toDetail(customer_id) {
-        window.location.href = '/customer/info/editpage?customer_id=' + customer_id;
-    }
 
 
     $('#add_customer').click(function () {
@@ -217,5 +218,5 @@
 
 
 </script>
-</body>
+
 </html>

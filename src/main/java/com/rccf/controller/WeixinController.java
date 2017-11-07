@@ -65,11 +65,13 @@ public class WeixinController {
                 }else{
                     String fromUserName = message.getFromUserName();
                     String toUserName = message.getToUserName();
+                    String ticket = message.getTicket();
                     if (message.getMsgType().equals("event")){//事件处理方法
                         if (message.getEvent().equals("subscribe")){//用户关注公众号
                             Subcribe subcribe=new Subcribe();
                             subcribe.setOpenid(fromUserName);
                             subcribe.setCreateTime(DateUtil.date2Timestamp(new Date()));
+                            subcribe.setTicket(ticket);
                             subcribeService.saveSubcribe(subcribe);
                             WeixinMessage msg = new WeixinMessage();
                             msg.setFromUserName(toUserName);

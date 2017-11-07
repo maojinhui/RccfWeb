@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.util.List" %>
+<%@ page import="com.rccf.model.User" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/10/30
@@ -6,6 +7,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    List<User> users = (List<User>) request.getAttribute("users");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,18 +39,23 @@
         </div>
     </div>
 
-    <%--<div class="weui-cells" >--%>
-    <%--<a class="weui-cell weui-cell_access" href="tel:18234778212">--%>
-    <%--<div class="weui-cell__bd">--%>
-    <%--<p>张三&emsp;<span>18234778212</span></p>--%>
-    <%--</div>--%>
-    <%--</a>--%>
-    <%--<a class="weui-cell weui-cell_access" href="tel:18234778212">--%>
-    <%--<div class="weui-cell__bd">--%>
-    <%--<p>张三&emsp;<span>18234778212</span></p>--%>
-    <%--</div>--%>
-    <%--</a>--%>
-    <%--</div>--%>
+    <div class="weui-cells">
+        <%
+            if (users != null && users.size() > 0) {
+                for (int i = 0; i < users.size(); i++) {
+                    User user = users.get(i);
+        %>
+        <a class="weui-cell weui-cell_access">
+            <div class="weui-cell__bd">
+                <p><%=user.getUserName()%>&emsp;</p>
+            </div>
+        </a>
+        <%
+                }
+            }
+        %>
+
+    </div>
 </div>
 <script src="/js/app/self_adaption.js"></script>
 <script src="/js/app/jquery.min.js"></script>

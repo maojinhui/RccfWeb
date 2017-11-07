@@ -19,12 +19,15 @@ import org.hibernate.criterion.Restrictions;
 import org.omg.PortableInterceptor.HOLDING;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
 @Controller
@@ -43,6 +46,7 @@ public class CustomerInfoController {
 
     @RequestMapping(value = "/listpage")
     public ModelAndView customerListPage(HttpServletRequest request) {
+
         ModelAndView modelAndView = new ModelAndView("/back/customer/c_customer_list");
         Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         if (employee == null) {
@@ -77,7 +81,7 @@ public class CustomerInfoController {
         if (department.contains("金融") || department.contains("系统")) {
             if (department.contains("系统")) {
                 String sql_count = "SELECT COUNT(`id`)  from `r_customer` ";
-                String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer` " + limit;
+                String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer` order by create_time desc " + limit;
                 String data = Page.limit(baseService, sql_count, sql_info, CustomerTmp.class);
                 if (!Strings.isNullOrEmpty(callback)) {
                     return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
@@ -88,7 +92,7 @@ public class CustomerInfoController {
                 int role = employee.getRole();
                 if (role == 2) {
                     String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`director` =" + employee.getId() + ")";
-                    String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`director` =" + employee.getId() + ") " + limit;
+                    String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`director` =" + employee.getId() + ") order by create_time desc " + limit;
                     String data = Page.limit(baseService, sql_count, sql_info, CustomerTmp.class);
                     if (!Strings.isNullOrEmpty(callback)) {
                         return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
@@ -98,7 +102,7 @@ public class CustomerInfoController {
 
                 } else if (role == 2) {
                     String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ")";
-                    String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ") " + limit;
+                    String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ") order by create_time desc " + limit;
                     String data = Page.limit(baseService, sql_count, sql_info, CustomerTmp.class);
                     if (!Strings.isNullOrEmpty(callback)) {
                         return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
@@ -107,7 +111,7 @@ public class CustomerInfoController {
                     }
                 } else if (role == 4) {
                     String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ")";
-                    String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ") " + limit;
+                    String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ") order by create_time desc " + limit;
                     String data = Page.limit(baseService, sql_count, sql_info, CustomerTmp.class);
                     if (!Strings.isNullOrEmpty(callback)) {
                         return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
@@ -158,6 +162,7 @@ public class CustomerInfoController {
         RCustomer rCustomer = new RCustomer();
         rCustomer.setName(name);
         rCustomer.setPhone(phone);
+        rCustomer.setCreateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
         boolean save = baseService.save(rCustomer);
         if (save) {
             String id = rCustomer.getId();
@@ -697,6 +702,110 @@ public class CustomerInfoController {
 
 
 /*********************联系人信息***************************************/
+
+
+    /*********************车辆信息***************************************/
+    @RequestMapping(value = "/carlist")
+    public ModelAndView carListPage(HttpServletRequest request) {
+        String customer_id = request.getParameter("customer_id");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/customer/c_customer_carlist");
+        modelAndView.addObject("customer_id", customer_id);
+        DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerCar.class);
+        criteria.add(Restrictions.eq("customerId", customer_id));
+        List<RCustomerCar> cars = baseService.getList(criteria);
+        modelAndView.addObject("cars", cars);
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/addcar")
+    public ModelAndView carAddPage(HttpServletRequest request) {
+        String customer_id = request.getParameter("customer_id");
+        ModelAndView modelAndView = new ModelAndView("/back/customer/c_customer_addcar");
+        modelAndView.addObject("customer_id", customer_id);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/car")
+    public ModelAndView carInfoPage(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/customer/c_info_car");
+        String car_id = request.getParameter("car_id");
+        if (Strings.isNullOrEmpty(car_id)) {
+            return new ModelAndView("/other/import_fail").addObject("data", "信息有误");
+        }
+        RCustomerCar car = (RCustomerCar) baseService.get(RCustomerCar.class, Integer.valueOf(car_id));
+        modelAndView.addObject("car", car);
+        return modelAndView;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/editcar")
+    public String editCarInfo(HttpServletRequest request) {
+        String car_id = request.getParameter("car_id");
+        String customer_id = request.getParameter("customer_id");
+        RCustomerCar car = null;
+        if (!Strings.isNullOrEmpty(car_id)) {
+            car = (RCustomerCar) baseService.get(RCustomerCar.class, Integer.valueOf(car_id));
+        } else {
+            if (!Strings.isNullOrEmpty(customer_id)) {
+                car = new RCustomerCar();
+                car.setCustomerId(customer_id);
+            } else {
+                return ResponseUtil.fail();
+            }
+        }
+        String car_brand = request.getParameter("car_brand");
+        String car_model = request.getParameter("car_model");
+        String car_number_plate = request.getParameter("car_number_plate");
+        String car_drive_distance = request.getParameter("car_drive_distance");
+        String car_buy_time = request.getParameter("car_buy_time");
+        String car_buy_price = request.getParameter("car_buy_price");
+        String car_is_mortgage = request.getParameter("car_is_mortgage");
+        String car_mortgage_zmount = request.getParameter("car_mortgage_zmount");
+        String car_month_apply = request.getParameter("car_month_apply");
+        String car_is_diya = request.getParameter("car_is_diya");
+        String car_diya_amount = request.getParameter("car_diya_amount");
+
+        car.setCarBrand(car_brand);
+        car.setCarModel(car_model);
+        car.setCarNumebrPlate(car_number_plate);
+        if (!Strings.isNullOrEmpty(car_drive_distance)) {
+            car.setCarDirveDistance(Double.valueOf(car_drive_distance));
+        }
+        car.setCarBuyTime(DateUtil.strToSqlDate(car_buy_time));
+        if (!Strings.isNullOrEmpty(car_buy_price)) {
+            car.setCarBuyPrice(Double.valueOf(car_buy_price));
+        } else {
+            car.setCarBuyPrice(null);
+        }
+        car.setCarIsMortgage(Integer.valueOf(car_is_mortgage));
+        if (!Strings.isNullOrEmpty(car_mortgage_zmount)) {
+            car.setCarMortgageAmount(Double.valueOf(car_mortgage_zmount));
+        } else {
+            car.setCarMortgageAmount(null);
+        }
+        if (!Strings.isNullOrEmpty(car_month_apply)) {
+            car.setCarMonthApply(Double.valueOf(car_month_apply));
+        } else {
+            car.setCarMonthApply(null);
+        }
+        car.setCarIsDiya(Integer.valueOf(car_is_diya));
+        if (!Strings.isNullOrEmpty(car_diya_amount)) {
+            car.setCarDiyaAmount(Double.valueOf(car_diya_amount));
+        } else {
+            car.setCarDiyaAmount(null);
+        }
+        boolean save = baseService.save(car);
+        if (save) {
+            return ResponseUtil.success();
+        }
+        return ResponseUtil.fail(0, "保存失败");
+    }
+
+
+/*********************车辆信息***************************************/
 
     /**
      * 在页面中添加客户信息

@@ -53,7 +53,7 @@
 
             option_1 = {
                 title: {
-                    text: '每月办结受理量',
+                    text: '',
                     subtext: '（单位/个）'
                 },
                 tooltip: {

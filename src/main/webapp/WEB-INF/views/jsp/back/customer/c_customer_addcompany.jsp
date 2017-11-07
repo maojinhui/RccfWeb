@@ -51,6 +51,9 @@
 </head>
 <body>
 <div class="am-container am-margin-vertical">
+    <div id="back" class="am-text-lg">
+        <i class="am-icon-chevron-left"></i>返回
+    </div>
     <div class="am-g">
         <fieldset>
             <div class="am-u-sm-12 am-u-md-8 am-u-lg-6">
@@ -165,7 +168,12 @@
     var cancel = function () {
         window.history.back();
     };
+
+    $('#back').click(function () {
+        cancel();
+    });
     /**
+     *
      *
      * 提交修改编辑事件
      *

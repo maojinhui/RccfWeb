@@ -215,4 +215,18 @@ public class AppController {
     }
 
 
+    /**
+     * 测试随便给的openid
+     *
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/adminD")
+    public ModelAndView addDOpenid(HttpServletResponse response) {
+        Cookie cookie = new Cookie("openid", "1234567");
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return new ModelAndView("/front/index");
+    }
+
 }

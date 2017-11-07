@@ -53,9 +53,11 @@
 </head>
 <body>
 <div class="am-container am-margin-vertical">
-
+    <div id="back" class="am-text-lg">
+        <i class="am-icon-chevron-left"></i>返回
+    </div>
     <div class="am-text-right am-margin-vertical-xs">
-        <span class="am-btn am-btn-warning" id="add">添加</span>
+        <span class="am-btn am-btn-warning am-margin-right" id="add">添加</span>
     </div>
     <div class="am-g">
         <fieldset disabled>
@@ -94,6 +96,10 @@
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/comm.js"></script>
 <script>
+
+    $('#back').click(function () {
+        window.history.back();
+    });
     $('#add').click(function () {
         todetail();
     });

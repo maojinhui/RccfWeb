@@ -27,6 +27,7 @@ public class User {
     private String headimg;
     private String province;
     private String city;
+    private String ticket;
 
     @Id
     @Column(name = "user_id")
@@ -297,5 +298,15 @@ public class User {
         result = 31 * result + (province != null ? province.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "ticket")
+    public String getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(String ticket) {
+        this.ticket = ticket;
     }
 }

@@ -14,6 +14,7 @@ public class Subcribe {
     private int id;
     private String openid;
     private Timestamp createTime;
+    private String ticket;
 
     @Id
     @Column(name = "id")
@@ -65,5 +66,15 @@ public class Subcribe {
         result = 31 * result + (openid != null ? openid.hashCode() : 0);
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "ticket")
+    public String getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(String ticket) {
+        this.ticket = ticket;
     }
 }

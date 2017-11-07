@@ -4,6 +4,7 @@ package com.rccf.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "r_customer", schema = "rccf", catalog = "")
@@ -26,6 +27,7 @@ public class RCustomer {
     private String addressNow;
     private String liveTime;
     private String hobby;
+    private Timestamp createTime;
 
     @Id
     @Column(name = "id", nullable = false, length = 16)
@@ -260,5 +262,15 @@ public class RCustomer {
         result = 31 * result + (liveTime != null ? liveTime.hashCode() : 0);
         result = 31 * result + (hobby != null ? hobby.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "create_time")
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 }
