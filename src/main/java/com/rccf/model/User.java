@@ -28,6 +28,7 @@ public class User {
     private String province;
     private String city;
     private String ticket;
+    private int id;
 
     @Id
     @Column(name = "user_id")
@@ -308,5 +309,15 @@ public class User {
 
     public void setTicket(String ticket) {
         this.ticket = ticket;
+    }
+
+    @Basic
+    @Column(name = "id")
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -28,12 +28,13 @@
 </div>
 
 <div class="am-container am-margin-lg">
-    <table class="am-table am-table-bordered">
+    <table id="table-target" class="am-table am-table-bordered">
         <thead>
         <tr>
             <th>职务</th>
             <th>姓名</th>
-            <th>业绩要求(万)</th>
+            <th>已有目标</th>
+            <th>新业绩要求(万)</th>
         </tr>
         </thead>
         <tbody id="tbody">
@@ -64,6 +65,7 @@
             <td><%=work%>
             </td>
             <td><span><%=row[2]%></span></td>
+            <td><span><%=row[3] != null ? row[3] : ""%></span></td>
             <td><input data-rccf-id="<%=row[0]%>" type="number" value="<%=row[3]!=null?row[3]:""%>"></td>
         </tr>
         <%}%>
@@ -80,6 +82,9 @@
 </div>
 
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/table2excel/Blob.js"></script>
+<script src="/js/table2excel/FileSaver.js"></script>
+<script src="/js/table2excel/tableExport.js"></script>
 <script src="/js/comm.js"></script>
 <script>
 
@@ -114,6 +119,7 @@
                 success: function (result) {
                     if (result.code) {
                         alert("提交成功");
+                        window.location.reload();
                     } else {
                         alert(result.errormsg);
                     }
@@ -132,6 +138,16 @@
 
     });
 
+    //导出excel实现
+    var $exportLink = document.getElementById('export');
+    $exportLink.addEventListener('click',
+        function (e) {
+            e.preventDefault();
+            if (e.target.nodeName === "A") {
+                tableExport('table-target', '业绩目标', e.target.getAttribute('data-type'))
+            }
+        },
+        false);
 
 </script>
 

@@ -278,7 +278,7 @@
 
     </div>
 </div>
-<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/jquery.autocompleter.js"></script>
 <script src="/js/comm.js"></script>
 <%
@@ -294,29 +294,13 @@
 
 
     $('#e_dupty').autocompleter({
-        // marker for autocomplete matches
         highlightMatches: true,
-
-        // object to local or url to remote search
         source: duptys,
-//
-        // custom template
         template: '{{ label }} <span>({{ code }})</span>',
-
-//             show hint
         hint: false,
-
-        // abort source if empty field
         empty: false,
-
-        // max results
         limit: 5,
-
         callback: function (value, index, selected) {
-//            if (selected) {
-//                $('#flerk_code').val(selected.code);
-////                    console.log(selected.code);
-//            }
         }
     });
 

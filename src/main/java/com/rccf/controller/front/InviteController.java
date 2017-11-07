@@ -50,9 +50,11 @@ public class InviteController {
             String url = WeixinUtil.URL_QRCODE+WeixinUtil.getAccessToken();
             JSONObject object = new JSONObject();
 //        object.put("expire_seconds",2591000);
+
             object.put("action_name", "QR_LIMIT_SCENE");
             JSONObject infoObj = new JSONObject();
             JSONObject senceObj = new JSONObject();
+            senceObj.put("scene_id", user.getId());
             senceObj.put("scene_str",user_id);
             infoObj.put("scene",senceObj);
             object.put("action_info",infoObj);

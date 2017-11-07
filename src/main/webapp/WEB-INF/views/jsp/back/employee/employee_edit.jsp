@@ -1,6 +1,8 @@
 <%@ page import="com.rccf.model.*" %>
 <%@ page import="com.rccf.util.Strings" %>
-<%@ page import="com.rccf.util.DateUtil" %><%--
+<%@ page import="com.rccf.util.DateUtil" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.alibaba.fastjson.JSON" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/10/19
@@ -25,7 +27,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/amaze/admin.css"/>
-    <%--<link rel="stylesheet" type="text/css" href="/css/style.css"/>--%>
+    <link rel="stylesheet" type="text/css" href="/css/instyle.css"/>
 
     <style type="text/css" rel="stylesheet">
         html, body {
@@ -115,6 +117,10 @@
                          </span>
                                 <input id="department" class="am-form-field" type="text"
                                        value="<%=employee!=null ? Strings.getInputString(employee.getDepartment()):""%>">
+                                <div class="autocompleter autocompleter-closed" id="autocompleter-1">
+                                    <div class="autocompleter-hint"></div>
+                                    <ul class="autocompleter-list"></ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -126,6 +132,10 @@
                          </span>
                                 <input id="director" class="am-form-field" type="text"
                                        value="<%=employee!=null?Strings.getInputString(employee.getDirectorName()):""%>">
+                                <div class="autocompleter autocompleter-closed" id="autocompleter-2">
+                                    <div class="autocompleter-hint"></div>
+                                    <ul class="autocompleter-list"></ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -137,6 +147,10 @@
                          </span>
                                 <input id="deputy_director" class="am-form-field" type="text"
                                        value="<%=employee!=null ? Strings.getInputString(employee.getDuptyDirectorName()):"" %>">
+                                <div class="autocompleter autocompleter-closed" id="autocompleter-3">
+                                    <div class="autocompleter-hint"></div>
+                                    <ul class="autocompleter-list"></ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -897,9 +911,53 @@
 
 </div>
 
-<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/comm.js"></script>
+<script src="/js/jquery.autocompleter.js"></script>
 <script src="/js/amaze/amazeui.min.js"></script>
+<%
+    List<Employee> duptys = (List<Employee>) request.getAttribute("duptys");
+    List<Employee> directors = (List<Employee>) request.getAttribute("directors");
+    List<Employee> departs = (List<Employee>) request.getAttribute("departs");
+%>
 <script>
+    var duptys =<%=JSON.toJSONString(duptys).replaceAll("name","label") %>;
+    var directors =<%=JSON.toJSONString(directors).replaceAll("name","label") %>;
+    var departs = <%=JSON.toJSONString(departs).replaceAll("department","label") %>;
+
+    $('#department').autocompleter({
+        highlightMatches: true,
+        source: departs,
+        template: '{{ label }} <span></span>',
+        hint: false,
+        empty: false,
+        limit: 5,
+        callback: function (value, index, selected) {
+        }
+    });
+    $('#deputy_director').autocompleter({
+        highlightMatches: true,
+        source: duptys,
+        template: '{{ label }} <span></span>',
+        hint: false,
+        empty: false,
+        limit: 5,
+        callback: function (value, index, selected) {
+        }
+    });
+    $('#director').autocompleter({
+        highlightMatches: true,
+        source: directors,
+        template: '{{ label }} <span></span>',
+        hint: false,
+        empty: false,
+        limit: 5,
+        callback: function (value, index, selected) {
+        }
+    });
+
+
+
 
     $(function () {
 

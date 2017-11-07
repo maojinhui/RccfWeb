@@ -151,8 +151,11 @@
 //                    pages = total / every + 1;
 //                }
                 var pages = Math.ceil(total / every);
-
-                doPage(pages, 1);
+                if (pages == 1) {
+                    getData(1);
+                } else {
+                    doPage(pages, 1);
+                }
             },
             error: function () {
 

@@ -380,6 +380,39 @@ public class EmployeeController {
         modelAndView.addObject("contactOther", contactOther);
         modelAndView.addObject("contract", contract);
         modelAndView.addObject("documents", documents);
+
+
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Employee.class);
+        ProjectionList plist = Projections.projectionList();
+        plist.add(Projections.property("code").as("code"));
+        plist.add(Projections.property("name").as("name"));
+        detachedCriteria.setProjection(plist);
+        detachedCriteria.add(Restrictions.eq("role", 3));
+        detachedCriteria.setResultTransformer(Transformers.aliasToBean(Employee.class));
+        List<Employee> duptyemployees = baseService.getList(detachedCriteria);
+        modelAndView.addObject("duptys", duptyemployees);
+
+        DetachedCriteria detachedCriteria2 = DetachedCriteria.forClass(Employee.class);
+        ProjectionList plist2 = Projections.projectionList();
+        plist2.add(Projections.property("code").as("code"));
+        plist2.add(Projections.property("name").as("name"));
+        detachedCriteria2.setProjection(plist2);
+        detachedCriteria2.add(Restrictions.eq("role", 2));
+        detachedCriteria2.setResultTransformer(Transformers.aliasToBean(Employee.class));
+        List<Employee> directoremployees = baseService.getList(detachedCriteria2);
+        modelAndView.addObject("directors", directoremployees);
+
+
+        DetachedCriteria detachedCriteria3 = DetachedCriteria.forClass(Employee.class);
+        ProjectionList plist3 = Projections.projectionList();
+//        plist3.add(Projections.property("code").as("code"));
+        plist3.add(Projections.property("department").as("department"));
+        plist3.add(Projections.groupProperty("department"));
+        detachedCriteria3.setProjection(plist3);
+        detachedCriteria3.setResultTransformer(Transformers.aliasToBean(Employee.class));
+        List<Employee> depart = baseService.getList(detachedCriteria3);
+        modelAndView.addObject("departs", depart);
+
         return modelAndView;
     }
 
