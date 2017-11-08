@@ -1,0 +1,14 @@
+SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,
+(SELECT COUNT(*) from `r_customer_company`  WHERE `customer_id` =rc.`id` ) as companycount,
+(SELECT COUNT(*) from `r_customer_house`   WHERE `customer_id` =rc.`id` ) as housecount,
+(SELECT COUNT(*) from `r_customer_car`   WHERE `customer_id` =rc.`id` ) as carcount,
+(SELECT  apply_loan_amount  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as applyamount ,
+(SELECT  loan_term_year  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_year ,
+(SELECT  loan_term_month  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_month ,
+(SELECT  loan_term_day  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_day ,
+(SELECT  loan_fee_percent  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as fee_percent ,
+(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  ',' ) m from `r_customer_process`  rcp  WHERE rcp.customer_id=rc.id   GROUP BY customer_id) as process
+from `r_customer` rc
+WHERE rc.`id` in
+( SELECT `customer_id` from `r_customer_assign`  s where s.`director` = '2' )  order by create_time desc
+

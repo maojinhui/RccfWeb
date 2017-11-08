@@ -266,11 +266,11 @@
 
             } else {
 
-                $('fieldset').attr('disabled', true);
-                $('#btns').addClass('am-hide');
-                $('#customer_id').attr('readonly', 'readonly');
-                $(this).html("编辑&emsp;&emsp;");
-
+//                $('fieldset').attr('disabled', true);
+//                $('#btns').addClass('am-hide');
+//                $('#customer_id').attr('readonly', 'readonly');
+//                $(this).html("编辑&emsp;&emsp;");
+                window.location.reload();
             }
 
 
@@ -282,11 +282,12 @@
      *
      * */
     var cancel = function () {
-        $('fieldset').attr('disabled', true);
-        $('#btns').addClass('am-hide');
-        $('#customer_id').attr('readonly', 'readonly');
+//        $('fieldset').attr('disabled', true);
+//        $('#btns').addClass('am-hide');
+//        $('#customer_id').attr('readonly', 'readonly');
+//        $('#edit').html("编辑&emsp;&emsp;");
+        window.location.reload();
 
-        $('#edit').html("编辑&emsp;&emsp;");
     };
     /**
      *

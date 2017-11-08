@@ -4,6 +4,7 @@ import org.apache.poi.ss.formula.functions.T;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
+import java.text.NumberFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -101,6 +102,26 @@ public class Strings {
             }
         }
     }
+
+
+    /**
+     * 根据小数计算出百分比
+     *
+     * @param d
+     * @return
+     */
+    public static String getPercentString(Double d) {
+        if (d == null) {
+            return "";
+        }
+        NumberFormat percentFormat = NumberFormat.getPercentInstance();
+        percentFormat.setMaximumFractionDigits(2);
+        String percent = percentFormat.format(d);
+        return percent;
+
+    }
+
+
 
 
 }

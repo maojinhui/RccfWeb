@@ -46,15 +46,14 @@
     <title>融成金服</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="/image/logo.png">
-    <link rel="stylesheet" href="/css/back/amazeui.min.css"/>
+    <link href="https://cdn.bootcss.com/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/back/amazeui.datatables.min.css"/>
     <link rel="stylesheet" href="/css/back/app.css">
-    <%--<script src="/js/back/jquery.min.js"></script>--%>
-    <script src="/js/back/echarts.min.js"></script>
-    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
-    <script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
 
+    <script src="/js/back/echarts.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
 </head>
 
@@ -159,6 +158,13 @@
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 客户列表
                         </a>
                     </li>
+                    <% if (role <= 3) {%>
+                    <li class="sidebar-nav-link">
+                        <a class="rcmenu" data-rccf-menu="/customer/info/listpc">
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 客户列表（PC）
+                        </a>
+                    </li>
+                    <%}%>
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/customer/addcustomerpage">
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 录入客户
@@ -308,7 +314,7 @@
     </div>
 </div>
 
-<script src="/js/back/amazeui.min.js"></script>
+<script src="https://cdn.bootcss.com/amazeui/2.7.2/js/amazeui.min.js"></script>
 <script src="/js/back/amazeui.datatables.min.js"></script>
 <script src="/js/back/dataTables.responsive.min.js"></script>
 <script src="/js/back/app.js"></script>
@@ -367,11 +373,7 @@
 
 
     var rcmenus = $('.rcmenu');
-    //    rcmenus
-    //    var len = rcmenus.length;
-    //    for (var i = 0 ; i< len ; i++){
-    //
-    //    }
+
     $('.rcmenu').click(function () {
 //        $('.tpl-content-wrapper').removeClass('active');
 //        $('.left-sidebar').addClass('active');
@@ -381,7 +383,7 @@
         var url = $(this).data('rccf-menu');
         $('#content_iframe').attr('src', url);
         console.log(url);
-
+//        $('body').animate( {scrollTop: 0}, 500);
     });
 
     $('.sidebar-nav-link').click(function () {

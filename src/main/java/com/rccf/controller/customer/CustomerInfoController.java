@@ -4,6 +4,7 @@ package com.rccf.controller.customer;
 import com.alibaba.fastjson.JSON;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.*;
+import com.rccf.model.temp.CustomerTemPc;
 import com.rccf.model.temp.CustomerTmp;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
@@ -64,7 +65,7 @@ public class CustomerInfoController {
 
     @ResponseBody
     @RequestMapping(value = "/list")
-    public String customerList(HttpServletRequest request) {
+    public String customerListSimple(HttpServletRequest request) {
         String callback = request.getParameter("callback");
         Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         if (employee == null) {
@@ -126,6 +127,165 @@ public class CustomerInfoController {
 
         return ResponseUtil.fail();
     }
+
+
+    @RequestMapping(value = "/listpc")
+    public ModelAndView customerListPCpage(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView("/back/customer/c_customer_list_pc");
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        if (employee == null) {
+            return new ModelAndView("redirect:/back/login");
+        }
+        String department = employee.getDepartment();//部门
+        int role = employee.getRole();//职务
+        if (!department.contains("金融") && !department.contains("系统")) {
+            return new ModelAndView("/back/other/import_faile").addObject("data", "您目前没有查看客户列表的权限");
+        }
+        modelAndView.addObject("department", department);
+        modelAndView.addObject("role", role);
+        return modelAndView;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/list/all")
+    public String customerListAll(HttpServletRequest request) {
+        String callback = request.getParameter("callback");
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        if (employee == null) {
+            return ResponseUtil.fail(0, "请重新登录");
+        }
+        int employeeID = employee.getId();
+        String pageNo = request.getParameter("pageNo");
+        int p = 1;
+        if (!Strings.isNullOrEmpty(pageNo)) {
+            p = Integer.valueOf(pageNo);
+        }
+        int offset = 10 * (p - 1);
+        String limit = " limit " + offset + ",10";
+        String department = employee.getDepartment();
+        if (department.contains("金融") || department.contains("系统")) {
+            if (department.contains("系统")) {
+                String sql_count = "SELECT COUNT(`id`)  from `r_customer` ";
+//                String sql_info = "SELECT   *   from `r_customer` order by create_time desc " + limit;
+                String sql_info = "SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,\n" +
+                        "(SELECT COUNT(*) from `r_customer_company`  WHERE `customer_id` =rc.`id` ) as companycount,\n" +
+                        "(SELECT COUNT(*) from `r_customer_house`   WHERE `customer_id` =rc.`id` ) as housecount,\n" +
+                        "(SELECT COUNT(*) from `r_customer_car`   WHERE `customer_id` =rc.`id` ) as carcount,\n" +
+                        "(SELECT  apply_loan_amount  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as applyamount ,\n" +
+                        "(SELECT  loan_term_year  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_year ,\n" +
+                        "(SELECT  loan_term_month  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_month ,\n" +
+                        "(SELECT  loan_term_day  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_day ,\n" +
+                        "(SELECT  loan_fee_percent  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as fee_percent ,\n" +
+                        "(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  ',' ) m from `r_customer_process`  rcp  WHERE rcp.customer_id=rc.id   GROUP BY customer_id) as process\n" +
+                        "from `r_customer` rc \n" +
+                        "order by create_time desc\n";
+
+                String data = Page.limit(baseService, sql_count, sql_info, CustomerTemPc.class);
+                if (!Strings.isNullOrEmpty(callback)) {
+                    return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
+                } else {
+                    return data;
+                }
+            } else {
+                int role = employee.getRole();
+                if (role == 2) {
+                    String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`director` =" + employee.getId() + ")";
+//                    String sql_info = "SELECT   *   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`director` =" + employee.getId() + ") order by create_time desc " + limit;
+                    String sql_info = "SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,\n" +
+                            "(SELECT COUNT(*) from `r_customer_company`  WHERE `customer_id` =rc.`id` ) as companycount,\n" +
+                            "(SELECT COUNT(*) from `r_customer_house`   WHERE `customer_id` =rc.`id` ) as housecount,\n" +
+                            "(SELECT COUNT(*) from `r_customer_car`   WHERE `customer_id` =rc.`id` ) as carcount,\n" +
+                            "(SELECT  apply_loan_amount  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as applyamount ,\n" +
+                            "(SELECT  loan_term_year  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_year ,\n" +
+                            "(SELECT  loan_term_month  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_month ,\n" +
+                            "(SELECT  loan_term_day  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_day ,\n" +
+                            "(SELECT  loan_fee_percent  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as fee_percent ,\n" +
+                            "(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  ',' ) m from `r_customer_process`  rcp  WHERE rcp.customer_id=rc.id   GROUP BY customer_id) as process\n" +
+                            "from `r_customer` rc \n" +
+                            "WHERE rc.`id` in \n" +
+                            "( SELECT `customer_id` from `r_customer_assign`  s where s.`director` = '" + employeeID + "' )  order by create_time desc\n" +
+                            "\n";
+
+                    String data = Page.limit(baseService, sql_count, sql_info, CustomerTemPc.class);
+
+
+                    if (!Strings.isNullOrEmpty(callback)) {
+                        return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
+                    } else {
+                        return data;
+                    }
+
+                } else if (role == 2) {
+                    String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ")";
+//                    String sql_info = "SELECT   *   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ") order by create_time desc " + limit;
+                    String sql_info = "SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,\n" +
+                            "(SELECT COUNT(*) from `r_customer_company`  WHERE `customer_id` =rc.`id` ) as companycount,\n" +
+                            "(SELECT COUNT(*) from `r_customer_house`   WHERE `customer_id` =rc.`id` ) as housecount,\n" +
+                            "(SELECT COUNT(*) from `r_customer_car`   WHERE `customer_id` =rc.`id` ) as carcount,\n" +
+                            "(SELECT  apply_loan_amount  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as applyamount ,\n" +
+                            "(SELECT  loan_term_year  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_year ,\n" +
+                            "(SELECT  loan_term_month  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_month ,\n" +
+                            "(SELECT  loan_term_day  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_day ,\n" +
+                            "(SELECT  loan_fee_percent  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as fee_percent ,\n" +
+                            "(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  ',' ) m from `r_customer_process`  rcp  WHERE rcp.customer_id=rc.id   GROUP BY customer_id) as process\n" +
+                            "from `r_customer` rc \n" +
+                            "WHERE rc.`id` in \n" +
+                            "( SELECT `customer_id` from `r_customer_assign`  s where s.`deputy_director` = '" + employeeID + "' )  order by create_time desc\n" +
+                            "\n";
+
+                    String data = Page.limit(baseService, sql_count, sql_info, CustomerTemPc.class);
+                    if (!Strings.isNullOrEmpty(callback)) {
+                        return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
+                    } else {
+                        return data;
+                    }
+                } else if (role == 4) {
+                    String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ")";
+//                    String sql_info = "SELECT  *   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ") order by create_time desc " + limit;
+                    String sql_info = "SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,\n" +
+                            "(SELECT COUNT(*) from `r_customer_company`  WHERE `customer_id` =rc.`id` ) as companycount,\n" +
+                            "(SELECT COUNT(*) from `r_customer_house`   WHERE `customer_id` =rc.`id` ) as housecount,\n" +
+                            "(SELECT COUNT(*) from `r_customer_car`   WHERE `customer_id` =rc.`id` ) as carcount,\n" +
+                            "(SELECT  apply_loan_amount  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as applyamount ,\n" +
+                            "(SELECT  loan_term_year  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_year ,\n" +
+                            "(SELECT  loan_term_month  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_month ,\n" +
+                            "(SELECT  loan_term_day  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_day ,\n" +
+                            "(SELECT  loan_fee_percent  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as fee_percent ,\n" +
+                            "(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  ',' ) m from `r_customer_process`  rcp  WHERE rcp.customer_id=rc.id   GROUP BY customer_id) as process\n" +
+                            "from `r_customer` rc \n" +
+                            "WHERE rc.`id` in \n" +
+                            "( SELECT `customer_id` from `r_customer_assign`  s where s.`salesman` = '" + employeeID + "' )  order by create_time desc\n" +
+                            "\n";
+                    String data = Page.limit(baseService, sql_count, sql_info, CustomerTemPc.class);
+                    if (!Strings.isNullOrEmpty(callback)) {
+                        return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
+                    } else {
+                        return data;
+                    }
+                }
+            }
+        } else {
+            return ResponseUtil.fail(0, "信息有误");
+        }
+
+        return ResponseUtil.fail();
+    }
+
+
+    @RequestMapping(value = "/detailpc")
+    public ModelAndView customerInfoPC(HttpServletRequest request) {
+        String customer_id = request.getParameter("customer_id");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/customer/c_info_detail_pc");
+
+
+        return modelAndView;
+    }
+
+
+
+
 
     @RequestMapping(value = "/addpage")
     public ModelAndView addCustomerPage() {
@@ -806,6 +966,139 @@ public class CustomerInfoController {
 
 
 /*********************车辆信息***************************************/
+
+    /*********************贷款信息***************************************/
+    @RequestMapping(value = "/loaninfo")
+    public ModelAndView loanInfoPage(HttpServletRequest request) {
+        String customer_id = request.getParameter("customer_id");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/customer/c_info_loanwant");
+        modelAndView.addObject("customer_id", customer_id);
+        if (!Strings.isNullOrEmpty(customer_id)) {
+            DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerLoaninfo.class);
+            criteria.add(Restrictions.eq("customerId", customer_id));
+            List list = baseService.getList(criteria);
+            if (list != null && list.size() > 0) {
+                RCustomerLoaninfo loan = (RCustomerLoaninfo) list.get(0);
+                modelAndView.addObject("loan", loan);
+            }
+        }
+        return modelAndView;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/editloaninfo")
+    public String editLoanInfo(HttpServletRequest request) {
+        String customer_id = request.getParameter("customer_id");
+        String loan_info_id = request.getParameter("loan_info_id");
+        String loan_apply_amount = request.getParameter("loan_apply_amount");
+        String loan_term_year = request.getParameter("loan_term_year");
+        String loan_term_month = request.getParameter("loan_term_month");
+        String loan_term_day = request.getParameter("loan_term_day");
+        String loan_usage = request.getParameter("loan_usage");
+        String loan_repayment_type = request.getParameter("loan_repayment_type");
+        String loan_feepercent = request.getParameter("loan_feepercent");
+        String loan_monthly_repayment = request.getParameter("loan_monthly_repayment");
+        String loan_repayment_source = request.getParameter("loan_repayment_source");
+        RCustomerLoaninfo loaninfo = null;
+        if (!Strings.isNullOrEmpty(loan_info_id)) {
+            loaninfo = (RCustomerLoaninfo) baseService.get(RCustomerLoaninfo.class, Integer.valueOf(loan_info_id));
+        }
+        if (loaninfo == null) {
+            loaninfo = new RCustomerLoaninfo();
+        }
+        loaninfo.setCustomerId(customer_id);
+        if (Strings.isNullOrEmpty(loan_apply_amount)) {
+            loaninfo.setApplyLoanAmount(null);
+        } else {
+            loaninfo.setApplyLoanAmount(Double.valueOf(loan_apply_amount));
+        }
+        if (Strings.isNullOrEmpty(loan_term_year)) {
+            loaninfo.setLoanTermYear(null);
+        } else {
+            loaninfo.setLoanTermYear(Integer.valueOf(loan_term_year));
+        }
+        if (Strings.isNullOrEmpty(loan_term_month)) {
+            loaninfo.setLoanTermMonth(null);
+        } else {
+            loaninfo.setLoanTermMonth(Integer.valueOf(loan_term_month));
+        }
+        if (Strings.isNullOrEmpty(loan_term_day)) {
+            loaninfo.setLoanTermDay(null);
+        } else {
+            loaninfo.setLoanTermDay(Integer.valueOf(loan_term_day));
+        }
+
+        loaninfo.setLoanUsage(loan_usage);
+        loaninfo.setLoanRepayment(Integer.valueOf(loan_repayment_type));
+        if (Strings.isNullOrEmpty(loan_feepercent)) {
+            loaninfo.setLoanFeePercent(null);
+        } else {
+            loaninfo.setLoanFeePercent(Double.valueOf(loan_feepercent));
+        }
+        if (!Strings.isNullOrEmpty(loan_monthly_repayment)) {
+            loaninfo.setLoanMonthlyRepayment(Integer.valueOf(loan_monthly_repayment));
+        } else {
+            loaninfo.setLoanMonthlyRepayment(null);
+        }
+        loaninfo.setLoanRepaymentSource(loan_repayment_source);
+
+        boolean save = baseService.save(loaninfo);
+        if (save) {
+            return ResponseUtil.success();
+        }
+        return ResponseUtil.fail(0, "保存失败");
+    }
+
+
+/*********************贷款信息***************************************/
+
+
+    /*********************跟踪进度***************************************/
+
+    @RequestMapping(value = "/process")
+    public ModelAndView customerProcessInfoPage() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/customer/c_info_process");
+        return modelAndView;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/addCustomerProcess")
+    public String editProcessInfo(HttpServletRequest request) {
+        Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
+        if (loginEmployee == null) {
+            return ResponseUtil.fail(0, "登录状态失效，请重新登录");
+        }
+        int eid = loginEmployee.getId();
+        String customer_id = request.getParameter("customer_id");
+        String processInfo = request.getParameter("process");
+        if (Strings.isNullOrEmpty(processInfo)) {
+            return ResponseUtil.fail(0, "进度信息为空");
+        }
+        RCustomerProcess process = new RCustomerProcess();
+        process.setCustomerId(customer_id);
+        process.setAdmin(eid);
+        process.setState(0);
+        boolean save = baseService.save(process);
+        if (save) {
+            return ResponseUtil.success();
+        }
+        return ResponseUtil.fail(0, "提交失败");
+
+
+    }
+
+
+/*********************跟踪进度***************************************/
+
+
+/*********************附件信息***************************************/
+
+
+/*********************附件信息***************************************/
+
 
     /**
      * 在页面中添加客户信息

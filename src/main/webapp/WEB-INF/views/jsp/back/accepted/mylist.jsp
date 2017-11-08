@@ -20,7 +20,6 @@
         </div>
     </div>
     <hr>
-
     <div class="am-g am-margin am-padding-right-xl am-text-left">
         <a id="display_all" data-type="xls" href="javascript:;" class="am-btn am-btn-secondary ">显示全部</a>
         <a id="export" data-type="xls" class="am-btn am-btn-secondary">导出表格</a>
