@@ -103,8 +103,144 @@ public class Strings {
         }
     }
 
+    /**
+     * 性别转换
+     *
+     * @param sex
+     * @return
+     */
+    public static String getInputSex(Integer sex) {
+        if (sex == null) {
+            return "";
+        }
+        if (sex == 0) {
+            return "未知";
+        } else if (sex == 1) {
+            return "女";
+        } else if (sex == 2) {
+            return "男";
+        }
+        return "";
+    }
 
     /**
+     * 婚姻状况
+     *
+     * @param married
+     * @return
+     */
+    public static String getInputMarried(Integer married) {
+        if (married == null) {
+            return "";
+        }
+        if (married == 0) {
+            return "未知";
+        } else if (married == 1) {
+            return "未婚";
+        } else if (married == 2) {
+            return "已婚";
+        }
+        return "";
+    }
+
+    public static String getInputEducationLevel(Integer education) {
+        if (education == null) {
+            return "";
+        }
+
+        switch (education) {
+            case 0:
+                return "未知";
+            case 1:
+                return "小学";
+            case 2:
+                return "初中";
+            case 3:
+                return "高中/中专";
+            case 4:
+                return "专科";
+            case 5:
+                return "本科";
+            case 6:
+                return "硕士";
+            case 7:
+                return "博士";
+            case 8:
+                return "博士后";
+            default:
+                return "";
+        }
+    }
+
+    public static String getCompanyNature(Integer nature) {
+        if (nature == null) {
+            return "";
+        }
+
+        switch (nature) {
+            case 0:
+                return "未知";
+            case 1:
+                return "国有企业";
+            case 2:
+                return "集体企业";
+            case 3:
+                return "联营企业";
+            case 4:
+                return "股份合作制企业";
+            case 5:
+                return "私营企业";
+            case 6:
+                return "个体工商户";
+            case 7:
+                return "合伙企业";
+            case 8:
+                return "有限责任公司";
+            case 9:
+                return "股份有限公司";
+            default:
+                return "";
+        }
+    }
+
+    public static String getTerm(Integer year, Integer month, Integer day) {
+        String str = "";
+        if (year != null) {
+            str += year + "年";
+        }
+        if (month != null) {
+            str += month + "月";
+        }
+        if (day != null) {
+            str += day + "天";
+        }
+        return str;
+    }
+
+    public static String getRepaymentType(Integer type) {
+        if (type == null) {
+            return "";
+        }
+        switch (type) {
+            case 1:
+                return "等额本金";
+            case 2:
+                return "等额本息";
+            case 3:
+                return "停本付息";
+            case 4:
+                return "先息后本";
+            default:
+                return "";
+        }
+
+
+    }
+
+
+    /**
+     *
+     *
      * 根据小数计算出百分比
      *
      * @param d

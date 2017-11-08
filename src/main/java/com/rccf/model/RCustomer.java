@@ -28,6 +28,7 @@ public class RCustomer {
     private String liveTime;
     private String hobby;
     private Timestamp createTime;
+    private String nation;
 
     @Id
     @Column(name = "id", nullable = false, length = 16)
@@ -272,5 +273,15 @@ public class RCustomer {
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    @Basic
+    @Column(name = "nation")
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation;
     }
 }

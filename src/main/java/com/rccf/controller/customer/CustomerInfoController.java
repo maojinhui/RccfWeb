@@ -278,13 +278,62 @@ public class CustomerInfoController {
         String customer_id = request.getParameter("customer_id");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/customer/c_info_detail_pc");
+        RCustomer customer = rCustomerService.findRCustomerByID(customer_id);
+        modelAndView.addObject("rcustomer", customer);
+
+//        RCustomerWork work = rCustomerService.findRCustomerWorkByCustomerid(customer_id);
+//        if (work != null) {
+//            modelAndView.addObject("work", work);
+//        }
+
+        DetachedCriteria criteria_work = DetachedCriteria.forClass(RCustomerWork.class);
+        criteria_work.add(Restrictions.eq("customerId", customer_id));
+        List list_work = baseService.getList(criteria_work);
+        if (list_work != null && list_work.size() > 0) {
+            RCustomerWork work = (RCustomerWork) list_work.get(0);
+            modelAndView.addObject("work", work);
+        }
+
+
+        DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerSpouse.class);
+        criteria.add(Restrictions.eq("customerId", customer_id));
+        List list = baseService.getList(criteria);
+        if (list != null && list.size() > 0) {
+            RCustomerSpouse spouse = (RCustomerSpouse) list.get(0);
+            modelAndView.addObject("spouse", spouse);
+        }
+
+        DetachedCriteria criteria_house = DetachedCriteria.forClass(RCustomerHouse.class);
+        criteria_house.add(Restrictions.eq("customerId", customer_id));
+        List<RCustomerHouse> houses = baseService.getList(criteria_house);
+        modelAndView.addObject("houses", houses);
+
+        DetachedCriteria criteria_contacts = DetachedCriteria.forClass(RCustomerContacts.class);
+        criteria_contacts.add(Restrictions.eq("customerId", customer_id));
+        List<RCustomerContacts> contacts = baseService.getList(criteria_contacts);
+        modelAndView.addObject("contacts", contacts);
+
+        DetachedCriteria criteria_car = DetachedCriteria.forClass(RCustomerCar.class);
+        criteria_car.add(Restrictions.eq("customerId", customer_id));
+        List<RCustomerCar> cars = baseService.getList(criteria_car);
+        modelAndView.addObject("cars", cars);
+
+        DetachedCriteria criteria_company = DetachedCriteria.forClass(RCustomerCompany.class);
+        criteria_company.add(Restrictions.eq("customerId", customer_id));
+        List<RCustomerCompany> companys = baseService.getList(criteria_company);
+        modelAndView.addObject("companys", companys);
+
+        DetachedCriteria criteria_loan = DetachedCriteria.forClass(RCustomerLoaninfo.class);
+        criteria_loan.add(Restrictions.eq("customerId", customer_id));
+        List list_loan = baseService.getList(criteria_loan);
+        if (list_loan != null && list_loan.size() > 0) {
+            RCustomerLoaninfo loan = (RCustomerLoaninfo) list_loan.get(0);
+            modelAndView.addObject("loan", loan);
+        }
 
 
         return modelAndView;
     }
-
-
-
 
 
     @RequestMapping(value = "/addpage")
