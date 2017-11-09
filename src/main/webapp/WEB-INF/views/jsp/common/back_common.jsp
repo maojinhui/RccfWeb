@@ -224,13 +224,11 @@
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 总监日报
                         </a>
                     </li>
-                    <% if (role <= 2) {%>
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/accept/export">
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 近期受理单
                         </a>
                     </li>
-                    <%}%>
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/accept/houqiinfo">
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 后期专员统计

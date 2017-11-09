@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="../../common/back_common_head.jsp" %>
+
+
 <script>
     function change(id) {
         url = "/employee/addAccepted?id=" + id;

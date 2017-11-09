@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.rccf.model.Employee" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/9/19
@@ -6,6 +6,16 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    boolean showPhone = false;
+    Employee employee = (Employee) request.getAttribute("employee");
+    String department = employee.getDepartment();
+    int role = employee.getRole();
+    if (department.contains("系统") || department.contains("总经办")) {
+        showPhone = true;
+    }
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,7 +90,9 @@
                         <th>字母编号</th>
                         <th>受理编号</th>
                         <th>客户姓名</th>
+                        <% if (showPhone) { %>
                         <th>客户电话</th>
+                        <%}%>
                         <th>业务类别</th>
                         <th>银行机构</th>
                         <th>业务性质</th>
@@ -115,6 +127,8 @@
 <script src="/js/table2excel/FileSaver.js"></script>
 <script src="/js/table2excel/tableExport.js"></script>
 <script>
+
+    var showPhone = <%=showPhone%>;
 
     var acceptance = function (data) {
         return data;
@@ -160,9 +174,11 @@
                         '                        <td>' + getDate(row[1]) + '</td>\n' +
                         '                        <td>' + row[2] + '</td>\n' +
                         '                        <td>' + row[3] + '</td>\n' +
-                        '                        <td>' + row[4] + '</td>\n' +
-                        '                        <td>' + getdata_1(row[5]) + '</td>\n' +
-                        '                        <td>' + getType(row[6]) + '</td>\n' +
+                        '                        <td>' + row[4] + '</td>\n';
+                    if (showPhone) {
+                        str += '                        <td>' + getdata_1(row[5]) + '</td>\n';
+                    }
+                    str += '                        <td>' + getType(row[6]) + '</td>\n' +
                         '                        <td>' + row[7] + '</td>\n' +
                         '                        <td>' + getdata_1(row[8]) + '</td>\n' +
                         '                        <td>' + getdata_1(row[9]) + '</td>\n' +

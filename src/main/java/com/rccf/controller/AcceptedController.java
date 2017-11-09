@@ -285,8 +285,10 @@ public class AcceptedController {
 
     @RequestMapping(value = "/export")
     public ModelAndView acceptExport(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/accepted/export_list");
+        modelAndView.addObject("employee", employee);
         return modelAndView;
     }
 

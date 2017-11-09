@@ -140,7 +140,7 @@ public class DesEncrypt {
     public static void main(String[] args) throws Exception {
 
         DesEncrypt desEncrypt = new DesEncrypt();
-        String a = desEncrypt.encrypt("123456");
+        String a = desEncrypt.encrypt("maomaomao");
         System.out.println(a);
         a = ShaEncript.encryptSHA(a);
         System.out.println(a);

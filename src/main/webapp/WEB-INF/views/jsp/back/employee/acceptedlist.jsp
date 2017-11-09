@@ -9,9 +9,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="../../common/back_common_head.jsp" %>
 <%
+    boolean showPhone = false;
     Employee employee = (Employee) request.getAttribute("employee");
     String department = employee.getDepartment();
     int role = employee.getRole();
+    if (department.contains("系统") || department.contains("总经办")) {
+        showPhone = true;
+    }
+
 %>
 
 
@@ -68,7 +73,9 @@
                         <th>受理日期</th>
                         <th>产品编号</th>
                         <th>客户姓名</th>
+                        <% if (showPhone) {%>
                         <th>客户电话</th>
+                        <% }%>
                         <th>业务类别</th>
                         <th>银行机构</th>
                         <th>业务性质</th>
@@ -111,6 +118,8 @@
 <script src="/js/table2excel/tableExport.js"></script>
 
 <script>
+
+    var showPhone = <%=showPhone%>;
 
     var data;
     var nums = 10;
@@ -295,9 +304,11 @@
                 '                        <td>' + da[0] + '</td>\n' +
                 '                        <td>' + formatDateTime(da[1]) + '</td>\n' +
                 '                        <td>' + da[2] + '</td>\n' +
-                '                        <td>' + da[3] + '</td>\n' +
-                '                        <td>' + getStringWithspace(da[4]) + '</td>\n' +
-                '                        <td>' + getLoanType(da[5]) + '</td>\n' +
+                '                        <td>' + da[3] + '</td>\n';
+            if (showPhone) {
+                str += '  <td>' + getStringWithspace(da[4]) + '</td>\n';
+            }
+            str += '      <td>' + getLoanType(da[5]) + '</td>\n' +
                 '                        <td>' + getStringWithspace(da[6]) + '</td>\n' +
                 '                        <td>' + getStringWithspace(da[7]) + '</td>\n' +
                 '                        <td>' + getStringWithspace(da[8]) + '</td>\n' +
