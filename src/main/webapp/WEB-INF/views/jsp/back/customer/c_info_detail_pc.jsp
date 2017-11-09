@@ -107,7 +107,8 @@
             <td><%=customerNotNull ? Strings.getInputString(rCustomer.getHobby()) : ""%>
             </td>
             <td>现住址居住时间</td>
-            <td>100年</td>
+            <td><%=customerNotNull ? Strings.getInputString(rCustomer.getLiveTime()) : ""%>
+            </td>
         </tr>
         <tr>
             <td>QQ</td>

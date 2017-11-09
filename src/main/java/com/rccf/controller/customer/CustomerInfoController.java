@@ -16,6 +16,7 @@ import com.rccf.util.Strings;
 import com.rccf.util.response.Page;
 import com.rccf.util.verify.CustomerVerify;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.omg.PortableInterceptor.HOLDING;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Enumeration;
@@ -1107,11 +1109,44 @@ public class CustomerInfoController {
     /*********************跟踪进度***************************************/
 
     @RequestMapping(value = "/process")
-    public ModelAndView customerProcessInfoPage() {
+    public ModelAndView customerProcessInfoPage(HttpServletRequest request, HttpServletResponse response) {
+        if (request.getProtocol().compareTo("HTTP/1.0") == 0) {
+            response.setHeader("Pragma", "no-cache");
+        } else if (request.getProtocol().compareTo("HTTP/1.1") == 0) {
+            response.setHeader("Cache-Control", "no-cache");
+        }
+        String customer_id = request.getParameter("customer_id");
+        if (customer_id == null) {
+            return new ModelAndView("redirect:/back/login");
+        }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/customer/c_info_process");
+        modelAndView.addObject("customer_id", customer_id);
+        DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerProcess.class);
+        criteria.add(Restrictions.eq("customerId", customer_id));
+        criteria.addOrder(Order.desc("updateTime"));
+        criteria.addOrder(Order.desc("id"));
+        List<RCustomerProcess> list = baseService.getList(criteria);
+        if (list != null && list.size() > 0) {
+            modelAndView.addObject("processes", list);
+        }
         return modelAndView;
     }
+
+    @RequestMapping(value = "/editProcess")
+    public ModelAndView addEditProcess(HttpServletRequest request) {
+        String customer_id = request.getParameter("customer_id");
+        String process_id = request.getParameter("process_id");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/customer/c_info_process_add");
+        if (!Strings.isNullOrEmpty(process_id)) {
+            RCustomerProcess process = (RCustomerProcess) baseService.get(RCustomerProcess.class, Integer.valueOf(process_id));
+            modelAndView.addObject("process", process);
+        }
+        modelAndView.addObject("customer_id", customer_id);
+        return modelAndView;
+    }
+
 
     @ResponseBody
     @RequestMapping(value = "/addCustomerProcess")
@@ -1126,19 +1161,25 @@ public class CustomerInfoController {
         if (Strings.isNullOrEmpty(processInfo)) {
             return ResponseUtil.fail(0, "进度信息为空");
         }
-        RCustomerProcess process = new RCustomerProcess();
-        process.setCustomerId(customer_id);
+        RCustomerProcess process = null;
+        String processid = request.getParameter("process_id");
+        if (!Strings.isNullOrEmpty(processid)) {
+            process = (RCustomerProcess) baseService.get(RCustomerProcess.class, Integer.valueOf(processid));
+        }
+        if (process == null) {
+            process = new RCustomerProcess();
+            process.setCustomerId(customer_id);
+        }
         process.setAdmin(eid);
         process.setState(0);
+        process.setProcess(processInfo);
+        process.setUpdateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
         boolean save = baseService.save(process);
         if (save) {
             return ResponseUtil.success();
         }
         return ResponseUtil.fail(0, "提交失败");
-
-
     }
-
 
 /*********************跟踪进度***************************************/
 

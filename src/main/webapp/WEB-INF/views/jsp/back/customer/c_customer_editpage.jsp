@@ -81,7 +81,7 @@
             <img src="/image/customerinfo/客户贷款意向.png">
             <div><label>客户贷款意向</label></div>
         </div>
-        <div data-html="credit" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-u-end am-text-center am-margin-vertical-xs">
+        <div data-html="process" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-u-end am-text-center am-margin-vertical-xs">
             <img src="/image/customerinfo/客户信用资料.png">
             <div><label>客户跟踪信息</label></div>
         </div>

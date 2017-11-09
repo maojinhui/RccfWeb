@@ -163,11 +163,70 @@ public class DateUtil {
         return date;
     }
 
+    /**
+     * timestamp 转换 年月
+     *
+     * @param timestamp
+     * @return
+     */
+    public static String timesstapToStringMD(Timestamp timestamp) {
+        if (timestamp == null) {
+            return "";
+        }
+        Date date = timestamp2Date(timestamp);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM月dd日");
+        return dateFormat.format(date);
+    }
+
+    /**
+     * timestamp 转换 年月
+     *
+     * @param date
+     * @return
+     */
+    public static String dateToStringMD(Date date) {
+        if (date == null) {
+            return "";
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM月dd日");
+        return dateFormat.format(date);
+    }
+
+
+    /**
+     * 判断两个日期是否是同一天
+     *
+     * @param date1 date1
+     * @param date2 date2
+     * @return
+     */
+    public static boolean isSameDate(Date date1, Date date2) {
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(date1);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(date2);
+        boolean isSameYear = cal1.get(Calendar.YEAR) == cal2
+                .get(Calendar.YEAR);
+        boolean isSameMonth = isSameYear
+                && cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH);
+        boolean isSameDate = isSameMonth
+                && cal1.get(Calendar.DAY_OF_MONTH) == cal2
+                .get(Calendar.DAY_OF_MONTH);
+
+        return isSameDate;
+    }
+
 
     public static void main(String args[]) {
-        String lastString = "20170913-776";
-        lastString = lastString.substring(lastString.indexOf("-") + 1);
-        System.out.println(lastString);
+//        String lastString = "20170913-776";
+//        lastString = lastString.substring(lastString.indexOf("-") + 1);
+//        System.out.println(lastString);
+
+        Date date = new Date(string2Date("2017-01-01").getTime());
+//        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月");
+        System.out.println("args = [" + dateFormat.format(date) + "]");
+
     }
 
 
