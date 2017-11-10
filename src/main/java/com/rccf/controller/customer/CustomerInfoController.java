@@ -9,10 +9,7 @@ import com.rccf.model.temp.CustomerTmp;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.service.RCustomerService;
-import com.rccf.util.BackUtil;
-import com.rccf.util.DateUtil;
-import com.rccf.util.ResponseUtil;
-import com.rccf.util.Strings;
+import com.rccf.util.*;
 import com.rccf.util.response.Page;
 import com.rccf.util.verify.CustomerVerify;
 import org.hibernate.criterion.DetachedCriteria;
@@ -470,6 +467,27 @@ public class CustomerInfoController {
         if (rcustomer == null) {
             return ResponseUtil.fail(0, "没有找到该客户");
         }
+
+        String rcustomer_phone = rcustomer.getPhone();
+
+        if (!rcustomer_phone.equals(customer_phone)) {
+
+        }
+        if (Strings.isNullOrEmpty(customer_phone)) {
+            return ResponseUtil.fail(0, "手机号不能为空");
+        } else {
+            if (Strings.isMobileNO(customer_phone)) {
+                boolean has = CustomerVerify.hasCustomerByPhone(baseService, customer_phone);
+                if (has) {
+                    return ResponseUtil.fail(0, "该手机号已存在");
+                } else {
+                    rcustomer.setPhone(customer_phone);
+                }
+            } else {
+                return ResponseUtil.fail(0, "手机号格式错误");
+            }
+        }
+
         rcustomer.setName(customer_name);
         if (!Strings.isNullOrEmpty(customer_sex)) {
             rcustomer.setSex(Integer.valueOf(customer_sex));
@@ -477,9 +495,18 @@ public class CustomerInfoController {
         if (!Strings.isNullOrEmpty(customer_age)) {
             rcustomer.setAge(Integer.valueOf(customer_age));
         }
-        rcustomer.setPhone(customer_phone);
+
+
         rcustomer.setHousePhone(customer_house_phone);
-        rcustomer.setIdcard(customer_idcard);
+
+        if (!Strings.isNullOrEmpty(customer_idcard)) {
+            boolean verify = new CheckUtil().isIdcard(customer_idcard);
+            if (verify) {
+                rcustomer.setIdcard(customer_idcard);
+            } else {
+                return ResponseUtil.fail(0, "身份证号码格式错误");
+            }
+        }
         if (!Strings.isNullOrEmpty(customer_married)) {
             rcustomer.setMarried(Integer.valueOf(customer_married));
         }
@@ -610,11 +637,23 @@ public class CustomerInfoController {
             spouse.setSpouseAge(null);
         }
         if (!Strings.isNullOrEmpty(spouse_phone)) {
+            if (!Strings.isMobileNO(spouse_phone)) {
+                return ResponseUtil.fail(0, "手机号格式错误");
+            }
             spouse.setSpousePhone(Integer.valueOf(spouse_phone));
+
         } else {
-            spouse.setSpouseAge(null);
+            spouse.setSpousePhone(null);
         }
-        spouse.setSpouseIdcard(spouse_idcard);
+
+        if (!Strings.isNullOrEmpty(spouse_idcard)) {
+            boolean verify = new CheckUtil().isIdcard(spouse_idcard);
+            if (verify) {
+                spouse.setSpouseIdcard(spouse_idcard);
+            } else {
+                return ResponseUtil.fail(0, "身份证号码格式错误");
+            }
+        }
         spouse.setSpouseCompanyName(spouse_company_name);
         spouse.setSpouseCompanyAddress(spouse_company_address);
         spouse.setSpouseCompanyTel(spouse_company_tel);

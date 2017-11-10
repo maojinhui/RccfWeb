@@ -30,12 +30,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <link href="https://cdn.bootcss.com/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
     <style>
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
         .text-area {
             padding-left: 1rem;
-            border-left: dashed 2px #f8b47e;
-            border-top: none;
-            border-bottom: none;
-            border-right: none;
+            border: dashed 2px #f8b47e;
+
         }
 
         textarea[disabled] {
@@ -44,25 +47,30 @@
     </style>
 </head>
 <body>
-<div id="back" class="am-text-lg am-margin-top">
-    <i class="am-icon-chevron-left"></i>返回
-</div>
-<div class="am-g am-margin-top">
-    <div class="am-u-sm-2">
-        <span><%=processNotNull ? DateUtil.timesstapToStringMD(process.getUpdateTime()) : DateUtil.dateToStringMD(new Date(System.currentTimeMillis()))%></span>
+<div class="am-container am-margin">
+    <div id="back" class="am-text-lg am-margin-top">
+        <i class="am-icon-chevron-left"></i>返回
     </div>
-    <div class="am-g am-u-sm-10">
-        <p>
-            <i class="am-icon-circle am-text-primary am-text-xs am-margin-right"></i>
-            <textarea id="process" class="am-u-sm-12 text-area"
-                      rows="10"><%=processNotNull ? process.getProcess() : ""%></textarea>
-        </p>
-
-        <div id="edit_btn">
-            <button id="commit" class="am-u-sm-5 am-btn am-btn-primary am-align-right">提交</button>
-            <button id="cancel" class="am-u-sm-5 am-btn am-btn-default am-align-right">取消</button>
+    <div class="am-g am-margin-top">
+        <div class="am-u-sm-2">
+            <span><%=processNotNull ? DateUtil.timesstapToStringMD(process.getUpdateTime()) : DateUtil.dateToStringMD(new Date(System.currentTimeMillis()))%></span>
         </div>
+        <div class="am-u-sm-10">
+            <p class="am-margin-right">
+                <i class="am-icon-circle am-text-primary am-text-xs am-margin-right "></i>
+                <textarea id="process" class="am-u-sm-12 text-area am-padding-right am-margin-right"
+                          rows="10"><%=processNotNull ? process.getProcess() : ""%></textarea>
+            </p>
+
+
+        </div>
+
     </div>
+    <div id="edit_btn " class="am-margin-top am-u-sm-10  am-margin-right-xs am-align-right">
+        <button id="commit" class="am-u-sm-6 am-btn am-btn-primary ">提交</button>
+        <button id="cancel" class="am-u-sm-6 am-u-end am-btn am-btn-default ">取消</button>
+    </div>
+
 </div>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script>

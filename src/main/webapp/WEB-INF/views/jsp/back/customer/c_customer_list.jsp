@@ -7,6 +7,12 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Cache-Control", "no-cache");
+    response.setDateHeader("Expires", 0);
+    response.setHeader("Cache-Control", "no-store");
+%>
+<%
     String department = (String) request.getAttribute("department");
     int role = (int) request.getAttribute("role");
 %>
@@ -79,10 +85,8 @@
 <script>
 
     function toDetail(customer_id, curr) {
-
         window.location.href = '/customer/info/editpage?customer_id=' + customer_id;
     }
-
 
     function doPage(pageNumber, curr) {
         var first = false;

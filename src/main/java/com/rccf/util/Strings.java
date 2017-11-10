@@ -48,9 +48,7 @@ public class Strings {
         Pattern p = Pattern.compile("^1[34578]\\d{9}$");
         Matcher m = p.matcher(mobiles);
         return m.matches();
-
     }
-
 
     /**
      * 判断是否含有特殊字符

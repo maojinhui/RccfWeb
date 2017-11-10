@@ -77,7 +77,7 @@
                 <ul>
                     <!-- 欢迎语 -->
                     <li class="am-text-sm tpl-header-navbar-welcome">
-                        <a href="javascript:;">欢迎你, <span><%=username%></span> </a>
+                        <a href="javascript:;">欢迎您, <span><%=username%></span> </a>
                     </li>
                     <!-- 退出 -->
                     <li id="quit" class="am-text-sm">
@@ -165,14 +165,14 @@
                         </a>
                     </li>
                     <%}%>
-                    <li class="sidebar-nav-link">
-                        <a class="rcmenu" data-rccf-menu="/customer/addcustomerpage">
-                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 录入客户
-                        </a>
-                    </li>
+                    <%--<li class="sidebar-nav-link">--%>
+                    <%--<a class="rcmenu" data-rccf-menu="/customer/addcustomerpage">--%>
+                    <%--<span class="am-icon-angle-right sidebar-nav-link-logo"></span> 录入客户--%>
+                    <%--</a>--%>
+                    <%--</li>--%>
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/customer/shareApply">
-                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 微信推广用户列表
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 微信分享用户列表
                         </a>
                     </li>
                     <% if (depart.contains("系统")) {%>

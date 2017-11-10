@@ -24,8 +24,6 @@
             </list>
         </property>
     </bean>
-
-
     <mvc:interceptors> <!-- SQL注入拦截-->
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
@@ -137,13 +135,6 @@
         <property name="sessionFactory" ref="sessionFactory"/>
 
     </bean>
-
-    <bean id="SpringContextUtil" class="com.rccf.util.SpringContextUtil" scope="singleton"></bean>
-
-    <bean id="memcachedManager" class="com.rccf.component.SpyMemcachedManager">
-        <property name="memcachedClient" ref="memcachedClient"/>
-    </bean>
-
     <tx:advice id="txAdvice" transaction-manager="txManager">
         <tx:attributes>
             <tx:method name="get*" read-only="true"/>
@@ -154,6 +145,15 @@
         <aop:pointcut id="bizMethods" expression="execution(* com.rccf.service.*.*(..))"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="bizMethods"/>
     </aop:config>
+
+
+    <bean id="SpringContextUtil" class="com.rccf.util.SpringContextUtil" scope="singleton"></bean>
+
+    <bean id="memcachedManager" class="com.rccf.component.SpyMemcachedManager">
+        <property name="memcachedClient" ref="memcachedClient"/>
+    </bean>
+
+    <!--<bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" />-->
 
 
 </beans>

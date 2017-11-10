@@ -29,6 +29,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <link href="https://cdn.bootcss.com/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
     <style>
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
         .text-area {
             padding-left: 1rem;
             border-left: dashed 2px #f8b47e;
@@ -56,7 +62,7 @@
     <div class="am-g am-margin-top">
         <div class="am-u-sm-12  am-margin-right">
             <%--<button id="add_new" class="am-btn am-btn-primary am-align-right">添加新进程</button>--%>
-            <button id="add_new" class="am-btn am-btn-primary am-align-right">添加新进程</button>
+            <button id="add_new" class="am-btn am-btn-primary am-align-right am-margin-right">添加新进程</button>
         </div>
         <%
             if (list != null) {
@@ -67,8 +73,8 @@
             <div class="am-u-sm-2">
                 <span><%=DateUtil.timesstapToStringMD(process.getUpdateTime())%></span>
             </div>
-            <div class="am-u-sm-10">
-                <p>
+            <div class="am-u-sm-10 ">
+                <p class="am-padding-right">
                     <i class="am-icon-circle am-text-primary am-text-xs am-margin-right"></i>
                     <%=process.getProcess()%>
                     <%--客户张某来公司了，我跟她聊了一会，还聊得挺嗨。感觉这客户有戏。我要有提成了，好开心！客户张某来公司了，我跟她聊了一会，还聊得挺嗨。感觉这客户有戏。我要有提成了，好开心！客户张某来公司了，我跟她聊了一会，还聊得挺嗨。感觉这客户有戏。我要有提成了，好开心！客户张某来公司了，我跟她聊了一会，还聊得挺嗨。感觉这客户有戏。我要有提成了，好开心！客户张某来公司了，我跟她聊了一会，还聊得挺嗨。感觉这客户有戏。我要有提成了，好开心！--%>
@@ -76,7 +82,7 @@
                 <%
                     if (DateUtil.isSameDate(DateUtil.timestamp2Date(process.getUpdateTime()), new Date(System.currentTimeMillis()))) {
                 %>
-                <div class="">
+                <div class="am-margin-right">
                     <button onclick="toEdit(<%=process.getId()%>)"
                             class="am-btn am-btn-warning am-align-right am-margin">修改
                     </button>
@@ -93,32 +99,33 @@
         %>
 
     </div>
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <script>
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
 
 
-        var customer_id = '<%=customer_id%>';
-        $('#back').click(function () {
-            window.history.back();
-        });
+    var customer_id = '<%=customer_id%>';
+    $('#back').click(function () {
+        window.history.back();
+    });
 
-        $('#update').click(function () {
-            $('.text-area').removeAttr('disabled');
-            $(this).addClass('am-hide');
-            $('#edit_btn').removeClass('am-hide');
-        });
+    $('#update').click(function () {
+        $('.text-area').removeAttr('disabled');
+        $(this).addClass('am-hide');
+        $('#edit_btn').removeClass('am-hide');
+    });
 
-        $('#cancel').click(function () {
-            $('.text-area').attr('disabled', true);
-            $('#edit_btn').addClass('am-hide');
-            $('#update').removeClass('am-hide');
-        });
+    $('#cancel').click(function () {
+        $('.text-area').attr('disabled', true);
+        $('#edit_btn').addClass('am-hide');
+        $('#update').removeClass('am-hide');
+    });
 
-        $('#add_new').click(function () {
-            var url = '/customer/info/editProcess?customer_id=' + customer_id;
-            parent.changeUrl(url);
-        });
+    $('#add_new').click(function () {
+        var url = '/customer/info/editProcess?customer_id=' + customer_id;
+        parent.changeUrl(url);
+    });
 
-    </script>
+</script>
 </body>
 </html>

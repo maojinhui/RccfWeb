@@ -8,6 +8,12 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Cache-Control", "no-cache");
+    response.setDateHeader("Expires", 0);
+    response.setHeader("Cache-Control", "no-store");
+%>
+<%
     String customer_id = (String) request.getAttribute("customer_id");
     List<RCustomerCar> cars = (List<RCustomerCar>) request.getAttribute("cars");
 %>

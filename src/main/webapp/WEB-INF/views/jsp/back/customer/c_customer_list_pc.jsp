@@ -40,13 +40,13 @@
     </div>
     <hr>
     <div class="am-g am-margin am-padding-right-xl am-text-left">
-        <a id="export" data-type="csv" href="javascript:;" class="am-btn am-btn-secondary">导出表格</a>
+        <a id="export" data-type="xls" href="javascript:;" class="am-btn am-btn-secondary">导出表格</a>
     </div>
 
 
     <div class="am-g ">
         <div class="am-u-sm-12 ">
-            <table id="accept_list"
+            <table id="customer_list"
                    class="am-form-horizontal am-text-nowrap am-table-centered am-table-bordered am-table am-table-striped am-table-hover table-main">
                 <thead>
                 <tr>
@@ -198,6 +198,16 @@
 
     getdata();
 
+
+    var $exportLink = document.getElementById('export');
+    $exportLink.addEventListener('click',
+        function (e) {
+            e.preventDefault();
+            if (e.target.nodeName === "A") {
+                tableExport('customer_list', '客户列表', e.target.getAttribute('data-type'))
+            }
+        },
+        false);
 
 </script>
 </body>
