@@ -99,14 +99,14 @@
             <div class="am-u-sm-12 am-u-md-8 am-u-lg-6">
                 <div class="am-input-group am-u-sm-12">
                     <label class="am-u-sm-4 ">贷款金额</label>
-                    <input id="house_mortgage_amount" class="am-u-sm-8" type="text" value="">
+                    <input id="house_mortgage_amount" class="am-u-sm-8" type="number" value="">
                 </div>
             </div>
 
             <div class="am-u-sm-12 am-u-md-8 am-u-lg-6">
                 <div class="am-input-group am-u-sm-12">
                     <label class="am-u-sm-4 ">月供款</label>
-                    <input id="house_month_supply" class="am-u-sm-8" type="text" value="">
+                    <input id="house_month_supply" class="am-u-sm-8" type="number" value="">
                 </div>
             </div>
             <div class="am-u-sm-12 am-u-md-8 am-u-lg-6">
@@ -121,7 +121,7 @@
             <div class="am-u-sm-12 am-u-md-8 am-u-lg-6">
                 <div class="am-input-group am-u-sm-12">
                     <label class="am-u-sm-4 ">抵押金额</label>
-                    <input id="house_diya_amount" class="am-u-sm-8" type="text" value="">
+                    <input id="house_diya_amount" class="am-u-sm-8" type="number" value="">
                 </div>
             </div>
             <div class="am-u-sm-12 am-u-md-8 am-u-lg-6">
@@ -145,7 +145,7 @@
             <div class="am-u-sm-12 am-u-md-8 am-u-lg-6">
                 <div class="am-input-group am-u-sm-12">
                     <label class="am-u-sm-4 ">年租金</label>
-                    <input id="house_year_rent" class="am-u-sm-8" type="text" value="">
+                    <input id="house_year_rent" class="am-u-sm-8" type="number" value="">
                 </div>
             </div>
             <div id="btns" class="am-u-sm-12 am-u-md-8 am-u-lg-6 am-margin-vertical">

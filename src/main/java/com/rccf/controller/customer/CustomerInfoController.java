@@ -100,7 +100,7 @@ public class CustomerInfoController {
                         return data;
                     }
 
-                } else if (role == 2) {
+                } else if (role == 3) {
                     String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ")";
                     String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ") order by create_time desc " + limit;
                     String data = Page.limit(baseService, sql_count, sql_info, CustomerTmp.class);
@@ -215,7 +215,7 @@ public class CustomerInfoController {
                         return data;
                     }
 
-                } else if (role == 2) {
+                } else if (role == 3) {
                     String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ")";
 //                    String sql_info = "SELECT   *   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ") order by create_time desc " + limit;
                     String sql_info = "SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,\n" +
@@ -469,20 +469,21 @@ public class CustomerInfoController {
         }
 
         String rcustomer_phone = rcustomer.getPhone();
-
-        if (!rcustomer_phone.equals(customer_phone)) {
-
-        }
         if (Strings.isNullOrEmpty(customer_phone)) {
             return ResponseUtil.fail(0, "手机号不能为空");
         } else {
             if (Strings.isMobileNO(customer_phone)) {
-                boolean has = CustomerVerify.hasCustomerByPhone(baseService, customer_phone);
-                if (has) {
-                    return ResponseUtil.fail(0, "该手机号已存在");
+                if (!rcustomer_phone.equals(customer_phone)) {
+                    boolean has = CustomerVerify.hasCustomerByPhone(baseService, customer_phone);
+                    if (has) {
+                        return ResponseUtil.fail(0, "该手机号已存在");
+                    } else {
+                        rcustomer.setPhone(customer_phone);
+                    }
                 } else {
                     rcustomer.setPhone(customer_phone);
                 }
+
             } else {
                 return ResponseUtil.fail(0, "手机号格式错误");
             }

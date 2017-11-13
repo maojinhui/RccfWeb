@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.rccf.util.Strings" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2017/11/5
@@ -6,6 +6,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    boolean phoenIsNull = false;
+    String phone = (String) request.getAttribute("phone");
+    if (Strings.isNullOrEmpty(phone)) {
+        phoenIsNull = true;
+    }
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -108,12 +116,22 @@
     立即申请
 </button>
 <script src="/js/app/self_adaption.js"></script>
-<script src="/js/app/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script>
     $('#back').bind('click', function () {
         window.history.back();
     })
     $('#apply').click(function () {
+        var phoneIsNull = <%=phoenIsNull%>;
+        if (phoneIsNull) {
+            var con = confirm("请您先绑定手机号方便我们联系您。");
+            if (con) {
+                location.href = "/app/bindphone";
+                return;
+            } else {
+                return;
+            }
+        }
         $.ajax({
             url:'/loan/applyloan',
             dataType:'json',

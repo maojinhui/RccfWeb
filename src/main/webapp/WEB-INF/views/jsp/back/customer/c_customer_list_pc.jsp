@@ -72,7 +72,9 @@
         </div>
     </div>
 </div>
+<div id="page"></div>
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="/js/amaze/amazeui.page.js"></script>
 <script src="/js/comm.js"></script>
 <script src="/js/table2excel/Blob.js"></script>
 <script src="/js/table2excel/FileSaver.js"></script>
@@ -147,7 +149,7 @@
                     return;
                 }
                 $('#page').show();
-                var pages = Math.ceil(data.length / nums); //得到总页数
+                var pages = Math.ceil(info.length / nums); //得到总页数
                 $("#curr").attr("max", pages);
                 //返回的是一个page示例，拥有实例方法
                 var $page = $("#page").page({

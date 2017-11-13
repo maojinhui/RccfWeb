@@ -63,6 +63,7 @@
     </div>
 </div>
 
+<script src="/js/comm.js"></script>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
 <script>
 
@@ -72,8 +73,17 @@
 
     $('#customer_add').click(function () {
         var jsonObject = {};
-        jsonObject.name = $('#name').val();
-        jsonObject.phone = $('#phone').val();
+        var name = $('#name').val();
+        var phone = $('#phone').val();
+        jsonObject.name = name;
+        jsonObject.phone = phone;
+
+        if (!ismobile(phone)) {
+            alert("手机号格式错误");
+            return;
+        }
+
+
         $.ajax({
             url: '/customer/info/add',
             data: jsonObject,
