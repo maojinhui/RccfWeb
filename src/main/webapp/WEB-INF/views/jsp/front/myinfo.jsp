@@ -32,9 +32,19 @@
     <link rel="stylesheet" href="/css/app/font-awesome.css"/>
     <link rel="stylesheet" href="/css/app/rccf_base.css">
     <link rel="stylesheet" href="/css/app/rccf_index.css">
+    <style type="text/css" rel="stylesheet">
+        .weui-cells {
+            padding: 0.24rem;
+        }
+
+        html, body {
+            background-color: #f5f5f5;
+        }
+
+    </style>
 </head>
 <body>
-<div class="rccf_body">
+<div class="rccf_body rccf_margin_top">
     <div class="rccf_grey_body">
         <%--<header class="rccf_padding rccf_text_center fz40">--%>
         <%--<div class="rccf_text_center rccf_margin_bottom_xs">--%>
@@ -43,7 +53,7 @@
         <%--<p><%=user.getUserName()%></p>--%>
         <%--</header>--%>
 
-        <div class="rccf_list rccf_margin_bottom rccf_margin_top_sm">
+        <div class="rccf_list rccf_margin_bottom rccf_margin_top_sm ">
             <div class="weui-cells rccf_margin_zero fz32">
                 <a class="weui-cell weui-cell_access" href="/invite/myinvite">
                     <div class="weui-cell__hd"><img src="/image/app/user/mine.png" style="width: 1em;height: 1em"></div>

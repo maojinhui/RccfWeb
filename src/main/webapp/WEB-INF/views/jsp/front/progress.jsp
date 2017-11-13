@@ -21,7 +21,7 @@
     <div class="weui-cells rccf_border_bottom_lg fz40">
         <div class="weui-cell">
             <div class="weui-cell__bd rccf_text_center">
-                <span class="">贷款进程</span>
+                <span class="">我的贷款</span>
             </div>
         </div>
     </div>

@@ -33,6 +33,11 @@
             overflow-x: hidden;
             overflow-y: auto;
         }
+
+        .weui-cells:before,
+        .weui-cells:after {
+            position: relative;
+        }
     </style>
 </head>
 <body>
@@ -52,9 +57,9 @@
     <div class="weui-cells">
         <div class="weui-cell">
             <div class="rccf_parent">
-                <div class="rccf_product_info fz26">
-                    <span>¥&emsp;<strong class="fz50">1-50</strong>&emsp;万</span>
-                    <div class="fz28" style="color: grey;">额度</div>
+                <div class="rccf_product_info fz30" style="color: #ff8a53">
+                    <span>¥&emsp;<span class="fz50">1-50</span>&emsp;万</span>
+                    <div class="fz30" style="color: #999999;">额度</div>
                 </div>
             </div>
         </div>
@@ -62,24 +67,28 @@
     <div class="weui-cells">
         <div class="weui-cell">
             <div class=" rccf_width_50">
-                <div class="rccf_width_100 rccf_text_center">
+                <div class="rccf_width_100 rccf_text_center" style="color: #666666;">
                     月利率
                 </div>
-                <div class="rccf_width_100 rccf_text_center">
+                <div class="rccf_width_100 rccf_text_center" style="color: #ff8a53">
                     0.9%-2.94%
                 </div>
             </div>
             <div class=" rccf_width_50">
-                <div class="rccf_width_100 rccf_text_center">
+                <div class="rccf_width_100 rccf_text_center" style="color: #666666;">
                     期限
                 </div>
-                <div class="rccf_width_100 rccf_text_center">
+                <div class="rccf_width_100 rccf_text_center" style="color: #ff8a53">
                     3-25年
                 </div>
             </div>
         </div>
     </div>
-    <div class="rccf_margin_top rccf_margin_left"><a href="tel:400-810-688" class="fz32" style="color: #33393c;">客服电话：400-810-688</a>
+    <div class="rccf_margin_left" style="margin: 0.2667rem 0.2667rem;"><a href="tel:400-810-688" class="fz32"
+                                                                          style="color: #33393c;">客服电话：400-810-688</a>
+    </div>
+    <div class="weui-cells">
+        <img src="/image/app/progress.png" style="width: 100%">
     </div>
 
     <div class="weui-cells rccf_padding">

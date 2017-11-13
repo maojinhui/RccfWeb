@@ -26,7 +26,20 @@ public class LoanController {
     @RequestMapping(value = "/default")
     public ModelAndView loanDefault(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/front/loan/loan_default");
+        modelAndView.setViewName("/front/loan/main_products");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/diya")
+    public ModelAndView loanDiya(HttpServletRequest request) {
+        String openid = WeixinUtil.getOpenid(request);
+        User user = userService.findUserByOpenid(openid);
+        String phone = user.getPhone();
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/front/loan/loan_diya");
+        modelAndView.addObject("phone", phone);
+
         return modelAndView;
     }
 

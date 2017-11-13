@@ -19,28 +19,18 @@
     <link rel="stylesheet" href="/css/app/rccf_index.css">
 </head>
 <body>
-<div class="rccf_grey_body">
 
-    <div class="weui-cells">
-        <div class="weui-cell fz30">
-            <div id="back" class="weui-cell__hd">
-                <i class="fa fa-chevron-left"></i>
-                <span>返回</span>
-            </div>
-            <div class="weui-cell__bd rccf_text_center ">
-                邀请好友&emsp;&emsp;
-            </div>
-            <!--<div id="confirm" class="weui-cell__ft rccf_text_black">-->
-            <!--确定-->
-            <!--</div>-->
-        </div>
-    </div>
 
+<div id="back" class="weui-cell__hd" style="position: absolute;top: 1em;left: 1em;color:#fff;font-size: 14px;">
+    <i class="fa fa-chevron-left"></i>
+    <span>返回</span>
 </div>
+
 <div class="rccf_all">
-    <img class="rccf_width_100"  src="/image/app/invitation.png" >
+    <img class="rccf_width_100" style="height: 100%;" src="/image/app/invitation.png">
 </div>
-<img style="position: absolute;top: 8.8rem ; left: 1.86rem;width: 6.4rem;height: 6.4rem;" src="<%=WeixinUtil.URL_QRCODE_TICKET+request.getAttribute("ticket")%>" />
+<img style="position: absolute;top: 6.8rem ; left: 1.86rem;width: 6.4rem;height: 6.4rem;"
+     src="<%=WeixinUtil.URL_QRCODE_TICKET+request.getAttribute("ticket")%>"/>
 
 <script src="/js/app/self_adaption.js"></script>
 <script src="/js/app/jquery.min.js"></script>

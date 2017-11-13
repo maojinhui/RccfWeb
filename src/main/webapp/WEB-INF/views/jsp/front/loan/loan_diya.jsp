@@ -1,8 +1,8 @@
 <%@ page import="com.rccf.util.Strings" %><%--
   Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2017/11/5
-  Time: 22:15
+  User: greatland
+  Date: 2017/11/13
+  Time: 上午11:45
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -18,10 +18,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>薪水贷</title>
+    <title>融城金服-抵押贷</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scale=0"/>
-    <script src="/js/app/pace.js"></script>
-    <link rel="stylesheet" href="/css/app/pace-theme-flash.css"/>
+    <script src="js/pace.js"></script>
+    <link rel="stylesheet" href="css/pace-theme-flash.css"/>
 
     <link rel="stylesheet" href="/css/app/weui.min.css"/>
     <link rel="stylesheet" href="/css/app/font-awesome.css"/>
@@ -34,6 +34,10 @@
         body {
             overflow-x: hidden;
             overflow-y: auto;
+        }
+
+        .width_one_of_3 {
+            width: 33.3333333%;
         }
 
         .weui-cells:before,
@@ -51,7 +55,7 @@
                 <span>返回</span>
             </div>
             <div class="weui-cell__bd rccf_text_center ">
-                薪水贷&emsp;&emsp;&emsp;&emsp;
+                抵押贷&emsp;&emsp;&emsp;&emsp;
             </div>
         </div>
     </div>
@@ -66,17 +70,18 @@
             </div>
         </div>
     </div>
+
     <div class="weui-cells">
         <div class="weui-cell">
-            <div class=" rccf_width_50">
+            <div class=" width_one_of_3">
                 <div class="rccf_width_100 rccf_text_center" style="color: #666666;">
                     月利率
                 </div>
                 <div class="rccf_width_100 rccf_text_center" style="color: #ff8a53">
-                    0.9%-2.94%
+                    0.9%-2.91%
                 </div>
             </div>
-            <div class=" rccf_width_50">
+            <div class=" width_one_of_3">
                 <div class="rccf_width_100 rccf_text_center" style="color: #666666;">
                     期限
                 </div>
@@ -84,8 +89,17 @@
                     3-25年
                 </div>
             </div>
+            <div class=" width_one_of_3">
+                <div class="rccf_width_100 rccf_text_center">
+                    成数
+                </div>
+                <div class="rccf_width_100 rccf_text_center" style="color: #ff8a53">
+                    6-8成
+                </div>
+            </div>
         </div>
     </div>
+
 
     <div class="rccf_margin_left" style="margin: 0.2667rem 0.2667rem;"><a href="tel:400-810-688" class="fz32"
                                                                           style="color: #33393c;">客服电话：400-810-688</a>
@@ -93,11 +107,10 @@
     <div class="weui-cells">
         <img src="/image/app/progress.png" style="width: 100%">
     </div>
-
     <div class="weui-cells rccf_padding">
         <label>产品优势：</label>
         <ol>
-            <li>1.无抵押，无担保，手续简便</li>
+            <li>1.无抵押，无担保，有保单即可贷</li>
             <li>2.放款快，一对一服务</li>
         </ol>
     </div>
@@ -108,14 +121,15 @@
         <ol>
             <li>1.中国大陆（不含港澳台）人士</li>
             <li>2.年龄18-65周岁</li>
-            <li>3.在现单位工作满六个月以上的授薪人群</li>
-            <li>4.无不良征信记录</li>
+            <li>3.拥有稳定收入</li>
+            <li>4.无不良收入记录</li>
+            <li>5.购买人寿保险并且保单生效半年以上</li>
         </ol>
     </div>
 
     <div class="weui-cells rccf_padding">
         <label>所需资料：</label>
-        <div>身份证、银行卡、本人工资卡、<br>工作证明、资信证明</div>
+        <div>身份证、银行卡、人寿保险单据、<br>保险公司规定的其他资料</div>
     </div>
 </div>
 
@@ -126,7 +140,6 @@
 </button>
 <script src="/js/app/self_adaption.js"></script>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-
 <script>
     $('#back').bind('click', function () {
         window.history.back();
@@ -144,15 +157,16 @@
             }
         }
         $.ajax({
-            url:'/loan/applyloan',
-            dataType:'json',
-            data:{"type":"baodan"},
-            type:"POST",
-            success:function (result) {
+            url: '/loan/applyloan',
+            dataType: 'json',
+            data: {"type": "baodan"},
+            type: "POST",
+            success: function (result) {
                 alert("申请成功");
             }
         });
     });
+
 </script>
 </body>
 </html>
