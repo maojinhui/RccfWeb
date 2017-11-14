@@ -532,7 +532,7 @@ public class CommissionController {
                 "from employee e\n" +
                 "WHERE department = '市场部'";
         String sql_shichang_zongjian = "SELECT e.id,e.department,e.name,e.role,\n" +
-                "  (SELECT sum(a.service_fee_actual) from accepted a where  end_date>'" + month_start + "' and end_date<'" + month_end + "') as yeji\n" +
+                "  (SELECT sum(a.service_fee_actual) from accepted a where  end_date>='" + month_start + "' and end_date<'" + month_end + "') as yeji\n" +
                 "from employee e\n" +
                 "WHERE department = '市场部' and role = 2 ";
 

@@ -181,6 +181,11 @@
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 非公司在职员工推广
                         </a>
                     </li>
+                    <li class="sidebar-nav-link">
+                        <a class="rcmenu" data-rccf-menu="/customer/applyfromfront">
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 公众平台用户申请列表
+                        </a>
+                    </li>
                     <%}%>
                 </ul>
             </li>

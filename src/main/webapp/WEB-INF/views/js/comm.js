@@ -191,6 +191,15 @@ function getDate(time) {
     return date.format('yyyy-MM-dd')
 }
 
+function getDateComplete(time) {
+    var date = new Date();
+    if (isNull(time)) {
+        return '';
+    }
+    date.setTime(time);
+    return date.format('yyyy-MM-dd hh:mm:ss');
+}
+
 function getRepaymentType(type) {
     if (isNull(type)) {
         return '未填写';

@@ -2,6 +2,7 @@ package com.rccf.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.rccf.component.Page;
 import com.rccf.constants.ResponseConstants;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.*;
@@ -9,6 +10,8 @@ import com.rccf.service.BaseService;
 import com.rccf.service.CustomerService;
 import com.rccf.service.EmployeeService;
 import com.rccf.util.*;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -368,9 +371,52 @@ public class CustomerController {
             }
             List<Loanapply> loanapplies = baseService.queryBySqlFormatClass(sql, Loanapply.class);
             return ResponseUtil.success(loanapplies);
-
         }
         return ResponseUtil.fail(0, "用户未登录");
     }
+
+
+    @RequestMapping(value = "/applyfromfront")
+    public ModelAndView applyLoanFromFront(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/customer/apply_from_front");
+        return modelAndView;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/frontapplylist")
+    public String applyListFromFront(HttpServletRequest request) {
+        String pageNo = request.getParameter("pageNo");
+        int p = 1;
+        try {
+            p = Integer.valueOf(pageNo);
+        } catch (Exception e) {
+        }
+        DetachedCriteria criteria = DetachedCriteria.forClass(UserApply.class);
+        criteria.addOrder(Order.asc("state"));
+        criteria.addOrder(Order.asc("applyTime"));
+        int count = baseService.getCount(criteria);
+        Page page = PageUtil.createPage(10, count, p);
+        List<UserApply> list = baseService.getList(page, criteria);
+        if (list == null || list.size() < 1) {
+            return ResponseUtil.success_list(count, 10, null);
+        } else {
+            return ResponseUtil.success_list(count, 10, list);
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/frontapply/listall")
+    public String applyListFrontAll(HttpServletRequest request) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(UserApply.class);
+        criteria.addOrder(Order.asc("state"));
+        criteria.addOrder(Order.asc("applyTime"));
+        List<UserApply> list = baseService.getList(criteria);
+        return ResponseUtil.success(list);
+
+    }
+
+
+
 
 }

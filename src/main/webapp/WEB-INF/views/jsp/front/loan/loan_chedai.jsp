@@ -144,10 +144,14 @@
         $.ajax({
             url:'/loan/applyloan',
             dataType:'json',
-            data:{"type":"baodan"},
+            data: {"type": "车贷"},
             type:"POST",
             success:function (result) {
-                alert("申请成功");
+                if (result.code) {
+                    window.location.href = "/loan/success";
+                } else {
+                    alert(result.errormsg);
+                }
             }
         });
     });
