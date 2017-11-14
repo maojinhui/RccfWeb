@@ -106,7 +106,7 @@
                 <p class="rccf_margin_left_sm">主营产品 <i class="fa fa-volume-up speak"></i>
                     <marquee scrolldelay="500" behavior="scroll" direction="up" contenteditable="false"
                              onstart="this.firstChild.innerHTML+=this.firstChild.innerHTML;" scrollamount="10"
-                             width="65%">
+                             width="65%" height="100%">
                         <span id="success_person" style="color: #666666;font-size: 0.4rem;">用户 130****1234 申请</span>
                         <span id="success_daikuan" style="color: #ff9933; font-size: 0.4rem;">薪水贷</span>
                     </marquee>

@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<div class="totop">
+<div id="top" class="totop">
     <h1>融成金服首页</h1>
 </div>
 <div style="height: 2000px"></div>
@@ -30,8 +30,14 @@
     String url = "http://weixin.rccfkg.com/";
     String sign = WeixinSign.sign(jsapi_ticket, url, noce_str, timestamp);
 %>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="application/javascript">
+
+    $('#top').click(function () {
+        alert("点击了我");
+    })
+    
     var ticket='<%=jsapi_ticket%>';
     var url='<%=url%>';
     wx.config({
