@@ -31,7 +31,7 @@
     <div class="am-cf am-padding am-padding-bottom-0">
         <div class="am-fl am-cf">
             <strong class="am-text-primary am-text-lg">
-                副总监业绩统计
+                总监业绩统计
             </strong>
         </div>
     </div>

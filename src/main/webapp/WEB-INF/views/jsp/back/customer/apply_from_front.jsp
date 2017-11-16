@@ -95,6 +95,7 @@
                 '                    </tr>';
             return str;
         }
+    }
 
 
         function getdata() {

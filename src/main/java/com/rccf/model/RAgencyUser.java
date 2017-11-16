@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 @Table(name = "r_agency_user", schema = "rccf", catalog = "")
 public class RAgencyUser {
     private int id;
+    private Integer agencyId;
     private String agencyCode;
     private String agencyName;
     private String name;
@@ -16,9 +17,10 @@ public class RAgencyUser {
     private Integer createPerson;
     private Timestamp updateTime;
     private Integer updatePerson;
-    private Integer qq;
+    private String qq;
     private String address;
     private String email;
+    private Integer state;
 
     @Id
     @Column(name = "id")
@@ -28,6 +30,16 @@ public class RAgencyUser {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "agency_id")
+    public Integer getAgencyId() {
+        return agencyId;
+    }
+
+    public void setAgencyId(Integer agencyId) {
+        this.agencyId = agencyId;
     }
 
     @Basic
@@ -122,11 +134,11 @@ public class RAgencyUser {
 
     @Basic
     @Column(name = "qq")
-    public Integer getQq() {
+    public String getQq() {
         return qq;
     }
 
-    public void setQq(Integer qq) {
+    public void setQq(String qq) {
         this.qq = qq;
     }
 
@@ -158,6 +170,7 @@ public class RAgencyUser {
         RAgencyUser that = (RAgencyUser) o;
 
         if (id != that.id) return false;
+        if (agencyId != null ? !agencyId.equals(that.agencyId) : that.agencyId != null) return false;
         if (agencyCode != null ? !agencyCode.equals(that.agencyCode) : that.agencyCode != null) return false;
         if (agencyName != null ? !agencyName.equals(that.agencyName) : that.agencyName != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
@@ -177,6 +190,7 @@ public class RAgencyUser {
     @Override
     public int hashCode() {
         int result = id;
+        result = 31 * result + (agencyId != null ? agencyId.hashCode() : 0);
         result = 31 * result + (agencyCode != null ? agencyCode.hashCode() : 0);
         result = 31 * result + (agencyName != null ? agencyName.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
@@ -190,5 +204,15 @@ public class RAgencyUser {
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "state")
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 }

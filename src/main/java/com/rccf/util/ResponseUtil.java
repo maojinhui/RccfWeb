@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -133,7 +134,11 @@ public class ResponseUtil {
         if (null != o) {
             if (o instanceof JSONObject || o instanceof JSONArray) {
                 object.put("data", o);
-            } else {
+            }
+//            else if(o instanceof  List){
+//                JSONArray array = JSON.parseArray(JSON.toJSONString(o));
+//            }
+            else {
                 object.put("data", o.toString());
             }
         } else {
@@ -143,9 +148,9 @@ public class ResponseUtil {
     }
 
 
-//    public static String pageData(String data){
-//
-//    }
+    public static ModelAndView pageFail(String errormsg) {
+        return new ModelAndView("/other/import_fail").addObject("data", errormsg);
+    }
 
 
     public static void main(String [] args){

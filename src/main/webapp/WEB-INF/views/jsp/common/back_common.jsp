@@ -250,6 +250,24 @@
             </li>
             <%}%>
 
+            <% if (depart.contains("市场") || depart.equals("系统管理")) {%>
+            <li class="sidebar-nav-link">
+                <a class="sidebar-nav-sub-title">
+                    <i class="am-icon-table sidebar-nav-link-logo"></i> 产品管理
+                    <span class="am-icon-chevron-right am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
+                </a>
+                <ul class="sidebar-nav sidebar-nav-sub">
+                    <li class="sidebar-nav-link">
+                        <a class="rcmenu" data-rccf-menu="/agency/list">
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 渠道列表
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <%}%>
+
+
+
             <% if (user.getDepartment().contains("金融") || user.getDepartment().contains("系统")) {%>
             <li class="sidebar-nav-link">
                 <a class="rcmenu" data-rccf-menu="/accept/mylistpage">

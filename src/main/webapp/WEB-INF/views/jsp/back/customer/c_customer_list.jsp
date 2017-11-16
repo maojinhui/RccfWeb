@@ -147,13 +147,7 @@
                 console.info('getPage' + result);
                 var total = result.total;
                 var every = result.epage;
-//                var t2e = total % every;
-//                var pages = 0;
-//                if (t2e === 0) {
-//                    pages = total / every;
-//                } else {
-//                    pages = total / every + 1;
-//                }
+
                 var pages = Math.ceil(total / every);
                 if (pages == 1) {
                     getData(1);
