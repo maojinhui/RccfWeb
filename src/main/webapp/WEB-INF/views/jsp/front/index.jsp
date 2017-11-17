@@ -12,6 +12,13 @@
     <meta charset="UTF-8">
     <title>首页</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scale=0"/>
+
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+    <script src="/js/app/swiper.min.js"></script>
+    <script src="/js/app/self_adaption.js"></script>
+    <script src="/js/app/nprogress.js"></script>
+
     <link rel="stylesheet" href="/css/app/pace-theme-flash.css"/>
 
     <link rel="stylesheet" href="/css/app/weui.min.css"/>
@@ -281,11 +288,7 @@
     </div>
 
 
-<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
-<script src="/js/app/swiper.min.js"></script>
-<script src="/js/app/self_adaption.js"></script>
-<script src="/js/app/nprogress.js"></script>
+
 <script>
     $('body').show();
     $('.version').text(NProgress.version);
