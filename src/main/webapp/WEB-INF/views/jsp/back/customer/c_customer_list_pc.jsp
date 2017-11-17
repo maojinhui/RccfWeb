@@ -43,7 +43,7 @@
         </div>
     </div>
     <hr>
-    <div class="am-g am-margin am-padding-right-xl am-text-left">
+    <div class="am-g am-margin am-padding-right-xl am-text-left am-hide">
         <a id="export" data-type="xls" href="javascript:;" class="am-btn am-btn-secondary">导出表格</a>
     </div>
 
@@ -56,7 +56,7 @@
                 <thead>
                 <tr>
                     <th>姓名</th>
-                    <th>电话</th>
+                    <%--<th>电话</th>--%>
                     <th>总监</th>
                     <th>副总监</th>
                     <th>销售经理</th>
@@ -125,7 +125,7 @@
             var da = info[i];
             str += '<tr>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.name) + '</td>\n' +
-                '                        <td class="am-text-left">' + getStringWithspace(da.phone) + '</td>\n' +
+                //                '                        <td class="am-text-left">' + getStringWithspace(da.phone) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.manager_d) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.manager_dd) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.manager_e) + '</td>\n' +

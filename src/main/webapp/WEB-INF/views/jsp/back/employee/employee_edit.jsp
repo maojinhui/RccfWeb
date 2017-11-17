@@ -1076,8 +1076,6 @@
                 success: function (result) {
                     if (result.code) {
                         alert('提交成功');
-
-
                     } else {
                         alert(result.errormsg);
                     }

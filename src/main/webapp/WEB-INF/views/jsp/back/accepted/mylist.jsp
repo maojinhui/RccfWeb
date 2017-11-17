@@ -24,10 +24,8 @@
     <hr>
     <div class="am-g am-margin am-padding-right-xl am-text-left">
         <a id="display_all" data-type="xls" href="javascript:;" class="am-btn am-btn-secondary ">显示全部</a>
-        <a id="export" data-type="xls" class="am-btn am-btn-secondary">导出表格</a>
+        <a id="export" data-type="xls" class="am-btn am-btn-secondary am-hide">导出表格</a>
     </div>
-
-
     <div class="am-g">
         <div class="am-u-sm-12 am-u-md-6 am-u-lg-4">
 
@@ -59,24 +57,24 @@
                         <th>受理日期</th>
                         <th>产品编号</th>
                         <th>客户姓名</th>
-                        <th>客户电话</th>
+                        <%--<th>客户电话</th>--%>
                         <th>业务类别</th>
                         <th>银行机构</th>
                         <th>业务性质</th>
                         <th>预贷金额</th>
                         <th>服务费比例</th>
-                        <th>实收服务费</th>
+                        <%--<th>实收服务费</th>--%>
                         <th>销售经理</th>
                         <th>副总监</th>
                         <th>总监</th>
                         <th>后期专员</th>
                         <th>办理状态</th>
-                        <th>办结日期</th>
-                        <th>批贷金额</th>
+                        <%--<th>办结日期</th>--%>
+                        <%--<th>批贷金额</th>--%>
                         <th>是否有服务协议</th>
                         <%--<th>操作</th>--%>
-                        <th>受理单进度</th>
-                        <th>备注</th>
+                        <th class="am-text-left">受理单进度</th>
+                        <th class="am-text-left">备注</th>
                     </tr>
                     </thead>
                     <tbody id="list">
@@ -286,20 +284,20 @@
                 '                        <td>' + formatDateTime(da[1]) + '</td>\n' +
                 '                        <td>' + da[2] + '</td>\n' +
                 '                        <td>' + da[3] + '</td>\n' +
-                '                        <td>' + getStringWithspace(da[4]) + '</td>\n' +
+                //                '                        <td>' + getStringWithspace(da[4]) + '</td>\n' +
                 '                        <td>' + getLoanType(da[5]) + '</td>\n' +
                 '                        <td>' + getStringWithspace(da[6]) + '</td>\n' +
                 '                        <td>' + getStringWithspace(da[7]) + '</td>\n' +
                 '                        <td>' + getStringWithspace(da[8]) + '</td>\n' +
                 '                        <td>' + getStringWithspace(da[9]) + '%</td>\n' +
-                '                        <td>' + getStringWithspace(da[10]) + '</td>\n' +
+                //                '                        <td>' + getStringWithspace(da[10]) + '</td>\n' +
                 '                        <td>' + getStringWithspace(da[11]) + '</td>\n' +
                 '                        <td>' + getStringWithspace(da[12]) + '</td>\n' +
                 '                        <td>' + getStringWithspace(da[13]) + '</td>\n' +
                 '                        <td>' + getString(da[14]) + '</td>\n' +
                 '                        <td>' + getState(da[15]) + '</td>\n' +
-                '                        <td>' + formatDateTime(da[16]) + '</td>\n' +
-                '                        <td>' + getStringWithspace(da[17]) + '</td>\n' +
+                //                '                        <td>' + formatDateTime(da[16]) + '</td>\n' +
+                //                '                        <td>' + getStringWithspace(da[17]) + '</td>\n' +
                 '                        <td>' + getAgreement(da[18]) + '</td>\n' +
                 //                '                        <td>\n' +
                 //                '                            <a  onclick="change(' + da[19] + ')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
