@@ -99,14 +99,18 @@
         <tr>
             <td style="border-top: none;"><input type="checkbox"> 自然人</td>
             <td style="border-top: none;"><input type="checkbox"> 停本付息</td>
-            <td style="border-top: none;"><input type="checkbox"> 7.5成 <input type="checkbox"> 8.5成 <input
-                    type="checkbox"> 其他
+            <td style="border-top: none;"><input type="checkbox"> 7.5成 <input type="checkbox"> 8.5成
             </td>
         </tr>
         <tr>
             <td style="border-top: none;"></td>
             <td style="border-top: none;"><input type="checkbox"> 等额本金</td>
-            <td style="border-top: none;"></td>
+            <td style="border-top: none;">
+                <input onchange="showInput()" type="checkbox"> 其他
+                <span id="input_scope"  class="am-hide">
+                    <input type="number" style="width: 3em;border-bottom: solid 1px #333;">成
+                </span>
+            </td>
         </tr>
     </table>
 
@@ -151,7 +155,9 @@
             <td colspan="3">
                 <span class="am-margin-right-xl am-margin-left"><input type="checkbox">  五环内区域</span>
                 <span class="am-margin-right-xl am-margin-left"><input type="checkbox">  六环内区域</span>
-                <span class="am-margin-right-xl am-margin-left"><input type="checkbox">  补充区域</span>
+                <span class="am-margin-right-xl am-margin-left"><input onchange="showInput2()" type="checkbox">  补充区域
+                <span class="am-margin-right-xl am-margin-left"><input type="checkbox">  补充区域
+
             </td>
         </tr>
         <tr>
@@ -329,9 +335,16 @@
         callback: function (value, index, selected) {
             $('#agency_id').val(selected.code);
         }
-    })
+    });
 
+    // 放款成数 选中其他时显示输入框
+    function showInput() {
+        $('#input_scope').toggleClass('am-hide');
+    }
+    // 其他区域 选中其他时显示输入框
+    function showInput2() {
 
+    }
 </script>
 
 
