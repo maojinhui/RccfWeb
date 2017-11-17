@@ -38,8 +38,13 @@
         }
 
         .am-table input {
-            font-size: large;
             border: none;
+        }
+
+        .rccf-table input[type="text"],
+        .rccf-table input[type="number"] {
+            border: none;
+            width: 10em;
         }
     </style>
 </head>
@@ -56,10 +61,9 @@
     </div>
 </div>
 
-<div class="am-padding">
-    <fieldset disabled></fieldset>
+<div class="am-padding am-u-sm-12">
     <!--产品基本信息-->
-    <table class="am-table am-table-bordered am-text-nowrap">
+    <table class="am-table am-table-bordered rccf-table">
         <tr>
             <td class="am-text-center">产品编号</td>
             <td><input type="text" value="1.14-ZG-DY"></td>
@@ -103,7 +107,7 @@
     </table>
 
     <!--区域范围-->
-    <table class="am-table am-table-bordered am-text-nowrap">
+    <table class="am-table am-table-bordered ">
         <tr>
             <th class="am-text-left" colspan="4">区域范围</th>
         </tr>
@@ -205,7 +209,7 @@
     </table>
 
     <!--准入条件-->
-    <table class="am-table am-table-bordered am-text-nowrap">
+    <table class="am-table am-table-bordered ">
         <tr>
             <th class="am-text-left" colspan="4">准入条件</th>
         </tr>

@@ -159,8 +159,7 @@
     });
 
     function toDetail(obj) {
-        getTableInfo(obj);
-
+        window.location.href = '/prod/diyaDetail';
     }
 
     function toEdit(obj) {
