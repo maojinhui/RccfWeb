@@ -19,7 +19,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <link href="https://cdn.bootcss.com/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="/css/instyle.css"/>
     <style type="text/css">
         html,
         body {
@@ -56,8 +56,8 @@
         <a style="color: #666666">抵押产品</a>
     </p>
     <div class="am-align-right am-margin-right">
-        <button class="am-btn am-btn-warning">保存</button>
-        <button class="am-btn am-btn-default">取消</button>
+        <button id="save" class="am-btn am-btn-warning">保存</button>
+        <button id="cancel" class="am-btn am-btn-default">取消</button>
     </div>
 </div>
 
@@ -66,7 +66,7 @@
     <table class="am-table am-table-bordered rccf-table">
         <tr>
             <td class="am-text-center">产品编号</td>
-            <td><input type="text" value="1.14-ZG-DY"></td>
+            <td><input id="code" type="text" value="1.14-ZG-DY"></td>
             <td class="am-text-center">机构名称</td>
             <td>
                 <input id="agency_id" class="am-hide" type="text" value="">

@@ -58,11 +58,11 @@
         </div>
         <div class="am-u-sm-12 am-u-md-3 ">
             <span>产品编号:</span>
-            <input id="product_num" type="text" style="width: 8em;">
+            <input id="product_num" type="text" style="width: 6em;">
         </div>
         <div class="am-u-sm-12 am-u-md-3 ">
             <span>贷款金额:</span>
-            <input id="product_money" type="text" style="width: 8em;">
+            <input id="product_money" type="text" style="width: 6em;">
         </div>
         <div class="am-u-sm-12 am-u-md-3 ">
             <button id="search" class="am-btn am-btn-sm am-btn-primary am-margin-right">搜索</button>

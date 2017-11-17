@@ -32,7 +32,7 @@ public class ProduceController {
     public ModelAndView diyaDetail(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/product/p_product_diya");
-//        PageUtil.addAgencys(modelAndView,baseService);
+        PageUtil.addAgencys(modelAndView, baseService);
         return modelAndView;
     }
 
