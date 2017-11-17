@@ -19,6 +19,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <link href="https://cdn.bootcss.com/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
+    <link href="/css/instyle.css" rel="stylesheet">
 
     <style type="text/css">
         html,
@@ -45,6 +46,9 @@
         .rccf-table input[type="number"] {
             border: none;
             width: 10em;
+        }
+        .autocompleter{
+            margin-top: 0.5em;
         }
     </style>
 </head>
