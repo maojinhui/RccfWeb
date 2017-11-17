@@ -27,29 +27,16 @@
             text-align: center;
         }
 
-        .am-btn {
-            border-radius: 5px;
-        }
+        /*.am-btn {*/
+            /*border-radius: 5px;*/
+        /*}*/
 
         .am-table input {
             font-size: large;
             border: none;
         }
-
-        a {
-            background-color: transparent
-        }
-
-        a:focus {
-            outline: thin dotted
-        }
-
-        a:active, a:hover {
-            outline: 0
-        }
-
-        a, ins {
-            text-decoration: underline;
+        .btns a{
+            display: block;
         }
     </style>
 </head>
@@ -71,21 +58,25 @@
         </div>
         <div class="am-u-sm-12 am-u-md-3 ">
             <span>产品编号:</span>
-            <input id="product_num" type="text">
+            <input id="product_num" type="text" style="width: 8em;">
         </div>
         <div class="am-u-sm-12 am-u-md-3 ">
             <span>贷款金额:</span>
-            <input id="product_money" type="text">
+            <input id="product_money" type="text" style="width: 8em;">
         </div>
-        <div class="am-u-sm-12 am-u-md-6 ">
+        <div class="am-u-sm-12 am-u-md-3 ">
             <button id="search" class="am-btn am-btn-sm am-btn-primary am-margin-right">搜索</button>
             <button id="reset" class="am-btn am-btn-sm am-btn-default">重置</button>
         </div>
     </div>
-    <div class="am-text-right am-text-sm am-margin-bottom-0 am-margin-top-xl">
-        <a>添加<span class="am-text-warning">质押</span>产品</a>&emsp;
-        <a href="/prod/diyaDetail">添加<span class="am-text-warning">抵押</span>产品</a>&emsp;
-        <a>添加<span class="am-text-warning">信贷</span>产品</a>&emsp;
+
+    <div onclick="addProduct()" class="am-btn am-btn-primary am-margin-top am-margin-bottom">
+        添加产品 <i class="am-icon-chevron-right "></i>
+    </div>
+    <div class="btns am-hide" style="position: fixed;top:9.8em;left: 1.3em;">
+        <a class="am-btn am-margin-vertical-0 am-btn-primary" >抵押产品</a>
+        <a class="am-btn am-margin-vertical-0 am-btn-primary">质押产品</a>
+       <a class="am-btn am-margin-vertical-0 am-btn-primary">信贷产品</a>
     </div>
 
     <div class="">
@@ -195,6 +186,9 @@
         console.log(jsonObj);
     }
 
+    function addProduct() {
+        $('.btns').toggleClass('am-hide');
+    }
 </script>
 </body>
 </html>

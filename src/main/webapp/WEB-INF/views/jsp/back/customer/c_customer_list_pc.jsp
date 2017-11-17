@@ -20,7 +20,7 @@
     <link rel="stylesheet" type="text/css" href="/css/amaze/admin.css"/>
     <style type="text/css">
         html, body {
-            overflow: scroll;
+            overflow: hidden;
         }
 
         .field_btn {
@@ -50,8 +50,9 @@
 
     <div class="am-g ">
         <div class="am-u-sm-12 ">
+            <div class="am-form am-scrollable-horizontal">
             <table id="customer_list"
-                   class="am-form-horizontal am-text-nowrap am-table-centered am-table-bordered am-table am-table-striped am-table-hover table-main">
+                   class="am-scrollable-horizontal am-form-horizontal am-text-nowrap am-table-centered am-table-bordered am-table am-table-striped am-table-hover table-main">
                 <thead>
                 <tr>
                     <th>姓名</th>
@@ -79,6 +80,7 @@
 
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 </div>
