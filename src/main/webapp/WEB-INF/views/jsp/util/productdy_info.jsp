@@ -16,7 +16,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    ProductDiya diya = (ProductDiya) request.getAttribute("product");
+    ProductDiya diya = (ProductDiya) request.getAttribute("produce");
     String compantCando = diya.getHouseCompanyDo() == 1 ? "可做" : "不可";
     String folkAffact = diya.getFolkAffect() == 1 ? "有影响" : "无影响";
     String lilv = diya.getLilv();

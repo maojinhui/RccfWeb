@@ -373,7 +373,7 @@
     }
 
     function toinfo(id) {
-        window.open('/product/productDy?id=' + id);
+        window.open('/produce/productDy?id=' + id);
     }
 
 

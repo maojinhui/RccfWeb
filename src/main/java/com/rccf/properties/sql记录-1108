@@ -1,4 +1,5 @@
-SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,
+SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,create_time,
+(SELECT salesman from rccf.r_customer_assign WHERE customer_id=rc.id),
 (SELECT COUNT(*) from `r_customer_company`  WHERE `customer_id` =rc.`id` ) as companycount,
 (SELECT COUNT(*) from `r_customer_house`   WHERE `customer_id` =rc.`id` ) as housecount,
 (SELECT COUNT(*) from `r_customer_car`   WHERE `customer_id` =rc.`id` ) as carcount,

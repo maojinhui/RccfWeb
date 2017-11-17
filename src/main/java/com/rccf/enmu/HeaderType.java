@@ -3,7 +3,7 @@ package com.rccf.enmu;
 public enum HeaderType {
 
     INDEX("index"),
-    PRODUCT("product"),
+    PRODUCT("produce"),
     MARKET("market"),
     EMPLOYEE("employee"),
     USER("user"),

@@ -363,7 +363,7 @@
     }
 
     function toinfo(id) {
-        window.open('/product/productZy?id=' + id);
+        window.open('/produce/productZy?id=' + id);
     }
 
     function getNumber(number1, number2) {

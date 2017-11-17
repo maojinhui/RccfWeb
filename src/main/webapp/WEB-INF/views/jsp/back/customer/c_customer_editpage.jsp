@@ -1,4 +1,5 @@
-<%@ page import="com.rccf.model.RCustomer" %><%--
+<%@ page import="com.rccf.model.RCustomer" %>
+<%@ page import="com.rccf.util.DateUtil" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/11/2
@@ -11,6 +12,7 @@
     String name = rCustomer.getName();
     String phone = rCustomer.getPhone();
     String customer_id = rCustomer.getId();
+    String create_time = DateUtil.date2String(DateUtil.timestamp2Date(rCustomer.getCreateTime()));
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,15 +44,24 @@
         <i class="am-icon-chevron-left"></i>返回
     </div>
     <div class="am-text-default ">
-        <div class="am-u-sm-12  am-text-center am-margin-vertical-xs">客户姓名：<span class="am-icon-border"><%=name%></span>
+        <div class="am-u-sm-12  am-text-left am-margin-vertical-xs">客户姓名：&emsp;
+            <span class="am-icon-border"><%=name%></span>
         </div>
-        <div class="am-u-sm-12  am-text-center am-margin-vertical-xs">客户手机号：<span
-                class="am-icon-border"><%=phone%></span></div>
+        <div class="am-u-sm-12  am-text-left am-margin-vertical-xs">客户手机号：
+            <span class="am-icon-border"><%=phone%></span>
+        </div>
+        <div class="am-u-sm-12  am-text-left am-margin-vertical-xs">录入时间：&emsp;
+            <span class="am-icon-border"><%=create_time%></span>
+        </div>
     </div>
     <div class="am-g">
         <div data-html="base" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
             <img src="/image/customerinfo/客户基本信息.png">
             <div><label>客户基本信息</label></div>
+        </div>
+        <div data-html="process" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-u-end am-text-center am-margin-vertical-xs">
+            <img src="/image/customerinfo/客户信用资料.png">
+            <div><label>客户跟踪信息</label></div>
         </div>
         <div data-html="work" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
             <img src="/image/customerinfo/客户工作单位信息.png">
@@ -81,10 +92,7 @@
             <img src="/image/customerinfo/客户贷款意向.png">
             <div><label>客户贷款意向</label></div>
         </div>
-        <div data-html="process" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-u-end am-text-center am-margin-vertical-xs">
-            <img src="/image/customerinfo/客户信用资料.png">
-            <div><label>客户跟踪信息</label></div>
-        </div>
+
     </div>
 </div>
 

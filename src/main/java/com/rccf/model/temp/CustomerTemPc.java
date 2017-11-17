@@ -2,6 +2,7 @@ package com.rccf.model.temp;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.sql.Timestamp;
 
 @Entity
 public class CustomerTemPc {
@@ -9,6 +10,10 @@ public class CustomerTemPc {
     private String id;
     private String name;
     private String phone;
+    private String manager_e;
+    private String manager_dd;
+    private String manager_d;
+    private Timestamp create_time;
     private Integer sex;
     private Integer age;
     private String birthplace;
@@ -29,6 +34,38 @@ public class CustomerTemPc {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getManager_e() {
+        return manager_e;
+    }
+
+    public void setManager_e(String manager_e) {
+        this.manager_e = manager_e;
+    }
+
+    public String getManager_dd() {
+        return manager_dd;
+    }
+
+    public void setManager_dd(String manager_dd) {
+        this.manager_dd = manager_dd;
+    }
+
+    public String getManager_d() {
+        return manager_d;
+    }
+
+    public void setManager_d(String manager_d) {
+        this.manager_d = manager_d;
+    }
+
+    public Timestamp getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(Timestamp create_time) {
+        this.create_time = create_time;
     }
 
     public String getName() {

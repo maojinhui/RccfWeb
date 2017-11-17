@@ -1,4 +1,4 @@
-package com.rccf.controller.product;
+package com.rccf.controller.produce;
 
 
 import com.alibaba.fastjson.JSON;
@@ -243,8 +243,6 @@ public class AgencyController {
         }
         return ResponseUtil.fail(0, "删除失败");
     }
-
-
 
 
 }

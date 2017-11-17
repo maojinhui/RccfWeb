@@ -6,6 +6,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String depart = (String) request.getAttribute("department");
+    int role = (int) request.getAttribute("role");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,6 +56,12 @@
                 <tr>
                     <th>姓名</th>
                     <th>电话</th>
+                    <th>总监</th>
+                    <th>副总监</th>
+                    <th>销售经理</th>
+                    <th>录入时间</th>
+                    <%--<%if(depart!=null && depart.contains("系统")){%>--%>
+                    <%--<%}%>--%>
                     <th>性别</th>
                     <th>年龄</th>
                     <th>籍贯</th>
@@ -114,6 +124,10 @@
             str += '<tr>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.name) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.phone) + '</td>\n' +
+                '                        <td class="am-text-left">' + getStringWithspace(da.manager_d) + '</td>\n' +
+                '                        <td class="am-text-left">' + getStringWithspace(da.manager_dd) + '</td>\n' +
+                '                        <td class="am-text-left">' + getStringWithspace(da.manager_e) + '</td>\n' +
+                '                        <td class="am-text-left">' + getDateComplete(da.create_time) + '</td>\n' +
                 '                        <td class="am-text-left">' + getSex(da.sex) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.age) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.birthplace) + '</td>\n' +

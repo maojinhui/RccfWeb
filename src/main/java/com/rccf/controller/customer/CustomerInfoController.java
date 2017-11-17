@@ -167,7 +167,10 @@ public class CustomerInfoController {
             if (department.contains("系统")) {
                 String sql_count = "SELECT COUNT(`id`)  from `r_customer` ";
 //                String sql_info = "SELECT   *   from `r_customer` order by create_time desc " + limit;
-                String sql_info = "SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,\n" +
+                String sql_info = "SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,create_time,\n" +
+                        " (SELECT  name from `employee`  WHERE  id = (SELECT salesman from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_e,\n" +
+                        " (SELECT  name from `employee`  WHERE  id = (SELECT rca.`deputy_director`   from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_dd,\n" +
+                        " (SELECT  name from `employee`  WHERE  id = (SELECT  rca.`director`  from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_d,\n" +
                         "(SELECT COUNT(*) from `r_customer_company`  WHERE `customer_id` =rc.`id` ) as companycount,\n" +
                         "(SELECT COUNT(*) from `r_customer_house`   WHERE `customer_id` =rc.`id` ) as housecount,\n" +
                         "(SELECT COUNT(*) from `r_customer_car`   WHERE `customer_id` =rc.`id` ) as carcount,\n" +
@@ -191,7 +194,10 @@ public class CustomerInfoController {
                 if (role == 2) {
                     String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`director` =" + employee.getId() + ")";
 //                    String sql_info = "SELECT   *   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`director` =" + employee.getId() + ") order by create_time desc " + limit;
-                    String sql_info = "SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,\n" +
+                    String sql_info = "SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,create_time,\n" +
+                            " (SELECT  name from `employee`  WHERE  id = (SELECT salesman from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_e,\n" +
+                            " (SELECT  name from `employee`  WHERE  id = (SELECT rca.`deputy_director`   from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_dd,\n" +
+                            " (SELECT  name from `employee`  WHERE  id = (SELECT  rca.`director`  from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_d,\n" +
                             "(SELECT COUNT(*) from `r_customer_company`  WHERE `customer_id` =rc.`id` ) as companycount,\n" +
                             "(SELECT COUNT(*) from `r_customer_house`   WHERE `customer_id` =rc.`id` ) as housecount,\n" +
                             "(SELECT COUNT(*) from `r_customer_car`   WHERE `customer_id` =rc.`id` ) as carcount,\n" +
@@ -218,7 +224,10 @@ public class CustomerInfoController {
                 } else if (role == 3) {
                     String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ")";
 //                    String sql_info = "SELECT   *   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ") order by create_time desc " + limit;
-                    String sql_info = "SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,\n" +
+                    String sql_info = "SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,create_time,\n" +
+                            " (SELECT  name from `employee`  WHERE  id = (SELECT salesman from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_e,\n" +
+                            " (SELECT  name from `employee`  WHERE  id = (SELECT rca.`deputy_director`   from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_dd,\n" +
+                            " (SELECT  name from `employee`  WHERE  id = (SELECT  rca.`director`  from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_d,\n" +
                             "(SELECT COUNT(*) from `r_customer_company`  WHERE `customer_id` =rc.`id` ) as companycount,\n" +
                             "(SELECT COUNT(*) from `r_customer_house`   WHERE `customer_id` =rc.`id` ) as housecount,\n" +
                             "(SELECT COUNT(*) from `r_customer_car`   WHERE `customer_id` =rc.`id` ) as carcount,\n" +
@@ -242,7 +251,10 @@ public class CustomerInfoController {
                 } else if (role == 4) {
                     String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ")";
 //                    String sql_info = "SELECT  *   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ") order by create_time desc " + limit;
-                    String sql_info = "SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,\n" +
+                    String sql_info = "SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,create_time,\n" +
+                            " (SELECT  name from `employee`  WHERE  id = (SELECT salesman from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_e,\n" +
+                            " (SELECT  name from `employee`  WHERE  id = (SELECT rca.`deputy_director`   from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_dd,\n" +
+                            " (SELECT  name from `employee`  WHERE  id = (SELECT  rca.`director`  from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_d,\n" +
                             "(SELECT COUNT(*) from `r_customer_company`  WHERE `customer_id` =rc.`id` ) as companycount,\n" +
                             "(SELECT COUNT(*) from `r_customer_house`   WHERE `customer_id` =rc.`id` ) as housecount,\n" +
                             "(SELECT COUNT(*) from `r_customer_car`   WHERE `customer_id` =rc.`id` ) as carcount,\n" +

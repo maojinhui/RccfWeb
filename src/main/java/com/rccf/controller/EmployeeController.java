@@ -1144,7 +1144,7 @@ public class EmployeeController {
                     typecookie = new Cookie("ctype", "employee");
                     break;
                 case PRODUCT:
-                    typecookie = new Cookie("ctype", "product");
+                    typecookie = new Cookie("ctype", "produce");
                     break;
                 case USER:
                     typecookie = new Cookie("ctype", "user");
