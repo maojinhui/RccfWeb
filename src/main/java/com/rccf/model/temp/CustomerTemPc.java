@@ -27,6 +27,9 @@ public class CustomerTemPc {
     private Double fee_percent;
     private String process;
 
+    public CustomerTemPc() {
+    }
+
     @Id
     public String getId() {
         return id;

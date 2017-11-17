@@ -84,7 +84,7 @@
     </div>
     <div class="am-text-right am-text-sm am-margin-bottom-0 am-margin-top-xl">
         <a>添加<span class="am-text-warning">质押</span>产品</a>&emsp;
-        <a>添加<span class="am-text-warning">抵押</span>产品</a>&emsp;
+        <a href="/prod/diyaDetail">添加<span class="am-text-warning">抵押</span>产品</a>&emsp;
         <a>添加<span class="am-text-warning">信贷</span>产品</a>&emsp;
     </div>
 
@@ -112,7 +112,7 @@
                 <td>新一贷</td>
                 <td>1000</td>
                 <td>2012-1-1</td>
-                <td>强烈推荐</td>
+                <td>使用中</td>
                 <td>
                     <a onclick="toDetail(this)" class="am-btn am-btn-default am-btn-xs am-text-warning"><span
                             class="am-icon-navicon"></span> 详情
