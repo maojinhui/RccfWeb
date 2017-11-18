@@ -1,6 +1,7 @@
 package com.rccf.model;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "r_customer_loaninfo", schema = "rccf", catalog = "")
@@ -16,6 +17,8 @@ public class RCustomerLoaninfo {
     private Double loanFeePercent;
     private Integer loanMonthlyRepayment;
     private String loanRepaymentSource;
+    private Integer loanType;
+    private Timestamp updateTime;
 
     @Id
     @Column(name = "id")
@@ -171,5 +174,25 @@ public class RCustomerLoaninfo {
         result = 31 * result + (loanMonthlyRepayment != null ? loanMonthlyRepayment.hashCode() : 0);
         result = 31 * result + (loanRepaymentSource != null ? loanRepaymentSource.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "loan_type")
+    public Integer getLoanType() {
+        return loanType;
+    }
+
+    public void setLoanType(Integer loanType) {
+        this.loanType = loanType;
+    }
+
+    @Basic
+    @Column(name = "update_time")
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 }

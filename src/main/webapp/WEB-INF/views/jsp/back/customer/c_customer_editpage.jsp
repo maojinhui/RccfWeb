@@ -63,6 +63,10 @@
             <img src="/image/customerinfo/客户信用资料.png">
             <div><label>客户跟踪信息</label></div>
         </div>
+        <div data-html="loaninfo" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
+            <img src="/image/customerinfo/客户贷款意向.png">
+            <div><label>客户贷款意向</label></div>
+        </div>
         <div data-html="work" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
             <img src="/image/customerinfo/客户工作单位信息.png">
             <div><label>客户工作单位信息</label></div>
@@ -88,10 +92,7 @@
             <img src="/image/customerinfo/客户车产信息.png">
             <div><label>客户车产信息</label></div>
         </div>
-        <div data-html="loaninfo" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
-            <img src="/image/customerinfo/客户贷款意向.png">
-            <div><label>客户贷款意向</label></div>
-        </div>
+
 
     </div>
 </div>

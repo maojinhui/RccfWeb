@@ -110,24 +110,7 @@
         return d;
     }
 
-    function getLoanType(t) {
-        var type = ' ';
-        switch (t) {
-            case 0:
-                type = '信用贷';
-                break;
-            case 1:
-                type = '抵押';
-                break;
-            case 2:
-                type = '质押';
-                break;
-            default:
-                type = '其他';
-                break;
-        }
-        return type;
-    }
+
 
     function getAcceptedState(state) {
         var type = '';
@@ -285,7 +268,7 @@
                 '                        <td>' + da[2] + '</td>\n' +
                 '                        <td>' + da[3] + '</td>\n' +
                 //                '                        <td>' + getStringWithspace(da[4]) + '</td>\n' +
-                '                        <td>' + getLoanType(da[5]) + '</td>\n' +
+                '                        <td>' + getType(da[5]) + '</td>\n' +
                 '                        <td>' + getStringWithspace(da[6]) + '</td>\n' +
                 '                        <td>' + getStringWithspace(da[7]) + '</td>\n' +
                 '                        <td>' + getStringWithspace(da[8]) + '</td>\n' +

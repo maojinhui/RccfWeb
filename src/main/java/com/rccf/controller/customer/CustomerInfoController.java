@@ -137,11 +137,28 @@ public class CustomerInfoController {
         }
         String department = employee.getDepartment();//部门
         int role = employee.getRole();//职务
+        String code = employee.getCode();
+
         if (!department.contains("金融") && !department.contains("系统")) {
             return new ModelAndView("/back/other/import_faile").addObject("data", "您目前没有查看客户列表的权限");
         }
         modelAndView.addObject("department", department);
         modelAndView.addObject("role", role);
+
+        DetachedCriteria criteria = DetachedCriteria.forClass(Employee.class);
+        criteria.add(Restrictions.eq("role", 3));
+        criteria.add(Restrictions.eq("state", 1));
+        if (department.contains("金融") && role == 2) {
+            criteria.add(Restrictions.eq("director", code));
+        }
+        List<Employee> deputys = baseService.getList(criteria);
+        modelAndView.addObject("deputys", deputys);
+
+
+        DetachedCriteria loan_type_criteria = DetachedCriteria.forClass(ILoanType.class);
+        List<ILoanType> types = baseService.getList(loan_type_criteria);
+        modelAndView.addObject("types", types);
+
         return modelAndView;
     }
 
@@ -161,27 +178,62 @@ public class CustomerInfoController {
             p = Integer.valueOf(pageNo);
         }
         int offset = 10 * (p - 1);
+        String deputy_name = request.getParameter("deputy_name");
+        String customer_name = request.getParameter("customer_name");
+        String clerk_name = request.getParameter("clerk_name");
+        String loan_type = request.getParameter("loan_type");
+
+        StringBuilder builder = new StringBuilder();
+        if (!Strings.isNullOrEmpty(deputy_name)) {
+            builder.append("and p.manager_dd = '" + deputy_name + "'");
+        }
+        if (!Strings.isNullOrEmpty(customer_name)) {
+            builder.append("and p.name like '%" + customer_name + "%'");
+        }
+        if (!Strings.isNullOrEmpty(clerk_name)) {
+            builder.append("and p.manager_e like '%" + clerk_name + "%'");
+        }
+        if (!Strings.isNullOrEmpty(loan_type)) {
+            builder.append("and p.loan_type = " + loan_type);
+        }
+        String whereNotAnd = "";
+        String whereWithAnd = "";
+        if (builder.toString().trim().length() < 1) {
+
+        } else {
+            whereNotAnd = " where " + builder.toString().substring(3);
+            whereWithAnd = builder.toString();
+        }
+
+
+
+
         String limit = " limit " + offset + ",10";
         String department = employee.getDepartment();
+        String sql_prefix = "select * from (SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,create_time,\n" +
+                " (SELECT  name from `employee`  WHERE  id = (SELECT salesman from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_e,\n" +
+                " (SELECT  name from `employee`  WHERE  id = (SELECT rca.`deputy_director`   from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_dd,\n" +
+                " (SELECT  name from `employee`  WHERE  id = (SELECT  rca.`director`  from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_d,\n" +
+                "(SELECT COUNT(*) from `r_customer_company`  WHERE `customer_id` =rc.`id` ) as companycount,\n" +
+                "(SELECT COUNT(*) from `r_customer_house`   WHERE `customer_id` =rc.`id` ) as housecount,\n" +
+                "(SELECT COUNT(*) from `r_customer_car`   WHERE `customer_id` =rc.`id` ) as carcount,\n" +
+                "(SELECT  apply_loan_amount  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as applyamount ,\n" +
+                "(SELECT  loan_term_year  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_year ,\n" +
+                "(SELECT  loan_term_month  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_month ,\n" +
+                "(SELECT  loan_term_day  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_day ,\n" +
+                "(SELECT  loan_fee_percent  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as fee_percent ,\n" +
+                "(SELECT  loan_type  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as loan_type ,\n" +
+                "(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  ',' ) m from `r_customer_process`  rcp  WHERE rcp.customer_id=rc.id   GROUP BY customer_id) as process\n" +
+                "from `r_customer` rc ) as p\n";
+
+
         if (department.contains("金融") || department.contains("系统")) {
             if (department.contains("系统")) {
                 String sql_count = "SELECT COUNT(`id`)  from `r_customer` ";
 //                String sql_info = "SELECT   *   from `r_customer` order by create_time desc " + limit;
-                String sql_info = "SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,create_time,\n" +
-                        " (SELECT  name from `employee`  WHERE  id = (SELECT salesman from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_e,\n" +
-                        " (SELECT  name from `employee`  WHERE  id = (SELECT rca.`deputy_director`   from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_dd,\n" +
-                        " (SELECT  name from `employee`  WHERE  id = (SELECT  rca.`director`  from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_d,\n" +
-                        "(SELECT COUNT(*) from `r_customer_company`  WHERE `customer_id` =rc.`id` ) as companycount,\n" +
-                        "(SELECT COUNT(*) from `r_customer_house`   WHERE `customer_id` =rc.`id` ) as housecount,\n" +
-                        "(SELECT COUNT(*) from `r_customer_car`   WHERE `customer_id` =rc.`id` ) as carcount,\n" +
-                        "(SELECT  apply_loan_amount  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as applyamount ,\n" +
-                        "(SELECT  loan_term_year  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_year ,\n" +
-                        "(SELECT  loan_term_month  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_month ,\n" +
-                        "(SELECT  loan_term_day  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_day ,\n" +
-                        "(SELECT  loan_fee_percent  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as fee_percent ,\n" +
-                        "(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  ',' ) m from `r_customer_process`  rcp  WHERE rcp.customer_id=rc.id   GROUP BY customer_id) as process\n" +
-                        "from `r_customer` rc \n" +
-                        "order by create_time desc\n";
+                String sql_info = sql_prefix +
+                        whereNotAnd +
+                        " order by create_time desc\n";
 
                 String data = Page.limit(baseService, sql_count, sql_info, CustomerTemPc.class);
                 if (!Strings.isNullOrEmpty(callback)) {
@@ -194,22 +246,11 @@ public class CustomerInfoController {
                 if (role == 2) {
                     String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`director` =" + employee.getId() + ")";
 //                    String sql_info = "SELECT   *   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`director` =" + employee.getId() + ") order by create_time desc " + limit;
-                    String sql_info = "SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,create_time,\n" +
-                            " (SELECT  name from `employee`  WHERE  id = (SELECT salesman from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_e,\n" +
-                            " (SELECT  name from `employee`  WHERE  id = (SELECT rca.`deputy_director`   from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_dd,\n" +
-                            " (SELECT  name from `employee`  WHERE  id = (SELECT  rca.`director`  from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_d,\n" +
-                            "(SELECT COUNT(*) from `r_customer_company`  WHERE `customer_id` =rc.`id` ) as companycount,\n" +
-                            "(SELECT COUNT(*) from `r_customer_house`   WHERE `customer_id` =rc.`id` ) as housecount,\n" +
-                            "(SELECT COUNT(*) from `r_customer_car`   WHERE `customer_id` =rc.`id` ) as carcount,\n" +
-                            "(SELECT  apply_loan_amount  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as applyamount ,\n" +
-                            "(SELECT  loan_term_year  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_year ,\n" +
-                            "(SELECT  loan_term_month  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_month ,\n" +
-                            "(SELECT  loan_term_day  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_day ,\n" +
-                            "(SELECT  loan_fee_percent  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as fee_percent ,\n" +
-                            "(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  ',' ) m from `r_customer_process`  rcp  WHERE rcp.customer_id=rc.id   GROUP BY customer_id) as process\n" +
-                            "from `r_customer` rc \n" +
+                    String sql_info = sql_prefix +
                             "WHERE rc.`id` in \n" +
-                            "( SELECT `customer_id` from `r_customer_assign`  s where s.`director` = '" + employeeID + "' )  order by create_time desc\n" +
+                            "(SELECT `customer_id` from `r_customer_assign`  s where s.`director` = '" + employeeID + "')  " +
+                            whereWithAnd +
+                            "order by create_time desc\n" +
                             "\n";
 
                     String data = Page.limit(baseService, sql_count, sql_info, CustomerTemPc.class);
@@ -224,22 +265,11 @@ public class CustomerInfoController {
                 } else if (role == 3) {
                     String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ")";
 //                    String sql_info = "SELECT   *   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ") order by create_time desc " + limit;
-                    String sql_info = "SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,create_time,\n" +
-                            " (SELECT  name from `employee`  WHERE  id = (SELECT salesman from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_e,\n" +
-                            " (SELECT  name from `employee`  WHERE  id = (SELECT rca.`deputy_director`   from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_dd,\n" +
-                            " (SELECT  name from `employee`  WHERE  id = (SELECT  rca.`director`  from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_d,\n" +
-                            "(SELECT COUNT(*) from `r_customer_company`  WHERE `customer_id` =rc.`id` ) as companycount,\n" +
-                            "(SELECT COUNT(*) from `r_customer_house`   WHERE `customer_id` =rc.`id` ) as housecount,\n" +
-                            "(SELECT COUNT(*) from `r_customer_car`   WHERE `customer_id` =rc.`id` ) as carcount,\n" +
-                            "(SELECT  apply_loan_amount  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as applyamount ,\n" +
-                            "(SELECT  loan_term_year  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_year ,\n" +
-                            "(SELECT  loan_term_month  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_month ,\n" +
-                            "(SELECT  loan_term_day  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_day ,\n" +
-                            "(SELECT  loan_fee_percent  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as fee_percent ,\n" +
-                            "(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  ',' ) m from `r_customer_process`  rcp  WHERE rcp.customer_id=rc.id   GROUP BY customer_id) as process\n" +
-                            "from `r_customer` rc \n" +
+                    String sql_info = sql_prefix +
                             "WHERE rc.`id` in \n" +
-                            "( SELECT `customer_id` from `r_customer_assign`  s where s.`deputy_director` = '" + employeeID + "' )  order by create_time desc\n" +
+                            "(SELECT `customer_id` from `r_customer_assign`  s where s.`deputy_director` = '" + employeeID + "')  " +
+                            whereWithAnd +
+                            "order by create_time desc\n" +
                             "\n";
 
                     String data = Page.limit(baseService, sql_count, sql_info, CustomerTemPc.class);
@@ -251,22 +281,11 @@ public class CustomerInfoController {
                 } else if (role == 4) {
                     String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ")";
 //                    String sql_info = "SELECT  *   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ") order by create_time desc " + limit;
-                    String sql_info = "SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,create_time,\n" +
-                            " (SELECT  name from `employee`  WHERE  id = (SELECT salesman from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_e,\n" +
-                            " (SELECT  name from `employee`  WHERE  id = (SELECT rca.`deputy_director`   from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_dd,\n" +
-                            " (SELECT  name from `employee`  WHERE  id = (SELECT  rca.`director`  from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_d,\n" +
-                            "(SELECT COUNT(*) from `r_customer_company`  WHERE `customer_id` =rc.`id` ) as companycount,\n" +
-                            "(SELECT COUNT(*) from `r_customer_house`   WHERE `customer_id` =rc.`id` ) as housecount,\n" +
-                            "(SELECT COUNT(*) from `r_customer_car`   WHERE `customer_id` =rc.`id` ) as carcount,\n" +
-                            "(SELECT  apply_loan_amount  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as applyamount ,\n" +
-                            "(SELECT  loan_term_year  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_year ,\n" +
-                            "(SELECT  loan_term_month  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_month ,\n" +
-                            "(SELECT  loan_term_day  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_day ,\n" +
-                            "(SELECT  loan_fee_percent  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as fee_percent ,\n" +
-                            "(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  ',' ) m from `r_customer_process`  rcp  WHERE rcp.customer_id=rc.id   GROUP BY customer_id) as process\n" +
-                            "from `r_customer` rc \n" +
+                    String sql_info = sql_prefix +
                             "WHERE rc.`id` in \n" +
-                            "( SELECT `customer_id` from `r_customer_assign`  s where s.`salesman` = '" + employeeID + "' )  order by create_time desc\n" +
+                            "( SELECT `customer_id` from `r_customer_assign`  s where s.`salesman` = '" + employeeID + "') " +
+                            whereWithAnd +
+                            " order by create_time desc\n" +
                             "\n";
                     String data = Page.limit(baseService, sql_count, sql_info, CustomerTemPc.class);
                     if (!Strings.isNullOrEmpty(callback)) {
@@ -1104,6 +1123,8 @@ public class CustomerInfoController {
         String loan_feepercent = request.getParameter("loan_feepercent");
         String loan_monthly_repayment = request.getParameter("loan_monthly_repayment");
         String loan_repayment_source = request.getParameter("loan_repayment_source");
+        String loan_type = request.getParameter("loan_type");
+
         RCustomerLoaninfo loaninfo = null;
         if (!Strings.isNullOrEmpty(loan_info_id)) {
             loaninfo = (RCustomerLoaninfo) baseService.get(RCustomerLoaninfo.class, Integer.valueOf(loan_info_id));
@@ -1111,6 +1132,7 @@ public class CustomerInfoController {
         if (loaninfo == null) {
             loaninfo = new RCustomerLoaninfo();
         }
+        loaninfo.setLoanType(Integer.valueOf(loan_type));
         loaninfo.setCustomerId(customer_id);
         if (Strings.isNullOrEmpty(loan_apply_amount)) {
             loaninfo.setApplyLoanAmount(null);

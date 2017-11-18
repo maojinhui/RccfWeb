@@ -1,4 +1,6 @@
-<%--
+<%@ page import="java.util.List" %>
+<%@ page import="com.rccf.model.Employee" %>
+<%@ page import="com.rccf.model.ILoanType" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/11/8
@@ -9,6 +11,11 @@
 <%
     String depart = (String) request.getAttribute("department");
     int role = (int) request.getAttribute("role");
+
+    List<Employee> deputys = (List<Employee>) request.getAttribute("deputys");
+
+    List<ILoanType> types = (List<ILoanType>) request.getAttribute("types");
+
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,6 +50,59 @@
         </div>
     </div>
     <hr>
+
+    <div class="am-g">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+
+            <div class="am-input-group am-input-group-sm">
+                <%
+                    if (depart != null && (depart.contains("系统") || (depart.contains("金融") && role == 2)) && deputys != null) {
+                %>
+                <span class="am-input-group-label">
+                 副总监:
+                </span>
+                <select id="custome_assin_deputydirector">
+                    <option value="0">选择副总监</option>
+                    <%
+                        for (int i = 0; i < deputys.size(); i++) {
+                            Employee employee = deputys.get(i);
+                    %>
+                    <option value="<%=employee.getId()%>"><%=employee.getName()%>
+                    </option>
+                    <%}%>
+                </select>
+                <%
+                    }
+                %>
+                <span class="am-input-group-label">
+                 贷款类型:
+                </span>
+                <select id="customer_loan_type">
+                    <option value="-1">选择贷款类型</option>
+                    <%
+                        for (int i = 0; i < types.size(); i++) {
+                            ILoanType type = types.get(i);
+                    %>
+                    <option value="<%=type.getId()%>"><%=type.getName()%>
+                    </option>
+                    <%}%>
+                </select>
+
+                <span class="am-input-group-label">
+                 客户姓名:
+                 </span>
+                <input id="customer_name" class="am-form-field" type="text">
+                <span class="am-input-group-label">
+                 业务员姓名:
+                 </span>
+                <input id="clerk_name" class="am-form-field" type="text" value="">
+                <span class="am-input-group-btn">
+                        <button id="search" class="am-btn am-btn-default" type="button">搜索</button>
+                </span>
+            </div>
+        </div>
+    </div>
+
     <div class="am-g am-margin am-padding-right-xl am-text-left am-hide">
         <a id="export" data-type="xls" href="javascript:;" class="am-btn am-btn-secondary">导出表格</a>
     </div>
@@ -61,6 +121,10 @@
                     <th>副总监</th>
                     <th>销售经理</th>
                     <th>录入时间</th>
+                    <th>申请贷款类型</th>
+                    <th>申请贷款金额</th>
+                    <th>申请贷款时间</th>
+                    <th>服务费</th>
                     <%--<%if(depart!=null && depart.contains("系统")){%>--%>
                     <%--<%}%>--%>
                     <th>性别</th>
@@ -69,9 +133,6 @@
                     <th>公司信息</th>
                     <th>房产信息</th>
                     <th>车辆信息</th>
-                    <th>申请贷款金额</th>
-                    <th>申请贷款时间</th>
-                    <th>服务费</th>
                     <th>编辑</th>
                     <th>跟踪情况</th>
                 </tr>
@@ -92,6 +153,39 @@
 <script src="/js/table2excel/FileSaver.js"></script>
 <script src="/js/table2excel/tableExport.js"></script>
 <script>
+
+    $('#search').click(function () {
+
+        var deputy_name = $('#custome_assin_deputydirector').find("option:selected").text();
+        var customer_name = $('#customer_name').val();
+        var clerk_name = $('#clerk_name').val();
+        var customer_loan_type = $('#customer_loan_type').val();
+
+
+        var obj = {};
+        if (!isNull(deputy_name) && deputy_name != '选择副总监') {
+            obj.deputy_name = deputy_name;
+        }
+        if (!isNull(customer_name)) {
+            obj.customer_name = customer_name;
+        }
+        if (!isNull(clerk_name)) {
+            obj.clerk_name = clerk_name;
+        }
+
+        if (!isNull(customer_loan_type) && customer_loan_type != -1) {
+            obj.loan_type = customer_loan_type;
+        }
+        getdata(obj);
+
+    })
+
+    $('#custome_assin_deputydirector').change(function () {
+        var deputy_name = $('#custome_assin_deputydirector').find("option:selected").text();
+        var deputy_id = $(this).val();
+        console.log(deputy_id);
+        console.log(deputy_name);
+    })
 
 
     function getTime(year, month, day) {
@@ -130,15 +224,17 @@
                 '                        <td class="am-text-left">' + getStringWithspace(da.manager_dd) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.manager_e) + '</td>\n' +
                 '                        <td class="am-text-left">' + getDateComplete(da.create_time) + '</td>\n' +
+                '                        <td class="am-text-left">' + getType(da.loan_type) + '</td>\n' +
+                '                        <td class="am-text-left">' + getStringWithspace(da.applyamount) + '</td>\n' +
+                '                        <td class="am-text-left">' + getStringWithspace(getTime(da.term_year, da.term_month, da.term_day)) + '</td>\n' +
+                '                        <td class="am-text-left">' + getStringWithspace(da.fee_percent) + '%</td>\n' +
                 '                        <td class="am-text-left">' + getSex(da.sex) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.age) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.birthplace) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.companycount) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.housecount) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.carcount) + '</td>\n' +
-                '                        <td class="am-text-left">' + getStringWithspace(da.applyamount) + '</td>\n' +
-                '                        <td class="am-text-left">' + getStringWithspace(getTime(da.term_year, da.term_month, da.term_day)) + '</td>\n' +
-                '                        <td class="am-text-left">' + getStringWithspace(da.fee_percent) + '%</td>\n' +
+
                 '                        <td>\n' +
                 '                            <a  onclick="toDetail(\'' + da.id + '\')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
                 '                                    class="am-icon-pencil-square-o"></span> 详情\n' +
@@ -151,11 +247,14 @@
     }
 
 
-    function getdata() {
+    function getdata(object) {
+        if (isNull(object)) {
+            object = {};
+        }
         $.ajax({
             url: '/customer/info/list/all',
             dataType: 'json',
-            data: {},
+            data: object,
             type: "POST",
             success: function (result) {
                 info = result.data;

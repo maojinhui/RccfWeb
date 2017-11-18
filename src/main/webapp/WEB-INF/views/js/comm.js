@@ -133,6 +133,11 @@ function getdata(str) {
     return str;
 }
 
+/**
+ * 获取贷款类型
+ * @param type
+ * @returns {*}
+ */
 function getType(type) {
     if (type === 0) {
         return '信用贷';
@@ -140,14 +145,27 @@ function getType(type) {
         return '抵押';
     } else if (type === 2) {
         return '质押';
-    } else if (type === 3) {
-        return '权证';
     }
-    else {
+    else if (type === 3) {
+        return '权证';
+    } else if (type === 4) {
+        return '车贷';
+    } else if (type === 5) {
+        return '拼份';
+    } else if (type === 6) {
+        return '包装';
+    } else if (type === 10) {
+        return '融成贷';
+    } else {
         return '其他';
     }
 }
 
+/**
+ * 转换受理单状态
+ * @param state
+ * @returns {*}
+ */
 function getState(state) {
     if (state === 1) {
         return '受理';

@@ -153,7 +153,7 @@
                     <span class="am-icon-chevron-right am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                 </a>
                 <ul class="sidebar-nav sidebar-nav-sub">
-                    <% if (role > 3) {%>
+                    <% if (role > 3 || depart.contains("系统")) {%>
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/customer/info/listpage">
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 客户列表

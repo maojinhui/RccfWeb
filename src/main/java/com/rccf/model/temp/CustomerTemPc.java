@@ -26,9 +26,11 @@ public class CustomerTemPc {
     private Integer term_day;
     private Double fee_percent;
     private String process;
+    private Integer loan_type;
 
     public CustomerTemPc() {
     }
+
 
     @Id
     public String getId() {
@@ -181,5 +183,14 @@ public class CustomerTemPc {
 
     public void setProcess(String process) {
         this.process = process;
+    }
+
+
+    public Integer getLoan_type() {
+        return loan_type;
+    }
+
+    public void setLoan_type(Integer loan_type) {
+        this.loan_type = loan_type;
     }
 }

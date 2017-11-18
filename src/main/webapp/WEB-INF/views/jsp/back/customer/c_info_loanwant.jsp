@@ -66,6 +66,46 @@
     </div>
     <div class="am-g">
         <fieldset disabled>
+
+            <div class="am-u-sm-12 am-u-md-8 am-u-lg-6">
+                <div class="am-input-group am-u-sm-12">
+                    <%
+                        boolean typeNotnull = false;
+                        if (notnull && loaninfo.getLoanType() != null) {
+                            typeNotnull = true;
+                        }
+                    %>
+                    <label class="am-u-sm-6 ">申请贷款类型</label>
+                    <select id="loan_type" class="am-u-sm-6">
+                        <option value="-1">未知</option>
+                        <option value="0" <%=typeNotnull && loaninfo.getLoanType() == 0 ? "selected='selected'" : ""%>>
+                            信用贷款
+                        </option>
+                        <option value="1" <%=typeNotnull && loaninfo.getLoanType() == 1 ? "selected='selected'" : ""%>>
+                            抵押贷款
+                        </option>
+                        <option value="2" <%=typeNotnull && loaninfo.getLoanType() == 2 ? "selected='selected'" : ""%>>
+                            质押贷款
+                        </option>
+                        <option value="3" <%=typeNotnull && loaninfo.getLoanType() == 3 ? "selected='selected'" : ""%>>
+                            权证
+                        </option>
+                        <option value="4" <%=typeNotnull && loaninfo.getLoanType() == 4 ? "selected='selected'" : ""%>>
+                            车贷
+                        </option>
+                        <option value="5" <%=typeNotnull && loaninfo.getLoanType() == 5 ? "selected='selected'" : ""%>>
+                            拼份
+                        </option>
+                        <option value="6" <%=typeNotnull && loaninfo.getLoanType() == 6 ? "selected='selected'" : ""%>>
+                            包装费
+                        </option>
+                        <option value="10" <%=typeNotnull && loaninfo.getLoanType() == 10 ? "selected='selected'" : ""%>>
+                            融成贷
+                        </option>
+                    </select>
+                </div>
+            </div>
+
             <div class="am-u-sm-12 am-u-md-8 am-u-lg-6">
                 <div class="am-input-group am-u-sm-12">
                     <label class="am-u-sm-6 ">申请金额</label>
@@ -191,6 +231,7 @@
         var info = {};
         info.customer_id = customer_id;
         info.loan_info_id = loan_info_id;
+        var loan_type = $('#loan_type').val();
         var loan_apply_amount = $('#loan_apply_amount').val();
         var loan_term_year = $('#loan_term_year').val();
         var loan_term_month = $('#loan_term_month').val();
@@ -200,6 +241,7 @@
         var loan_feepercent = $('#loan_feepercent').val();
         var loan_monthly_repayment = $('#loan_monthly_repayment').val();
         var loan_repayment_source = $('#loan_repayment_source').val();
+        info.loan_type = loan_type;
         info.loan_apply_amount = loan_apply_amount;
         info.loan_term_year = loan_term_year;
         info.loan_term_month = loan_term_month;

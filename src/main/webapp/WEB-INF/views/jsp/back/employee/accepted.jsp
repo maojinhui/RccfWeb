@@ -66,13 +66,39 @@
             <span class="am-input-group-label">业务类别</span>
             <select id="business_type"
                     style="width: 100%;font-size: large;margin-top: 7px; border: solid 1px deepskyblue;">
-                <option value="0">信贷</option>
-                <option <%=(accepted.getBusinessType() != null && 1 == accepted.getBusinessType()) ? "selected = \"selected\"" : ""%>
-                        value="1">抵押
+                <%
+                    boolean typeNotnull = false;
+                    if (accepted != null && accepted.getBusinessType() != null) {
+                        typeNotnull = true;
+                    }
+                %>
+                <option value="-1">未知</option>
+                <option value="0" <%=typeNotnull && accepted.getBusinessType() == 0 ? "selected='selected'" : ""%>>
+                    信用贷款
                 </option>
-                <option <%=(accepted.getBusinessType() != null && 2 == accepted.getBusinessType()) ? "selected = \"selected\"" : ""%>
-                        value="2">质押
+                <option value="1" <%=typeNotnull && accepted.getBusinessType() == 1 ? "selected='selected'" : ""%>>
+                    抵押贷款
                 </option>
+                <option value="2" <%=typeNotnull && accepted.getBusinessType() == 2 ? "selected='selected'" : ""%>>
+                    质押贷款
+                </option>
+                <option value="3" <%=typeNotnull && accepted.getBusinessType() == 3 ? "selected='selected'" : ""%>>
+                    权证
+                </option>
+                <option value="4" <%=typeNotnull && accepted.getBusinessType() == 4 ? "selected='selected'" : ""%>>
+                    车贷
+                </option>
+                <option value="5" <%=typeNotnull && accepted.getBusinessType() == 5 ? "selected='selected'" : ""%>>
+                    拼份
+                </option>
+                <option value="6" <%=typeNotnull && accepted.getBusinessType() == 6 ? "selected='selected'" : ""%>>
+                    包装费
+                </option>
+                <option value="10" <%=typeNotnull && accepted.getBusinessType() == 10 ? "selected='selected'" : ""%>>
+                    融成贷
+                </option>
+
+
             </select>
         </div>
         <div class="am-input-group am-input-group-primary">
