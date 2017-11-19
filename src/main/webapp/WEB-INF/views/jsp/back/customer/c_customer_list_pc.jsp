@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.rccf.model.Employee" %>
-<%@ page import="com.rccf.model.ILoanType" %><%--
+<%@ page import="com.rccf.model.ILoanType" %>
+<%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/11/8
@@ -30,9 +31,24 @@
             overflow: hidden;
         }
 
-        .field_btn {
-            width: 100%;
+        .search-group span {
+            display: inline-block;
+            width: 6em;
         }
+
+        @media screen and (min-width: 1000px) {
+            .search-group select,
+            .search-group input {
+                width: 8em;
+            }
+
+            .search-group span {
+                display: inline-block;
+                width: 6em;
+            }
+        }
+
+
     </style>
 </head>
 <body>
@@ -52,13 +68,12 @@
     <hr>
 
     <div class="am-g">
-        <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
-
-            <div class="am-input-group am-input-group-sm">
+        <div class="am-u-sm-12 am-margin-bottom">
+            <div class="am-u-sm-12 am-u-md-3 search-group">
                 <%
                     if (depart != null && (depart.contains("系统") || (depart.contains("金融") && role == 2)) && deputys != null) {
                 %>
-                <span class="am-input-group-label">
+                <span class="">
                  副总监:
                 </span>
                 <select id="custome_assin_deputydirector">
@@ -74,7 +89,9 @@
                 <%
                     }
                 %>
-                <span class="am-input-group-label">
+            </div>
+            <div class="am-u-sm-12 am-u-md-3 search-group">
+                <span class="">
                  贷款类型:
                 </span>
                 <select id="customer_loan_type">
@@ -87,19 +104,23 @@
                     </option>
                     <%}%>
                 </select>
+            </div>
 
-                <span class="am-input-group-label">
+            <div class="am-u-sm-12 am-u-md-3 search-group">
+                <span class="">
                  客户姓名:
                  </span>
-                <input id="customer_name" class="am-form-field" type="text">
-                <span class="am-input-group-label">
+                <input id="customer_name" class="" type="text">
+            </div>
+            <div class="am-u-sm-12 am-u-md-3 search-group">
+                <span class="">
                  业务员姓名:
                  </span>
-                <input id="clerk_name" class="am-form-field" type="text" value="">
-                <span class="am-input-group-btn">
-                        <button id="search" class="am-btn am-btn-default" type="button">搜索</button>
-                </span>
+                <input id="clerk_name" class="" type="text" value="">
             </div>
+            <span class="am-align-right" style="margin-top: -2em;">
+                        <button id="search" class="am-btn am-btn-primary" type="button">搜索</button>
+                </span>
         </div>
     </div>
 
@@ -111,36 +132,36 @@
     <div class="am-g ">
         <div class="am-u-sm-12 ">
             <div class="am-form am-scrollable-horizontal">
-            <table id="customer_list"
-                   class="am-scrollable-horizontal am-form-horizontal am-text-nowrap am-table-centered am-table-bordered am-table am-table-striped am-table-hover table-main">
-                <thead>
-                <tr>
-                    <th>姓名</th>
-                    <%--<th>电话</th>--%>
-                    <th>总监</th>
-                    <th>副总监</th>
-                    <th>销售经理</th>
-                    <th>录入时间</th>
-                    <th>申请贷款类型</th>
-                    <th>申请贷款金额</th>
-                    <th>申请贷款时间</th>
-                    <th>服务费</th>
-                    <%--<%if(depart!=null && depart.contains("系统")){%>--%>
-                    <%--<%}%>--%>
-                    <th>性别</th>
-                    <th>年龄</th>
-                    <th>籍贯</th>
-                    <th>公司信息</th>
-                    <th>房产信息</th>
-                    <th>车辆信息</th>
-                    <th>编辑</th>
-                    <th>跟踪情况</th>
-                </tr>
-                </thead>
-                <tbody id="content">
+                <table id="customer_list"
+                       class="am-scrollable-horizontal am-form-horizontal am-text-nowrap am-table-centered am-table-bordered am-table am-table-striped am-table-hover table-main">
+                    <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <%--<th>电话</th>--%>
+                        <th>总监</th>
+                        <th>副总监</th>
+                        <th>销售经理</th>
+                        <th>录入时间</th>
+                        <th>申请贷款类型</th>
+                        <th>申请贷款金额</th>
+                        <th>申请贷款时间</th>
+                        <th>服务费</th>
+                        <%--<%if(depart!=null && depart.contains("系统")){%>--%>
+                        <%--<%}%>--%>
+                        <th>性别</th>
+                        <th>年龄</th>
+                        <th>籍贯</th>
+                        <th>公司信息</th>
+                        <th>房产信息</th>
+                        <th>车辆信息</th>
+                        <th>编辑</th>
+                        <th>跟踪情况</th>
+                    </tr>
+                    </thead>
+                    <tbody id="content">
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
