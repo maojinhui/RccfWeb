@@ -36,7 +36,7 @@
             width: 6em;
         }
 
-        @media screen and (min-width: 1000px) {
+        @media screen and (min-width: 740px) {
             .search-group select,
             .search-group input {
                 width: 8em;

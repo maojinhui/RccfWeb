@@ -159,6 +159,9 @@ public class CustomerInfoController {
         List<ILoanType> types = baseService.getList(loan_type_criteria);
         modelAndView.addObject("types", types);
 
+
+
+
         return modelAndView;
     }
 
@@ -361,6 +364,10 @@ public class CustomerInfoController {
             modelAndView.addObject("loan", loan);
         }
 
+        DetachedCriteria process_criteria = DetachedCriteria.forClass(RCustomerProcess.class);
+        process_criteria.add(Restrictions.eq("customerId", customer_id));
+        List<ILoanType> processes = baseService.getList(process_criteria);
+        modelAndView.addObject("processes", processes);
 
         return modelAndView;
     }

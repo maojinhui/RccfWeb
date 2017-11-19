@@ -19,6 +19,7 @@
     List<RCustomerCompany> companys = (List<RCustomerCompany>) request.getAttribute("companys");
     RCustomerLoaninfo loan = (RCustomerLoaninfo) request.getAttribute("loan");
     List<RCustomerContacts> contacts = (List<RCustomerContacts>) request.getAttribute("contacts");
+    List<RCustomerProcess> processes = (List<RCustomerProcess>) request.getAttribute("processes");
 %>
 
 <!DOCTYPE html>
@@ -505,6 +506,29 @@
             <td></td>
             <td></td>
         </tr>
+    </table>
+    <!--客户跟踪情况-->
+    <table class="am-table am-table-striped am-table-bordered am-radius ">
+        <tr>
+            <th colspan="8">客户跟踪情况</th>
+        </tr>
+        <%
+            if (processes != null) {
+                for (int i = 1; i < processes.size() + 1; i++) {
+                    RCustomerProcess process = processes.get(i - 1);
+        %>
+        <tr>
+            <td>时间</td>
+            <td><%=DateUtil.date2String(DateUtil.timestamp2Date(process.getUpdateTime()))%>
+            </td>
+            <td>记录</td>
+            <td><%=process.getProcess()%>
+            </td>
+        </tr>
+        <%
+                }
+            }
+        %>
     </table>
 </div>
 </body>
