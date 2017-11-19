@@ -1,0 +1,292 @@
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS  `a_produce_diya`;
+CREATE TABLE `a_produce_diya` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(225) DEFAULT NULL,
+  `code` varchar(32) DEFAULT NULL,
+  `agency_id` int(11) DEFAULT NULL,
+  `loan_people` varchar(225) DEFAULT NULL,
+  `repayment_type` varchar(225) DEFAULT NULL,
+  `loan_bid_type` int(11) DEFAULT NULL COMMENT '放款成数-出价方式1：快出价；2：评估价；3：其他；',
+  `loan_scale` varchar(225) DEFAULT NULL COMMENT '放款成数\n	',
+  `loan_sacel_other` varchar(225) DEFAULT NULL,
+  `house_area` varchar(225) DEFAULT NULL,
+  `house_area_other` varchar(225) DEFAULT NULL,
+  `loan_amount_tao` varchar(225) DEFAULT NULL,
+  `loan_amount` varchar(225) DEFAULT NULL,
+  `loan_amount_other` varchar(225) DEFAULT NULL,
+  `loan_rate` varchar(225) DEFAULT NULL,
+  `loan_rate_other` varchar(225) DEFAULT NULL,
+  `person_material` varchar(225) DEFAULT NULL,
+  `company_material` varchar(225) DEFAULT NULL,
+  `min_age` int(11) DEFAULT NULL,
+  `max_age` int(11) DEFAULT NULL,
+  `age_other` varchar(225) DEFAULT NULL,
+  `min_month` int(11) DEFAULT NULL,
+  `mix_month` int(11) DEFAULT NULL,
+  `fixed_month` varchar(225) DEFAULT NULL,
+  `diya_type` varchar(225) DEFAULT NULL COMMENT '可申请抵押类型 [1] [1,2]',
+  `house_ownership` varchar(225) DEFAULT NULL COMMENT '房屋所属可做',
+  `apply_loan_type` varchar(225) DEFAULT NULL COMMENT '可申请贷款类型',
+  `apply_house_age` int(11) DEFAULT NULL COMMENT '可申请房龄\n	',
+  `apply_house_nature` varchar(225) DEFAULT NULL,
+  `folk_mortgage_affect` int(11) DEFAULT NULL COMMENT '民间抵押是否有影响',
+  `loan_max_houseageplusloanyear` int(11) DEFAULT NULL,
+  `loan_max_houseageplusloanyear_other` int(11) DEFAULT NULL,
+  `different_loan_mortgage` int(11) DEFAULT NULL,
+  `process_details` text COMMENT '流程细节',
+  `advantage` text,
+  `disadvantage` text,
+  `notice` text,
+  `shoot_reason` text COMMENT '毙单原因',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `access_count`;
+CREATE TABLE `access_count` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `url` varchar(225) DEFAULT NULL,
+  `host` varchar(100) DEFAULT NULL,
+  `time` datetime DEFAULT NULL,
+  `paramter` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2020 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `employee_contact_other`;
+CREATE TABLE `employee_contact_other` (
+  `eid` int(11) DEFAULT NULL,
+  `name` varchar(225) DEFAULT NULL,
+  `relationship` varchar(225) DEFAULT NULL,
+  `phone` varchar(11) DEFAULT NULL,
+  `address` text,
+  `id` int(11) NOT NULL,
+  UNIQUE KEY `employee_contact_other_eid_uindex` (`eid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `i_loan_type`;
+CREATE TABLE `i_loan_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(225) DEFAULT NULL,
+  `decription` text COMMENT '贷款类型描述',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `create_person` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `r_agency`;
+CREATE TABLE `r_agency` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(225) DEFAULT NULL,
+  `name` varchar(225) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `create_person` int(11) DEFAULT NULL,
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_person` int(11) DEFAULT NULL,
+  `state` int(11) DEFAULT NULL COMMENT '0:关闭；1：开启',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `r_agency_user`;
+CREATE TABLE `r_agency_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `agency_id` int(11) DEFAULT NULL,
+  `agency_code` varchar(225) DEFAULT NULL,
+  `agency_name` varchar(225) DEFAULT NULL,
+  `name` varchar(225) DEFAULT NULL,
+  `phone` varchar(11) DEFAULT NULL,
+  `wechat` varchar(225) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `create_person` int(11) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `update_person` int(11) DEFAULT NULL,
+  `qq` int(11) DEFAULT NULL,
+  `address` varchar(225) DEFAULT NULL,
+  `email` varchar(225) DEFAULT NULL,
+  `state` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `r_customer`;
+CREATE TABLE `r_customer` (
+  `id` varchar(32) NOT NULL,
+  `name` varchar(225) DEFAULT NULL,
+  `phone` varchar(11) DEFAULT NULL,
+  `sex` int(11) DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  `nation` varchar(225) DEFAULT NULL,
+  `house_phone` varchar(100) DEFAULT NULL,
+  `idcard` varchar(18) DEFAULT NULL,
+  `married` int(11) DEFAULT NULL,
+  `education_level` int(11) DEFAULT NULL COMMENT '1小学、2初中、3中专/高中、4专科、5本科、6硕士研究生、7博士研究生、8博士后',
+  `domicile` varchar(225) DEFAULT NULL COMMENT '户籍所在地',
+  `birthplace` varchar(225) DEFAULT NULL COMMENT '籍贯',
+  `children` varchar(225) DEFAULT NULL,
+  `email` varchar(225) DEFAULT NULL,
+  `qq` varchar(32) DEFAULT NULL,
+  `wechat` varchar(64) DEFAULT NULL,
+  `address_now` varchar(225) DEFAULT NULL,
+  `live_time` varchar(225) DEFAULT NULL,
+  `hobby` varchar(225) DEFAULT NULL COMMENT '兴趣爱好',
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `r_customer_phone_uindex` (`phone`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `r_customer_assign`;
+CREATE TABLE `r_customer_assign` (
+  `customer_id` varchar(32) NOT NULL,
+  `director` int(11) DEFAULT NULL,
+  `deputy_director` int(11) DEFAULT NULL,
+  `salesman` int(11) DEFAULT NULL,
+  `assign` int(11) DEFAULT NULL,
+  `admin` int(11) DEFAULT NULL,
+  `admin_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`customer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `r_customer_car`;
+CREATE TABLE `r_customer_car` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` varchar(32) DEFAULT NULL,
+  `car_brand` varchar(225) DEFAULT NULL,
+  `car_model` varchar(225) DEFAULT NULL,
+  `car_numebr_plate` varchar(32) DEFAULT NULL,
+  `car_dirve_distance` double DEFAULT NULL,
+  `car_buy_time` date DEFAULT NULL,
+  `car_buy_price` double DEFAULT NULL,
+  `car_is_mortgage` int(11) DEFAULT NULL,
+  `car_mortgage_amount` double DEFAULT NULL,
+  `car_month_apply` double DEFAULT NULL,
+  `car_is_diya` int(11) DEFAULT NULL,
+  `car_diya_amount` double DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `r_customer_company`;
+CREATE TABLE `r_customer_company` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` varchar(32) NOT NULL,
+  `company_name` varchar(225) DEFAULT NULL,
+  `company_regist_address` varchar(225) DEFAULT NULL,
+  `company_office_address` varchar(225) DEFAULT NULL,
+  `company_regist_capital` varchar(100) DEFAULT NULL,
+  `company_established_time` date DEFAULT NULL,
+  `company_business_time` date DEFAULT NULL,
+  `company_nature` int(11) DEFAULT NULL,
+  `company_main_business` text,
+  `company_pay_capital` varchar(100) DEFAULT NULL,
+  `company_equity` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `r_customer_contacts`;
+CREATE TABLE `r_customer_contacts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` varchar(32) DEFAULT NULL,
+  `contact_name` varchar(225) DEFAULT NULL,
+  `contact_relationship` varchar(225) DEFAULT NULL,
+  `contact_phone` varchar(100) DEFAULT NULL,
+  `contacct_address` varchar(225) DEFAULT NULL,
+  `contact_is_loan` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `r_customer_house`;
+CREATE TABLE `r_customer_house` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` varchar(32) NOT NULL,
+  `house_type` varchar(225) DEFAULT NULL,
+  `house_address` varchar(225) DEFAULT NULL,
+  `house_area` varchar(225) DEFAULT NULL,
+  `house_paytime` date DEFAULT NULL,
+  `house_price` int(11) DEFAULT NULL,
+  `house_is_mortgage` int(11) DEFAULT NULL COMMENT '是否是按揭',
+  `house_mortgage_amount` int(11) DEFAULT NULL,
+  `house_month_supply` double DEFAULT NULL,
+  `house_is_diya` int(11) DEFAULT NULL,
+  `house_diya_amount` int(11) DEFAULT NULL,
+  `house_property_rights` varchar(225) DEFAULT NULL COMMENT '产权比例',
+  `house_altogether` text,
+  `house_use_situation` text COMMENT '使用情况',
+  `house_year_rent` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `r_customer_loaninfo`;
+CREATE TABLE `r_customer_loaninfo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` varchar(32) DEFAULT NULL,
+  `loan_type` int(11) DEFAULT NULL,
+  `apply_loan_amount` double DEFAULT NULL,
+  `loan_term_year` int(11) DEFAULT NULL,
+  `loan_term_month` int(11) DEFAULT NULL,
+  `loan_term_day` int(11) DEFAULT NULL,
+  `loan_usage` varchar(225) DEFAULT NULL,
+  `loan_repayment` int(11) DEFAULT NULL,
+  `loan_fee_percent` double DEFAULT NULL,
+  `loan_monthly_repayment` int(11) DEFAULT NULL,
+  `loan_repayment_source` text,
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `r_customer_process`;
+CREATE TABLE `r_customer_process` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` varchar(32) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `process` text,
+  `admin` int(11) DEFAULT NULL,
+  `state` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 COMMENT='客户跟踪进度';
+
+DROP TABLE IF EXISTS  `r_customer_spouse`;
+CREATE TABLE `r_customer_spouse` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` varchar(32) NOT NULL,
+  `spouse_name` varchar(225) DEFAULT NULL,
+  `spouse_age` int(11) DEFAULT NULL,
+  `spouse_phone` int(11) DEFAULT NULL,
+  `spouse_idcard` varchar(100) DEFAULT NULL,
+  `spouse_company_name` varchar(225) DEFAULT NULL,
+  `spouse_company_nature` int(11) DEFAULT NULL,
+  `spouse_company_address` varchar(225) DEFAULT NULL,
+  `spouse_company_tel` varchar(100) DEFAULT NULL,
+  `spouse_company_department` varchar(225) DEFAULT NULL,
+  `spouse_company_duties` varchar(100) DEFAULT NULL,
+  `spouse_company_salary` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `r_customer_work`;
+CREATE TABLE `r_customer_work` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` varchar(32) NOT NULL,
+  `cpmpany_name` varchar(225) DEFAULT NULL,
+  `company_tel` varchar(225) DEFAULT NULL,
+  `company_address` varchar(225) DEFAULT NULL,
+  `company_nature` int(11) DEFAULT NULL COMMENT '0,未知；1国有企业、2集体企业、3联营企业、4股份合作制企业、5私营企业、6个体工商户、7合伙企业、8有限责任公司、9股份有限公司',
+  `company_department` varchar(225) DEFAULT NULL,
+  `company_duties` varchar(225) DEFAULT NULL,
+  `company_salary` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `user_apply`;
+CREATE TABLE `user_apply` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(64) DEFAULT NULL,
+  `phone` varchar(11) DEFAULT NULL,
+  `type` varchar(100) DEFAULT NULL,
+  `apply_time` datetime DEFAULT NULL,
+  `deal_time` datetime DEFAULT NULL,
+  `assign` int(11) DEFAULT NULL COMMENT '分配给销售经理',
+  `admin` int(11) DEFAULT NULL,
+  `state` int(11) DEFAULT NULL COMMENT '0:未处理；1已分配；2.已处理',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
