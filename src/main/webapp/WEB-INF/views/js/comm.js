@@ -157,7 +157,7 @@ function getType(type) {
     } else if (type === 10) {
         return '融成贷';
     } else {
-        return '其他';
+        return '未知';
     }
 }
 

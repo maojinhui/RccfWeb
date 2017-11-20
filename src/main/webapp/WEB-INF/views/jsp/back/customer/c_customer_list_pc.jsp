@@ -186,7 +186,7 @@
 
 
         var obj = {};
-        if (!isNull(deputy_name) && deputy_name != '选择副总监') {
+        if (!isNull(deputy_name) && deputy_name != '请选择') {
             obj.deputy_name = deputy_name;
         }
         if (!isNull(customer_name)) {

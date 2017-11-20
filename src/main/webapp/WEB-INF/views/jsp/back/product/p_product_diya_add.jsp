@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.rccf.model.RAgency" %>
-<%@ page import="com.alibaba.fastjson.JSON" %><%--
+<%@ page import="com.alibaba.fastjson.JSON" %>
+<%@ page import="com.rccf.model.AProduceDiya" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/11/16
@@ -10,6 +11,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     List<RAgency> agencys = (List<RAgency>) request.getAttribute("agencys");
+    AProduceDiya diya = (AProduceDiya) request.getAttribute("produce");
+    int produce_id = 0;
+    if (diya != null) {
+        produce_id = diya.getId();
+    }
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -111,7 +117,7 @@
             <td style="border-top: none;">
                 <input onchange="showInput()" type="checkbox"> 其他
                 <span id="input_scope" class="am-hide">
-                    <input type="number" style="width: 3em;border-bottom: solid 1px #333;">成
+                    <input id="loan_scale_other" type="text" style="width: 8em;border-bottom: solid 1px #333;">
                 </span>
             </td>
         </tr>
@@ -199,7 +205,9 @@
                     type="checkbox"> 其他 <input id="produce_loan_amount_other" class="am-hide" type="text" style="width: 3em;border-bottom: solid 1px #333;">
             </td>
             <td style="border-top: none;"><input name="loan_rate_up" value="40" type="checkbox"> 上浮40% <input onchange="showInput3()"
-                    type="checkbox"> 其他 <input id="loan_rate_up_other" class="am-hide" type="text" style="width: 3em;border-bottom: solid 1px #333;">
+                                                                                                              type="checkbox">
+                其他 <input id="loan_rate_up_other" class="am-hide" type="text"
+                          style="width: 5em;border-bottom: solid 1px #333;">
             </td>
         </tr>
         <tr>
@@ -259,17 +267,17 @@
         </tr>
         <tr>
             <td class="am-text-middle" rowspan="2">可申请贷款年龄</td>
-            <td>最小年龄：<input type="number"  style="width: 6em;border-bottom: solid 1px #333;">岁<br>
-                最大年龄：<input type="number"  style="width: 6em;border-bottom: solid 1px #333;">岁
+            <td>最小年龄：<input id="loan_min_age" type="number" style="width: 6em;border-bottom: solid 1px #333;">岁<br>
+                最大年龄：<input id="loan_max_age" type="number" style="width: 6em;border-bottom: solid 1px #333;">岁
             </td>
             <td class="am-text-middle" rowspan="2">可申请贷款年限</td>
-            <td>最小期限：<input type="number"  style="width: 6em;border-bottom: solid 1px #333;">月<br>
-                最大期限：<input type="number"  style="width: 6em;border-bottom: solid 1px #333;">月
+            <td>最小期限：<input id="loan_min_month" type="number" style="width: 6em;border-bottom: solid 1px #333;">月<br>
+                最大期限：<input id="loan_max_month" type="number" style="width: 6em;border-bottom: solid 1px #333;">月
             </td>
         </tr>
         <tr>
-            <td>补充说明：<input type="text"  style="width: 15em;border-bottom: solid 1px #333;"></td>
-            <td>补充说明：<input type="text"  style="width: 15em;border-bottom: solid 1px #333;"></td>
+            <td>补充说明：<input id="loan_age_other" type="text" style="width: 15em;border-bottom: solid 1px #333;"></td>
+            <td>补充说明：<input id="loan_month_other" type="text" style="width: 15em;border-bottom: solid 1px #333;"></td>
         </tr>
         <tr>
             <td>可申请抵押类型</td>
@@ -386,48 +394,119 @@
     $('#agency_name').autocompleter({
         highlightMatches: true,
         source: agencys,
-        template: '{{ label }} <span>{{ code }}</span>',
+        template: '{{ label }} <span>{{ id }}</span>',
         hint: false,
         empty: false,
         limit: 5,
         callback: function (value, index, selected) {
-            $('#agency_id').val(selected.code);
+            $('#agency_id').val(selected.id);
         }
     })
 
     $('#save').click(function () {
+        var produce_id = <%=produce_id%>;
+        var obj = {};
+        if (produce_id > 0) {
+            obj.produce_id = produce_id;
+        }
         var produce_code = $('#code').val();
         var agency_id = $('#agency_id').val();
         var agency_name = $('#agency_name').val();
         var produce_name = $('#produce_name').val();
+        obj.produce_code = produce_code;
+        obj.agency_id = agency_id;
+        obj.agency_name = agency_name;
+        obj.produce_name = produce_name;
+
         var produce_bid = getRadioValue("produce_bid");
         var produce_adapt_crown = getCheckIntValues("produce-adapt-crown");
         var repayment_type = getCheckIntValues("produce_repayment_type");
         var loan_scale = getCheckFloatValues("produce_loan_scale");
-        var loan_scale_other = $('#produce_loan_scale_other').val();
+        var loan_scale_other = $('#loan_scale_other').val();
+        obj.produce_bid = produce_bid;
+        obj.produce_adapt_crown = produce_adapt_crown;
+        obj.repayment_type = repayment_type;
+        obj.loan_scale = loan_scale;
+        obj.loan_scale_other = loan_scale_other;
+
         var produce_area = getCheckIntValues("produce_area");
-        var produce_area_other = $('#produce_area_other');
+        var produce_area_other = $('#produce_area_other').val();
         var produce_loan_amount_tao = getCheckIntValues("produce_loan_amount_tao");
         var produce_loan_amount = getCheckIntValues();
+        var produce_loan_amount_other = $('#produce_loan_amount_other').val();
+        obj.produce_area = produce_area;
+        obj.produce_area_other = produce_area_other;
+        obj.produce_loan_amount_tao = produce_loan_amount_tao;
+        obj.produce_loan_amount = produce_loan_amount;
+        obj.produce_loan_amount_other = produce_loan_amount_other;
+
         var loan_rate = getCheckIntValues("loan_rate_up");
-        var loan_rate_other = $('#').val();
+        var loan_rate_other = $('#loan_rate_up_other').val();
         var person_material = getCheckIntValues("person_material");
         var company_material = getCheckIntValues("company_material");
+        obj.loan_rate = loan_rate;
+        obj.loan_rate_other = loan_rate_other;
+        obj.person_material = person_material;
+        obj.company_material = company_material;
+
         // TODO
+        var loan_min_age = $('#loan_min_age').val();
+        var loan_max_age = $('#loan_max_age').val();
+        var loan_age_other = $('#loan_age_other').val();
+        var loan_min_month = $('#loan_min_month').val();
+        var loan_max_month = $('#loan_max_month').val();
+        var loan_month_other = $('#loan_month_other').val();
+        obj.loan_min_age = loan_min_age;
+        obj.loan_max_age = loan_max_age;
+        obj.loan_age_other = loan_age_other;
+        obj.loan_min_month = loan_min_month;
+        obj.loan_max_month = loan_max_month;
+        obj.loan_month_other = loan_month_other;
+
         var apply_diya_type = getCheckIntValues("apply_diya_type");
         var house_ownership = getCheckIntValues("house_ownership");
         var apply_loan_type = getCheckIntValues("apply_loan_type");
         var apply_house_age = getRadioValue("apply_house_age");
+        obj.apply_diya_type = apply_diya_type;
+        obj.house_ownership = house_ownership;
+        obj.apply_loan_type = apply_loan_type;
+        obj.apply_house_age = apply_house_age;
+
         var apply_house_nature = getCheckIntValues("house_nature");
         var folk_diya_affect = getRadioValue("folk_diya_affect");
         var max_houseageplusloanyer = getRadioValue("max_houseage-loanyear");
         var diffent_loan_mortgage = getRadioValue("diffent_loan_mortgage");
         var process_details = $('#process_detail').val();
+        obj.apply_house_nature = apply_house_nature;
+        obj.folk_diya_affect = folk_diya_affect;
+        obj.max_houseageplusloanyer = max_houseageplusloanyer;
+        obj.diffent_loan_mortgage = diffent_loan_mortgage;
+        obj.process_details = process_details;
+
         var advantage = $('#advantage').val();
         var disadvantage = $('#disadvantage').val();
         var notice = $('#notice').val();
         var shoot_reason = $('#shoot_reason').val();
+        obj.advantage = advantage;
+        obj.disadvantage = disadvantage;
+        obj.notice = notice;
+        obj.shoot_reason = shoot_reason;
 
+        $.ajax({
+            url: '/prod/edit/diya',
+            dataType: 'json',
+            data: obj,
+            success: function (result) {
+                if (result.code) {
+                    alert('提交成功');
+                } else {
+                    alert(result.errormsg);
+                }
+            },
+            error: function () {
+
+            }
+        })
 
     });
 

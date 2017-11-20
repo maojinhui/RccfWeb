@@ -3,12 +3,34 @@ package com.rccf.util.verify;
 import com.rccf.model.RAgency;
 import com.rccf.service.BaseService;
 import com.rccf.util.Strings;
+import com.sun.xml.internal.rngom.parse.host.Base;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
 
 public class AgencyVerify {
+
+
+    /**
+     * 根据机构ID查询机构是否存在
+     *
+     * @param baseService
+     * @param agency_id
+     * @return
+     */
+    public static boolean hasAgencyByid(BaseService baseService, int agency_id) {
+        if (agency_id < 0) {
+            return false;
+        }
+        RAgency agency = (RAgency) baseService.get(RAgency.class, agency_id);
+        if (agency == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 
 
     /**
@@ -51,6 +73,9 @@ public class AgencyVerify {
         }
         return false;
     }
+
+
+
 
 
 }
