@@ -108,9 +108,12 @@
         <tr>
             <td style="border-top: none;"></td>
             <td style="border-top: none;"><input name="produce_repayment_type" value="4" type="checkbox"> 先息后本</td>
-            <td style="border-top: none;"><input type="checkbox"> 其他<input name="produce_loan_scale_other" value=""
-                                                                           type="text"></td>
-
+            <td style="border-top: none;">
+                <input onchange="showInput()" type="checkbox"> 其他
+                <span id="input_scope" class="am-hide">
+                    <input type="number" style="width: 3em;border-bottom: solid 1px #333;">成
+                </span>
+            </td>
         </tr>
     </table>
 
@@ -156,8 +159,12 @@
             <td colspan="3">
                 <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="18" type="checkbox">  五环内区域</span>
                 <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="19" type="checkbox">  六环内区域</span>
-                <span class="am-margin-right-xl am-margin-left"><input type="checkbox">  补充区域 <input
-                        id="produce_area_other" type="text"></span>
+                <span class="am-margin-left"><input onchange="showInput2()"
+                                                                       type="checkbox">  补充区域</span>
+                <span class="am-margin-left"><input id="produce_area_other" class="am-hide"
+                                                                       type="text"
+                                                                       style="width: 6em;border-bottom: solid 1px #333;"></span>
+
             </td>
         </tr>
         <tr>
@@ -188,11 +195,12 @@
         </tr>
         <tr>
             <td style="border-top: none;"><input name="produce_loan_amount" value="1500" type="checkbox"> 1500万 <input
-                    name="produce_loan_amount" value="3000" type="checkbox"> 3000万 <input
-                    type="checkbox"> 其他 <input value="其他" type="text">
+                    name="produce_loan_amount" value="3000" type="checkbox"> 3000万 <input onchange="showInput4()"
+                    type="checkbox"> 其他 <input id="produce_loan_amount_other" class="am-hide" type="text" style="width: 3em;border-bottom: solid 1px #333;">
             </td>
-            <td style="border-top: none;"><input name="loan_rate_up" value="40" type="checkbox"> 上浮40% <input
-                    type="checkbox"> 其他 <input type="text" value="OTHER"></td>
+            <td style="border-top: none;"><input name="loan_rate_up" value="40" type="checkbox"> 上浮40% <input onchange="showInput3()"
+                    type="checkbox"> 其他 <input id="loan_rate_up_other" class="am-hide" type="text" style="width: 3em;border-bottom: solid 1px #333;">
+            </td>
         </tr>
         <tr>
             <td class="am-text-center am-text-middle" rowspan="4">个人准备资料</td>
@@ -250,10 +258,18 @@
             <th class="am-text-left" colspan="4">准入条件</th>
         </tr>
         <tr>
-            <td>可申请贷款年龄</td>
-            <td>18-65周岁(65周岁需要共借)(实际控制人不超过70)</td>
-            <td>可申请贷款年限</td>
-            <td>20年(正常5年，还款良好可以延期)</td>
+            <td class="am-text-middle" rowspan="2">可申请贷款年龄</td>
+            <td>最小年龄：<input type="number"  style="width: 6em;border-bottom: solid 1px #333;">岁<br>
+                最大年龄：<input type="number"  style="width: 6em;border-bottom: solid 1px #333;">岁
+            </td>
+            <td class="am-text-middle" rowspan="2">可申请贷款年限</td>
+            <td>最小期限：<input type="number"  style="width: 6em;border-bottom: solid 1px #333;">月<br>
+                最大期限：<input type="number"  style="width: 6em;border-bottom: solid 1px #333;">月
+            </td>
+        </tr>
+        <tr>
+            <td>补充说明：<input type="text"  style="width: 15em;border-bottom: solid 1px #333;"></td>
+            <td>补充说明：<input type="text"  style="width: 15em;border-bottom: solid 1px #333;"></td>
         </tr>
         <tr>
             <td>可申请抵押类型</td>
@@ -415,7 +431,22 @@
 
     });
 
-
+    // 放款成数 选中其他时显示输入框
+    function showInput() {
+        $('#input_scope').toggleClass('am-hide');
+    }
+    //补充区域 选中其他时显示输入框
+    function showInput2() {
+        $("#produce_area_other").toggleClass("am-hide");
+    }
+    //贷款利率
+    function showInput3() {
+        $("#loan_rate_up_other").toggleClass("am-hide");
+    }
+    //贷款金额
+    function showInput4() {
+        $("#produce_loan_amount_other").toggleClass("am-hide");
+    }
 
 </script>
 

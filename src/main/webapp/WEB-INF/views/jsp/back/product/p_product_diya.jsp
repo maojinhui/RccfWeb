@@ -155,8 +155,8 @@
             <td colspan="3">
                 <span class="am-margin-right-xl am-margin-left"><input type="checkbox">  五环内区域</span>
                 <span class="am-margin-right-xl am-margin-left"><input type="checkbox">  六环内区域</span>
-                <span class="am-margin-right-xl am-margin-left"><input onchange="showInput2()" type="checkbox">  补充区域
-                <span class="am-margin-right-xl am-margin-left"><input type="checkbox">  补充区域
+                <span class=" am-margin-left"><input onchange="showInput2()" type="checkbox">  补充区域</span>
+                <span class="am-margin-right-xl am-margin-left"><input id="house_area_other" class="am-hide" type="text" style="width: 6em;border-bottom: solid 1px #333;"></span>
 
             </td>
         </tr>
@@ -343,7 +343,7 @@
     }
     // 其他区域 选中其他时显示输入框
     function showInput2() {
-
+        $("#house_area_other").toggleClass("am-hide");
     }
 </script>
 
