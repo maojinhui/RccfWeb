@@ -68,7 +68,7 @@
     <hr>
 
     <div class="am-g">
-        <div class="am-u-sm-12 am-margin-bottom">
+        <div class="am-u-sm-12 am-margin-bottom am-margin-right-xl">
             <div class="am-u-sm-12 am-u-md-3 search-group">
                 <%
                     if (depart != null && (depart.contains("系统") || (depart.contains("金融") && role == 2)) && deputys != null) {
@@ -77,7 +77,7 @@
                  副总监:
                 </span>
                 <select id="custome_assin_deputydirector">
-                    <option value="0">选择副总监</option>
+                    <option value="0">请选择</option>
                     <%
                         for (int i = 0; i < deputys.size(); i++) {
                             Employee employee = deputys.get(i);
@@ -90,12 +90,12 @@
                     }
                 %>
             </div>
-            <div class="am-u-sm-12 am-u-md-3 search-group">
+            <div class="am-u-sm-12 am-u-md-3 am-u-end search-group">
                 <span class="">
                  贷款类型:
                 </span>
                 <select id="customer_loan_type">
-                    <option value="-1">选择贷款类型</option>
+                    <option value="-1">请选择</option>
                     <%
                         for (int i = 0; i < types.size(); i++) {
                             ILoanType type = types.get(i);
@@ -105,7 +105,8 @@
                     <%}%>
                 </select>
             </div>
-
+        </div>
+        <div class="am-u-sm-12 am-margin-bottom ">
             <div class="am-u-sm-12 am-u-md-3 search-group">
                 <span class="">
                  客户姓名:
@@ -114,57 +115,58 @@
             </div>
             <div class="am-u-sm-12 am-u-md-3 search-group">
                 <span class="">
-                 业务员姓名:
+                 业务员:
                  </span>
                 <input id="clerk_name" class="" type="text" value="">
             </div>
-            <span class="am-align-right" style="margin-top: -2em;">
-                        <button id="search" class="am-btn am-btn-primary" type="button">搜索</button>
-                </span>
-        </div>
-    </div>
-
-    <div class="am-g am-margin am-padding-right-xl am-text-left am-hide">
-        <a id="export" data-type="xls" href="javascript:;" class="am-btn am-btn-secondary">导出表格</a>
-    </div>
-
-
-    <div class="am-g ">
-        <div class="am-u-sm-12 ">
-            <div class="am-form am-scrollable-horizontal">
-                <table id="customer_list"
-                       class="am-scrollable-horizontal am-form-horizontal am-text-nowrap am-table-centered am-table-bordered am-table am-table-striped am-table-hover table-main">
-                    <thead>
-                    <tr>
-                        <th>姓名</th>
-                        <%--<th>电话</th>--%>
-                        <th>总监</th>
-                        <th>副总监</th>
-                        <th>销售经理</th>
-                        <th>录入时间</th>
-                        <th>申请贷款类型</th>
-                        <th>申请贷款金额</th>
-                        <th>申请贷款时间</th>
-                        <th>服务费</th>
-                        <%--<%if(depart!=null && depart.contains("系统")){%>--%>
-                        <%--<%}%>--%>
-                        <th>性别</th>
-                        <th>年龄</th>
-                        <th>籍贯</th>
-                        <th>公司信息</th>
-                        <th>房产信息</th>
-                        <th>车辆信息</th>
-                        <th>编辑</th>
-                        <th>跟踪情况</th>
-                    </tr>
-                    </thead>
-                    <tbody id="content">
-
-                    </tbody>
-                </table>
+            <div class="am-u-sm-12 am-u-md-4">
+                <button id="search" class="am-btn am-btn-primary" type="button">搜索</button>
             </div>
         </div>
     </div>
+</div>
+
+<div class="am-g am-margin am-padding-right-xl am-text-left am-hide">
+    <a id="export" data-type="xls" href="javascript:;" class="am-btn am-btn-secondary">导出表格</a>
+</div>
+
+
+<div class="am-g ">
+    <div class="am-u-sm-12 ">
+        <div class="am-form am-scrollable-horizontal">
+            <table id="customer_list"
+                   class="am-scrollable-horizontal am-form-horizontal am-text-nowrap am-table-centered am-table-bordered am-table am-table-striped am-table-hover table-main">
+                <thead>
+                <tr>
+                    <th>姓名</th>
+                    <%--<th>电话</th>--%>
+                    <th>总监</th>
+                    <th>副总监</th>
+                    <th>销售经理</th>
+                    <th>录入时间</th>
+                    <th>申请贷款类型</th>
+                    <th>申请贷款金额</th>
+                    <th>申请贷款时间</th>
+                    <th>服务费</th>
+                    <%--<%if(depart!=null && depart.contains("系统")){%>--%>
+                    <%--<%}%>--%>
+                    <th>性别</th>
+                    <th>年龄</th>
+                    <th>籍贯</th>
+                    <th>公司信息</th>
+                    <th>房产信息</th>
+                    <th>车辆信息</th>
+                    <th>编辑</th>
+                    <th>跟踪情况</th>
+                </tr>
+                </thead>
+                <tbody id="content">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 </div>
 <div id="page"></div>
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
