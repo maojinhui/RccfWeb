@@ -54,6 +54,9 @@
         .loan-info input{
             width: 10em;
         }
+        .payment-info input{
+            width: 5em;
+        }
     </style>
 </head>
 <body>
@@ -273,9 +276,17 @@
     </table>
 
     <!--收支信息-->
-    <table class="am-table am-table-bordered am-text-nowrap am-table-compact am-text-center">
+    <table class="payment-info am-table am-table-bordered am-text-nowrap am-table-compact am-text-center">
         <tr>
             <th colspan="6">收支信息</th>
+        </tr>
+        <tr>
+            <th>项目名称</th>
+            <th>收入金额</th>
+            <th>支出金额</th>
+            <th>录入时间</th>
+            <th>说明摘要</th>
+            <th>操作</th>
         </tr>
         <tbody id="content">
 
@@ -479,7 +490,7 @@
                 '      <td><input type="text" placeholder="项目名称"></td>\n' +
                 '      <td><input type="number" placeholder="收入金额"></td>\n' +
                 '      <td style="min-width:6em; ">-</td>\n' +
-                '      <td><input type="date" placeholder="时间"></td>\n' +
+                '      <td><input type="date" placeholder="时间" style="width: 10em;"></td>\n' +
                 '      <td><input type="text" placeholder="说明信息"></td>\n' +
                 '      <td>\n' +
                 '        <a href="" class="am-btn am-btn-warning am-btn-xs"><span\n' +
@@ -497,7 +508,7 @@
             '      <td><input type="text" placeholder="项目名称"></td>\n' +
             '      <td>-</td>\n' +
             '      <td><input type="number" placeholder="支出金额"></td>\n' +
-            '      <td><input type="date" placeholder="时间"></td>\n' +
+            '      <td><input type="date" placeholder="时间" style="width: 10em;"></td>\n' +
             '      <td><input type="text" placeholder="说明信息"></td>\n' +
             '      <td>\n' +
             '        <a href="" class="am-btn am-btn-warning am-btn-xs"><span\n' +
