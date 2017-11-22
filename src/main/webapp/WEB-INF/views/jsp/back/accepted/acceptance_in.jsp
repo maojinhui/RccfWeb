@@ -278,6 +278,7 @@
         </tr>
     </table>
 
+
     <!--收支信息-->
     <table class="payment-info am-table am-table-bordered am-text-nowrap am-table-compact am-text-center">
         <tr>
@@ -292,21 +293,6 @@
             <th>操作</th>
         </tr>
         <tbody id="content">
-        <tr>
-            <td><input type="text" placeholder="项目名称"></td>
-            <td><input type="number" placeholder="收入金额"></td>
-            <td>-</td>
-            <td><input type="datetime-local" placeholder="时间" style="width: 13em;"></td>
-            <td><input type="text" placeholder="说明信息"></td>
-            <td>
-                <a href="" class="am-btn am-btn-secondary am-btn-xs"><span
-                        class="am-icon-copy"></span> 编辑
-                </a>
-                <a href="" class="am-btn am-btn-default am-btn-xs"><span
-                        class="am-icon-recycle"></span> 取消
-                </a>
-            </td>
-        </tr>
 
         </tbody>
         <tr>
@@ -334,6 +320,8 @@
 <script src="/js/jquery.autocompleter.js"></script>
 <script>
 
+    var accept_id='<%=accepted.getId()%>';
+
     var employees =<%=JSON.toJSONString(employees).replaceAll("name","label") %>;
 
     var numbers = <%=JSON.toJSONString(numbers).replaceAll("code","label")%>;
@@ -344,6 +332,7 @@
          * from: https://gist.github.com/jjdelc/1868136
          */
         $(function () {
+
 
             $('#service_agreement').change(function () {
                 var p1 = $(this).children('option:selected').val();//这就是selected的值
@@ -543,14 +532,23 @@
             '      </td>\n' +
             '    </tr>';
         $("#content").append(str);
-    })
+    });
+
     function updateEarn(obj) {
+
+        if(accept_id==0){
+            alert("请先提交受理单，再添加收支明细");
+            return ;
+        }
+
+
         var tdNode = obj.parentNode;
         var trNode = tdNode.parentNode;
 
-        var type = $(trNode).data('earnType');
-        var detail_id = $(trNode).data('earnId');
+        var type = trNode.dataset.earnType;
+        var id = trNode.dataset.earnId;
 
+        console.log(id);
         var tds = $(trNode).children();
         var td1 = tds[0];
         var td2 = tds[1];
@@ -567,7 +565,8 @@
         jsonObj.deal_time = $(input3).val();
         jsonObj.description = $(input4).val();
         jsonObj.type = type;
-        jsonObj.detail_id = detail_id;
+        jsonObj.id = id;
+        jsonObj.accept_id = accept_id;
 
         $.ajax({
             url: '/accept/info/incomeexpenditure',
@@ -587,7 +586,7 @@
                 str += '<a onclick="editEarn(this)" class="am-btn am-btn-secondary am-btn-xs"><span' +
                     '   class="am-icon-copy"></span> 编辑' +
                     '   </a>' +
-                    '   <a href="" class="am-btn am-btn-default am-btn-xs"><span' +
+                    '   <a onclick="removeEarn(this)" href="" class="am-btn am-btn-default am-btn-xs"><span' +
                     '   class="am-icon-trash-o"></span> 删除' +
                     '   </a>';
                 $(tdNode).html(str);
@@ -630,6 +629,10 @@
             '                class="am-icon-recycle"></span> 取消\n' +
             '       </a>';
         $(tdNode).html(str);
+    }
+    
+    function removeEarn() {
+        
     }
 </script>
 </body>

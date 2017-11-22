@@ -815,6 +815,7 @@ public class AcceptedController {
         }
         AcceptIncomeExpenditureDetail detail = new AcceptIncomeExpenditureDetail();
         String detail_id = request.getParameter("id");
+        String accept_id = request.getParameter("accept_id");
         String type = request.getParameter("type");
         String subject = request.getParameter("subject");
         String amount = request.getParameter("amount");
@@ -834,6 +835,9 @@ public class AcceptedController {
         }
         if(!Strings.isNullOrEmpty(type)){
             incomeExpenditure.setType(Integer.valueOf(type));
+        }
+        if(!Strings.isNullOrEmpty(accept_id)){
+            incomeExpenditure.setAcceptId(Integer.valueOf(accept_id));
         }
         incomeExpenditure.setSubject(subject);
         if (Strings.isNullOrEmpty(amount)) {
