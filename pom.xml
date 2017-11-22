@@ -266,6 +266,12 @@
           <version>2.5.0</version>
       </dependency>
       <!-- 中文转yin'英文 -->
+      <!-- 工具类 -->
+      <dependency>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+          <version>14.0-rc3</version>
+      </dependency>
 
 
   </dependencies>

@@ -3,12 +3,18 @@ package com.rccf.controller.produce;
 
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.AProduceDiya;
+import com.rccf.model.AProduceProcess;
+import com.rccf.model.Employee;
 import com.rccf.model.RAgency;
 import com.rccf.service.BaseService;
+import com.rccf.service.EmployeeService;
+import com.rccf.util.BackUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
+import com.rccf.util.produce.DataUtil;
 import com.rccf.util.produce.PageUtil;
 import com.rccf.util.verify.AgencyVerify;
+import com.rccf.util.verify.ProduceVerify;
 import com.sun.org.apache.regexp.internal.RE;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +32,9 @@ public class ProduceController {
 
     @Autowired
     BaseService baseService;
+
+    @Autowired
+    EmployeeService employeeService;
 
 
     @RequestMapping(value = "/listPage")
@@ -59,6 +68,10 @@ public class ProduceController {
     @ResponseBody
     @RequestMapping(value = "/edit/diya")
     public String editDiyaProduce(HttpServletRequest request) {
+
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+
+        String oldProduceData = "";
         AProduceDiya produce = null;
         String produce_id = request.getParameter("produce_id");
 
@@ -67,6 +80,7 @@ public class ProduceController {
             if (produce == null) {
                 return ResponseUtil.fail(0, "没有找到该产品");
             }
+            oldProduceData = produce.toString();
         } else {
             produce = new AProduceDiya();
             produce.setState(1);
@@ -87,6 +101,10 @@ public class ProduceController {
             }
         }
         produce.setCode(produce_code);
+        boolean has = ProduceVerify.hasProduceCode(baseService, produce_code);
+        if (has) {
+            return ResponseUtil.fail(0, "产品编号已存在");
+        }
         produce.setName(produce_name);
         produce.setAgencyId(Integer.valueOf(agency_id));
         produce.setAgencyName(agency_name);
@@ -217,6 +235,7 @@ public class ProduceController {
         boolean save = baseService.save(produce);
 
         if (save) {
+            DataUtil.saveProduceNotify(baseService, oldProduceData, produce, employee.getId());
             return ResponseUtil.success();
         } else {
             return ResponseUtil.fail(0, "保存失败");

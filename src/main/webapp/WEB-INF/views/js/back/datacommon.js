@@ -31,12 +31,18 @@ function getCheckFloatValues(name) {
  * @returns {*}
  */
 function getRadioValue(name) {
-    var radioVlaue = null;
-    $("input[name='" + name + "']").each(function () {
-        var chck = $(this).attr("checked");
-        if (chck) {
-            radioVlaue = $(this).val();
-        }
-    });
+
+
+    var radioVlaue = $("input[name='" + name + "']:checked").val();
+
+    // var radioVlaue = null;
+    // $("input[name='" + name + "']").each(function () {
+    //     var chck = $(this).attr("checked");
+    //     if (chck) {
+    //         radioVlaue = $(this).val();
+    //     }
+    // });
     return radioVlaue;
 }
+
+

@@ -188,16 +188,16 @@ public class CustomerInfoController {
 
         StringBuilder builder = new StringBuilder();
         if (!Strings.isNullOrEmpty(deputy_name)) {
-            builder.append("and p.manager_dd = '" + deputy_name + "'");
+            builder.append("and p.manager_dd = '" + deputy_name + "' \n");
         }
         if (!Strings.isNullOrEmpty(customer_name)) {
-            builder.append("and p.name like '%" + customer_name + "%'");
+            builder.append("and p.name like '%" + customer_name + "%' \n");
         }
         if (!Strings.isNullOrEmpty(clerk_name)) {
-            builder.append("and p.manager_e like '%" + clerk_name + "%'");
+            builder.append("and p.manager_e like '%" + clerk_name + "%' \n");
         }
         if (!Strings.isNullOrEmpty(loan_type)) {
-            builder.append("and p.loan_type = " + loan_type);
+            builder.append("and p.loan_type = " + loan_type + " \n");
         }
         String whereNotAnd = "";
         String whereWithAnd = "";
@@ -207,9 +207,6 @@ public class CustomerInfoController {
             whereNotAnd = " where " + builder.toString().substring(3);
             whereWithAnd = builder.toString();
         }
-
-
-
 
         String limit = " limit " + offset + ",10";
         String department = employee.getDepartment();
@@ -250,7 +247,7 @@ public class CustomerInfoController {
                     String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`director` =" + employee.getId() + ")";
 //                    String sql_info = "SELECT   *   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`director` =" + employee.getId() + ") order by create_time desc " + limit;
                     String sql_info = sql_prefix +
-                            "WHERE rc.`id` in \n" +
+                            "WHERE p.`id` in \n" +
                             "(SELECT `customer_id` from `r_customer_assign`  s where s.`director` = '" + employeeID + "')  " +
                             whereWithAnd +
                             "order by create_time desc\n" +
@@ -269,7 +266,7 @@ public class CustomerInfoController {
                     String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ")";
 //                    String sql_info = "SELECT   *   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ") order by create_time desc " + limit;
                     String sql_info = sql_prefix +
-                            "WHERE rc.`id` in \n" +
+                            "WHERE p.`id` in \n" +
                             "(SELECT `customer_id` from `r_customer_assign`  s where s.`deputy_director` = '" + employeeID + "')  " +
                             whereWithAnd +
                             "order by create_time desc\n" +
@@ -285,7 +282,7 @@ public class CustomerInfoController {
                     String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ")";
 //                    String sql_info = "SELECT  *   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ") order by create_time desc " + limit;
                     String sql_info = sql_prefix +
-                            "WHERE rc.`id` in \n" +
+                            "WHERE p.`id` in \n" +
                             "( SELECT `customer_id` from `r_customer_assign`  s where s.`salesman` = '" + employeeID + "') " +
                             whereWithAnd +
                             " order by create_time desc\n" +
