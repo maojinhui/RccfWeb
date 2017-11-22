@@ -47,7 +47,12 @@
 
         .am-table input {
             border: none;
+        }
+        .employee-info input{
             width: 8em;
+        }
+        .loan-info input{
+            width: 10em;
         }
     </style>
 </head>
@@ -84,7 +89,7 @@
     </table>
 
     <!--销售人员信息-->
-    <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
+    <table class="employee-info am-table am-table-bordered am-text-nowrap am-table-compact">
         <tr>
             <th colspan="8">销售人员信息</th>
         </tr>
@@ -117,9 +122,9 @@
     </table>
 
     <!--贷款信息-->
-    <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
+    <table class="loan-info am-table am-table-bordered am-text-nowrap am-table-compact">
         <tr>
-            <th colspan="8">贷款信息</th>
+            <th colspan="6">贷款信息</th>
         </tr>
         <tr>
             <td>产品编号</td>
@@ -139,7 +144,7 @@
             <td>业务类别</td>
             <td>
                 <select id="business_type"
-                        style="width: 100%;font-size: large;margin-top: 7px; border: solid 1px deepskyblue;">
+                        style="border: solid 1px deepskyblue;">
                     <%
                         boolean typeNotnull = false;
                         if (accepted != null && accepted.getBusinessType() != null) {
@@ -175,33 +180,26 @@
 
                 </select>
             </td>
+
+        </tr>
+        <tr>
             <td>业务性质</td>
             <td>
                 <input id="business_nature" type="text"
                        value="<%=Strings.getInputString(accepted.getBusinessNature())%>"/>
             </td>
-        </tr>
-        <tr>
             <td>预贷金额</td>
             <td>
                 <input id="want_money" type="number"
                        value="<%=Strings.getInputString(accepted.getWantMoney())%>"/>万元
             </td>
-            <td>服务费比例</td>
-            <td>
-                <input id="service_fee" type="text"
-                       value="<%=Strings.getInputString(accepted.getServiceFee())%>"/>
-            </td>
+
             <td>批贷金额</td>
             <td>
                 <input id="loan_money" type="number"
                        value="<%=Strings.getInputString(accepted.getLoanMoney())%>"/>
             </td>
-            <td>实收服务费</td>
-            <td>
-                <input id="service_fee_actual" type="number"
-                       value="<%=Strings.getInputString(accepted.getServiceFeeActual())%>"/>元
-            </td>
+
         </tr>
 
         <tr>
@@ -212,8 +210,7 @@
             </td>
             <td>办理状态</td>
             <td>
-                <select id="handle_status"
-                                    style="width: 100%;font-size: large;margin-top: 7px; border: solid 1px deepskyblue;">
+                <select id="handle_status" style="width:5em;border: solid 1px deepskyblue;">
                 <option value="1">受理</option>
                 <option <%=(accepted.getState() != null && 2 == accepted.getState()) ? "selected = \"selected\"" : ""%>
                         value="2">办结
@@ -231,15 +228,26 @@
                 <input id="end_time" type="date"
                        value="<%=accepted.getEndDate()==null?"":DateUtil.date2StringSimple(DateUtil.timestamp2Date(accepted.getEndDate()))%>"/>
             </td>
+        </tr>
+        <tr>
+            <td>服务费比例</td>
+            <td>
+                <input id="service_fee" type="text"
+                       value="<%=Strings.getInputString(accepted.getServiceFee())%>"/>
+            </td>
+            <td>实收服务费</td>
+            <td>
+                <input id="service_fee_actual" type="number"
+                       value="<%=Strings.getInputString(accepted.getServiceFeeActual())%>"/>元
+            </td>
             <td style="border-left: none;"></td>
             <td style="border-left: none;"></td>
         </tr>
-
         <tr>
             <td>是否有服务协议</td>
             <td>
                 <select id="service_agreement"
-                        style="width: 100%;font-size: large;margin-top: 7px; border: solid 1px deepskyblue;">
+                        style="width:5em; border: solid 1px deepskyblue;">
                     <option value="1">是</option>
                     <option <%=(accepted.getServiceAgreement() != null && 0 == accepted.getServiceAgreement()) ? "selected = \"selected\"" : ""%>
                             value="0">否
@@ -253,13 +261,12 @@
             </td>
             <td style="border-left: none;"></td>
             <td style="border-left: none;"></td>
-            <td style="border-left: none;"></td>
-            <td style="border-left: none;"></td>
+
         </tr>
         <tr>
             <td>备注</td>
-            <td colspan="7">
-                <input id="beizhu" type="text"
+            <td colspan="5">
+                <input id="beizhu" type="text" style="width: 100%"
                        value="<%=Strings.getInputString(accepted.getBeizhu())%>"/>
             </td>
         </tr>
@@ -276,8 +283,8 @@
         </tbody>
         <tr>
             <td colspan="6">
-                <button id="earn_add" class="am-btn am-btn-primary">添加收入信息</button>
-                <button id="pay_add" class="am-btn am-btn-secondary">添加支出信息</button>
+                <button id="earn_add" class="am-btn am-btn-primary am-btn-sm">添加收入信息</button>
+                <button id="pay_add" class="am-btn am-btn-secondary am-btn-sm">添加支出信息</button>
             </td>
         </tr>
     </table>
