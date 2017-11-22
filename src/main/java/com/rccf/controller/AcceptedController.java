@@ -11,10 +11,7 @@ import com.rccf.service.AcceptedService;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.service.UserService;
-import com.rccf.util.BackUtil;
-import com.rccf.util.DateUtil;
-import com.rccf.util.ResponseUtil;
-import com.rccf.util.Strings;
+import com.rccf.util.*;
 import com.rccf.util.weixin.WeixinUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.DetachedCriteria;
@@ -38,6 +35,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.TimeZone;
 
 @Controller
@@ -60,7 +58,7 @@ public class AcceptedController {
 
 
     @RequestMapping(value = "/insert_edit")
-    public ModelAndView editAccepted(HttpServletRequest request){
+    public ModelAndView editAccepted(HttpServletRequest request) {
         String id = request.getParameter("id");
         ModelAndView view = new ModelAndView();
         view.setViewName("/back/accepted/acceptance_in");
@@ -106,6 +104,150 @@ public class AcceptedController {
     }
 
 
+    @ResponseBody
+    @RequestMapping(value = "/info/save")
+    public String saveAccepted(HttpServletRequest request) {
+        String id = request.getParameter("id");
+        String accept_time = request.getParameter("accept_time");
+        String latter_number = request.getParameter("latter_number");
+        String clerk = request.getParameter("clerk");
+        String clerk_name = request.getParameter("clerk_name");
+        String custom_name = request.getParameter("custom_name");
+        String custom_phone = request.getParameter("custom_phone");
+        String business_type = request.getParameter("business_type");
+        String agency = request.getParameter("agency");
+        String business_nature = request.getParameter("business_nature");
+        String want_money = request.getParameter("want_money");
+        String service_fee = request.getParameter("service_fee");
+        String service_fee_actual = request.getParameter("service_fee_actual");
+        String end_time = request.getParameter("end_time");
+        String loan_money = request.getParameter("loan_money");
+        String service_agreement = request.getParameter("service_agreement");
+        String beizhu = request.getParameter("beizhu");
+        String state = request.getParameter("state");
+        String houqi = request.getParameter("houqi");
+        String agreement_number = request.getParameter("agreement_number");
+        String customer_idcard = request.getParameter("customer_idcard");
+
+        Accepted accepted = null;
+        if (!Strings.isNullOrEmpty(id)) {
+            int _id = Integer.valueOf(id);
+            accepted = acceptedService.findById(_id);
+            accepted.setCreateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
+        } else {
+            accepted = new Accepted();
+            accepted.setCreateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
+            accepted.setAcceptedNumber(getLastNumber());
+        }
+        if (!Strings.isNullOrEmpty(accept_time)) {
+            Date date = DateUtil.string2Date(accept_time);
+            accepted.setAcceptTime(DateUtil.date2Timestamp(date));
+        }
+        if (!Strings.isNullOrEmpty(latter_number)) {
+            accepted.setLetterNumber(latter_number);
+        }
+
+        if (!Strings.isNullOrEmpty(clerk_name)) { //根据业务员名字查询业务员
+            accepted.setClerkName(clerk_name);
+            Employee employee = employeeService.findEmpolyeeByName(clerk_name);
+            if (employee != null) {
+                accepted.setClerk(employee.getCode());
+                accepted.setDeputyDirector(employee.getDuptyDirector());
+                accepted.setDirector(employee.getDirector());
+            } else {
+                accepted.setClerk(null);
+                accepted.setDeputyDirector(null);
+                accepted.setDirector(null);
+            }
+        }
+
+        if (!Strings.isNullOrEmpty(custom_name)) {
+            accepted.setCustomerName(custom_name);
+        }
+
+        if (!Strings.isNullOrEmpty(custom_phone)) {
+            accepted.setCustomerPhone(custom_phone);
+        }
+        if (!Strings.isNullOrEmpty(business_type)) {
+            accepted.setBusinessType(Integer.valueOf(business_type));
+        }
+        if (!Strings.isNullOrEmpty(agency)) {
+            accepted.setAgency(agency);
+        } else {
+            accepted.setAgency(null);
+        }
+
+        if (!Strings.isNullOrEmpty(business_nature)) {
+            accepted.setBusinessNature(business_nature);
+        }
+        if (!Strings.isNullOrEmpty(want_money)) {
+            accepted.setWantMoney(Double.valueOf(want_money));
+        } else {
+            accepted.setWantMoney(null);
+        }
+        if (!Strings.isNullOrEmpty(service_fee)) {
+            double _d = Double.valueOf(service_fee);
+            accepted.setServiceFee(_d);
+        } else {
+            accepted.setServiceFee(null);
+        }
+        if (!Strings.isNullOrEmpty(service_fee_actual)) {
+            double _d = Double.valueOf(service_fee_actual);
+            accepted.setServiceFeeActual(_d);
+        } else {
+            accepted.setServiceFeeActual(null);
+        }
+        if (!Strings.isNullOrEmpty(end_time)) {
+            Date date = DateUtil.string2Date(end_time);
+            accepted.setEndDate(DateUtil.date2Timestamp(date));
+        } else {
+            accepted.setEndDate(null);
+        }
+        if (!Strings.isNullOrEmpty(loan_money)) {
+            accepted.setLoanMoney(Double.valueOf(loan_money));
+        } else {
+            accepted.setLoanMoney(null);
+        }
+
+        if (!Strings.isNullOrEmpty(service_agreement)) {
+            accepted.setServiceAgreement(Integer.valueOf(service_agreement));
+        }
+        if (!Strings.isNullOrEmpty(agreement_number)) {
+            accepted.setAgreementNumber(agreement_number);
+        } else {
+            accepted.setAgreementNumber(null);
+        }
+        if (!Strings.isNullOrEmpty(beizhu)) {
+            accepted.setBeizhu(beizhu);
+        } else {
+            accepted.setBeizhu(null);
+        }
+
+        if (!Strings.isNullOrEmpty(state)) {
+            accepted.setState(Integer.valueOf(state));
+        }
+        if (!Strings.isNullOrEmpty(houqi)) {
+            accepted.setHouqi(houqi);
+        } else {
+            accepted.setHouqi(null);
+        }
+        if (Strings.isNullOrEmpty(customer_idcard)) {
+            accepted.setCustomerIdcard(null);
+        } else {
+            CheckUtil checkUtil = new CheckUtil();
+            if (checkUtil.isValidatedAllIdcard(customer_idcard)) {
+                accepted.setCustomerIdcard(customer_idcard);
+            } else {
+                return ResponseUtil.fail(0, "身份证号码格式错误");
+            }
+        }
+        if (acceptedService.saveOrUpdate(accepted)) {
+            return ResponseUtil.success();
+        } else {
+            return ResponseUtil.fail(0, "保存失败");
+        }
+
+    }
 
     @ResponseBody
     @RequestMapping(value = "/listall")
@@ -663,6 +805,85 @@ public class AcceptedController {
         }
     }
 
+
+    @ResponseBody
+    @RequestMapping(value = "/info/incomeexpenditure")
+    public String saveAcceptIncomeExpenditure(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        if (employee == null) {
+            return ResponseUtil.fail(0, "登录信息失效");
+        }
+        AcceptIncomeExpenditureDetail detail = new AcceptIncomeExpenditureDetail();
+
+        String detail_id = request.getParameter("detail_id");
+        String subject = request.getParameter("subject");
+        String amount = request.getParameter("amount");
+        String deal_time = request.getParameter("deal_time");
+        String description = request.getParameter("description");
+        AcceptIncomeExpenditure incomeExpenditure = null;
+        if (!Strings.isNullOrEmpty(detail_id)) {
+             incomeExpenditure = (AcceptIncomeExpenditure) baseService.get(AcceptIncomeExpenditure.class, Integer.valueOf(detail_id));
+
+        }
+        if (incomeExpenditure == null) {
+            incomeExpenditure = new AcceptIncomeExpenditure();
+            incomeExpenditure.setCreateTime(DateUtil.date2Timestamp(new Date()));
+            detail.setOldStr("");
+        } else {
+            detail.setOldStr(incomeExpenditure.toString());
+        }
+        incomeExpenditure.setSubject(subject);
+        if (Strings.isNullOrEmpty(amount)) {
+            incomeExpenditure.setAmount(null);
+        } else {
+            incomeExpenditure.setAmount(Double.valueOf(amount));
+        }
+        if (Strings.isNullOrEmpty(deal_time)) {
+            incomeExpenditure.setDealTime(null);
+        } else {
+            incomeExpenditure.setDealTime(DateUtil.string2Timestamp(deal_time));
+        }
+        incomeExpenditure.setDescription(description);
+        incomeExpenditure.setAdmin(employee.getId());
+
+        boolean save = baseService.save(incomeExpenditure);
+        if (save) {
+            detail.setAcceptId(incomeExpenditure.getAcceptId());
+            detail.setNewStr(incomeExpenditure.toString());
+            detail.setAdmin(employee.getId());
+            detail.setAdminTime(DateUtil.date2Timestamp(new Date()));
+            return ResponseUtil.success();
+        }
+        return ResponseUtil.fail(0,"保存失败");
+    }
+
+
+    private String getLastNumber() {
+        DateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String preFix = format.format(new Date(System.currentTimeMillis())) + "-";
+        String sql = " SELECT a.`accepted_number`   from `accepted`  a ORDER BY  id DESC limit 1";
+        List list = baseService.queryBySql(sql);
+        String lastString = (String) list.get(0);
+        lastString = lastString.substring(lastString.indexOf("-") + 1);
+        int number_now = Integer.valueOf(lastString) + 1;
+        return preFix + number_now;
+    }
+
+
+    private String getLastCode() {
+        String sql = "SELECT code FROM Employee e WHERE code LIKE 'e0%' ORDER BY id DESC ";
+        List list = baseService.queryBySql(sql);
+        String lastString = (String) list.get(0);
+        String prefix = lastString.substring(0, 2);
+        String number = lastString.substring(2);
+        int i = new Random().nextInt(1) * 10000;
+        try {
+            i = Integer.valueOf(number);
+        } catch (NumberFormatException e) {
+            return "" + i;
+        }
+        return prefix + (i + 1);
+    }
 
     public static void main(String args[]) {
         String str = "(a >= 0 && a <= 5)";

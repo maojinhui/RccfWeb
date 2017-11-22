@@ -1,5 +1,7 @@
 package com.rccf.model;
 
+import com.google.common.base.Objects;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,7 +36,7 @@ public class Accepted {
     private String director;
     private String process;
     private String agreementNumber;
-
+    private String customerIdcard;
 
     @Id
     @Column(name = "id")
@@ -236,70 +238,6 @@ public class Accepted {
         this.admin = admin;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Accepted accepted = (Accepted) o;
-
-        if (id != accepted.id) return false;
-        if (acceptTime != null ? !acceptTime.equals(accepted.acceptTime) : accepted.acceptTime != null) return false;
-        if (letterNumber != null ? !letterNumber.equals(accepted.letterNumber) : accepted.letterNumber != null)
-            return false;
-        if (acceptedNumber != null ? !acceptedNumber.equals(accepted.acceptedNumber) : accepted.acceptedNumber != null)
-            return false;
-        if (customerName != null ? !customerName.equals(accepted.customerName) : accepted.customerName != null)
-            return false;
-        if (customerPhone != null ? !customerPhone.equals(accepted.customerPhone) : accepted.customerPhone != null)
-            return false;
-        if (businessType != null ? !businessType.equals(accepted.businessType) : accepted.businessType != null)
-            return false;
-        if (agency != null ? !agency.equals(accepted.agency) : accepted.agency != null) return false;
-        if (businessNature != null ? !businessNature.equals(accepted.businessNature) : accepted.businessNature != null)
-            return false;
-        if (wantMoney != null ? !wantMoney.equals(accepted.wantMoney) : accepted.wantMoney != null) return false;
-        if (serviceFee != null ? !serviceFee.equals(accepted.serviceFee) : accepted.serviceFee != null) return false;
-        if (serviceFeeActual != null ? !serviceFeeActual.equals(accepted.serviceFeeActual) : accepted.serviceFeeActual != null)
-            return false;
-        if (endDate != null ? !endDate.equals(accepted.endDate) : accepted.endDate != null) return false;
-        if (clerk != null ? !clerk.equals(accepted.clerk) : accepted.clerk != null) return false;
-        if (state != null ? !state.equals(accepted.state) : accepted.state != null) return false;
-        if (loanMoney != null ? !loanMoney.equals(accepted.loanMoney) : accepted.loanMoney != null) return false;
-        if (serviceAgreement != null ? !serviceAgreement.equals(accepted.serviceAgreement) : accepted.serviceAgreement != null)
-            return false;
-        if (beizhu != null ? !beizhu.equals(accepted.beizhu) : accepted.beizhu != null) return false;
-        if (createTime != null ? !createTime.equals(accepted.createTime) : accepted.createTime != null) return false;
-        if (admin != null ? !admin.equals(accepted.admin) : accepted.admin != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (acceptTime != null ? acceptTime.hashCode() : 0);
-        result = 31 * result + (letterNumber != null ? letterNumber.hashCode() : 0);
-        result = 31 * result + (acceptedNumber != null ? acceptedNumber.hashCode() : 0);
-        result = 31 * result + (customerName != null ? customerName.hashCode() : 0);
-        result = 31 * result + (customerPhone != null ? customerPhone.hashCode() : 0);
-        result = 31 * result + (businessType != null ? businessType.hashCode() : 0);
-        result = 31 * result + (agency != null ? agency.hashCode() : 0);
-        result = 31 * result + (businessNature != null ? businessNature.hashCode() : 0);
-        result = 31 * result + (wantMoney != null ? wantMoney.hashCode() : 0);
-        result = 31 * result + (serviceFee != null ? serviceFee.hashCode() : 0);
-        result = 31 * result + (serviceFeeActual != null ? serviceFeeActual.hashCode() : 0);
-        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
-        result = 31 * result + (clerk != null ? clerk.hashCode() : 0);
-        result = 31 * result + (state != null ? state.hashCode() : 0);
-        result = 31 * result + (loanMoney != null ? loanMoney.hashCode() : 0);
-        result = 31 * result + (serviceAgreement != null ? serviceAgreement.hashCode() : 0);
-        result = 31 * result + (beizhu != null ? beizhu.hashCode() : 0);
-        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
-        result = 31 * result + (admin != null ? admin.hashCode() : 0);
-        return result;
-    }
-
     @Basic
     @Column(name = "clerk_name")
     public String getClerkName() {
@@ -358,5 +296,88 @@ public class Accepted {
 
     public void setAgreementNumber(String agreementNumber) {
         this.agreementNumber = agreementNumber;
+    }
+
+    @Basic
+    @Column(name = "customer_idcard")
+    public String getCustomerIdcard() {
+        return customerIdcard;
+    }
+
+    public void setCustomerIdcard(String customerIdcard) {
+        this.customerIdcard = customerIdcard;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Accepted accepted = (Accepted) o;
+        return id == accepted.id &&
+                Objects.equal(acceptTime, accepted.acceptTime) &&
+                Objects.equal(letterNumber, accepted.letterNumber) &&
+                Objects.equal(acceptedNumber, accepted.acceptedNumber) &&
+                Objects.equal(customerName, accepted.customerName) &&
+                Objects.equal(customerPhone, accepted.customerPhone) &&
+                Objects.equal(businessType, accepted.businessType) &&
+                Objects.equal(agency, accepted.agency) &&
+                Objects.equal(businessNature, accepted.businessNature) &&
+                Objects.equal(wantMoney, accepted.wantMoney) &&
+                Objects.equal(serviceFee, accepted.serviceFee) &&
+                Objects.equal(serviceFeeActual, accepted.serviceFeeActual) &&
+                Objects.equal(endDate, accepted.endDate) &&
+                Objects.equal(clerk, accepted.clerk) &&
+                Objects.equal(state, accepted.state) &&
+                Objects.equal(loanMoney, accepted.loanMoney) &&
+                Objects.equal(serviceAgreement, accepted.serviceAgreement) &&
+                Objects.equal(beizhu, accepted.beizhu) &&
+                Objects.equal(createTime, accepted.createTime) &&
+                Objects.equal(admin, accepted.admin) &&
+                Objects.equal(clerkName, accepted.clerkName) &&
+                Objects.equal(houqi, accepted.houqi) &&
+                Objects.equal(deputyDirector, accepted.deputyDirector) &&
+                Objects.equal(director, accepted.director) &&
+                Objects.equal(process, accepted.process) &&
+                Objects.equal(agreementNumber, accepted.agreementNumber) &&
+                Objects.equal(customerIdcard, accepted.customerIdcard);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id, acceptTime, letterNumber, acceptedNumber, customerName, customerPhone, businessType, agency, businessNature, wantMoney, serviceFee, serviceFeeActual, endDate, clerk, state, loanMoney, serviceAgreement, beizhu, createTime, admin, clerkName, houqi, deputyDirector, director, process, agreementNumber, customerIdcard);
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("id", id)
+                .add("acceptTime", acceptTime)
+                .add("letterNumber", letterNumber)
+                .add("acceptedNumber", acceptedNumber)
+                .add("customerName", customerName)
+                .add("customerPhone", customerPhone)
+                .add("businessType", businessType)
+                .add("agency", agency)
+                .add("businessNature", businessNature)
+                .add("wantMoney", wantMoney)
+                .add("serviceFee", serviceFee)
+                .add("serviceFeeActual", serviceFeeActual)
+                .add("endDate", endDate)
+                .add("clerk", clerk)
+                .add("state", state)
+                .add("loanMoney", loanMoney)
+                .add("serviceAgreement", serviceAgreement)
+                .add("beizhu", beizhu)
+                .add("createTime", createTime)
+                .add("admin", admin)
+                .add("clerkName", clerkName)
+                .add("houqi", houqi)
+                .add("deputyDirector", deputyDirector)
+                .add("director", director)
+                .add("process", process)
+                .add("agreementNumber", agreementNumber)
+                .add("customerIdcard", customerIdcard)
+                .toString();
     }
 }
