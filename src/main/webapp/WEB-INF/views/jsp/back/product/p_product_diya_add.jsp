@@ -162,10 +162,10 @@
                 <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="18" type="checkbox">  五环内区域</span>
                 <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="19" type="checkbox">  六环内区域</span>
                 <span class="am-margin-left"><input onchange="showInput2()"
-                                                                       type="checkbox">  补充区域</span>
+                                                    type="checkbox">  补充区域</span>
                 <span class="am-margin-left"><input id="produce_area_other" class="am-hide"
-                                                                       type="text"
-                                                                       style="width: 6em;border-bottom: solid 1px #333;"></span>
+                                                    type="text"
+                                                    style="width: 6em;border-bottom: solid 1px #333;"></span>
 
             </td>
         </tr>
@@ -198,10 +198,13 @@
         <tr>
             <td style="border-top: none;"><input name="produce_loan_amount" value="1500" type="checkbox"> 1500万 <input
                     name="produce_loan_amount" value="3000" type="checkbox"> 3000万 <input onchange="showInput4()"
-                    type="checkbox"> 其他 <input id="produce_loan_amount_other" class="am-hide" type="text" style="width: 3em;border-bottom: solid 1px #333;">
+                                                                                          type="checkbox"> 其他 <input
+                    id="produce_loan_amount_other" class="am-hide" type="text"
+                    style="width: 3em;border-bottom: solid 1px #333;">
             </td>
-            <td style="border-top: none;"><input name="loan_rate_up" value="40" type="checkbox"> 上浮40% <input onchange="showInput3()"
-                                                                                                              type="checkbox">
+            <td style="border-top: none;"><input name="loan_rate_up" value="40" type="checkbox"> 上浮40% <input
+                    onchange="showInput3()"
+                    type="checkbox">
                 其他 <input id="loan_rate_up_other" class="am-hide" type="text"
                           style="width: 5em;border-bottom: solid 1px #333;">
             </td>
@@ -383,9 +386,9 @@
 
 </div>
 <div class="am-padding am-margin-bottom-xl">
-    <div class="am-u-sm-12  am-margin-right">
-        <button id="save" class="am-u-sm-4 am-btn am-btn-primary">确认信息并保存</button>
-        <button id="cancel" class="am-u-sm-4  am-u-end am-btn am-btn-warning ">取消</button>
+    <div class="am-u-sm-12 am-u-md-6 am-u-sm-centered">
+        <button id="save" class="am-u-sm-6 am-btn am-btn-primary">确认信息并保存</button>
+        <button id="cancel" class="am-u-sm-6  am-u-end am-btn am-btn-danger ">取消</button>
     </div>
 </div>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>

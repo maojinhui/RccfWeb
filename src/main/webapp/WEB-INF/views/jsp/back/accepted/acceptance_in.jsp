@@ -284,7 +284,12 @@
     </table>
 
 </div>
-
+<div class="am-padding am-margin-bottom-xl">
+    <div class="am-u-sm-12 am-u-md-6 am-u-sm-centered">
+        <button id="submit" class="am-u-sm-6 am-btn am-btn-primary">确认信息并保存</button>
+        <button id="cancel" class="am-u-sm-6  am-u-end am-btn am-btn-danger ">取消</button>
+    </div>
+</div>
 <script src="../../js/jquery.min.js"></script>
 <%
     List<Employee> employees = (List<Employee>) request.getAttribute("employees");
