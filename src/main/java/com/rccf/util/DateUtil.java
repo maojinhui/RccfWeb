@@ -60,6 +60,31 @@ public class DateUtil {
 
 
     /**
+     * String 2 Date
+     *
+     * @param dateStr
+     * @return
+     */
+    public static Date string2DateTime(String dateStr) {
+        Date date = new Date();
+        //注意format的格式要与日期String的格式相匹配
+//        DateFormat sdf = new SimpleDstring2DateTimeateFormat("yyyy/MM/dd HH:mm:ss");
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            if (dateStr == null || dateStr.equals("")) {
+                return null;
+            }
+            date = sdf.parse(dateStr);
+            return date;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
+    /**
      * Date 2 String yyyy-MM-dd HH:mm:ss
      *
      * @param date
@@ -217,15 +242,24 @@ public class DateUtil {
     }
 
 
+
+
+
+
+
     public static void main(String args[]) {
 //        String lastString = "20170913-776";
 //        lastString = lastString.substring(lastString.indexOf("-") + 1);
 //        System.out.println(lastString);
+        String time = "2017-11-23T02:05";
+        time = time.replaceAll("T"," ");
 
-        Date date = new Date(string2Date("2017-01-01").getTime());
+        Date date = new Date(string2DateTime(time).getTime());
+
+        System.out.println(date);
 //        Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月");
-        System.out.println("args = [" + dateFormat.format(date) + "]");
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月");
+//        System.out.println("args = [" + dateFormat.format(date) + "]");
 
     }
 

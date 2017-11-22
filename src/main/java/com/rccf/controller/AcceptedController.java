@@ -856,7 +856,7 @@ public class AcceptedController {
         if (Strings.isNullOrEmpty(deal_time)) {
             incomeExpenditure.setDealTime(null);
         } else {
-            incomeExpenditure.setDealTime(DateUtil.string2Timestamp(deal_time));
+            incomeExpenditure.setDealTime(DateUtil.date2Timestamp(DateUtil.string2DateTime(deal_time.replaceAll("T"," "))));
         }
         incomeExpenditure.setDescription(description);
         incomeExpenditure.setAdmin(employee.getId());
@@ -899,7 +899,7 @@ public class AcceptedController {
         if(employee==null){
             return ResponseUtil.fail(0,"登录信息失效");
         }
-        String detail_id = request.getParameter("detail_id");
+        String detail_id = request.getParameter("id");
         if(Strings.isNullOrEmpty(detail_id)){
             return ResponseUtil.fail(0,"参数错误");
         }
