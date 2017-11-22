@@ -549,7 +549,7 @@
                 '        <a onclick="updateEarn(this)" class="am-btn am-btn-warning am-btn-xs"><span\n' +
                 '                class="am-icon-copy"></span> 提交\n' +
                 '        </a>\n' +
-                '        <a  class="am-btn am-btn-danger am-btn-xs"><span\n' +
+                '        <a onclick="cancelEarn(this)" class="am-btn am-btn-danger am-btn-xs"><span\n' +
                 '                class="am-icon-recycle"></span> 取消\n' +
                 '       </a>' +
                 '      </td>\n' +
@@ -560,17 +560,17 @@
     );
     $("#pay_add").click(function () {
         var str = '';
-        str += '<tr>\n' +
+        str += '<tr data-earn-type="2" data-earn-id="">\n' +
             '      <td><input type="text" placeholder="项目名称"></td>\n' +
             '      <td>-</td>\n' +
             '      <td><input type="number" placeholder="支出金额"></td>\n' +
             '      <td><input type="datetime-local" placeholder="时间" style="width: 13em;"></td>\n' +
             '      <td><input type="text" placeholder="说明信息"></td>\n' +
             '      <td>\n' +
-            '        <a href="" class="am-btn am-btn-warning am-btn-xs"><span\n' +
+            '        <a onclick="updatePay(this)" class="am-btn am-btn-warning am-btn-xs"><span\n' +
             '                class="am-icon-copy"></span> 提交\n' +
             '        </a>\n' +
-            '        <a href="" class="am-btn am-btn-danger am-btn-xs"><span\n' +
+            '        <a onclick="cancelPay(this)" class="am-btn am-btn-danger am-btn-xs"><span\n' +
             '                class="am-icon-recycle"></span> 取消\n' +
             '       </a>' +
             '      </td>\n' +
@@ -640,6 +640,67 @@
             }
         });
     }
+    function updatePay(obj) {
+        if(accept_id==0){
+            alert("请先提交受理单，再添加收支明细");
+            return ;
+        }
+
+
+        var tdNode = obj.parentNode;
+        var trNode = tdNode.parentNode;
+
+        var type = trNode.dataset.earnType;
+        var id = trNode.dataset.earnId;
+
+        console.log(id);
+        var tds = $(trNode).children();
+        var td1 = tds[0];
+        var td2 = tds[2];
+        var td3 = tds[3];
+        var td4 = tds[4];
+        var input1 = ($(td1).children())[0];
+        var input2 = ($(td2).children())[0];
+        var input3 = ($(td3).children())[0];
+        var input4 = ($(td4).children())[0];
+
+        var jsonObj = {};
+        jsonObj.subject = $(input1).val();
+        jsonObj.amount = $(input2).val();
+        jsonObj.deal_time = $(input3).val();
+        jsonObj.description = $(input4).val();
+        jsonObj.type = type;
+        jsonObj.id = id;
+        jsonObj.accept_id = accept_id;
+
+        $.ajax({
+            url: '/accept/info/incomeexpenditure',
+            data: jsonObj,
+            dataType: 'json',
+            success: function (result) {
+                alert('提交成功');
+                $(input1).attr('disabled', true);
+                $(input2).attr('disabled', true);
+                $(input3).attr('disabled', true);
+                $(input4).attr('disabled', true);
+
+                var info = result.data;
+                trNode.dataset.earnId = info;
+
+                var str = '';
+                str += '<a onclick="editPay(this)" class="am-btn am-btn-secondary am-btn-xs"><span' +
+                    '   class="am-icon-copy"></span> 编辑' +
+                    '   </a>' +
+                    '   <a onclick="removePay(this)" href="" class="am-btn am-btn-default am-btn-xs"><span' +
+                    '   class="am-icon-trash-o"></span> 删除' +
+                    '   </a>';
+                $(tdNode).html(str);
+            },
+            error: function () {
+
+            }
+        });
+    }
 
     function editEarn(obj) {
         var tdNode = obj.parentNode;
@@ -669,12 +730,150 @@
         str += '        <a onclick="updateEarn(this)" class="am-btn am-btn-warning am-btn-xs"><span\n' +
             '                class="am-icon-copy"></span> 提交\n' +
             '        </a>\n' +
-            '        <a  class="am-btn am-btn-danger am-btn-xs"><span\n' +
+            '        <a onclick="cancelEarn(this)" class="am-btn am-btn-danger am-btn-xs"><span\n' +
             '                class="am-icon-recycle"></span> 取消\n' +
             '       </a>';
         $(tdNode).html(str);
     }
-    
+    function editPay(obj) {
+        var tdNode = obj.parentNode;
+        var trNode = tdNode.parentNode;
+        var tds = $(trNode).children();
+        var td1 = tds[0];
+        var td2 = tds[2];
+        var td3 = tds[3];
+        var td4 = tds[4];
+        var input1 = ($(td1).children())[0];
+        var input2 = ($(td2).children())[0];
+        var input3 = ($(td3).children())[0];
+        var input4 = ($(td4).children())[0];
+
+        var jsonObj = {};
+        jsonObj.subject = $(input1).val();
+        jsonObj.amount = $(input2).val();
+        jsonObj.deal_time = $(input3).val();
+        jsonObj.description = $(input4).val();
+
+        $(input1).attr('disabled', false);
+        $(input2).attr('disabled', false);
+        $(input3).attr('disabled', false);
+        $(input4).attr('disabled', false);
+
+        var str = '';
+        str += '        <a onclick="updatePay(this)" class="am-btn am-btn-warning am-btn-xs"><span\n' +
+            '                class="am-icon-copy"></span> 提交\n' +
+            '        </a>\n' +
+            '        <a onclick="cancelPay(this)" class="am-btn am-btn-danger am-btn-xs"><span\n' +
+            '                class="am-icon-recycle"></span> 取消\n' +
+            '       </a>';
+        $(tdNode).html(str);
+    }
+
+    function cancelEarn(obj) {
+
+        var tdNode = obj.parentNode;
+        var trNode = tdNode.parentNode;
+        var tds = $(trNode).children();
+        var td1 = tds[0];
+        var td2 = tds[1];
+        var td3 = tds[3];
+        var td4 = tds[4];
+        var input1 = ($(td1).children())[0];
+        var input2 = ($(td2).children())[0];
+        var input3 = ($(td3).children())[0];
+        var input4 = ($(td4).children())[0];
+
+        var type = trNode.dataset.earnType;
+        var id = trNode.dataset.earnId;
+
+        if(id === "") {
+            var tBodyNode = trNode.parentNode;
+            tBodyNode.removeChild(trNode);
+        }else {
+            $.ajax({
+                url:'/accept/getIncomeExpenditureInfo',
+                data:{"id":id},
+                dataType:"json",
+                success:function (result) {
+                    if(result.code){
+                        var info = result.data;
+                        var subject = info.subject;
+                        var amount = info.amount;
+                        var deal_time = info.deal_time;
+                        var description = info.description;
+                        $(input1).val(subject);
+                        $(input2).val(amount);
+                        $(input3).val(deal_time);
+                        $(input4).val(description);
+
+                        $(input1).attr('disabled', false);
+                        $(input2).attr('disabled', false);
+                        $(input3).attr('disabled', false);
+                        $(input4).attr('disabled', false);
+                    }else{
+                        alert(result.errorMsg);
+                    }
+                },
+                error:function () {
+                    
+                }
+            })
+        }
+
+    }
+    function cancelPay(obj) {
+
+        var tdNode = obj.parentNode;
+        var trNode = tdNode.parentNode;
+        var tds = $(trNode).children();
+        var td1 = tds[0];
+        var td2 = tds[2];
+        var td3 = tds[3];
+        var td4 = tds[4];
+        var input1 = ($(td1).children())[0];
+        var input2 = ($(td2).children())[0];
+        var input3 = ($(td3).children())[0];
+        var input4 = ($(td4).children())[0];
+
+        var type = trNode.dataset.earnType;
+        var id = trNode.dataset.earnId;
+
+        if(id === "") {
+            var tBodyNode = trNode.parentNode;
+            tBodyNode.removeChild(trNode);
+        }else {
+            $.ajax({
+                url:'/accept/getIncomeExpenditureInfo',
+                data:{"id":id},
+                dataType:"json",
+                success:function (result) {
+                    if(result.code){
+                        var info = result.data;
+                        var subject = info.subject;
+                        var amount = info.amount;
+                        var deal_time = info.deal_time;
+                        var description = info.description;
+                        $(input1).val(subject);
+                        $(input2).val(amount);
+                        $(input3).val(deal_time);
+                        $(input4).val(description);
+
+                        $(input1).attr('disabled', false);
+                        $(input2).attr('disabled', false);
+                        $(input3).attr('disabled', false);
+                        $(input4).attr('disabled', false);
+                    }else{
+                        alert(result.errorMsg);
+                    }
+                },
+                error:function () {
+
+                }
+            })
+        }
+
+    }
+
     function removeEarn() {
         
     }
