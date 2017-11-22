@@ -914,6 +914,7 @@ public class AcceptedController {
         detail.setNewStr("");
         detail.setAdmin(employee.getId());
         detail.setAdminTime(DateUtil.date2Timestamp(new Date()));
+        baseService.save(detail);
         boolean delete = baseService.delete(acceptIncomeExpenditure);
         if(delete){
             return ResponseUtil.success(acceptIncomeExpenditure.getId());

@@ -99,6 +99,17 @@ public class DateUtil {
         return str;
     }
 
+    public static String dateTime2String(Date date) {
+        if (date == null) {
+            return "";
+        }
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String str = format.format(date);
+        str=str.replaceAll(" ","T");
+        return str;
+    }
+
+
     /**
      * Date 2 String yyyy-MM-dd HH:mm:ss
      *

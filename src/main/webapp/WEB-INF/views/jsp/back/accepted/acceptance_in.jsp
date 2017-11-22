@@ -310,7 +310,7 @@
              %>
             <td><input type="number" placeholder="收入金额" value="<%=acceptIncomeExpenditure.getAmount()%>"  disabled="disabled"></td>
             <td>-</td>
-            <td><input type="datetime-local" placeholder="时间" style="width: 13em;"  disabled="disabled" value="<%=acceptIncomeExpenditure.getDealTime()!=null?DateUtil.date2String(DateUtil.timestamp2Date(acceptIncomeExpenditure.getDealTime())):""%>"></td>
+            <td><input type="datetime-local" placeholder="时间" style="width: 13em;"  disabled="disabled" value="<%=acceptIncomeExpenditure.getDealTime()!=null?DateUtil.dateTime2String(DateUtil.timestamp2Date(acceptIncomeExpenditure.getDealTime())):""%>"></td>
             <td><input type="text" placeholder="说明信息" value="<%=acceptIncomeExpenditure.getDescription()%>" disabled="disabled"></td>
             <td>
                 <a onclick="editEarn(this)" class="am-btn am-btn-secondary am-btn-xs"><span class="am-icon-copy"></span> 编辑
@@ -323,7 +323,7 @@
                %>
             <td>-</td>
             <td><input type="number" placeholder="支出金额" value="<%=acceptIncomeExpenditure.getAmount()%>" disabled="disabled"></td>
-            <td><input type="datetime-local" placeholder="时间" style="width: 13em;"  disabled="disabled" value="<%=acceptIncomeExpenditure.getDealTime()!=null?DateUtil.date2String(DateUtil.timestamp2Date(acceptIncomeExpenditure.getDealTime())):""%>"></td>
+            <td><input type="datetime-local" placeholder="时间" style="width: 13em;"  disabled="disabled" value="<%=acceptIncomeExpenditure.getDealTime()!=null?DateUtil.dateTime2String(DateUtil.timestamp2Date(acceptIncomeExpenditure.getDealTime())):""%>"></td>
             <td><input type="text" placeholder="说明信息" value="<%=acceptIncomeExpenditure.getDescription()%>" disabled="disabled"></td>
             <td>
                 <a onclick="editPay(this)" class="am-btn am-btn-secondary am-btn-xs"><span class="am-icon-copy"></span> 编辑
@@ -368,6 +368,7 @@
 %>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/jquery.autocompleter.js"></script>
+<script src="/js/comm.js"></script>
 <script>
 
     var accept_id='<%=accepted.getId()%>';
@@ -544,6 +545,28 @@
 
 </script>
 <script>
+
+    function formatDateTime(inputTime) {
+        if (typeof (inputTime) == 'undefined' || isNull(inputTime)) {
+            return "";
+        }
+        var date = new Date();
+        date.setTime(inputTime);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        var h = date.getHours();
+        h = h < 10 ? ('0' + h) : h;
+        var minute = date.getMinutes();
+        var second = date.getSeconds();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        second = second < 10 ? ('0' + second) : second;
+        return y + '-' + m + '-' + d + 'T' + h + ':' +minute ;
+    };
+
+
     $("#earn_add").click(function () {
             var str = '';
             str += '<tr data-earn-type="1" data-earn-id="">\n' +
@@ -615,6 +638,9 @@
         jsonObj.subject = $(input1).val();
         jsonObj.amount = $(input2).val();
         jsonObj.deal_time = $(input3).val();
+        if(isNull(jsonObj.deal_time)){
+            $(input3).val('');
+        }
         jsonObj.description = $(input4).val();
         jsonObj.type = type;
         jsonObj.id = id;
@@ -676,6 +702,9 @@
         jsonObj.subject = $(input1).val();
         jsonObj.amount = $(input2).val();
         jsonObj.deal_time = $(input3).val();
+        if(isNull(jsonObj.deal_time)){
+            $(input3).val('');
+        }
         jsonObj.description = $(input4).val();
         jsonObj.type = type;
         jsonObj.id = id;
@@ -807,11 +836,12 @@
                         var info =JSON.parse(result.data) ;
                         var subject = info.subject;
                         var amount = info.amount;
-                        var deal_time = info.deal_time;
+                        var dealTime = info.dealTime;
+
                         var description = info.description;
                         $(input1).val(subject);
                         $(input2).val(amount);
-                        $(input3).val(deal_time);
+                        $(input3).val(formatDateTime(dealTime));
                         $(input4).val(description);
 
                         $(input1).attr('disabled', true);
@@ -868,11 +898,11 @@
                         var info =JSON.parse(result.data) ;
                         var subject = info.subject;
                         var amount = info.amount;
-                        var deal_time = info.deal_time;
+                        var dealTime = info.dealTime;
                         var description = info.description;
                         $(input1).val(subject);
                         $(input2).val(amount);
-                        $(input3).val(deal_time);
+                        $(input3).val(formatDateTime(dealTime));
                         $(input4).val(description);
 
                         $(input1).attr('disabled', true);
