@@ -929,6 +929,8 @@
             data:{"id":id},
             dataType:"json",
             success:function () {
+                var tBodyNode = trNode.parentNode;
+                tBodyNode.removeChild(trNode);
                 alert("移除成功！");
             },
             error:function () {
