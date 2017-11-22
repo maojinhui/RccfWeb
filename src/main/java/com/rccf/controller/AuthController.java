@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 @Controller
@@ -42,7 +43,7 @@ public class AuthController {
 
 
     @RequestMapping(value = "/login")
-    public String login(HttpServletRequest request, HttpServletResponse response) {
+    public String login(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         String code = request.getParameter("code");
         if (null != code) {
             String url_token = UrlConstants.URL_AUTH_WEIXIN_CODE_ACCESSTOKEN + "?" +
@@ -80,8 +81,7 @@ public class AuthController {
             if(null == user.getRole()){
                 user.setRole("user");
             }
-            if(null != nickname )
-            user.setUserName(nickname);
+            user.setUserName(URLEncoder.encode(nickname,"utf-8"));
             if(null != openid && null == user.getOpenid()){
                 user.setOpenid(openid);
             }

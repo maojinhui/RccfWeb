@@ -207,7 +207,7 @@
                         </a>
                     </li>
                     <li class="sidebar-nav-link">
-                        <a class="rcmenu" data-rccf-menu="/employee/addAccepted">
+                        <a class="rcmenu" data-rccf-menu="/accept/insert_edit">
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 受理单录入
                         </a>
                     </li>

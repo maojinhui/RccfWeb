@@ -5,9 +5,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.rccf.constants.ResponseConstants;
 import com.rccf.constants.UrlConstants;
-import com.rccf.model.AcceptProcess;
-import com.rccf.model.Employee;
-import com.rccf.model.User;
+import com.rccf.enmu.HeaderType;
+import com.rccf.model.*;
 import com.rccf.service.AcceptedService;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
@@ -18,6 +17,11 @@ import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
 import com.rccf.util.weixin.WeixinUtil;
 import org.apache.log4j.Logger;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,6 +57,54 @@ public class AcceptedController {
 
     @Autowired
     UserService userService;
+
+
+    @RequestMapping(value = "/insert_edit")
+    public ModelAndView editAccepted(HttpServletRequest request){
+        String id = request.getParameter("id");
+        ModelAndView view = new ModelAndView();
+        view.setViewName("/back/accepted/acceptance_in");
+
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Employee.class);
+        ProjectionList plist = Projections.projectionList();
+        plist.add(Projections.property("code").as("code"));
+        plist.add(Projections.property("name").as("name"));
+        detachedCriteria.setProjection(plist);
+        detachedCriteria.add(Restrictions.eq("state", 1));
+        detachedCriteria.setResultTransformer(Transformers.aliasToBean(Employee.class));
+        List<Employee> employees = baseService.getList(detachedCriteria);
+        view.addObject("employees", employees);
+
+        DetachedCriteria criteria = DetachedCriteria.forClass(LatterNumber.class);
+        ProjectionList list = Projections.projectionList();
+        list.add(Projections.property("code").as("code"));
+        list.add(Projections.property("id").as("id"));
+        criteria.setProjection(list);
+        criteria.setResultTransformer(Transformers.aliasToBean(LatterNumber.class));
+        List<LatterNumber> numbers = baseService.getList(criteria);
+        view.addObject("numbers", numbers);
+
+
+        DetachedCriteria houqiCriteria = DetachedCriteria.forClass(Employee.class);
+        ProjectionList houqiplist = Projections.projectionList();
+        houqiplist.add(Projections.property("code").as("code"));
+        houqiplist.add(Projections.property("name").as("name"));
+        houqiCriteria.setProjection(houqiplist);
+        houqiCriteria.add(Restrictions.eq("state", 1));
+        houqiCriteria.add(Restrictions.eq("department", "市场部"));
+        houqiCriteria.setResultTransformer(Transformers.aliasToBean(Employee.class));
+        List<Employee> houqis = baseService.getList(houqiCriteria);
+        view.addObject("houqis", houqis);
+
+        if (!Strings.isNullOrEmpty(id)) {
+            int _id = Integer.valueOf(id);
+            Accepted accepted = acceptedService.findById(_id);
+            view.addObject("accepted", accepted);
+        }
+
+        return view;
+    }
+
 
 
     @ResponseBody

@@ -2,21 +2,18 @@ package com.rccf.controller.produce;
 
 
 import com.rccf.constants.UrlConstants;
-import com.rccf.model.AProduceDiya;
-import com.rccf.model.AProduceProcess;
+import com.rccf.model.produce.AProduceDiya;
 import com.rccf.model.Employee;
-import com.rccf.model.RAgency;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.util.BackUtil;
+import com.rccf.util.DateUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
 import com.rccf.util.produce.DataUtil;
 import com.rccf.util.produce.PageUtil;
 import com.rccf.util.verify.AgencyVerify;
 import com.rccf.util.verify.ProduceVerify;
-import com.sun.org.apache.regexp.internal.RE;
-import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @Controller
 @RequestMapping(value = "/prod", produces = UrlConstants.PRODUCES)
@@ -45,8 +43,18 @@ public class ProduceController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "/info/list")
     public String listAllProduce(HttpServletRequest request){
+        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+        //登录用户
+        String sql = "select * from (" +
+                " SELECT `id`, `name`, `code` , `agency_id` , 1  as type ,`state`, create_time  from `a_produce_diya`\n" +
+                " union all\n" +
+                " SELECT `id`, `name`, `code` , `agency_id` , 2  as type ,`state`, create_time  from `a_produce_zhiya`\n" +
+                " ) AS data\n" +
+                "ORDER BY data.create_time desc";
+
+
 
 
         return null;
@@ -109,6 +117,7 @@ public class ProduceController {
         } else {
             produce = new AProduceDiya();
             produce.setState(1);
+            produce.setCreateTime(DateUtil.date2Timestamp(new Date()));
         }
         String produce_code = request.getParameter("produce_code");
         String agency_id = request.getParameter("agency_id");
@@ -271,7 +280,7 @@ public class ProduceController {
 
 
     /**
-     * 添加抵押产品页面
+     * 添加质押产品页面
      * @param request
      * @return
      */

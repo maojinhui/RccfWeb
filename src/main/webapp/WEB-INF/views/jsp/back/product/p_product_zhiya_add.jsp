@@ -1,7 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.rccf.model.RAgency" %>
 <%@ page import="com.alibaba.fastjson.JSON" %>
-<%@ page import="com.rccf.model.AProduceDiya" %><%--
+<%@ page import="com.rccf.model.produce.AProduceDiya" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/11/16

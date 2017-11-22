@@ -1,15 +1,18 @@
-package com.rccf.model;
+package com.rccf.model.produce;
+
+import com.google.common.base.Objects;
 
 import javax.persistence.*;
-import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Entity
-@Table(name = "a_produce_diya", schema = "rccf", catalog = "")
-public class AProduceDiya {
+@Table(name = "a_produce_zhiya", schema = "rccf", catalog = "")
+public class AProduceZhiya {
     private int id;
     private String name;
     private String code;
     private Integer agencyId;
+    private String agencyName;
     private String loanPeople;
     private String repaymentType;
     private Integer loanBidType;
@@ -20,8 +23,9 @@ public class AProduceDiya {
     private String loanAmountTao;
     private String loanAmount;
     private String loanAmountOther;
-    private String loanRate;
-    private String loanRateOther;
+    private Integer supportExtension;
+    private String extensionFee;
+    private String extensionDescription;
     private String personMaterial;
     private String companyMaterial;
     private Integer minAge;
@@ -45,11 +49,10 @@ public class AProduceDiya {
     private String notice;
     private String shootReason;
     private Integer state;
-    private String agencyName;
+    private Timestamp createTime;
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
     }
@@ -86,6 +89,16 @@ public class AProduceDiya {
 
     public void setAgencyId(Integer agencyId) {
         this.agencyId = agencyId;
+    }
+
+    @Basic
+    @Column(name = "agency_name")
+    public String getAgencyName() {
+        return agencyName;
+    }
+
+    public void setAgencyName(String agencyName) {
+        this.agencyName = agencyName;
     }
 
     @Basic
@@ -189,23 +202,33 @@ public class AProduceDiya {
     }
 
     @Basic
-    @Column(name = "loan_rate")
-    public String getLoanRate() {
-        return loanRate;
+    @Column(name = "support_extension")
+    public Integer getSupportExtension() {
+        return supportExtension;
     }
 
-    public void setLoanRate(String loanRate) {
-        this.loanRate = loanRate;
+    public void setSupportExtension(Integer supportExtension) {
+        this.supportExtension = supportExtension;
     }
 
     @Basic
-    @Column(name = "loan_rate_other")
-    public String getLoanRateOther() {
-        return loanRateOther;
+    @Column(name = "extension_fee")
+    public String getExtensionFee() {
+        return extensionFee;
     }
 
-    public void setLoanRateOther(String loanRateOther) {
-        this.loanRateOther = loanRateOther;
+    public void setExtensionFee(String extensionFee) {
+        this.extensionFee = extensionFee;
+    }
+
+    @Basic
+    @Column(name = "extension_description")
+    public String getExtensionDescription() {
+        return extensionDescription;
+    }
+
+    public void setExtensionDescription(String extensionDescription) {
+        this.extensionDescription = extensionDescription;
     }
 
     @Basic
@@ -428,7 +451,6 @@ public class AProduceDiya {
         this.shootReason = shootReason;
     }
 
-
     @Basic
     @Column(name = "state")
     public Integer getState() {
@@ -440,15 +462,85 @@ public class AProduceDiya {
     }
 
     @Basic
-    @Column(name = "agency_name")
-    public String getAgencyName() {
-        return agencyName;
+    @Column(name = "create_time")
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setAgencyName(String agencyName) {
-        this.agencyName = agencyName;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AProduceZhiya that = (AProduceZhiya) o;
+
+        if (id != that.id) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (code != null ? !code.equals(that.code) : that.code != null) return false;
+        if (agencyId != null ? !agencyId.equals(that.agencyId) : that.agencyId != null) return false;
+        if (agencyName != null ? !agencyName.equals(that.agencyName) : that.agencyName != null) return false;
+        if (loanPeople != null ? !loanPeople.equals(that.loanPeople) : that.loanPeople != null) return false;
+        if (repaymentType != null ? !repaymentType.equals(that.repaymentType) : that.repaymentType != null)
+            return false;
+        if (loanBidType != null ? !loanBidType.equals(that.loanBidType) : that.loanBidType != null) return false;
+        if (loanScale != null ? !loanScale.equals(that.loanScale) : that.loanScale != null) return false;
+        if (loanSacelOther != null ? !loanSacelOther.equals(that.loanSacelOther) : that.loanSacelOther != null)
+            return false;
+        if (houseArea != null ? !houseArea.equals(that.houseArea) : that.houseArea != null) return false;
+        if (houseAreaOther != null ? !houseAreaOther.equals(that.houseAreaOther) : that.houseAreaOther != null)
+            return false;
+        if (loanAmountTao != null ? !loanAmountTao.equals(that.loanAmountTao) : that.loanAmountTao != null)
+            return false;
+        if (loanAmount != null ? !loanAmount.equals(that.loanAmount) : that.loanAmount != null) return false;
+        if (loanAmountOther != null ? !loanAmountOther.equals(that.loanAmountOther) : that.loanAmountOther != null)
+            return false;
+        if (supportExtension != null ? !supportExtension.equals(that.supportExtension) : that.supportExtension != null)
+            return false;
+        if (extensionFee != null ? !extensionFee.equals(that.extensionFee) : that.extensionFee != null) return false;
+        if (extensionDescription != null ? !extensionDescription.equals(that.extensionDescription) : that.extensionDescription != null)
+            return false;
+        if (personMaterial != null ? !personMaterial.equals(that.personMaterial) : that.personMaterial != null)
+            return false;
+        if (companyMaterial != null ? !companyMaterial.equals(that.companyMaterial) : that.companyMaterial != null)
+            return false;
+        if (minAge != null ? !minAge.equals(that.minAge) : that.minAge != null) return false;
+        if (maxAge != null ? !maxAge.equals(that.maxAge) : that.maxAge != null) return false;
+        if (ageOther != null ? !ageOther.equals(that.ageOther) : that.ageOther != null) return false;
+        if (minMonth != null ? !minMonth.equals(that.minMonth) : that.minMonth != null) return false;
+        if (mixMonth != null ? !mixMonth.equals(that.mixMonth) : that.mixMonth != null) return false;
+        if (fixedMonth != null ? !fixedMonth.equals(that.fixedMonth) : that.fixedMonth != null) return false;
+        if (diyaType != null ? !diyaType.equals(that.diyaType) : that.diyaType != null) return false;
+        if (houseOwnership != null ? !houseOwnership.equals(that.houseOwnership) : that.houseOwnership != null)
+            return false;
+        if (applyLoanType != null ? !applyLoanType.equals(that.applyLoanType) : that.applyLoanType != null)
+            return false;
+        if (applyHouseAge != null ? !applyHouseAge.equals(that.applyHouseAge) : that.applyHouseAge != null)
+            return false;
+        if (applyHouseNature != null ? !applyHouseNature.equals(that.applyHouseNature) : that.applyHouseNature != null)
+            return false;
+        if (folkMortgageAffect != null ? !folkMortgageAffect.equals(that.folkMortgageAffect) : that.folkMortgageAffect != null)
+            return false;
+        if (loanMaxHouseageplusloanyear != null ? !loanMaxHouseageplusloanyear.equals(that.loanMaxHouseageplusloanyear) : that.loanMaxHouseageplusloanyear != null)
+            return false;
+        if (loanMaxHouseageplusloanyearOther != null ? !loanMaxHouseageplusloanyearOther.equals(that.loanMaxHouseageplusloanyearOther) : that.loanMaxHouseageplusloanyearOther != null)
+            return false;
+        if (differentLoanMortgage != null ? !differentLoanMortgage.equals(that.differentLoanMortgage) : that.differentLoanMortgage != null)
+            return false;
+        if (processDetails != null ? !processDetails.equals(that.processDetails) : that.processDetails != null)
+            return false;
+        if (advantage != null ? !advantage.equals(that.advantage) : that.advantage != null) return false;
+        if (disadvantage != null ? !disadvantage.equals(that.disadvantage) : that.disadvantage != null) return false;
+        if (notice != null ? !notice.equals(that.notice) : that.notice != null) return false;
+        if (shootReason != null ? !shootReason.equals(that.shootReason) : that.shootReason != null) return false;
+        if (state != null ? !state.equals(that.state) : that.state != null) return false;
+        if (createTime != null ? !createTime.equals(that.createTime) : that.createTime != null) return false;
+
+        return true;
+    }
 
     @Override
     public int hashCode() {
@@ -456,6 +548,7 @@ public class AProduceDiya {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (code != null ? code.hashCode() : 0);
         result = 31 * result + (agencyId != null ? agencyId.hashCode() : 0);
+        result = 31 * result + (agencyName != null ? agencyName.hashCode() : 0);
         result = 31 * result + (loanPeople != null ? loanPeople.hashCode() : 0);
         result = 31 * result + (repaymentType != null ? repaymentType.hashCode() : 0);
         result = 31 * result + (loanBidType != null ? loanBidType.hashCode() : 0);
@@ -466,8 +559,9 @@ public class AProduceDiya {
         result = 31 * result + (loanAmountTao != null ? loanAmountTao.hashCode() : 0);
         result = 31 * result + (loanAmount != null ? loanAmount.hashCode() : 0);
         result = 31 * result + (loanAmountOther != null ? loanAmountOther.hashCode() : 0);
-        result = 31 * result + (loanRate != null ? loanRate.hashCode() : 0);
-        result = 31 * result + (loanRateOther != null ? loanRateOther.hashCode() : 0);
+        result = 31 * result + (supportExtension != null ? supportExtension.hashCode() : 0);
+        result = 31 * result + (extensionFee != null ? extensionFee.hashCode() : 0);
+        result = 31 * result + (extensionDescription != null ? extensionDescription.hashCode() : 0);
         result = 31 * result + (personMaterial != null ? personMaterial.hashCode() : 0);
         result = 31 * result + (companyMaterial != null ? companyMaterial.hashCode() : 0);
         result = 31 * result + (minAge != null ? minAge.hashCode() : 0);
@@ -491,98 +585,18 @@ public class AProduceDiya {
         result = 31 * result + (notice != null ? notice.hashCode() : 0);
         result = 31 * result + (shootReason != null ? shootReason.hashCode() : 0);
         result = 31 * result + (state != null ? state.hashCode() : 0);
-        result = 31 * result + (agencyName != null ? agencyName.hashCode() : 0);
+        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
         return result;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof AProduceDiya)) return false;
-
-        AProduceDiya that = (AProduceDiya) o;
-
-        if (getId() != that.getId()) return false;
-        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) return false;
-        if (getCode() != null ? !getCode().equals(that.getCode()) : that.getCode() != null) return false;
-        if (getAgencyId() != null ? !getAgencyId().equals(that.getAgencyId()) : that.getAgencyId() != null)
-            return false;
-        if (getLoanPeople() != null ? !getLoanPeople().equals(that.getLoanPeople()) : that.getLoanPeople() != null)
-            return false;
-        if (getRepaymentType() != null ? !getRepaymentType().equals(that.getRepaymentType()) : that.getRepaymentType() != null)
-            return false;
-        if (getLoanBidType() != null ? !getLoanBidType().equals(that.getLoanBidType()) : that.getLoanBidType() != null)
-            return false;
-        if (getLoanScale() != null ? !getLoanScale().equals(that.getLoanScale()) : that.getLoanScale() != null)
-            return false;
-        if (getLoanSacelOther() != null ? !getLoanSacelOther().equals(that.getLoanSacelOther()) : that.getLoanSacelOther() != null)
-            return false;
-        if (getHouseArea() != null ? !getHouseArea().equals(that.getHouseArea()) : that.getHouseArea() != null)
-            return false;
-        if (getHouseAreaOther() != null ? !getHouseAreaOther().equals(that.getHouseAreaOther()) : that.getHouseAreaOther() != null)
-            return false;
-        if (getLoanAmountTao() != null ? !getLoanAmountTao().equals(that.getLoanAmountTao()) : that.getLoanAmountTao() != null)
-            return false;
-        if (getLoanAmount() != null ? !getLoanAmount().equals(that.getLoanAmount()) : that.getLoanAmount() != null)
-            return false;
-        if (getLoanAmountOther() != null ? !getLoanAmountOther().equals(that.getLoanAmountOther()) : that.getLoanAmountOther() != null)
-            return false;
-        if (getLoanRate() != null ? !getLoanRate().equals(that.getLoanRate()) : that.getLoanRate() != null)
-            return false;
-        if (getLoanRateOther() != null ? !getLoanRateOther().equals(that.getLoanRateOther()) : that.getLoanRateOther() != null)
-            return false;
-        if (getPersonMaterial() != null ? !getPersonMaterial().equals(that.getPersonMaterial()) : that.getPersonMaterial() != null)
-            return false;
-        if (getCompanyMaterial() != null ? !getCompanyMaterial().equals(that.getCompanyMaterial()) : that.getCompanyMaterial() != null)
-            return false;
-        if (getMinAge() != null ? !getMinAge().equals(that.getMinAge()) : that.getMinAge() != null) return false;
-        if (getMaxAge() != null ? !getMaxAge().equals(that.getMaxAge()) : that.getMaxAge() != null) return false;
-        if (getAgeOther() != null ? !getAgeOther().equals(that.getAgeOther()) : that.getAgeOther() != null)
-            return false;
-        if (getMinMonth() != null ? !getMinMonth().equals(that.getMinMonth()) : that.getMinMonth() != null)
-            return false;
-        if (getMixMonth() != null ? !getMixMonth().equals(that.getMixMonth()) : that.getMixMonth() != null)
-            return false;
-        if (getFixedMonth() != null ? !getFixedMonth().equals(that.getFixedMonth()) : that.getFixedMonth() != null)
-            return false;
-        if (getDiyaType() != null ? !getDiyaType().equals(that.getDiyaType()) : that.getDiyaType() != null)
-            return false;
-        if (getHouseOwnership() != null ? !getHouseOwnership().equals(that.getHouseOwnership()) : that.getHouseOwnership() != null)
-            return false;
-        if (getApplyLoanType() != null ? !getApplyLoanType().equals(that.getApplyLoanType()) : that.getApplyLoanType() != null)
-            return false;
-        if (getApplyHouseAge() != null ? !getApplyHouseAge().equals(that.getApplyHouseAge()) : that.getApplyHouseAge() != null)
-            return false;
-        if (getApplyHouseNature() != null ? !getApplyHouseNature().equals(that.getApplyHouseNature()) : that.getApplyHouseNature() != null)
-            return false;
-        if (getFolkMortgageAffect() != null ? !getFolkMortgageAffect().equals(that.getFolkMortgageAffect()) : that.getFolkMortgageAffect() != null)
-            return false;
-        if (getLoanMaxHouseageplusloanyear() != null ? !getLoanMaxHouseageplusloanyear().equals(that.getLoanMaxHouseageplusloanyear()) : that.getLoanMaxHouseageplusloanyear() != null)
-            return false;
-        if (getLoanMaxHouseageplusloanyearOther() != null ? !getLoanMaxHouseageplusloanyearOther().equals(that.getLoanMaxHouseageplusloanyearOther()) : that.getLoanMaxHouseageplusloanyearOther() != null)
-            return false;
-        if (getDifferentLoanMortgage() != null ? !getDifferentLoanMortgage().equals(that.getDifferentLoanMortgage()) : that.getDifferentLoanMortgage() != null)
-            return false;
-        if (getProcessDetails() != null ? !getProcessDetails().equals(that.getProcessDetails()) : that.getProcessDetails() != null)
-            return false;
-        if (getAdvantage() != null ? !getAdvantage().equals(that.getAdvantage()) : that.getAdvantage() != null)
-            return false;
-        if (getDisadvantage() != null ? !getDisadvantage().equals(that.getDisadvantage()) : that.getDisadvantage() != null)
-            return false;
-        if (getNotice() != null ? !getNotice().equals(that.getNotice()) : that.getNotice() != null) return false;
-        if (getShootReason() != null ? !getShootReason().equals(that.getShootReason()) : that.getShootReason() != null)
-            return false;
-        if (getState() != null ? !getState().equals(that.getState()) : that.getState() != null) return false;
-        return getAgencyName() != null ? getAgencyName().equals(that.getAgencyName()) : that.getAgencyName() == null;
-    }
-
-    @Override
     public String toString() {
-        return com.google.common.base.Objects.toStringHelper(this)
+        return Objects.toStringHelper(this)
                 .add("id", id)
                 .add("name", name)
                 .add("code", code)
                 .add("agencyId", agencyId)
+                .add("agencyName", agencyName)
                 .add("loanPeople", loanPeople)
                 .add("repaymentType", repaymentType)
                 .add("loanBidType", loanBidType)
@@ -593,8 +607,9 @@ public class AProduceDiya {
                 .add("loanAmountTao", loanAmountTao)
                 .add("loanAmount", loanAmount)
                 .add("loanAmountOther", loanAmountOther)
-                .add("loanRate", loanRate)
-                .add("loanRateOther", loanRateOther)
+                .add("supportExtension", supportExtension)
+                .add("extensionFee", extensionFee)
+                .add("extensionDescription", extensionDescription)
                 .add("personMaterial", personMaterial)
                 .add("companyMaterial", companyMaterial)
                 .add("minAge", minAge)
@@ -618,7 +633,7 @@ public class AProduceDiya {
                 .add("notice", notice)
                 .add("shootReason", shootReason)
                 .add("state", state)
-                .add("agencyName", agencyName)
+                .add("createTime", createTime)
                 .toString();
     }
 }

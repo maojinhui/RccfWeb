@@ -1,7 +1,6 @@
 package com.rccf.util.verify;
 
-import com.rccf.model.AProduceDiya;
-import com.rccf.model.RAgency;
+import com.rccf.model.produce.AProduceDiya;
 import com.rccf.service.BaseService;
 import com.rccf.util.Strings;
 import org.hibernate.criterion.DetachedCriteria;

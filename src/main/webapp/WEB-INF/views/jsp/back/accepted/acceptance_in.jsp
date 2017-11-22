@@ -13,9 +13,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%--<html>--%>
-<%@include file="../../common/back_common_head.jsp" %>
-<%--<body>--%>
 <%
     Accepted accepted = (Accepted) request.getAttribute("accepted");
     if (null == accepted) {
@@ -30,6 +27,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/instyle.css">
     <style type="text/css">
         html,
         body {
@@ -49,6 +47,7 @@
 
         .am-table input {
             border: none;
+            width: 8em;
         }
     </style>
 </head>
@@ -290,12 +289,13 @@
         <button id="cancel" class="am-u-sm-6  am-u-end am-btn am-btn-danger ">取消</button>
     </div>
 </div>
-<script src="../../js/jquery.min.js"></script>
+
 <%
     List<Employee> employees = (List<Employee>) request.getAttribute("employees");
     List<LatterNumber> numbers = (List<LatterNumber>) request.getAttribute("numbers");
     List<Employee> houqis = (List<Employee>) request.getAttribute("houqis");
 %>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/jquery.autocompleter.js"></script>
 <script>
 
