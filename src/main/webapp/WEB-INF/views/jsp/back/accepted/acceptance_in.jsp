@@ -512,7 +512,7 @@
                         'latter_number': latter_number,
                         'custom_name': custom_name,
                         'custom_phone': custom_phone,
-                        'customer_idcard':customer_id,
+                        'customer_idcard':customer_idcard,
                         'business_type': business_type,
                         'agency': agency,
                         'business_nature': business_nature,
@@ -804,7 +804,7 @@
                 dataType:"json",
                 success:function (result) {
                     if(result.code){
-                        var info = result.data;
+                        var info =JSON.parse(result.data) ;
                         var subject = info.subject;
                         var amount = info.amount;
                         var deal_time = info.deal_time;
@@ -814,10 +814,19 @@
                         $(input3).val(deal_time);
                         $(input4).val(description);
 
-                        $(input1).attr('disabled', false);
-                        $(input2).attr('disabled', false);
-                        $(input3).attr('disabled', false);
-                        $(input4).attr('disabled', false);
+                        $(input1).attr('disabled', true);
+                        $(input2).attr('disabled', true);
+                        $(input3).attr('disabled', true);
+                        $(input4).attr('disabled', true);
+
+                        var str = '';
+                        str += '<a onclick="editEarn(this)" class="am-btn am-btn-secondary am-btn-xs"><span' +
+                            '   class="am-icon-copy"></span> 编辑' +
+                            '   </a>' +
+                            '   <a onclick="removeEarn(this)"  class="am-btn am-btn-default am-btn-xs"><span' +
+                            '   class="am-icon-trash-o"></span> 删除' +
+                            '   </a>';
+                        $(tdNode).html(str);
                     }else{
                         alert(result.errorMsg);
                     }
@@ -856,7 +865,7 @@
                 dataType:"json",
                 success:function (result) {
                     if(result.code){
-                        var info = result.data;
+                        var info =JSON.parse(result.data) ;
                         var subject = info.subject;
                         var amount = info.amount;
                         var deal_time = info.deal_time;
@@ -866,10 +875,19 @@
                         $(input3).val(deal_time);
                         $(input4).val(description);
 
-                        $(input1).attr('disabled', false);
-                        $(input2).attr('disabled', false);
-                        $(input3).attr('disabled', false);
-                        $(input4).attr('disabled', false);
+                        $(input1).attr('disabled', true);
+                        $(input2).attr('disabled', true);
+                        $(input3).attr('disabled', true);
+                        $(input4).attr('disabled', true);
+
+                        var str = '';
+                        str += '<a onclick="editEarn(this)" class="am-btn am-btn-secondary am-btn-xs"><span' +
+                            '   class="am-icon-copy"></span> 编辑' +
+                            '   </a>' +
+                            '   <a onclick="removeEarn(this)"  class="am-btn am-btn-default am-btn-xs"><span' +
+                            '   class="am-icon-trash-o"></span> 删除' +
+                            '   </a>';
+                        $(tdNode).html(str);
                     }else{
                         alert(result.errorMsg);
                     }
@@ -882,8 +900,41 @@
 
     }
 
-    function removeEarn() {
-        
+    function removeEarn(obj) {
+        var tdNode = obj.parentNode;
+        var trNode = tdNode.parentNode;
+        var id = trNode.dataset.earnId;
+
+        $.ajax({
+            url:'/accept/info/incomeexpenditure/delete',
+            data:{"id":id},
+            dataType:"json",
+            success:function () {
+                var tBodyNode = trNode.parentNode;
+                tBodyNode.removeChild(trNode);
+                alert("移除成功！");
+            },
+            error:function () {
+                
+            }
+        })
+    }
+    function removePay(obj) {
+        var tdNode = obj.parentNode;
+        var trNode = tdNode.parentNode;
+        var id = trNode.dataset.earnId;
+
+        $.ajax({
+            url:'/accept/info/incomeexpenditure/delete',
+            data:{"id":id},
+            dataType:"json",
+            success:function () {
+                alert("移除成功！");
+            },
+            error:function () {
+
+            }
+        })
     }
 </script>
 </body>
