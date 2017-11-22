@@ -82,8 +82,7 @@
                         for (int i = 0; i < deputys.size(); i++) {
                             Employee employee = deputys.get(i);
                     %>
-                    <option value="<%=employee.getId()%>"><%=employee.getName()%>
-                    </option>
+                    <option value="<%=employee.getId()%>"><%=employee.getName()%></option>
                     <%}%>
                 </select>
                 <%
@@ -100,8 +99,7 @@
                         for (int i = 0; i < types.size(); i++) {
                             ILoanType type = types.get(i);
                     %>
-                    <option value="<%=type.getId()%>"><%=type.getName()%>
-                    </option>
+                    <option value="<%=type.getId()%>"><%=type.getName()%></option>
                     <%}%>
                 </select>
             </div>
