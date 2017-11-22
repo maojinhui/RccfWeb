@@ -21,7 +21,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>抵押产品录入</title>
+    <title>质押产品录入</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <link href="https://cdn.bootcss.com/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
@@ -59,7 +59,7 @@
     <p>
         <a href="/prod/listPage">产品管理</a>
         >
-        <a style="color: #666666">抵押产品</a>
+        <a style="color: #666666">质押产品</a>
     </p>
 </div>
 
@@ -175,9 +175,8 @@
                     name="produce_loan_amount_tao" value="2" type="checkbox"> 多套
             </td>
             <td class="am-text-center am-text-middle" rowspan="3">贷款利率</td>
-            <td><input name="loan_rate_up" value="10" type="checkbox"> 上浮10% <input name="loan_rate_up" value="15"
-                                                                                    type="checkbox"> 上浮15% <input
-                    name="loan_rate_up" value="20" type="checkbox"> 上浮20%
+            <td>
+                <input type="radio"> 需要展期 <input type="radio"> 不需要展期
             </td>
         </tr>
         <tr>
@@ -189,10 +188,7 @@
                                                                                            value="1000" type="checkbox">
                 1000万
             </td>
-            <td style="border-top: none;"><input name="loan_rate_up" value="25" type="checkbox"> 上浮25% <input
-                    name="loan_rate_up" value="30" type="checkbox"> 上浮30% <input name="loan_rate_up" value="35"
-                                                                                 type="checkbox">
-                上浮35%
+            <td style="border-top: none;">展期费：<input type="text" style="width: 6em;border-bottom: solid 1px #333;">
             </td>
         </tr>
         <tr>
@@ -200,12 +196,11 @@
                     name="produce_loan_amount" value="3000" type="checkbox"> 3000万 <input onchange="showInput4()"
                     type="checkbox"> 其他 <input id="produce_loan_amount_other" class="am-hide" type="text" style="width: 3em;border-bottom: solid 1px #333;">
             </td>
-            <td style="border-top: none;"><input name="loan_rate_up" value="40" type="checkbox"> 上浮40% <input onchange="showInput3()"
-                                                                                                              type="checkbox">
-                其他 <input id="loan_rate_up_other" class="am-hide" type="text"
-                          style="width: 5em;border-bottom: solid 1px #333;">
+            <td style="border-top: none;">
+                说&emsp;明：<input type="text" style="width: 6em;border-bottom: solid 1px #333;">
             </td>
         </tr>
+
         <tr>
             <td class="am-text-center am-text-middle" rowspan="4">个人准备资料</td>
             <td>
