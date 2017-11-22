@@ -176,7 +176,7 @@
             </td>
             <td class="am-text-center am-text-middle" rowspan="3">贷款利率</td>
             <td>
-                <input type="radio"> 需要展期 <input type="radio"> 不需要展期
+                <input name="support_extension" type="radio"> 需要展期 <input name="support_extension" type="radio"> 不需要展期
             </td>
         </tr>
         <tr>
@@ -188,7 +188,7 @@
                                                                                            value="1000" type="checkbox">
                 1000万
             </td>
-            <td style="border-top: none;">展期费：<input type="text" style="width: 6em;border-bottom: solid 1px #333;">
+            <td style="border-top: none;">展期费：<input id="extension_fee" type="text" style="width: 6em;border-bottom: solid 1px #333;">
             </td>
         </tr>
         <tr>
@@ -197,7 +197,7 @@
                     type="checkbox"> 其他 <input id="produce_loan_amount_other" class="am-hide" type="text" style="width: 3em;border-bottom: solid 1px #333;">
             </td>
             <td style="border-top: none;">
-                说&emsp;明：<input type="text" style="width: 6em;border-bottom: solid 1px #333;">
+                说&emsp;明：<input id="extension_description" type="text" style="width: 6em;border-bottom: solid 1px #333;">
             </td>
         </tr>
 
@@ -437,12 +437,19 @@
         obj.produce_loan_amount = produce_loan_amount;
         obj.produce_loan_amount_other = produce_loan_amount_other;
 
-        var loan_rate = getCheckIntValues("loan_rate_up");
-        var loan_rate_other = $('#loan_rate_up_other').val();
+//        var loan_rate = getCheckIntValues("loan_rate_up");
+//        var loan_rate_other = $('#loan_rate_up_other').val();
+
+        var support_extension = getRadioValue("support_extension");
+        var extension_fee = $("#extension_fee").val();
+        var extension_description = $("#extension_description").val();
         var person_material = getCheckIntValues("person_material");
         var company_material = getCheckIntValues("company_material");
-        obj.loan_rate = loan_rate;
-        obj.loan_rate_other = loan_rate_other;
+//        obj.loan_rate = loan_rate;
+//        obj.loan_rate_other = loan_rate_other;
+        obj.support_extension = support_extension;
+        obj.extension_fee = extension_fee;
+        obj.extension_description = extension_description;
         obj.person_material = person_material;
         obj.company_material = company_material;
 
@@ -490,7 +497,7 @@
         obj.shoot_reason = shoot_reason;
 
         $.ajax({
-            url: '/prod/edit/diya',
+            url: '/prod/edit/zhiya',
             dataType: 'json',
             data: obj,
             success: function (result) {
