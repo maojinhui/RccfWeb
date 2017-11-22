@@ -48,13 +48,16 @@
         .am-table input {
             border: none;
         }
-        .employee-info input{
+
+        .employee-info input {
             width: 8em;
         }
-        .loan-info input{
+
+        .loan-info input {
             width: 10em;
         }
-        .payment-info input{
+
+        .payment-info input {
             width: 5em;
         }
     </style>
@@ -214,17 +217,17 @@
             <td>办理状态</td>
             <td>
                 <select id="handle_status" style="width:5em;border: solid 1px deepskyblue;">
-                <option value="1">受理</option>
-                <option <%=(accepted.getState() != null && 2 == accepted.getState()) ? "selected = \"selected\"" : ""%>
-                        value="2">办结
-                </option>
-                <option <%=(accepted.getState() != null && 3 == accepted.getState()) ? "selected = \"selected\"" : ""%>
-                        value="3">被拒
-                </option>
-                <option <%=(accepted.getState() != null && 4 == accepted.getState()) ? "selected = \"selected\"" : ""%>
-                        value="4">撤单
-                </option>
-            </select>
+                    <option value="1">受理</option>
+                    <option <%=(accepted.getState() != null && 2 == accepted.getState()) ? "selected = \"selected\"" : ""%>
+                            value="2">办结
+                    </option>
+                    <option <%=(accepted.getState() != null && 3 == accepted.getState()) ? "selected = \"selected\"" : ""%>
+                            value="3">被拒
+                    </option>
+                    <option <%=(accepted.getState() != null && 4 == accepted.getState()) ? "selected = \"selected\"" : ""%>
+                            value="4">撤单
+                    </option>
+                </select>
             </td>
             <td>办结日期</td>
             <td>
@@ -500,19 +503,20 @@
 <script>
     $("#earn_add").click(function () {
             var str = '';
-            str += '<tr>\n' +
+            str += '<tr data-earn-type="1" data-earn-id="">\n' +
                 '      <td><input type="text" placeholder="项目名称"></td>\n' +
                 '      <td><input type="number" placeholder="收入金额"></td>\n' +
                 '      <td style="min-width:6em; ">-</td>\n' +
                 '      <td><input type="datetime-local" placeholder="时间" style="width: 13em;"></td>\n' +
                 '      <td><input type="text" placeholder="说明信息"></td>\n' +
+
                 '      <td>\n' +
-                '        <a href="" class="am-btn am-btn-warning am-btn-xs"><span\n' +
+                '        <a onclick="updateEarn(this)" class="am-btn am-btn-warning am-btn-xs"><span\n' +
                 '                class="am-icon-copy"></span> 提交\n' +
                 '        </a>\n' +
-                '        <a href="" class="am-btn am-btn-danger am-btn-xs"><span\n' +
-                '                class="am-icon-trash-o"></span> 删除\n' +
-                '       </a>'+
+                '        <a  class="am-btn am-btn-danger am-btn-xs"><span\n' +
+                '                class="am-icon-recycle"></span> 取消\n' +
+                '       </a>' +
                 '      </td>\n' +
                 '    </tr>';
             $("#content").append(str);
@@ -532,12 +536,99 @@
             '                class="am-icon-copy"></span> 提交\n' +
             '        </a>\n' +
             '        <a href="" class="am-btn am-btn-danger am-btn-xs"><span\n' +
-            '                class="am-icon-trash-o"></span> 删除\n' +
-            '       </a>'+
+            '                class="am-icon-recycle"></span> 取消\n' +
+            '       </a>' +
             '      </td>\n' +
             '    </tr>';
         $("#content").append(str);
     })
+    function updateEarn(obj) {
+        var tdNode = obj.parentNode;
+        var trNode = tdNode.parentNode;
+
+        var type = $(trNode).data('earnType');
+        var detail_id = $(trNode).data('earnId');
+
+        var tds = $(trNode).children();
+        var td1 = tds[0];
+        var td2 = tds[1];
+        var td3 = tds[3];
+        var td4 = tds[4];
+        var input1 = ($(td1).children())[0];
+        var input2 = ($(td2).children())[0];
+        var input3 = ($(td3).children())[0];
+        var input4 = ($(td4).children())[0];
+
+        var jsonObj = {};
+        jsonObj.subject = $(input1).val();
+        jsonObj.amount = $(input2).val();
+        jsonObj.deal_time = $(input3).val();
+        jsonObj.description = $(input4).val();
+        jsonObj.type = type;
+        jsonObj.detail_id = detail_id;
+
+        $.ajax({
+            url: '/accept/info/incomeexpenditure',
+            data: jsonObj,
+            dataType: 'json',
+            success: function (result) {
+                alert('提交成功');
+                $(input1).attr('disabled', true);
+                $(input2).attr('disabled', true);
+                $(input3).attr('disabled', true);
+                $(input4).attr('disabled', true);
+
+                var info = result.data;
+                trNode.dataset.earnId = info;
+
+                var str = '';
+                str += '<a onclick="editEarn(this)" class="am-btn am-btn-secondary am-btn-xs"><span' +
+                    '   class="am-icon-copy"></span> 编辑' +
+                    '   </a>' +
+                    '   <a href="" class="am-btn am-btn-default am-btn-xs"><span' +
+                    '   class="am-icon-trash-o"></span> 删除' +
+                    '   </a>';
+                $(tdNode).html(str);
+            },
+            error: function () {
+
+            }
+        });
+    }
+
+    function editEarn(obj) {
+        var tdNode = obj.parentNode;
+        var trNode = tdNode.parentNode;
+        var tds = $(trNode).children();
+        var td1 = tds[0];
+        var td2 = tds[1];
+        var td3 = tds[3];
+        var td4 = tds[4];
+        var input1 = ($(td1).children())[0];
+        var input2 = ($(td2).children())[0];
+        var input3 = ($(td3).children())[0];
+        var input4 = ($(td4).children())[0];
+
+        var jsonObj = {};
+        jsonObj.subject = $(input1).val();
+        jsonObj.amount = $(input2).val();
+        jsonObj.deal_time = $(input3).val();
+        jsonObj.description = $(input4).val();
+
+        $(input1).attr('disabled', false);
+        $(input2).attr('disabled', false);
+        $(input3).attr('disabled', false);
+        $(input4).attr('disabled', false);
+
+        var str = '';
+        str += '        <a onclick="updateEarn(this)" class="am-btn am-btn-warning am-btn-xs"><span\n' +
+            '                class="am-icon-copy"></span> 提交\n' +
+            '        </a>\n' +
+            '        <a  class="am-btn am-btn-danger am-btn-xs"><span\n' +
+            '                class="am-icon-recycle"></span> 取消\n' +
+            '       </a>';
+        $(tdNode).html(str);
+    }
 </script>
 </body>
 </html>
