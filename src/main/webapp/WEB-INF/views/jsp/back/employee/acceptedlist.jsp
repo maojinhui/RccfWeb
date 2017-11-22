@@ -22,7 +22,7 @@
 
 <script>
     function change(id) {
-        url = "/employee/addAccepted?id=" + id;
+        url = "/accept/insert_edit?id=" + id;
         parent.changeUrl(url);
     }
 </script>

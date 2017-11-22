@@ -814,8 +814,8 @@ public class AcceptedController {
             return ResponseUtil.fail(0, "登录信息失效");
         }
         AcceptIncomeExpenditureDetail detail = new AcceptIncomeExpenditureDetail();
-
-        String detail_id = request.getParameter("detail_id");
+        String detail_id = request.getParameter("id");
+        String type = request.getParameter("type");
         String subject = request.getParameter("subject");
         String amount = request.getParameter("amount");
         String deal_time = request.getParameter("deal_time");
@@ -831,6 +831,9 @@ public class AcceptedController {
             detail.setOldStr("");
         } else {
             detail.setOldStr(incomeExpenditure.toString());
+        }
+        if(!Strings.isNullOrEmpty(type)){
+            incomeExpenditure.setType(Integer.valueOf(type));
         }
         incomeExpenditure.setSubject(subject);
         if (Strings.isNullOrEmpty(amount)) {
@@ -852,7 +855,8 @@ public class AcceptedController {
             detail.setNewStr(incomeExpenditure.toString());
             detail.setAdmin(employee.getId());
             detail.setAdminTime(DateUtil.date2Timestamp(new Date()));
-            return ResponseUtil.success();
+            baseService.save(detail);
+            return ResponseUtil.success(incomeExpenditure.getId());
         }
         return ResponseUtil.fail(0,"保存失败");
     }
