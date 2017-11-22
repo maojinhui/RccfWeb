@@ -301,7 +301,7 @@
                     AcceptIncomeExpenditure acceptIncomeExpenditure = incomelist.get(i);
             %>
 
-        <tr>
+        <tr data-earn-type="<%=acceptIncomeExpenditure.getType()%>" data-earn-id="<%=acceptIncomeExpenditure.getId()%>">
             <td><input type="text" placeholder="项目名称" value="<%=acceptIncomeExpenditure.getSubject()%>"  disabled="disabled"></td>
 
             <%
