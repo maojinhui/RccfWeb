@@ -289,7 +289,21 @@
             <th>操作</th>
         </tr>
         <tbody id="content">
-
+        <tr>
+            <td><input type="text" placeholder="项目名称"></td>
+            <td><input type="number" placeholder="收入金额"></td>
+            <td>-</td>
+            <td><input type="datetime-local" placeholder="时间" style="width: 13em;"></td>
+            <td><input type="text" placeholder="说明信息"></td>
+            <td>
+                <a href="" class="am-btn am-btn-secondary am-btn-xs"><span
+                        class="am-icon-copy"></span> 编辑
+                </a>
+                <a href="" class="am-btn am-btn-default am-btn-xs"><span
+                        class="am-icon-recycle"></span> 取消
+                </a>
+            </td>
+        </tr>
 
         </tbody>
         <tr>
@@ -490,12 +504,15 @@
                 '      <td><input type="text" placeholder="项目名称"></td>\n' +
                 '      <td><input type="number" placeholder="收入金额"></td>\n' +
                 '      <td style="min-width:6em; ">-</td>\n' +
-                '      <td><input type="date" placeholder="时间" style="width: 10em;"></td>\n' +
+                '      <td><input type="datetime-local" placeholder="时间" style="width: 13em;"></td>\n' +
                 '      <td><input type="text" placeholder="说明信息"></td>\n' +
                 '      <td>\n' +
                 '        <a href="" class="am-btn am-btn-warning am-btn-xs"><span\n' +
                 '                class="am-icon-copy"></span> 提交\n' +
                 '        </a>\n' +
+                '        <a href="" class="am-btn am-btn-danger am-btn-xs"><span\n' +
+                '                class="am-icon-trash-o"></span> 删除\n' +
+                '       </a>'+
                 '      </td>\n' +
                 '    </tr>';
             $("#content").append(str);
@@ -508,12 +525,15 @@
             '      <td><input type="text" placeholder="项目名称"></td>\n' +
             '      <td>-</td>\n' +
             '      <td><input type="number" placeholder="支出金额"></td>\n' +
-            '      <td><input type="date" placeholder="时间" style="width: 10em;"></td>\n' +
+            '      <td><input type="datetime-local" placeholder="时间" style="width: 13em;"></td>\n' +
             '      <td><input type="text" placeholder="说明信息"></td>\n' +
             '      <td>\n' +
             '        <a href="" class="am-btn am-btn-warning am-btn-xs"><span\n' +
             '                class="am-icon-copy"></span> 提交\n' +
             '        </a>\n' +
+            '        <a href="" class="am-btn am-btn-danger am-btn-xs"><span\n' +
+            '                class="am-icon-trash-o"></span> 删除\n' +
+            '       </a>'+
             '      </td>\n' +
             '    </tr>';
         $("#content").append(str);
