@@ -120,10 +120,10 @@
                     <ul class="autocompleter-list"></ul>
                 </div>
             </td>
-            <td>总&emsp;&emsp;监</td>
-            <td><input type="text"></td>
-            <td>&emsp;副总监</td>
-            <td><input type="text"></td>
+            <%--<td>总&emsp;&emsp;监</td>--%>
+            <%--<td><input type="text"></td>--%>
+            <%--<td>&emsp;副总监</td>--%>
+            <%--<td><input type="text"></td>--%>
         </tr>
     </table>
 
@@ -460,7 +460,7 @@
                 var state = $('#handle_status').val();
                 var houqi = $('#houqi').val();
                 $.ajax({
-                    url: '/employee/saveaccepted',
+                    url: '/accept/info/save',
                     type: 'POST',
                     dataType: 'json',
                     data: {
@@ -495,6 +495,8 @@
 
                 });
             });
+
+
 
 
         });
