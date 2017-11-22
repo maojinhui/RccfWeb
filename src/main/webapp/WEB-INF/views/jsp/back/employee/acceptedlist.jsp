@@ -50,12 +50,23 @@
                  客户姓名:
                  </span>
                 <input id="custome_name" class="am-form-field" type="text">
+            </div>
+        </div>
+        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-end">
+
+            <div class="am-input-group am-input-group-sm">
                 <span class="am-input-group-label">
                  业务员姓名:
                  </span>
                 <input id="clerk_name" class="am-form-field" type="text" value="">
+
+            </div>
+        </div>
+        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-end">
+
+            <div class="am-input-group am-input-group-sm">
                 <span class="am-input-group-btn">
-                        <button id="search_cus" class="am-btn am-btn-default" type="button">搜索</button>
+                        <button id="search_cus" class="am-btn am-btn-primary" type="button">搜索</button>
                 </span>
             </div>
         </div>
@@ -130,7 +141,6 @@
         }
         return d;
     }
-
 
 
     function getAcceptedState(state) {
@@ -377,8 +387,8 @@
         $('#list').html(pageData(1, nums, true));
         $('#page').hide();
     });
-    
-    
+
+
     $("#set").click(function () {
         var page = $("#curr").val();
         $page.setCurr(page, function () {
