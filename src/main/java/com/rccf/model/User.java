@@ -1,8 +1,12 @@
 package com.rccf.model;
 
+import com.sun.deploy.net.URLEncoder;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.UUID;
 
 @Entity
 public class User {
@@ -44,12 +48,22 @@ public class User {
 
     @Basic
     @Column(name = "user_name")
-    public String getUserName() {
-        return userName;
+    public String getUserName()  {
+        String name = "";
+        try {
+            name = URLDecoder.decode(userName, "utf-8");
+        }catch (Exception e){
+            return "";
+        }
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(String userName)  {
+        try {
+            this.userName = URLEncoder.encode(userName,"utf-8");
+        }catch (Exception e){
+            this.userName = UUID.randomUUID().toString().substring(0,16);
+        }
     }
 
     @Basic

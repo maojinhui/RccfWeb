@@ -44,6 +44,34 @@ public class ProduceController {
         return modelAndView;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/")
+    public String listAllProduce(HttpServletRequest request){
+
+
+        return null;
+    }
+
+
+    /**
+     * 添加抵押产品页面
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/diyaInseret")
+    public ModelAndView diyaAddPage(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/product/p_product_diya_add");
+        PageUtil.addAgencys(modelAndView, baseService);
+        return modelAndView;
+    }
+
+
+    /**
+     * 抵押产品详情
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/diyaDetail")
     public ModelAndView diyaDetail(HttpServletRequest request) {
 //        String produce_id= request.getParameter("produce_id");
@@ -57,14 +85,11 @@ public class ProduceController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/diyaInseret")
-    public ModelAndView diyaAdd(HttpServletRequest request) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/back/product/p_product_diya_add");
-        PageUtil.addAgencys(modelAndView, baseService);
-        return modelAndView;
-    }
-
+    /**
+     * 抵押产品编辑
+     * @param request
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/edit/diya")
     public String editDiyaProduce(HttpServletRequest request) {
@@ -241,6 +266,21 @@ public class ProduceController {
             return ResponseUtil.fail(0, "保存失败");
         }
 
+    }
+
+
+
+    /**
+     * 添加抵押产品页面
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/zhiyaInseret")
+    public ModelAndView zhiyaAddPage(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/product/p_product_zhiya_add");
+        PageUtil.addAgencys(modelAndView, baseService);
+        return modelAndView;
     }
 
 

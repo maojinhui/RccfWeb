@@ -75,7 +75,7 @@
     </div>
     <div class="btns am-hide" style="position: fixed;top:9.8em;left: 1.3em;">
         <a href="/prod/diyaInseret" class="am-btn am-margin-vertical-0 am-btn-primary">抵押产品</a>
-        <a class="am-btn am-margin-vertical-0 am-btn-primary">质押产品</a>
+        <a href="/prod/zhiyaInseret" class="am-btn am-margin-vertical-0 am-btn-primary">质押产品</a>
        <a class="am-btn am-margin-vertical-0 am-btn-primary">信贷产品</a>
     </div>
 
@@ -188,6 +188,10 @@
     function addProduct() {
         $('.btns').toggleClass('am-hide');
     }
+
+
+
+
 </script>
 </body>
 </html>
