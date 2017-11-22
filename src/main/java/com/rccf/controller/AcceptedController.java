@@ -851,7 +851,7 @@ public class AcceptedController {
 
         boolean save = baseService.save(incomeExpenditure);
         if (save) {
-            detail.setAcceptId(incomeExpenditure.getAcceptId());
+            detail.setIncomeExpenditureId(incomeExpenditure.getId());
             detail.setNewStr(incomeExpenditure.toString());
             detail.setAdmin(employee.getId());
             detail.setAdminTime(DateUtil.date2Timestamp(new Date()));
@@ -878,7 +878,7 @@ public class AcceptedController {
             return ResponseUtil.fail(0,"未找到记录");
         }
         AcceptIncomeExpenditureDetail detail = new AcceptIncomeExpenditureDetail();
-        detail.setAcceptId(acceptIncomeExpenditure.getAcceptId());
+        detail.setIncomeExpenditureId(acceptIncomeExpenditure.getId());
         detail.setOldStr(acceptIncomeExpenditure.toString());
         detail.setNewStr("");
         detail.setAdmin(employee.getId());

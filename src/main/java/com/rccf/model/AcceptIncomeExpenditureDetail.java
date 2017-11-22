@@ -9,14 +9,13 @@ import java.sql.Timestamp;
 @Table(name = "accept_income_expenditure_detail", schema = "rccf", catalog = "")
 public class AcceptIncomeExpenditureDetail {
     private int id;
-    private Integer acceptId;
+    private Integer incomeExpenditureId;
     private String oldStr;
     private String newStr;
     private Integer admin;
     private Timestamp adminTime;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     public int getId() {
         return id;
@@ -27,13 +26,13 @@ public class AcceptIncomeExpenditureDetail {
     }
 
     @Basic
-    @Column(name = "accept_id")
-    public Integer getAcceptId() {
-        return acceptId;
+    @Column(name = "income_expenditure_id")
+    public Integer getIncomeExpenditureId() {
+        return incomeExpenditureId;
     }
 
-    public void setAcceptId(Integer acceptId) {
-        this.acceptId = acceptId;
+    public void setIncomeExpenditureId(Integer incomeExpenditureId) {
+        this.incomeExpenditureId = incomeExpenditureId;
     }
 
     @Basic
@@ -80,17 +79,17 @@ public class AcceptIncomeExpenditureDetail {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AcceptIncomeExpenditureDetail that = (AcceptIncomeExpenditureDetail) o;
-        return id == that.id &&
-                Objects.equal(acceptId, that.acceptId) &&
-                Objects.equal(oldStr, that.oldStr) &&
-                Objects.equal(newStr, that.newStr) &&
-                Objects.equal(admin, that.admin) &&
-                Objects.equal(adminTime, that.adminTime);
+        AcceptIncomeExpenditureDetail detail = (AcceptIncomeExpenditureDetail) o;
+        return id == detail.id &&
+                Objects.equal(incomeExpenditureId, detail.incomeExpenditureId) &&
+                Objects.equal(oldStr, detail.oldStr) &&
+                Objects.equal(newStr, detail.newStr) &&
+                Objects.equal(admin, detail.admin) &&
+                Objects.equal(adminTime, detail.adminTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, acceptId, oldStr, newStr, admin, adminTime);
+        return Objects.hashCode(id, incomeExpenditureId, oldStr, newStr, admin, adminTime);
     }
 }
