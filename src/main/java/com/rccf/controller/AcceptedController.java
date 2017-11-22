@@ -885,7 +885,7 @@ public class AcceptedController {
         detail.setAdminTime(DateUtil.date2Timestamp(new Date()));
         boolean delete = baseService.delete(acceptIncomeExpenditure);
         if(delete){
-            return ResponseUtil.success();
+            return ResponseUtil.success(acceptIncomeExpenditure.getId());
         }
         return ResponseUtil.fail(0,"删除失败");
     }
