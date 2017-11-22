@@ -302,30 +302,30 @@
             %>
 
         <tr>
-            <td><input type="text" placeholder="项目名称"></td>
+            <td><input type="text" placeholder="项目名称" value="<%=acceptIncomeExpenditure.getSubject()%>"  disabled="disabled"></td>
 
             <%
                 if(acceptIncomeExpenditure.getType()!=null && acceptIncomeExpenditure.getType()==1){
 
              %>
-            <td><input type="number" placeholder="收入金额" value="<%=acceptIncomeExpenditure.getAmount()%>"></td>
+            <td><input type="number" placeholder="收入金额" value="<%=acceptIncomeExpenditure.getAmount()%>"  disabled="disabled"></td>
             <td>-</td>
                <%
                 }else {
                %>
             <td>-</td>
-            <td><input type="number" placeholder="支出金额" value="<%=acceptIncomeExpenditure.getAmount()%>"></td>
+            <td><input type="number" placeholder="支出金额" value="<%=acceptIncomeExpenditure.getAmount()%>" disabled="disabled"></td>
 
             <%
                 }
             %>
 
-            <td><input type="datetime-local" placeholder="时间" style="width: 13em;"></td>
-            <td><input type="text" placeholder="说明信息"></td>
+            <td><input type="datetime-local" placeholder="时间" style="width: 13em;"  disabled="disabled"></td>
+            <td><input type="text" placeholder="说明信息" value="<%=acceptIncomeExpenditure.getDescription()%>" disabled="disabled"></td>
             <td>
-                <a href="" class="am-btn am-btn-secondary am-btn-xs"><span class="am-icon-copy"></span> 编辑
+                <a onclick="editEarn(this)" class="am-btn am-btn-secondary am-btn-xs"><span class="am-icon-copy"></span> 编辑
                 </a>
-                <a href="" class="am-btn am-btn-default am-btn-xs"><span class="am-icon-recycle"></span> 取消
+                <a onclick="removeEarn(this)"  class="am-btn am-btn-default am-btn-xs"><span class="am-icon-trash-o"></span> 删除
                 </a>
             </td>
         </tr>
@@ -630,7 +630,7 @@
                 str += '<a onclick="editEarn(this)" class="am-btn am-btn-secondary am-btn-xs"><span' +
                     '   class="am-icon-copy"></span> 编辑' +
                     '   </a>' +
-                    '   <a onclick="removeEarn(this)" href="" class="am-btn am-btn-default am-btn-xs"><span' +
+                    '   <a onclick="removeEarn(this)"  class="am-btn am-btn-default am-btn-xs"><span' +
                     '   class="am-icon-trash-o"></span> 删除' +
                     '   </a>';
                 $(tdNode).html(str);
