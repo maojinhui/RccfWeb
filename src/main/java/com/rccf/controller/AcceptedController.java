@@ -857,6 +857,36 @@ public class AcceptedController {
         return ResponseUtil.fail(0,"保存失败");
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/info/incomeexpenditure/delete")
+    public String deleteIncomeExpenditure(HttpServletRequest request){
+        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+        if(employee==null){
+            return ResponseUtil.fail(0,"登录信息失效");
+        }
+        String detail_id = request.getParameter("detail_id");
+        if(Strings.isNullOrEmpty(detail_id)){
+            return ResponseUtil.fail(0,"参数错误");
+        }
+        int id = Integer.valueOf(detail_id);
+        AcceptIncomeExpenditure acceptIncomeExpenditure = (AcceptIncomeExpenditure) baseService.get(AcceptIncomeExpenditure.class,id);
+        if(acceptIncomeExpenditure==null){
+            return ResponseUtil.fail(0,"未找到记录");
+        }
+        AcceptIncomeExpenditureDetail detail = new AcceptIncomeExpenditureDetail();
+        detail.setAcceptId(acceptIncomeExpenditure.getAcceptId());
+        detail.setOldStr(acceptIncomeExpenditure.toString());
+        detail.setNewStr("");
+        detail.setAdmin(employee.getId());
+        detail.setAdminTime(DateUtil.date2Timestamp(new Date()));
+        boolean delete = baseService.delete(acceptIncomeExpenditure);
+        if(delete){
+            return ResponseUtil.success();
+        }
+        return ResponseUtil.fail(0,"删除失败");
+    }
+
+
 
     private String getLastNumber() {
         DateFormat format = new SimpleDateFormat("yyyyMMdd");
