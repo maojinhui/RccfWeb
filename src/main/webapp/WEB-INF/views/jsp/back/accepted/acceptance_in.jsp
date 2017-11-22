@@ -504,7 +504,7 @@
                         'latter_number': latter_number,
                         'custom_name': custom_name,
                         'custom_phone': custom_phone,
-                        'customer_idcard':,
+                        'customer_idcard':customer_id,
                         'business_type': business_type,
                         'agency': agency,
                         'business_nature': business_nature,
