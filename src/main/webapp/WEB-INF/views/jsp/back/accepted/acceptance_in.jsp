@@ -278,7 +278,7 @@
         </tr>
     </table>
 
-
+    <% if(accepted.getId()>0){ %>
     <!--收支信息-->
     <table class="payment-info am-table am-table-bordered am-text-nowrap am-table-compact am-text-center">
         <tr>
@@ -294,6 +294,21 @@
         </tr>
         <tbody id="content">
 
+        <tr>
+            <td><input type="text" placeholder="项目名称"></td>
+            <td><input type="number" placeholder="收入金额"></td>
+            <td>-</td>
+            <td><input type="datetime-local" placeholder="时间" style="width: 13em;"></td>
+            <td><input type="text" placeholder="说明信息"></td>
+            <td>
+                <a href="" class="am-btn am-btn-secondary am-btn-xs"><span class="am-icon-copy"></span> 编辑
+                </a>
+                <a href="" class="am-btn am-btn-default am-btn-xs"><span class="am-icon-recycle"></span> 取消
+                </a>
+            </td>
+        </tr>
+
+
         </tbody>
         <tr>
             <td colspan="6">
@@ -302,6 +317,7 @@
             </td>
         </tr>
     </table>
+    <%}%>
 
 </div>
 <div class="am-padding am-margin-bottom-xl">

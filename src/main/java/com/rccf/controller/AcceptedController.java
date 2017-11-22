@@ -865,6 +865,25 @@ public class AcceptedController {
         return ResponseUtil.fail(0,"保存失败");
     }
 
+
+    @ResponseBody
+    @RequestMapping(value = "/getIncomeExpenditureInfo")
+    public String getIncomeExpenditureInfo(HttpServletRequest request){
+        String id = request.getParameter("id");
+        AcceptIncomeExpenditure acceptIncomeExpenditure = null;
+        if(!Strings.isNullOrEmpty(id)){
+             acceptIncomeExpenditure = (AcceptIncomeExpenditure) baseService.get(AcceptIncomeExpenditure.class,Integer.valueOf(id));
+        }
+        if(acceptIncomeExpenditure==null){
+            return ResponseUtil.fail(0,"获取失败");
+        }
+        return ResponseUtil.success(acceptIncomeExpenditure);
+
+
+    }
+
+
+
     @ResponseBody
     @RequestMapping(value = "/info/incomeexpenditure/delete")
     public String deleteIncomeExpenditure(HttpServletRequest request){
@@ -893,6 +912,7 @@ public class AcceptedController {
         }
         return ResponseUtil.fail(0,"删除失败");
     }
+
 
 
 
