@@ -14,10 +14,7 @@ import com.rccf.service.UserService;
 import com.rccf.util.*;
 import com.rccf.util.weixin.WeixinUtil;
 import org.apache.log4j.Logger;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -94,10 +91,21 @@ public class AcceptedController {
         List<Employee> houqis = baseService.getList(houqiCriteria);
         view.addObject("houqis", houqis);
 
+
+
+
         if (!Strings.isNullOrEmpty(id)) {
             int _id = Integer.valueOf(id);
             Accepted accepted = acceptedService.findById(_id);
             view.addObject("accepted", accepted);
+
+
+            DetachedCriteria incomeCriteria = DetachedCriteria.forClass(AcceptIncomeExpenditure.class);
+            incomeCriteria.add(Restrictions.eq("acceptId",_id));
+            incomeCriteria.addOrder(Order.asc("dealTime"));
+            List<AcceptIncomeExpenditure> incomelist = baseService.getList(incomeCriteria);
+            view.addObject("incomelist",incomelist);
+
         }
 
         return view;

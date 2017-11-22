@@ -5,6 +5,7 @@
 <%@ page import="com.rccf.model.Employee" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.rccf.util.DateUtil" %>
+<%@ page import="com.rccf.model.AcceptIncomeExpenditure" %>
 <%--
   Created by IntelliJ IDEA.
   User: Administrator
@@ -90,7 +91,7 @@
                        value="<%=Strings.getInputString(accepted.getCustomerPhone())%>"/>
             </td>
             <td>身份证号</td>
-            <td><input type="text"></td>
+            <td><input id="customer_idcard" type="text"></td>
         </tr>
     </table>
 
@@ -293,11 +294,32 @@
             <th>操作</th>
         </tr>
         <tbody id="content">
+        <%
+            List<AcceptIncomeExpenditure> incomelist = (List<AcceptIncomeExpenditure>) request.getAttribute("incomelist");
+            if(incomelist!=null){
+                for (int i =0 ; i<incomelist.size();i++){
+                    AcceptIncomeExpenditure acceptIncomeExpenditure = incomelist.get(i);
+            %>
 
         <tr>
             <td><input type="text" placeholder="项目名称"></td>
-            <td><input type="number" placeholder="收入金额"></td>
+
+            <%
+                if(acceptIncomeExpenditure.getType()!=null && acceptIncomeExpenditure.getType()==1){
+
+             %>
+            <td><input type="number" placeholder="收入金额" value="<%=acceptIncomeExpenditure.getAmount()%>"></td>
             <td>-</td>
+               <%
+                }else {
+               %>
+            <td>-</td>
+            <td><input type="number" placeholder="支出金额" value="<%=acceptIncomeExpenditure.getAmount()%>"></td>
+
+            <%
+                }
+            %>
+
             <td><input type="datetime-local" placeholder="时间" style="width: 13em;"></td>
             <td><input type="text" placeholder="说明信息"></td>
             <td>
@@ -307,7 +329,11 @@
                 </a>
             </td>
         </tr>
+       <%
+               }
+            }
 
+        %>
 
         </tbody>
         <tr>
@@ -450,6 +476,7 @@
                 var latter_number = $('#latter_number').val();
                 var custom_name = $('#custom_name').val();
                 var custom_phone = $('#custom_phone').val();
+                var customer_idcard = $('#customer_idcard').val();
                 var business_type = $('#business_type').val();
                 var agency = $('#agency').val();
                 var business_nature = $('#business_nature').val();
@@ -477,6 +504,7 @@
                         'latter_number': latter_number,
                         'custom_name': custom_name,
                         'custom_phone': custom_phone,
+                        'customer_idcard':,
                         'business_type': business_type,
                         'agency': agency,
                         'business_nature': business_nature,
