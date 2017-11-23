@@ -91,7 +91,7 @@
                        value="<%=Strings.getInputString(accepted.getCustomerPhone())%>"/>
             </td>
             <td>身份证号</td>
-            <td><input id="customer_idcard" type="text"></td>
+            <td><input id="customer_idcard" type="text" value="<%=Strings.getInputString(accepted.getCustomerIdcard())%>"></td>
         </tr>
     </table>
 
@@ -532,6 +532,8 @@
                         if (result.code) {
                             alert("添加成功");
                             window.location.reload();
+                        }else{
+                            alert(result.errormsg);
                         }
                     }
 

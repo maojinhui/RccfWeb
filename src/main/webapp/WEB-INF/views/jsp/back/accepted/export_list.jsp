@@ -186,8 +186,8 @@
                         '                        <td>' + getdata(row[11]) + '</td>\n' +
                         '                        <td>' + getDate(row[12]) + '</td>\n' +
                         '                        <td>' + row[14] + '</td>\n' +
-                        '                        <td>' + row[26] + '</td>\n' +
                         '                        <td>' + row[27] + '</td>\n' +
+                        '                        <td>' + row[28] + '</td>\n' +
                         '                        <td>' + getState(row[15]) + '</td>\n' +
                         '                        <td>' + getdata(row[16]) + '</td>\n' +
                         '                        <td>' + have(row[17]) + '</td>\n' +
