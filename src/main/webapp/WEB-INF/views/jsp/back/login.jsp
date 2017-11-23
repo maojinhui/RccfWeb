@@ -9,22 +9,35 @@
     <meta name="format-detection" content="telephone=no,email=no">
     <link rel="shortcut icon" type="image/x-icon" href="/image/rccf.ico">
     <title>融成财富-后台管理系统</title>
-    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script type="text/javascript" src="/js/amaze/amazeui.ie8polyfill.min.js"></script>
-    <script type="text/javascript" src="/js/amaze/amazeui.min.js"></script>
-    <script type="text/javascript" src="/js/amaze/amazeui.widgets.helper.min.js"></script>
-    <script type="text/javascript" src="/js/amaze/app.js"></script>
-    <script type="text/javascript" src="/js/amaze/handlebars.min.js"></script>
-    <script type="text/javascript" src="/js/rollups/tripledes.js"></script>
-    <script type="text/javascript" src="/js/components/mode-ecb.js"></script>
-    <script type="text/javascript" src="/js/comm.js"></script>
-
-    <script href="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <link rel="stylesheet" href="/css/amaze/amazeui.min.css"/>
-    <%--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/amazeui/2.7.2/css/amazeui.flat.min.css"/>--%>
-    <link rel="stylesheet" href="/css/amaze/admin.css"/>
-    <link rel="stylesheet" href="/css/instyle.css"/>
+    <link rel="stylesheet" href="/css/amaze/animate.css"/>
+    <style>
+
+        html,body{
+            height: 100%;
+            background-color: #f5f5f5;
+        }
+        h1{
+            font-size: 1.2em;
+            color: #3f913f;
+        }
+
+        @media screen and (min-width: 1000px){
+            h1{
+                font-size: 1.5em;
+            }
+            .am-u-sm-4,
+            .am-u-md-4{
+                padding-left: 3em;
+            }
+        }
+        a{
+            font-size: small;
+        }
+        .am-container{
+            margin-top: 8em;
+        }
+    </style>
 
     <%
         // 获取cookies
@@ -45,30 +58,46 @@
 
 </head>
 <body>
-<div class="am-g am-center maindiv">
-    <div class="am-u-sm-10 am-u-sm-centered">
-        <h1>融成财富后台管理系统</h1>
-    </div>
-    <div class="am-u-sm-10 am-u-sm-centered am-margin-top-xs">
-        <div class="am-margin-top-xs">
-            <input class="am-form-field am-radius" id="user-name" type="tel" placeholder="手机号" value="<%=username%>"/>
+<div class="am-container">
+    <div class="am-g">
+        <div class="am-u-sm-4 am-u-md-2 am-u-sm-centered animated bounce">
+            <img src="/image/logo.png">
         </div>
-        <div class="am-margin-top-xs">
-            <input class="am-form-field am-radius" id="pwd" type="password" placeholder="密码" value="<%=password%>"/>
+        <div class="am-u-sm-7 am-u-md-4 am-u-sm-centered animated slideInLeft">
+            <h1>融成金服后台管理系统</h1>
         </div>
-        <div>
-            <div class="am-text-right am-text-sm am-margin-top-xs">
-                <span style="display: none;" class="am-align-left"><input id="checkbox" type="checkbox" value="" checked>记住密码</span>
-                <a href="/back/findpwdp">忘记密码？</a>
+        <div class="am-u-sm-10 am-u-md-5 am-u-sm-centered">
+            <div class="am-input-group am-radius animated slideInRight">
+                <label class="am-input-group-label">用户名</label>
+                <input id="user-name" type="number" class="am-form-field" placeholder="手机号" value="<%=username%>">
+            </div>
+            <div class="am-input-group animated slideInLeft">
+                <label class="am-input-group-label">密&emsp;码</label>
+                <input id="pwd" type="password" class="am-form-field" placeholder="登录密码" value="<%=password%>">
             </div>
         </div>
-        <div class="am-margin-top-xs">
-            <button type="button" class="am-btn am-btn-primary am-btn-block" id="submit">登录</button>
+        <div class="am-u-sm-10 am-u-md-5 am-u-sm-centered am-text-right animated fadeInDown">
+            <a href="/back/findpwdp">忘记密码？</a>
+        </div>
+        <div class="am-u-sm-10 am-u-md-5 am-u-sm-centered am-margin-top animated slideInRight">
+            <a id="submit" class="am-btn am-btn-primary am-u-sm-12">登录</a>
+            <!--<a class="am-btn am-btn-warning am-u-sm-6">注册</a>-->
         </div>
     </div>
 </div>
 </body>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="/js/amaze/amazeui.ie8polyfill.min.js"></script>
+<script type="text/javascript" src="/js/amaze/amazeui.min.js"></script>
+<script type="text/javascript" src="/js/amaze/amazeui.widgets.helper.min.js"></script>
+<script type="text/javascript" src="/js/amaze/app.js"></script>
+<script type="text/javascript" src="/js/amaze/handlebars.min.js"></script>
+<script type="text/javascript" src="/js/rollups/tripledes.js"></script>
+<script type="text/javascript" src="/js/components/mode-ecb.js"></script>
+<script type="text/javascript" src="/js/comm.js"></script>
+
+<script href="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
 <script>
 
     //回车事件绑定

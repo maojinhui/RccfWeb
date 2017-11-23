@@ -9,66 +9,98 @@
     <link rel="shortcut icon" type="image/x-icon" href="/image/rccf.ico">
     <meta charset="UTF-8">
     <title>找回密码</title>
-    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script type="text/javascript" src="/js/amaze/amazeui.ie8polyfill.min.js"></script>
-    <script type="text/javascript" src="/js/amaze/amazeui.min.js"></script>
-    <script type="text/javascript" src="/js/amaze/amazeui.widgets.helper.min.js"></script>
-    <script type="text/javascript" src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <script type="text/javascript" src="/js/rollups/tripledes.js"></script>
-    <script type="text/javascript" src="/js/components/mode-ecb.js"></script>
-    <script type="text/javascript" src="/js/comm.js"></script>
-    <script type="text/javascript" src="/js/json2.js"></script>
-
 
     <link rel="stylesheet" href="/css/amaze/amazeui.min.css"/>
-    <link rel="stylesheet" href="/css/amaze/amazeui.flat.css"/>
-    <link rel="stylesheet" href="/css/amaze/admin.css"/>
-    <link rel="stylesheet" href="/css/instyle.css"/>
+    <link rel="stylesheet" href="/css/amaze/animate.css"/>
     <style type="text/css">
-        .formdiv{
-            margin-top: 20px;
-            border-radius: 5px;
+
+        html, body {
+            height: 100%;
+            background-color: #f5f5f5;
         }
-        .am-icon-check{
-            color: green;
-            margin-left: 20px;
+        a{
+            font-size: small;
+            text-decoration: underline;
         }
-        .am-form-group{
-            margin-bottom: 0;
+        .am-container {
+            margin-top: 8em;
+        }
+        .prompt-info{
+            border-bottom: solid 1px #e2e2e2;
+            margin-bottom: 1em;
+        }
+        .am-input-group-label {
+            background-color: #f5f5f5;
+            border: none;
+        }
+        .input-span{
+            padding-left: 8.5em;
+            margin-top: 0.5em;
+        }
+        .input-span img{
+            height: 2.5em;
+        }
+        .input-span .am-btn{
+            border-radius: 10px;
         }
     </style>
+
 </head>
 <body>
-
-<div class="am-g am-center maindiv">
-    <div class="am-u-sm-12 am-u-sm-centered formdiv">
-            <div class="formdiv">
-                <input id="phone" class="am-form-field am-radius" type="tel" placeholder="手机号"/>
+<div class="am-container">
+    <div class="am-g animated slideInRight">
+        <div class="am-u-sm-10 am-u-md-6 am-u-sm-centered am-text-danger prompt-info">
+            *此操作将重新设置您的密码
+        </div>
+        <div class="am-u-sm-10 am-u-md-6 am-u-sm-centered am-text-danger">
+            <div class="am-input-group">
+                <span class="am-input-group-label">&emsp;&emsp;用户名:</span>
+                <input id="phone" class="am-form-field" placeholder="登录时使用的手机号">
             </div>
-            <div class="formdiv am-g" >
-                <div class="am-u-sm-7 am-form-group "> <!-- am-form-icon -->
-                    <%--<i class="am-icon-check"></i>--%>
-                    <input id="imgcode" class="am-form-field am-radius" type="text" placeholder="图片验证码"/></div>
-                <div class="am-u-sm-5"><img id="codeValidateImg" src="/img/randomcode" onClick="javascript:flushValidateCode();"/></div>
+            <div class="am-input-group">
+                <span class="am-input-group-label">图片验证码:</span>
+                <input id="imgcode" class="am-form-field" placeholder="输入下图验证码">
             </div>
-            <div class="formdiv am-g">
-                <div class="am-u-sm-7"><input id="phonecode" class="am-form-field am-radius" type="text" placeholder="手机验证码"/></div>
-                <div class="am-u-sm-5"><button type="button" id="code" class="am-btn am-btn-primary am-btn-block">获取验证码</button></div>
+        </div>
+        <div class="am-u-sm-10 am-u-md-6 am-u-sm-centered am-text-danger input-span">
+            <img id="codeValidateImg" src="/img/randomcode" onClick="javascript:flushValidateCode();">
+            <span><a onClick="javascript:flushValidateCode();" class="am-text-bottom am-hide-sm am-hide-md">看不清？点击刷新验证码</a></span>
+        </div>
+        <div class="am-u-sm-10 am-u-md-6 am-u-sm-centered am-text-danger input-span">
+            <button id="code" class="am-btn am-btn-primary am-btn-sm">点击获取验证码</button>
+        </div>
+        <div class="am-u-sm-10 am-u-md-6 am-u-sm-centered am-text-danger am-margin-top-sm">
+            <div class="am-input-group">
+                <span class="am-input-group-label">手机验证码:</span>
+                <input id="phonecode"  class="am-form-field" placeholder="输入验证码">
             </div>
-            <div class="formdiv">
-                <input  id="notifypwd" class="am-form-field am-radius" type="password" placeholder="新密码"/>
+            <div class="am-input-group">
+                <span class="am-input-group-label">&emsp;&emsp;新密码:</span>
+                <input id="notifypwd" type="password" class="am-form-field" placeholder="输入新密码并牢记">
             </div>
-            <div class="formdiv">
-                <input id="ensurepwd" class="am-form-field am-radius" type="password" placeholder="确认密码"/>
+            <div class="am-input-group">
+                <span class="am-input-group-label">确认新密码:</span>
+                <input id="ensurepwd" type="password" class="am-form-field" placeholder="是你想设置的密码？">
             </div>
-
-            <div class="formdiv">
-                <button type="button" id="submit" class="am-btn am-btn-primary am-btn-block">提交</button>
-            </div>
+        </div>
+        <div class="am-u-sm-10 am-u-md-4 am-u-sm-centered am-margin-top animated slideInRight">
+            <button id="cancel" class="am-btn am-btn-warning am-u-sm-6">取消</button>
+            <button id="submit" class="am-btn am-btn-primary am-u-sm-6">提交</button>
+        </div>
     </div>
 </div>
 </body>
+
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="/js/amaze/amazeui.ie8polyfill.min.js"></script>
+<script type="text/javascript" src="/js/amaze/amazeui.min.js"></script>
+<script type="text/javascript" src="/js/amaze/amazeui.widgets.helper.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+<script type="text/javascript" src="/js/rollups/tripledes.js"></script>
+<script type="text/javascript" src="/js/components/mode-ecb.js"></script>
+<script type="text/javascript" src="/js/comm.js"></script>
+<script type="text/javascript" src="/js/json2.js"></script>
 <script>
     /* 刷新生成验证码 */
     function flushValidateCode(){
@@ -181,7 +213,9 @@
     });
 
 
-
+    $("#cancel").click(function () {
+        window.history.back(-1);
+    });
 
 </script>
 </html>
