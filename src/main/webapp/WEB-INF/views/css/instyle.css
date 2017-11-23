@@ -156,7 +156,7 @@
     max-width: 60%;
     background: #dddddd;
     position: absolute;
-    margin-top: 2em;
+    margin-top: 0;
     margin-left: 0;
     z-index: 100;
 }
