@@ -1,9 +1,12 @@
 package com.rccf.controller.produce;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.produce.AProduceDiya;
 import com.rccf.model.Employee;
+import com.rccf.model.temp.ProduceTem;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.util.BackUtil;
@@ -22,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/prod", produces = UrlConstants.PRODUCES)
@@ -47,17 +51,25 @@ public class ProduceController {
     public String listAllProduce(HttpServletRequest request){
         Employee employee = BackUtil.getLoginEmployee(request,employeeService);
         //登录用户
-        String sql = "select * from (" +
-                " SELECT `id`, `name`, `code` , `agency_id` , 1  as type ,`state`, create_time  from `a_produce_diya`\n" +
-                " union all\n" +
-                " SELECT `id`, `name`, `code` , `agency_id` , 2  as type ,`state`, create_time  from `a_produce_zhiya`\n" +
-                " ) AS data\n" +
-                "ORDER BY data.create_time desc";
-
-
-
-
-        return null;
+        String sql = "SELECT *\n" +
+                "FROM (SELECT `id`, `name`, `code`, agency_id,\n" +
+                "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
+                "         1 AS type,`state`,create_time\n" +
+                "       FROM `a_produce_diya` as p\n" +
+                "       UNION ALL\n" +
+                "       SELECT `id`, `name`, `code`, agency_id,\n" +
+                "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
+                "         2 AS type,`state`,create_time\n" +
+                "       FROM `a_produce_zhiya` as p\n" +
+                "     ) AS data\n" +
+                "ORDER BY data.create_time DESC";
+        List<ProduceTem> produces = baseService.queryBySqlFormatClass(sql , ProduceTem.class);
+        if (produces==null){
+            return ResponseUtil.success();
+        }else{
+            JSONArray array = JSON.parseArray(JSON.toJSONString(produces));
+            return ResponseUtil.success_front(array);
+        }
     }
 
 

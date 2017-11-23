@@ -28,14 +28,15 @@
         }
 
         /*.am-btn {*/
-            /*border-radius: 5px;*/
+        /*border-radius: 5px;*/
         /*}*/
 
         .am-table input {
             font-size: large;
             border: none;
         }
-        .btns a{
+
+        .btns a {
             display: block;
         }
     </style>
@@ -76,7 +77,7 @@
     <div class="btns am-hide" style="position: fixed;top:9.8em;left: 1.3em;">
         <a href="/prod/diyaInseret" class="am-btn am-margin-vertical-0 am-btn-primary">抵押产品</a>
         <a href="/prod/zhiyaInseret" class="am-btn am-margin-vertical-0 am-btn-primary">质押产品</a>
-       <a class="am-btn am-margin-vertical-0 am-btn-primary">信贷产品</a>
+        <a class="am-btn am-margin-vertical-0 am-btn-primary">信贷产品</a>
     </div>
 
     <div class="">
@@ -88,20 +89,20 @@
                 <th>产品类型</th>
                 <th>所属机构</th>
                 <th>产品名称</th>
-                <th>贷款金额(万元)</th>
+                <%--<th>贷款金额(万元)</th>--%>
                 <th>录入时间</th>
                 <th>状态</th>
                 <th>操作</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="tbody">
             <tr>
                 <td>1</td>
                 <td>1.14-ZG-ZY</td>
                 <td>质押</td>
                 <td>抵押机构</td>
                 <td>新一贷</td>
-                <td>1000</td>
+                <%--<td>1000</td>--%>
                 <td>2012-1-1</td>
                 <td>使用中</td>
                 <td>
@@ -122,7 +123,7 @@
                 <td>质押</td>
                 <td>抵押机构</td>
                 <td>新一贷</td>
-                <td>1000</td>
+                <%--<td>1000</td>--%>
                 <td>2012-1-1</td>
                 <td>强烈推荐</td>
                 <td>
@@ -141,8 +142,9 @@
         </table>
     </div>
 </div>
-
+<div id="page"></div>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/comm.js"></script>
 <script>
     $('#search').click(function () {
         var searchObj = {};
@@ -150,6 +152,7 @@
         searchObj.product_num = $('#product_num').val();
         searchObj.product_money = $('#product_money').val();
         console.log(searchObj);
+
     });
 
     $('#reset').click(function () {
@@ -190,7 +193,51 @@
     }
 
 
+    function getData(obj) {
+        $.ajax({
+            url: '/prod/info/list',
+            dataType: 'json',
+            data: obj,
+            success: function (result) {
+                if (result.code) {
+                    var info = result.data;
+                    for (var i = 0; i < info.length; i++) {
+                        var produce = info[i];
+                        var str = '<tr>\n' +
+                            '                <td>2</td>\n' +
+                            '                <td>' + produce.code + '</td>\n' +
+                            '                <td>' + getType(produce.type) + '</td>\n' +
+                            '                <td>' + produce.agency_name + '</td>\n' +
+                            '                <td>' + produce.name + '</td>\n' +
+                            '                <td>' + formatDateTime(produce.create_time) + '</td>\n' +
+                            '                <td>' + produce.state + '</td>\n' +
+                            '                <td>\n' +
+                            '                    <a onclick="toDetail(this,' + produce.type + ')" class="am-btn am-btn-default am-btn-xs am-text-warning"><span\n' +
+                            '                            class="am-icon-navicon"></span> 详情\n' +
+                            '                    </a>\n' +
+                            '                    <a onclick="toEdit(this,' + produce.type + ')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
+                            '                            class="am-icon-pencil-square-o"></span> 编辑\n' +
+                            '                    </a>\n' +
+                            '                    <a onclick="toDelete(this,' + produce.type + ')" class="am-btn am-btn-default am-btn-xs am-text-danger"><span\n' +
+                            '                            class="am-icon-trash-o"></span> 删除\n' +
+                            '                    </a>\n' +
+                            '                </td>\n' +
+                            '            </tr>';
+                        $('#tbody').append(str);
+                    }
 
+                } else {
+                    alert(result.errormsg);
+                }
+            },
+            error: function () {
+
+            }
+
+        })
+    }
+
+    getData();
 
 </script>
 </body>
