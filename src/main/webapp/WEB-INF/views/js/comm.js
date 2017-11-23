@@ -273,6 +273,26 @@ function getUseRank(rank) {
     }
 }
 
+/**
+ * 获取审核状态
+ * @param state
+ * @returns {*}
+ */
+function getAuditStateStr(state){
+        if(isNull(state)){
+            return '未知';
+        }
+        if(state==1){
+            return '已审核';
+        }else if (state==2){
+            return '审核不通过';
+        }else if(state==3){
+            return '审核中';
+        }else{
+            return '未知';
+        }
+}
+
 
 
 

@@ -3,6 +3,7 @@ package com.rccf.controller.produce;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.rccf.constants.PageConstants;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.produce.AProduceDiya;
 import com.rccf.model.Employee;
@@ -15,6 +16,7 @@ import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
 import com.rccf.util.produce.DataUtil;
 import com.rccf.util.produce.PageUtil;
+import com.rccf.util.response.Page;
 import com.rccf.util.verify.AgencyVerify;
 import com.rccf.util.verify.ProduceVerify;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
+
+import static com.rccf.util.response.Page.limit;
 
 @Controller
 @RequestMapping(value = "/prod", produces = UrlConstants.PRODUCES)
@@ -48,9 +52,24 @@ public class ProduceController {
 
     @ResponseBody
     @RequestMapping(value = "/info/list")
-    public String listAllProduce(HttpServletRequest request){
-        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+    public String listAllProduce(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         //登录用户
+        String depart = employee.getDepartment();
+        int role = employee.getRole();
+
+//        if(depart.contains("系统")){
+//
+//        }else if(depart.contains("市场")){
+//
+//        }
+        String pageNo = request.getParameter("pageNo");
+        int p = 1;
+        if(!Strings.isNullOrEmpty(pageNo)){
+            p=Integer.valueOf(pageNo);
+        }
+        int offset = (p-1)* PageConstants.EVERYPAGE;
+        String limitStr = " limit "+offset+","+PageConstants.EVERYPAGE;
         String sql = "SELECT *\n" +
                 "FROM (SELECT `id`, `name`, `code`, agency_id,\n" +
                 "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
@@ -62,19 +81,32 @@ public class ProduceController {
                 "         2 AS type,`state`,create_time\n" +
                 "       FROM `a_produce_zhiya` as p\n" +
                 "     ) AS data\n" +
-                "ORDER BY data.create_time DESC";
-        List<ProduceTem> produces = baseService.queryBySqlFormatClass(sql , ProduceTem.class);
-        if (produces==null){
-            return ResponseUtil.success();
-        }else{
-            JSONArray array = JSON.parseArray(JSON.toJSONString(produces));
-            return ResponseUtil.success_front(array);
-        }
+                "ORDER BY data.create_time DESC "+limitStr;
+        String sql_total = "SELECT count(*)\n" +
+                "FROM (SELECT `id`"+
+                "       FROM `a_produce_diya` as p\n" +
+                "       UNION ALL\n" +
+                "       SELECT `id`"+
+                "       FROM `a_produce_zhiya` as p\n" +
+                "     ) AS data ";
+
+
+        String data = limit(baseService, sql_total, sql,ProduceTem.class);
+
+        return data;
+//        List<ProduceTem> produces = baseService.queryBySqlFormatClass(sql , ProduceTem.class);
+//        if (produces==null){
+//            return ResponseUtil.success();
+//        }else{
+//            JSONArray array = JSON.parseArray(JSON.toJSONString(produces));
+//            return ResponseUtil.success_front(array);
+//        }
     }
 
 
     /**
      * 添加抵押产品页面
+     *
      * @param request
      * @return
      */
@@ -89,6 +121,7 @@ public class ProduceController {
 
     /**
      * 抵押产品详情
+     *
      * @param request
      * @return
      */
@@ -101,12 +134,13 @@ public class ProduceController {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/product/p_product_diya");
-        PageUtil.addAgencys(modelAndView,baseService);
+        PageUtil.addAgencys(modelAndView, baseService);
         return modelAndView;
     }
 
     /**
      * 抵押产品编辑
+     *
      * @param request
      * @return
      */
@@ -128,7 +162,7 @@ public class ProduceController {
             oldProduceData = produce.toString();
         } else {
             produce = new AProduceDiya();
-            produce.setState(1);
+            produce.setState(3);
             produce.setCreateTime(DateUtil.date2Timestamp(new Date()));
         }
         String produce_code = request.getParameter("produce_code");
@@ -290,9 +324,9 @@ public class ProduceController {
     }
 
 
-
     /**
      * 添加质押产品页面
+     *
      * @param request
      * @return
      */
@@ -303,10 +337,6 @@ public class ProduceController {
         PageUtil.addAgencys(modelAndView, baseService);
         return modelAndView;
     }
-
-
-
-
 
 
 }

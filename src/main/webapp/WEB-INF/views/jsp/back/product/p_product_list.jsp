@@ -96,48 +96,7 @@
             </tr>
             </thead>
             <tbody id="tbody">
-            <tr>
-                <td>1</td>
-                <td>1.14-ZG-ZY</td>
-                <td>质押</td>
-                <td>抵押机构</td>
-                <td>新一贷</td>
-                <%--<td>1000</td>--%>
-                <td>2012-1-1</td>
-                <td>使用中</td>
-                <td>
-                    <a onclick="toDetail(this)" class="am-btn am-btn-default am-btn-xs am-text-warning"><span
-                            class="am-icon-navicon"></span> 详情
-                    </a>
-                    <a onclick="toEdit(this)" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span
-                            class="am-icon-pencil-square-o"></span> 编辑
-                    </a>
-                    <a onclick="toDelete(this)" class="am-btn am-btn-default am-btn-xs am-text-danger"><span
-                            class="am-icon-trash-o"></span> 删除
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>1.14-ZG-ZY</td>
-                <td>质押</td>
-                <td>抵押机构</td>
-                <td>新一贷</td>
-                <%--<td>1000</td>--%>
-                <td>2012-1-1</td>
-                <td>强烈推荐</td>
-                <td>
-                    <a onclick="toDetail(this)" class="am-btn am-btn-default am-btn-xs am-text-warning"><span
-                            class="am-icon-navicon"></span> 详情
-                    </a>
-                    <a onclick="toEdit(this)" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span
-                            class="am-icon-pencil-square-o"></span> 编辑
-                    </a>
-                    <a onclick="toDelete(this)" class="am-btn am-btn-default am-btn-xs am-text-danger"><span
-                            class="am-icon-trash-o"></span> 删除
-                    </a>
-                </td>
-            </tr>
+
             </tbody>
         </table>
     </div>
@@ -161,8 +120,14 @@
         $('#product_money').val('');
     });
 
-    function toDetail(obj) {
-        window.location.href = '/prod/diyaDetail';
+    function toDetail(obj,type) {
+        var trNode = obj.parentNode.parentNode;
+        var produce_id = $(trNode).data('produceId');
+        if(type == 1){
+            window.location.href = '/prod/diyaDetail?produce_id='+produce_id;
+        }
+
+
     }
 
     function toEdit(obj) {
@@ -192,25 +157,35 @@
         $('.btns').toggleClass('am-hide');
     }
 
-
-    function getData(obj) {
+    /**
+     * 获取当前也数据
+     * @param currentPage
+     */
+    function getData(currentPage ,obj) {
+        if(isNull(obj)){
+            obj = {};
+        }
+        obj.pageNo = currentPage;
         $.ajax({
             url: '/prod/info/list',
             dataType: 'json',
             data: obj,
             success: function (result) {
-                if (result.code) {
-                    var info = result.data;
+                    $('#tbody').empty();
+                var info = result.data;
+                var epage = result.epage;
+                var start = (currentPage - 1) * epage + 1;
+                var html='';
                     for (var i = 0; i < info.length; i++) {
                         var produce = info[i];
-                        var str = '<tr>\n' +
-                            '                <td>2</td>\n' +
+                        var str = '<tr data-produce-id="'+produce.id+'">\n' +
+                            '                <td>'+start+'</td>\n' +
                             '                <td>' + produce.code + '</td>\n' +
                             '                <td>' + getType(produce.type) + '</td>\n' +
                             '                <td>' + produce.agency_name + '</td>\n' +
                             '                <td>' + produce.name + '</td>\n' +
                             '                <td>' + formatDateTime(produce.create_time) + '</td>\n' +
-                            '                <td>' + produce.state + '</td>\n' +
+                            '                <td>' + getAuditStateStr(produce.state) + '</td>\n' +
                             '                <td>\n' +
                             '                    <a onclick="toDetail(this,' + produce.type + ')" class="am-btn am-btn-default am-btn-xs am-text-warning"><span\n' +
                             '                            class="am-icon-navicon"></span> 详情\n' +
@@ -223,12 +198,10 @@
                             '                    </a>\n' +
                             '                </td>\n' +
                             '            </tr>';
-                        $('#tbody').append(str);
+                        start++;
+                        html += str;
                     }
-
-                } else {
-                    alert(result.errormsg);
-                }
+                $('#tbody').html(html);
             },
             error: function () {
 
@@ -237,7 +210,81 @@
         })
     }
 
-    getData();
+
+    function init(obj){
+        if(isNull(obj)){
+            obj = {};
+        }
+            $.ajax({
+                url: '/prod/info/list',
+                dataType: 'json',
+                type: 'GET',
+                data: obj,
+                success: function (result) {
+                    console.info('getPage' + result);
+                    var total = result.total;
+                    var every = result.epage;
+                    var pages = Math.ceil(total / every);
+                    if (pages == 1) {
+                        getData(1);
+                    } else {
+                        doPage(pages, 1);
+                    }
+                },
+                error: function () {
+
+                }
+            });
+    }
+
+    function doPage(pageNum , currentPage){
+        var first = false;
+        var last = false;
+        if (pageNumber > 5) {
+            first = '首页';
+            last = '尾页';
+        }
+        var page = $('#page').page({
+            pages: pageNumber, //页数
+            curr: curr, //当前页
+            type: 'default', //主题
+            groups: 5, //连续显示分页数
+            prev: false, //若不显示，设置false即可
+            next: false, //若不显示，设置false即可
+            first: first,
+            last: last, //false则不显示
+            before: function (context, next) { //加载前触发，如果没有执行next()则中断加载
+                console.log('开始加载...');
+                context.time = (new Date()).getTime(); //只是演示，并没有什么卵用，可以保存一些数据到上下文中
+                next();
+            },
+            render: function (context, $el, index) { //渲染[context：对this的引用，$el：当前元素，index：当前索引]
+                //逻辑处理
+//                if (index == 'last') { //虽然上面设置了last的文字为尾页，但是经过render处理，结果变为最后一页
+//                    $el.find('a').html('最后一页');
+//                    return $el; //如果有返回值则使用返回值渲染
+//                }
+                return false; //没有返回值则按默认处理
+            },
+            after: function (context, next) { //加载完成后触发
+                var time = (new Date()).getTime(); //没有什么卵用的演示
+                console.log('分页组件加载完毕，耗时：' + (time - context.time) + 'ms');
+                next();
+            },
+            /*
+             * 触发分页后的回调，如果首次加载时后端已处理好分页数据则需要在after中判断终止或在jump中判断first是否为假
+             */
+            jump: function (context, first) {
+                console.log('当前第：' + context.option.curr + "页");
+//                $("#content").html(dealData(context.option.curr, false));
+                getData(context.option.curr);
+
+            }
+        });
+
+    }
+
+    init();
 
 </script>
 </body>
