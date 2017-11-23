@@ -292,7 +292,7 @@ public class BackController {
                 userid = cookie.getValue();
             }
         }
-        if (null == userid) {
+        if (Strings.isNullOrEmpty(userid)) {
             return new ModelAndView("redirect:/back/login");
         }
         int id = Integer.valueOf(userid);

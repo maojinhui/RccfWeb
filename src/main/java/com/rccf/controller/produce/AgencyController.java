@@ -59,20 +59,21 @@ public class AgencyController {
     @RequestMapping(value = "/info/list")
     public String agencyListInfo(HttpServletRequest request) {
         String pageNo = request.getParameter("pageNo");
+        String agency_name = request.getParameter("agency_name");
+
         int p = 1;
         if (!Strings.isNullOrEmpty(pageNo)) {
             p = Integer.valueOf(pageNo);
         }
-//        DetachedCriteria criteria = DetachedCriteria.forClass(RAgency.class);
-//        criteria.addOrder(Order.desc("createTime"));
-//        int count = baseService.getCount(criteria);
-//        Page page = PageUtil.createPage(10, count , p);
-//        List list = baseService.getList(page, criteria);
-//        JSONArray array = JSON.parseArray(JSON.toJSONString(list));
         int offset = 10 * (p - 1);
         String limit = " limit " + offset + ",10";
         String sql_count = "select count(*) from r_agency ";
-        String sql = "select * from r_agency order by create_time desc " + limit;
+        String where = "";
+        if(!Strings.isNullOrEmpty(agency_name))
+        {
+                where = " where name like '%"+agency_name+"%' or code like  '%"+agency_name+"%' ";
+        }
+        String sql = "select * from r_agency"+where+" order by create_time desc " + limit;
         String data = Page.limit(baseService, sql_count, sql, RAgency.class);
         return data;
     }

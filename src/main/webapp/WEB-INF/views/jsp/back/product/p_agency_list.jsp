@@ -29,9 +29,9 @@
 <body>
 <div class="am-margin">
     <p class="am-text-secondary am-text-lg">机构管理</p>
-    <span>机构名称：</span>
-    <input type="text">
-    <button class="am-btn am-btn-primary am-btn-sm">搜索</button>
+    <span>名称/编号：</span>
+    <input id="agency_name" type="text">
+    <button id="search" class="am-btn am-btn-primary am-btn-sm">搜索</button>
     <button id="addagency" class="am-btn am-btn-warning am-btn-sm am-align-right am-margin-right-xl">添加新机构</button>
 </div>
 <div class="am-margin">
@@ -46,28 +46,6 @@
         </tr>
         </thead>
         <tbody id="tbody_content">
-        <%--<tr>--%>
-        <%--<td>1</td>--%>
-        <%--<td>中国银行</td>--%>
-        <%--<td>1.12-ZG-XD</td>--%>
-        <%--<td class="am-text-primary">启用中</td>--%>
-        <%--<td>--%>
-        <%--<a class="am-btn am-btn-default am-btn-xs am-text-secondary"><span--%>
-        <%--class="am-icon-pencil-square-o"></span> 详情--%>
-        <%--</a>--%>
-        <%--</td>--%>
-        <%--</tr>--%>
-        <%--<tr>--%>
-        <%--<td>2</td>--%>
-        <%--<td>中国银行</td>--%>
-        <%--<td>1.12-ZG-XD</td>--%>
-        <%--<td class="am-text-danger">停用中</td>--%>
-        <%--<td>--%>
-        <%--<a class="am-btn am-btn-default am-btn-xs am-text-secondary"><span--%>
-        <%--class="am-icon-pencil-square-o"></span> 详情--%>
-        <%--</a>--%>
-        <%--</td>--%>
-        <%--</tr>--%>
         </tbody>
     </table>
 </div>
@@ -100,9 +78,17 @@
     });
 
 
+    $('#search').click(function(){
+        getPage()
+    });
+
     function getPage() {
+        var obj = {};
+        var agency_name = $('#agency_name').val();
+        obj.agency_name = agency_name;
         $.ajax({
             url: '/agency/info/list',
+            data:obj,
             dataType: 'json',
             success: function (result) {
                 var total = result.total;
@@ -125,6 +111,8 @@
 
     function getData(pageNum) {
         var info = {};
+        var agency_name = $('#agency_name').val();
+        info.agency_name = agency_name;
         info.pageNo = pageNum;
         $.ajax({
             url: '/agency/info/list',
@@ -164,7 +152,6 @@
 
 
     }
-
 
     function doPage(pageNumber, currentPage) {
         var first = false;
@@ -214,6 +201,8 @@
 
 
     getPage();
+
+
 
 
 </script>

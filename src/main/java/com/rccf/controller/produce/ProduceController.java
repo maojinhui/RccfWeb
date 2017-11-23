@@ -94,13 +94,6 @@ public class ProduceController {
         String data = limit(baseService, sql_total, sql,ProduceTem.class);
 
         return data;
-//        List<ProduceTem> produces = baseService.queryBySqlFormatClass(sql , ProduceTem.class);
-//        if (produces==null){
-//            return ResponseUtil.success();
-//        }else{
-//            JSONArray array = JSON.parseArray(JSON.toJSONString(produces));
-//            return ResponseUtil.success_front(array);
-//        }
     }
 
 
