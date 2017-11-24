@@ -12,6 +12,7 @@ public class AProduceProcess {
     private Timestamp adminTime;
     private String oldContent;
     private String newContent;
+    private Integer produceType;
 
     @Id
     @Column(name = "id")
@@ -99,5 +100,15 @@ public class AProduceProcess {
         result = 31 * result + (oldContent != null ? oldContent.hashCode() : 0);
         result = 31 * result + (newContent != null ? newContent.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "produce_type")
+    public Integer getProduceType() {
+        return produceType;
+    }
+
+    public void setProduceType(Integer produceType) {
+        this.produceType = produceType;
     }
 }
