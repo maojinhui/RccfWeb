@@ -552,7 +552,7 @@
         var produce_area = getCheckIntValues("produce_area");
         var produce_area_other = $('#produce_area_other').val();
         var produce_loan_amount_tao = getCheckIntValues("produce_loan_amount_tao");
-        var produce_loan_amount = getCheckIntValues();
+        var produce_loan_amount = getCheckIntValues('produce_loan_amount');
         var produce_loan_amount_other = $('#produce_loan_amount_other').val();
         obj.produce_area = produce_area;
         obj.produce_area_other = produce_area_other;
