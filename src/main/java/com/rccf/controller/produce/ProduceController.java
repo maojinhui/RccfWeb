@@ -340,9 +340,15 @@ public class ProduceController {
      */
     @RequestMapping(value = "/zhiyaInseret")
     public ModelAndView zhiyaAddPage(HttpServletRequest request) {
+        String produce_id = request.getParameter("produce_id");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/product/p_product_zhiya_add");
         PageUtil.addAgencys(modelAndView, baseService);
+        AProduceZhiya produce = null;
+        if (!Strings.isNullOrEmpty(produce_id)) {
+            produce = (AProduceZhiya) baseService.get(AProduceZhiya.class, Integer.valueOf(produce_id));
+            modelAndView.addObject("produce", produce);
+        }
         return modelAndView;
     }
 

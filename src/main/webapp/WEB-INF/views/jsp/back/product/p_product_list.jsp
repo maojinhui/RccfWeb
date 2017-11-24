@@ -125,9 +125,9 @@
         var produce_id = $(trNode).data('produceId');
         if(type == 1){
             window.location.href = '/prod/diyaDetail?produce_id='+produce_id;
+        }else if(type==2){
+            window.location.href = '/prod/zhiyaDetail?produce_id='+produce_id;
         }
-
-
     }
 
     function toEdit(obj,type) {
@@ -135,6 +135,9 @@
         var produce_id = $(trNode).data('produceId');
         if(type == 1){
             window.location.href = '/prod/diyaInseret?produce_id='+produce_id;
+        }
+        else if(type==2){
+            window.location.href = '/prod/zhiyaInseret?produce_id='+produce_id;
         }
     }
 

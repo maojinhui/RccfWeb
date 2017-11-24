@@ -619,7 +619,7 @@
         obj.shoot_reason = shoot_reason;
 
         $.ajax({
-            url: '/prod/edit/diya',
+            url: '/prod/edit/zhiya',
             dataType: 'json',
             data: obj,
             success: function (result) {
