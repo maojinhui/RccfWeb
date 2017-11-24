@@ -130,11 +130,11 @@
 
     }
 
-    function toEdit(obj) {
+    function toEdit(obj,type) {
         var trNode = obj.parentNode.parentNode;
         var produce_id = $(trNode).data('produceId');
         if(type == 1){
-            window.location.href = '/prod/diyaDetail?produce_id='+produce_id;
+            window.location.href = '/prod/diyaInseret?produce_id='+produce_id;
         }
     }
 

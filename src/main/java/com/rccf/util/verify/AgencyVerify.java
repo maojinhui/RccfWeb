@@ -52,6 +52,26 @@ public class AgencyVerify {
         return false;
     }
 
+    /**
+     * 根据机构名称查询机构
+     *
+     * @param baseService
+     * @param name
+     * @return
+     */
+    public static RAgency getRagencyByName(BaseService baseService, String name) {
+        if (Strings.isNullOrEmpty(name)) {
+            return null;
+        }
+        DetachedCriteria criteria = DetachedCriteria.forClass(RAgency.class);
+        criteria.add(Restrictions.eq("name", name));
+        List list = baseService.getList(criteria);
+        if (list != null && list.size() > 0) {
+            return (RAgency) list.get(0);
+        }
+        return null;
+    }
+
 
     /**
      * 查看是否有该机构名称

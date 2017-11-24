@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.rccf.constants.PageConstants;
 import com.rccf.constants.UrlConstants;
+import com.rccf.model.RAgency;
 import com.rccf.model.produce.AProduceDiya;
 import com.rccf.model.Employee;
 import com.rccf.model.temp.ProduceTem;
@@ -105,9 +106,16 @@ public class ProduceController {
      */
     @RequestMapping(value = "/diyaInseret")
     public ModelAndView diyaAddPage(HttpServletRequest request) {
+        String produce_id = request.getParameter("produce_id");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/product/p_product_diya_add");
         PageUtil.addAgencys(modelAndView, baseService);
+        AProduceDiya diya = null;
+        if(!Strings.isNullOrEmpty(produce_id)){
+            diya = (AProduceDiya) baseService.get(AProduceDiya.class , Integer.valueOf(produce_id));
+            modelAndView.addObject("produce",diya);
+        }
+
         return modelAndView;
     }
 
@@ -158,29 +166,31 @@ public class ProduceController {
             produce.setState(3);
             produce.setCreateTime(DateUtil.date2Timestamp(new Date()));
         }
+
+
         String produce_code = request.getParameter("produce_code");
-        String agency_id = request.getParameter("agency_id");
+//        String agency_id = request.getParameter("agency_id");
         String agency_name = request.getParameter("agency_name");
+        RAgency ragencyByName = AgencyVerify.getRagencyByName(baseService, agency_name);
+        if(ragencyByName==null){
+            return ResponseUtil.fail(0,"请填写正确的机构名称");
+        }
+        int agency_id= ragencyByName.getId();
+
         String produce_name = request.getParameter("produce_name");
+
         if (Strings.isNullOrEmpty(produce_code)) {
             return ResponseUtil.fail(0, "产品编号不能为空");
         }
-        if (Strings.isNullOrEmpty(agency_id)) {
-            return ResponseUtil.fail(0, "请填写正确的机构信息");
-        } else {
-            boolean hasagency = AgencyVerify.hasAgencyByid(baseService, Integer.valueOf(agency_id));
-            if (!hasagency) {
-                return ResponseUtil.fail(0, "请填写正确的机构信息.");
-            }
-        }
+//        boolean has = ProduceVerify.hasProduceCode(baseService, produce_code);
+//        if (has) {
+//            return ResponseUtil.fail(0, "产品编号已存在");
+//        }
         produce.setCode(produce_code);
-        boolean has = ProduceVerify.hasProduceCode(baseService, produce_code);
-        if (has) {
-            return ResponseUtil.fail(0, "产品编号已存在");
-        }
         produce.setName(produce_name);
-        produce.setAgencyId(Integer.valueOf(agency_id));
+        produce.setAgencyId(agency_id);
         produce.setAgencyName(agency_name);
+
 
         String produce_bid = request.getParameter("produce_bid");
         String produce_adapt_crown = request.getParameter("produce_adapt_crown");
@@ -304,15 +314,21 @@ public class ProduceController {
         produce.setNotice(notice);
         produce.setShootReason(shoot_reason);
 
-
-        boolean save = baseService.save(produce);
-
-        if (save) {
-            DataUtil.saveProduceNotify(baseService, oldProduceData, produce, employee.getId());
-            return ResponseUtil.success();
-        } else {
-            return ResponseUtil.fail(0, "保存失败");
+        try {
+            boolean save = baseService.save(produce);
+            if (save) {
+                DataUtil.saveProduceNotify(baseService, oldProduceData, produce, employee.getId());
+                return ResponseUtil.success();
+            } else {
+                return ResponseUtil.fail(0, "保存失败");
+            }
+        }catch (org.hibernate.AssertionFailure assertionFailure){
+            return ResponseUtil.fail(0,"产品编号已存在");
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseUtil.fail(0,"保存失败");
         }
+
 
     }
 
