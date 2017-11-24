@@ -61,10 +61,10 @@
             <span>产品编号:</span>
             <input id="product_num" type="text" style="width: 6em;">
         </div>
-        <div class="am-u-sm-12 am-u-md-3 ">
-            <span>贷款金额:</span>
-            <input id="product_money" type="text" style="width: 6em;">
-        </div>
+        <%--<div class="am-u-sm-12 am-u-md-3 ">--%>
+            <%--<span>贷款金额:</span>--%>
+            <%--<input id="product_money" type="text" style="width: 6em;">--%>
+        <%--</div>--%>
         <div class="am-u-sm-12 am-u-md-3 ">
             <button id="search" class="am-btn am-btn-sm am-btn-primary am-margin-right">搜索</button>
             <button id="reset" class="am-btn am-btn-sm am-btn-default">重置</button>
@@ -125,9 +125,9 @@
         var produce_id = $(trNode).data('produceId');
         if(type == 1){
             window.location.href = '/prod/diyaDetail?produce_id='+produce_id;
+        }else if(type==2){
+            window.location.href = '/prod/zhiyaDetail?produce_id='+produce_id;
         }
-
-
     }
 
     function toEdit(obj,type) {
@@ -135,6 +135,9 @@
         var produce_id = $(trNode).data('produceId');
         if(type == 1){
             window.location.href = '/prod/diyaInseret?produce_id='+produce_id;
+        }
+        else if(type==2){
+            window.location.href = '/prod/zhiyaInseret?produce_id='+produce_id;
         }
     }
 
