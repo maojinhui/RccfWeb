@@ -262,16 +262,16 @@
         <tr>
             <td style="border-top: none;">
                 <input name="produce_loan_amount" value="1500" type="checkbox" <%=amount&&diya.getLoanAmount().contains("1500")?"checked='checked'":""%>> 1500万
-                <input
-                    name="produce_loan_amount" value="3000" type="checkbox" <%=amount&&diya.getLoanAmount().contains("3000")?"checked='checked'":""%>> 3000万
+                <input name="produce_loan_amount" value="3000" type="checkbox" <%=amount&&diya.getLoanAmount().contains("3000")?"checked='checked'":""%>> 3000万
                 <input onchange="showInput4()" type="checkbox" <%=amountOther?"checked='checked'":""%>> 其他
                 <input id="produce_loan_amount_other" class="<%=amountOther?"":"am-hide"%>" type="text"
-                    style="width: 3em;border-bottom: solid 1px #333;">
+                    value="<%=objNotNull?Strings.getInputString(diya.getLoanAmountOther()):""%>" style="width: 3em;border-bottom: solid 1px #333;">
             </td>
             <td style="border-top: none;">
                 <input name="loan_rate_up" value="40" type="checkbox" <%=loan_rate&&diya.getLoanRate().contains("40")?"checked='checked'":""%>> 上浮40%
                 <input onchange="showInput3()" type="checkbox" <%=rateOther?"checked='checked'":""%>>其他
-                <input id="loan_rate_up_other" class="<%=rateOther?"":"am-hide"%>" type="text" style="width: 5em;border-bottom: solid 1px #333;">
+                <input id="loan_rate_up_other" class="<%=rateOther?"":"am-hide"%>" type="text"
+                       value="<%=objNotNull?Strings.getInputString(diya.getLoanRateOther()):""%>" style="width: 5em;border-bottom: solid 1px #333;">
             </td>
         </tr>
         <tr>
@@ -563,7 +563,7 @@
         var produce_area = getCheckIntValues("produce_area");
         var produce_area_other = $('#produce_area_other').val();
         var produce_loan_amount_tao = getCheckIntValues("produce_loan_amount_tao");
-        var produce_loan_amount = getCheckIntValues();
+        var produce_loan_amount = getCheckIntValues('produce_loan_amount');
         var produce_loan_amount_other = $('#produce_loan_amount_other').val();
         obj.produce_area = produce_area;
         obj.produce_area_other = produce_area_other;
@@ -657,6 +657,7 @@
     function showInput4() {
         $("#produce_loan_amount_other").toggleClass("am-hide");
     }
+
 
 </script>
 

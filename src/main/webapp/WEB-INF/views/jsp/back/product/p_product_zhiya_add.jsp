@@ -257,7 +257,7 @@
                         name="produce_loan_amount" value="3000" type="checkbox" <%=amount&&aproduce.getLoanAmount().contains("3000")?"checked='checked'":""%>> 3000万
                 <input onchange="showInput4()" type="checkbox" <%=amountOther?"checked='checked'":""%>> 其他
                 <input id="produce_loan_amount_other" class="<%=amountOther?"":"am-hide"%>" type="text"
-                       style="width: 3em;border-bottom: solid 1px #333;">
+                       value="<%=objNotNull?Strings.getInputString(aproduce.getLoanAmountOther()):""%>" style="width: 3em;border-bottom: solid 1px #333;">
             </td>
             <td >
                 利&emsp;率：<input id="loan_rate" type="text" style="border-bottom: solid 1px #333;" value="<%=objNotNull?Strings.getInputString(aproduce.getLoanRate()):""%>">

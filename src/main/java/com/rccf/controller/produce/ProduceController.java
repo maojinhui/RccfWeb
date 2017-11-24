@@ -129,16 +129,22 @@ public class ProduceController {
      */
     @RequestMapping(value = "/diyaDetail")
     public ModelAndView diyaDetail(HttpServletRequest request) {
-//        String produce_id= request.getParameter("produce_id");
-//        if(Strings.isNullOrEmpty(produce_id)){
-//            return ResponseUtil.pageFail("参数错误");
-//        }
-
+        String produce_id= request.getParameter("produce_id");
+        if(Strings.isNullOrEmpty(produce_id)){
+            return ResponseUtil.pageFail("参数错误");
+        }
+        int id = Integer.valueOf(produce_id);
+        AProduceDiya produce = (AProduceDiya) baseService.get(AProduceDiya.class,id);
+        if(produce==null){
+            return ResponseUtil.pageFail("没有找到该产品");
+        }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/product/p_product_diya");
+        modelAndView.addObject("produce",produce);
         PageUtil.addAgencys(modelAndView, baseService);
         return modelAndView;
     }
+
 
     /**
      * 抵押产品编辑
