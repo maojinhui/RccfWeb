@@ -438,7 +438,7 @@
             <td>民间抵押是否有影响</td>
             <td colspan="3">
                 <span class="am-margin-right-xl am-margin-left"><input name="folk_diya_affect" value="1" type="radio" <%=folkaffect&&diya.getFolkMortgageAffect()==1?"checked='checked'":""%>>  是</span>
-                <span class="am-margin-right-xl am-margin-left"><input name="folk_diya_affect" value="0" type="radio" <%=folkaffect&&diya.getFolkMortgageAffect()==1?"checked='checked'":""%>>  否</span>
+                <span class="am-margin-right-xl am-margin-left"><input name="folk_diya_affect" value="0" type="radio" <%=folkaffect&&diya.getFolkMortgageAffect()==0?"checked='checked'":""%>>  否</span>
             </td>
         </tr>
         <%
