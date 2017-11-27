@@ -48,6 +48,33 @@
             }
         }
 
+        .popup-info{
+            /*position: absolute;*/
+            /*top: 2em;*/
+            /*left: -2em;*/
+            /*z-index:2;*/
+            /*background-color: #0a6999;*/
+            /*color: #fff;*/
+
+            background: #3a4144;
+            color: #fff;
+            position: absolute;
+            top: 6em;
+            right: 2em;
+            z-index: 100;
+            width: 20em;
+            text-align: left;
+            white-space: normal;
+            padding: 1em 1em 0.3em 1em;
+
+            border-radius: 10px;
+        }
+
+        .popup-info ul{
+            list-style: none;
+            /*list-style-position: outside;*/
+        }
+
 
     </style>
 </head>
@@ -82,7 +109,8 @@
                         for (int i = 0; i < deputys.size(); i++) {
                             Employee employee = deputys.get(i);
                     %>
-                    <option value="<%=employee.getId()%>"><%=employee.getName()%></option>
+                    <option value="<%=employee.getId()%>"><%=employee.getName()%>
+                    </option>
                     <%}%>
                 </select>
                 <%
@@ -99,7 +127,8 @@
                         for (int i = 0; i < types.size(); i++) {
                             ILoanType type = types.get(i);
                     %>
-                    <option value="<%=type.getId()%>"><%=type.getName()%></option>
+                    <option value="<%=type.getId()%>"><%=type.getName()%>
+                    </option>
                     <%}%>
                 </select>
             </div>
@@ -175,6 +204,14 @@
 <script src="/js/table2excel/tableExport.js"></script>
 <script>
 
+    function showSomething() {
+        $(".popup-info").removeClass("am-hide");
+    }
+    function hideSomething() {
+        $(".popup-info").addClass("am-hide");
+    }
+
+
     $('#search').click(function () {
 
         var deputy_name = $('#custome_assin_deputydirector').find("option:selected").text();
@@ -238,6 +275,21 @@
         }
         for (var i = start; i <= last; i++) {
             var da = info[i];
+            var process = da.process;
+            var pstrarr = [];
+            var pstr = "";
+            if(!isNull(process)){
+                pstrarr=process.split("；");
+                pstr=" <div class=\"popup-info am-hide\">\n" +
+                    "<ul>";
+                for (var j=0;j<pstrarr.length;j++){
+                    pstr+='<li>'+pstrarr[j]+'</li>';
+                }
+                pstr+="</ul></div>";
+            }
+
+
+
             str += '<tr>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.name) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.phone) + '</td>\n' +
@@ -261,7 +313,8 @@
                 '                                    class="am-icon-pencil-square-o"></span> 详情\n' +
                 '                            </a>\n' +
                 '                        </td>\n' +
-                '                        <td class="am-text-left">' + getStringWithspace(da.process) + '</td>\n' +
+                '                        <td class="am-text-nowrap am-text-truncate" style="max-width: 10em;" onmouseenter="showSomething()" onmouseleave="hideSomething()">' + getStringWithspace(da.process)  +
+                pstr+'</td>\n'+
                 '                    </tr>';
         }
         return str;

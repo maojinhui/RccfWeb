@@ -784,7 +784,7 @@ public class AcceptedController {
             if (!employee.getDepartment().contains("系统")) {
                 return ResponseUtil.fail(0, "您还没有权限操作");
             }
-            String sql = "UPDATE `accepted` a set `process` =(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  ',' ) m from accept_process ap  WHERE ap.accept_id=a.id   GROUP BY accept_id)";
+            String sql = "UPDATE `accepted` a set `process` =(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  '；' ) m from accept_process ap  WHERE ap.accept_id=a.id   GROUP BY accept_id)";
             boolean state = baseService.excuteSql(sql);
             if (state) {
                 return ResponseUtil.success();

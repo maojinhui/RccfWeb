@@ -178,6 +178,7 @@ public class ProduceController {
             produce = new AProduceDiya();
             produce.setState(3);
             produce.setCreateTime(DateUtil.date2Timestamp(new Date()));
+            produce.setCreatePerson(employee.getId());
         }
 
 
@@ -389,6 +390,7 @@ public class ProduceController {
             produce = new AProduceZhiya();
             produce.setState(3);
             produce.setCreateTime(DateUtil.date2Timestamp(new Date()));
+            produce.setCreatePerson(employee.getId());
         }
 
 
@@ -565,14 +567,45 @@ public class ProduceController {
         }
     }
 
+    /**
+     * 抵押产品详情
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/zhiyaDetail")
+    public ModelAndView zhiyaDetail(HttpServletRequest request) {
+        String produce_id= request.getParameter("produce_id");
+        if(Strings.isNullOrEmpty(produce_id)){
+            return ResponseUtil.pageFail("参数错误");
+        }
+        int id = Integer.valueOf(produce_id);
+        AProduceZhiya produce = (AProduceZhiya) baseService.get(AProduceZhiya.class,id);
+        if(produce==null){
+            return ResponseUtil.pageFail("没有找到该产品");
+        }
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/product/p_product_zhiya_details");
+        modelAndView.addObject("produce",produce);
+        PageUtil.addAgencys(modelAndView, baseService);
+        addCreatePerson(modelAndView,produce);
+        addLoanAmountTao(modelAndView,produce);
+        addProduceRepayment(modelAndView,produce);
+        addProduceArea(modelAndView,produce);
+        addHouseNature(modelAndView,produce);
+        addPersonMaterial(modelAndView,produce);
+        addCompanyMaterial(modelAndView,produce);
+
+        return modelAndView;
+    }
 
 
     @RequestMapping(value = "/audit/list")
     public ModelAndView audioList(HttpServletRequest request){
         Employee employee = BackUtil.getLoginEmployee(request,employeeService);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/");
-        return null;
+        modelAndView.setViewName("/back/product/p_product_audit_list");
+        return modelAndView;
     }
 
 
@@ -701,8 +734,6 @@ public class ProduceController {
             modelAndView.addObject("producePersonMaterial",thing);
         }
     }
-
-
 
     private void addCompanyMaterial(ModelAndView modelAndView , BaseProduct produce){
         DetachedCriteria criteria = DetachedCriteria.forClass(ProduceCompanyMaterial.class);
