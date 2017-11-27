@@ -1,9 +1,9 @@
 <%@ page import="com.rccf.model.ProductZhiya" %>
-<%@ page import="com.rccf.model.ProduceArea" %>
+<%@ page import="com.rccf.model.produce.ProduceArea" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.alibaba.fastjson.JSONArray" %>
 <%@ page import="com.alibaba.fastjson.JSON" %>
-<%@ page import="com.rccf.model.ProduceHouseNature" %>
+<%@ page import="com.rccf.model.produce.ProduceHouseNature" %>
 <%@ page import="com.rccf.model.ProducePersonMaterial" %><%--
   Created by IntelliJ IDEA.
   User: greatland

@@ -180,6 +180,9 @@
                     <option value="6" <%=typeNotnull && accepted.getBusinessType() == 6 ? "selected='selected'" : ""%>>
                         包装费
                     </option>
+                    <option value="7" <%=typeNotnull && accepted.getBusinessType() == 6 ? "selected='selected'" : ""%>>
+                        续息
+                    </option>
                     <option value="10" <%=typeNotnull && accepted.getBusinessType() == 10 ? "selected='selected'" : ""%>>
                         融成贷
                     </option>

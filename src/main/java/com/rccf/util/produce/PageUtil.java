@@ -24,18 +24,10 @@ public class PageUtil {
         modelAndView.addObject("agencys", agencys);
     }
 
-    /**
-     * 向前端页面传递所有机构
-     *
-     * @param modelAndView
-     * @param baseService
-     */
-    public static void addAutoCompleteAgencys(ModelAndView modelAndView, BaseService baseService) {
-        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(RAgency.class);
-        detachedCriteria.addOrder(Order.desc("createTime"));
-        List<RAgency> agencys = baseService.getList(detachedCriteria);
-        modelAndView.addObject("agencys", agencys);
-    }
+
+
+
+
 
 
 }

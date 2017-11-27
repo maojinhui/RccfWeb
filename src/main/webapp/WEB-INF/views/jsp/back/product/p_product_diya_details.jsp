@@ -1,4 +1,7 @@
-<%--
+<%@ page import="com.rccf.model.produce.AProduceDiya" %>
+<%@ page import="com.rccf.util.Strings" %>
+<%@ page import="com.alibaba.fastjson.JSONArray" %>
+<%@ page import="com.alibaba.fastjson.JSON" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2017/11/24 0024
@@ -6,15 +9,190 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    AProduceDiya produce = (AProduceDiya) request.getAttribute("produce");
+    String pname = (String) request.getAttribute("createPName");
+    String amountTao = (String) request.getAttribute("amountTao");
+    String repaymentType = (String) request.getAttribute("repaymentType");
+    String produceArea = (String) request.getAttribute("produceArea");
+    String produceNature = (String) request.getAttribute("produceNature");
+    String producePersonMaterial = (String) request.getAttribute("producePersonMaterial");
+    String produceCompanyMaterial = (String) request.getAttribute("produceCompanyMaterial");
+    String amount = "未知";
+    if (produce != null) {
+        amount = produce.getLoanAmount();
+        JSONArray array = JSON.parseArray(amount);
+        if (array.size() < 1) {
+            amount = "未上传金额";
+        }else{
+            amount="";
+        }
+
+        for (int i = 0; i < array.size(); i++) {
+            amount+=array.getString(i)+"万、";
+        }
+        amount = amount.substring(0,amount.length()-1);
+    }
+
+    String rateInfo = "";
+    if(produce.getLoanRate()!=null){
+        String loanRate = produce.getLoanRate();
+        JSONArray array = JSON.parseArray(loanRate);
+        if(array.size()<1)
+        {
+            rateInfo="";
+        }else{
+            rateInfo="银行基准利率上浮";
+            for (int i=0;i<array.size();i++){
+                rateInfo+=array.get(i)+"%、";
+            }
+            rateInfo = rateInfo.substring(0,rateInfo.length()-1);
+        }
+
+        if(produce.getLoanRateOther()!=null){
+            rateInfo=rateInfo+",其他:"+produce.getLoanRateOther();
+        }
+    }
+
+    String bidType = "";
+    if(produce.getLoanBidType()!=null){
+        int type = produce.getLoanBidType();
+        switch (type){
+            case 1:  bidType+="评估价--";break;
+            case 2:  bidType+="快出价--";break;
+            case 3:  bidType+="其他出价方式--";break;
+            default:break;
+        }
+    }
+    String scale = produce.getLoanScale();
+    if(scale!=null){
+        JSONArray array = JSON.parseArray(scale);
+        for (int i = 0;i<array.size();i++){
+            bidType+=array.get(i)+"成、";
+        }
+        bidType = bidType.substring(0,bidType.length()-1);
+    }
+
+    String ageThing = "";
+    int minAge = produce.getMinAge();
+    int maxAge = produce.getMaxAge();
+    String ageOther = produce.getAgeOther();
+    if(minAge>0 && maxAge>0){
+        ageThing = minAge+"-"+maxAge+"岁";
+        if(ageOther!=null){
+            ageThing = ageThing+"("+ageOther+")";
+        }
+    }else if(minAge>0 && maxAge<=0){
+        ageThing = minAge+"以上";
+        if(ageOther!=null){
+            ageThing = ageThing+"("+ageOther+")";
+        }
+
+    } else if(minAge<=0 && maxAge>0){
+        ageThing = maxAge+"以下";
+        if(ageOther!=null){
+            ageThing = ageThing+"("+ageOther+")";
+        }
+    }
+
+
+    String monthThing = "";
+    int minMonth = produce.getMinMonth();
+    int maxMonth = produce.getMixMonth();
+    String monthOther = produce.getFixedMonth();
+    if(minMonth>0 && maxMonth>0){
+        monthThing = minMonth+"-"+maxMonth+"月";
+        if(ageOther!=null){
+            monthThing = monthThing+",其他：("+monthOther+")";
+        }
+    }else if(minMonth>0 && maxMonth<=0){
+        monthThing = minMonth+"以上";
+        if(ageOther!=null){
+            monthThing = monthThing+",其他：("+monthOther+")";
+        }
+    } else if(minMonth<=0 && maxMonth>0){
+        monthThing = maxMonth+"以下";
+        if(ageOther!=null){
+            monthThing = monthThing+",其他：("+monthOther+")";
+        }
+    }
+
+    String diyaThing = "";
+    String diyaType = produce.getDiyaType();
+    if(diyaType !=null){
+    if(diyaType.contains("1")){
+      if(diyaType.contains("2")){
+          diyaThing="一抵、二抵都可做";
+      }else{
+          diyaThing="可做一抵";
+      }
+    }else{
+        if(diyaType.contains("2")){
+            diyaThing="二抵可做";
+        }else{
+        }
+    }
+    }
+
+
+    String ownerThing = "";
+    String ownership = produce.getHouseOwnership();
+    if(ownership !=null){
+        if(ownership.contains("1")){
+            if(ownership.contains("2")){
+                ownerThing="个人名下可做，公司名下可做";
+            }else{
+                ownerThing="个人名下可做，公司名下不可做";
+            }
+        }else{
+            if(ownership.contains("2")){
+                ownerThing="公司名下可做，个人名下不可做";
+            }else{
+            }
+        }
+    }
+
+    String houseAgeThing = "";
+    Integer  applyhouseAge = produce.getApplyHouseAge();
+    if(applyhouseAge!=null){
+        houseAgeThing = applyhouseAge+"年内";
+    }
+
+    String folkAffectStr = "";
+    Integer folkAffect = produce.getFolkMortgageAffect();
+    if(folkAffect!=null){
+        if(folkAffect==1){
+            folkAffectStr="有影响";
+        }else{
+            folkAffectStr="无影响";
+        }
+    }else{
+        folkAffectStr="未知";
+    }
+
+    String didaibuyiStr = "";
+    Integer didaibuyi = produce.getDifferentLoanMortgage();
+    if(didaibuyi!=null){
+        if(didaibuyi==1){
+            folkAffectStr="可做";
+        }else{
+            folkAffectStr="不可做";
+        }
+    }
+
+
+
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>抵押产品详情</title>s
+    <title>抵押产品详情</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <link rel="stylesheet" type="text/css" href=/css/amaze/amazeui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css//amaze/animate.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/amaze/animate.css"/>
     <style type="text/css">
         html,
         body {
@@ -54,81 +232,80 @@
 </head>
 <body>
 <div class="am-margin-bottom-xl">
-
-
-    <div class="am-padding am-padding-bottom-0">
-        <p>
-            <a href="product_org.html">产品管理</a>>
-        </p>
-    </div>
-
+    <%--<div class="am-padding am-padding-bottom-0">--%>
+        <%--<p>--%>
+            <%--<a>产品管理</a>>--%>
+        <%--</p>--%>
+    <%--</div>--%>
     <div class="am-padding-horizontal">
-        <h2>平安普惠--房抵贷</h2>
-        <h3 class="am-margin-bottom-0">产品编号：1.14-PA-FD</h3>
+        <h2><%=Strings.getInputString(produce.getName())%>
+        </h2>
+        <h3 class="am-margin-bottom-0">产品编号：<%=Strings.getInputString(produce.getCode())%>
+        </h3>
 
         <div class=" am-margin-top-xs am-margin-bottom">
-            推荐人：<span class="am-text-warning">张三</span>&emsp;
-            负责人：<span class="am-text-warning">李四</span>
+            <%--推荐人：<span class="am-text-warning">张三</span>&emsp;--%>
+            负责人：<span class="am-text-warning"><%=pname%></span>
         </div>
         <div class="">
             <div class="am-g am-margin-top-xs am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">贷款金额：</label>
-                <span class="am-u-sm-10">单套、多套都可做，50-1000万，别墅8000万</span>
+                <span class="am-u-sm-10"><%=amountTao%>，<%=amount%><%=","+Strings.getInputString(produce.getLoanAmountOther())%></span>
             </div>
             <div class="am-g am-margin-top-xs am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2 ">贷款利率：</label>
-                <span class="am-u-sm-10">银行基础利率上浮30%，其他说明信息</span>
+                <span class="am-u-sm-10"><%=rateInfo%></span>
             </div>
             <div class="am-g am-margin-top-xs am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">放款成数：</label>
-                <span class="am-u-sm-10">7成/8成，一抵8成，二抵6成</span>
+                <span class="am-u-sm-10"><%=bidType%></span>
             </div>
             <div class="am-g am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">还款方式：</label>
-                <span class="am-u-sm-10">可选：等额本息、先息后本、停本付息</span>
+                <span class="am-u-sm-10">可选：<%=Strings.getInputString(repaymentType)%></span>
             </div>
             <div class="am-g am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">区域范围：</label>
-                <span class="am-u-sm-10">1.朝阳区 2.东城区 3.西城区 4.通州区 5.丰台区 6.朝阳区 7.东城区 8.西城区 9.通州区 10.丰台区</span>
+                <span class="am-u-sm-10"><%=Strings.getInputString(produceArea)%></span>
             </div>
         </div>
 
         <!--申请条件-->
         <div class=" am-margin-top">
             <div class="am-u-sm-12 apply-conditions am-margin-bottom">
-                <span><i  class="am-icon-map-o"></i> 申请条件</span>
+                <span><i class="am-icon-map-o"></i> 申请条件</span>
             </div>
             <div class="am-g am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">可申请贷款年龄：</label>
-                <span class="am-u-sm-10">18-65岁(65岁以上需子女共借)</span>
+                <span class="am-u-sm-10"><%=ageThing%></span>
             </div>
             <div class="am-g am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">可申请贷款年限：</label>
-                <span class="am-u-sm-10">一般情况：3-12月(特殊情况：24月、36月)</span>
+                <span class="am-u-sm-10"><%=monthThing%></span>
             </div>
             <div class="am-g am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">可申请抵押类型：</label>
-                <span class="am-u-sm-10">一抵、二抵</span>
+                <span class="am-u-sm-10"><%=diyaThing%></span>
             </div>
             <div class="am-g am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">可申请房屋性质：</label>
-                <span class="am-u-sm-10">公司名下，个人名下</span>
+                <span class="am-u-sm-10"><%=ownerThing%></span>
             </div>
             <div class="am-g am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">可申请房屋类型：</label>
-                <span class="am-u-sm-10">商业、商住、住宅、70年大产权公寓、经适房</span>
+                <span class="am-u-sm-10"><%=produceNature%></span>
             </div>
             <div class="am-g am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">可申请房屋年限：</label>
-                <span class="am-u-sm-10">一般情况：35年内</span>
+                <span class="am-u-sm-10"><%=houseAgeThing%></span>
             </div>
             <div class="am-g am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">民间抵押的影响：</label>
-                <span class="am-u-sm-10">有影响</span>
+                <span class="am-u-sm-10"><%=folkAffectStr%></span>
             </div>
             <div class="am-g am-margin-top-xs">
-                <label class="am-u-md-4 am-u-md-2 am-u-lg-2">抵贷不一可行性：</label>
-                <span class="am-u-sm-10">否</span>
+                <label class="am-u-md-4 am-u-md-2 am-u-lg-2">抵贷不一可做：</label>
+                <span class="am-u-sm-10"><%=didaibuyiStr%></span>
             </div>
         </div>
 
@@ -139,45 +316,43 @@
             </div>
             <div class="am-g am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">个人准备资料：</label>
-                <span class="am-u-sm-10">户口本、房产证、租赁合同、银行流水、身份证、身份证正反面复印件</span>
+                <span class="am-u-sm-10"><%=producePersonMaterial%></span>
             </div>
             <div class="am-g am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">企业准备资料：</label>
-                <span class="am-u-sm-10">户口本、房产证、租赁合同、银行流水、身份证、身份证正反面复印件</span>
+                <span class="am-u-sm-10"><%=produceCompanyMaterial%></span>
             </div>
         </div>
 
         <!--附加说明-->
         <div class="">
             <div class="am-u-sm-12 apply-conditions am-margin-bottom">
-                <span><i  class="am-icon-map-o"></i> 附加说明</span>
+                <span><i class="am-icon-map-o"></i> 附加说明</span>
             </div>
             <div class="am-g am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">流程细节：</label>
-                <span class="am-u-sm-10">户口本、房产证、租赁合同、银行流水、身份证、身份证正反面复印件</span>
+                <span class="am-u-sm-10"><%=Strings.getInputString(produce.getProcessDetails())%></span>
             </div>
             <div class="am-g am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">产品优势：</label>
-                <span class="am-u-sm-10">户口本、房产证、租赁合同、银行流水、身份证、身份证正反面复印件</span>
+                <span class="am-u-sm-10"><%=Strings.getInputString(produce.getAdvantage())%></span>
             </div>
             <div class="am-g am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">产品劣势：</label>
-                <span class="am-u-sm-10">户口本、房产证、租赁合同、银行流水、身份证、身份证正反面复印件</span>
+                <span class="am-u-sm-10"><%=Strings.getInputString(produce.getDisadvantage())%></span>
             </div>
             <div class="am-g am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">注意事项：</label>
-                <span class="am-u-sm-10">户口本、房产证、租赁合同、银行流水、身份证、身份证正反面复印件</span>
+                <span class="am-u-sm-10"><%=Strings.getInputString(produce.getNotice())%></span>
             </div>
             <div class="am-g am-margin-top-xs am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">毙单原因：</label>
-                <span class="am-u-sm-10">户口本、房产证、租赁合同、银行流水、身份证、身份证正反面复印件</span>
+                <span class="am-u-sm-10"><%=Strings.getInputString(produce.getShootReason())%></span>
             </div>
         </div>
     </div>
-
-
 </div>
-<script src="/js/jquery.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script>
 
 </script>

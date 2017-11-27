@@ -1,4 +1,4 @@
-package com.rccf.model;
+package com.rccf.model.produce;
 
 import javax.persistence.*;
 

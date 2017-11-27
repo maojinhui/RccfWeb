@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "a_produce_zhiya", schema = "rccf", catalog = "")
-public class AProduceZhiya {
+public class AProduceZhiya extends BaseProduct{
     private int id;
     private String name;
     private String code;
@@ -51,6 +51,7 @@ public class AProduceZhiya {
     private Integer state;
     private Timestamp createTime;
     private String recommend;
+    private Integer createPerson;
 
     @Id
     @Column(name = "id")
@@ -536,5 +537,15 @@ public class AProduceZhiya {
     @Override
     public int hashCode() {
         return Objects.hashCode(id, name, code, agencyId, agencyName, loanPeople, repaymentType, loanBidType, loanScale, loanSacelOther, houseArea, houseAreaOther, loanAmountTao, loanAmount, loanAmountOther, supportExtension, extensionFee, loanRate, personMaterial, companyMaterial, minAge, maxAge, ageOther, minMonth, mixMonth, fixedMonth, diyaType, houseOwnership, applyLoanType, applyHouseAge, applyHouseNature, folkMortgageAffect, loanMaxHouseageplusloanyear, loanMaxHouseageplusloanyearOther, differentLoanMortgage, processDetails, advantage, disadvantage, notice, shootReason, state, createTime, recommend);
+    }
+
+    @Basic
+    @Column(name = "create_person")
+    public Integer getCreatePerson() {
+        return createPerson;
+    }
+
+    public void setCreatePerson(Integer createPerson) {
+        this.createPerson = createPerson;
     }
 }

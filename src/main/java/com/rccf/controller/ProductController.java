@@ -2,13 +2,13 @@ package com.rccf.controller;
 
 import com.rccf.component.Page;
 import com.rccf.constants.UrlConstants;
-import com.rccf.dao.BankRateDao;
 import com.rccf.model.*;
+import com.rccf.model.produce.ProduceArea;
+import com.rccf.model.produce.ProduceHouseNature;
 import com.rccf.service.BankRateService;
 import com.rccf.service.BaseService;
 import com.rccf.service.ProductService;
 import com.rccf.util.PageUtil;
-import com.rccf.util.ResponseUtil;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
