@@ -1,6 +1,7 @@
 package com.rccf.model.temp;
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.sql.Timestamp;
@@ -23,6 +24,21 @@ public class ProduceTem {
     private int state;
 
     private Timestamp create_time;
+
+
+    private Integer log;
+
+    private String reason;
+
+
+    @Column(nullable = true)
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
 
     @Id
     public int getId() {
@@ -87,5 +103,13 @@ public class ProduceTem {
 
     public void setCreate_time(Timestamp create_time) {
         this.create_time = create_time;
+    }
+
+    public Integer getLog() {
+        return log;
+    }
+
+    public void setLog(Integer log) {
+        this.log = log;
     }
 }

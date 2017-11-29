@@ -109,8 +109,7 @@
                         for (int i = 0; i < deputys.size(); i++) {
                             Employee employee = deputys.get(i);
                     %>
-                    <option value="<%=employee.getId()%>"><%=employee.getName()%>
-                    </option>
+                    <option value="<%=employee.getId()%>"><%=employee.getName()%></option>
                     <%}%>
                 </select>
                 <%
@@ -127,8 +126,7 @@
                         for (int i = 0; i < types.size(); i++) {
                             ILoanType type = types.get(i);
                     %>
-                    <option value="<%=type.getId()%>"><%=type.getName()%>
-                    </option>
+                    <option value="<%=type.getId()%>"><%=type.getName()%></option>
                     <%}%>
                 </select>
             </div>
@@ -204,11 +202,11 @@
 <script src="/js/table2excel/tableExport.js"></script>
 <script>
 
-    function showSomething() {
-        $(".popup-info").removeClass("am-hide");
+    function showSomething(obj) {
+        $(obj).children(".popup-info").removeClass("am-hide");
     }
-    function hideSomething() {
-        $(".popup-info").addClass("am-hide");
+    function hideSomething(obj) {
+        $(obj).children(".popup-info").addClass("am-hide");
     }
 
 
@@ -310,7 +308,7 @@
                 '                                    class="am-icon-pencil-square-o"></span> 详情\n' +
                 '                            </a>\n' +
                 '                        </td>\n' +
-                '                        <td class="am-text-nowrap am-text-truncate" style="max-width: 10em;" onmouseenter="showSomething()" onmouseleave="hideSomething()">' + getStringWithspace(da.process)  +
+                '                        <td class="am-text-nowrap am-text-truncate" style="max-width: 10em;" onmouseenter="showSomething(this)" onmouseleave="hideSomething(this)">' + getStringWithspace(da.process)  +
                 pstr+'</td>\n'+
                 '                    </tr>';
         }

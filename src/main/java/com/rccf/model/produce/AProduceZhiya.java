@@ -52,6 +52,7 @@ public class AProduceZhiya extends BaseProduct{
     private Timestamp createTime;
     private String recommend;
     private Integer createPerson;
+    private Integer log;
 
     @Id
     @Column(name = "id")
@@ -602,5 +603,15 @@ public class AProduceZhiya extends BaseProduct{
                 .add("recommend", recommend)
                 .add("createPerson", createPerson)
                 .toString();
+    }
+
+    @Basic
+    @Column(name = "log")
+    public Integer getLog() {
+        return log;
+    }
+
+    public void setLog(Integer log) {
+        this.log = log;
     }
 }

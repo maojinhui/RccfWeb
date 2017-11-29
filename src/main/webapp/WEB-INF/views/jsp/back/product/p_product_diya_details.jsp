@@ -11,6 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     AProduceDiya produce = (AProduceDiya) request.getAttribute("produce");
+    String agencyName = produce.getAgencyName();
     String pname = (String) request.getAttribute("createPName");
     String amountTao = (String) request.getAttribute("amountTao");
     String repaymentType = (String) request.getAttribute("repaymentType");
@@ -239,7 +240,7 @@
         </p>
     </div>
     <div class="am-padding-horizontal">
-        <h2  class="am-margin-bottom-0"><%=Strings.getInputString(produce.getName())%>
+        <h2  class="am-margin-bottom-0">抵押-<%=Strings.getInputString(agencyName)%>-<%=Strings.getInputString(produce.getName())%>
         </h2>
         <h3 class="am-margin-top-0 am-margin-bottom-0 am-text-center">产品编号：<%=Strings.getInputString(produce.getCode())%>
         </h3>

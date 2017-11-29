@@ -19,7 +19,9 @@ import com.rccf.util.Strings;
 import com.rccf.util.produce.DataUtil;
 import com.rccf.util.produce.PageUtil;
 import com.rccf.util.verify.AgencyVerify;
+import com.rccf.util.verify.ProduceVerify;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,12 +76,14 @@ public class ProduceController {
         String sql = "SELECT *\n" +
                 "FROM (SELECT `id`, `name`, `code`, agency_id,\n" +
                 "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
-                "         1 AS type,`state`,create_time\n" +
+                "         1 AS type,`state`,create_time,log,\n" +
+                "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason"+
                 "       FROM `a_produce_diya` as p\n" +
                 "       UNION ALL\n" +
                 "       SELECT `id`, `name`, `code`, agency_id,\n" +
                 "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
-                "         2 AS type,`state`,create_time\n" +
+                "         2 AS type,`state`,create_time,log,\n" +
+                "(SELECT audit_opinion from a_produce_audit_log WHERE type=2 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason"+
                 "       FROM `a_produce_zhiya` as p\n" +
                 "     ) AS data\n" +
                 "ORDER BY data.create_time DESC " + limitStr;
@@ -127,26 +131,26 @@ public class ProduceController {
      */
     @RequestMapping(value = "/diyaDetail")
     public ModelAndView diyaDetail(HttpServletRequest request) {
-        String produce_id= request.getParameter("produce_id");
-        if(Strings.isNullOrEmpty(produce_id)){
+        String produce_id = request.getParameter("produce_id");
+        if (Strings.isNullOrEmpty(produce_id)) {
             return ResponseUtil.pageFail("参数错误");
         }
         int id = Integer.valueOf(produce_id);
-        AProduceDiya produce = (AProduceDiya) baseService.get(AProduceDiya.class,id);
-        if(produce==null){
+        AProduceDiya produce = (AProduceDiya) baseService.get(AProduceDiya.class, id);
+        if (produce == null) {
             return ResponseUtil.pageFail("没有找到该产品");
         }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/product/p_product_diya_details");
-        modelAndView.addObject("produce",produce);
+        modelAndView.addObject("produce", produce);
         PageUtil.addAgencys(modelAndView, baseService);
-        addCreatePerson(modelAndView,produce);
-        addLoanAmountTao(modelAndView,produce);
-        addProduceRepayment(modelAndView,produce);
-        addProduceArea(modelAndView,produce);
-        addHouseNature(modelAndView,produce);
-        addPersonMaterial(modelAndView,produce);
-        addCompanyMaterial(modelAndView,produce);
+        addCreatePerson(modelAndView, produce);
+        addLoanAmountTao(modelAndView, produce);
+        addProduceRepayment(modelAndView, produce);
+        addProduceArea(modelAndView, produce);
+        addHouseNature(modelAndView, produce);
+        addPersonMaterial(modelAndView, produce);
+        addCompanyMaterial(modelAndView, produce);
 
         return modelAndView;
     }
@@ -331,6 +335,20 @@ public class ProduceController {
         try {
             boolean save = baseService.save(produce);
             if (save) {
+                AProduceAuditLog log = new AProduceAuditLog();
+                log.setProduceId(produce.getId());
+                log.setSubmit(employee.getId());
+                log.setProduceType(2);
+                log.setSubmitTime(DateUtil.date2Timestamp(new Date()));
+                boolean savelog = baseService.save(log);
+                if (!savelog) {
+                    return ResponseUtil.fail(0, "提交日志失败，请重试");
+                }
+                produce.setLog(log.getId());
+                boolean savelog2 = baseService.save(produce);
+                if (!savelog2) {
+                    return ResponseUtil.fail(0, "提交日志失败，请重试");
+                }
                 DataUtil.saveProduceNotify(baseService, oldProduceData, produce, employee.getId());
                 return ResponseUtil.success();
             } else {
@@ -458,7 +476,7 @@ public class ProduceController {
         String extensionFee = request.getParameter("extension_fee");
         String loan_rate = request.getParameter("loan_rate");
 
-        if(!Strings.isNullOrEmpty(supportExtension)){
+        if (!Strings.isNullOrEmpty(supportExtension)) {
             produce.setSupportExtension(Integer.valueOf(supportExtension));
         }
         produce.setExtensionFee(extensionFee);
@@ -554,6 +572,22 @@ public class ProduceController {
         try {
             boolean save = baseService.save(produce);
             if (save) {
+                AProduceAuditLog log = new AProduceAuditLog();
+                log.setProduceId(produce.getId());
+                log.setSubmit(employee.getId());
+                log.setProduceType(2);
+                log.setSubmitTime(DateUtil.date2Timestamp(new Date()));
+                boolean savelog = baseService.save(log);
+                if (!savelog) {
+                    return ResponseUtil.fail(0, "提交日志失败，请重试1");
+                }
+                produce.setLog(log.getId());
+                boolean savelog2 = baseService.save(produce);
+                if (!savelog2) {
+                    return ResponseUtil.fail(0, "提交日志失败，请重试2");
+                }
+
+
                 DataUtil.saveProduceNotify(baseService, oldProduceData, produce, employee.getId());
                 return ResponseUtil.success();
             } else {
@@ -575,198 +609,346 @@ public class ProduceController {
      */
     @RequestMapping(value = "/zhiyaDetail")
     public ModelAndView zhiyaDetail(HttpServletRequest request) {
-        String produce_id= request.getParameter("produce_id");
-        if(Strings.isNullOrEmpty(produce_id)){
+        String produce_id = request.getParameter("produce_id");
+        if (Strings.isNullOrEmpty(produce_id)) {
             return ResponseUtil.pageFail("参数错误");
         }
         int id = Integer.valueOf(produce_id);
-        AProduceZhiya produce = (AProduceZhiya) baseService.get(AProduceZhiya.class,id);
-        if(produce==null){
+        AProduceZhiya produce = (AProduceZhiya) baseService.get(AProduceZhiya.class, id);
+        if (produce == null) {
             return ResponseUtil.pageFail("没有找到该产品");
         }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/product/p_product_zhiya_details");
-        modelAndView.addObject("produce",produce);
+        modelAndView.addObject("produce", produce);
         PageUtil.addAgencys(modelAndView, baseService);
-        addCreatePerson(modelAndView,produce);
-        addLoanAmountTao(modelAndView,produce);
-        addProduceRepayment(modelAndView,produce);
-        addProduceArea(modelAndView,produce);
-        addHouseNature(modelAndView,produce);
-        addPersonMaterial(modelAndView,produce);
-        addCompanyMaterial(modelAndView,produce);
+        addCreatePerson(modelAndView, produce);
+        addLoanAmountTao(modelAndView, produce);
+        addProduceRepayment(modelAndView, produce);
+        addProduceArea(modelAndView, produce);
+        addHouseNature(modelAndView, produce);
+        addPersonMaterial(modelAndView, produce);
+        addCompanyMaterial(modelAndView, produce);
 
         return modelAndView;
     }
 
 
     @RequestMapping(value = "/audit/list")
-    public ModelAndView audioList(HttpServletRequest request){
-        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+    public ModelAndView audioList(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/product/p_product_audit_list");
         return modelAndView;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/audit/all/auditlist")
+    public String listAllAuditProduce(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        //登录用户
+        String depart = employee.getDepartment();
+        int role = employee.getRole();
+
+//        if(depart.contains("系统")){
+//
+//        }else if(depart.contains("市场")){
+//
+//        }
+        String pageNo = request.getParameter("pageNo");
+        int p = 1;
+        if (!Strings.isNullOrEmpty(pageNo)) {
+            p = Integer.valueOf(pageNo);
+        }
+        int offset = (p - 1) * PageConstants.EVERYPAGE;
+        String limitStr = " limit " + offset + "," + PageConstants.EVERYPAGE;
+        String sql = "SELECT *\n" +
+                "FROM (SELECT `id`, `name`, `code`, agency_id,\n" +
+                "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
+                "         1 AS type,`state`,create_time,log,\n"+
+        "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason"+
+                "       FROM `a_produce_diya` as p\n" +
+                "       UNION ALL\n" +
+                "       SELECT `id`, `name`, `code`, agency_id,\n" +
+                "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
+                "         2 AS type,`state`,create_time,log,\n" +
+                "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason"+
+                "       FROM `a_produce_zhiya` as p\n" +
+                "     ) AS data\n" +
+                "     WHERE state=3 \n" +
+                "ORDER BY data.create_time DESC " + limitStr;
+        String sql_total = "SELECT count(*)\n" +
+                "FROM (SELECT id,state       FROM `a_produce_diya` as p\n" +
+                "      UNION ALL\n" +
+                "      SELECT id,state       FROM `a_produce_zhiya` as p\n" +
+                "     ) AS data\n" +
+                "WHERE state=3";
+
+
+        String data = limit(baseService, sql_total, sql, ProduceTem.class);
+
+        return data;
+    }
+
+
+    @RequestMapping(value = "/audit/page")
+    public ModelAndView auditDetailPage(HttpServletRequest request) {
+        String log_id = request.getParameter("log_id");
+        String type = request.getParameter("type");
+        String produce_id = request.getParameter("produce_id");
+        BaseProduct produce = null;
+        int pid = Integer.valueOf(produce_id);
+        int type_ = Integer.valueOf(type);
+        ModelAndView modelAndView = new ModelAndView();
+        switch (type_) {
+            case 1:
+                modelAndView.setViewName("/back/product/p_product_diya_audit");
+                produce = (AProduceDiya) baseService.get(AProduceDiya.class, pid);
+                break;
+            case 2:
+                modelAndView.setViewName("/back/product/p_product_zhiya_audit");
+                produce = (AProduceZhiya) baseService.get(AProduceZhiya.class, pid);
+                break;
+            case 0:
+                break;
+            default:
+                break;
+
+        }
+        modelAndView.addObject("produce", produce);
+        modelAndView.addObject("log_id",log_id);
+        PageUtil.addAgencys(modelAndView, baseService);
+        addCreatePerson(modelAndView, produce);
+        addLoanAmountTao(modelAndView, produce);
+        addProduceRepayment(modelAndView, produce);
+        addProduceArea(modelAndView, produce);
+        addHouseNature(modelAndView, produce);
+        addPersonMaterial(modelAndView, produce);
+        addCompanyMaterial(modelAndView, produce);
+        return modelAndView;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/audit/submit")
+    public String auditState(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        String log_id = request.getParameter("log_id");
+        String produce_id = request.getParameter("produce_id");
+        String type = request.getParameter("type");
+        String opinion = request.getParameter("opinon");
+        String state = request.getParameter("state");
+        int pid = Integer.valueOf(produce_id);
+        int stat = Integer.valueOf(state);
+        int typ = Integer.valueOf(type);
+//        BaseProduct produce = null;
+
+        boolean has = ProduceVerify.hasDiyaProduceByID(baseService, produce_id, type);
+        if (!has) {
+            return ResponseUtil.fail(0, "没有找到该产品");
+        }
+        if (Strings.isNullOrEmpty(log_id)) {
+            return ResponseUtil.fail(0, "没有找到提交记录");
+        }
+        boolean save = false;
+        switch (typ){
+            case 1:
+                AProduceDiya   produce_diya = (AProduceDiya) baseService.get(AProduceDiya.class,pid);
+                if(stat==1){
+                    produce_diya.setState(1);
+                }else{
+                    produce_diya.setState(2);
+                }
+                save= baseService.save(produce_diya);
+                if(!save){
+                    return ResponseUtil.fail(0,"产品更新失败");
+                }
+                break;
+            case 2:
+                AProduceZhiya  produce_zhiya = (AProduceZhiya) baseService.get(AProduceZhiya.class,pid);
+                if(stat==1){
+                    produce_zhiya.setState(1);
+                }else{
+                    produce_zhiya.setState(2);
+                }
+                save = baseService.save(produce_zhiya);
+                if(!save){
+                    return ResponseUtil.fail(0,"产品更新失败");
+                }
+                break;
+            default:
+                break;
+        }
+
+        AProduceAuditLog log = (AProduceAuditLog) baseService.get(AProduceAuditLog.class, Integer.valueOf(log_id));
+        log.setAudit(employee.getId());
+        log.setAuditOpinion(opinion);
+        log.setAuditTime(DateUtil.date2Timestamp(new Date()));
+        log.setProduceId(Integer.valueOf(produce_id));
+        log.setState(stat);
+        boolean savelog = baseService.save(log);
+        if (savelog) {
+            return ResponseUtil.success();
+        }
+        return ResponseUtil.fail();
+    }
+
 
     /**
      * 添加创建人名字
+     *
      * @param modelAndView
      * @param baseProduct
      */
-    private void addCreatePerson(ModelAndView modelAndView , BaseProduct baseProduct){
+    private void addCreatePerson(ModelAndView modelAndView, BaseProduct baseProduct) {
         Integer createPerson = baseProduct.getCreatePerson();
-        Employee employee = (Employee) baseService.get(Employee.class,createPerson);
-        if(employee!=null){
-            modelAndView.addObject("createPName",employee.getName());
+        Employee employee = (Employee) baseService.get(Employee.class, createPerson);
+        if (employee != null) {
+            modelAndView.addObject("createPName", employee.getName());
         }
     }
 
 
-    private void addLoanAmountTao(ModelAndView modelAndView , BaseProduct baseProduct){
+    private void addLoanAmountTao(ModelAndView modelAndView, BaseProduct baseProduct) {
         String loanAmountTao = baseProduct.getLoanAmountTao();
-        if(loanAmountTao==null || loanAmountTao.equals("[]")){
-            modelAndView.addObject("amountTao","单套多套可做未知");
+        if (loanAmountTao == null || loanAmountTao.equals("[]")) {
+            modelAndView.addObject("amountTao", "单套多套可做未知");
         }
         String tao = "";
-        if(loanAmountTao.contains("1")){
-            if (loanAmountTao.contains("2")){
-                tao="单套多套都可做";
-            }else{
-                tao="单套可做多套不可做";
+        if (loanAmountTao.contains("1")) {
+            if (loanAmountTao.contains("2")) {
+                tao = "单套多套都可做";
+            } else {
+                tao = "单套可做多套不可做";
             }
-        }else{
-            if (loanAmountTao.contains("2")){
-                tao="单套不可做多套可做";
-            }else{
-                tao="";
+        } else {
+            if (loanAmountTao.contains("2")) {
+                tao = "单套不可做多套可做";
+            } else {
+                tao = "";
             }
         }
-        modelAndView.addObject("amountTao",tao);
+        modelAndView.addObject("amountTao", tao);
     }
 
-    private void addProduceRepayment(ModelAndView modelAndView , BaseProduct produce){
+    private void addProduceRepayment(ModelAndView modelAndView, BaseProduct produce) {
         DetachedCriteria criteria = DetachedCriteria.forClass(ProduceRepayment.class);
         List<ProduceRepayment> repayments = baseService.getList(criteria);
-        String repayment =  produce.getRepaymentType();
+        String repayment = produce.getRepaymentType();
         String thing = "";
-        if(repayment!=null){
+        if (repayment != null) {
             JSONArray array = JSON.parseArray(repayment);
-            for (int i = 0;i<array.size();i++){
-                    int type = array.getIntValue(i);
-                    for (int j = 0 ; j<repayments.size();j++){
-                        ProduceRepayment repayment1 = repayments.get(j);
-                        if(repayment1.getId() == type){
-                            thing+=repayment1.getName()+"、";
-                        }
+            for (int i = 0; i < array.size(); i++) {
+                int type = array.getIntValue(i);
+                for (int j = 0; j < repayments.size(); j++) {
+                    ProduceRepayment repayment1 = repayments.get(j);
+                    if (repayment1.getId() == type) {
+                        thing += repayment1.getName() + "、";
                     }
+                }
             }
-            if(thing.length()>1){
-                thing = thing.substring(0,thing.length()-1);
+            if (thing.length() > 1) {
+                thing = thing.substring(0, thing.length() - 1);
             }
-         modelAndView.addObject("repaymentType",thing);
+            modelAndView.addObject("repaymentType", thing);
         }
     }
 
-    private void addProduceArea(ModelAndView modelAndView , BaseProduct produce){
+    private void addProduceArea(ModelAndView modelAndView, BaseProduct produce) {
         DetachedCriteria criteria = DetachedCriteria.forClass(ProduceArea.class);
         List<ProduceArea> areas = baseService.getList(criteria);
-        String area =  produce.getHouseArea();
+        String area = produce.getHouseArea();
         String thing = "";
-        if(area!=null){
+        if (area != null) {
             JSONArray array = JSON.parseArray(area);
-            for (int i = 0;i<array.size();i++){
+            for (int i = 0; i < array.size(); i++) {
                 int type = array.getIntValue(i);
-                for (int j = 0 ; j<areas.size();j++){
+                for (int j = 0; j < areas.size(); j++) {
                     ProduceArea area1 = areas.get(j);
-                    if(area1.getAreaId() == type){
-                        thing+=area1.getAreaName()+"、";
+                    if (area1.getAreaId() == type) {
+                        thing += area1.getAreaName() + "、";
                     }
                 }
             }
-            if(thing.length()>1){
-                thing = thing.substring(0,thing.length()-1);
+            if (thing.length() > 1) {
+                thing = thing.substring(0, thing.length() - 1);
             }
-            if(produce.getHouseAreaOther()!=null){
-                thing+=",补充区域："+produce.getHouseAreaOther();
+            if (produce.getHouseAreaOther() != null) {
+                thing += ",补充区域：" + produce.getHouseAreaOther();
             }
-            modelAndView.addObject("produceArea",thing);
+            modelAndView.addObject("produceArea", thing);
         }
     }
 
-    private void addHouseNature(ModelAndView modelAndView,BaseProduct produce){
+    private void addHouseNature(ModelAndView modelAndView, BaseProduct produce) {
         DetachedCriteria criteria = DetachedCriteria.forClass(ProduceHouseNature.class);
-        List<ProduceHouseNature>  natures =   baseService.getList(criteria);
-        String nature =  produce.getApplyHouseNature();
+        List<ProduceHouseNature> natures = baseService.getList(criteria);
+        String nature = produce.getApplyHouseNature();
         String thing = "";
-        if(nature!=null){
+        if (nature != null) {
             JSONArray array = JSON.parseArray(nature);
-            for (int i = 0;i<array.size();i++){
+            for (int i = 0; i < array.size(); i++) {
                 int type = array.getIntValue(i);
-                for (int j = 0 ; j<natures.size();j++){
+                for (int j = 0; j < natures.size(); j++) {
                     ProduceHouseNature nature1 = natures.get(j);
-                    if(nature1.getId() == type){
-                        thing+=nature1.getName()+"、";
+                    if (nature1.getId() == type) {
+                        thing += nature1.getName() + "、";
                     }
                 }
             }
-            if(thing.length()>1){
-                thing = thing.substring(0,thing.length()-1);
+            if (thing.length() > 1) {
+                thing = thing.substring(0, thing.length() - 1);
             }
-            modelAndView.addObject("produceNature",thing);
+            modelAndView.addObject("produceNature", thing);
         }
-
 
 
     }
 
-    private void addPersonMaterial(ModelAndView modelAndView , BaseProduct produce){
+    private void addPersonMaterial(ModelAndView modelAndView, BaseProduct produce) {
         DetachedCriteria criteria = DetachedCriteria.forClass(ProducePersonMaterial.class);
-        List<ProducePersonMaterial>  personMaterials =   baseService.getList(criteria);
-        String personMaterial =  produce.getPersonMaterial();
+        List<ProducePersonMaterial> personMaterials = baseService.getList(criteria);
+        String personMaterial = produce.getPersonMaterial();
         String thing = "";
-        if(personMaterial!=null){
+        if (personMaterial != null) {
             JSONArray array = JSON.parseArray(personMaterial);
-            for (int i = 0;i<array.size();i++){
+            for (int i = 0; i < array.size(); i++) {
                 int type = array.getIntValue(i);
-                for (int j = 0 ; j<personMaterials.size();j++){
+                for (int j = 0; j < personMaterials.size(); j++) {
                     ProducePersonMaterial personMaterial1 = personMaterials.get(j);
-                    if(personMaterial1.getId() == type){
-                        thing+=personMaterial1.getName()+"、";
+                    if (personMaterial1.getId() == type) {
+                        thing += personMaterial1.getName() + "、";
                     }
                 }
             }
-            if(thing.length()>1){
-                thing = thing.substring(0,thing.length()-1);
+            if (thing.length() > 1) {
+                thing = thing.substring(0, thing.length() - 1);
             }
-            modelAndView.addObject("producePersonMaterial",thing);
+            modelAndView.addObject("producePersonMaterial", thing);
         }
     }
 
-    private void addCompanyMaterial(ModelAndView modelAndView , BaseProduct produce){
+    private void addCompanyMaterial(ModelAndView modelAndView, BaseProduct produce) {
         DetachedCriteria criteria = DetachedCriteria.forClass(ProduceCompanyMaterial.class);
-        List<ProduceCompanyMaterial>  companyMaterials =   baseService.getList(criteria);
-        String companyMaterial =  produce.getCompanyMaterial();
+        List<ProduceCompanyMaterial> companyMaterials = baseService.getList(criteria);
+        String companyMaterial = produce.getCompanyMaterial();
         String thing = "";
-        if(companyMaterial!=null){
+        if (companyMaterial != null) {
             JSONArray array = JSON.parseArray(companyMaterial);
-            for (int i = 0;i<array.size();i++){
+            for (int i = 0; i < array.size(); i++) {
                 int type = array.getIntValue(i);
-                for (int j = 0 ; j<companyMaterials.size();j++){
+                for (int j = 0; j < companyMaterials.size(); j++) {
                     ProduceCompanyMaterial personMaterial1 = companyMaterials.get(j);
-                    if(personMaterial1.getId() == type){
-                        thing+=personMaterial1.getName()+"、";
+                    if (personMaterial1.getId() == type) {
+                        thing += personMaterial1.getName() + "、";
                     }
                 }
             }
-            if(thing.length()>1){
-                thing = thing.substring(0,thing.length()-1);
+            if (thing.length() > 1) {
+                thing = thing.substring(0, thing.length() - 1);
             }
-            modelAndView.addObject("produceCompanyMaterial",thing);
+            modelAndView.addObject("produceCompanyMaterial", thing);
         }
     }
-
-
 
 
 }

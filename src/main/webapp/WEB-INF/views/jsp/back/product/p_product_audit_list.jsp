@@ -63,6 +63,7 @@
 </div>
 <div id="page"></div>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/amaze/amazeui.page.js"></script>
 <script src="/js/comm.js"></script>
 <script>
     $('#search').click(function () {
@@ -83,26 +84,14 @@
     function toDetail(obj,type) {
         var trNode = obj.parentNode.parentNode;
         var produce_id = $(trNode).data('produceId');
+        var log_id = $(trNode).data('logId');
+        var url = '/prod/audit/page?log_id='+log_id+'&produce_id='+produce_id;
         if(type == 1){
-            window.location.href = '/prod/diyaDetail?produce_id='+produce_id;
+           url+="&type=1";
         }else if(type==2){
-            window.location.href = '/prod/zhiyaDetail?produce_id='+produce_id;
+            url+="&type=2";
         }
-    }
-
-    function toEdit(obj,type) {
-        var trNode = obj.parentNode.parentNode;
-        var produce_id = $(trNode).data('produceId');
-        if(type == 1){
-            window.location.href = '/prod/diyaInseret?produce_id='+produce_id;
-        }
-        else if(type==2){
-            window.location.href = '/prod/zhiyaInseret?produce_id='+produce_id;
-        }
-    }
-
-    function toDelete() {
-
+        window.location.href=url;
     }
 
     function getTableInfo(obj) {
@@ -134,7 +123,7 @@
         }
         obj.pageNo = currentPage;
         $.ajax({
-            url: '/prod/info/list',
+            url: '/prod/audit/all/auditlist',
             dataType: 'json',
             data: obj,
             success: function (result) {
@@ -145,7 +134,7 @@
                 var html='';
                     for (var i = 0; i < info.length; i++) {
                         var produce = info[i];
-                        var str = '<tr data-produce-id="'+produce.id+'">\n' +
+                        var str = '<tr data-produce-id="'+produce.id+'" data-log-id="'+produce.log+'" >\n' +
                             '                <td>'+start+'</td>\n' +
                             '                <td>' + produce.code + '</td>\n' +
                             '                <td>' + getType(produce.type) + '</td>\n' +
@@ -154,7 +143,7 @@
                             '                <td>' + formatDateTime(produce.create_time) + '</td>\n' +
                             '                <td>' + getAuditStateStr(produce.state) + '</td>\n' +
                             '                <td>\n' +
-                            '                   <a onclick="toDetail(this)" class="am-btn am-btn-default am-btn-xs am-text-secondary">' +
+                            '                   <a onclick="toDetail(this,' + produce.type + ')" class="am-btn am-btn-default am-btn-xs am-text-secondary">' +
                             '                       <span class="am-icon-pencil-square-o"></span> 审核 ' +
                             '                   </a> ' +
                             '                </td>'+
@@ -177,7 +166,7 @@
             obj = {};
         }
             $.ajax({
-                url: '/prod/info/list',
+                url: '/prod/audit/all/auditlist',
                 dataType: 'json',
                 type: 'GET',
                 data: obj,
@@ -198,7 +187,7 @@
             });
     }
 
-    function doPage(pageNum , currentPage){
+    function doPage(pageNumber , curr){
         var first = false;
         var last = false;
         if (pageNumber > 5) {

@@ -11,6 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     AProduceDiya produce = (AProduceDiya) request.getAttribute("produce");
+    String agency_name = produce.getAgencyName();
     String pname = (String) request.getAttribute("createPName");
     String amountTao = (String) request.getAttribute("amountTao");
     String repaymentType = (String) request.getAttribute("repaymentType");
@@ -241,7 +242,7 @@
         </p>
     </div>
     <div class="am-padding-horizontal">
-        <h2  class="am-margin-bottom-0"><%=Strings.getInputString(produce.getName())%>
+        <h2  class="am-margin-bottom-0">抵押-<%=Strings.getInputString(agency_name)%>-<%=Strings.getInputString(produce.getName())%>
         </h2>
         <h3 class="am-margin-top-0 am-margin-bottom-0 am-text-center">产品编号：<%=Strings.getInputString(produce.getCode())%>
         </h3>
@@ -365,11 +366,38 @@
         </div>
     </div>
 </div>
+<%
+    String log_id = (String) request.getAttribute("log_id");
+%>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script>
+
+    var log_id = '<%=log_id%>';
+    var produce_id = '<%=produce.getId()%>';
+
     $('#confirm_yes').click(function () {
+        var info = {};
+        info.log_id= log_id;
+        info.produce_id = produce_id;
+        info.type = 1;
+        info.state= 1;
         if(confirm('确认此产品通过审核吗？')){
-            alert('通过成功，请在产品列表中查看')
+            $.ajax({
+                url:'/prod/audit/submit',
+                dataType:'json',
+                data:info,
+                success:function (result) {
+                    if(result.code){
+                        alert('产品审核已通过，已将产品修改为可使用状态');
+                        window.history.back();
+                    }
+                },
+                error:function () {
+                    alert('请求失败');
+                }
+
+            })
+
         }else{
 
         }
@@ -378,7 +406,29 @@
         var reason = prompt("请输入不通过的原因：", "");
 
         if(reason){
-            alert(reason)
+            var info = {};
+            info.log_id= log_id;
+            info.produce_id = produce_id;
+            info.type = 1;
+            info.opinon = reason;
+            info.state=0;
+            $.ajax({
+                url:'/prod/audit/submit',
+                dataType:'json',
+                data:info,
+                success:function (result) {
+                    if(result.code){
+                        alert('操作成功，已将审核意见发送给提交人');
+                        window.history.back();
+                    }
+                },
+                error:function () {
+                    alert('请求失败');
+                }
+
+            })
+
+
         }else{
             alert('请输入原因！')
         }

@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "a_produce_diya", schema = "rccf")
+@Table(name = "a_produce_diya", schema = "rccf", catalog = "")
 public class AProduceDiya extends  BaseProduct{
     private int id;
     private String name;
@@ -51,6 +51,7 @@ public class AProduceDiya extends  BaseProduct{
     private Timestamp createTime;
     private String recommend;
     private Integer createPerson;
+    private Integer log;
 
     @Id
     @Column(name = "id")
@@ -483,7 +484,6 @@ public class AProduceDiya extends  BaseProduct{
         this.createPerson = createPerson;
     }
 
-
     @Override
     public int hashCode() {
         return Objects.hashCode(id, name, code, agencyId, loanPeople, repaymentType, loanBidType, loanScale, loanSacelOther, houseArea, houseAreaOther, loanAmountTao, loanAmount, loanAmountOther, loanRate, loanRateOther, personMaterial, companyMaterial, minAge, maxAge, ageOther, minMonth, mixMonth, fixedMonth, diyaType, houseOwnership, applyLoanType, applyHouseAge, applyHouseNature, folkMortgageAffect, loanMaxHouseageplusloanyear, loanMaxHouseageplusloanyearOther, differentLoanMortgage, processDetails, advantage, disadvantage, notice, shootReason, state, agencyName, createTime, recommend, createPerson);
@@ -590,5 +590,15 @@ public class AProduceDiya extends  BaseProduct{
                 .add("recommend", recommend)
                 .add("createPerson", createPerson)
                 .toString();
+    }
+
+    @Basic
+    @Column(name = "log")
+    public Integer getLog() {
+        return log;
+    }
+
+    public void setLog(Integer log) {
+        this.log = log;
     }
 }

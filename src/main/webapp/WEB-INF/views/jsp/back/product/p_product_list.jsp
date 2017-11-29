@@ -93,6 +93,7 @@
                 <th>录入时间</th>
                 <th>状态</th>
                 <th>操作</th>
+                <th>备注</th>
             </tr>
             </thead>
             <tbody id="tbody">
@@ -103,6 +104,7 @@
 </div>
 <div id="page"></div>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/amaze/amazeui.page.js"></script>
 <script src="/js/comm.js"></script>
 <script>
     $('#search').click(function () {
@@ -204,6 +206,7 @@
 //                            '                            class="am-icon-trash-o"></span> 删除\n' +
 //                            '                    </a>\n' +
                             '                </td>\n' +
+                            '                <td class="am-text-left">' + getStringWithspace(produce.reason) + '</td>\n' +
                             '            </tr>';
                         start++;
                         html += str;
@@ -244,7 +247,7 @@
             });
     }
 
-    function doPage(pageNum , currentPage){
+    function doPage(pageNumber , currentPage){
         var first = false;
         var last = false;
         if (pageNumber > 5) {
@@ -253,7 +256,7 @@
         }
         var page = $('#page').page({
             pages: pageNumber, //页数
-            curr: curr, //当前页
+            curr: currentPage, //当前页
             type: 'default', //主题
             groups: 5, //连续显示分页数
             prev: false, //若不显示，设置false即可
