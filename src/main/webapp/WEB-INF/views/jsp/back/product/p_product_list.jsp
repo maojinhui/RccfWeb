@@ -47,29 +47,29 @@
         <a style="color: #666666;text-decoration: none;">产品管理</a>
     </p>
 
-    <div class="am-g am-margin-top">
-        <div class="am-u-sm-12 am-u-md-3 ">
-            <span>产品类型:</span>
-            <select id="product_type" class="am-padding-horizontal">
-                <option value="0">选择类型</option>
-                <option value="1">抵押产品</option>
-                <option value="2">质押产品</option>
-                <option value="3">信贷产品</option>
-            </select>
-        </div>
-        <div class="am-u-sm-12 am-u-md-3 ">
-            <span>产品编号:</span>
-            <input id="product_num" type="text" style="width: 6em;">
-        </div>
+    <%--<div class="am-g am-margin-top">--%>
         <%--<div class="am-u-sm-12 am-u-md-3 ">--%>
-            <%--<span>贷款金额:</span>--%>
-            <%--<input id="product_money" type="text" style="width: 6em;">--%>
+            <%--<span>产品类型:</span>--%>
+            <%--<select id="product_type" class="am-padding-horizontal">--%>
+                <%--<option value="0">选择类型</option>--%>
+                <%--<option value="1">抵押产品</option>--%>
+                <%--<option value="2">质押产品</option>--%>
+                <%--<option value="3">信贷产品</option>--%>
+            <%--</select>--%>
         <%--</div>--%>
-        <div class="am-u-sm-12 am-u-md-3 ">
-            <button id="search" class="am-btn am-btn-sm am-btn-primary am-margin-right">搜索</button>
-            <button id="reset" class="am-btn am-btn-sm am-btn-default">重置</button>
-        </div>
-    </div>
+        <%--<div class="am-u-sm-12 am-u-md-3 ">--%>
+            <%--<span>产品编号:</span>--%>
+            <%--<input id="product_num" type="text" style="width: 6em;">--%>
+        <%--</div>--%>
+        <%--&lt;%&ndash;<div class="am-u-sm-12 am-u-md-3 ">&ndash;%&gt;--%>
+            <%--&lt;%&ndash;<span>贷款金额:</span>&ndash;%&gt;--%>
+            <%--&lt;%&ndash;<input id="product_money" type="text" style="width: 6em;">&ndash;%&gt;--%>
+        <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+        <%--<div class="am-u-sm-12 am-u-md-3 ">--%>
+            <%--<button id="search" class="am-btn am-btn-sm am-btn-primary am-margin-right">搜索</button>--%>
+            <%--<button id="reset" class="am-btn am-btn-sm am-btn-default">重置</button>--%>
+        <%--</div>--%>
+    <%--</div>--%>
 
     <div onclick="addProduct()" class="am-btn am-btn-primary am-margin-top am-margin-bottom">
         添加产品 <i class="am-icon-chevron-right "></i>
@@ -200,9 +200,9 @@
                             '                    <a onclick="toEdit(this,' + produce.type + ')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
                             '                            class="am-icon-pencil-square-o"></span> 编辑\n' +
                             '                    </a>\n' +
-                            '                    <a onclick="toDelete(this,' + produce.type + ')" class="am-btn am-btn-default am-btn-xs am-text-danger"><span\n' +
-                            '                            class="am-icon-trash-o"></span> 删除\n' +
-                            '                    </a>\n' +
+//                            '                    <a onclick="toDelete(this,' + produce.type + ')" class="am-btn am-btn-default am-btn-xs am-text-danger"><span\n' +
+//                            '                            class="am-icon-trash-o"></span> 删除\n' +
+//                            '                    </a>\n' +
                             '                </td>\n' +
                             '            </tr>';
                         start++;

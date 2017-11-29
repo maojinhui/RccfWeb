@@ -287,9 +287,6 @@
                 }
                 pstr+="</ul></div>";
             }
-
-
-
             str += '<tr>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.name) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.phone) + '</td>\n' +

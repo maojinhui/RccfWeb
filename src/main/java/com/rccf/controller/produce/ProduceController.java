@@ -661,7 +661,9 @@ public class ProduceController {
                         }
                     }
             }
-            thing = thing.substring(0,thing.length()-1);
+            if(thing.length()>1){
+                thing = thing.substring(0,thing.length()-1);
+            }
          modelAndView.addObject("repaymentType",thing);
         }
     }
@@ -682,7 +684,9 @@ public class ProduceController {
                     }
                 }
             }
-            thing = thing.substring(0,thing.length()-1);
+            if(thing.length()>1){
+                thing = thing.substring(0,thing.length()-1);
+            }
             if(produce.getHouseAreaOther()!=null){
                 thing+=",补充区域："+produce.getHouseAreaOther();
             }
@@ -706,7 +710,9 @@ public class ProduceController {
                     }
                 }
             }
-            thing = thing.substring(0,thing.length()-1);
+            if(thing.length()>1){
+                thing = thing.substring(0,thing.length()-1);
+            }
             modelAndView.addObject("produceNature",thing);
         }
 
@@ -717,7 +723,7 @@ public class ProduceController {
     private void addPersonMaterial(ModelAndView modelAndView , BaseProduct produce){
         DetachedCriteria criteria = DetachedCriteria.forClass(ProducePersonMaterial.class);
         List<ProducePersonMaterial>  personMaterials =   baseService.getList(criteria);
-        String personMaterial =  produce.getApplyHouseNature();
+        String personMaterial =  produce.getPersonMaterial();
         String thing = "";
         if(personMaterial!=null){
             JSONArray array = JSON.parseArray(personMaterial);
@@ -730,7 +736,9 @@ public class ProduceController {
                     }
                 }
             }
-            thing = thing.substring(0,thing.length()-1);
+            if(thing.length()>1){
+                thing = thing.substring(0,thing.length()-1);
+            }
             modelAndView.addObject("producePersonMaterial",thing);
         }
     }
@@ -738,7 +746,7 @@ public class ProduceController {
     private void addCompanyMaterial(ModelAndView modelAndView , BaseProduct produce){
         DetachedCriteria criteria = DetachedCriteria.forClass(ProduceCompanyMaterial.class);
         List<ProduceCompanyMaterial>  companyMaterials =   baseService.getList(criteria);
-        String companyMaterial =  produce.getApplyHouseNature();
+        String companyMaterial =  produce.getCompanyMaterial();
         String thing = "";
         if(companyMaterial!=null){
             JSONArray array = JSON.parseArray(companyMaterial);
@@ -751,7 +759,9 @@ public class ProduceController {
                     }
                 }
             }
-            thing = thing.substring(0,thing.length()-1);
+            if(thing.length()>1){
+                thing = thing.substring(0,thing.length()-1);
+            }
             modelAndView.addObject("produceCompanyMaterial",thing);
         }
     }

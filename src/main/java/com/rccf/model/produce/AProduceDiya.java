@@ -543,5 +543,52 @@ public class AProduceDiya extends  BaseProduct{
                 && Objects.equal(this.createPerson, other.createPerson);
     }
 
-
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("id", id)
+                .add("name", name)
+                .add("code", code)
+                .add("agencyId", agencyId)
+                .add("loanPeople", loanPeople)
+                .add("repaymentType", repaymentType)
+                .add("loanBidType", loanBidType)
+                .add("loanScale", loanScale)
+                .add("loanSacelOther", loanSacelOther)
+                .add("houseArea", houseArea)
+                .add("houseAreaOther", houseAreaOther)
+                .add("loanAmountTao", loanAmountTao)
+                .add("loanAmount", loanAmount)
+                .add("loanAmountOther", loanAmountOther)
+                .add("loanRate", loanRate)
+                .add("loanRateOther", loanRateOther)
+                .add("personMaterial", personMaterial)
+                .add("companyMaterial", companyMaterial)
+                .add("minAge", minAge)
+                .add("maxAge", maxAge)
+                .add("ageOther", ageOther)
+                .add("minMonth", minMonth)
+                .add("mixMonth", mixMonth)
+                .add("fixedMonth", fixedMonth)
+                .add("diyaType", diyaType)
+                .add("houseOwnership", houseOwnership)
+                .add("applyLoanType", applyLoanType)
+                .add("applyHouseAge", applyHouseAge)
+                .add("applyHouseNature", applyHouseNature)
+                .add("folkMortgageAffect", folkMortgageAffect)
+                .add("loanMaxHouseageplusloanyear", loanMaxHouseageplusloanyear)
+                .add("loanMaxHouseageplusloanyearOther", loanMaxHouseageplusloanyearOther)
+                .add("differentLoanMortgage", differentLoanMortgage)
+                .add("processDetails", processDetails)
+                .add("advantage", advantage)
+                .add("disadvantage", disadvantage)
+                .add("notice", notice)
+                .add("shootReason", shootReason)
+                .add("state", state)
+                .add("agencyName", agencyName)
+                .add("createTime", createTime)
+                .add("recommend", recommend)
+                .add("createPerson", createPerson)
+                .toString();
+    }
 }
