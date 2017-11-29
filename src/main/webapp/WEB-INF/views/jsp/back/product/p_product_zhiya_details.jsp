@@ -24,7 +24,7 @@
         amount = produce.getLoanAmount();
         JSONArray array = JSON.parseArray(amount);
         if (array.size() < 1) {
-            amount = "未上传金额";
+            amount = "未上传金额 ";
         }else{
             amount="";
         }
@@ -88,12 +88,14 @@
         for (int i = 0;i<array.size();i++){
             bidType+=array.get(i)+"成、";
         }
-        bidType = bidType.substring(0,bidType.length()-1);
+        if(bidType.length()>1){
+            bidType = bidType.substring(0,bidType.length()-1);
+        }
     }
 
     String ageThing = "";
-    int minAge = produce.getMinAge();
-    int maxAge = produce.getMaxAge();
+    int minAge = produce.getMinAge()==null?0:produce.getMinAge().intValue();
+    int maxAge = produce.getMaxAge()==null?0:produce.getMaxAge().intValue();
     String ageOther = produce.getAgeOther();
     if(minAge>0 && maxAge>0){
         ageThing = minAge+"-"+maxAge+"岁";
@@ -115,8 +117,8 @@
 
 
     String monthThing = "";
-    int minMonth = produce.getMinMonth();
-    int maxMonth = produce.getMixMonth();
+    int minMonth = produce.getMinMonth()==null?0:produce.getMinMonth().intValue();
+    int maxMonth = produce.getMixMonth()==null?0:produce.getMixMonth().intValue();
     String monthOther = produce.getFixedMonth();
     if(minMonth>0 && maxMonth>0){
         monthThing = minMonth+"-"+maxMonth+"月";
@@ -268,7 +270,7 @@
         <div class="">
             <div class="am-g am-margin-top-xs am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">贷款金额：</label>
-                <span class="am-u-sm-10"><%=amountTao%>，<%=amount%><%=","+Strings.getInputString(produce.getLoanAmountOther())%></span>
+                <span class="am-u-sm-10"><%=amountTao%><%=amount%><%=Strings.getInputString(produce.getLoanAmountOther())%></span>
             </div>
             <div class="am-g am-margin-top-xs am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2 ">贷款利率：</label>
