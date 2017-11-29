@@ -1,7 +1,8 @@
 <%@ page import="com.rccf.model.produce.AProduceDiya" %>
 <%@ page import="com.rccf.util.Strings" %>
 <%@ page import="com.alibaba.fastjson.JSONArray" %>
-<%@ page import="com.alibaba.fastjson.JSON" %><%--
+<%@ page import="com.alibaba.fastjson.JSON" %>
+<%@ page import="com.rccf.model.produce.AProduceZhiya" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2017/11/24 0024
@@ -10,7 +11,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    AProduceDiya produce = (AProduceDiya) request.getAttribute("produce");
+    AProduceZhiya produce = (AProduceZhiya) request.getAttribute("produce");
     String pname = (String) request.getAttribute("createPName");
     String amountTao = (String) request.getAttribute("amountTao");
     String repaymentType = (String) request.getAttribute("repaymentType");
@@ -23,36 +24,53 @@
         amount = produce.getLoanAmount();
         JSONArray array = JSON.parseArray(amount);
         if (array.size() < 1) {
-            amount = "，未上传金额 ";
+            amount = "未上传金额 ";
         }else{
             amount="";
         }
-        for (int i = 0; i < array.size(); i++) {
 
+        for (int i = 0; i < array.size(); i++) {
             amount+=array.getString(i)+"万、";
         }
         amount = amount.substring(0,amount.length()-1);
     }
 
-    String rateInfo = "";
-    if(produce.getLoanRate()!=null){
-        String loanRate = produce.getLoanRate();
-        JSONArray array = JSON.parseArray(loanRate);
-        if(array.size()<1)
-        {
-            rateInfo="";
-        }else{
-            rateInfo="银行基准利率上浮";
-            for (int i=0;i<array.size();i++){
-                rateInfo+=array.get(i)+"%、";
+    String rateInfo = produce.getLoanRate();
+    String zhanqi= "";
+    Integer supportExtension = produce.getSupportExtension();
+    String  zhanqifee = produce.getExtensionFee();
+    if(supportExtension==null){
+        zhanqi="是否可展期未知";
+    }else{
+        if(supportExtension==1){
+            if(Strings.isNullOrEmpty(zhanqifee)){
+                zhanqi="支持展期,展期费未知";
+            }else{
+                zhanqi="支持展期,展期费："+zhanqifee;
             }
-            rateInfo = rateInfo.substring(0,rateInfo.length()-1);
-        }
-
-        if(produce.getLoanRateOther()!=null){
-            rateInfo=rateInfo+",其他:"+produce.getLoanRateOther();
+        }else{
+            zhanqi="不支持展期";
         }
     }
+
+//    if(produce.getLoanRate()!=null){
+//        String loanRate = produce.getLoanRate();
+//        JSONArray array = JSON.parseArray(loanRate);
+//        if(array.size()<1)
+//        {
+//            rateInfo="";
+//        }else{
+//            rateInfo="银行基准利率上浮";
+//            for (int i=0;i<array.size();i++){
+//                rateInfo+=array.get(i)+"%、";
+//            }
+//            rateInfo = rateInfo.substring(0,rateInfo.length()-1);
+//        }
+//
+//        if(produce.getLoanRateOther()!=null){
+//            rateInfo=rateInfo+",其他:"+produce.getLoanRateOther();
+//        }
+//    }
 
     String bidType = "";
     if(produce.getLoanBidType()!=null){
@@ -233,9 +251,11 @@
 <div class="am-margin-bottom-xl">
     <div class="am-padding am-padding-bottom-0">
         <p>
-            <a href="/prod/listPage">产品管理</a>
+            <a href="product_org.html">产品管理</a>
             >
-            <a style="color: #666666">抵押产品详情</a>
+            <a href="">审核列表</a>
+            >
+            <a style="color: #666666">质押产品审核</a>
         </p>
     </div>
     <div class="am-padding-horizontal">
@@ -258,7 +278,7 @@
             </div>
             <div class="am-g am-margin-top-xs am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2 ">贷款利率：</label>
-                <span class="am-u-sm-10"><%=rateInfo%></span>
+                <span class="am-u-sm-10"><%=Strings.getInputString(rateInfo)%>.<%=zhanqi%></span>
             </div>
             <div class="am-g am-margin-top-xs am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">放款成数：</label>
@@ -354,11 +374,33 @@
                 <span class="am-u-sm-10"><%=Strings.getInputString(produce.getShootReason())%></span>
             </div>
         </div>
+
+        <div class="am-g am-margin-top-xl">
+            <div class="am-u-sm-12 am-u-md-6 am-u-sm-centered">
+                <button id="confirm_no" class="am-btn am-btn-warning am-u-sm-6">不通过</button>
+                <button id="confirm_yes" class="am-btn am-btn-primary am-u-sm-6">通过</button>
+            </div>
+        </div>
     </div>
 </div>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script>
+    $('#confirm_yes').click(function () {
+        if(confirm('确认此产品通过审核吗？')){
+            alert('通过成功，请在产品列表中查看')
+        }else{
 
+        }
+    });
+    $('#confirm_no').click(function () {
+        var reason = prompt("请输入不通过的原因：", "");
+
+        if(reason){
+            alert(reason)
+        }else{
+            alert('请输入原因！')
+        }
+    })
 </script>
 </body>
 </html>

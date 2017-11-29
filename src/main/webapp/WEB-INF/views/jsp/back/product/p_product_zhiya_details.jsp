@@ -223,19 +223,16 @@
 
         h2 {
             font-weight: 600;
-            font-style: italic;
-            color: #aa3333;
-            border-bottom: solid 1px #f5f5f5;
+            font-style: normal;
+            text-align: center;
+            color: #F37B1D;
+            border-bottom: none 1px #f5f5f5;
         }
 
         td[rowspan] {
             background-color: #4d6b8a;
             color: #fff;
             width: 2em !important;
-        }
-
-        .am-table > tr:first-child > td {
-
         }
 
         td:first-child {
@@ -246,28 +243,33 @@
             font-size: 1.3em;
             font-weight: 300;
             color: #22b2e1;
-            border-bottom: solid 1px #f5f5f5;
+            border-bottom: solid 1px #f35842;
         }
     </style>
 </head>
 <body>
 <div class="am-margin-bottom-xl">
-    <%--<div class="am-padding am-padding-bottom-0">--%>
-        <%--<p>--%>
-            <%--<a>产品管理</a>>--%>
-        <%--</p>--%>
-    <%--</div>--%>
+    <div class="am-padding am-padding-bottom-0">
+        <p>
+            <a href="/prod/listPage">产品管理</a>
+            >
+            <a style="color: #666666">质押产品详情</a>
+        </p>
+    </div>
     <div class="am-padding-horizontal">
-        <h2><%=Strings.getInputString(produce.getName())%>
+        <h2  class="am-margin-bottom-0"><%=Strings.getInputString(produce.getName())%>
         </h2>
-        <h3 class="am-margin-bottom-0">产品编号：<%=Strings.getInputString(produce.getCode())%>
+        <h3 class="am-margin-top-0 am-margin-bottom-0 am-text-center">产品编号：<%=Strings.getInputString(produce.getCode())%>
         </h3>
 
-        <div class=" am-margin-top-xs am-margin-bottom">
+        <div class="am-margin-top-0  am-margin-bottom am-text-center">
             <%--推荐人：<span class="am-text-warning">张三</span>&emsp;--%>
             负责人：<span class="am-text-warning"><%=pname%></span>
         </div>
         <div class="">
+            <div class="am-u-sm-12 apply-conditions am-margin-bottom">
+                <span><i  class="am-icon-genderless"></i> 基础信息</span>
+            </div>
             <div class="am-g am-margin-top-xs am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">贷款金额：</label>
                 <span class="am-u-sm-10"><%=amountTao%><%=amount%><%=Strings.getInputString(produce.getLoanAmountOther())%></span>
@@ -293,7 +295,7 @@
         <!--申请条件-->
         <div class=" am-margin-top">
             <div class="am-u-sm-12 apply-conditions am-margin-bottom">
-                <span><i class="am-icon-map-o"></i> 申请条件</span>
+                <span><i class="am-icon-genderless"></i> 申请条件</span>
             </div>
             <div class="am-g am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">可申请贷款年龄：</label>
@@ -332,7 +334,7 @@
         <!--所需材料-->
         <div class="am-g am-margin-top-xs">
             <div class="am-u-sm-12 apply-conditions am-margin-bottom">
-                <span><i class="am-icon-map-o"></i> 所需材料</span>
+                <span><i class="am-icon-genderless"></i> 所需材料</span>
             </div>
             <div class="am-g am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">个人准备资料：</label>
@@ -345,9 +347,9 @@
         </div>
 
         <!--附加说明-->
-        <div class="">
+        <div class=" am-margin-top">
             <div class="am-u-sm-12 apply-conditions am-margin-bottom">
-                <span><i class="am-icon-map-o"></i> 附加说明</span>
+                <span><i class="am-icon-genderless"></i> 附加说明</span>
             </div>
             <div class="am-g am-margin-top-xs">
                 <label class="am-u-md-4 am-u-md-2 am-u-lg-2">流程细节：</label>

@@ -233,9 +233,11 @@
 <div class="am-margin-bottom-xl">
     <div class="am-padding am-padding-bottom-0">
         <p>
-            <a href="/prod/listPage">产品管理</a>
+            <a href="product_org.html">产品管理</a>
             >
-            <a style="color: #666666">抵押产品详情</a>
+            <a href="">审核列表</a>
+            >
+            <a style="color: #666666">抵押产品审核</a>
         </p>
     </div>
     <div class="am-padding-horizontal">
@@ -329,7 +331,7 @@
         </div>
 
         <!--附加说明-->
-        <div class=" am-margin-top">
+        <div class="">
             <div class="am-u-sm-12 apply-conditions am-margin-bottom">
                 <span><i class="am-icon-genderless"></i> 附加说明</span>
             </div>
@@ -354,11 +356,33 @@
                 <span class="am-u-sm-10"><%=Strings.getInputString(produce.getShootReason())%></span>
             </div>
         </div>
+
+        <div class="am-g am-margin-top-xl">
+            <div class="am-u-sm-12 am-u-md-6 am-u-sm-centered">
+                <button id="confirm_no" class="am-btn am-btn-warning am-u-sm-6">不通过</button>
+                <button id="confirm_yes" class="am-btn am-btn-primary am-u-sm-6">通过</button>
+            </div>
+        </div>
     </div>
 </div>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script>
+    $('#confirm_yes').click(function () {
+        if(confirm('确认此产品通过审核吗？')){
+            alert('通过成功，请在产品列表中查看')
+        }else{
 
+        }
+    });
+    $('#confirm_no').click(function () {
+        var reason = prompt("请输入不通过的原因：", "");
+
+        if(reason){
+            alert(reason)
+        }else{
+            alert('请输入原因！')
+        }
+    })
 </script>
 </body>
 </html>

@@ -10,74 +10,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>产品列表</title>
+    <title>审核列表</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <link href="https://cdn.bootcss.com/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
     <style type="text/css">
         html,
         body {
+            font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;;
             color: #333333;
             overflow: auto;
         }
-
-        .am-table th {
-            background-color: #f5f5f5;
-            font-weight: 500;
+        a + a,
+        a + a:hover {
+            color: #666666;
+        }
+        th{
             text-align: center;
-        }
-
-        /*.am-btn {*/
-        /*border-radius: 5px;*/
-        /*}*/
-
-        .am-table input {
-            font-size: large;
-            border: none;
-        }
-
-        .btns a {
-            display: block;
         }
     </style>
 </head>
 <body>
 <div class="am-padding am-margin-bottom-xl">
-    <p>
-        <a style="color: #666666;text-decoration: none;">产品管理</a>
-    </p>
-
-    <%--<div class="am-g am-margin-top">--%>
-        <%--<div class="am-u-sm-12 am-u-md-3 ">--%>
-            <%--<span>产品类型:</span>--%>
-            <%--<select id="product_type" class="am-padding-horizontal">--%>
-                <%--<option value="0">选择类型</option>--%>
-                <%--<option value="1">抵押产品</option>--%>
-                <%--<option value="2">质押产品</option>--%>
-                <%--<option value="3">信贷产品</option>--%>
-            <%--</select>--%>
-        <%--</div>--%>
-        <%--<div class="am-u-sm-12 am-u-md-3 ">--%>
-            <%--<span>产品编号:</span>--%>
-            <%--<input id="product_num" type="text" style="width: 6em;">--%>
-        <%--</div>--%>
-        <%--&lt;%&ndash;<div class="am-u-sm-12 am-u-md-3 ">&ndash;%&gt;--%>
-            <%--&lt;%&ndash;<span>贷款金额:</span>&ndash;%&gt;--%>
-            <%--&lt;%&ndash;<input id="product_money" type="text" style="width: 6em;">&ndash;%&gt;--%>
-        <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-        <%--<div class="am-u-sm-12 am-u-md-3 ">--%>
-            <%--<button id="search" class="am-btn am-btn-sm am-btn-primary am-margin-right">搜索</button>--%>
-            <%--<button id="reset" class="am-btn am-btn-sm am-btn-default">重置</button>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-
-    <div onclick="addProduct()" class="am-btn am-btn-primary am-margin-top am-margin-bottom">
-        添加产品 <i class="am-icon-chevron-right "></i>
-    </div>
-    <div class="btns am-hide" style="position: fixed;top:9.8em;left: 1.3em;">
-        <a href="/prod/diyaInseret" class="am-btn am-margin-vertical-0 am-btn-primary">抵押产品</a>
-        <a href="/prod/zhiyaInseret" class="am-btn am-margin-vertical-0 am-btn-primary">质押产品</a>
-        <a class="am-btn am-margin-vertical-0 am-btn-primary">信贷产品</a>
+    <div class="am-padding am-padding-bottom-0">
+        <p>
+            <a href="/prod/listPage">产品管理</a>
+            >
+            <a>审核列表</a>
+        </p>
     </div>
 
     <div class="">
@@ -194,13 +154,10 @@
                             '                <td>' + formatDateTime(produce.create_time) + '</td>\n' +
                             '                <td>' + getAuditStateStr(produce.state) + '</td>\n' +
                             '                <td>\n' +
-                            '                    <a onclick="toDetail(this,' + produce.type + ')" class="am-btn am-btn-default am-btn-xs am-text-warning"><span\n' +
-                            '                            class="am-icon-navicon"></span> 详情\n' +
-                            '                    </a>\n' +
-                            '                    <a onclick="toEdit(this,' + produce.type + ')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
-                            '                            class="am-icon-pencil-square-o"></span> 编辑\n' +
-                            '                    </a>\n' +
-                            '                </td>\n' +
+                            '                   <a onclick="toDetail(this)" class="am-btn am-btn-default am-btn-xs am-text-secondary">' +
+                            '                       <span class="am-icon-pencil-square-o"></span> 审核 ' +
+                            '                   </a> ' +
+                            '                </td>'+
                             '            </tr>';
                         start++;
                         html += str;
