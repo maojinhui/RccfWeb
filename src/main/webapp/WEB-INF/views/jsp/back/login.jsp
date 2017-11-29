@@ -88,9 +88,10 @@
 </body>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
-<script type="text/javascript" src="/js/amaze/amazeui.ie8polyfill.min.js"></script>
-<script type="text/javascript" src="/js/amaze/amazeui.min.js"></script>
-<script type="text/javascript" src="/js/amaze/amazeui.widgets.helper.min.js"></script>
+<script type="text/javascript" src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.ie8polyfill.min.js"></script>
+<script type="text/javascript" src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
+<script type="text/javascript" src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.widgets.helper.min.js"></script>
+
 <script type="text/javascript" src="/js/amaze/app.js"></script>
 <script type="text/javascript" src="/js/amaze/handlebars.min.js"></script>
 <script type="text/javascript" src="/js/rollups/tripledes.js"></script>
@@ -120,11 +121,11 @@
             return ;
         }
         var checkbox = $("#checkbox");
-        var check = 0;
+        var check = 1;
         if ($("input[type='checkbox']").is(':checked')) {
             check = 1;
         } else {
-            check = 0;
+            check = 1;
         }
         var despwd = desEncrypt(pwd);
         $.ajax({
@@ -158,6 +159,7 @@
             }
         });
     });
+
 
 
 </script>
