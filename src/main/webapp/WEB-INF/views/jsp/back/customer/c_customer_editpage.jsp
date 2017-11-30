@@ -49,6 +49,13 @@
             <a class="am-align-right am-margin-right-xl am-text-danger">
                 <i class="am-icon-star"></i>    A
             </a>
+            <div class="" style="position: absolute;right: 3em; top:1em;">
+                <select>
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                </select>
+            </div>
         </div>
         <div class="am-u-sm-12  am-text-left am-margin-vertical-xs">客户手机号：
             <span class="am-icon-border"><%=phone%></span>
