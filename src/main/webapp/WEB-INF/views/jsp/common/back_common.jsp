@@ -172,12 +172,13 @@
                     <%--<span class="am-icon-angle-right sidebar-nav-link-logo"></span> 录入客户--%>
                     <%--</a>--%>
                     <%--</li>--%>
+                    <% if (depart.contains("系统")) {%>
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/customer/shareApply">
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 微信分享用户列表
                         </a>
                     </li>
-                    <% if (depart.contains("系统")) {%>
+
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/customer/shareApplyFromOhter">
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 非公司在职员工推广
@@ -252,12 +253,13 @@
             </li>
             <%}%>
 
-            <% if (depart.equals("系统管理")) {%>
+            <% if (depart.equals("系统管理") || (depart.contains("市场")) ) {%>
             <li class="sidebar-nav-link">
                 <a class="sidebar-nav-sub-title">
                     <i class="am-icon-table sidebar-nav-link-logo"></i> 产品管理
                     <span class="am-icon-chevron-right am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                 </a>
+                    <% if (depart.equals("系统管理")){ %>
                 <ul class="sidebar-nav sidebar-nav-sub">
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/prod/audit/list">
@@ -265,6 +267,9 @@
                         </a>
                     </li>
                 </ul>
+                   <% }%>
+
+                <% if (role<=2 || userid.equals("134")){ %>
                 <ul class="sidebar-nav sidebar-nav-sub">
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/agency/list">
@@ -279,7 +284,7 @@
                         </a>
                     </li>
                 </ul>
-
+                <% }%>
             </li>
             <%}%>
 

@@ -630,6 +630,7 @@
             success: function (result) {
                 if (result.code) {
                     alert('提交成功');
+                    window.history.back();
                 } else {
                     alert(result.errormsg);
                 }

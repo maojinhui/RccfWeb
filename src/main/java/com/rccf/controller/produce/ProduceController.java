@@ -180,11 +180,11 @@ public class ProduceController {
             oldProduceData = produce.toString();
         } else {
             produce = new AProduceDiya();
-            produce.setState(3);
             produce.setCreateTime(DateUtil.date2Timestamp(new Date()));
             produce.setCreatePerson(employee.getId());
         }
 
+        produce.setState(3);
 
         String produce_code = request.getParameter("produce_code");
 //        String agency_id = request.getParameter("agency_id");
@@ -406,11 +406,11 @@ public class ProduceController {
             oldProduceData = produce.toString();
         } else {
             produce = new AProduceZhiya();
-            produce.setState(3);
             produce.setCreateTime(DateUtil.date2Timestamp(new Date()));
             produce.setCreatePerson(employee.getId());
         }
 
+        produce.setState(3);
 
         String produce_code = request.getParameter("produce_code");
 //        String agency_id = request.getParameter("agency_id");
