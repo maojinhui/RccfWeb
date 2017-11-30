@@ -79,7 +79,7 @@ response.setDateHeader("Expires", -10);
     <div onclick="addProduct()" class="am-btn am-btn-primary am-margin-top am-margin-bottom">
         添加产品 <i class="am-icon-chevron-right "></i>
     </div>
-    <div class="btns am-hide" style="position: fixed;top:9.8em;left: 1.3em;">
+    <div class="btns am-hide" style="position: absolute;top:8em;left: 1.5em;">
         <a href="/prod/diyaInseret" class="am-btn am-margin-vertical-0 am-btn-primary">抵押产品</a>
         <a href="/prod/zhiyaInseret" class="am-btn am-margin-vertical-0 am-btn-primary">质押产品</a>
         <a class="am-btn am-margin-vertical-0 am-btn-primary">信贷产品</a>

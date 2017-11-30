@@ -46,6 +46,9 @@
     <div class="am-text-default ">
         <div class="am-u-sm-12  am-text-left am-margin-vertical-xs">客户姓名：&emsp;
             <span class="am-icon-border"><%=name%></span>
+            <a class="am-align-right am-margin-right-xl am-text-danger">
+                <i class="am-icon-star"></i>    A
+            </a>
         </div>
         <div class="am-u-sm-12  am-text-left am-margin-vertical-xs">客户手机号：
             <span class="am-icon-border"><%=phone%></span>

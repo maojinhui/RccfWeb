@@ -383,11 +383,38 @@
         </div>
     </div>
 </div>
+<%
+    String log_id = (String) request.getAttribute("log_id");
+%>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script>
+
+    var log_id = '<%=log_id%>';
+    var produce_id = '<%=produce.getId()%>';
+
     $('#confirm_yes').click(function () {
+        var info = {};
+        info.log_id= log_id;
+        info.produce_id = produce_id;
+        info.type = 2;
+        info.state= 1;
         if(confirm('确认此产品通过审核吗？')){
-            alert('通过成功，请在产品列表中查看')
+            $.ajax({
+                url:'/prod/audit/submit',
+                dataType:'json',
+                data:info,
+                success:function (result) {
+                    if(result.code){
+                        alert('产品审核已通过，已将产品修改为可使用状态');
+                        window.history.back();
+                    }
+                },
+                error:function () {
+                    alert('请求失败');
+                }
+
+            })
+
         }else{
 
         }
@@ -396,7 +423,29 @@
         var reason = prompt("请输入不通过的原因：", "");
 
         if(reason){
-            alert(reason)
+            var info = {};
+            info.log_id= log_id;
+            info.produce_id = produce_id;
+            info.type = 2;
+            info.opinon = reason;
+            info.state=0;
+            $.ajax({
+                url:'/prod/audit/submit',
+                dataType:'json',
+                data:info,
+                success:function (result) {
+                    if(result.code){
+                        alert('操作成功，已将审核意见发送给提交人');
+                        window.history.back();
+                    }
+                },
+                error:function () {
+                    alert('请求失败');
+                }
+
+            })
+
+
         }else{
             alert('请输入原因！')
         }

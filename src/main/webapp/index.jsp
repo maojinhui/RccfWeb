@@ -15,11 +15,12 @@
     <title>融成金服微信公众平台</title>
 </head>
 <body>
-
 <div id="top" class="totop">
-    <h1>融成金服首页</h1>
 </div>
-<div style="height: 2000px"></div>
+<div style="width: 80%;margin: 0 auto;">
+    <%--<h1 style="text-align: center">融成金服首页</h1>--%>
+    <img src="/image/index.jpg" width="100%">
+</div>
 <script src="https://s11.cnzz.com/z_stat.php?id=1260014320&web_id=1260014320" language="JavaScript"></script>
 </body>
 
