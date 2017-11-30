@@ -185,6 +185,8 @@ public class CustomerInfoController {
         String customer_name = request.getParameter("customer_name");
         String clerk_name = request.getParameter("clerk_name");
         String loan_type = request.getParameter("loan_type");
+        String customer_level = request.getParameter("customer_level");
+
 
         StringBuilder builder = new StringBuilder();
         if (!Strings.isNullOrEmpty(deputy_name)) {
@@ -199,6 +201,10 @@ public class CustomerInfoController {
         if (!Strings.isNullOrEmpty(loan_type)) {
             builder.append("and p.loan_type = " + loan_type + " \n");
         }
+        if (!Strings.isNullOrEmpty(customer_level)) {
+            builder.append("and p.level = " + customer_level + " \n");
+        }
+
         String whereNotAnd = "";
         String whereWithAnd = "";
         if (builder.toString().trim().length() < 1) {
@@ -210,7 +216,7 @@ public class CustomerInfoController {
 
         String limit = " limit " + offset + ",10";
         String department = employee.getDepartment();
-        String sql_prefix = "select * from (SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,create_time,\n" +
+        String sql_prefix = "select * from (SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,create_time,admin_time,level,\n" +
                 " (SELECT  name from `employee`  WHERE  id = (SELECT salesman from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_e,\n" +
                 " (SELECT  name from `employee`  WHERE  id = (SELECT rca.`deputy_director`   from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_dd,\n" +
                 " (SELECT  name from `employee`  WHERE  id = (SELECT  rca.`director`  from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_d,\n" +

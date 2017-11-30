@@ -118,6 +118,11 @@ function getStringWithspace(str) {
 }
 
 
+function getCustomerLevel(level) {
+    var
+}
+
+
 function getString(str) {
     if (isNull(str)) {
         return '无';

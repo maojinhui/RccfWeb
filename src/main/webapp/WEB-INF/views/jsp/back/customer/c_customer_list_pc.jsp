@@ -116,7 +116,7 @@
                     }
                 %>
             </div>
-            <div class="am-u-sm-12 am-u-md-3 am-u-end search-group">
+            <div class="am-u-sm-12 am-u-md-3  search-group">
                 <span class="">
                  贷款类型:
                 </span>
@@ -130,6 +130,21 @@
                     <%}%>
                 </select>
             </div>
+
+            <div class="am-u-sm-12 am-u-md-3  am-u-end search-group">
+                <span class="">
+                 客户级别:
+                </span>
+                <select id="custome_level">
+                    <option value="0">请选择</option>
+                    <option value="1">A</option>
+                    <option value="2">B</option>
+                    <option value="3">C</option>
+                    <option value="4">D</option>
+                </select>
+
+            </div>
+
         </div>
         <div class="am-u-sm-12 am-margin-bottom ">
             <div class="am-u-sm-12 am-u-md-3 search-group">
@@ -165,22 +180,23 @@
                 <tr>
                     <th>姓名</th>
                     <th>电话</th>
-                    <th>总监</th>
-                    <th>副总监</th>
-                    <th>销售经理</th>
-                    <th>录入时间</th>
+                    <th>客户类别</th>
+                    <%--<th>总监</th>--%>
+                    <%--<th>副总监</th>--%>
+                    <%--<th>销售经理</th>--%>
+                    <%--<th>录入时间</th>--%>
                     <th>申请贷款类型</th>
                     <th>申请贷款金额</th>
-                    <th>申请贷款时间</th>
-                    <th>服务费</th>
-                    <%--<%if(depart!=null && depart.contains("系统")){%>--%>
-                    <%--<%}%>--%>
-                    <th>性别</th>
-                    <th>年龄</th>
-                    <th>籍贯</th>
-                    <th>公司信息</th>
-                    <th>房产信息</th>
-                    <th>车辆信息</th>
+                    <%--<th>申请贷款时间</th>--%>
+                    <%--<th>服务费</th>--%>
+                    <%--&lt;%&ndash;<%if(depart!=null && depart.contains("系统")){%>&ndash;%&gt;--%>
+                    <%--&lt;%&ndash;<%}%>&ndash;%&gt;--%>
+                    <%--<th>性别</th>--%>
+                    <%--<th>年龄</th>--%>
+                    <%--<th>籍贯</th>--%>
+                    <%--<th>公司信息</th>--%>
+                    <%--<th>房产信息</th>--%>
+                    <%--<th>车辆信息</th>--%>
                     <th>编辑</th>
                     <th>跟踪情况</th>
                 </tr>
@@ -216,7 +232,7 @@
         var customer_name = $('#customer_name').val();
         var clerk_name = $('#clerk_name').val();
         var customer_loan_type = $('#customer_loan_type').val();
-
+        var customer_level = $('#custome_level').val();
 
         var obj = {};
         if (!isNull(deputy_name) && deputy_name != '请选择') {
@@ -231,6 +247,9 @@
 
         if (!isNull(customer_loan_type) && customer_loan_type != -1) {
             obj.loan_type = customer_loan_type;
+        }
+        if(customer_level>0){
+            obj.customer_level = customer_level;
         }
         getdata(obj);
 
@@ -288,21 +307,21 @@
             str += '<tr>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.name) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.phone) + '</td>\n' +
-                '                        <td class="am-text-left">' + getStringWithspace(da.manager_d) + '</td>\n' +
-                '                        <td class="am-text-left">' + getStringWithspace(da.manager_dd) + '</td>\n' +
-                '                        <td class="am-text-left">' + getStringWithspace(da.manager_e) + '</td>\n' +
-                '                        <td class="am-text-left">' + getDateComplete(da.create_time) + '</td>\n' +
+//                '                        <td class="am-text-left">' + getStringWithspace(da.manager_d) + '</td>\n' +
+//                '                        <td class="am-text-left">' + getStringWithspace(da.manager_dd) + '</td>\n' +
+//                '                        <td class="am-text-left">' + getStringWithspace(da.manager_e) + '</td>\n' +
+//                '                        <td class="am-text-left">' + getDateComplete(da.create_time) + '</td>\n' +
+                '                        <td class="am-text-left">' + String.fromCharCode(da.level+64)+ '</td>\n' +
                 '                        <td class="am-text-left">' + getType(da.loan_type) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.applyamount) + '</td>\n' +
-                '                        <td class="am-text-left">' + getStringWithspace(getTime(da.term_year, da.term_month, da.term_day)) + '</td>\n' +
-                '                        <td class="am-text-left">' + getStringWithspace(da.fee_percent) + '%</td>\n' +
-                '                        <td class="am-text-left">' + getSex(da.sex) + '</td>\n' +
-                '                        <td class="am-text-left">' + getStringWithspace(da.age) + '</td>\n' +
-                '                        <td class="am-text-left">' + getStringWithspace(da.birthplace) + '</td>\n' +
-                '                        <td class="am-text-left">' + getStringWithspace(da.companycount) + '</td>\n' +
-                '                        <td class="am-text-left">' + getStringWithspace(da.housecount) + '</td>\n' +
-                '                        <td class="am-text-left">' + getStringWithspace(da.carcount) + '</td>\n' +
-
+//                '                        <td class="am-text-left">' + getStringWithspace(getTime(da.term_year, da.term_month, da.term_day)) + '</td>\n' +
+//                '                        <td class="am-text-left">' + getStringWithspace(da.fee_percent) + '%</td>\n' +
+//                '                        <td class="am-text-left">' + getSex(da.sex) + '</td>\n' +
+//                '                        <td class="am-text-left">' + getStringWithspace(da.age) + '</td>\n' +
+//                '                        <td class="am-text-left">' + getStringWithspace(da.birthplace) + '</td>\n' +
+//                '                        <td class="am-text-left">' + getStringWithspace(da.companycount) + '</td>\n' +
+//                '                        <td class="am-text-left">' + getStringWithspace(da.housecount) + '</td>\n' +
+//                '                        <td class="am-text-left">' + getStringWithspace(da.carcount) + '</td>\n' +
                 '                        <td>\n' +
                 '                            <a  onclick="toDetail(\'' + da.id + '\')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
                 '                                    class="am-icon-pencil-square-o"></span> 详情\n' +

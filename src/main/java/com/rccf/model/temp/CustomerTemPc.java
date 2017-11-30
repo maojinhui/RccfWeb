@@ -27,6 +27,8 @@ public class CustomerTemPc {
     private Double fee_percent;
     private String process;
     private Integer loan_type;
+    private Integer level;
+    private Timestamp admin_time;
 
     public CustomerTemPc() {
     }
@@ -192,5 +194,21 @@ public class CustomerTemPc {
 
     public void setLoan_type(Integer loan_type) {
         this.loan_type = loan_type;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public Timestamp getAdmin_time() {
+        return admin_time;
+    }
+
+    public void setAdmin_time(Timestamp admin_time) {
+        this.admin_time = admin_time;
     }
 }
