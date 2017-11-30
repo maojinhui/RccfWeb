@@ -21,9 +21,8 @@
     <%--<h1 style="text-align: center">融成金服首页</h1>--%>
     <img src="/image/index.jpg" width="100%">
 </div>
-<script src="https://s11.cnzz.com/z_stat.php?id=1260014320&web_id=1260014320" language="JavaScript"></script>
+<%--<script src="https://s11.cnzz.com/z_stat.php?id=1260014320&web_id=1260014320" language="JavaScript"></script>--%>
 </body>
-
 <%
     String jsapi_ticket = WeixinUtil.getAccessJSAPI_TICKET();
     String timestamp = String.valueOf(DateUtil.date2Timestamp(new Date()).getTime() / 1000);

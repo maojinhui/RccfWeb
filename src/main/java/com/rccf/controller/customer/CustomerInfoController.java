@@ -384,6 +384,10 @@ public class CustomerInfoController {
         Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         String name = request.getParameter("name");
         String phone = request.getParameter("phone");
+        String admin_time = request.getParameter("admin_time");
+        String level = request.getParameter("level");
+
+
         if (Strings.isNullOrEmpty(name)) {
             return ResponseUtil.fail(0, "客户姓名不能为空");
         }
@@ -405,6 +409,12 @@ public class CustomerInfoController {
         RCustomer rCustomer = new RCustomer();
         rCustomer.setName(name);
         rCustomer.setPhone(phone);
+        rCustomer.setLevel(Integer.valueOf(level));
+        if(Strings.isNullOrEmpty(admin_time)){
+            rCustomer.setAdminTime(DateUtil.date2Timestamp(new Date()));
+        }else{
+            rCustomer.setAdminTime(DateUtil.string2Timestamp(admin_time));
+        }
         rCustomer.setCreateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
         boolean save = baseService.save(rCustomer);
         if (save) {
@@ -445,6 +455,7 @@ public class CustomerInfoController {
         return ResponseUtil.fail(0, "保存失败");
     }
 
+
     @RequestMapping(value = "/editpage")
     public ModelAndView editCustomerPage(HttpServletRequest request) {
         String customer_id = request.getParameter("customer_id");
@@ -462,6 +473,38 @@ public class CustomerInfoController {
         modelAndView.setViewName("/back/customer/c_customer_editpage");
         return modelAndView;
     }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/edit/level")
+    public String editLevel(HttpServletRequest request){
+        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+        String level = request.getParameter("level");
+        String customer_id = request.getParameter("customer_id");
+        RCustomer rCustomer = (RCustomer) baseService.get(RCustomer.class,customer_id);
+        rCustomer.setLevel(Integer.valueOf(level));
+        boolean save = baseService.save(rCustomer);
+        if(save){
+            return ResponseUtil.success();
+        }
+        return ResponseUtil.fail();
+    }
+    @ResponseBody
+    @RequestMapping(value = "/edit/admin_time")
+    public String editAdminTime(HttpServletRequest request){
+        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+        String admin_time = request.getParameter("admin_time");
+        String customer_id = request.getParameter("customer_id");
+        RCustomer rCustomer = (RCustomer) baseService.get(RCustomer.class,customer_id);
+        rCustomer.setAdminTime(DateUtil.string2Timestamp(admin_time));
+        boolean save = baseService.save(rCustomer);
+        if(save){
+            return ResponseUtil.success();
+        }
+
+        return ResponseUtil.fail();
+    }
+
 
 
     @RequestMapping(value = "/base")

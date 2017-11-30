@@ -27,7 +27,7 @@ public class Strings {
         if (StringUtils.isEmpty(data)) {
             return true;
         }
-        if ("null".equals(data)){
+        if ("null".equals(data)) {
             return true;
         }
 
@@ -237,8 +237,6 @@ public class Strings {
 
 
     /**
-     *
-     *
      * 根据小数计算出百分比
      *
      * @param d
@@ -255,7 +253,27 @@ public class Strings {
 
     }
 
+    /**
+     * 将123  转化为 ABC
+     *
+     * @param num
+     * @return
+     */
+    public static String getLevel(int num) {
+        if (num <= 0) {
+            return "未知";
+        }
+        int n = num + 64;
+        char c = (char) n;
+        String str = String.valueOf(c);
+        return str;
+    }
 
+    public static void main(String args[]){
+        char c = (char)65;
+       String str =  String.valueOf(c);
+        System.out.println(str);
+    }
 
 
 }

@@ -54,7 +54,20 @@
                     <td>手机号</td>
                     <td><input id="phone" type="number"></td>
                 </tr>
-
+                <tr>
+                    <td>意向时间</td>
+                    <td><input id="admin_time" type="date"></td>
+                </tr>
+                <tr>
+                    <td>客户级别</td>
+                    <td><select id="level">
+                        <option value="0">选择客户级别</option>
+                        <option value="1">A</option>
+                        <option value="2">B</option>
+                        <option value="3">C</option>
+                        <option value="4">D</option>
+                    </select></td>
+                </tr>
             </table>
         </div>
         <div class="am-u-sm-12 am-u-md-8 am-u-lg-6 am-u-end">
@@ -75,15 +88,21 @@
         var jsonObject = {};
         var name = $('#name').val();
         var phone = $('#phone').val();
+        var admin_time = $('#admin_time').val();
+        var level = $('#level').val();
+
         jsonObject.name = name;
         jsonObject.phone = phone;
-
+        jsonObject.admin_time = admin_time;
+        jsonObject.level = level;
+        if(level<=0){
+            alert("请选择客户级别");
+            return;
+        }
         if (!ismobile(phone)) {
             alert("手机号格式错误");
             return;
         }
-
-
         $.ajax({
             url: '/customer/info/add',
             data: jsonObject,

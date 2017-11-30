@@ -1,6 +1,7 @@
 package com.rccf.model;
 
 
+import com.google.common.base.Objects;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -29,6 +30,8 @@ public class RCustomer {
     private String hobby;
     private Timestamp createTime;
     private String nation;
+    private Timestamp adminTime;
+    private Integer level;
 
     @Id
     @Column(name = "id", nullable = false, length = 16)
@@ -212,59 +215,6 @@ public class RCustomer {
         this.hobby = hobby;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        RCustomer rCustomer = (RCustomer) o;
-
-        if (id != null ? !id.equals(rCustomer.id) : rCustomer.id != null) return false;
-        if (name != null ? !name.equals(rCustomer.name) : rCustomer.name != null) return false;
-        if (phone != null ? !phone.equals(rCustomer.phone) : rCustomer.phone != null) return false;
-        if (sex != null ? !sex.equals(rCustomer.sex) : rCustomer.sex != null) return false;
-        if (age != null ? !age.equals(rCustomer.age) : rCustomer.age != null) return false;
-        if (housePhone != null ? !housePhone.equals(rCustomer.housePhone) : rCustomer.housePhone != null) return false;
-        if (idcard != null ? !idcard.equals(rCustomer.idcard) : rCustomer.idcard != null) return false;
-        if (married != null ? !married.equals(rCustomer.married) : rCustomer.married != null) return false;
-        if (educationLevel != null ? !educationLevel.equals(rCustomer.educationLevel) : rCustomer.educationLevel != null)
-            return false;
-        if (domicile != null ? !domicile.equals(rCustomer.domicile) : rCustomer.domicile != null) return false;
-        if (birthplace != null ? !birthplace.equals(rCustomer.birthplace) : rCustomer.birthplace != null) return false;
-        if (children != null ? !children.equals(rCustomer.children) : rCustomer.children != null) return false;
-        if (email != null ? !email.equals(rCustomer.email) : rCustomer.email != null) return false;
-        if (qq != null ? !qq.equals(rCustomer.qq) : rCustomer.qq != null) return false;
-        if (wechat != null ? !wechat.equals(rCustomer.wechat) : rCustomer.wechat != null) return false;
-        if (addressNow != null ? !addressNow.equals(rCustomer.addressNow) : rCustomer.addressNow != null) return false;
-        if (liveTime != null ? !liveTime.equals(rCustomer.liveTime) : rCustomer.liveTime != null) return false;
-        if (hobby != null ? !hobby.equals(rCustomer.hobby) : rCustomer.hobby != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (phone != null ? phone.hashCode() : 0);
-        result = 31 * result + (sex != null ? sex.hashCode() : 0);
-        result = 31 * result + (age != null ? age.hashCode() : 0);
-        result = 31 * result + (housePhone != null ? housePhone.hashCode() : 0);
-        result = 31 * result + (idcard != null ? idcard.hashCode() : 0);
-        result = 31 * result + (married != null ? married.hashCode() : 0);
-        result = 31 * result + (educationLevel != null ? educationLevel.hashCode() : 0);
-        result = 31 * result + (domicile != null ? domicile.hashCode() : 0);
-        result = 31 * result + (birthplace != null ? birthplace.hashCode() : 0);
-        result = 31 * result + (children != null ? children.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (qq != null ? qq.hashCode() : 0);
-        result = 31 * result + (wechat != null ? wechat.hashCode() : 0);
-        result = 31 * result + (addressNow != null ? addressNow.hashCode() : 0);
-        result = 31 * result + (liveTime != null ? liveTime.hashCode() : 0);
-        result = 31 * result + (hobby != null ? hobby.hashCode() : 0);
-        return result;
-    }
-
     @Basic
     @Column(name = "create_time")
     public Timestamp getCreateTime() {
@@ -283,5 +233,88 @@ public class RCustomer {
 
     public void setNation(String nation) {
         this.nation = nation;
+    }
+
+    @Basic
+    @Column(name = "admin_time")
+    public Timestamp getAdminTime() {
+        return adminTime;
+    }
+
+    public void setAdminTime(Timestamp adminTime) {
+        this.adminTime = adminTime;
+    }
+
+    @Basic
+    @Column(name = "level")
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RCustomer rCustomer = (RCustomer) o;
+        return Objects.equal(id, rCustomer.id) &&
+                Objects.equal(name, rCustomer.name) &&
+                Objects.equal(phone, rCustomer.phone) &&
+                Objects.equal(sex, rCustomer.sex) &&
+                Objects.equal(age, rCustomer.age) &&
+                Objects.equal(housePhone, rCustomer.housePhone) &&
+                Objects.equal(idcard, rCustomer.idcard) &&
+                Objects.equal(married, rCustomer.married) &&
+                Objects.equal(educationLevel, rCustomer.educationLevel) &&
+                Objects.equal(domicile, rCustomer.domicile) &&
+                Objects.equal(birthplace, rCustomer.birthplace) &&
+                Objects.equal(children, rCustomer.children) &&
+                Objects.equal(email, rCustomer.email) &&
+                Objects.equal(qq, rCustomer.qq) &&
+                Objects.equal(wechat, rCustomer.wechat) &&
+                Objects.equal(addressNow, rCustomer.addressNow) &&
+                Objects.equal(liveTime, rCustomer.liveTime) &&
+                Objects.equal(hobby, rCustomer.hobby) &&
+                Objects.equal(createTime, rCustomer.createTime) &&
+                Objects.equal(nation, rCustomer.nation) &&
+                Objects.equal(adminTime, rCustomer.adminTime) &&
+                Objects.equal(level, rCustomer.level);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id, name, phone, sex, age, nation, housePhone, idcard, married, educationLevel, domicile, birthplace, children, email, qq, wechat, addressNow, liveTime, hobby, createTime, adminTime, level);
+    }
+
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("id", id)
+                .add("name", name)
+                .add("phone", phone)
+                .add("sex", sex)
+                .add("age", age)
+                .add("housePhone", housePhone)
+                .add("idcard", idcard)
+                .add("married", married)
+                .add("educationLevel", educationLevel)
+                .add("domicile", domicile)
+                .add("birthplace", birthplace)
+                .add("children", children)
+                .add("email", email)
+                .add("qq", qq)
+                .add("wechat", wechat)
+                .add("addressNow", addressNow)
+                .add("liveTime", liveTime)
+                .add("hobby", hobby)
+                .add("createTime", createTime)
+                .add("nation", nation)
+                .add("adminTime", adminTime)
+                .add("level", level)
+                .toString();
     }
 }
