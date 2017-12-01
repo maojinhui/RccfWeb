@@ -13,8 +13,8 @@
     <title>信贷产品录入</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <link rel="stylesheet" type="text/css" href="../../css/amazeui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/animate.css"/>
+    <link href="https://cdn.bootcss.com/amazeui/2.7.2/css/amazeui.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.min.css"/>
     <style type="text/css">
         html,
         body {
@@ -37,7 +37,6 @@
             background-color: #f5f5f5;
             text-align: center;
         }
-
         .am-table input,
         .am-table select {
             width: 10em;
@@ -47,7 +46,6 @@
         .am-table input[type="checkbox"] {
             width: 1em;
         }
-
         .am-table input {
             border: none;
         }
@@ -60,6 +58,13 @@
             width: 6em;
         }
 
+        tr > td > label {
+            display: inline-block;
+            font-weight: 400;
+            width: 8em;
+            text-align: right;
+            margin-right: 0.5em;
+        }
     </style>
 </head>
 <body>
@@ -144,6 +149,93 @@
             </tr>
         </table>
 
+
+        <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
+            <caption>个人准备资料</caption>
+            <tr>
+                <td class="am-text-center">
+                    <!--<a onclick="addPersonalInfo(this)" class="am-btn am-btn-warning am-radius am-btn-sm">-->
+                    <!--<i class="am-icon-plus"></i> 添加个人准备资料</a>-->
+                    <label>身份证</label><input type="checkbox">
+                    <label>保单</label><input type="checkbox">
+                    <label>征信报告</label><input type="checkbox">
+                    <label>流水</label><input type="checkbox">
+                    <label>放款储蓄卡</label><input type="checkbox">
+                    <label>购房合同</label><input type="checkbox">
+                </td>
+            </tr>
+            <tr>
+                <td class="am-text-center">
+                    <label>户口本</label><input type="checkbox">
+                    <label>房本</label><input type="checkbox">
+                    <label>婚姻证明</label><input type="checkbox">
+                    <label>财力证明</label><input type="checkbox">
+                    <label>社保卡</label><input type="checkbox">
+                    <label>公积金卡</label><input type="checkbox">
+                </td>
+            </tr>
+            <tr>
+                <td class="am-text-center">
+                    <label>工资流水</label><input type="checkbox">
+                    <label>税单</label><input type="checkbox">
+                    <label>行驶证</label><input type="checkbox">
+                    <label>驾驶证</label><input type="checkbox">
+                    <label>购车发票</label><input type="checkbox">
+                    <label>交强证</label><input type="checkbox">
+                </td>
+            </tr>
+            <tr>
+                <td class="am-text-center">
+                    <label>收入证明</label><input type="checkbox">
+                    <label>夫妻双方身份证</label><input type="checkbox">
+                </td>
+            </tr>
+        </table>
+
+        <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
+            <caption>企业准备资料</caption>
+            <tr>
+                <td class="am-text-center">
+                    <!--<a onclick="addCorporateInfo(this)" class="am-btn am-btn-warning am-radius am-btn-sm">-->
+                    <!--<i class="am-icon-plus"></i> 添加企业准备资料</a>-->
+                    <label>公司章程</label><input type="checkbox">
+                    <label>流水</label><input type="checkbox">
+                    <label>验资报告</label><input type="checkbox">
+                    <label>财务报表</label><input type="checkbox">
+                    <label>上下游合同</label><input type="checkbox">
+                    <label>户口本</label><input type="checkbox">
+                </td>
+            </tr>
+            <tr>
+                <td class="am-text-center">
+                    <label>房本</label><input type="checkbox">
+                    <label>财力证明</label><input type="checkbox">
+                    <label>租赁合同</label><input type="checkbox">
+                    <label>申请表</label><input type="checkbox">
+                    <label>夫妻双方身份证</label><input type="checkbox">
+                    <label>企业五证</label><input type="checkbox">
+                </td>
+            </tr>
+            <tr>
+                <td class="am-text-center">
+                    <label>银行账户资料</label><input type="checkbox">
+                    <label>授权委托书</label><input type="checkbox">
+                    <label>公章</label><input type="checkbox">
+                    <label>婚姻证明</label><input type="checkbox">
+                </td>
+            </tr>
+        </table>
+
+        <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
+            <caption>准入条件</caption>
+            <tr>
+                <td colspan="2" class="am-text-center">
+                    <a onclick="addEntryTerm(this)" class="am-btn am-btn-warning am-radius am-btn-sm">
+                        <i class="am-icon-plus"></i> 添加准入条件</a>
+                </td>
+            </tr>
+        </table>
+
         <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
             <caption>征信要求</caption>
             <tr>
@@ -172,35 +264,6 @@
             </tr>
         </table>
 
-        <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
-            <caption>个人准备资料</caption>
-            <tr>
-                <td colspan="2" class="am-text-center">
-                    <a onclick="addPersonalInfo(this)" class="am-btn am-btn-warning am-radius am-btn-sm">
-                        <i class="am-icon-plus"></i> 添加个人准备资料</a>
-                </td>
-            </tr>
-        </table>
-
-        <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
-            <caption>企业准备资料</caption>
-            <tr>
-                <td colspan="2" class="am-text-center">
-                    <a onclick="addCorporateInfo(this)" class="am-btn am-btn-warning am-radius am-btn-sm">
-                        <i class="am-icon-plus"></i> 添加企业准备资料</a>
-                </td>
-            </tr>
-        </table>
-
-        <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
-            <caption>准入条件</caption>
-            <tr>
-                <td colspan="2" class="am-text-center">
-                    <a onclick="addEntryTerm(this)" class="am-btn am-btn-warning am-radius am-btn-sm">
-                        <i class="am-icon-plus"></i> 添加准入条件</a>
-                </td>
-            </tr>
-        </table>
 
         <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
             <caption>产品其他信息</caption>
@@ -245,8 +308,10 @@
 </div>
 
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-<script src="/js/back/jquery.min.js"></script>
+<script src="/js/back/jquery.js"></script>
 <script>
+
+    //UNUSED 点击添加个人准备资料
     function addPersonalInfo(obj) {
         var tdNode = obj.parentNode;
         var trNode = tdNode.parentNode;
@@ -268,6 +333,7 @@
         $(tableNode).append(str);
     }
 
+    //UNUSED 点击添加企业准备资料
     function addCorporateInfo(obj) {
         var tdNode = obj.parentNode;
         var trNode = tdNode.parentNode;
@@ -289,6 +355,7 @@
         $(tableNode).append(str);
     }
 
+    //UNUSED 点击添加准入条件
     function addEntryTerm(obj) {
         var tdNode = obj.parentNode;
         var trNode = tdNode.parentNode;
@@ -299,9 +366,20 @@
             '        </td>\n' +
             '        <td>\n' +
             '          <input type="text" style="width: 100%" placeholder="说明信息">\n' +
-            '        </td>\n' +
+            '        </td>' +
+            '         <td style="width: 3em;">' +
+            '           <a onclick="deleteItem(this)" class="am-btn am-btn-sm am-btn-danger"><i class="am-icon-trash-o"></i></a>' +
+            '         </td>' +
             '      </tr>';
         $(tableNode).append(str);
+    }
+
+    function deleteItem(obj) {
+        var tdNode = obj.parentNode;
+        var trNode = tdNode.parentNode;
+        var tableNode = trNode.parentNode;
+
+        tableNode.removeChild(trNode);
     }
 </script>
 </body>
