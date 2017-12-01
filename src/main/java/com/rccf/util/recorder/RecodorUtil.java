@@ -17,7 +17,7 @@ public class RecodorUtil {
         AipSpeech client = new AipSpeech(APP_ID, API_KEY, SECRET_KEY);
         client.setConnectionTimeoutInMillis(2000);
         client.setSocketTimeoutInMillis(60000);
-        JSONObject res = client.asr("test.pcm", "pcm", 16000, null);
+        JSONObject res = client.asr("../test.pcm", "pcm", 16000, null);
         System.out.println(res.toString(2));
     }
 

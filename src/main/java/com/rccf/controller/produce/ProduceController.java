@@ -634,6 +634,15 @@ public class ProduceController {
     }
 
 
+    @RequestMapping(value = "/credit/insert")
+    public ModelAndView creditAddPage(HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/back/product/p_product_xindai_add");
+        PageUtil.addAgencys(modelAndView,baseService);
+        return modelAndView;
+    }
+
+
     @RequestMapping(value = "/audit/list")
     public ModelAndView audioList(HttpServletRequest request) {
         Employee employee = BackUtil.getLoginEmployee(request, employeeService);
@@ -689,7 +698,6 @@ public class ProduceController {
 
         return data;
     }
-
 
     @RequestMapping(value = "/audit/page")
     public ModelAndView auditDetailPage(HttpServletRequest request) {
