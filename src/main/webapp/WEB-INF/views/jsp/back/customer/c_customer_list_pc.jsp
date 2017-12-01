@@ -304,7 +304,7 @@
                 }
                 pstr+="</ul></div>";
             }
-            str += '<tr>\n' +
+            str += '<tr onclick="toDetail(\'' + da.id + '\')" >\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.name) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.phone) + '</td>\n' +
 //                '                        <td class="am-text-left">' + getStringWithspace(da.manager_d) + '</td>\n' +
