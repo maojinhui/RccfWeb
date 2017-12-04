@@ -1,11 +1,20 @@
+<%@ page import="com.alibaba.fastjson.JSON" %>
+<%@ page import="com.rccf.model.RAgency" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.rccf.model.produce.AProduceCreditType" %>
 <%--
-  Created by IntelliJ IDEA.
+Created by IntelliJ IDEA.
   User: Administrator
   Date: 2017/12/1 0001
   Time: 14:29
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+
+    List<AProduceCreditType> credit_types = (List<AProduceCreditType>) request.getAttribute("credit_types");
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +24,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <link href="https://cdn.bootcss.com/amazeui/2.7.2/css/amazeui.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/instyle.css"/>
     <style type="text/css">
         html,
         body {
@@ -84,18 +94,26 @@
             <caption>产品基本信息</caption>
             <tr>
                 <td>产品编号</td>
-                <td><input type="text" value=""></td>
+                <td><input id="code" type="text" value=""></td>
                 <td>机构名称</td>
-                <td><input type="text" value=""></td>
+                <td>
+                    <input id="agency_name" type="text" value="">
+                    <div class="autocompleter autocompleter-closed" id="autocompleter-agency">
+                        <div class="autocompleter-hint"></div>
+                        <ul class="autocompleter-list"></ul>
+                    </div>
+                </td>
                 <td>产品名称</td>
-                <td><input type="text" value=""></td>
+                <td><input id="name" type="text" value=""></td>
                 <td>贷款形式</td>
                 <td>
-                    <select>
-                        <option>保单贷</option>
-                        <option>月供贷</option>
-                        <option>工薪贷</option>
-                        <option>生意贷</option>
+                    <select id="credit_type">
+                        <%
+                            for (int i = 0 ;i<credit_types.size();i++){
+                            AProduceCreditType type = credit_types.get(i);
+                        %>
+                        <option value="<%=type.getId()%>" ><%=type.getName()%></option>
+                        <% } %>
                     </select>
                 </td>
             </tr>
@@ -308,8 +326,23 @@
 </div>
 
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-<script src="/js/back/jquery.js"></script>
+<script src="/js/jquery.autocompleter.js"></script>
+<script src="/js/back/datacommon.js"></script>
+<%  List<RAgency> agencys = (List<RAgency>) request.getAttribute("agencys"); %>
 <script>
+    var agencys = <%=JSON.toJSONString(agencys).replaceAll("name","label")%>;
+    $('#agency_name').autocompleter({
+        highlightMatches: true,
+        source: agencys,
+        template: '{{ label }} <span>{{ id }}</span>',
+        hint: false,
+        empty: false,
+        limit: 5,
+        callback: function (value, index, selected) {
+            $('#agency_id').val(selected.id);
+        }
+    })
+
 
     //UNUSED 点击添加个人准备资料
     function addPersonalInfo(obj) {
@@ -381,6 +414,9 @@
 
         tableNode.removeChild(trNode);
     }
+
+
+
 </script>
 </body>
 </html>

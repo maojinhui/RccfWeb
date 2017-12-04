@@ -528,7 +528,7 @@ public class CommissionController {
 
 
         String sql_shichang = "SELECT e.id,e.department,e.name,e.role,\n" +
-                "  (SELECT sum(a.service_fee_actual) from accepted a where a.houqi = e.name and end_date>'" + month_start + "' and end_date<'" + month_end + "') as yeji\n" +
+                "  (SELECT sum(a.service_fee_actual) from accepted a where a.houqi = e.name and end_date>='" + month_start + "' and end_date<'" + month_end + "') as yeji\n" +
                 "from employee e\n" +
                 "WHERE department = '市场部'";
         String sql_shichang_zongjian = "SELECT e.id,e.department,e.name,e.role,\n" +
@@ -588,7 +588,7 @@ public class CommissionController {
 
         String sql_other_department = "SELECT * from\n" +
                 "(SELECT e.id,e.department,e.name,e.role,\n" +
-                "(SELECT sum(a.service_fee_actual) from accepted a where a.clerk = e.code and end_date>'" + month_start + "' and end_date<'" + month_end + "') as yeji\n" +
+                "(SELECT sum(a.service_fee_actual) from accepted a where a.clerk = e.code and end_date>='" + month_start + "' and end_date<'" + month_end + "') as yeji\n" +
                 "from employee e\n" +
                 "WHERE department NOT LIKE '金融%' and department  NOT  LIKE '市场部%') as other\n" +
                 "WHERE yeji>0";

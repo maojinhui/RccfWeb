@@ -639,6 +639,7 @@ public class ProduceController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/product/p_product_xindai_add");
         PageUtil.addAgencys(modelAndView,baseService);
+        PageUtil.addCreditType(modelAndView,baseService);
         return modelAndView;
     }
 
