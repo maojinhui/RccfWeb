@@ -304,7 +304,7 @@ Created by IntelliJ IDEA.
 
     <div class="am-u-sm-12 am-u-md-6 am-u-sm-centered am-margin-bottom-xl">
         <%--<button class="am-u-sm-6 am-btn am-btn-danger">取消</button>--%>
-        <button class="am-u-sm-6 am-btn am-btn-secondary">确认信息并保存</button>
+        <button class="am-u-sm-12 am-btn am-btn-primary">确认信息并保存</button>
     </div>
 </div>
 
