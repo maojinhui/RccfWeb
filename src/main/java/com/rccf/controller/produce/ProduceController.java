@@ -16,6 +16,7 @@ import com.rccf.util.BackUtil;
 import com.rccf.util.DateUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
+import com.rccf.util.produce.CreditProducePage;
 import com.rccf.util.produce.DataUtil;
 import com.rccf.util.produce.PageUtil;
 import com.rccf.util.verify.AgencyVerify;
@@ -25,9 +26,6 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -672,9 +670,23 @@ public class ProduceController {
 
     @RequestMapping(value = "/creditDetail")
     public ModelAndView creditDetail(HttpServletRequest request){
+        String produce_id = request.getParameter("produce_id");
+        if (Strings.isNullOrEmpty(produce_id)) {
+            return ResponseUtil.pageFail("参数错误");
+        }
+        int id = Integer.valueOf(produce_id);
+        AProduceCredit produce = (AProduceCredit) baseService.get(AProduceCredit.class, id);
+        if (produce == null) {
+            return ResponseUtil.pageFail("没有找到该产品");
+        }
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("");
+        modelAndView.setViewName("/back/product/p_product_xinddai_details");
+        modelAndView.addObject("produce", produce);
+        CreditProducePage.addCreatePerson(modelAndView,produce,baseService);
+
+
+
 
         return modelAndView;
     }
@@ -736,17 +748,17 @@ public class ProduceController {
         String loan_rate_max = request.getParameter("loan_rate_max");
         String loan_term_min = request.getParameter("loan_term_min");
         String loan_term_max = request.getParameter("loan_term_max");
-        produce.setLoanTimeMin(Integer.getInteger(loan_time_min));
-        produce.setLoanTimeMax(Integer.getInteger(loan_time_max));
+        produce.setLoanTimeMin(getInteger(loan_time_min));
+        produce.setLoanTimeMax(getInteger(loan_time_max));
 
-        produce.setLoanAmountMin(Integer.getInteger(loan_amount_min));
-        produce.setLoanAmountMax(Integer.getInteger(loan_amount_max));
+        produce.setLoanAmountMin(getInteger(loan_amount_min));
+        produce.setLoanAmountMax(getInteger(loan_amount_max));
 
         produce.setLoanRateMin(getDouble(loan_rate_min));
         produce.setLoanRateMax(getDouble(loan_rate_max));
 
-        produce.setLoanTermMin(Integer.getInteger(loan_term_min));
-        produce.setLoanTermMax(Integer.getInteger(loan_term_max));
+        produce.setLoanTermMin(getInteger(loan_term_min));
+        produce.setLoanTermMax(getInteger(loan_term_max));
 
         String loan_shangkou = request.getParameter("loan_shagnkou");
         String loan_pingtaifei = request.getParameter("loan_pingtaifei");
@@ -855,6 +867,12 @@ public class ProduceController {
                 "         2 AS type,`state`,create_time,log,\n" +
                 "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
                 "       FROM `a_produce_zhiya` as p\n" +
+                "       UNION ALL\n" +
+                "       SELECT `id`, `name`, `code`, agency_id,\n" +
+                "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
+                "         2 AS type,`state`,create_time,log,\n" +
+                "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
+                "       FROM `a_produce_credit` as p\n" +
                 "     ) AS data\n" +
                 "     WHERE state=3 \n" +
                 "ORDER BY data.create_time DESC " + limitStr;
@@ -862,6 +880,8 @@ public class ProduceController {
                 "FROM (SELECT id,state       FROM `a_produce_diya` as p\n" +
                 "      UNION ALL\n" +
                 "      SELECT id,state       FROM `a_produce_zhiya` as p\n" +
+                "      UNION ALL\n" +
+                "      SELECT id,state       FROM `a_produce_credit` as p\n" +
                 "     ) AS data\n" +
                 "WHERE state=3";
 
@@ -890,6 +910,8 @@ public class ProduceController {
                 produce = (AProduceZhiya) baseService.get(AProduceZhiya.class, pid);
                 break;
             case 0:
+                modelAndView.setViewName("/back/product/p_product_zhiya_audit");
+                produce = (AProduceZhiya) baseService.get(AProduceZhiya.class, pid);
                 break;
             default:
                 break;
@@ -1141,7 +1163,19 @@ public class ProduceController {
     }
 
 
+    private Integer getInteger(String value) {
+        try {
+            Integer integer = Integer.valueOf(value);
+            return integer;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
     public static void main(String[] args) {
+        Integer integer = Integer.getInteger("1");
+        System.out.println(integer);
 
     }
 

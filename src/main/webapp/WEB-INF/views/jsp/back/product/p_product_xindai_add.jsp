@@ -386,7 +386,7 @@ Created by IntelliJ IDEA.
             <tr>
                 <td class="require-title">注意事项</td>
                 <td>
-                    <input id="produce_notice" type="text" style="width: 100%"
+                    <input id="notice" type="text" style="width: 100%"
                            value="<%=pNotNull?Strings.getInputString(produce.getNotice()):""%>">
                 </td>
             </tr>
@@ -550,7 +550,7 @@ Created by IntelliJ IDEA.
         var credit_require_other = $('#credit_require_other').val();
         var produce_process = $('#produce_process').val();
         var produce_advantage = $('#produce_advantage').val();
-        var proudce_disadvantage = $('#proudce_disadvantage').val();
+        var produce_disadvantage = $('#produce_disadvantage').val();
         var notice = $('#notice').val();
         var produce_shootreason = $('#produce_shootreason').val();
         obj.credit_require_check = credit_require_check;
@@ -559,7 +559,7 @@ Created by IntelliJ IDEA.
         obj.credit_require_other = credit_require_other;
         obj.produce_process = produce_process;
         obj.produce_advantage = produce_advantage;
-        obj.proudce_disadvantage = proudce_disadvantage;
+        obj.produce_disadvantage = produce_disadvantage;
         obj.notice = notice;
         obj.produce_shootreason = produce_shootreason;
 
