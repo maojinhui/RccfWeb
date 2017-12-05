@@ -233,14 +233,13 @@ Created by IntelliJ IDEA.
                 <td class="am-text-center">
             <% } %>
                     <%
-                        if(materialP){
-                            JSONArray array = JSON.parseArray(loanMaterialPersonal);
+                        JSONArray array = null;
+                        if(materialP) {
+                           array  = JSON.parseArray(loanMaterialPersonal);
+                        }
                     %>
                     <label><%=material.getName()%></label><input type="checkbox" name="loan_person_material" value="<%=material.getId()%>"
-                    <%=array.contains(material.getId())?"checked='cheked'":""%> >
-                    <%
-                    }
-                    %>
+                    <%=array!=null&&array.contains(material.getId())?"checked='cheked'":""%> >
 
                     <%if((i+1)%6==0){%>
                 </td>
@@ -270,13 +269,14 @@ Created by IntelliJ IDEA.
                 <td class="am-text-center">
                     <% } %>
                     <%
-                        if(materialC){
-                            JSONArray array = JSON.parseArray(loanMaterialCompany);
+                        JSONArray array = null ;
+                        if(materialC) {
+                            array = JSON.parseArray(loanMaterialCompany);
+                        }
                     %>
 
                     <label><%=material.getName()%></label><input type="checkbox" name="loan_company_material" value="<%=material.getId()%>"
-                    <%=array.contains(material.getId())?"checked='cheked'":""%>>
-                    <% } %>
+                    <%=array!=null&&array.contains(material.getId())?"checked='cheked'":""%>>
                     <%if((i+1)%6==0){%>
                 </td>
             </tr>
