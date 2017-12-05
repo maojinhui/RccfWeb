@@ -228,8 +228,9 @@ Created by IntelliJ IDEA.
         </table>
 
         <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
-            <caption>准入条件<a onclick="addEntryTerm(this)"
-                            class="am-align-right am-btn am-btn-warning am-radius am-btn-sm">
+            <caption style="padding: 0.4em;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;准入条件<a onclick="addEntryTerm(this)"
+                                                                                        class="am-align-right am-btn am-btn-warning am-btn-sm"
+                                                                                        style="padding: 0.1em;margin: 0; ">
                 <i class="am-icon-plus"></i> 添加准入条件</a></caption>
             <tbody id="content">
 
