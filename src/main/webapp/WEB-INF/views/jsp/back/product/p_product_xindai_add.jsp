@@ -124,8 +124,13 @@ Created by IntelliJ IDEA.
                 <td>贷款形式</td>
                 <td>
                     <%
-                      Integer cType =   produce.getLoanCreditType();
-                      boolean cTypeNotNull = cType ==null?false:true;
+                        boolean cTypeNotNull = false;
+                        Integer cType = null;
+                        if(pNotNull) {
+                            cType = produce.getLoanCreditType();
+                            cTypeNotNull = cType == null ? false : true;
+                        }
+
                     %>
 
                     <select id="credit_type">
@@ -135,12 +140,20 @@ Created by IntelliJ IDEA.
                         %>
                         <option value="<%=type.getId()%>"  <%=cTypeNotNull&&cType==type.getId()?"selected='selected'":""   %> ><%=type.getName()%></option>
                         <% } %>
+
                     </select>
                 </td>
             </tr>
             <%
-               String loan_people = produce.getLoanPeople();
-               String repayment = produce.getRepaymentType();
+
+               String loan_people = null;
+               String repayment = null;
+               if(pNotNull){
+                   loan_people = produce.getLoanPeople();
+                   repayment = produce.getRepaymentType();
+               }
+
+
                boolean loan_peoplenotnull = loan_people==null?false:true;
                boolean repaymentNotnull = repayment==null?false:true;
 
@@ -206,8 +219,10 @@ Created by IntelliJ IDEA.
         <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
             <caption>个人准备资料</caption>
             <%
-
-                String loanMaterialPersonal = produce.getLoanMaterialPersonal();
+                String loanMaterialPersonal = null;
+                if(pNotNull){
+                    loanMaterialPersonal = produce.getLoanMaterialPersonal();
+                }
                 boolean materialP = loanMaterialPersonal==null?false:true;
 
                 for (int i=0 ; i< personMaterial.size() ;i++){
@@ -241,7 +256,11 @@ Created by IntelliJ IDEA.
             <caption>企业准备资料</caption>
 
             <%
-                String loanMaterialCompany = produce.getLoanMaterialCompany();
+                String loanMaterialCompany = null;
+                if(pNotNull){
+
+                    loanMaterialCompany = produce.getLoanMaterialCompany();
+                }
                 boolean materialC = loanMaterialCompany==null?false:true;
                 for (int i=0 ; i< companyMaterial.size() ;i++){
                     AProduceCreditMaterialCompany  material = companyMaterial.get(i);
@@ -274,8 +293,10 @@ Created by IntelliJ IDEA.
                 <i class="am-icon-plus"></i> 添加准入条件</a></caption>
             <tbody id="content">
                 <%
-
-                    String loanAccess = produce.getLoanAccess();
+                    String loanAccess = null;
+                    if(pNotNull){
+                        loanAccess = produce.getLoanAccess();
+                    }
                     if(loanAccess!=null){
                         JSONArray array = JSON.parseArray(loanAccess);
                         if(array!=null && array.size()>0){
