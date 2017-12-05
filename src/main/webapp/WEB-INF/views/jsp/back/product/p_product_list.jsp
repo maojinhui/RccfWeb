@@ -134,6 +134,8 @@ response.setDateHeader("Expires", -10);
             window.location.href = '/prod/diyaDetail?produce_id='+produce_id;
         }else if(type==2){
             window.location.href = '/prod/zhiyaDetail?produce_id='+produce_id;
+        }else if(type==0){
+            window.location.href = '/prod/creditDetail?produce_id='+produce_id;
         }
     }
 
@@ -145,6 +147,9 @@ response.setDateHeader("Expires", -10);
         }
         else if(type==2){
             window.location.href = '/prod/zhiyaInseret?produce_id='+produce_id;
+        }
+        else if(type==0){
+            window.location.href = '/prod/credit/insert?produce_id='+produce_id;
         }
     }
 

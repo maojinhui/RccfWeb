@@ -20,14 +20,19 @@ import com.rccf.util.produce.DataUtil;
 import com.rccf.util.produce.PageUtil;
 import com.rccf.util.verify.AgencyVerify;
 import com.rccf.util.verify.ProduceVerify;
+import org.apache.log4j.Logger;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +49,12 @@ public class ProduceController {
 
     @Autowired
     EmployeeService employeeService;
+
+    private Logger logger = Logger.getLogger(this.getClass());
+
+
+    @Resource
+    private PlatformTransactionManager transactionManager;
 
 
     @RequestMapping(value = "/listPage")
@@ -77,14 +88,20 @@ public class ProduceController {
                 "FROM (SELECT `id`, `name`, `code`, agency_id,\n" +
                 "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
                 "         1 AS type,`state`,create_time,log,\n" +
-                "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason"+
+                "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
                 "       FROM `a_produce_diya` as p\n" +
                 "       UNION ALL\n" +
                 "       SELECT `id`, `name`, `code`, agency_id,\n" +
                 "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
                 "         2 AS type,`state`,create_time,log,\n" +
-                "(SELECT audit_opinion from a_produce_audit_log WHERE type=2 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason"+
+                "       (SELECT audit_opinion from a_produce_audit_log WHERE type=2 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
                 "       FROM `a_produce_zhiya` as p\n" +
+                "       UNION ALL\n" +
+                "      SELECT `id`, `name`, `code`, agency_id,\n" +
+                "       (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
+                "       0 AS type,`state`,create_time,log,\n" +
+                "       (SELECT audit_opinion from a_produce_audit_log WHERE type=2 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason      " +
+                "       FROM `a_produce_credit` as p\n"+
                 "     ) AS data\n" +
                 "ORDER BY data.create_time DESC " + limitStr;
         String sql_total = "SELECT count(*)\n" +
@@ -93,6 +110,8 @@ public class ProduceController {
                 "       UNION ALL\n" +
                 "       SELECT `id`" +
                 "       FROM `a_produce_zhiya` as p\n" +
+                "       UNION ALL\n" +
+                "      SELECT `id`       FROM `a_produce_credit` as p"+
                 "     ) AS data ";
 
 
@@ -635,25 +654,165 @@ public class ProduceController {
 
 
     @RequestMapping(value = "/credit/insert")
-    public ModelAndView creditAddPage(HttpServletRequest request){
+    public ModelAndView creditAddPage(HttpServletRequest request) {
+        String produce_id = request.getParameter("produce_id");
+        AProduceCredit produce=null;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/product/p_product_xindai_add");
-        PageUtil.addAgencys(modelAndView,baseService);
-        PageUtil.addCreditType(modelAndView,baseService);
-        PageUtil.addCreditMaterialPerson(modelAndView,baseService);
-        PageUtil.addCreditMaterialCompany(modelAndView,baseService);
+        if (!Strings.isNullOrEmpty(produce_id)) {
+            produce = (AProduceCredit) baseService.get(AProduceCredit.class, Integer.valueOf(produce_id));
+            modelAndView.addObject("produce", produce);
+        }
+        PageUtil.addAgencys(modelAndView, baseService);
+        PageUtil.addCreditType(modelAndView, baseService);
+        PageUtil.addCreditMaterialPerson(modelAndView, baseService);
+        PageUtil.addCreditMaterialCompany(modelAndView, baseService);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/creditDetail")
+    public ModelAndView creditDetail(HttpServletRequest request){
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("");
+
         return modelAndView;
     }
 
 
     @ResponseBody
     @RequestMapping(value = "/edit/credit")
-    public String editCreditProduce(HttpServletRequest request){
+    public String editCreditProduce(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        String oldProduceData = "";
+        AProduceCredit produce = null;
+        String produce_id = request.getParameter("produce_id");
+
+        if (!Strings.isNullOrEmpty(produce_id)) {
+            produce = (AProduceCredit) baseService.get(AProduceCredit.class, Integer.valueOf(produce_id));
+            if (produce == null) {
+                return ResponseUtil.fail(0, "没有找到该产品");
+            }
+            oldProduceData = produce.toString();
+        } else {
+            produce = new AProduceCredit();
+            produce.setCreateTime(DateUtil.date2Timestamp(new Date()));
+            produce.setCreatePerson(employee.getId());
+        }
+        produce.setState(3);
 
 
-        return ResponseUtil.fail();
+        String produce_code = request.getParameter("code");
+
+
+        String agency_name = request.getParameter("agency_name");
+        RAgency ragencyByName = AgencyVerify.getRagencyByName(baseService, agency_name);
+        if (ragencyByName == null) {
+            return ResponseUtil.fail(0, "请填写正确的机构名称");
+        }
+        int agency_id = ragencyByName.getId();
+        String produce_name = request.getParameter("name");
+        if (Strings.isNullOrEmpty(produce_code)) {
+            return ResponseUtil.fail(0, "产品编号不能为空");
+        }
+        produce.setName(produce_name);
+        produce.setCode(produce_code);
+        produce.setAgencyName(agency_name);
+        produce.setAgegncyId(agency_id);
+
+        String credit_type = request.getParameter("credit_type");
+        String loan_people = request.getParameter("loan_people");
+        String repayment = request.getParameter("repayment");
+        produce.setLoanCreditType(Integer.valueOf(credit_type));
+        produce.setLoanPeople(loan_people);
+        produce.setRepaymentType(repayment);
+
+
+        String loan_time_min = request.getParameter("loan_time_min");
+        String loan_time_max = request.getParameter("loan_time_max");
+        String loan_amount_min = request.getParameter("loan_amount_min");
+        String loan_amount_max = request.getParameter("loan_amount_max");
+        String loan_rate_min = request.getParameter("loan_rate_min");
+        String loan_rate_max = request.getParameter("loan_rate_max");
+        String loan_term_min = request.getParameter("loan_term_min");
+        String loan_term_max = request.getParameter("loan_term_max");
+        produce.setLoanTimeMin(Integer.getInteger(loan_time_min));
+        produce.setLoanTimeMax(Integer.getInteger(loan_time_max));
+
+        produce.setLoanAmountMin(Integer.getInteger(loan_amount_min));
+        produce.setLoanAmountMax(Integer.getInteger(loan_amount_max));
+
+        produce.setLoanRateMin(getDouble(loan_rate_min));
+        produce.setLoanRateMax(getDouble(loan_rate_max));
+
+        produce.setLoanTermMin(Integer.getInteger(loan_term_min));
+        produce.setLoanTermMax(Integer.getInteger(loan_term_max));
+
+        String loan_shangkou = request.getParameter("loan_shagnkou");
+        String loan_pingtaifei = request.getParameter("loan_pingtaifei");
+        String weiyuejin = request.getParameter("weiyuejin");
+        String person_material = request.getParameter("person_material");
+        String company_material = request.getParameter("company_material");
+        produce.setLoanShagnkouDescription(loan_shangkou);
+        produce.setLoanPingtaifeiDescription(loan_pingtaifei);
+        produce.setLoanWeiyuejinDescription(weiyuejin);
+        produce.setLoanMaterialPersonal(person_material);
+        produce.setLoanMaterialCompany(company_material);
+
+        String credit_require_check = request.getParameter("credit_require_check");
+        String credit_require_overdue = request.getParameter("credit_require_overdue");
+        String credit_require_owe = request.getParameter("credit_require_owe");
+        String credit_require_other = request.getParameter("credit_require_other");
+
+        String produce_process = request.getParameter("produce_process");
+        String produce_advantage = request.getParameter("produce_advantage");
+        String proudce_disadvantage = request.getParameter("produce_disadvantage");
+        String notice = request.getParameter("notice");
+        String produce_shootreason = request.getParameter("produce_shootreason");
+        produce.setCreditInquireClaim(credit_require_check);
+        produce.setCreditOverdueClaim(credit_require_overdue);
+        produce.setCreditDebtClaim(credit_require_owe);
+        produce.setCreditOtherClaim(credit_require_other);
+        produce.setProcessDetail(produce_process);
+        produce.setAdvantage(produce_advantage);
+        produce.setDisadvantage(proudce_disadvantage);
+        produce.setNotice(notice);
+        produce.setShootReason(produce_shootreason);
+
+        String access = request.getParameter("access");
+        produce.setLoanAccess(access);
+
+
+        try {
+            boolean save = baseService.save(produce);
+            if (save) {
+                AProduceAuditLog log = new AProduceAuditLog();
+                log.setProduceId(produce.getId());
+                log.setSubmit(employee.getId());
+                log.setProduceType(0);
+                log.setSubmitTime(DateUtil.date2Timestamp(new Date()));
+                boolean savelog = baseService.save(log);
+                if (!savelog) {
+                    return ResponseUtil.fail(0, "提交日志失败，请重试1");
+                }
+                produce.setLog(log.getId());
+                boolean savelog2 = baseService.save(produce);
+                if (!savelog2) {
+                    return ResponseUtil.fail(0, "提交日志失败，请重试2");
+                }
+                DataUtil.saveProduceNotify(baseService, oldProduceData, produce, employee.getId());
+                return ResponseUtil.success();
+            } else {
+                return ResponseUtil.fail(0, "保存失败");
+            }
+        } catch (org.hibernate.AssertionFailure assertionFailure) {
+            return ResponseUtil.fail(0, "产品编号已存在");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseUtil.fail(0, "保存失败");
+        }
+
     }
-
 
 
     @RequestMapping(value = "/audit/list")
@@ -687,14 +846,14 @@ public class ProduceController {
         String sql = "SELECT *\n" +
                 "FROM (SELECT `id`, `name`, `code`, agency_id,\n" +
                 "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
-                "         1 AS type,`state`,create_time,log,\n"+
-        "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason"+
+                "         1 AS type,`state`,create_time,log,\n" +
+                "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
                 "       FROM `a_produce_diya` as p\n" +
                 "       UNION ALL\n" +
                 "       SELECT `id`, `name`, `code`, agency_id,\n" +
                 "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
                 "         2 AS type,`state`,create_time,log,\n" +
-                "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason"+
+                "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
                 "       FROM `a_produce_zhiya` as p\n" +
                 "     ) AS data\n" +
                 "     WHERE state=3 \n" +
@@ -737,7 +896,7 @@ public class ProduceController {
 
         }
         modelAndView.addObject("produce", produce);
-        modelAndView.addObject("log_id",log_id);
+        modelAndView.addObject("log_id", log_id);
         PageUtil.addAgencys(modelAndView, baseService);
         addCreatePerson(modelAndView, produce);
         addLoanAmountTao(modelAndView, produce);
@@ -771,29 +930,29 @@ public class ProduceController {
             return ResponseUtil.fail(0, "没有找到提交记录");
         }
         boolean save = false;
-        switch (typ){
+        switch (typ) {
             case 1:
-                AProduceDiya   produce_diya = (AProduceDiya) baseService.get(AProduceDiya.class,pid);
-                if(stat==1){
+                AProduceDiya produce_diya = (AProduceDiya) baseService.get(AProduceDiya.class, pid);
+                if (stat == 1) {
                     produce_diya.setState(1);
-                }else{
+                } else {
                     produce_diya.setState(2);
                 }
-                save= baseService.save(produce_diya);
-                if(!save){
-                    return ResponseUtil.fail(0,"产品更新失败");
+                save = baseService.save(produce_diya);
+                if (!save) {
+                    return ResponseUtil.fail(0, "产品更新失败");
                 }
                 break;
             case 2:
-                AProduceZhiya  produce_zhiya = (AProduceZhiya) baseService.get(AProduceZhiya.class,pid);
-                if(stat==1){
+                AProduceZhiya produce_zhiya = (AProduceZhiya) baseService.get(AProduceZhiya.class, pid);
+                if (stat == 1) {
                     produce_zhiya.setState(1);
-                }else{
+                } else {
                     produce_zhiya.setState(2);
                 }
                 save = baseService.save(produce_zhiya);
-                if(!save){
-                    return ResponseUtil.fail(0,"产品更新失败");
+                if (!save) {
+                    return ResponseUtil.fail(0, "产品更新失败");
                 }
                 break;
             default:
@@ -971,5 +1130,19 @@ public class ProduceController {
         }
     }
 
+
+    private Double getDouble(String value) {
+        try {
+            Double dou = Double.valueOf(value);
+            return dou;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
+    public static void main(String[] args) {
+
+    }
 
 }

@@ -3,7 +3,8 @@ function netwoerk(url,obj,succ,err) {
     $.ajax({
         url:url,
         dataType:'json',
-        type:'json',
+        type:'POST',
+        data:obj,
         success:succ,
         error:err
     })

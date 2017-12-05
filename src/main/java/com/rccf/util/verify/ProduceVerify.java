@@ -1,5 +1,6 @@
 package com.rccf.util.verify;
 
+import com.rccf.model.produce.AProduceCredit;
 import com.rccf.model.produce.AProduceDiya;
 import com.rccf.model.produce.AProduceZhiya;
 import com.rccf.model.produce.BaseProduct;
@@ -72,6 +73,21 @@ public class ProduceVerify {
         if (list != null && list.size() > 0) {
             return true;
         }
+
+        DetachedCriteria criteria_credit = DetachedCriteria.forClass(AProduceCredit.class);
+        criteria_credit.add(Restrictions.eq("code", code));
+        List list_credit = baseService.getList(criteria_credit);
+        if (list_credit != null && list_credit.size() > 0) {
+            return true;
+        }
+
+        DetachedCriteria criteria_zhiya = DetachedCriteria.forClass(AProduceCredit.class);
+        criteria_zhiya.add(Restrictions.eq("code", code));
+        List list_zhiya = baseService.getList(criteria_zhiya);
+        if (list_zhiya != null && list_zhiya.size() > 0) {
+            return true;
+        }
+
         return false;
     }
 }

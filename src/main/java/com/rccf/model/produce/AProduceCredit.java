@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "a_produce_credit", schema = "rccf", catalog = "")
 public class AProduceCredit {
-    private Integer id;
+    private int id;
     private Integer agegncyId;
     private String agencyName;
     private String name;
@@ -37,6 +37,7 @@ public class AProduceCredit {
     private String loanPingtaifeiDescription;
     private String loanMaterialPersonal;
     private String loanMaterialCompany;
+    private String loanAccess;
     private String creditInquireClaim;
     private String creditOverdueClaim;
     private String creditDebtClaim;
@@ -53,22 +54,19 @@ public class AProduceCredit {
     private Integer state;
     private Integer log;
 
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public int getId() {
+        return id;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
 
-    @Id
-    @Column(name = "id")
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     @Basic
-    @Column(name = "agegncy_id")
+    @Column(name = "agency_id")
     public Integer getAgegncyId() {
         return agegncyId;
     }
@@ -348,6 +346,16 @@ public class AProduceCredit {
     }
 
     @Basic
+    @Column(name = "loan_access")
+    public String getLoanAccess() {
+        return loanAccess;
+    }
+
+    public void setLoanAccess(String loanAccess) {
+        this.loanAccess = loanAccess;
+    }
+
+    @Basic
     @Column(name = "credit_inquire_claim")
     public String getCreditInquireClaim() {
         return creditInquireClaim;
@@ -501,55 +509,56 @@ public class AProduceCredit {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AProduceCredit that = (AProduceCredit) o;
-        return Objects.equal(id, that.id) &&
-                Objects.equal(agegncyId, that.agegncyId) &&
-                Objects.equal(agencyName, that.agencyName) &&
-                Objects.equal(name, that.name) &&
-                Objects.equal(code, that.code) &&
-                Objects.equal(loanPeople, that.loanPeople) &&
-                Objects.equal(repaymentType, that.repaymentType) &&
-                Objects.equal(loanTimeMin, that.loanTimeMin) &&
-                Objects.equal(loanTimeMax, that.loanTimeMax) &&
-                Objects.equal(loanCreditType, that.loanCreditType) &&
-                Objects.equal(loanArea, that.loanArea) &&
-                Objects.equal(loanAmountMin, that.loanAmountMin) &&
-                Objects.equal(loanAmountMax, that.loanAmountMax) &&
-                Objects.equal(applyAgeMin, that.applyAgeMin) &&
-                Objects.equal(applyAgeMax, that.applyAgeMax) &&
-                Objects.equal(applyAgeDescription, that.applyAgeDescription) &&
-                Objects.equal(loanRateMin, that.loanRateMin) &&
-                Objects.equal(loanRateMax, that.loanRateMax) &&
-                Objects.equal(loanRateDescription, that.loanRateDescription) &&
-                Objects.equal(loanTermMin, that.loanTermMin) &&
-                Objects.equal(loanTermMax, that.loanTermMax) &&
-                Objects.equal(loanShangkou, that.loanShangkou) &&
-                Objects.equal(loanShagnkouDescription, that.loanShagnkouDescription) &&
-                Objects.equal(loanWeiyuejin, that.loanWeiyuejin) &&
-                Objects.equal(loanWeiyuejinDescription, that.loanWeiyuejinDescription) &&
-                Objects.equal(loanPingtaifei, that.loanPingtaifei) &&
-                Objects.equal(loanPingtaifeiDescription, that.loanPingtaifeiDescription) &&
-                Objects.equal(loanMaterialPersonal, that.loanMaterialPersonal) &&
-                Objects.equal(loanMaterialCompany, that.loanMaterialCompany) &&
-                Objects.equal(creditInquireClaim, that.creditInquireClaim) &&
-                Objects.equal(creditOverdueClaim, that.creditOverdueClaim) &&
-                Objects.equal(creditDebtClaim, that.creditDebtClaim) &&
-                Objects.equal(creditOtherClaim, that.creditOtherClaim) &&
-                Objects.equal(accessRequirement, that.accessRequirement) &&
-                Objects.equal(processDetail, that.processDetail) &&
-                Objects.equal(advantage, that.advantage) &&
-                Objects.equal(disadvantage, that.disadvantage) &&
-                Objects.equal(notice, that.notice) &&
-                Objects.equal(shootReason, that.shootReason) &&
-                Objects.equal(createTime, that.createTime) &&
-                Objects.equal(createPerson, that.createPerson) &&
-                Objects.equal(recommend, that.recommend) &&
-                Objects.equal(state, that.state) &&
-                Objects.equal(log, that.log);
+        AProduceCredit credit = (AProduceCredit) o;
+        return id == credit.id &&
+                Objects.equal(agegncyId, credit.agegncyId) &&
+                Objects.equal(agencyName, credit.agencyName) &&
+                Objects.equal(name, credit.name) &&
+                Objects.equal(code, credit.code) &&
+                Objects.equal(loanPeople, credit.loanPeople) &&
+                Objects.equal(repaymentType, credit.repaymentType) &&
+                Objects.equal(loanTimeMin, credit.loanTimeMin) &&
+                Objects.equal(loanTimeMax, credit.loanTimeMax) &&
+                Objects.equal(loanCreditType, credit.loanCreditType) &&
+                Objects.equal(loanArea, credit.loanArea) &&
+                Objects.equal(loanAmountMin, credit.loanAmountMin) &&
+                Objects.equal(loanAmountMax, credit.loanAmountMax) &&
+                Objects.equal(applyAgeMin, credit.applyAgeMin) &&
+                Objects.equal(applyAgeMax, credit.applyAgeMax) &&
+                Objects.equal(applyAgeDescription, credit.applyAgeDescription) &&
+                Objects.equal(loanRateMin, credit.loanRateMin) &&
+                Objects.equal(loanRateMax, credit.loanRateMax) &&
+                Objects.equal(loanRateDescription, credit.loanRateDescription) &&
+                Objects.equal(loanTermMin, credit.loanTermMin) &&
+                Objects.equal(loanTermMax, credit.loanTermMax) &&
+                Objects.equal(loanShangkou, credit.loanShangkou) &&
+                Objects.equal(loanShagnkouDescription, credit.loanShagnkouDescription) &&
+                Objects.equal(loanWeiyuejin, credit.loanWeiyuejin) &&
+                Objects.equal(loanWeiyuejinDescription, credit.loanWeiyuejinDescription) &&
+                Objects.equal(loanPingtaifei, credit.loanPingtaifei) &&
+                Objects.equal(loanPingtaifeiDescription, credit.loanPingtaifeiDescription) &&
+                Objects.equal(loanMaterialPersonal, credit.loanMaterialPersonal) &&
+                Objects.equal(loanMaterialCompany, credit.loanMaterialCompany) &&
+                Objects.equal(loanAccess, credit.loanAccess) &&
+                Objects.equal(creditInquireClaim, credit.creditInquireClaim) &&
+                Objects.equal(creditOverdueClaim, credit.creditOverdueClaim) &&
+                Objects.equal(creditDebtClaim, credit.creditDebtClaim) &&
+                Objects.equal(creditOtherClaim, credit.creditOtherClaim) &&
+                Objects.equal(accessRequirement, credit.accessRequirement) &&
+                Objects.equal(processDetail, credit.processDetail) &&
+                Objects.equal(advantage, credit.advantage) &&
+                Objects.equal(disadvantage, credit.disadvantage) &&
+                Objects.equal(notice, credit.notice) &&
+                Objects.equal(shootReason, credit.shootReason) &&
+                Objects.equal(createTime, credit.createTime) &&
+                Objects.equal(createPerson, credit.createPerson) &&
+                Objects.equal(recommend, credit.recommend) &&
+                Objects.equal(state, credit.state) &&
+                Objects.equal(log, credit.log);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, agegncyId, agencyName, name, code, loanPeople, repaymentType, loanTimeMin, loanTimeMax, loanCreditType, loanArea, loanAmountMin, loanAmountMax, applyAgeMin, applyAgeMax, applyAgeDescription, loanRateMin, loanRateMax, loanRateDescription, loanTermMin, loanTermMax, loanShangkou, loanShagnkouDescription, loanWeiyuejin, loanWeiyuejinDescription, loanPingtaifei, loanPingtaifeiDescription, loanMaterialPersonal, loanMaterialCompany, creditInquireClaim, creditOverdueClaim, creditDebtClaim, creditOtherClaim, accessRequirement, processDetail, advantage, disadvantage, notice, shootReason, createTime, createPerson, recommend, state, log);
+        return Objects.hashCode(id, agegncyId, agencyName, name, code, loanPeople, repaymentType, loanTimeMin, loanTimeMax, loanCreditType, loanArea, loanAmountMin, loanAmountMax, applyAgeMin, applyAgeMax, applyAgeDescription, loanRateMin, loanRateMax, loanRateDescription, loanTermMin, loanTermMax, loanShangkou, loanShagnkouDescription, loanWeiyuejin, loanWeiyuejinDescription, loanPingtaifei, loanPingtaifeiDescription, loanMaterialPersonal, loanMaterialCompany, loanAccess, creditInquireClaim, creditOverdueClaim, creditDebtClaim, creditOtherClaim, accessRequirement, processDetail, advantage, disadvantage, notice, shootReason, createTime, createPerson, recommend, state, log);
     }
 }

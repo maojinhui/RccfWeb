@@ -5,6 +5,9 @@
 <%@ page import="com.rccf.model.produce.AProduceCreditMaterialPerson" %>
 <%@ page import="com.rccf.model.produce.AProduceCreditMaterialCompany" %>
 <%@ page import="com.rccf.model.produce.AProduceCredit" %>
+<%@ page import="com.rccf.util.Strings" %>
+<%@ page import="com.alibaba.fastjson.JSONArray" %>
+<%@ page import="com.alibaba.fastjson.JSONObject" %>
 <%--
 Created by IntelliJ IDEA.
   User: Administrator
@@ -13,7 +16,6 @@ Created by IntelliJ IDEA.
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 
     int produce_id = 0;
@@ -27,7 +29,6 @@ Created by IntelliJ IDEA.
     List<AProduceCreditType> credit_types = (List<AProduceCreditType>) request.getAttribute("credit_types");
     List<AProduceCreditMaterialPerson> personMaterial = (List<AProduceCreditMaterialPerson>) request.getAttribute("credit_person_material");
     List<AProduceCreditMaterialCompany> companyMaterial = (List<AProduceCreditMaterialCompany>) request.getAttribute("credit_company_material");
-//    session.setAttribute("material_person_list",personMaterial);
 
 %>
 <!DOCTYPE html>
@@ -96,9 +97,9 @@ Created by IntelliJ IDEA.
 <div class="am-padding am-margin-bottom-xl">
     <div class="am-padding am-padding-bottom-0">
         <p>
-            <a href="product_org.html">产品管理</a>
+            <a >产品管理</a>
             >
-            <a href="product_list.html">产品列表</a>
+            <a >产品列表</a>
             >
             <a style="color: #666666">信贷产品录入</a>
         </p>
@@ -109,74 +110,93 @@ Created by IntelliJ IDEA.
             <caption>产品基本信息</caption>
             <tr>
                 <td>产品编号</td>
-                <td><input id="code" type="text" value=""></td>
+                <td><input id="code" type="text" value="<%=pNotNull?Strings.getInputString(produce.getCode()):""%>"></td>
                 <td>机构名称</td>
                 <td>
-                    <input id="agency_name" type="text" value="">
+                    <input id="agency_name" type="text" value="<%=pNotNull?Strings.getInputString(produce.getAgencyName()):""%>">
                     <div class="autocompleter autocompleter-closed" id="autocompleter-agency">
                         <div class="autocompleter-hint"></div>
                         <ul class="autocompleter-list"></ul>
                     </div>
                 </td>
                 <td>产品名称</td>
-                <td><input id="name" type="text" value=""></td>
+                <td><input id="name" type="text" value="<%=pNotNull?Strings.getInputString(produce.getName()):""%>"></td>
                 <td>贷款形式</td>
                 <td>
+                    <%
+                      Integer cType =   produce.getLoanCreditType();
+                      boolean cTypeNotNull = cType ==null?false:true;
+                    %>
+
                     <select id="credit_type">
                         <%
                             for (int i = 0 ;i<credit_types.size();i++){
                             AProduceCreditType type = credit_types.get(i);
                         %>
-                        <option value="<%=type.getId()%>" ><%=type.getName()%></option>
+                        <option value="<%=type.getId()%>"  <%=cTypeNotNull&&cType==type.getId()?"selected='selected'":""   %> ><%=type.getName()%></option>
                         <% } %>
                     </select>
                 </td>
             </tr>
+            <%
+               String loan_people = produce.getLoanPeople();
+               String repayment = produce.getRepaymentType();
+               boolean loan_peoplenotnull = loan_people==null?false:true;
+               boolean repaymentNotnull = repayment==null?false:true;
+
+            %>
             <tr>
                 <td rowspan="4">贷款人群</td>
-                <td><input name="loan_people" type="checkbox" value="1"> 企业法人</td>
+                <td><input name="loan_people" type="checkbox" value="1"
+                    <%=loan_peoplenotnull&&loan_people.contains("1")?"checked='checked'":""%>> 企业法人</td>
                 <td rowspan="4">还款方式</td>
-                <td><input  type="checkbox" name="repayment" value="1"> 等额本金</td>
+                <td><input  type="checkbox" name="repayment" value="1"
+                    <%=repaymentNotnull&&repayment.contains("1")?"checked='checked'":""%> > 等额本金</td>
                 <td>放款时间</td>
                 <td colspan="3">
-                    <input id="loan_time_min" type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">天 —
-                    <input id="loan_time_max" type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">天
+                    <input id="loan_time_min" type="number" style="width: 5em;border-bottom: 1px solid #3a4144;" value="<%=pNotNull?Strings.getInputString(produce.getLoanTimeMin()):""%>">天 —
+                    <input id="loan_time_max" type="number" style="width: 5em;border-bottom: 1px solid #3a4144;" value="<%=pNotNull?Strings.getInputString(produce.getLoanTimeMax()):""%>">天
                 </td>
             </tr>
             <tr>
-                <td class="top-none"><input name="loan_people" type="checkbox" value="2"> 受薪人群</td>
-                <td class="top-none"><input type="checkbox" name="repayment" value="2"> 等额本息</td>
+                <td class="top-none"><input name="loan_people" type="checkbox" value="2"
+                    <%=loan_peoplenotnull&&loan_people.contains("2")?"checked='checked'":""%>> 受薪人群</td>
+                <td class="top-none"><input type="checkbox" name="repayment" value="2"
+                    <%=repaymentNotnull&&repayment.contains("2")?"checked='checked'":""%>> 等额本息</td>
                 <td>贷款金额</td>
                 <td colspan="3">
-                    <input id="loan_amount_min" type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">元 —
-                    <input id="loan_amount_max" type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">元
+                    <input id="loan_amount_min" type="number" style="width: 5em;border-bottom: 1px solid #3a4144;" value="<%=pNotNull?Strings.getInputString(produce.getLoanAmountMin()):""%>">元 —
+                    <input id="loan_amount_max" type="number" style="width: 5em;border-bottom: 1px solid #3a4144;" value="<%=pNotNull?Strings.getInputString(produce.getLoanAmountMax()):""%>">元
                 </td>
             </tr>
             <tr>
-                <td class="top-none"><input name="loan_people" type="checkbox" value="3"> 自然人</td>
-                <td class="top-none"><input type="checkbox" name="repayment" value="3"> 停本付息</td>
+                <td class="top-none"><input name="loan_people" type="checkbox" value="3"
+                    <%=loan_peoplenotnull&&loan_people.contains("3")?"checked='checked'":""%>> 自然人</td>
+                <td class="top-none"><input type="checkbox" name="repayment" value="3"
+                    <%=repaymentNotnull&&repayment.contains("3")?"checked='checked'":""%>> 停本付息</td>
                 <td>贷款利率</td>
                 <td colspan="3">
-                    <input id="loan_rate_min" type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">% —
-                    <input id="loan_rate_max" type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">%
+                    <input id="loan_rate_min" type="number" style="width: 5em;border-bottom: 1px solid #3a4144;" value="<%=pNotNull?Strings.getInputString(produce.getLoanRateMin()):""%>">% —
+                    <input id="loan_rate_max" type="number" style="width: 5em;border-bottom: 1px solid #3a4144;" value="<%=pNotNull?Strings.getInputString(produce.getLoanRateMax()):""%>">%
                 </td>
             </tr>
             <tr>
                 <td class="top-none"></td>
-                <td class="top-none"><input type="checkbox" name="repayment" value="4"> 先息后本</td>
+                <td class="top-none"><input type="checkbox" name="repayment" value="4"
+                    <%=repaymentNotnull&&repayment.contains("4")?"checked='checked'":""%>> 先息后本</td>
                 <td>贷款期限</td>
                 <td colspan="3">
-                    <input id="loan_term_min" type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">月 —
-                    <input id="loan_term_max" type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">月
+                    <input id="loan_term_min" type="number" style="width: 5em;border-bottom: 1px solid #3a4144;" value="<%=pNotNull?Strings.getInputString(produce.getLoanTermMin()):""%>">月 —
+                    <input id="loan_term_max" type="number" style="width: 5em;border-bottom: 1px solid #3a4144;" value="<%=pNotNull?Strings.getInputString(produce.getLoanTermMax()):""%>">月
                 </td>
             </tr>
             <tr>
                 <td>上扣费用</td>
-                <td><input id="loan_shangkou" type="text" value="" placeholder="有则填，无则不填"></td>
+                <td><input id="loan_shangkou" type="text"  placeholder="有则填，无则不填" value="<%=pNotNull?Strings.getInputString(produce.getLoanShagnkouDescription()):""%>"></td>
                 <td>平台费</td>
-                <td><input id="loan_pingtaifei" type="text" value="" placeholder="有则填，无则不填"></td>
+                <td><input id="loan_pingtaifei" type="text"  placeholder="有则填，无则不填" value="<%=pNotNull?Strings.getInputString(produce.getLoanPingtaifeiDescription()):""%>"></td>
                 <td>违约金</td>
-                <td><input id="loan_weiyuejin" type="text" value="" placeholder="有则填，无则不填"></td>
+                <td><input id="loan_weiyuejin" type="text"  placeholder="有则填，无则不填" value="<%=pNotNull?Strings.getInputString(produce.getLoanWeiyuejinDescription()):""%>" ></td>
                 <td>贷款区域</td>
                 <td class="am-text-warning">北京</td>
             </tr>
@@ -186,6 +206,10 @@ Created by IntelliJ IDEA.
         <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
             <caption>个人准备资料</caption>
             <%
+
+                String loanMaterialPersonal = produce.getLoanMaterialPersonal();
+                boolean materialP = loanMaterialPersonal==null?false:true;
+
                 for (int i=0 ; i< personMaterial.size() ;i++){
                     AProduceCreditMaterialPerson  material = personMaterial.get(i);
             %>
@@ -193,7 +217,16 @@ Created by IntelliJ IDEA.
             <tr>
                 <td class="am-text-center">
             <% } %>
-                    <label><%=material.getName()%></label><input type="checkbox" name="loan_person_material" value="<%=material.getId()%>" >
+                    <%
+                        if(materialP){
+                            JSONArray array = JSON.parseArray(loanMaterialPersonal);
+                    %>
+                    <label><%=material.getName()%></label><input type="checkbox" name="loan_person_material" value="<%=material.getId()%>"
+                    <%=array.contains(material.getId())?"checked='cheked'":""%> >
+                    <%
+                    }
+                    %>
+
                     <%if((i+1)%6==0){%>
                 </td>
             </tr>
@@ -207,8 +240,9 @@ Created by IntelliJ IDEA.
         <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
             <caption>企业准备资料</caption>
 
-
             <%
+                String loanMaterialCompany = produce.getLoanMaterialCompany();
+                boolean materialC = loanMaterialCompany==null?false:true;
                 for (int i=0 ; i< companyMaterial.size() ;i++){
                     AProduceCreditMaterialCompany  material = companyMaterial.get(i);
             %>
@@ -216,7 +250,14 @@ Created by IntelliJ IDEA.
             <tr>
                 <td class="am-text-center">
                     <% } %>
-                    <label><%=material.getName()%></label><input type="checkbox" name="loan_company_material" value="<%=material.getId()%>" >
+                    <%
+                        if(materialC){
+                            JSONArray array = JSON.parseArray(loanMaterialCompany);
+                    %>
+
+                    <label><%=material.getName()%></label><input type="checkbox" name="loan_company_material" value="<%=material.getId()%>"
+                    <%=array.contains(material.getId())?"checked='cheked'":""%>>
+                    <% } %>
                     <%if((i+1)%6==0){%>
                 </td>
             </tr>
@@ -228,11 +269,39 @@ Created by IntelliJ IDEA.
         </table>
 
         <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
-            <caption style="padding: 0.4em;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;准入条件<a onclick="addEntryTerm(this)"
-                                                                                        class="am-align-right am-btn am-btn-warning am-btn-sm"
-                                                                                        style="padding: 0.1em;margin: 0; ">
+            <caption style="padding: 0.4em;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;准入条件
+                <a onclick="addEntryTerm(this)" class="am-btn am-btn-sm am-btn-warning am-align-right" style="padding: 0.1em;margin: 0;">
                 <i class="am-icon-plus"></i> 添加准入条件</a></caption>
             <tbody id="content">
+                <%
+
+                    String loanAccess = produce.getLoanAccess();
+                    if(loanAccess!=null){
+                        JSONArray array = JSON.parseArray(loanAccess);
+                        if(array!=null && array.size()>0){
+                            for (int i=0;i<array.size();i++){
+                                JSONObject object = array.getJSONObject(i);
+                %>
+                <tr data-access-id="">
+                    <td>
+                        <input data-access="" type="text" style="width: 100%" placeholder="条件信息" value="<%=object.getString("access")%>">
+                    </td>
+                    <td>
+                        <input data-access-desc="" type="text" style="width: 100%" placeholder="说明信息" value="<%=object.getString("access_desc")%>">
+                    </td>         <td style="width: 3em;">
+                    <a onclick="deleteItem(this)" class="am-btn am-btn-sm am-btn-danger">
+                        <i class="am-icon-trash-o"></i></a>
+                </td>
+                </tr>
+                <%
+
+                            }
+                        }
+                    }
+
+                %>
+
+
 
             </tbody>
         </table>
@@ -242,25 +311,29 @@ Created by IntelliJ IDEA.
             <tr>
                 <td class="require-title">查询要求</td>
                 <td>
-                    <input id="credit_require_check" type="text" style="width: 100% !important;">
+                    <input id="credit_require_check" type="text" style="width: 100% !important;"
+                           value="<%=pNotNull?Strings.getInputString(produce.getCreditInquireClaim()):""%>">
                 </td>
             </tr>
             <tr>
                 <td class="require-title">逾期要求</td>
                 <td>
-                    <input id="credit_require_overdue" type="text" style="width: 100%">
+                    <input id="credit_require_overdue" type="text" style="width: 100%"
+                           value="<%=pNotNull?Strings.getInputString(produce.getCreditOverdueClaim()):""%>">
                 </td>
             </tr>
             <tr>
                 <td class="require-title">负债要求</td>
                 <td>
-                    <input id="credit_require_owe" type="text" style="width: 100%">
+                    <input id="credit_require_owe" type="text" style="width: 100%"
+                           value="<%=pNotNull?Strings.getInputString(produce.getCreditDebtClaim()):""%>">
                 </td>
             </tr>
             <tr>
                 <td class="require-title">其他要求</td>
                 <td>
-                    <input id="credit_require_other" type="text" style="width: 100%">
+                    <input id="credit_require_other" type="text" style="width: 100%"
+                           value="<%=pNotNull?Strings.getInputString(produce.getCreditOtherClaim()):""%>">
                 </td>
             </tr>
         </table>
@@ -271,31 +344,36 @@ Created by IntelliJ IDEA.
             <tr>
                 <td class="require-title">流程细节</td>
                 <td>
-                    <input id="produce_process" type="text" style="width: 100% !important;">
+                    <input id="produce_process" type="text" style="width: 100% !important;"
+                           value="<%=pNotNull?Strings.getInputString(produce.getProcessDetail()):""%>">
                 </td>
             </tr>
             <tr>
                 <td class="require-title">产品优势</td>
                 <td>
-                    <input id="produce_advantage" type="text" style="width: 100%">
+                    <input id="produce_advantage" type="text" style="width: 100%"
+                           value="<%=pNotNull?Strings.getInputString(produce.getAdvantage()):""%>">
                 </td>
             </tr>
             <tr>
                 <td class="require-title">产品劣势</td>
                 <td>
-                    <input id="produce_disadvantage" type="text" style="width: 100%">
+                    <input id="produce_disadvantage" type="text" style="width: 100%"
+                           value="<%=pNotNull?Strings.getInputString(produce.getDisadvantage()):""%>">
                 </td>
             </tr>
             <tr>
                 <td class="require-title">注意事项</td>
                 <td>
-                    <input id="produce_notice" type="text" style="width: 100%">
+                    <input id="produce_notice" type="text" style="width: 100%"
+                           value="<%=pNotNull?Strings.getInputString(produce.getNotice()):""%>">
                 </td>
             </tr>
             <tr>
                 <td class="require-title">毙单原因</td>
                 <td>
-                    <input id="produce_shootreason" type="text" style="width: 100%">
+                    <input id="produce_shootreason" type="text" style="width: 100%"
+                           value="<%=pNotNull?Strings.getInputString(produce.getShootReason()):""%>">
                 </td>
             </tr>
         </table>
@@ -304,7 +382,7 @@ Created by IntelliJ IDEA.
 
     <div class="am-u-sm-12 am-u-md-6 am-u-sm-centered am-margin-bottom-xl">
         <%--<button class="am-u-sm-6 am-btn am-btn-danger">取消</button>--%>
-        <button class="am-u-sm-12 am-btn am-btn-primary">确认信息并保存</button>
+        <button onclick="submit()" class="am-u-sm-12 am-btn am-btn-primary">确认信息并保存</button>
     </div>
 </div>
 
@@ -374,12 +452,12 @@ Created by IntelliJ IDEA.
     //UNUSED 点击添加准入条件
     function addEntryTerm(obj) {
 
-        var str = '<tr>\n' +
+        var str = '<tr data-access-id>\n' +
             '        <td>\n' +
-            '          <input type="text" style="width: 100%" placeholder="条件信息">\n' +
+            '          <input data-access type="text" style="width: 100%" placeholder="条件信息">\n' +
             '        </td>\n' +
             '        <td>\n' +
-            '          <input type="text" style="width: 100%" placeholder="说明信息">\n' +
+            '          <input data-access-desc type="text" style="width: 100%" placeholder="说明信息">\n' +
             '        </td>' +
             '         <td style="width: 3em;">' +
             '           <a onclick="deleteItem(this)" class="am-btn am-btn-sm am-btn-danger"><i class="am-icon-trash-o"></i></a>' +
@@ -397,9 +475,9 @@ Created by IntelliJ IDEA.
     }
 
     function submit(){
-        var url = "/prod/edit/credit";
+
         var obj = {};
-        var peoduce_id = <%=produce_id%>;
+        var produce_id = <%=produce_id%>;
         if(produce_id>0){
             obj.produce_id = produce_id;
         }
@@ -464,13 +542,32 @@ Created by IntelliJ IDEA.
         obj.notice = notice;
         obj.produce_shootreason = produce_shootreason;
 
+        var access = getAccess();
+        obj.access=access;
+
+        var url = "/prod/edit/credit";
         netwoerk(url,obj,function (result) {
             if(result.code){
-
+                alert("Success");
             }else{
-
+                alert(result.errormsg);
             }
         });
+
+    }
+
+    function getAccess() {
+        var tbody = $('#content');
+        var arr = [];
+        $(tbody).children('tr').each(function () {
+            var obj = {};
+           var access =  $(this).find('input[data-access]').val();
+            var access_desc = $(this).find('input[data-access-desc]').val();
+            obj.access=access;
+            obj.access_desc = access_desc;
+            arr.push(obj);
+        })
+        return JSON.stringify(arr);
 
     }
 
