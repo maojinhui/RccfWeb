@@ -40,11 +40,14 @@ public class ProduceVerify {
                         }
                         break;
                     case 0:
+                        AProduceCredit credit = (AProduceCredit) baseService.get(AProduceCredit.class, _id);
+                        if (credit != null) {
+                            return true;
+                        }
                         break;
                     default:
                         break;
                 }
-
 
             } catch (NumberFormatException e) {
                 e.printStackTrace();

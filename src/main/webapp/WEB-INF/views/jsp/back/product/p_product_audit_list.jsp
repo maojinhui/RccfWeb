@@ -90,6 +90,8 @@
            url+="&type=1";
         }else if(type==2){
             url+="&type=2";
+        }else if(type ==0){
+            url+="&type=0";
         }
         window.location.href=url;
     }

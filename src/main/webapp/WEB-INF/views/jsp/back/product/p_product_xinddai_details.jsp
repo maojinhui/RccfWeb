@@ -154,7 +154,7 @@
                         JSONObject object = array.getJSONObject(i);
             %>
             <div class="am-g ">
-                <div class="am-u-sm-12"><%=object.getString("access")%></div>
+                <div class="am-u-sm-12"><%=object.getString("access")%>(<%=object.getString("access_desc")%>)</div>
             </div>
             <%
                     }

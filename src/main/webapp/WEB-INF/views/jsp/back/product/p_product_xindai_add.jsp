@@ -569,7 +569,8 @@ Created by IntelliJ IDEA.
         var url = "/prod/edit/credit";
         netwoerk(url,obj,function (result) {
             if(result.code){
-                alert("Success");
+                alert("提交成功");
+                window.history.back();
             }else{
                 alert(result.errormsg);
             }

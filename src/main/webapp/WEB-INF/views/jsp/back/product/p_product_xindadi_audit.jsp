@@ -1,4 +1,8 @@
-<%--
+<%@ page import="com.rccf.model.produce.AProduceCredit" %>
+<%@ page import="com.rccf.util.Strings" %>
+<%@ page import="com.alibaba.fastjson.JSONArray" %>
+<%@ page import="com.alibaba.fastjson.JSON" %>
+<%@ page import="com.alibaba.fastjson.JSONObject" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2017/12/5 0005
@@ -6,6 +10,16 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    AProduceCredit produce = (AProduceCredit) request.getAttribute("produce");
+    String agencyName = produce.getAgencyName();
+    String pname = (String) request.getAttribute("createPName");
+    String producePersonMaterial = (String) request.getAttribute("producePersonMaterial");
+    String produceCompanyMaterial = (String) request.getAttribute("produceCompanyMaterial");
+    String repaymentType = (String) request.getAttribute("repaymentType");
+
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,12 +72,12 @@
     </div>
 
     <div class="am-padding-horizontal">
-        <h2 class="am-margin-bottom-0">信贷 — 平安普惠 — 保单贷</h2>
-        <h3 class="am-margin-top-0 am-margin-bottom-0 am-text-center">产品编号：3.14-PA-FD</h3>
+        <h2 class="am-margin-bottom-0">信贷—<%=Strings.getInputString(agencyName)%>—<%=Strings.getInputString(produce.getName())%></h2>
+        <h3 class="am-margin-top-0 am-margin-bottom-0 am-text-center">产品编号：<%=Strings.getInputString(produce.getCode())%></h3>
 
         <div class="am-margin-top-0  am-margin-bottom am-text-center">
-            推荐人：<span class="am-text-primary">张三</span>&emsp;
-            负责人：<span class="am-text-primary">李四</span>
+            <%--推荐人：<span class="am-text-primary">张三</span>&emsp;--%>
+            负责人：<span class="am-text-primary"><%=pname%></span>
         </div>
         <div class="">
             <div class="am-u-sm-12 apply-conditions am-margin-bottom" style="background-color: #2c4666;color: #fff">
@@ -71,31 +85,31 @@
             </div>
             <div class="am-g  ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">贷款金额：</div>
-                <div class="am-u-sm-10">10万-50万</div>
+                <div class="am-u-sm-10"><%=Strings.getInputString(produce.getLoanAmountMin())%>-<%=Strings.getInputString(produce.getLoanAmountMax())%></div>
             </div>
             <div class="am-g  ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2 ">贷款利率：</div>
-                <div class="am-u-sm-10">银行基础利率上浮30%，其他说明信息</div>
+                <div class="am-u-sm-10"><%=Strings.getInputString(produce.getLoanRateMin())%>-<%=Strings.getInputString(produce.getLoanRateMax())%></div>
             </div>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">还款方式：</div>
-                <div class="am-u-sm-10">可选：等额本息、先息后本、停本付息</div>
+                <div class="am-u-sm-10">可选：<%=repaymentType%></div>
             </div>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">区域范围：</div>
-                <div class="am-u-sm-10">仅限北京工作、生活人士</div>
+                <div class="am-u-sm-10">北京地区</div>
             </div>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">上扣费用：</div>
-                <div class="am-u-sm-10">123</div>
+                <div class="am-u-sm-10"><%=Strings.getInputString(produce.getLoanShagnkouDescription())%></div>
             </div>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">平台费：</div>
-                <div class="am-u-sm-10">123</div>
+                <div class="am-u-sm-10"><%=Strings.getInputString(produce.getLoanPingtaifeiDescription())%></div>
             </div>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">违约金：</div>
-                <div class="am-u-sm-10">123</div>
+                <div class="am-u-sm-10"><%=Strings.getInputString(produce.getLoanWeiyuejinDescription())%></div>
             </div>
             <!--<div class="am-g ">-->
             <!--<div class="am-u-sm-4 am-u-md-2 am-u-lg-2">可申请贷款年龄：</div>-->
@@ -111,19 +125,19 @@
             </div>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">查询要求：</div>
-                <div class="am-u-sm-10">14</div>
+                <div class="am-u-sm-10"><%=Strings.getInputString(produce.getCreditInquireClaim())%></div>
             </div>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">负债要求：</div>
-                <div class="am-u-sm-10">3</div>
+                <div class="am-u-sm-10"><%=Strings.getInputString(produce.getCreditDebtClaim())%></div>
             </div>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">逾期要求：</div>
-                <div class="am-u-sm-10">2</div>
+                <div class="am-u-sm-10"><%=Strings.getInputString(produce.getCreditDebtClaim())%></div>
             </div>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">其他要求：</div>
-                <div class="am-u-sm-10">1</div>
+                <div class="am-u-sm-10"><%=Strings.getInputString(produce.getCreditOtherClaim())%></div>
             </div>
         </div>
 
@@ -132,18 +146,32 @@
             <div class="am-u-sm-12 apply-conditions am-margin-bottom" style="background-color: #2c4666;color: #fff">
                 <div><i class="am-icon-genderless"></i> 准入条件</div>
             </div>
+            <%
+                String loanAccess = produce.getLoanAccess();
+                if(loanAccess!=null){
+                    JSONArray array = JSON.parseArray(loanAccess);
+                    for (int i=0 ; i< array.size() ;i++){
+                        JSONObject object = array.getJSONObject(i);
+            %>
             <div class="am-g ">
-                <div class="am-u-sm-12">1.什么</div>
+                <div class="am-u-sm-12"><%=object.getString("access")%>(<%=object.getString("access_desc")%>)</div>
             </div>
-            <div class="am-g ">
-                <div class="am-u-sm-12">2.为什么</div>
-            </div>
-            <div class="am-g ">
-                <div class="am-u-sm-12">3.gan什么</div>
-            </div>
-            <div class="am-g ">
-                <div class="am-u-sm-12">4.zuo什么</div>
-            </div>
+            <%
+                    }
+                }
+            %>
+            <%--<div class="am-g ">--%>
+            <%--<div class="am-u-sm-12">1.什么</div>--%>
+            <%--</div>--%>
+            <%--<div class="am-g ">--%>
+            <%--<div class="am-u-sm-12">2.为什么</div>--%>
+            <%--</div>--%>
+            <%--<div class="am-g ">--%>
+            <%--<div class="am-u-sm-12">3.gan什么</div>--%>
+            <%--</div>--%>
+            <%--<div class="am-g ">--%>
+            <%--<div class="am-u-sm-12">4.zuo什么</div>--%>
+            <%--</div>--%>
         </div>
 
         <!--所需材料-->
@@ -151,14 +179,26 @@
             <div class="am-u-sm-12 apply-conditions am-margin-bottom" style="background-color: #2c4666;color: #fff">
                 <div><i class="am-icon-genderless"></i> 所需材料</div>
             </div>
+            <%
+                if(produce.getLoanMaterialPersonal()!=null){
+            %>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">个人准备资料：</div>
-                <div class="am-u-sm-10">户口本、房产证、租赁合同、银行流水、身份证、身份证正反面复印件</div>
+                <div class="am-u-sm-10"><%=producePersonMaterial%></div>
             </div>
+            <%
+                }
+            %>
+            <%
+                if(produce.getLoanMaterialCompany()!=null){
+            %>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">企业准备资料：</div>
-                <div class="am-u-sm-10">户口本、房产证、租赁合同、银行流水、身份证、身份证正反面复印件</div>
+                <div class="am-u-sm-10"><%=produceCompanyMaterial%></div>
             </div>
+            <%
+                }
+            %>
         </div>
 
         <!--附加说明-->
@@ -168,55 +208,108 @@
             </div>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">流程细节：</div>
-                <div class="am-u-sm-10">户口本、房产证、租赁合同、银行流水、身份证、身份证正反面复印件</div>
+                <div class="am-u-sm-10"><%=Strings.getInputString(produce.getProcessDetail())%></div>
             </div>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">产品优势：</div>
-                <div class="am-u-sm-10">户口本、房产证、租赁合同、银行流水、身份证、身份证正反面复印件</div>
+                <div class="am-u-sm-10"><%=Strings.getInputString(produce.getAdvantage())%></div>
             </div>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">产品劣势：</div>
-                <div class="am-u-sm-10">户口本、房产证、租赁合同、银行流水、身份证、身份证正反面复印件</div>
+                <div class="am-u-sm-10"><%=Strings.getInputString(produce.getDisadvantage())%></div>
             </div>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">注意事项：</div>
-                <div class="am-u-sm-10">户口本、房产证、租赁合同、银行流水、身份证、身份证正反面复印件</div>
+                <div class="am-u-sm-10"><%=Strings.getInputString(produce.getNotice())%></div>
             </div>
             <div class="am-g  ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">毙单原因：</div>
-                <div class="am-u-sm-10">户口本、房产证、租赁合同、银行流水、身份证、身份证正反面复印件</div>
+                <div class="am-u-sm-10"><%=Strings.getInputString(produce.getShootReason())%></div>
             </div>
         </div>
 
+        <!--<div class="am-g am-margin-top-xl">-->
+        <!--<div class="am-u-sm-12 am-u-md-6 am-u-sm-centered">-->
+        <!--<button id="confirm_no" class="am-btn am-btn-warning am-u-sm-6">不通过</button>-->
+        <!--<button id="confirm_yes" class="am-btn am-btn-primary am-u-sm-6">通过</button>-->
+        <!--</div>-->
+        <!--</div>-->
         <div class="am-g am-margin-top-xl">
             <div class="am-u-sm-12 am-u-md-6 am-u-sm-centered">
                 <button id="confirm_no" class="am-btn am-btn-warning am-u-sm-6">不通过</button>
                 <button id="confirm_yes" class="am-btn am-btn-primary am-u-sm-6">通过</button>
             </div>
         </div>
+
     </div>
 
 
 </div>
-<script src="../../js/jquery.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<%
+    String log_id = (String) request.getAttribute("log_id");
+%>
 <script>
+    var log_id = '<%=log_id%>';
+    var produce_id = '<%=produce.getId()%>';
+
     $('#confirm_yes').click(function () {
-        if (confirm('确认此产品通过审核吗？')) {
-            alert('通过成功，请在产品列表中查看')
-        } else {
+        var info = {};
+        info.log_id= log_id;
+        info.produce_id = produce_id;
+        info.type = 0;
+        info.state= 1;
+        if(confirm('确认此产品通过审核吗？')){
+            $.ajax({
+                url:'/prod/audit/submit',
+                dataType:'json',
+                data:info,
+                success:function (result) {
+                    if(result.code){
+                        alert('产品审核已通过，已将产品修改为可使用状态');
+                        window.history.back();
+                    }
+                },
+                error:function () {
+                    alert('请求失败');
+                }
+
+            })
+
+        }else{
 
         }
     });
-    $('#confirm_no').click(function callB() {
+    $('#confirm_no').click(function () {
         var reason = prompt("请输入不通过的原因：", "");
 
-        if (reason) {
-            alert(reason)
-        } else if (reason === "") {
-            alert('请输入原因！');
-            callB();
-        } else {
+        if(reason){
+            var info = {};
+            info.log_id= log_id;
+            info.produce_id = produce_id;
+            info.type = 0;
+            info.opinon = reason;
+            info.state=0;
+            $.ajax({
+                url:'/prod/audit/submit',
+                dataType:'json',
+                data:info,
+                success:function (result) {
+                    if(result.code){
+                        alert('操作成功，已将审核意见发送给提交人');
+                        window.history.back();
+                    }
+                },
+                error:function () {
+                    alert('请求失败');
+                }
 
+            })
+
+
+        }else{
+            alert('请输入原因！')
         }
     })
 </script>

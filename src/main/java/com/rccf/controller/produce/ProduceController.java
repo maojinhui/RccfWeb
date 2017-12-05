@@ -872,7 +872,7 @@ public class ProduceController {
                 "       UNION ALL\n" +
                 "       SELECT `id`, `name`, `code`, agency_id,\n" +
                 "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
-                "         2 AS type,`state`,create_time,log,\n" +
+                "         0 AS type,`state`,create_time,log,\n" +
                 "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
                 "       FROM `a_produce_credit` as p\n" +
                 "     ) AS data\n" +
@@ -906,29 +906,46 @@ public class ProduceController {
             case 1:
                 modelAndView.setViewName("/back/product/p_product_diya_audit");
                 produce = (AProduceDiya) baseService.get(AProduceDiya.class, pid);
+                modelAndView.addObject("produce", produce);
+                modelAndView.addObject("log_id", log_id);
+                PageUtil.addAgencys(modelAndView, baseService);
+                addCreatePerson(modelAndView, produce);
+                addLoanAmountTao(modelAndView, produce);
+                addProduceRepayment(modelAndView, produce);
+                addProduceArea(modelAndView, produce);
+                addHouseNature(modelAndView, produce);
+                addPersonMaterial(modelAndView, produce);
+                addCompanyMaterial(modelAndView, produce);
                 break;
             case 2:
                 modelAndView.setViewName("/back/product/p_product_zhiya_audit");
                 produce = (AProduceZhiya) baseService.get(AProduceZhiya.class, pid);
+                modelAndView.addObject("produce", produce);
+                modelAndView.addObject("log_id", log_id);
+                PageUtil.addAgencys(modelAndView, baseService);
+                addCreatePerson(modelAndView, produce);
+                addLoanAmountTao(modelAndView, produce);
+                addProduceRepayment(modelAndView, produce);
+                addProduceArea(modelAndView, produce);
+                addHouseNature(modelAndView, produce);
+                addPersonMaterial(modelAndView, produce);
+                addCompanyMaterial(modelAndView, produce);
                 break;
             case 0:
-                modelAndView.setViewName("/back/product/p_product_zhiya_audit");
-                produce = (AProduceZhiya) baseService.get(AProduceZhiya.class, pid);
+                modelAndView.setViewName("/back/product/p_product_xindadi_audit");
+                AProduceCredit  produce_credit = (AProduceCredit) baseService.get(AProduceCredit.class, pid);
+                modelAndView.addObject("produce", produce_credit);
+                modelAndView.addObject("log_id", log_id);
+                CreditProducePage.addCreatePerson(modelAndView,produce_credit,baseService);
+                CreditProducePage.addPersonMaterial(modelAndView,produce_credit,baseService);
+                CreditProducePage.addCompanyMaterial(modelAndView,produce_credit,baseService);
+                CreditProducePage.addRpayment(modelAndView,produce_credit,baseService);
                 break;
             default:
                 break;
 
         }
-        modelAndView.addObject("produce", produce);
-        modelAndView.addObject("log_id", log_id);
-        PageUtil.addAgencys(modelAndView, baseService);
-        addCreatePerson(modelAndView, produce);
-        addLoanAmountTao(modelAndView, produce);
-        addProduceRepayment(modelAndView, produce);
-        addProduceArea(modelAndView, produce);
-        addHouseNature(modelAndView, produce);
-        addPersonMaterial(modelAndView, produce);
-        addCompanyMaterial(modelAndView, produce);
+
         return modelAndView;
     }
 
@@ -979,6 +996,19 @@ public class ProduceController {
                     return ResponseUtil.fail(0, "产品更新失败");
                 }
                 break;
+            case 0:
+                AProduceCredit produce_credit = (AProduceCredit) baseService.get(AProduceCredit.class, pid);
+                if (stat == 1) {
+                    produce_credit.setState(1);
+                } else {
+                    produce_credit.setState(2);
+                }
+                save = baseService.save(produce_credit);
+                if (!save) {
+                    return ResponseUtil.fail(0, "产品更新失败");
+                }
+                break;
+
             default:
                 break;
         }
