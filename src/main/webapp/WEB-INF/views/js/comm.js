@@ -1,3 +1,15 @@
+
+function netwoerk(url,obj,succ,err) {
+    $.ajax({
+        url:url,
+        dataType:'json',
+        type:'json',
+        success:succ,
+        error:err
+    })
+}
+
+
 Date.prototype.format = function (format) {
     var date = {
         "M+": this.getMonth() + 1,
@@ -19,7 +31,6 @@ Date.prototype.format = function (format) {
     }
     return format;
 }
-
 
 function isNull(variable1) {
     if (variable1 === null) {

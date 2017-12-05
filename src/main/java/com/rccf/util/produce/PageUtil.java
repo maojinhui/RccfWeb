@@ -1,6 +1,8 @@
 package com.rccf.util.produce;
 
 import com.rccf.model.RAgency;
+import com.rccf.model.produce.AProduceCreditMaterialCompany;
+import com.rccf.model.produce.AProduceCreditMaterialPerson;
 import com.rccf.model.produce.AProduceCreditType;
 import com.rccf.service.BaseService;
 import org.hibernate.criterion.DetachedCriteria;
@@ -46,8 +48,40 @@ public class PageUtil {
         modelAndView.addObject("credit_types", types);
     }
 
+    /**
+     * 添加信贷个人资料
+     * @param modelAndView
+     * @param baseService
+     */
+    public static void addCreditMaterialPerson(ModelAndView modelAndView , BaseService baseService){
+        DetachedCriteria criteria = DetachedCriteria.forClass(AProduceCreditMaterialPerson.class);
+        ProjectionList pList = Projections.projectionList();
+        pList.add(Projections.property("id").as("id"));
+        pList.add(Projections.property("name").as("name"));
+        criteria.setProjection(pList);
+        criteria.addOrder(Order.asc("id"));
+        criteria.setResultTransformer(Transformers.aliasToBean(AProduceCreditMaterialPerson.class));
+        List<AProduceCreditMaterialPerson> materials = baseService.getList(criteria);
+        modelAndView.addObject("credit_person_material" , materials);
+    }
 
 
 
+    /**
+     * 添加信贷公司材料
+     * @param modelAndView
+     * @param baseService
+     */
+    public static void addCreditMaterialCompany(ModelAndView modelAndView , BaseService baseService){
+        DetachedCriteria criteria = DetachedCriteria.forClass(AProduceCreditMaterialCompany.class);
+        ProjectionList pList = Projections.projectionList();
+        pList.add(Projections.property("id").as("id"));
+        pList.add(Projections.property("name").as("name"));
+        criteria.setProjection(pList);
+        criteria.addOrder(Order.asc("id"));
+        criteria.setResultTransformer(Transformers.aliasToBean(AProduceCreditMaterialCompany.class));
+        List<AProduceCreditMaterialCompany> materials = baseService.getList(criteria);
+        modelAndView.addObject("credit_company_material" , materials);
+    }
 
 }

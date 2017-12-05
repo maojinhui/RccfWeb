@@ -640,8 +640,20 @@ public class ProduceController {
         modelAndView.setViewName("/back/product/p_product_xindai_add");
         PageUtil.addAgencys(modelAndView,baseService);
         PageUtil.addCreditType(modelAndView,baseService);
+        PageUtil.addCreditMaterialPerson(modelAndView,baseService);
+        PageUtil.addCreditMaterialCompany(modelAndView,baseService);
         return modelAndView;
     }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/edit/credit")
+    public String editCreditProduce(HttpServletRequest request){
+
+
+        return ResponseUtil.fail();
+    }
+
 
 
     @RequestMapping(value = "/audit/list")

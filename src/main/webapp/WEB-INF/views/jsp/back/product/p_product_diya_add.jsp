@@ -114,7 +114,7 @@
         </tr>
         <tr>
             <td style="border-top: none;"><input name="produce-adapt-crown" value="2" type="checkbox"
-                <%=objNotNull&&diya.getLoanPeople().contains("2")?"checked='checked'":""%>>实际控股人</td>
+                <%=objNotNull&&diya.getLoanPeople().contains("2")?"checked='checked'":""%>>受薪人士</td>
             <td style="border-top: none;"><input name="produce_repayment_type" value="2" type="checkbox"
                 <%=objNotNull&&diya.getRepaymentType().contains("2")?"checked='checked'":""%>> 等额本息</td>
             <td><input name="produce_loan_scale" value="6" type="checkbox" <%=loanscale&&diya.getLoanScale().contains("6")?"checked='checked'":""%>> 6成

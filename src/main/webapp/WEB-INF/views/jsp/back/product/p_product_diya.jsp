@@ -85,14 +85,14 @@
         </tr>
         <tr>
             <td class="am-text-middle am-text-center" rowspan="4">贷款人群</td>
-            <td><input type="checkbox"> 企业法人/股东</td>
+            <td><input type="checkbox"> 企业法人</td>
             <td class="am-text-middle am-text-center" rowspan="4">还款方式</td>
             <td><input type="checkbox"> 等额本息</td>
             <td class="am-text-middle am-text-center" rowspan="4">放款成数</td>
             <td><input type="radio">评估价 <input type="radio">快出价 <input type="radio">其他</td>
         </tr>
         <tr>
-            <td style="border-top: none;"><input type="checkbox">实际控股人</td>
+            <td style="border-top: none;"><input type="checkbox"></td>
             <td style="border-top: none;"><input type="checkbox"> 先息后本</td>
             <td><input type="checkbox"> 6成 <input type="checkbox"> 6.5成 <input type="checkbox"> 7成</td>
         </tr>

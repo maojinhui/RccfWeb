@@ -2,6 +2,9 @@
 <%@ page import="com.rccf.model.RAgency" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.rccf.model.produce.AProduceCreditType" %>
+<%@ page import="com.rccf.model.produce.AProduceCreditMaterialPerson" %>
+<%@ page import="com.rccf.model.produce.AProduceCreditMaterialCompany" %>
+<%@ page import="com.rccf.model.produce.AProduceCredit" %>
 <%--
 Created by IntelliJ IDEA.
   User: Administrator
@@ -10,9 +13,21 @@ Created by IntelliJ IDEA.
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 
+    int produce_id = 0;
+    boolean pNotNull= false;
+    AProduceCredit produce = (AProduceCredit) request.getAttribute("produce");
+    if(produce!=null){
+        produce_id = produce.getId();
+        pNotNull = true;
+    }
+
     List<AProduceCreditType> credit_types = (List<AProduceCreditType>) request.getAttribute("credit_types");
+    List<AProduceCreditMaterialPerson> personMaterial = (List<AProduceCreditMaterialPerson>) request.getAttribute("credit_person_material");
+    List<AProduceCreditMaterialCompany> companyMaterial = (List<AProduceCreditMaterialCompany>) request.getAttribute("credit_company_material");
+//    session.setAttribute("material_person_list",personMaterial);
 
 %>
 <!DOCTYPE html>
@@ -119,129 +134,97 @@ Created by IntelliJ IDEA.
             </tr>
             <tr>
                 <td rowspan="4">贷款人群</td>
-                <td><input type="checkbox" value=""> 企业法人</td>
+                <td><input name="loan_people" type="checkbox" value="1"> 企业法人</td>
                 <td rowspan="4">还款方式</td>
-                <td><input type="checkbox" value=""> 等额本息</td>
+                <td><input  type="checkbox" name="repayment" value="1"> 等额本金</td>
                 <td>放款时间</td>
                 <td colspan="3">
-                    <input type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">天 —
-                    <input type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">天
+                    <input id="loan_time_min" type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">天 —
+                    <input id="loan_time_max" type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">天
                 </td>
             </tr>
             <tr>
-                <td class="top-none"><input type="checkbox" value=""> 自雇人士</td>
-                <td class="top-none"><input type="checkbox" value=""> 等额本金</td>
+                <td class="top-none"><input name="loan_people" type="checkbox" value="2"> 受薪人群</td>
+                <td class="top-none"><input type="checkbox" name="repayment" value="2"> 等额本息</td>
                 <td>贷款金额</td>
                 <td colspan="3">
-                    <input type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">元 —
-                    <input type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">元
+                    <input id="loan_amount_min" type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">元 —
+                    <input id="loan_amount_max" type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">元
                 </td>
             </tr>
             <tr>
-                <td class="top-none"><input type="checkbox" value=""> 受薪人群</td>
-                <td class="top-none"><input type="checkbox" value=""> 等本等息</td>
+                <td class="top-none"><input name="loan_people" type="checkbox" value="3"> 自然人</td>
+                <td class="top-none"><input type="checkbox" name="repayment" value="3"> 停本付息</td>
                 <td>贷款利率</td>
                 <td colspan="3">
-                    <input type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">% —
-                    <input type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">%
+                    <input id="loan_rate_min" type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">% —
+                    <input id="loan_rate_max" type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">%
                 </td>
             </tr>
             <tr>
-                <td class="top-none"><input type="checkbox" value=""> 自然人</td>
-                <td class="top-none"><input type="checkbox" value=""> 先息后本</td>
+                <td class="top-none"></td>
+                <td class="top-none"><input type="checkbox" name="repayment" value="4"> 先息后本</td>
                 <td>贷款期限</td>
                 <td colspan="3">
-                    <input type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">月 —
-                    <input type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">月
+                    <input id="loan_term_min" type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">月 —
+                    <input id="loan_term_max" type="number" style="width: 3em;border-bottom: 1px solid #3a4144;">月
                 </td>
             </tr>
             <tr>
                 <td>上扣费用</td>
-                <td><input type="text" value="" placeholder="有则填，无则不填"></td>
-                <td>服务费</td>
-                <td><input type="text" value="" placeholder="有则填，无则不填"></td>
+                <td><input id="loan_shangkou" type="text" value="" placeholder="有则填，无则不填"></td>
+                <td>平台费</td>
+                <td><input id="loan_pingtaifei" type="text" value="" placeholder="有则填，无则不填"></td>
                 <td>违约金</td>
-                <td><input type="text" value="" placeholder="有则填，无则不填"></td>
+                <td><input id="loan_weiyuejin" type="text" value="" placeholder="有则填，无则不填"></td>
                 <td>贷款区域</td>
-                <td class="am-text-warning">仅限北京工作、生活人士</td>
+                <td class="am-text-warning">北京</td>
             </tr>
         </table>
 
 
         <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
             <caption>个人准备资料</caption>
+            <%
+                for (int i=0 ; i< personMaterial.size() ;i++){
+                    AProduceCreditMaterialPerson  material = personMaterial.get(i);
+            %>
+            <%if(i%6==0){%>
             <tr>
                 <td class="am-text-center">
-                    <!--<a onclick="addPersonalInfo(this)" class="am-btn am-btn-warning am-radius am-btn-sm">-->
-                    <!--<i class="am-icon-plus"></i> 添加个人准备资料</a>-->
-                    <label>身份证</label><input type="checkbox">
-                    <label>保单</label><input type="checkbox">
-                    <label>征信报告</label><input type="checkbox">
-                    <label>流水</label><input type="checkbox">
-                    <label>放款储蓄卡</label><input type="checkbox">
-                    <label>购房合同</label><input type="checkbox">
+            <% } %>
+                    <label><%=material.getName()%></label><input type="checkbox" name="loan_person_material" value="<%=material.getId()%>" >
+                    <%if((i+1)%6==0){%>
                 </td>
             </tr>
-            <tr>
-                <td class="am-text-center">
-                    <label>户口本</label><input type="checkbox">
-                    <label>房本</label><input type="checkbox">
-                    <label>婚姻证明</label><input type="checkbox">
-                    <label>财力证明</label><input type="checkbox">
-                    <label>社保卡</label><input type="checkbox">
-                    <label>公积金卡</label><input type="checkbox">
-                </td>
-            </tr>
-            <tr>
-                <td class="am-text-center">
-                    <label>工资流水</label><input type="checkbox">
-                    <label>税单</label><input type="checkbox">
-                    <label>行驶证</label><input type="checkbox">
-                    <label>驾驶证</label><input type="checkbox">
-                    <label>购车发票</label><input type="checkbox">
-                    <label>交强证</label><input type="checkbox">
-                </td>
-            </tr>
-            <tr>
-                <td class="am-text-center">
-                    <label>收入证明</label><input type="checkbox">
-                    <label>夫妻双方身份证</label><input type="checkbox">
-                </td>
-            </tr>
+                    <% } %>
+            <%
+                }
+            %>
+
         </table>
 
         <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
             <caption>企业准备资料</caption>
+
+
+            <%
+                for (int i=0 ; i< companyMaterial.size() ;i++){
+                    AProduceCreditMaterialCompany  material = companyMaterial.get(i);
+            %>
+            <%if(i%6==0){%>
             <tr>
                 <td class="am-text-center">
-                    <!--<a onclick="addCorporateInfo(this)" class="am-btn am-btn-warning am-radius am-btn-sm">-->
-                    <!--<i class="am-icon-plus"></i> 添加企业准备资料</a>-->
-                    <label>公司章程</label><input type="checkbox">
-                    <label>流水</label><input type="checkbox">
-                    <label>验资报告</label><input type="checkbox">
-                    <label>财务报表</label><input type="checkbox">
-                    <label>上下游合同</label><input type="checkbox">
-                    <label>户口本</label><input type="checkbox">
+                    <% } %>
+                    <label><%=material.getName()%></label><input type="checkbox" name="loan_company_material" value="<%=material.getId()%>" >
+                    <%if((i+1)%6==0){%>
                 </td>
             </tr>
-            <tr>
-                <td class="am-text-center">
-                    <label>房本</label><input type="checkbox">
-                    <label>财力证明</label><input type="checkbox">
-                    <label>租赁合同</label><input type="checkbox">
-                    <label>申请表</label><input type="checkbox">
-                    <label>夫妻双方身份证</label><input type="checkbox">
-                    <label>企业五证</label><input type="checkbox">
-                </td>
-            </tr>
-            <tr>
-                <td class="am-text-center">
-                    <label>银行账户资料</label><input type="checkbox">
-                    <label>授权委托书</label><input type="checkbox">
-                    <label>公章</label><input type="checkbox">
-                    <label>婚姻证明</label><input type="checkbox">
-                </td>
-            </tr>
+            <% } %>
+            <%
+                }
+            %>
+
         </table>
 
         <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
@@ -259,25 +242,25 @@ Created by IntelliJ IDEA.
             <tr>
                 <td class="require-title">查询要求</td>
                 <td>
-                    <input type="text" style="width: 100% !important;">
+                    <input id="credit_require_check" type="text" style="width: 100% !important;">
                 </td>
             </tr>
             <tr>
                 <td class="require-title">逾期要求</td>
                 <td>
-                    <input type="text" style="width: 100%">
+                    <input id="credit_require_overdue" type="text" style="width: 100%">
                 </td>
             </tr>
             <tr>
                 <td class="require-title">负债要求</td>
                 <td>
-                    <input type="text" style="width: 100%">
+                    <input id="credit_require_owe" type="text" style="width: 100%">
                 </td>
             </tr>
             <tr>
                 <td class="require-title">其他要求</td>
                 <td>
-                    <input type="text" style="width: 100%">
+                    <input id="credit_require_other" type="text" style="width: 100%">
                 </td>
             </tr>
         </table>
@@ -288,31 +271,31 @@ Created by IntelliJ IDEA.
             <tr>
                 <td class="require-title">流程细节</td>
                 <td>
-                    <input type="text" style="width: 100% !important;">
+                    <input id="produce_process" type="text" style="width: 100% !important;">
                 </td>
             </tr>
             <tr>
                 <td class="require-title">产品优势</td>
                 <td>
-                    <input type="text" style="width: 100%">
+                    <input id="produce_advantage" type="text" style="width: 100%">
                 </td>
             </tr>
             <tr>
                 <td class="require-title">产品劣势</td>
                 <td>
-                    <input type="text" style="width: 100%">
+                    <input id="produce_disadvantage" type="text" style="width: 100%">
                 </td>
             </tr>
             <tr>
                 <td class="require-title">注意事项</td>
                 <td>
-                    <input type="text" style="width: 100%">
+                    <input id="produce_notice" type="text" style="width: 100%">
                 </td>
             </tr>
             <tr>
                 <td class="require-title">毙单原因</td>
                 <td>
-                    <input type="text" style="width: 100%">
+                    <input id="produce_shootreason" type="text" style="width: 100%">
                 </td>
             </tr>
         </table>
@@ -320,7 +303,7 @@ Created by IntelliJ IDEA.
     </div>
 
     <div class="am-u-sm-12 am-u-md-6 am-u-sm-centered am-margin-bottom-xl">
-        <button class="am-u-sm-6 am-btn am-btn-danger">取消</button>
+        <%--<button class="am-u-sm-6 am-btn am-btn-danger">取消</button>--%>
         <button class="am-u-sm-6 am-btn am-btn-secondary">确认信息并保存</button>
     </div>
 </div>
@@ -328,6 +311,7 @@ Created by IntelliJ IDEA.
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/jquery.autocompleter.js"></script>
 <script src="/js/back/datacommon.js"></script>
+<script src="/js/comm.js"></script>
 <%  List<RAgency> agencys = (List<RAgency>) request.getAttribute("agencys"); %>
 <script>
     var agencys = <%=JSON.toJSONString(agencys).replaceAll("name","label")%>;
@@ -342,7 +326,6 @@ Created by IntelliJ IDEA.
             $('#agency_id').val(selected.id);
         }
     })
-
 
     //UNUSED 点击添加个人准备资料
     function addPersonalInfo(obj) {
@@ -413,6 +396,84 @@ Created by IntelliJ IDEA.
         var tableNode = trNode.parentNode;
 
         tableNode.removeChild(trNode);
+    }
+
+    function submit(){
+        var url = "/prod/edit/credit";
+        var obj = {};
+        var peoduce_id = <%=produce_id%>;
+        if(produce_id>0){
+            obj.produce_id = produce_id;
+        }
+        var code = $('#code').val();
+        var name = $('#name').val();
+        var agency_name = $('#agency_name').val();
+        var credit_type = $('#credit_type').val();
+        var loan_people = getCheckIntValues("loan_people");
+        var repayment = getCheckIntValues("repayment");
+        obj.code = code;
+        obj.name = name;
+        obj.agency_name = agency_name;
+        obj.credit_type = credit_type;
+        obj.loan_people = loan_people;
+        obj.repayment = repayment;
+
+        var loan_time_min = $('#loan_time_min').val();
+        var loan_time_max = $('#loan_time_max').val();
+        var loan_amount_min = $('#loan_amount_min').val();
+        var loan_amount_max = $('#loan_amount_max').val();
+        var loan_rate_min = $('#loan_rate_min').val();
+        var loan_rate_max = $('#loan_rate_max').val();
+        var loan_term_min = $('#loan_term_min').val();
+        var loan_term_max = $('#loan_term_max').val();
+        obj.loan_time_min = loan_time_min;
+        obj.loan_time_max = loan_time_max;
+        obj.loan_amount_min = loan_amount_min;
+        obj.loan_amount_max = loan_amount_max;
+        obj.loan_rate_min = loan_rate_min;
+        obj.loan_rate_max = loan_rate_max;
+        obj.loan_term_min = loan_term_min;
+        obj.loan_term_max = loan_term_max;
+
+        var loan_shagnkou = $('#loan_shangkou').val();
+        var loan_pingtaifei = $('#loan_pingtaifei').val();
+        var weiyuejin = $('#loan_weiyuejin').val();
+        var person_material = getCheckIntValues("loan_person_material");
+        var company_material = getCheckIntValues("loan_company_material");
+        obj.loan_shagnkou = loan_shagnkou;
+        obj.loan_pingtaifei = loan_pingtaifei;
+        obj.weiyuejin = weiyuejin;
+        obj.person_material = person_material;
+        obj.company_material = company_material;
+
+
+        var credit_require_check = $('#credit_require_check').val();
+        var credit_require_overdue = $('#credit_require_overdue').val();
+        var credit_require_owe = $('#credit_require_owe').val();
+        var credit_require_other = $('#credit_require_other').val();
+        var produce_process = $('#produce_process').val();
+        var produce_advantage = $('#produce_advantage').val();
+        var proudce_disadvantage = $('#proudce_disadvantage').val();
+        var notice = $('#notice').val();
+        var produce_shootreason = $('#produce_shootreason').val();
+        obj.credit_require_check = credit_require_check;
+        obj.credit_require_overdue = credit_require_overdue;
+        obj.credit_require_owe = credit_require_owe;
+        obj.credit_require_other = credit_require_other;
+        obj.produce_process = produce_process;
+        obj.produce_advantage = produce_advantage;
+        obj.proudce_disadvantage = proudce_disadvantage;
+        obj.notice = notice;
+        obj.produce_shootreason = produce_shootreason;
+
+        netwoerk(url,obj,function (result) {
+            if(result.code){
+
+            }else{
+
+            }
+        });
+
     }
 
 
