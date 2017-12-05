@@ -684,7 +684,9 @@ public class ProduceController {
         modelAndView.setViewName("/back/product/p_product_xinddai_details");
         modelAndView.addObject("produce", produce);
         CreditProducePage.addCreatePerson(modelAndView,produce,baseService);
-
+        CreditProducePage.addPersonMaterial(modelAndView,produce,baseService);
+        CreditProducePage.addCompanyMaterial(modelAndView,produce,baseService);
+        CreditProducePage.addRpayment(modelAndView,produce,baseService);
 
 
 

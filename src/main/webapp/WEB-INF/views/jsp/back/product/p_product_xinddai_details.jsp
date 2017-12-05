@@ -1,5 +1,8 @@
 <%@ page import="com.rccf.model.produce.AProduceCredit" %>
-<%@ page import="com.rccf.util.Strings" %><%--
+<%@ page import="com.rccf.util.Strings" %>
+<%@ page import="com.alibaba.fastjson.JSONArray" %>
+<%@ page import="com.alibaba.fastjson.JSON" %>
+<%@ page import="com.alibaba.fastjson.JSONObject" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2017/12/5 0005
@@ -11,6 +14,10 @@
     AProduceCredit produce = (AProduceCredit) request.getAttribute("produce");
     String agencyName = produce.getAgencyName();
     String pname = (String) request.getAttribute("createPName");
+    String producePersonMaterial = (String) request.getAttribute("producePersonMaterial");
+    String produceCompanyMaterial = (String) request.getAttribute("produceCompanyMaterial");
+    String repaymentType = (String) request.getAttribute("repaymentType");
+
 %>
 
 <!DOCTYPE html>
@@ -65,7 +72,7 @@
     </div>
 
     <div class="am-padding-horizontal">
-        <h2 class="am-margin-bottom-0">信贷—<%=Strings.getInputString(produce.getAgencyName())%>—<%=Strings.getInputString(produce.getName())%></h2>
+        <h2 class="am-margin-bottom-0">信贷—<%=Strings.getInputString(agencyName)%>—<%=Strings.getInputString(produce.getName())%></h2>
         <h3 class="am-margin-top-0 am-margin-bottom-0 am-text-center">产品编号：<%=Strings.getInputString(produce.getCode())%></h3>
 
         <div class="am-margin-top-0  am-margin-bottom am-text-center">
@@ -82,11 +89,11 @@
             </div>
             <div class="am-g  ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2 ">贷款利率：</div>
-                <div class="am-u-sm-10"><%=Strings.getInputString(produce.getLoanAmountMin())%>-<%=Strings.getInputString(produce.getLoanAmountMax())%></div>
+                <div class="am-u-sm-10"><%=Strings.getInputString(produce.getLoanRateMin())%>-<%=Strings.getInputString(produce.getLoanRateMax())%></div>
             </div>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">还款方式：</div>
-                <div class="am-u-sm-10">可选：等额本息、先息后本、停本付息</div>
+                <div class="am-u-sm-10">可选：<%=repaymentType%></div>
             </div>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">区域范围：</div>
@@ -141,23 +148,30 @@
             </div>
             <%
                 String loanAccess = produce.getLoanAccess();
-
-
+                if(loanAccess!=null){
+                    JSONArray array = JSON.parseArray(loanAccess);
+                    for (int i=0 ; i< array.size() ;i++){
+                        JSONObject object = array.getJSONObject(i);
             %>
-
-
             <div class="am-g ">
-                <div class="am-u-sm-12">1.什么</div>
+                <div class="am-u-sm-12"><%=object.getString("access")%></div>
             </div>
-            <div class="am-g ">
-                <div class="am-u-sm-12">2.为什么</div>
-            </div>
-            <div class="am-g ">
-                <div class="am-u-sm-12">3.gan什么</div>
-            </div>
-            <div class="am-g ">
-                <div class="am-u-sm-12">4.zuo什么</div>
-            </div>
+            <%
+                    }
+                }
+            %>
+            <%--<div class="am-g ">--%>
+                <%--<div class="am-u-sm-12">1.什么</div>--%>
+            <%--</div>--%>
+            <%--<div class="am-g ">--%>
+                <%--<div class="am-u-sm-12">2.为什么</div>--%>
+            <%--</div>--%>
+            <%--<div class="am-g ">--%>
+                <%--<div class="am-u-sm-12">3.gan什么</div>--%>
+            <%--</div>--%>
+            <%--<div class="am-g ">--%>
+                <%--<div class="am-u-sm-12">4.zuo什么</div>--%>
+            <%--</div>--%>
         </div>
 
         <!--所需材料-->
@@ -165,14 +179,26 @@
             <div class="am-u-sm-12 apply-conditions am-margin-bottom" style="background-color: #2c4666;color: #fff">
                 <div><i class="am-icon-genderless"></i> 所需材料</div>
             </div>
+            <%
+                if(produce.getLoanMaterialPersonal()!=null){
+            %>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">个人准备资料：</div>
-                <div class="am-u-sm-10">户口本、房产证、租赁合同、银行流水、身份证、身份证正反面复印件</div>
+                <div class="am-u-sm-10"><%=producePersonMaterial%></div>
             </div>
+            <%
+                }
+            %>
+            <%
+                if(produce.getLoanMaterialCompany()!=null){
+            %>
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">企业准备资料：</div>
-                <div class="am-u-sm-10">户口本、房产证、租赁合同、银行流水、身份证、身份证正反面复印件</div>
+                <div class="am-u-sm-10"><%=produceCompanyMaterial%></div>
             </div>
+            <%
+                }
+            %>
         </div>
 
         <!--附加说明-->
