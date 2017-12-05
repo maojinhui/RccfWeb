@@ -268,7 +268,7 @@
             负责人：<span class="am-text-warning"><%=pname%></span>
         </div>
         <div class="">
-            <div class="am-u-sm-12 apply-conditions am-margin-bottom">
+            <div class="am-u-sm-12 apply-conditions am-margin-bottom" style="background-color: #2c4666;color: #fff">
                 <span><i  class="am-icon-genderless"></i> 基础信息</span>
             </div>
             <div class="am-g am-margin-top-xs am-margin-top-xs">
@@ -295,7 +295,7 @@
 
         <!--申请条件-->
         <div class=" am-margin-top">
-            <div class="am-u-sm-12 apply-conditions am-margin-bottom">
+            <div class="am-u-sm-12 apply-conditions am-margin-bottom" style="background-color: #2c4666;color: #fff">
                 <span><i class="am-icon-genderless"></i> 申请条件</span>
             </div>
             <div class="am-g am-margin-top-xs">
@@ -334,7 +334,7 @@
 
         <!--所需材料-->
         <div class="am-g am-margin-top-xs">
-            <div class="am-u-sm-12 apply-conditions am-margin-bottom">
+            <div class="am-u-sm-12 apply-conditions am-margin-bottom" style="background-color: #2c4666;color: #fff">
                 <span><i class="am-icon-genderless"></i> 所需材料</span>
             </div>
             <div class="am-g am-margin-top-xs">
@@ -349,7 +349,7 @@
 
         <!--附加说明-->
         <div class=" am-margin-top">
-            <div class="am-u-sm-12 apply-conditions am-margin-bottom">
+            <div class="am-u-sm-12 apply-conditions am-margin-bottom" style="background-color: #2c4666;color: #fff">
                 <span><i class="am-icon-genderless"></i> 附加说明</span>
             </div>
             <div class="am-g am-margin-top-xs">
