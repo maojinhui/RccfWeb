@@ -228,13 +228,12 @@ Created by IntelliJ IDEA.
         </table>
 
         <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
-            <caption>准入条件</caption>
-            <tr>
-                <td colspan="2" class="am-text-center">
-                    <a onclick="addEntryTerm(this)" class="am-btn am-btn-warning am-radius am-btn-sm">
-                        <i class="am-icon-plus"></i> 添加准入条件</a>
-                </td>
-            </tr>
+            <caption>准入条件<a onclick="addEntryTerm(this)"
+                            class="am-align-right am-btn am-btn-warning am-radius am-btn-sm">
+                <i class="am-icon-plus"></i> 添加准入条件</a></caption>
+            <tbody id="content">
+
+            </tbody>
         </table>
 
         <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
@@ -373,9 +372,7 @@ Created by IntelliJ IDEA.
 
     //UNUSED 点击添加准入条件
     function addEntryTerm(obj) {
-        var tdNode = obj.parentNode;
-        var trNode = tdNode.parentNode;
-        var tableNode = trNode.parentNode;
+
         var str = '<tr>\n' +
             '        <td>\n' +
             '          <input type="text" style="width: 100%" placeholder="条件信息">\n' +
@@ -387,15 +384,15 @@ Created by IntelliJ IDEA.
             '           <a onclick="deleteItem(this)" class="am-btn am-btn-sm am-btn-danger"><i class="am-icon-trash-o"></i></a>' +
             '         </td>' +
             '      </tr>';
-        $(tableNode).append(str);
+        $('#content').append(str);
     }
 
     function deleteItem(obj) {
         var tdNode = obj.parentNode;
         var trNode = tdNode.parentNode;
-        var tableNode = trNode.parentNode;
+        var tbodyNode = document.getElementById('content');
 
-        tableNode.removeChild(trNode);
+        tbodyNode.removeChild(trNode);
     }
 
     function submit(){
