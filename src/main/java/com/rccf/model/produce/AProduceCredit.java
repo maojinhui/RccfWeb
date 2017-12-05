@@ -2,10 +2,7 @@ package com.rccf.model.produce;
 
 import com.google.common.base.Objects;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
@@ -56,7 +53,11 @@ public class AProduceCredit {
     private Integer state;
     private Integer log;
 
-    @Basic
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Id
     @Column(name = "id")
     public Integer getId() {
         return id;
