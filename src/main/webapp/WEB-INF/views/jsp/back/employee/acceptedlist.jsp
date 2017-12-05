@@ -42,8 +42,8 @@
     </div>
 
 
-    <div class="am-g">
-        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4">
+    <div class="am-g am-margin-bottom">
+        <div class="am-u-sm-12 am-u-md-4 am-u-lg-4">
 
             <div class="am-input-group am-input-group-sm">
                 <span class="am-input-group-label">
@@ -52,7 +52,7 @@
                 <input id="custome_name" class="am-form-field" type="text">
             </div>
         </div>
-        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-end">
+        <div class="am-u-sm-12 am-u-md-4 am-u-lg-4 am-u-end">
 
             <div class="am-input-group am-input-group-sm">
                 <span class="am-input-group-label">
@@ -62,7 +62,7 @@
 
             </div>
         </div>
-        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4 am-u-end">
+        <div class="am-u-sm-12 am-u-md-4 am-u-lg-4 am-u-end">
 
             <div class="am-input-group am-input-group-sm">
                 <span class="am-input-group-btn">
