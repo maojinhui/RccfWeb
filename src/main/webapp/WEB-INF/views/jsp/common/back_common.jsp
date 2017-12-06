@@ -197,7 +197,7 @@
             <% if (depart.contains("市场") || depart.equals("系统管理")) {%>
             <li class="sidebar-nav-link">
                 <a class="sidebar-nav-sub-title">
-                    <i class="am-icon-table sidebar-nav-link-logo"></i> 受理单管理
+                    <i class="am-icon-tasks sidebar-nav-link-logo"></i> 受理单管理
                     <span class="am-icon-chevron-right am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                 </a>
                 <ul class="sidebar-nav sidebar-nav-sub">
@@ -256,7 +256,7 @@
             <% if (depart.equals("系统管理") || (depart.contains("市场")) ) {%>
             <li class="sidebar-nav-link">
                 <a class="sidebar-nav-sub-title">
-                    <i class="am-icon-table sidebar-nav-link-logo"></i> 产品管理
+                    <i class="am-icon-file sidebar-nav-link-logo"></i> 产品管理
                     <span class="am-icon-chevron-right am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                 </a>
                     <% if (depart.equals("系统管理")){ %>
@@ -293,7 +293,7 @@
             <% if (user.getDepartment().contains("金融") || user.getDepartment().contains("系统")) {%>
             <li class="sidebar-nav-link">
                 <a class="rcmenu" data-rccf-menu="/accept/mylistpage">
-                    <i class="am-icon-table sidebar-nav-link-logo"></i>
+                    <i class="am-icon-bookmark-o sidebar-nav-link-logo"></i>
                     受理中受理单
                 </a>
             </li>
