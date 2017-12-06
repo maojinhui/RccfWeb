@@ -90,24 +90,6 @@ public class AProduceAuditLog {
         this.auditOpinion = auditOpinion;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AProduceAuditLog that = (AProduceAuditLog) o;
-        return id == that.id &&
-                Objects.equal(produceId, that.produceId) &&
-                Objects.equal(submit, that.submit) &&
-                Objects.equal(submitTime, that.submitTime) &&
-                Objects.equal(audit, that.audit) &&
-                Objects.equal(auditTime, that.auditTime) &&
-                Objects.equal(auditOpinion, that.auditOpinion);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id, produceId, submit, submitTime, audit, auditTime, auditOpinion);
-    }
 
     @Basic
     @Column(name = "produce_type")
@@ -127,5 +109,43 @@ public class AProduceAuditLog {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AProduceAuditLog log = (AProduceAuditLog) o;
+        return id == log.id &&
+                Objects.equal(produceId, log.produceId) &&
+                Objects.equal(submit, log.submit) &&
+                Objects.equal(submitTime, log.submitTime) &&
+                Objects.equal(audit, log.audit) &&
+                Objects.equal(auditTime, log.auditTime) &&
+                Objects.equal(auditOpinion, log.auditOpinion) &&
+                Objects.equal(produceType, log.produceType) &&
+                Objects.equal(state, log.state);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id, produceId, submit, submitTime, audit, auditTime, auditOpinion, produceType, state);
+    }
+
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("id", id)
+                .add("produceId", produceId)
+                .add("submit", submit)
+                .add("submitTime", submitTime)
+                .add("audit", audit)
+                .add("auditTime", auditTime)
+                .add("auditOpinion", auditOpinion)
+                .add("produceType", produceType)
+                .add("state", state)
+                .toString();
     }
 }

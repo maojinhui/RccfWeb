@@ -7,9 +7,10 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-response.setHeader("Pragma","No-cache");
-response.setHeader("Cache-Control","no-cache");
-response.setDateHeader("Expires", -10);
+    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Cache-Control", "no-cache");
+    response.setDateHeader("Expires", 0);
+    response.setHeader("Cache-Control", "no-store");
 %>
 <!DOCTYPE html>
 <html lang="en">

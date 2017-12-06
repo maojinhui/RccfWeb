@@ -561,4 +561,56 @@ public class AProduceCredit {
     public int hashCode() {
         return Objects.hashCode(id, agegncyId, agencyName, name, code, loanPeople, repaymentType, loanTimeMin, loanTimeMax, loanCreditType, loanArea, loanAmountMin, loanAmountMax, applyAgeMin, applyAgeMax, applyAgeDescription, loanRateMin, loanRateMax, loanRateDescription, loanTermMin, loanTermMax, loanShangkou, loanShagnkouDescription, loanWeiyuejin, loanWeiyuejinDescription, loanPingtaifei, loanPingtaifeiDescription, loanMaterialPersonal, loanMaterialCompany, loanAccess, creditInquireClaim, creditOverdueClaim, creditDebtClaim, creditOtherClaim, accessRequirement, processDetail, advantage, disadvantage, notice, shootReason, createTime, createPerson, recommend, state, log);
     }
+
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("id", id)
+                .add("agegncyId", agegncyId)
+                .add("agencyName", agencyName)
+                .add("name", name)
+                .add("code", code)
+                .add("loanPeople", loanPeople)
+                .add("repaymentType", repaymentType)
+                .add("loanTimeMin", loanTimeMin)
+                .add("loanTimeMax", loanTimeMax)
+                .add("loanCreditType", loanCreditType)
+                .add("loanArea", loanArea)
+                .add("loanAmountMin", loanAmountMin)
+                .add("loanAmountMax", loanAmountMax)
+                .add("applyAgeMin", applyAgeMin)
+                .add("applyAgeMax", applyAgeMax)
+                .add("applyAgeDescription", applyAgeDescription)
+                .add("loanRateMin", loanRateMin)
+                .add("loanRateMax", loanRateMax)
+                .add("loanRateDescription", loanRateDescription)
+                .add("loanTermMin", loanTermMin)
+                .add("loanTermMax", loanTermMax)
+                .add("loanShangkou", loanShangkou)
+                .add("loanShagnkouDescription", loanShagnkouDescription)
+                .add("loanWeiyuejin", loanWeiyuejin)
+                .add("loanWeiyuejinDescription", loanWeiyuejinDescription)
+                .add("loanPingtaifei", loanPingtaifei)
+                .add("loanPingtaifeiDescription", loanPingtaifeiDescription)
+                .add("loanMaterialPersonal", loanMaterialPersonal)
+                .add("loanMaterialCompany", loanMaterialCompany)
+                .add("loanAccess", loanAccess)
+                .add("creditInquireClaim", creditInquireClaim)
+                .add("creditOverdueClaim", creditOverdueClaim)
+                .add("creditDebtClaim", creditDebtClaim)
+                .add("creditOtherClaim", creditOtherClaim)
+                .add("accessRequirement", accessRequirement)
+                .add("processDetail", processDetail)
+                .add("advantage", advantage)
+                .add("disadvantage", disadvantage)
+                .add("notice", notice)
+                .add("shootReason", shootReason)
+                .add("createTime", createTime)
+                .add("createPerson", createPerson)
+                .add("recommend", recommend)
+                .add("state", state)
+                .add("log", log)
+                .toString();
+    }
 }

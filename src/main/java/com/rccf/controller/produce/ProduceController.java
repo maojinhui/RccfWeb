@@ -70,6 +70,24 @@ public class ProduceController {
         String depart = employee.getDepartment();
         int role = employee.getRole();
 
+        boolean showAll = false;
+        if(depart.contains("系统")){
+            showAll=true;
+        }else if(depart.contains("市场部")){
+            if(role<=2){
+                showAll=true;
+            }else{
+                showAll=false;
+            }
+        }
+        else{
+            return ResponseUtil.fail(0,"暂无查看产品权限");
+        }
+
+        String eInfo = "";
+        if(!showAll){
+            eInfo = "where p.create_person = "+employee.getId();
+        }
 //        if(depart.contains("系统")){
 //
 //        }else if(depart.contains("市场")){
@@ -87,29 +105,29 @@ public class ProduceController {
                 "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
                 "         1 AS type,`state`,create_time,log,\n" +
                 "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
-                "       FROM `a_produce_diya` as p\n" +
+                "       FROM `a_produce_diya` as p\n" +eInfo+
                 "       UNION ALL\n" +
                 "       SELECT `id`, `name`, `code`, agency_id,\n" +
                 "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
                 "         2 AS type,`state`,create_time,log,\n" +
                 "       (SELECT audit_opinion from a_produce_audit_log WHERE type=2 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
-                "       FROM `a_produce_zhiya` as p\n" +
+                "       FROM `a_produce_zhiya` as p\n" +eInfo+
                 "       UNION ALL\n" +
                 "      SELECT `id`, `name`, `code`, agency_id,\n" +
                 "       (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
                 "       0 AS type,`state`,create_time,log,\n" +
-                "       (SELECT audit_opinion from a_produce_audit_log WHERE type=2 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason      " +
-                "       FROM `a_produce_credit` as p\n"+
+                "       (SELECT audit_opinion from a_produce_audit_log WHERE type=0 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason      " +
+                "       FROM `a_produce_credit` as p\n"+eInfo+
                 "     ) AS data\n" +
                 "ORDER BY data.create_time DESC " + limitStr;
         String sql_total = "SELECT count(*)\n" +
                 "FROM (SELECT `id`" +
-                "       FROM `a_produce_diya` as p\n" +
+                "       FROM `a_produce_diya` as p\n" +eInfo+
                 "       UNION ALL\n" +
                 "       SELECT `id`" +
-                "       FROM `a_produce_zhiya` as p\n" +
+                "       FROM `a_produce_zhiya` as p\n" +eInfo+
                 "       UNION ALL\n" +
-                "      SELECT `id`       FROM `a_produce_credit` as p"+
+                "      SELECT `id`       FROM `a_produce_credit` as p \n"+eInfo+
                 "     ) AS data ";
 
 
@@ -845,11 +863,31 @@ public class ProduceController {
         String depart = employee.getDepartment();
         int role = employee.getRole();
 
+        boolean showAll = false;
+        if(depart.contains("系统")){
+            showAll=true;
+        }else if(depart.contains("市场部")){
+            if(role<=2){
+                showAll=true;
+            }else{
+                showAll=false;
+            }
+        }
+        else{
+            return ResponseUtil.fail(0,"暂无查看产品权限");
+        }
+
 //        if(depart.contains("系统")){
 //
 //        }else if(depart.contains("市场")){
 //
 //        }
+
+        String eInfo = "";
+        if(!showAll){
+            eInfo = "where p.create_person = "+employee.getId();
+        }
+
         String pageNo = request.getParameter("pageNo");
         int p = 1;
         if (!Strings.isNullOrEmpty(pageNo)) {
@@ -862,28 +900,28 @@ public class ProduceController {
                 "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
                 "         1 AS type,`state`,create_time,log,\n" +
                 "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
-                "       FROM `a_produce_diya` as p\n" +
+                "       FROM `a_produce_diya` as p \n" +eInfo+
                 "       UNION ALL\n" +
                 "       SELECT `id`, `name`, `code`, agency_id,\n" +
                 "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
                 "         2 AS type,`state`,create_time,log,\n" +
-                "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
-                "       FROM `a_produce_zhiya` as p\n" +
+                "(SELECT audit_opinion from a_produce_audit_log WHERE type=2 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
+                "       FROM `a_produce_zhiya` as p\n" +eInfo+
                 "       UNION ALL\n" +
                 "       SELECT `id`, `name`, `code`, agency_id,\n" +
                 "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
                 "         0 AS type,`state`,create_time,log,\n" +
-                "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
-                "       FROM `a_produce_credit` as p\n" +
+                "(SELECT audit_opinion from a_produce_audit_log WHERE type=0 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
+                "       FROM `a_produce_credit` as p\n" +eInfo+
                 "     ) AS data\n" +
                 "     WHERE state=3 \n" +
                 "ORDER BY data.create_time DESC " + limitStr;
         String sql_total = "SELECT count(*)\n" +
-                "FROM (SELECT id,state       FROM `a_produce_diya` as p\n" +
+                "FROM (SELECT id,state       FROM `a_produce_diya` as p\n" +eInfo+
                 "      UNION ALL\n" +
-                "      SELECT id,state       FROM `a_produce_zhiya` as p\n" +
+                "      SELECT id,state       FROM `a_produce_zhiya` as p\n" +eInfo+
                 "      UNION ALL\n" +
-                "      SELECT id,state       FROM `a_produce_credit` as p\n" +
+                "      SELECT id,state       FROM `a_produce_credit` as p\n" +eInfo+
                 "     ) AS data\n" +
                 "WHERE state=3";
 

@@ -268,8 +268,6 @@
                     </li>
                 </ul>
                    <% }%>
-
-                <% if (role<=2 || userid.equals("134")){ %>
                 <ul class="sidebar-nav sidebar-nav-sub">
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/agency/list">
@@ -284,7 +282,6 @@
                         </a>
                     </li>
                 </ul>
-                <% }%>
             </li>
             <%}%>
 
