@@ -26,6 +26,7 @@
             "<style>\n" +
             "    html,body{\n" +
             "        overflow: auto;\n" +
+            "        font-size: 8px;" +
             "    }\n" +
             "</style>" +
             "</head>\n" +
@@ -37,7 +38,7 @@
             "    " +
             "</div>" +
             "<div class='am-container am-margin-lg'>\n" +
-            "    <table id='commission_table' class='am-table am-table-bordered am-text-center am-text-nowrap'>\n" +
+            "    <table id='commission_table' class='am-table am-table-bordered am-text-center am-text-nowrap am-table-compact'>\n" +
             "        <thead>\n" +
             "        <tr>\n" +
             "            <th>部门</th>\n" +

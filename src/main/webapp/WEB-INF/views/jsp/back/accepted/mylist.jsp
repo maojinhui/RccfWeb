@@ -26,8 +26,8 @@
         <a id="display_all" data-type="xls" href="javascript:;" class="am-btn am-btn-secondary ">显示全部</a>
         <a id="export" data-type="xls" class="am-btn am-btn-secondary am-hide">导出表格</a>
     </div>
-    <div class="am-g">
-        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4">
+    <div class="am-g am-margin-bottom">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-8">
 
             <div class="am-input-group am-input-group-sm">
                 <span class="am-input-group-label">
@@ -39,7 +39,7 @@
                  </span>
                 <input id="clerk_name" class="am-form-field" type="text" value="">
                 <span class="am-input-group-btn">
-                        <button id="search_cus" class="am-btn am-btn-default" type="button">搜索</button>
+                        <button id="search_cus" class="am-btn am-btn-secondary" type="button">搜索</button>
                 </span>
             </div>
         </div>
