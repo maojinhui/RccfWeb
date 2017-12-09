@@ -8,6 +8,7 @@
 <%@ page import="com.rccf.util.Strings" %>
 <%@ page import="com.alibaba.fastjson.JSONArray" %>
 <%@ page import="com.alibaba.fastjson.JSONObject" %>
+<%@ page import="com.rccf.util.DateUtil" %>
 <%--
 Created by IntelliJ IDEA.
   User: Administrator
@@ -397,6 +398,16 @@ Created by IntelliJ IDEA.
                            value="<%=pNotNull?Strings.getInputString(produce.getShootReason()):""%>">
                 </td>
             </tr>
+            <tr>
+                <td>推荐人</td>
+                <td >
+                    <input id="recommend" class="am-u-sm-12" type="text" value="<%=pNotNull?Strings.getInputString(produce.getRecommend()):""%>">
+                </td>
+                <td>准入时间</td>
+                <td >
+                    <input id="entry_time" class="am-u-sm-12" type="date" value="<%=pNotNull?DateUtil.date2StringSimple(produce.getEntryTime()):""%>">
+                </td>
+            </tr>
         </table>
 
     </div>
@@ -562,6 +573,16 @@ Created by IntelliJ IDEA.
         obj.produce_disadvantage = produce_disadvantage;
         obj.notice = notice;
         obj.produce_shootreason = produce_shootreason;
+
+        var recommend = $('#recommend').val();
+        var entry_time = $('#entry_time').val();
+        obj.recommend=recommend;
+        obj.entry_time=entry_time;
+
+        if(isNull(entry_time)){
+            alert('请填写准入时间');
+            return ;
+        }
 
         var access = getAccess();
         obj.access=access;

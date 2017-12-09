@@ -8,7 +8,7 @@ SELECT e.`department` ,e.`name`   ,
 (SELECT COUNT(*) FROM accepted_back a WHERE a.`end_date` >= '2017-09-01' and a.`end_date` < '2017-09-02'  and  a.`deputy_director` =e.code  and `state` =2) as dayend,
 (SELECT COUNT(*) FROM accepted_back a WHERE a.`create_time`  >= '2017-09-01' and a.`create_time`< '2017-09-02'  and  a.`deputy_director` =e.code AND `state` =3 ) as dayrefuse,
 (SELECT sum(a.`service_fee_actual`)  FROM accepted_back a WHERE a.`end_date`  >= '2017-09-01' and a.`end_date`< '2017-09-02'   and  a.`deputy_director` =e.code AND `state` =2) as dayyeji,
-(SELECT COUNT(*) FROM accepted_back a  WHERE a.`end_date` >'2017-09-01'  and a.`end_date`  < '2017-10-01' and a.`state` =2 AND  a.`deputy_director` =e.code  GROUP BY a.`deputy_director`  ) as pcount
+(SELECT COUNT(*) FROM accepted_back a  WHERE a.`end_date` >'2017-09-01'  and a.`end_date`  < '2017-10-01' and a.`state` =2 AND  a.`deputy_director` =e.code  GROUP BY a.`clerk`  ) as pcount
 FROM `employee` e
 WHERE  e.`role` =3 and e.`state` =1 ORDER BY monthyeji DESC ;
 

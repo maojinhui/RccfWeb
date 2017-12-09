@@ -1,5 +1,7 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.alibaba.fastjson.JSON" %><%--
+<%@ page import="com.alibaba.fastjson.JSON" %>
+<%@ page import="com.rccf.model.accept.RibaoDeputyDirector" %>
+<%@ page import="com.rccf.util.Strings" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/9/18
@@ -74,9 +76,44 @@
                         <th>当日拒单</th>
                         <th>当日业绩</th>
                         <th>当月开单人数</th>
+                        <th>受理中总数</th>
+                        <th>受理中-信贷</th>
+                        <th>受理中-抵押</th>
+                        <th>受理中-质押</th>
                     </tr>
                     </thead>
                     <tbody id="content">
+                    <%
+                        List<RibaoDeputyDirector> list = (List<RibaoDeputyDirector>) request.getAttribute("list");
+                        if(list!=null){
+                            for (int i = 0;i<list.size();i++){
+                                RibaoDeputyDirector info = list.get(i);
+                    %>
+                        <tr>
+                            <td><%=i+1%></td>
+                            <td><%=Strings.getInputString(info.getDepartment())%></td>
+                            <td><%=Strings.getInputString(info.getName())%></td>
+                            <td><%=Strings.getInputString(info.getMonthaccept())%></td>
+                            <td><%=Strings.getInputString(info.getMonthend())%></td>
+                            <td><%=Strings.getInputString(info.getMonthrefuse())%></td>
+                            <td><%=Strings.getInputString(info.getMonthyeji())%></td>
+                            <td><%=Strings.getInputString(info.getDayaccept())%></td>
+                            <td><%=Strings.getInputString(info.getDayend())%></td>
+                            <td><%=Strings.getInputString(info.getDayrefuse())%></td>
+                            <td><%=Strings.getInputString(info.getDayyeji())%></td>
+                            <td><%=Strings.getInputString(info.getPcount())%></td>
+                            <td><%=Strings.getInputString(info.getNowaccept())%></td>
+                            <td><%=Strings.getInputString(info.getNowaccept_xindai())%></td>
+                            <td><%=Strings.getInputString(info.getNowaccept_diya())%></td>
+                            <td><%=Strings.getInputString(info.getNowaccept_zhiya())%></td>
+                        </tr>
+
+                    <%
+                            }
+                        }
+                    %>
+
+
 
 
                     </tbody>
@@ -94,7 +131,7 @@
 <script src="/js/table2excel/tableExport.js"></script>
 
 <%
-    List list = (List) request.getAttribute("list");
+//    List list = (List) request.getAttribute("list");
 %>
 <script>
 
@@ -127,26 +164,26 @@
         return format;
     }
 
-    var datas = <%=JSON.toJSONString(list)%>;
-    for (var i = 1; i < datas.length + 1; i++) {
-        var da = datas[i - 1];
-        var str = '<tr>\n' +
-            '    <td>' + i + '</td>\n' +
-            '    <td>' + da[0] + '</td>\n' +
-            '    <td>' + da[1] + '</td>\n' +
-            '    <td>' + da[2] + '</td>\n' +
-            '    <td>' + da[3] + '</td>\n' +
-            '    <td>' + da[4] + '</td>\n' +
-            '    <td>' + getNumber(da[5]) + '</td>\n' +
-            '    <td>' + da[6] + '</td>\n' +
-            '    <td>' + da[7] + '</td>\n' +
-            '    <td>' + da[8] + '</td>\n' +
-            '    <td>' + getStringWithspace(da[9]) + '</td>\n' +
-            '    <td>' + getStringWithspace(da[10]) + '</td>\n' +
-            '    </tr>';
-
-        $('#content').append(str);
-    }
+    <%--var datas = <%=JSON.toJSONString(list)%>;--%>
+//    for (var i = 1; i < datas.length + 1; i++) {
+//        var da = datas[i - 1];
+//        var str = '<tr>\n' +
+//            '    <td>' + i + '</td>\n' +
+//            '    <td>' + da[0] + '</td>\n' +
+//            '    <td>' + da[1] + '</td>\n' +
+//            '    <td>' + da[2] + '</td>\n' +
+//            '    <td>' + da[3] + '</td>\n' +
+//            '    <td>' + da[4] + '</td>\n' +
+//            '    <td>' + getNumber(da[5]) + '</td>\n' +
+//            '    <td>' + da[6] + '</td>\n' +
+//            '    <td>' + da[7] + '</td>\n' +
+//            '    <td>' + da[8] + '</td>\n' +
+//            '    <td>' + getStringWithspace(da[9]) + '</td>\n' +
+//            '    <td>' + getStringWithspace(da[10]) + '</td>\n' +
+//            '    </tr>';
+//
+//        $('#content').append(str);
+//    }
 
 
     $(function () {

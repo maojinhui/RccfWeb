@@ -268,13 +268,13 @@
                     </li>
                 </ul>
                    <% }%>
-                <ul class="sidebar-nav sidebar-nav-sub">
-                    <li class="sidebar-nav-link">
-                        <a class="rcmenu" data-rccf-menu="/agency/list">
-                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 渠道列表
-                        </a>
-                    </li>
-                </ul>
+                <%--<ul class="sidebar-nav sidebar-nav-sub">--%>
+                    <%--<li class="sidebar-nav-link">--%>
+                        <%--<a class="rcmenu" data-rccf-menu="/agency/list">--%>
+                            <%--<span class="am-icon-angle-right sidebar-nav-link-logo"></span> 渠道列表--%>
+                        <%--</a>--%>
+                    <%--</li>--%>
+                <%--</ul>--%>
                 <ul class="sidebar-nav sidebar-nav-sub">
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/prod/listPage">

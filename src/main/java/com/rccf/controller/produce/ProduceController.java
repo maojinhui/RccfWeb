@@ -224,24 +224,27 @@ public class ProduceController {
         String produce_code = request.getParameter("produce_code");
 //        String agency_id = request.getParameter("agency_id");
         String agency_name = request.getParameter("agency_name");
-        RAgency ragencyByName = AgencyVerify.getRagencyByName(baseService, agency_name);
-        if (ragencyByName == null) {
+//        RAgency ragencyByName = AgencyVerify.getRagencyByName(baseService, agency_name);
+//        if (ragencyByName == null) {
+//            return ResponseUtil.fail(0, "请填写正确的机构名称");
+//        }
+//        int agency_id = ragencyByName.getId();
+
+        if(Strings.isNullOrEmpty(agency_name)){
             return ResponseUtil.fail(0, "请填写正确的机构名称");
         }
-        int agency_id = ragencyByName.getId();
-
         String produce_name = request.getParameter("produce_name");
 
-        if (Strings.isNullOrEmpty(produce_code)) {
-            return ResponseUtil.fail(0, "产品编号不能为空");
-        }
+//        if (Strings.isNullOrEmpty(produce_code)) {
+//            return ResponseUtil.fail(0, "产品编号不能为空");
+//        }
 //        boolean has = ProduceVerify.hasProduceCode(baseService, produce_code);
 //        if (has) {
 //            return ResponseUtil.fail(0, "产品编号已存在");
 //        }
         produce.setCode(produce_code);
         produce.setName(produce_name);
-        produce.setAgencyId(agency_id);
+//        produce.setAgencyId(agency_id);
         produce.setAgencyName(agency_name);
 
 
@@ -367,13 +370,21 @@ public class ProduceController {
         produce.setNotice(notice);
         produce.setShootReason(shoot_reason);
 
+        String recommend = request.getParameter("recommend");
+        String entry_time = request.getParameter("entry_time");
+        if(Strings.isNullOrEmpty(entry_time)){
+            return ResponseUtil.fail(0,"准入时间不能为空");
+        }
+        produce.setRecommend(recommend);
+        produce.setEntryTime(DateUtil.strToSqlDate(entry_time));
+
         try {
             boolean save = baseService.save(produce);
             if (save) {
                 AProduceAuditLog log = new AProduceAuditLog();
                 log.setProduceId(produce.getId());
                 log.setSubmit(employee.getId());
-                log.setProduceType(2);
+                log.setProduceType(1);
                 log.setSubmitTime(DateUtil.date2Timestamp(new Date()));
                 boolean savelog = baseService.save(log);
                 if (!savelog) {
@@ -450,24 +461,27 @@ public class ProduceController {
         String produce_code = request.getParameter("produce_code");
 //        String agency_id = request.getParameter("agency_id");
         String agency_name = request.getParameter("agency_name");
-        RAgency ragencyByName = AgencyVerify.getRagencyByName(baseService, agency_name);
-        if (ragencyByName == null) {
+//        RAgency ragencyByName = AgencyVerify.getRagencyByName(baseService, agency_name);
+//        if (ragencyByName == null) {
+//            return ResponseUtil.fail(0, "请填写正确的机构名称");
+//        }
+//        int agency_id = ragencyByName.getId();
+
+        if(Strings.isNullOrEmpty(agency_name)){
             return ResponseUtil.fail(0, "请填写正确的机构名称");
         }
-        int agency_id = ragencyByName.getId();
-
         String produce_name = request.getParameter("produce_name");
 
-        if (Strings.isNullOrEmpty(produce_code)) {
-            return ResponseUtil.fail(0, "产品编号不能为空");
-        }
+//        if (Strings.isNullOrEmpty(produce_code)) {
+//            return ResponseUtil.fail(0, "产品编号不能为空");
+//        }
 //        boolean has = ProduceVerify.hasProduceCode(baseService, produce_code);
 //        if (has) {
 //            return ResponseUtil.fail(0, "产品编号已存在");
 //        }
         produce.setCode(produce_code);
         produce.setName(produce_name);
-        produce.setAgencyId(agency_id);
+//        produce.setAgencyId(agency_id);
         produce.setAgencyName(agency_name);
 
 
@@ -604,6 +618,15 @@ public class ProduceController {
         produce.setNotice(notice);
         produce.setShootReason(shoot_reason);
 
+        String recommend = request.getParameter("recommend");
+        String entry_time = request.getParameter("entry_time");
+        if(Strings.isNullOrEmpty(entry_time)){
+            return ResponseUtil.fail(0,"准入时间不能为空");
+        }
+        produce.setRecommend(recommend);
+        produce.setEntryTime(DateUtil.strToSqlDate(entry_time));
+
+
         try {
             boolean save = baseService.save(produce);
             if (save) {
@@ -738,19 +761,23 @@ public class ProduceController {
 
 
         String agency_name = request.getParameter("agency_name");
-        RAgency ragencyByName = AgencyVerify.getRagencyByName(baseService, agency_name);
-        if (ragencyByName == null) {
+//        RAgency ragencyByName = AgencyVerify.getRagencyByName(baseService, agency_name);
+//        if (ragencyByName == null) {
+//            return ResponseUtil.fail(0, "请填写正确的机构名称");
+//        }
+//        int agency_id = ragencyByName.getId();
+        String produce_name = request.getParameter("name");
+        if(Strings.isNullOrEmpty(agency_name)){
             return ResponseUtil.fail(0, "请填写正确的机构名称");
         }
-        int agency_id = ragencyByName.getId();
-        String produce_name = request.getParameter("name");
-        if (Strings.isNullOrEmpty(produce_code)) {
-            return ResponseUtil.fail(0, "产品编号不能为空");
-        }
+
+//        if (Strings.isNullOrEmpty(produce_code)) {
+//            return ResponseUtil.fail(0, "产品编号不能为空");
+//        }
         produce.setName(produce_name);
         produce.setCode(produce_code);
         produce.setAgencyName(agency_name);
-        produce.setAgegncyId(agency_id);
+//        produce.setAgencyId(agency_id);
 
         String credit_type = request.getParameter("credit_type");
         String loan_people = request.getParameter("loan_people");
@@ -811,8 +838,18 @@ public class ProduceController {
         produce.setNotice(notice);
         produce.setShootReason(produce_shootreason);
 
+        String recommend = request.getParameter("recommend");
+        String entry_time = request.getParameter("entry_time");
+        if(Strings.isNullOrEmpty(entry_time)){
+            return ResponseUtil.fail(0,"准入时间不能为空");
+        }
+        produce.setRecommend(recommend);
+        produce.setEntryTime(DateUtil.strToSqlDate(entry_time));
+
+
         String access = request.getParameter("access");
         produce.setLoanAccess(access);
+
 
 
         try {
@@ -1063,6 +1100,32 @@ public class ProduceController {
         }
         return ResponseUtil.fail();
     }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/filter/list")
+    public String findProduce(HttpServletRequest request){
+        String loan_type = request.getParameter("loan_type");
+        String loan_amount = request.getParameter("loan_amount");
+        String loan_term = request.getParameter("loan_term");
+        String loan_repayment_type = request.getParameter("loan_repayment_type");
+        String loan_people = request.getParameter("loan_people");
+        String loan_xinyong_type = request.getParameter("loan_xinyong_type");
+
+
+        if(!Strings.isNullOrEmpty(loan_type)){
+
+        }
+
+        if(!Strings.isNullOrEmpty(loan_amount)){
+
+        }
+
+
+        return ResponseUtil.fail(0,"没有找到产品");
+    }
+
+
 
 
     /**

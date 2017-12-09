@@ -148,6 +148,7 @@ public class CustomerInfoController {
         DetachedCriteria criteria = DetachedCriteria.forClass(Employee.class);
         criteria.add(Restrictions.eq("role", 3));
         criteria.add(Restrictions.eq("state", 1));
+        criteria.add(Restrictions.like("department","%金融%"));
         if (department.contains("金融") && role == 2) {
             criteria.add(Restrictions.eq("director", code));
         }

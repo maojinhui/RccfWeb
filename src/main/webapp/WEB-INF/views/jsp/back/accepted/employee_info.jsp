@@ -1,5 +1,8 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.alibaba.fastjson.JSON" %><%--
+<%@ page import="com.alibaba.fastjson.JSON" %>
+<%@ page import="com.rccf.model.accept.RibaoEmployee" %>
+<%@ page import="com.rccf.util.Strings" %>
+<%@ page import="com.rccf.util.DateUtil" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/9/18
@@ -78,9 +81,45 @@
                         <th>当日受理</th>
                         <th>当日办结</th>
                         <th>当日被拒</th>
+                        <th>受理中总数</th>
+                        <th>受理中-信贷</th>
+                        <th>受理中-抵押</th>
+                        <th>受理中-质押</th>
                     </tr>
                     </thead>
                     <tbody id="content">
+                    <%
+                        List<RibaoEmployee> ribaoEmployees = (List) request.getAttribute("list");
+                        if(ribaoEmployees!=null){
+                            for (int i =0 ; i<ribaoEmployees.size();i++){
+                                RibaoEmployee info = ribaoEmployees.get(i);
+                     %>
+                    <tr>
+                    <td><%=i+1%></td>
+                    <td><%=Strings.getInputString(info.getDepartment())%></td>
+                    <td><%=Strings.getInputString(info.getName())%></td>
+                    <td><%=Strings.isNullOrEmpty(info.getFu())?info.getZong():info.getFu()%></td>
+                    <td><%=DateUtil.date2StringSimple(info.getEntry_time())%></td>
+                    <td><%=Strings.getInputString(info.getDuties())%></td>
+                    <td><%=Strings.getInputString(info.getTask())%></td>
+                    <td><%=Strings.getInputString(info.getMonthyeji())%></td>
+                    <td><%=Strings.getInputString(info.getMonthaccept())%></td>
+                    <td><%=Strings.getInputString(info.getMonthend())%></td>
+                    <td><%=Strings.getInputString(info.getMonthrefuse())%></td>
+                    <td><%=Strings.getInputString(info.getDayyeji())%></td>
+                    <td><%=Strings.getInputString(info.getDayaccept())%></td>
+                    <td><%=Strings.getInputString(info.getDayend())%></td>
+                    <td><%=Strings.getInputString(info.getDayrefuse())%></td>
+                    <td><%=Strings.getInputString(info.getNowaccept())%></td>
+                    <td><%=Strings.getInputString(info.getNowaccept_xindai())%></td>
+                    <td><%=Strings.getInputString(info.getNowaccept_diya())%></td>
+                    <td><%=Strings.getInputString(info.getNowaccept_zhiya())%></td>
+                    </tr>
+                    <%
+                            }
+                        }
+                    %>
+
                     <%--<tr>--%>
                     <%--<td>1</td>--%>
                     <%--<td>e023</td>--%>
@@ -126,9 +165,9 @@
 <script src="/js/table2excel/Blob.js"></script>
 <script src="/js/table2excel/FileSaver.js"></script>
 <script src="/js/table2excel/tableExport.js"></script>
-<%
-    List list = (List) request.getAttribute("list");
-%>
+<%--<%--%>
+    <%--List<RibaoEmployee> list = (List) request.getAttribute("list");--%>
+<%--%>--%>
 
 <script>
 
@@ -176,30 +215,30 @@
     }
 
 
-    var datas = <%=JSON.toJSONString(list)%>;
-    for (var i = 1; i < datas.length + 1; i++) {
-        var da = datas[i - 1];
-        var str = ' <tr>\n' +
-            '                        <td>' + i + '</td>\n' +
-            '                        <td>' + da[1] + '</td>\n' +
-            '                        <td>' + da[2] + '</td>\n' +
-            '                        <td>' + getLeader(da[3], da[4]) + '</td>\n' +
-            '                        <td>' + getDate(da[5]) + '</td>\n' +
-            '                        <td>' + da[6] + '</td>\n' +
-            '                        <td>' + da[7] + '</td>\n' +
-            '                        <td>' + getNumber(da[8]) + '</td>\n' +
-            '                        <td>' + da[9] + '</td>\n' +
-            '                        <td>' + da[10] + '</td>\n' +
-            '                        <td>' + da[11] + '</td>\n' +
-            '                        <td>' + getStringWithspace(da[12]) + '</td>\n' +
-            '                        <td>' + da[13] + '</td>\n' +
-            '                        <td>' + da[14] + '</td>\n' +
-            '                        <td>' + da[15] + '</td>\n' +
-            '                    </tr>';
+    <%--var datas = <%=JSON.toJSONString(list)%>;--%>
+    <%--for (var i = 1; i < datas.length + 1; i++) {--%>
+        <%--var da = datas[i - 1];--%>
+        <%--var str = ' <tr>\n' +--%>
+            <%--'                        <td>' + i + '</td>\n' +--%>
+            <%--'                        <td>' + da[1] + '</td>\n' +--%>
+            <%--'                        <td>' + da[2] + '</td>\n' +--%>
+            <%--'                        <td>' + getLeader(da[3], da[4]) + '</td>\n' +--%>
+            <%--'                        <td>' + getDate(da[5]) + '</td>\n' +--%>
+            <%--'                        <td>' + da[6] + '</td>\n' +--%>
+            <%--'                        <td>' + da[7] + '</td>\n' +--%>
+            <%--'                        <td>' + getNumber(da[8]) + '</td>\n' +--%>
+            <%--'                        <td>' + da[9] + '</td>\n' +--%>
+            <%--'                        <td>' + da[10] + '</td>\n' +--%>
+            <%--'                        <td>' + da[11] + '</td>\n' +--%>
+            <%--'                        <td>' + getStringWithspace(da[12]) + '</td>\n' +--%>
+            <%--'                        <td>' + da[13] + '</td>\n' +--%>
+            <%--'                        <td>' + da[14] + '</td>\n' +--%>
+            <%--'                        <td>' + da[15] + '</td>\n' +--%>
+            <%--'                    </tr>';--%>
 
-        $('#content').append(str);
+        <%--$('#content').append(str);--%>
 
-    }
+    <%--}--%>
 
     $(function () {
         //导出excel实现

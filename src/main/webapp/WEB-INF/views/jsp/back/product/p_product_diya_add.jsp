@@ -2,7 +2,8 @@
 <%@ page import="com.rccf.model.RAgency" %>
 <%@ page import="com.alibaba.fastjson.JSON" %>
 <%@ page import="com.rccf.model.produce.AProduceDiya" %>
-<%@ page import="com.rccf.util.Strings" %><%--
+<%@ page import="com.rccf.util.Strings" %>
+<%@ page import="com.rccf.util.DateUtil" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/11/16
@@ -508,6 +509,16 @@
                 <input id="shoot_reason" class="am-u-sm-12" type="text" value="<%=objNotNull?Strings.getInputString(diya.getShootReason()):""%>">
             </td>
         </tr>
+        <tr>
+            <td>推荐人</td>
+            <td >
+                <input id="recommend" class="am-u-sm-12" type="text" value="<%=objNotNull?Strings.getInputString(diya.getRecommend()):""%>">
+            </td>
+            <td>准入时间</td>
+            <td >
+                <input id="entry_time" class="am-u-sm-12" type="date" value="<%=objNotNull?DateUtil.date2StringSimple(diya.getEntryTime()):""%>">
+            </td>
+        </tr>
     </table>
 
 </div>
@@ -520,6 +531,7 @@
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="/js/jquery.autocompleter.js"></script>
 <script src="/js/back/datacommon.js"></script>
+<script src="/js/comm.js"></script>
 <script>
     var agencys = <%=JSON.toJSONString(agencys).replaceAll("name","label")%>;
     $('#agency_name').autocompleter({
@@ -622,6 +634,18 @@
         obj.disadvantage = disadvantage;
         obj.notice = notice;
         obj.shoot_reason = shoot_reason;
+
+        var recommend = $('#recommend').val();
+        var entry_time = $('#entry_time').val();
+        obj.recommend=recommend;
+        obj.entry_time=entry_time;
+
+        if(isNull(entry_time)){
+            alert('请填写准入时间');
+            return ;
+        }
+
+
 
         $.ajax({
             url: '/prod/edit/diya',

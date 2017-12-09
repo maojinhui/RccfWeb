@@ -3,6 +3,7 @@ package com.rccf.model.produce;
 import com.google.common.base.Objects;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
@@ -53,10 +54,10 @@ public class AProduceZhiya extends BaseProduct{
     private String recommend;
     private Integer createPerson;
     private Integer log;
+    private Date entryTime;
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
     }
@@ -495,65 +496,84 @@ public class AProduceZhiya extends BaseProduct{
         this.createPerson = createPerson;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id, name, code, agencyId, agencyName, loanPeople, repaymentType, loanBidType, loanScale, loanSacelOther, houseArea, houseAreaOther, loanAmountTao, loanAmount, loanAmountOther, supportExtension, extensionFee, loanRate, personMaterial, companyMaterial, minAge, maxAge, ageOther, minMonth, mixMonth, fixedMonth, diyaType, houseOwnership, applyLoanType, applyHouseAge, applyHouseNature, folkMortgageAffect, loanMaxHouseageplusloanyear, loanMaxHouseageplusloanyearOther, differentLoanMortgage, processDetails, advantage, disadvantage, notice, shootReason, state, createTime, recommend, createPerson);
+    @Basic
+    @Column(name = "log")
+    public Integer getLog() {
+        return log;
+    }
+
+    public void setLog(Integer log) {
+        this.log = log;
+    }
+
+    @Basic
+    @Column(name = "entry_time")
+    public Date getEntryTime() {
+        return entryTime;
+    }
+
+    public void setEntryTime(Date entryTime) {
+        this.entryTime = entryTime;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        final AProduceZhiya other = (AProduceZhiya) obj;
-        return Objects.equal(this.id, other.id)
-                && Objects.equal(this.name, other.name)
-                && Objects.equal(this.code, other.code)
-                && Objects.equal(this.agencyId, other.agencyId)
-                && Objects.equal(this.agencyName, other.agencyName)
-                && Objects.equal(this.loanPeople, other.loanPeople)
-                && Objects.equal(this.repaymentType, other.repaymentType)
-                && Objects.equal(this.loanBidType, other.loanBidType)
-                && Objects.equal(this.loanScale, other.loanScale)
-                && Objects.equal(this.loanSacelOther, other.loanSacelOther)
-                && Objects.equal(this.houseArea, other.houseArea)
-                && Objects.equal(this.houseAreaOther, other.houseAreaOther)
-                && Objects.equal(this.loanAmountTao, other.loanAmountTao)
-                && Objects.equal(this.loanAmount, other.loanAmount)
-                && Objects.equal(this.loanAmountOther, other.loanAmountOther)
-                && Objects.equal(this.supportExtension, other.supportExtension)
-                && Objects.equal(this.extensionFee, other.extensionFee)
-                && Objects.equal(this.loanRate, other.loanRate)
-                && Objects.equal(this.personMaterial, other.personMaterial)
-                && Objects.equal(this.companyMaterial, other.companyMaterial)
-                && Objects.equal(this.minAge, other.minAge)
-                && Objects.equal(this.maxAge, other.maxAge)
-                && Objects.equal(this.ageOther, other.ageOther)
-                && Objects.equal(this.minMonth, other.minMonth)
-                && Objects.equal(this.mixMonth, other.mixMonth)
-                && Objects.equal(this.fixedMonth, other.fixedMonth)
-                && Objects.equal(this.diyaType, other.diyaType)
-                && Objects.equal(this.houseOwnership, other.houseOwnership)
-                && Objects.equal(this.applyLoanType, other.applyLoanType)
-                && Objects.equal(this.applyHouseAge, other.applyHouseAge)
-                && Objects.equal(this.applyHouseNature, other.applyHouseNature)
-                && Objects.equal(this.folkMortgageAffect, other.folkMortgageAffect)
-                && Objects.equal(this.loanMaxHouseageplusloanyear, other.loanMaxHouseageplusloanyear)
-                && Objects.equal(this.loanMaxHouseageplusloanyearOther, other.loanMaxHouseageplusloanyearOther)
-                && Objects.equal(this.differentLoanMortgage, other.differentLoanMortgage)
-                && Objects.equal(this.processDetails, other.processDetails)
-                && Objects.equal(this.advantage, other.advantage)
-                && Objects.equal(this.disadvantage, other.disadvantage)
-                && Objects.equal(this.notice, other.notice)
-                && Objects.equal(this.shootReason, other.shootReason)
-                && Objects.equal(this.state, other.state)
-                && Objects.equal(this.createTime, other.createTime)
-                && Objects.equal(this.recommend, other.recommend)
-                && Objects.equal(this.createPerson, other.createPerson);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AProduceZhiya zhiya = (AProduceZhiya) o;
+        return id == zhiya.id &&
+                Objects.equal(name, zhiya.name) &&
+                Objects.equal(code, zhiya.code) &&
+                Objects.equal(agencyId, zhiya.agencyId) &&
+                Objects.equal(agencyName, zhiya.agencyName) &&
+                Objects.equal(loanPeople, zhiya.loanPeople) &&
+                Objects.equal(repaymentType, zhiya.repaymentType) &&
+                Objects.equal(loanBidType, zhiya.loanBidType) &&
+                Objects.equal(loanScale, zhiya.loanScale) &&
+                Objects.equal(loanSacelOther, zhiya.loanSacelOther) &&
+                Objects.equal(houseArea, zhiya.houseArea) &&
+                Objects.equal(houseAreaOther, zhiya.houseAreaOther) &&
+                Objects.equal(loanAmountTao, zhiya.loanAmountTao) &&
+                Objects.equal(loanAmount, zhiya.loanAmount) &&
+                Objects.equal(loanAmountOther, zhiya.loanAmountOther) &&
+                Objects.equal(supportExtension, zhiya.supportExtension) &&
+                Objects.equal(extensionFee, zhiya.extensionFee) &&
+                Objects.equal(loanRate, zhiya.loanRate) &&
+                Objects.equal(personMaterial, zhiya.personMaterial) &&
+                Objects.equal(companyMaterial, zhiya.companyMaterial) &&
+                Objects.equal(minAge, zhiya.minAge) &&
+                Objects.equal(maxAge, zhiya.maxAge) &&
+                Objects.equal(ageOther, zhiya.ageOther) &&
+                Objects.equal(minMonth, zhiya.minMonth) &&
+                Objects.equal(mixMonth, zhiya.mixMonth) &&
+                Objects.equal(fixedMonth, zhiya.fixedMonth) &&
+                Objects.equal(diyaType, zhiya.diyaType) &&
+                Objects.equal(houseOwnership, zhiya.houseOwnership) &&
+                Objects.equal(applyLoanType, zhiya.applyLoanType) &&
+                Objects.equal(applyHouseAge, zhiya.applyHouseAge) &&
+                Objects.equal(applyHouseNature, zhiya.applyHouseNature) &&
+                Objects.equal(folkMortgageAffect, zhiya.folkMortgageAffect) &&
+                Objects.equal(loanMaxHouseageplusloanyear, zhiya.loanMaxHouseageplusloanyear) &&
+                Objects.equal(loanMaxHouseageplusloanyearOther, zhiya.loanMaxHouseageplusloanyearOther) &&
+                Objects.equal(differentLoanMortgage, zhiya.differentLoanMortgage) &&
+                Objects.equal(processDetails, zhiya.processDetails) &&
+                Objects.equal(advantage, zhiya.advantage) &&
+                Objects.equal(disadvantage, zhiya.disadvantage) &&
+                Objects.equal(notice, zhiya.notice) &&
+                Objects.equal(shootReason, zhiya.shootReason) &&
+                Objects.equal(state, zhiya.state) &&
+                Objects.equal(createTime, zhiya.createTime) &&
+                Objects.equal(recommend, zhiya.recommend) &&
+                Objects.equal(createPerson, zhiya.createPerson) &&
+                Objects.equal(log, zhiya.log) &&
+                Objects.equal(entryTime, zhiya.entryTime);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id, name, code, agencyId, agencyName, loanPeople, repaymentType, loanBidType, loanScale, loanSacelOther, houseArea, houseAreaOther, loanAmountTao, loanAmount, loanAmountOther, supportExtension, extensionFee, loanRate, personMaterial, companyMaterial, minAge, maxAge, ageOther, minMonth, mixMonth, fixedMonth, diyaType, houseOwnership, applyLoanType, applyHouseAge, applyHouseNature, folkMortgageAffect, loanMaxHouseageplusloanyear, loanMaxHouseageplusloanyearOther, differentLoanMortgage, processDetails, advantage, disadvantage, notice, shootReason, state, createTime, recommend, createPerson, log, entryTime);
+    }
+
 
     @Override
     public String toString() {
@@ -602,16 +622,8 @@ public class AProduceZhiya extends BaseProduct{
                 .add("createTime", createTime)
                 .add("recommend", recommend)
                 .add("createPerson", createPerson)
+                .add("log", log)
+                .add("entryTime", entryTime)
                 .toString();
-    }
-
-    @Basic
-    @Column(name = "log")
-    public Integer getLog() {
-        return log;
-    }
-
-    public void setLog(Integer log) {
-        this.log = log;
     }
 }

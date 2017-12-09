@@ -3,13 +3,14 @@ package com.rccf.model.produce;
 import com.google.common.base.Objects;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "a_produce_credit", schema = "rccf", catalog = "")
 public class AProduceCredit {
     private int id;
-    private Integer agegncyId;
+    private Integer agencyId;
     private String agencyName;
     private String name;
     private String code;
@@ -53,10 +54,10 @@ public class AProduceCredit {
     private String recommend;
     private Integer state;
     private Integer log;
+    private Date entryTime;
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
         return id;
     }
@@ -67,12 +68,12 @@ public class AProduceCredit {
 
     @Basic
     @Column(name = "agency_id")
-    public Integer getAgegncyId() {
-        return agegncyId;
+    public Integer getAgencyId() {
+        return agencyId;
     }
 
-    public void setAgegncyId(Integer agegncyId) {
-        this.agegncyId = agegncyId;
+    public void setAgencyId(Integer agencyId) {
+        this.agencyId = agencyId;
     }
 
     @Basic
@@ -505,13 +506,23 @@ public class AProduceCredit {
         this.log = log;
     }
 
+    @Basic
+    @Column(name = "entry_time")
+    public Date getEntryTime() {
+        return entryTime;
+    }
+
+    public void setEntryTime(Date entryTime) {
+        this.entryTime = entryTime;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AProduceCredit credit = (AProduceCredit) o;
         return id == credit.id &&
-                Objects.equal(agegncyId, credit.agegncyId) &&
+                Objects.equal(agencyId, credit.agencyId) &&
                 Objects.equal(agencyName, credit.agencyName) &&
                 Objects.equal(name, credit.name) &&
                 Objects.equal(code, credit.code) &&
@@ -554,20 +565,20 @@ public class AProduceCredit {
                 Objects.equal(createPerson, credit.createPerson) &&
                 Objects.equal(recommend, credit.recommend) &&
                 Objects.equal(state, credit.state) &&
-                Objects.equal(log, credit.log);
+                Objects.equal(log, credit.log) &&
+                Objects.equal(entryTime, credit.entryTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, agegncyId, agencyName, name, code, loanPeople, repaymentType, loanTimeMin, loanTimeMax, loanCreditType, loanArea, loanAmountMin, loanAmountMax, applyAgeMin, applyAgeMax, applyAgeDescription, loanRateMin, loanRateMax, loanRateDescription, loanTermMin, loanTermMax, loanShangkou, loanShagnkouDescription, loanWeiyuejin, loanWeiyuejinDescription, loanPingtaifei, loanPingtaifeiDescription, loanMaterialPersonal, loanMaterialCompany, loanAccess, creditInquireClaim, creditOverdueClaim, creditDebtClaim, creditOtherClaim, accessRequirement, processDetail, advantage, disadvantage, notice, shootReason, createTime, createPerson, recommend, state, log);
+        return Objects.hashCode(id, agencyId, agencyName, name, code, loanPeople, repaymentType, loanTimeMin, loanTimeMax, loanCreditType, loanArea, loanAmountMin, loanAmountMax, applyAgeMin, applyAgeMax, applyAgeDescription, loanRateMin, loanRateMax, loanRateDescription, loanTermMin, loanTermMax, loanShangkou, loanShagnkouDescription, loanWeiyuejin, loanWeiyuejinDescription, loanPingtaifei, loanPingtaifeiDescription, loanMaterialPersonal, loanMaterialCompany, loanAccess, creditInquireClaim, creditOverdueClaim, creditDebtClaim, creditOtherClaim, accessRequirement, processDetail, advantage, disadvantage, notice, shootReason, createTime, createPerson, recommend, state, log, entryTime);
     }
-
 
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
                 .add("id", id)
-                .add("agegncyId", agegncyId)
+                .add("agencyId", agencyId)
                 .add("agencyName", agencyName)
                 .add("name", name)
                 .add("code", code)
@@ -611,6 +622,7 @@ public class AProduceCredit {
                 .add("recommend", recommend)
                 .add("state", state)
                 .add("log", log)
+                .add("entryTime", entryTime)
                 .toString();
     }
 }

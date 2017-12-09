@@ -7,6 +7,9 @@ import com.rccf.constants.ResponseConstants;
 import com.rccf.constants.UrlConstants;
 import com.rccf.enmu.HeaderType;
 import com.rccf.model.*;
+import com.rccf.model.accept.RibaoDeputyDirector;
+import com.rccf.model.accept.RibaoDirector;
+import com.rccf.model.accept.RibaoEmployee;
 import com.rccf.service.AcceptedService;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
@@ -377,22 +380,25 @@ public class AcceptedController {
 
         ModelAndView modelAndView = new ModelAndView("/back/accepted/employee_info");
         String sql = "SELECT e.`code`, e.`department`,e.name,\n" +
-                " ( SELECT name from `employee` e1 WHERE e1.`code`= e.dupty_director) as fu,\n" +
-                " ( SELECT name from `employee` e1  WHERE e1.`code`= e.`director` ) as zong,\n" +
-                "  e.`entry_time` ,e.`duties` ,20000 as task,\n" +
-                "(SELECT  sum(a.`service_fee_actual`)   FROM `accepted` a WHERE  a.`end_date`  >= '" + month_start + "' and  a.`end_date` <'" + month_end + "'  and  a.`clerk` =e.`code` and a.`state`=2 ) as monthyeji,\n" +
-                "(SELECT COUNT(*) FROM `accepted` a WHERE a.`accept_time` >='" + month_start + "'  and a.`accept_time` <'" + month_end + "'  and a.`clerk` =e.`code`  ) as monthaccept,\n" +
-                "(SELECT COUNT(*) FROM `accepted` a WHERE a.`end_date` >='" + month_start + "' and a.`end_date` <'" + month_end + "'  and a.`clerk` =e.`code` and `state` = 2) as monthend,\n" +
-                "(SELECT COUNT(*) FROM `accepted` a WHERE a.`create_time`  >='" + month_start + "' and a.`create_time` <'" + month_end + "'  and a.`clerk` =e.`code`  and `state` = 3) as monthrefuse,\n" +
+                "                              ( SELECT name from `employee` e1 WHERE e1.`code`= e.dupty_director) as fu,\n" +
+                "                              ( SELECT name from `employee` e1  WHERE e1.`code`= e.`director` ) as zong,\n" +
+                "  e.`entry_time` ,e.`duties` ,2000 as task,\n" +
+                "                              (SELECT  sum(a.`service_fee_actual`)   FROM accepted a WHERE  a.`end_date`  >= '"+month_start+"' and  a.`end_date` < '"+month_end+"'  and  a.`clerk` =e.`code` and a.`state`=2 ) as monthyeji,\n" +
+                "                              (SELECT COUNT(*) FROM accepted a WHERE a.`accept_time` >='"+month_start+"'  and a.`accept_time` <'"+month_end+"'  and a.`clerk` =e.`code`  ) as monthaccept,\n" +
+                "                              (SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >='"+month_start+"' and a.`end_date` <'"+month_end+"'  and a.`clerk` =e.`code` ) as monthend,\n" +
+                "                              (SELECT COUNT(*) FROM accepted a WHERE a.`create_time`  >='"+month_start+"' and a.`create_time` <'"+month_end+"'  and a.`clerk` =e.`code`  and `state` = 3) as monthrefuse,\n" +
                 "\n" +
-                "(SELECT  sum(a.`service_fee_actual`)   FROM `accepted` a WHERE  a.`end_date`  >= '" + day_start + "'  and  a.`end_date` <'" + day_end + "'  and  a.`clerk` =e.`code` and `state` = 2) as dayyeji,\n" +
-                "(SELECT COUNT(*) FROM `accepted` a WHERE a.`accept_time` >='" + day_start + "'  and a.`accept_time` <'" + day_end + "'  and a.`clerk` =e.`code`  ) as dayaccept,\n" +
-                "(SELECT COUNT(*) FROM `accepted` a WHERE a.`end_date` >='" + day_start + "'  and a.`end_date` <'" + day_end + "'  and a.`clerk` =e.`code` and `state` = 2) as dayend,\n" +
-                "(SELECT COUNT(*) FROM `accepted` a WHERE a.`create_time`  >='" + day_start + "'  and a.`create_time` <'" + day_end + "'  and a.`clerk` =e.`code`  and `state` = 3) as dayrefuse\n" +
-                "\n" +
-                " FROM `employee` e  WHERE department LIKE '%金融%' AND  `role`= 4 AND `state` =1 ORDER BY monthyeji DESC";
+                "                              (SELECT  sum(a.`service_fee_actual`)   FROM accepted a WHERE  a.`end_date`  >= '"+day_start+"'  and  a.`end_date` <'"+day_end+"'  and  a.`clerk` =e.`code` ) as dayyeji,\n" +
+                "                              (SELECT COUNT(*) FROM accepted a WHERE a.`accept_time` >='"+day_start+"'  and a.`accept_time` <'"+day_end+"'  and a.`clerk` =e.`code`  ) as dayaccept,\n" +
+                "                              (SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >='"+day_start+"'  and a.`end_date` <'"+day_end+"'  and a.`clerk` =e.`code` ) as dayend,\n" +
+                "                              (SELECT COUNT(*) FROM accepted a WHERE a.`create_time`  >='"+day_start+"'  and a.`create_time` <'"+day_end+"'  and a.`clerk` =e.`code`  and `state` = 3) as dayrefuse,\n" +
+                "                              (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` =e.`code` ) as nowaccept,\n" +
+                "                              (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` =e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
+                "                              (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` =e.`code` AND a.business_type=1 ) as nowaccept_diya,\n" +
+                "                              (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` =e.`code`AND a.business_type=2 ) as nowaccept_zhiya\n" +
+                "FROM `employee` e  WHERE `role`= 4 AND `state` =1 ORDER BY monthyeji DESC";
 
-        List list = baseService.queryBySql(sql);
+        List list = baseService.queryBySqlFormatClass(sql, RibaoEmployee.class);
         modelAndView.addObject("list", list);
 
         return modelAndView;
@@ -419,7 +425,7 @@ public class AcceptedController {
         String month_end = DateUtil.getPerFirstDayOfMonth(date);
 
         ModelAndView modelAndView = new ModelAndView("/back/accepted/dupty_info");
-        String sql = "SELECT e.`department` ,e.`name`   ,\n" +
+        String sql = "SELECT e.code , e.`department` ,e.`name`   ,\n" +
                 "  (SELECT  COUNT(*) from `accepted` a WHERE  a.`accept_time` >= '" + month_start + "' and a.`accept_time` < '" + month_end + "'  and  a.`deputy_director` =e.code ) as monthaccept,\n" +
                 "  (SELECT COUNT(*) FROM `accepted` a WHERE a.`end_date` >= '" + month_start + "' and a.`end_date` < '" + month_end + "'  and  a.`deputy_director` =e.code  and `state` =2) as monthend,\n" +
                 "  (SELECT COUNT(*) FROM `accepted` a WHERE a.`create_time`  >= '" + month_start + "' and a.`create_time`< '" + month_end + "'  and  a.`deputy_director` =e.code AND `state` =3 ) as monthrefuse,\n" +
@@ -431,11 +437,15 @@ public class AcceptedController {
                 "  (SELECT sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + day_start + "' and a.`end_date`< '" + day_end + "'   and  a.`deputy_director` =e.code AND `state` =2) as dayyeji,\n" +
                 " ( SELECT  COUNT(*) from (SELECT COUNT(*),`clerk`,`director`, `deputy_director` FROM `accepted` a  \n" +
                 "WHERE a.`end_date` >'" + month_start + "'  and a.`end_date`  < '" + month_end + "' and a.`state` =2 AND  `clerk` IS NOT NULL  \n" +
-                "GROUP BY a.`clerk` ) as p  WHERE p.`deputy_director`=e.`code` ) as pcount \n" +
+                "GROUP BY a.`clerk` ) as p  WHERE p.`deputy_director`=e.`code` ) as pcount, \n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` ) as nowaccept,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type=1 ) as nowaccept_diya,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type=2 ) as nowaccept_zhiya\n" +
                 "FROM `employee` e \n" +
                 "WHERE department LIKE '%金融%' AND  e.`role` =3 and e.`state` =1 ORDER BY monthyeji DESC ";
 
-        List list = baseService.queryBySql(sql);
+        List list = baseService.queryBySqlFormatClass(sql , RibaoDeputyDirector.class);
         modelAndView.addObject("list", list);
         logger.error(JSON.toJSONString(list));
 
@@ -463,7 +473,7 @@ public class AcceptedController {
         String month_end = DateUtil.getPerFirstDayOfMonth(date);
 
         ModelAndView modelAndView = new ModelAndView("/back/accepted/director_info");
-        String sql = "SELECT e.`department` ,e.`name`   ,\n" +
+        String sql = "SELECT e.code , e.`department` ,e.`name`   ,\n" +
                 "  (SELECT  COUNT(*) from `accepted` a WHERE  a.`accept_time` >= '" + month_start + "' and a.`accept_time` < '" + month_end + "'  and  a.`director` =e.code ) as monthaccept,\n" +
                 "  (SELECT COUNT(*) FROM `accepted` a WHERE a.`end_date` >= '" + month_start + "' and a.`end_date` < '" + month_end + "'  and  a.`director` =e.code  and `state` =2) as monthend,\n" +
                 "  (SELECT COUNT(*) FROM `accepted` a WHERE a.`create_time`  >= '" + month_start + "' and a.`create_time`< '" + month_end + "'  and  a.`director` =e.code AND `state` =3 ) as monthrefuse,\n" +
@@ -475,11 +485,15 @@ public class AcceptedController {
                 "  (SELECT sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + day_start + "' and a.`end_date`< '" + day_end + "'   and  a.`director` =e.code AND `state` =2) as dayyeji,\n" +
                 " (SELECT  COUNT(*) from (SELECT COUNT(*),`clerk`,`director`, `deputy_director`    FROM `accepted` a  \n" +
                 "WHERE a.`end_date` >'" + month_start + "'  and a.`end_date`  < '" + month_end + "' and a.`state` =2 AND  `clerk` IS NOT NULL  \n" +
-                "GROUP BY a.`clerk` ) as p  WHERE p.`director`=e.`code` ) as pcount \n" +
+                "GROUP BY a.`clerk` ) as p  WHERE p.`director`=e.`code` ) as pcount , \n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` ) as nowaccept,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type=1 ) as nowaccept_diya,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type=2 ) as nowaccept_zhiya\n" +
                 "FROM `employee` e \n" +
                 "WHERE department LIKE '%金融%' AND  e.`role` =2 and e.`state` =1 ORDER BY monthyeji DESC ";
 
-        List list = baseService.queryBySql(sql);
+        List list = baseService.queryBySqlFormatClass(sql , RibaoDirector.class);
         modelAndView.addObject("list", list);
         logger.error(JSON.toJSONString(list));
         return modelAndView;
