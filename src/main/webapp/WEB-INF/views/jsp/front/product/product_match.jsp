@@ -22,8 +22,14 @@
             width: 100%;
             overflow-x: hidden;
             overflow-y: auto;
+            background-color: #f5f5f5;
+
         }
 
+        p {
+            margin: 0;
+            padding: 0;
+        }
         .am-u-sm-35,
         .am-u-sm-25 {
             font-size: 0.35rem;
@@ -54,96 +60,12 @@
             color: #f35842;
         }
 
-        .product-data {
-
-            position: relative;
-
-            height: 3rem;
-
-            font-size: 0.35rem;
-            background-color: #fff;
-            color: #1f2224;
-
-            padding: 0.2rem;
-
-            border-bottom: solid 1px #369;
-        }
-
-        .product-data .am-u-sm-2 {
-            padding: 0;
-        }
-
-        .product-data .am-u-sm-10 {
-            padding: 0 0.4rem;
-        }
-
-        .product-data img {
-            display: inline-block;
-            margin-top: 0.3rem;
-            height: 1.4rem;
-            width: 1.4rem;
-        }
-
-        .product-org {
-            font-size: 0.5rem;
-            margin-top: 0;
-            margin-bottom: 0.2rem;
-        }
-
-        .product-apply {
-            font-size: 0.3rem;
-            margin-top: 0;
-            margin-bottom: 0.2rem;
-
-        }
-
-        .product-advantage {
-            font-size: 0.3rem;
-            margin-top: 0;
-            margin-bottom: 0.2rem;
-        }
-
-        .product-advantage span {
-            display: inline-block;
-            width: 1.6rem;
-            text-align: center;
-            font-size: 0.3rem;
-            font-weight: 200;
-            padding: 0.06rem;
-            border-radius: 0.05rem;
-        }
-
-        .no-diya {
-            border: solid 1px green;
-            color: green;
-        }
-
-        .house-diya {
-            border: solid 1px red;
-            color: red;
-        }
-
-        .intermediary {
-            border: solid 1px blue;
-            color: blue;
-        }
-
-        .product-loan {
-            position: absolute;
-            right: 0.02rem;
-            bottom: 0.02rem;
-        }
-
-        .product-loan a {
-            font-size: 0.4rem;
-        }
-
         .little-info {
             height: 1rem;
 
             font-size: 0.35rem;
-            background-color: #e2e2e2;
-            color: #000000;
+            background-color: #f5f5f5;
+            color: #5d6468;
 
             padding-top: 0.2rem;
             padding-left: 0.27rem;
@@ -193,9 +115,10 @@
 
             margin-bottom: 0.2rem;
             border: 1px solid #f5cecd;
+            border-radius: 2px;
         }
 
-        a:last-child {
+        .loan-title-end {
             margin-left: 0.4rem;
             float: left;
         }
@@ -213,6 +136,111 @@
 
         .loan-btn {
             font-size: 0.4rem;
+        }
+    </style>
+    <style type="text/css">
+        .loan-product {
+            position: relative;
+            float: left;
+            font-size: 0.4rem;
+
+            width: 100%;
+            height: 4rem;
+
+            background-color: #fff;
+
+            margin-bottom: 0.4rem;
+            padding: 0.4rem;
+        }
+
+        .loan-product-title {
+            font-size: 0.48rem;
+
+            padding-bottom: 0.2rem;
+            border-bottom: 0.01rem solid #f5cecd;
+        }
+
+        .house-zhiya {
+            font-size: 0.35rem;
+            padding: 0.05rem;
+            margin-left: 1em;
+            border: solid 1px #f59490;
+            color: #f59490;
+        }
+
+        .house-diya {
+            font-size: 0.35rem;
+            padding: 0.05rem;
+            margin-left: 1em;
+            border: solid 1px #dd514c;
+            color: #dd514c;
+        }
+
+        .intermediary {
+            font-size: 0.35rem;
+            padding: 0.05rem;
+            margin-left: 1em;
+            border: solid 1px #3bb4f2;
+            color: #3bb4f2;
+        }
+
+        .loan-product-left {
+            position: relative;
+            float: left;
+            width: 33%;
+
+            text-align: center;
+
+            margin-top: 0.4rem;
+            border-right: 0.01rem solid #f5cecd;
+
+        }
+
+        .loan-product-left p:first-child {
+            font-size: 0.6rem;
+            color: #f59490;
+        }
+
+        .loan-product-left p:last-child {
+            font-size: 0.35rem;
+            color: #e1e1e1;
+        }
+
+        .loan-product-right {
+            position: relative;
+            float: left;
+            width: 60%;
+
+            margin-left: 0.4rem;
+            margin-top: 0.45rem;
+
+        }
+
+        .loan-product-right p {
+            font-size: 0.35rem;
+            color: #697882;
+        }
+
+        .loan-product-btn,
+        .loan-product-btn:link,
+        .loan-product-btn:visited,
+        .loan-product-btn:hover,
+        .loan-product-btn:active {
+            position: absolute;
+            font-size: 0.3rem;
+
+            background-color: #fff;
+            color: #f59490;
+
+            right: 0.4rem;
+            top: 2rem;
+            padding: 0.1rem;
+
+            border: solid 0.01rem #f59490;
+        }
+
+        .text-green {
+            color: #5eb95e;
         }
     </style>
 </head>
@@ -239,119 +267,49 @@
     </div>
     <div class="am-g ">
         <div class="am-u-sm-12  little-info">
-            为您找到以下贷款：
-        </div>
-        <div class="am-u-sm-12  product-data">
-            <div class="am-u-sm-2">
-                <img src="../../i/logo.png">
-            </div>
-            <div class="am-u-sm-10">
-                <p class="product-org">友信-秒贷</p>
-                <p class="product-apply">2292人申请/2天放款</p>
-                <p class="product-advantage">
-                    <span class="house-diya">房屋抵押</span>
-                    <span class="intermediary">中介</span>
-                </p>
-                <div class="am-align-right product-loan">
-                    <a class="am-btn am-btn-danger">立即申请</a>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="am-u-sm-12  product-data">
-                <div class="am-u-sm-2">
-                    <img src="../../i/logo.png">
-                </div>
-                <div class="am-u-sm-10">
-                    <p class="product-org">友信-秒贷</p>
-                    <p class="product-apply">2292人申请/2天放款</p>
-                    <p class="product-advantage">
-                        <span class="no-diya">无抵押</span>
-                    </p>
-                    <div class="am-align-right product-loan">
-                        <a class="am-btn am-btn-danger">立即申请</a>
-                    </div>
-                </div>
-            </div>
-            <div class="am-u-sm-12  product-data">
-                <div class="am-u-sm-2">
-                    <img src="../../i/logo.png">
-                </div>
-                <div class="am-u-sm-10">
-                    <p class="product-org">友信-秒贷</p>
-                    <p class="product-apply">2292人申请/2天放款</p>
-                    <p class="product-advantage">
-                        <span class="no-diya">无抵押</span>
-                    </p>
-                    <div class="am-align-right product-loan">
-                        <a class="am-btn am-btn-danger">立即申请</a>
-                    </div>
-                </div>
-            </div>
-            <div class="am-u-sm-12  product-data">
-                <div class="am-u-sm-2">
-                    <img src="../../i/logo.png">
-                </div>
-                <div class="am-u-sm-10">
-                    <p class="product-org">友信-秒贷</p>
-                    <p class="product-apply">2292人申请/2天放款</p>
-                    <p class="product-advantage">
-                        <span class="no-diya">无抵押</span>
-                    </p>
-                    <div class="am-align-right product-loan">
-                        <a class="am-btn am-btn-danger">立即申请</a>
-                    </div>
-                </div>
-            </div>
-            <div class="am-u-sm-12  product-data">
-                <div class="am-u-sm-2">
-                    <img src="../../i/logo.png">
-                </div>
-                <div class="am-u-sm-10">
-                    <p class="product-org">友信-秒贷</p>
-                    <p class="product-apply">2292人申请/2天放款</p>
-                    <p class="product-advantage">
-                        <span class="no-diya">无抵押</span>
-                    </p>
-                    <div class="am-align-right product-loan">
-                        <a class="am-btn am-btn-danger">立即申请</a>
-                    </div>
-                </div>
-            </div>
-            <div class="am-u-sm-12  product-data">
-                <div class="am-u-sm-2">
-                    <img src="../../i/logo.png">
-                </div>
-                <div class="am-u-sm-10">
-                    <p class="product-org">友信-秒贷</p>
-                    <p class="product-apply">2292人申请/2天放款</p>
-                    <p class="product-advantage">
-                        <span class="no-diya">无抵押</span>
-                    </p>
-                    <div class="am-align-right product-loan">
-                        <a class="am-btn am-btn-danger">立即申请</a>
-                    </div>
-                </div>
-            </div>
-            <div class="am-u-sm-12  product-data">
-                <div class="am-u-sm-2">
-                    <img src="../../i/logo.png">
-                </div>
-                <div class="am-u-sm-10">
-                    <p class="product-org">友信-秒贷</p>
-                    <p class="product-apply">2292人申请/2天放款</p>
-                    <p class="product-advantage">
-                        <span class="no-diya">无抵押</span>
-                    </p>
-                    <div class="am-align-right product-loan">
-                        <a class="am-btn am-btn-danger">立即申请</a>
-                    </div>
-                </div>
-            </div>
+            机构合作贷款产品<span class="am-text-warning">180</span>个：
         </div>
 
-
+        <div class="loan-product">
+            <div class="loan-product-title">质押神灯贷-直投贷<span class="house-zhiya">房屋质押</span></div>
+            <div class="loan-product-left">
+                <p><span>300-2000</span></p>
+                <p>额度范围(万元)</p>
+            </div>
+            <div class="loan-product-right">
+                <p>月费率：<span class="text-green">1.91%-2.20%</span></p>
+                <p>贷款期限：<span class="text-green">3-36个月</span></p>
+            </div>
+            <a class="loan-product-btn">申请贷款</a>
+        </div>
+        <div class="loan-product">
+            <div class="loan-product-title">质押神灯贷-直投贷<span class="house-diya">房屋抵押</span></div>
+            <div class="loan-product-left">
+                <p><span>300-2000</span></p>
+                <p>额度范围(万元)</p>
+            </div>
+            <div class="loan-product-right">
+                <p>月费率：<span class="text-green">1.91%-2.20%</span></p>
+                <p>贷款期限：<span class="text-green">3-36个月</span></p>
+            </div>
+            <a class="loan-product-btn">申请贷款</a>
+        </div>
+        <div class="loan-product">
+            <div class="loan-product-title">质押神灯贷-直投贷<span class="intermediary">信用贷款</span></div>
+            <div class="loan-product-left">
+                <p><span>300-2000</span></p>
+                <p>额度范围(万元)</p>
+            </div>
+            <div class="loan-product-right">
+                <p>放款时间：<span class="text-green">1天</span></p>
+                <p>月费率：<span class="text-green">1.91%-2.20%</span></p>
+                <p>贷款期限：<span class="text-green">3-36个月</span></p>
+            </div>
+            <a class="loan-product-btn">申请贷款</a>
+        </div>
     </div>
+
+
 </div>
 <script src="../../js/self_adaption.js"></script>
 <script src="../../js/jquery.js"></script>
@@ -411,7 +369,7 @@
                     '       <a>工薪贷</a>' +
                     '       <a>生产经营贷</a>' +
                     '       <a>月供贷</a>' +
-                    '       <a>网络信用贷</a>' +
+                    '       <a class="loan-title-end">网络信用贷</a>' +
                     '   </div>\n' +
                     '      <div class="am-u-sm-12">' +
                     '         <button class="am-btn am-btn-default am-u-sm-6 loan-btn">重置</button>' +
