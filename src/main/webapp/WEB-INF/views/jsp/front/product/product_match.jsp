@@ -242,6 +242,10 @@
         .text-green {
             color: #5eb95e;
         }
+
+        .loan-money span:first-child {
+            margin-right: 2rem;
+        }
     </style>
 </head>
 <body>
@@ -347,7 +351,7 @@
             } else {
                 str += '<div class="am-u-sm-12">' +
                     '       <div class="loan-money">' +
-                    '         <span class="am-margin-right-xl">贷款金额</span>' +
+                    '         <span class="">贷款金额</span>' +
                     '         <input type="number">' +
                     '         <span>万元</span>' +
                     '       </div>  ' +
