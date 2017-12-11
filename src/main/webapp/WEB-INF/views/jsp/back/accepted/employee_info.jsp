@@ -63,8 +63,16 @@
         <div class="am-u-sm-12">
             <form class="am-form am-scrollable-horizontal">
                 <table id="employee_table"
-                       class="am-form-horizontal am-text-nowrap am-table-centered am-table am-table-striped am-table-hover table-main">
+                       class="am-form-horizontal am-text-nowrap am-table-centered am-table am-table-bordered am-table-striped am-table-hover table-main">
                     <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th colspan="4">当月情况</th>
+                        <th colspan="4">当日情况</th>
+                        <th colspan="4">受理中</th>
+                    </tr>
                     <tr>
                         <th>序号</th>
                         <th>部门</th>

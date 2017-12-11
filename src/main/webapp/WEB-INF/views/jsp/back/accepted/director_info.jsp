@@ -62,8 +62,16 @@
         <div class="am-u-sm-12">
             <form class="am-form am-scrollable-horizontal">
                 <table id="employee_table"
-                       class="am-form-horizontal am-text-nowrap am-table-centered am-table am-table-striped am-table-hover table-main">
+                       class="am-form-horizontal am-text-nowrap am-table-centered am-table am-table-bordered am-table-striped am-table-hover table-main">
                     <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th colspan="5">当月情况</th>
+                        <th colspan="4">当日情况</th>
+                        <th colspan="4">受理中</th>
+                    </tr>
                     <tr>
                         <th>序号</th>
                         <th>部门</th>
@@ -72,11 +80,11 @@
                         <th>当月办结</th>
                         <th>当月拒单</th>
                         <th>当月业绩</th>
+                        <th>当月开单人数</th>
                         <th>当日受理</th>
                         <th>当日办结</th>
                         <th>当日拒单</th>
                         <th>当日业绩</th>
-                        <th>当月开单人数</th>
                         <th>受理中总数</th>
                         <th>受理中-信贷</th>
                         <th>受理中-抵押</th>
@@ -84,6 +92,7 @@
                     </tr>
                     </thead>
                     <tbody id="content">
+
                     <%
                         List<RibaoDirector> list = (List<RibaoDirector>) request.getAttribute("list");
                         if(list!=null){
@@ -98,11 +107,12 @@
                         <td><%=Strings.getInputString(info.getMonthend())%></td>
                         <td><%=Strings.getInputString(info.getMonthrefuse())%></td>
                         <td><%=Strings.getInputString(info.getMonthyeji())%></td>
+                        <td><%=Strings.getInputString(info.getPcount())%>
+                        </td>
                         <td><%=Strings.getInputString(info.getDayaccept())%></td>
                         <td><%=Strings.getInputString(info.getDayend())%></td>
                         <td><%=Strings.getInputString(info.getDayrefuse())%></td>
                         <td><%=Strings.getInputString(info.getDayyeji())%></td>
-                        <td><%=Strings.getInputString(info.getPcount())%></td>
                         <td><%=Strings.getInputString(info.getNowaccept())%></td>
                         <td><%=Strings.getInputString(info.getNowaccept_xindai())%></td>
                         <td><%=Strings.getInputString(info.getNowaccept_diya())%></td>
