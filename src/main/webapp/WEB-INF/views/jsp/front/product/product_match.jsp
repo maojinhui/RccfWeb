@@ -30,9 +30,11 @@
             margin: 0;
             padding: 0;
         }
+
         .am-u-sm-35,
         .am-u-sm-25 {
             font-size: 0.35rem;
+            text-align: center;
             padding: 0.4em 0 0.4em 0.4em;
             border-right: 1px solid #e2e2e2;
             border-bottom: 1px solid #e2e2e2;
@@ -78,7 +80,7 @@
         }
 
         .loan-money {
-            width: 98%;
+            width: 100%;
 
             background-color: #fff;
             color: #333;
@@ -86,6 +88,10 @@
             border: 0.01rem solid #e2e2e2;
             border-radius: 2px;
 
+        }
+
+        .loan-money span:first-child {
+            margin-right: 2rem;
         }
 
         .loan-money input {
@@ -242,31 +248,80 @@
         .text-green {
             color: #5eb95e;
         }
-
-        .loan-money span:first-child {
-            margin-right: 2rem;
-        }
     </style>
 </head>
 <body>
 <div class="am-container">
     <div class="am-g" style="position: fixed;padding-top: 1em;background-color: #fff; width: 100%;z-index: 100;">
         <div data-loan-select="type" class="am-u-sm-35  ">
-            不限贷款方式 <i class="am-icon-chevron-down"></i>
+            <span class="type">不限贷款方式</span> <i class="am-icon-chevron-down"></i>
         </div>
         <div data-loan-select="repayment" class="am-u-sm-35  ">
-            不限还款方式 <i class="am-icon-chevron-down "></i>
+            <span class="repayment">不限还款方式</span> <i class="am-icon-chevron-down "></i>
         </div>
         <div data-loan-select="time" class="am-u-sm-25  ">
-            贷款期限 <i class="am-icon-chevron-down"></i>
-
+            <span class="time">贷款期限</span> <i class="am-icon-chevron-down"></i>
         </div>
         <div data-loan-select="other" class="am-u-sm-25  ">
             其他筛选 <i class="am-icon-chevron-down"></i>
         </div>
-        <div id="loan-content" class=" am-u-sm-12 am-text-center am-hide am-padding-horizontal-0"
+        <div id="loan-content" class=" am-u-sm-12 am-text-center am-padding-horizontal-0"
              style="background-color: rgba(250,250,250,1);">
-
+            <div data-selected="type" class="am-hide">
+                <div data-selected-type="0" class="am-u-sm-12 active">不限贷款方式<span class="am-icon-check"
+                                                                                  style="float: right"></span></div>
+                <div data-selected-type="1" class="am-u-sm-12">抵押</div>
+                <div data-selected-type="2" class="am-u-sm-12">质押</div>
+                <div data-selected-type="3" class="am-u-sm-12">信贷</div>
+            </div>
+            <div data-selected="repayment" class="am-hide">
+                <div data-selected-repayment="0" class="am-u-sm-12 active">不限还款方式<span class="am-icon-check"
+                                                                                       style="float: right"></span>
+                </div>
+                <div data-selected-repayment="1" class="am-u-sm-12">等额本息</div>
+                <div data-selected-repayment="2" class="am-u-sm-12 ">先息后本</div>
+                <div data-selected-repayment="3" class="am-u-sm-12">停本付息</div>
+            </div>
+            <div data-selected="time" class="am-hide">
+                <div data-selected-time="0" class="am-u-sm-12 active">不限 <span class="am-icon-check"
+                                                                               style="float: right"></span></div>
+                <div data-selected-time="1" class="am-u-sm-12">3个月</div>
+                <div data-selected-time="2" class="am-u-sm-12 ">6个月</div>
+                <div data-selected-time="3" class="am-u-sm-12">12个月</div>
+                <div data-selected-time="4" class="am-u-sm-12">12个月以上</div>
+            </div>
+            <div data-selected="other" class="am-hide">
+                <div class="am-u-sm-12">
+                    <div class="loan-money">
+                        <span class="">贷款金额</span>
+                        <input type="number">
+                        <span>万元</span>
+                    </div>
+                </div>
+                <div class="loan-title">
+                    <div class="people-vocation">职业身份</div>
+                    <a data-loan-people="0" class="active">不限</a>
+                    <a data-loan-people="1">上班族</a>
+                    <a data-loan-people="2">个体户</a>
+                    <a data-loan-people="3">企业法人</a>
+                    <a data-loan-people="4">股东</a>
+                    <a data-loan-people="5">自由职业</a>
+                </div>
+                <div class="loan-title">
+                    <div class="people-vocation">贷款形式</div>
+                    <a data-loan-type="0" class="active">不限</a>
+                    <a data-loan-type="1">保单贷</a>
+                    <a data-loan-type="2">社保公积金贷</a>
+                    <a data-loan-type="3">工薪贷</a>
+                    <a data-loan-type="4">生产经营贷</a>
+                    <a data-loan-type="5">月供贷</a>
+                    <a data-loan-type="6" class="loan-title-end">网络信用贷</a>
+                </div>
+                <div class="am-u-sm-12">
+                    <button class="am-btn am-btn-default am-u-sm-6 loan-btn">重置</button>
+                    <button class="am-btn am-btn-primary am-u-sm-6 loan-btn">提交</button>
+                </div>
+            </div>
         </div>
     </div>
     <div class="am-g ">
@@ -318,89 +373,331 @@
 <script src="../../js/self_adaption.js"></script>
 <script src="../../js/jquery.js"></script>
 <script>
+
+    //筛选条件选择点击事件
     $("[data-loan-select]").each(function () {
         $(this).click(function () {
+
             var loanSelect = $(this).data('loanSelect');
-
             console.log(loanSelect);
-
-            var loan_content = $('#loan-content');
-            var str = '';
-            var iNode = $(this).children('i')[0];
-            var iNodeJ = $(iNode);
-            if (loanSelect === "type") {
-                str += '<div class="am-u-sm-12">不限贷款方式</div>\n' +
-                    '      <div class="am-u-sm-12 active">抵押<span class="am-icon-check" style="float: right"></span></div>\n' +
-                    '      <div class="am-u-sm-12">质押</div>\n' +
-                    '      <div class="am-u-sm-12">信贷</div>';
-
-
-            } else if (loanSelect === "repayment") {
-                str += '<div class="am-u-sm-12">不限还款方式</div>\n' +
-                    '      <div class="am-u-sm-12">等额本息</div>\n' +
-                    '      <div class="am-u-sm-12 active">先息后本<span class="am-icon-check" style="float: right"></span></div>\n' +
-                    '      <div class="am-u-sm-12">停本付息</div>';
-
-            } else if (loanSelect === "time") {
-                str += '<div class="am-u-sm-12">贷款期限</div>\n' +
-                    '      <div class="am-u-sm-12">3个月</div>\n' +
-                    '      <div class="am-u-sm-12 active">6个月<span class="am-icon-check" style="float: right"></span></div>\n' +
-                    '      <div class="am-u-sm-12">12个月</div>\n' +
-                    '      <div class="am-u-sm-12">12个月以上</div>';
-
-            } else {
-                str += '<div class="am-u-sm-12">' +
-                    '       <div class="loan-money">' +
-                    '         <span class="">贷款金额</span>' +
-                    '         <input type="number">' +
-                    '         <span>万元</span>' +
-                    '       </div>  ' +
-                    '   </div>\n' +
-                    '   <div class="loan-title">' +
-                    '       <div class="people-vocation">职业身份</div>' +
-                    '       <a class="active">不限</a>' +
-                    '       <a>上班族</a>' +
-                    '       <a>个体户</a>' +
-                    '       <a>企业法人</a>' +
-                    '       <a>股东</a>' +
-                    '       <a>自由职业</a>' +
-                    '   </div>\n' +
-                    '   <div class="loan-title">' +
-                    '       <div class="people-vocation">贷款形式</div>' +
-                    '       <a class="active">不限</a>' +
-                    '       <a>保单贷</a>' +
-                    '       <a>社保公积金贷</a>' +
-                    '       <a>工薪贷</a>' +
-                    '       <a>生产经营贷</a>' +
-                    '       <a>月供贷</a>' +
-                    '       <a class="loan-title-end">网络信用贷</a>' +
-                    '   </div>\n' +
-                    '      <div class="am-u-sm-12">' +
-                    '         <button class="am-btn am-btn-default am-u-sm-6 loan-btn">重置</button>' +
-                    '         <button class="am-btn am-btn-primary am-u-sm-6 loan-btn">提交</button>' +
-                    '       </div>';
-
-
-            }
-            if (loan_content.html() === str && !loan_content.hasClass('am-hide')) {
-                loan_content.addClass('am-hide');
-
-                iNodeJ.addClass('am-icon-chevron-down');
-                iNodeJ.removeClass('am-icon-chevron-up');
-                return;
-            }
-            loan_content.html(str);
-            loan_content.removeClass('am-hide');
-
             var iNodes = $(document).find('i');
             iNodes.addClass('am-icon-chevron-down');
+
+
+            var iNode = $(this).children('i')[0];
+            var iNodeJ = $(iNode);
+
+            var els = $('[data-selected]');
+
+
+            if (iNodeJ.hasClass('am-icon-chevron-up')) {
+
+                iNodeJ.removeClass('am-icon-chevron-up');
+                els.addClass('am-hide');
+                return;
+            }
+
+            if (loanSelect === "type") {
+                els.addClass('am-hide');
+                $('[data-selected = "type"]').removeClass('am-hide');
+
+            } else if (loanSelect === "repayment") {
+                els.addClass('am-hide');
+                $('[data-selected = "repayment"]').removeClass('am-hide');
+
+            } else if (loanSelect === "time") {
+                els.addClass('am-hide');
+                $('[data-selected = "time"]').removeClass('am-hide');
+
+            } else {
+                els.addClass('am-hide');
+                $('[data-selected = "other"]').removeClass('am-hide');
+            }
+
             iNodes.removeClass('am-icon-chevron-up');
+
 
             iNodeJ.addClass('am-icon-chevron-up');
             iNodeJ.removeClass('am-icon-chevron-down');
 
         })
-    })
+    });
+
+    //贷款类型选择点击事件
+    $("[data-selected-type]").each(function () {
+        $(this).click(function () {
+            var selectedType = $(this).data('selectedType');
+            console.log(selectedType);
+            var el = $('.type');
+
+            var str = '<span class="am-icon-check" style="float: right"></span>';
+
+            var pNode = this.parentNode;
+            var dNodes = $(pNode).children('div');
+            dNodes.removeClass('active');
+            var spanNode = $(pNode).find('span');
+            $(spanNode).remove();
+
+            $(this).addClass('active');
+            $(this).append(str);
+
+
+            var iNodes = $(document).find('i');
+            iNodes.addClass('am-icon-chevron-down');
+
+            var els = $('[data-selected]');
+            els.addClass('am-hide');
+
+            $('.am-icon-chevron-up').removeClass('am-icon-chevron-up');
+
+            var jsonObj = {};
+
+            if (selectedType === 0) {
+                jsonObj.loanType = 0;
+                el.html('不限贷款方式');
+
+                $.ajax({
+                    url: '',
+                    data: jsonObj,
+                    dataType: 'json',
+                    success: function () {
+
+                    }
+                })
+            } else if (selectedType === 1) {
+                jsonObj.loanType = 1;
+                el.html('抵押');
+                $.ajax({
+                    url: '',
+                    data: jsonObj,
+                    dataType: 'json',
+                    success: function () {
+
+                    }
+                })
+            } else if (selectedType === 2) {
+                jsonObj.loanType = 2;
+                el.html('质押');
+                $.ajax({
+                    url: '',
+                    data: jsonObj,
+                    dataType: 'json',
+                    success: function () {
+
+                    }
+                })
+            } else if (selectedType === 3) {
+                jsonObj.loanType = 3;
+                el.html('信贷');
+                $.ajax({
+                    url: '',
+                    data: jsonObj,
+                    dataType: 'json',
+                    success: function () {
+
+                    }
+                })
+            }
+
+        })
+    });
+
+    //还款方式选择点击事件
+    $("[data-selected-repayment]").each(function () {
+        $(this).click(function () {
+            var selectedRepayment = $(this).data('selectedRepayment');
+            console.log(selectedRepayment);
+            var el = $('.repayment');
+
+            var str = '<span class="am-icon-check" style="float: right"></span>';
+
+            var pNode = this.parentNode;
+            var dNodes = $(pNode).children('div');
+            dNodes.removeClass('active');
+            var spanNode = $(pNode).find('span');
+            $(spanNode).remove();
+
+            $(this).addClass('active');
+            $(this).append(str);
+
+            var iNodes = $(document).find('i');
+            iNodes.addClass('am-icon-chevron-down');
+
+            var els = $('[data-selected]');
+            els.addClass('am-hide');
+            $('.am-icon-chevron-up').removeClass('am-icon-chevron-up');
+
+            var jsonObj = {};
+
+            if (selectedRepayment === 0) {
+                jsonObj.repayment = 0;
+                el.html('不限还款方式');
+
+                $.ajax({
+                    url: '',
+                    data: jsonObj,
+                    dataType: 'json',
+                    success: function () {
+
+                    }
+                })
+            } else if (selectedRepayment === 1) {
+                jsonObj.repayment = 1;
+                el.html('等额本息');
+                $.ajax({
+                    url: '',
+                    data: jsonObj,
+                    dataType: 'json',
+                    success: function () {
+
+                    }
+                })
+            } else if (selectedRepayment === 2) {
+                jsonObj.repayment = 2;
+                el.html('先息后本');
+                $.ajax({
+                    url: '',
+                    data: jsonObj,
+                    dataType: 'json',
+                    success: function () {
+
+                    }
+                })
+            } else if (selectedRepayment === 3) {
+                jsonObj.repayment = 3;
+                el.html('停本付息');
+                $.ajax({
+                    url: '',
+                    data: jsonObj,
+                    dataType: 'json',
+                    success: function () {
+
+                    }
+                })
+            }
+
+        })
+    });
+
+    //贷款期限选择点击事件
+    $("[data-selected-time]").each(function () {
+        $(this).click(function () {
+            var selectedTime = $(this).data('selectedTime');
+            console.log(selectedTime);
+
+            var str = '<span class="am-icon-check" style="float: right"></span>';
+
+            var pNode = this.parentNode;
+            var dNodes = $(pNode).children('div');
+            dNodes.removeClass('active');
+            var spanNode = $(pNode).find('span');
+            $(spanNode).remove();
+
+            $(this).addClass('active');
+            $(this).append(str);
+            var iNodes = $(document).find('i');
+            iNodes.addClass('am-icon-chevron-down');
+
+            var els = $('[data-selected]');
+            els.addClass('am-hide');
+
+
+            $('.am-icon-chevron-up').removeClass('am-icon-chevron-up');
+
+            var jsonObj = {};
+
+            if (selectedTime === 0) {
+                jsonObj.loanTime = 0;
+
+                $.ajax({
+                    url: '',
+                    data: jsonObj,
+                    dataType: 'json',
+                    success: function () {
+
+                    }
+                })
+            } else if (selectedTime === 1) {
+                jsonObj.loanTime = 1;
+                $.ajax({
+                    url: '',
+                    data: jsonObj,
+                    dataType: 'json',
+                    success: function () {
+
+                    }
+                })
+            } else if (selectedTime === 2) {
+                jsonObj.loanTime = 2;
+                $.ajax({
+                    url: '',
+                    data: jsonObj,
+                    dataType: 'json',
+                    success: function () {
+
+                    }
+                })
+            } else if (selectedTime === 3) {
+                jsonObj.loanTime = 3;
+                $.ajax({
+                    url: '',
+                    data: jsonObj,
+                    dataType: 'json',
+                    success: function () {
+
+                    }
+                })
+            }
+            else if (selectedTime === 4) {
+                jsonObj.loanTime = 4;
+                $.ajax({
+                    url: '',
+                    data: jsonObj,
+                    dataType: 'json',
+                    success: function () {
+
+                    }
+                })
+            }
+
+        })
+    });
+
+    //职业身份选择点击事件
+    $("[data-loan-people]").each(function () {
+        $(this).click(function () {
+            var loanPeople = $(this).data('loanPeople');
+            console.log(loanPeople);
+
+            if (loanPeople === 0) {
+                $("[data-loan-people]").removeClass('active');
+                $(this).addClass('active');
+            } else {
+                $("[data-loan-people='0']").removeClass('active');
+                $(this).addClass('active');
+            }
+
+        })
+    });
+
+    //贷款类型选择点击事件
+    $("[data-loan-type]").each(function () {
+        $(this).click(function () {
+            var loanType = $(this).data('loanType');
+            console.log(loanType);
+
+            if (loanType === 0) {
+                $("[data-loan-type]").removeClass('active');
+                $(this).addClass('active');
+            } else {
+                $("[data-loan-type='0']").removeClass('active');
+                $(this).addClass('active');
+            }
+
+        })
+    });
+
+
 </script>
 </body>
 </html>
