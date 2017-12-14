@@ -55,7 +55,7 @@ public class BaseJunit4Test {
 
         JSONArray array = new JSONArray();
 
-        List<Commission> list = baseService.queryBySqlFormatClass(zongjian_sql, Commission.class);
+        List<Commission> list = baseService.queryBySqlFormatClass(Commission.class, zongjian_sql);
         for (int i = 0; i < list.size(); i++) {//总监循环
             JSONObject zobj = new JSONObject();
             Commission commission = list.get(i);

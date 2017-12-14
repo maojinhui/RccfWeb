@@ -13,8 +13,8 @@
     <title>客户匹配产品</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <link rel="stylesheet" type="text/css" href="../../css/amazeui.min.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/animate.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/amaze/amazeui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/amaze/animate.css"/>
     <style>
         html,
         body {
@@ -270,109 +270,161 @@
             <div data-selected="type" class="am-hide">
                 <div data-selected-type="0" class="am-u-sm-12 active">不限贷款方式<span class="am-icon-check"
                                                                                   style="float: right"></span></div>
-                <div data-selected-type="1" class="am-u-sm-12">抵押</div>
-                <div data-selected-type="2" class="am-u-sm-12">质押</div>
-                <div data-selected-type="3" class="am-u-sm-12">信贷</div>
+                <div data-selected-type="1" class="am-u-sm-12">房屋抵押贷款</div>
+                <div data-selected-type="2" class="am-u-sm-12">信用贷款</div>
             </div>
             <div data-selected="repayment" class="am-hide">
                 <div data-selected-repayment="0" class="am-u-sm-12 active">不限还款方式<span class="am-icon-check"
                                                                                        style="float: right"></span>
                 </div>
-                <div data-selected-repayment="1" class="am-u-sm-12">等额本息</div>
-                <div data-selected-repayment="2" class="am-u-sm-12 ">先息后本</div>
+                <div data-selected-repayment="1" class="am-u-sm-12">等额本金</div>
+                <div data-selected-repayment="2" class="am-u-sm-12">等额本息</div>
                 <div data-selected-repayment="3" class="am-u-sm-12">停本付息</div>
+                <div data-selected-repayment="4" class="am-u-sm-12 ">先息后本</div>
             </div>
             <div data-selected="time" class="am-hide">
-                <div data-selected-time="0" class="am-u-sm-12 active">不限 <span class="am-icon-check"
+                <div data-selected-time="0" data-loan-term="0" class="am-u-sm-12 active">不限 <span class="am-icon-check"
                                                                                style="float: right"></span></div>
-                <div data-selected-time="1" class="am-u-sm-12">3个月</div>
-                <div data-selected-time="2" class="am-u-sm-12 ">6个月</div>
-                <div data-selected-time="3" class="am-u-sm-12">12个月</div>
-                <div data-selected-time="4" class="am-u-sm-12">12个月以上</div>
+                <div data-selected-time="1" data-loan-term="3" class="am-u-sm-12">3个月</div>
+                <div data-selected-time="2" data-loan-term="6" class="am-u-sm-12 ">6个月</div>
+                <div data-selected-time="3" data-loan-term="12" class="am-u-sm-12">12个月</div>
+                <div data-selected-time="4" data-loan-term="24" class="am-u-sm-12">2年</div>
+                <div data-selected-time="5" data-loan-term="60" class="am-u-sm-12">5年</div>
+                <div data-selected-time="6" data-loan-term="120" class="am-u-sm-12">10年</div>
             </div>
             <div data-selected="other" class="am-hide">
                 <div class="am-u-sm-12">
                     <div class="loan-money">
                         <span class="">贷款金额</span>
-                        <input type="number">
+                        <input id="other_info_amount" type="number">
                         <span>万元</span>
                     </div>
                 </div>
                 <div class="loan-title">
                     <div class="people-vocation">职业身份</div>
                     <a data-loan-people="0" class="active">不限</a>
-                    <a data-loan-people="1">上班族</a>
-                    <a data-loan-people="2">个体户</a>
-                    <a data-loan-people="3">企业法人</a>
-                    <a data-loan-people="4">股东</a>
-                    <a data-loan-people="5">自由职业</a>
+                    <a data-loan-people="1" data-people="2">上班族</a>
+                    <a data-loan-people="2" data-people="1">个体户</a>
+                    <a data-loan-people="3" data-people="1">企业法人</a>
+                    <a data-loan-people="4" data-people="1">股东</a>
+                    <a data-loan-people="5" data-people="3">自由职业</a>
                 </div>
-                <div class="loan-title">
+                <div id="loan_credit_type" class="loan-title">
                     <div class="people-vocation">贷款形式</div>
-                    <a data-loan-type="0" class="active">不限</a>
-                    <a data-loan-type="1">保单贷</a>
-                    <a data-loan-type="2">社保公积金贷</a>
-                    <a data-loan-type="3">工薪贷</a>
-                    <a data-loan-type="4">生产经营贷</a>
-                    <a data-loan-type="5">月供贷</a>
-                    <a data-loan-type="6" class="loan-title-end">网络信用贷</a>
+                    <a data-loan-type="0" data-ctype class="active">不限</a>
+                    <a data-loan-type="1" data-ctype="1"  >保单贷</a>
+                    <a data-loan-type="2" data-ctype="2"  >社保公积金贷</a>
+                    <a data-loan-type="3" data-ctype="3"  >工薪贷</a>
+                    <a data-loan-type="4" data-ctype="4"  >生产经营贷</a>
+                    <a data-loan-type="5" data-ctype="5"   >月供贷</a>
+                    <a data-loan-type="6" data-ctype="6"   class="loan-title-end">网络信用贷</a>
                 </div>
                 <div class="am-u-sm-12">
-                    <button class="am-btn am-btn-default am-u-sm-6 loan-btn">重置</button>
-                    <button class="am-btn am-btn-primary am-u-sm-6 loan-btn">提交</button>
+                    <button id="reset_other_info" class="am-btn am-btn-default am-u-sm-6 loan-btn">重置</button>
+                    <button id="submit_other_info" class="am-btn am-btn-primary am-u-sm-6 loan-btn">提交</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="am-g ">
+    <div id="produce_list" class="am-g ">
         <div class="am-u-sm-12  little-info">
             机构合作贷款产品<span class="am-text-warning">180</span>个：
         </div>
-
-        <div class="loan-product">
-            <div class="loan-product-title">质押神灯贷-直投贷<span class="house-zhiya">房屋质押</span></div>
-            <div class="loan-product-left">
-                <p><span>300-2000</span></p>
-                <p>额度范围(万元)</p>
-            </div>
-            <div class="loan-product-right">
-                <p>月费率：<span class="text-green">1.91%-2.20%</span></p>
-                <p>贷款期限：<span class="text-green">3-36个月</span></p>
-            </div>
-            <a class="loan-product-btn">申请贷款</a>
-        </div>
-        <div class="loan-product">
-            <div class="loan-product-title">质押神灯贷-直投贷<span class="house-diya">房屋抵押</span></div>
-            <div class="loan-product-left">
-                <p><span>300-2000</span></p>
-                <p>额度范围(万元)</p>
-            </div>
-            <div class="loan-product-right">
-                <p>月费率：<span class="text-green">1.91%-2.20%</span></p>
-                <p>贷款期限：<span class="text-green">3-36个月</span></p>
-            </div>
-            <a class="loan-product-btn">申请贷款</a>
-        </div>
-        <div class="loan-product">
-            <div class="loan-product-title">质押神灯贷-直投贷<span class="intermediary">信用贷款</span></div>
-            <div class="loan-product-left">
-                <p><span>300-2000</span></p>
-                <p>额度范围(万元)</p>
-            </div>
-            <div class="loan-product-right">
-                <p>放款时间：<span class="text-green">1天</span></p>
-                <p>月费率：<span class="text-green">1.91%-2.20%</span></p>
-                <p>贷款期限：<span class="text-green">3-36个月</span></p>
-            </div>
-            <a class="loan-product-btn">申请贷款</a>
-        </div>
+        <%--<div class="loan-product">--%>
+            <%--<div class="loan-product-title">质押神灯贷-直投贷<span class="house-zhiya">房屋质押</span></div>--%>
+            <%--<div class="loan-product-left">--%>
+                <%--<p><span>300-2000</span></p>--%>
+                <%--<p>额度范围(万元)</p>--%>
+            <%--</div>--%>
+            <%--<div class="loan-product-right">--%>
+                <%--<p>月费率：<span class="text-green">1.91%-2.20%</span></p>--%>
+                <%--<p>贷款期限：<span class="text-green">3-36个月</span></p>--%>
+            <%--</div>--%>
+            <%--<a class="loan-product-btn">申请贷款</a>--%>
+        <%--</div>--%>
     </div>
-
-
 </div>
-<script src="../../js/self_adaption.js"></script>
-<script src="../../js/jquery.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/app/self_adaption.js"></script>
+<script src="/js/comm.js"></script>
 <script>
+
+    var loan_type = "";
+    var loan_repayment_type = "";
+    var loan_term = "";
+    var loan_amount = '';
+    var loan_people = [];
+    var loan_credit_type = [];
+
+    function getProduceType(type) {
+        if(type==1 || type==2){
+            return "房屋抵押贷款";
+        }else if(type == 0){
+            return "信用贷款";
+        }
+    }
+
+    function request(){
+        var info = {};
+        info.loan_type = loan_type;
+        info.loan_repayment_type = loan_repayment_type;
+        info.loan_term = loan_term;
+        info.loan_people = JSON.stringify(loan_people);
+        info.loan_credit_type = JSON.stringify(loan_credit_type);
+        info.loan_amount = loan_amount;
+
+        $.ajax({
+            url:'/prod/filter/list',
+            data: info ,
+            dataType:'json',
+            success:function (result) {
+               if(result.code){
+                    var data = result.data;
+
+                    var str = '';
+                    if(isNull(data) || data.length < 1){
+                        str =  '<div class="am-u-sm-12  little-info">\n' +
+                            '            未找到符合您的条件的产品 \n' +
+                            '        </div>';
+                        }else{
+                        str =  '<div class="am-u-sm-12  little-info">\n' +
+                            '            机构合作贷款产品<span class="am-text-warning">'+data.length+'</span>个：\n' +
+                            '        </div>';
+
+
+                    for (var i = 0; i < data.length ;i++ ){
+                        var produce = data[i];
+                        str+='<div class="loan-product">\n' +
+                            '<div class="loan-product-title">'+produce.agency_name+'-'+produce.name+'<span class="house-zhiya">'+getProduceType(produce.type)+'</span></div>\n' +
+                            '<div class="loan-product-left">\n' +
+                            '<p><span>'+produce.loan_amount_min+'-'+produce.loan_amount_max+'</span></p>\n' +
+                            '<p>额度范围(万元)</p>\n' +
+                            '</div>\n' +
+                            '<div class="loan-product-right">\n' +
+                            '<p>月费率：<span class="text-green">'+produce.loan_rate_min+'%-'+produce.loan_rate_max+'%</span></p>\n' +
+                            '<p>贷款期限：<span class="text-green">'+produce.loan_term_min+'-'+produce.loan_term_max+'个月</span></p>\n' +
+                            '</div>\n' +
+                            '<a class="loan-product-btn">申请贷款</a>\n' +
+                            '</div>';
+
+                    }
+
+                    }
+
+
+                $('#produce_list').html(str);
+
+               }else{
+                   alert(result.errormsg);
+               }
+
+            },
+            error:function () {
+            }
+        })
+    }
+
+    request();
 
     //筛选条件选择点击事件
     $("[data-loan-select]").each(function () {
@@ -441,7 +493,6 @@
             $(this).addClass('active');
             $(this).append(str);
 
-
             var iNodes = $(document).find('i');
             iNodes.addClass('am-icon-chevron-down');
 
@@ -455,49 +506,24 @@
             if (selectedType === 0) {
                 jsonObj.loanType = 0;
                 el.html('不限贷款方式');
+                loan_type='';
+                $('#loan_credit_type').removeClass('am-hide');
 
-                $.ajax({
-                    url: '',
-                    data: jsonObj,
-                    dataType: 'json',
-                    success: function () {
-
-                    }
-                })
             } else if (selectedType === 1) {
                 jsonObj.loanType = 1;
-                el.html('抵押');
-                $.ajax({
-                    url: '',
-                    data: jsonObj,
-                    dataType: 'json',
-                    success: function () {
+                el.html('房屋抵押贷款');
+                loan_type ='1';
+                $('#loan_credit_type').addClass('am-hide');
 
-                    }
-                })
+
             } else if (selectedType === 2) {
                 jsonObj.loanType = 2;
-                el.html('质押');
-                $.ajax({
-                    url: '',
-                    data: jsonObj,
-                    dataType: 'json',
-                    success: function () {
+                el.html('信用贷款');
+                loan_type ='0';
+                $('#loan_credit_type').removeClass('am-hide');
 
-                    }
-                })
-            } else if (selectedType === 3) {
-                jsonObj.loanType = 3;
-                el.html('信贷');
-                $.ajax({
-                    url: '',
-                    data: jsonObj,
-                    dataType: 'json',
-                    success: function () {
-
-                    }
-                })
             }
+            request();
 
         })
     });
@@ -532,50 +558,26 @@
             if (selectedRepayment === 0) {
                 jsonObj.repayment = 0;
                 el.html('不限还款方式');
-
-                $.ajax({
-                    url: '',
-                    data: jsonObj,
-                    dataType: 'json',
-                    success: function () {
-
-                    }
-                })
+                loan_repayment_type='';
             } else if (selectedRepayment === 1) {
                 jsonObj.repayment = 1;
-                el.html('等额本息');
-                $.ajax({
-                    url: '',
-                    data: jsonObj,
-                    dataType: 'json',
-                    success: function () {
-
-                    }
-                })
+                el.html('等额本金');
+                loan_repayment_type='1';
             } else if (selectedRepayment === 2) {
                 jsonObj.repayment = 2;
-                el.html('先息后本');
-                $.ajax({
-                    url: '',
-                    data: jsonObj,
-                    dataType: 'json',
-                    success: function () {
-
-                    }
-                })
+                el.html('等额本息');
+                loan_repayment_type='2';
             } else if (selectedRepayment === 3) {
                 jsonObj.repayment = 3;
                 el.html('停本付息');
-                $.ajax({
-                    url: '',
-                    data: jsonObj,
-                    dataType: 'json',
-                    success: function () {
-
-                    }
-                })
+                loan_repayment_type='3';
             }
-
+            else if (selectedRepayment === 4) {
+                jsonObj.repayment = 4;
+                el.html('先息后本');
+                loan_repayment_type='4';
+            }
+            request();
         })
     });
 
@@ -583,6 +585,7 @@
     $("[data-selected-time]").each(function () {
         $(this).click(function () {
             var selectedTime = $(this).data('selectedTime');
+            var loanTerm = $(this).data('loanTerm');
             console.log(selectedTime);
 
             var str = '<span class="am-icon-check" style="float: right"></span>';
@@ -601,65 +604,39 @@
             var els = $('[data-selected]');
             els.addClass('am-hide');
 
-
             $('.am-icon-chevron-up').removeClass('am-icon-chevron-up');
 
             var jsonObj = {};
 
+
+
+
             if (selectedTime === 0) {
                 jsonObj.loanTime = 0;
+                loan_term='';
 
-                $.ajax({
-                    url: '',
-                    data: jsonObj,
-                    dataType: 'json',
-                    success: function () {
-
-                    }
-                })
             } else if (selectedTime === 1) {
                 jsonObj.loanTime = 1;
-                $.ajax({
-                    url: '',
-                    data: jsonObj,
-                    dataType: 'json',
-                    success: function () {
-
-                    }
-                })
+                loan_term=loanTerm;
             } else if (selectedTime === 2) {
                 jsonObj.loanTime = 2;
-                $.ajax({
-                    url: '',
-                    data: jsonObj,
-                    dataType: 'json',
-                    success: function () {
-
-                    }
-                })
+                loan_term=loanTerm;
             } else if (selectedTime === 3) {
                 jsonObj.loanTime = 3;
-                $.ajax({
-                    url: '',
-                    data: jsonObj,
-                    dataType: 'json',
-                    success: function () {
-
-                    }
-                })
+                loan_term=loanTerm;
             }
             else if (selectedTime === 4) {
                 jsonObj.loanTime = 4;
-                $.ajax({
-                    url: '',
-                    data: jsonObj,
-                    dataType: 'json',
-                    success: function () {
-
-                    }
-                })
+                loan_term=loanTerm;
+            } else if (selectedTime === 5) {
+                jsonObj.loanTime = 5;
+                loan_term=loanTerm;
+            } else if (selectedTime === 6) {
+                jsonObj.loanTime = 6;
+                loan_term=loanTerm;
             }
 
+            request();
         })
     });
 
@@ -674,9 +651,13 @@
                 $(this).addClass('active');
             } else {
                 $("[data-loan-people='0']").removeClass('active');
-                $(this).addClass('active');
-            }
+                if($(this).hasClass('active')){
+                    $(this).removeClass('active');
+                }else{
+                    $(this).addClass('active');
+                }
 
+            }
         })
     });
 
@@ -691,12 +672,44 @@
                 $(this).addClass('active');
             } else {
                 $("[data-loan-type='0']").removeClass('active');
-                $(this).addClass('active');
+                if($(this).hasClass('active')){
+                    $(this).removeClass('active');
+                }else{
+                    $(this).addClass('active');
+                }
             }
 
         })
     });
 
+
+    $('#submit_other_info').click(function () {
+        loan_amount = $('#other_info_amount').val();
+        loan_people=[];
+        loan_credit_type=[];
+
+        $("[data-loan-people]").each(function () {
+            if($(this).hasClass('active') && !isNull($(this).data('people'))){
+                loan_people.push($(this).data('people'));
+            }
+        });
+
+        $("[data-loan-type]").each(function () {
+            if($(this).hasClass('active') && !isNull($(this).data('ctype'))){
+                loan_credit_type.push($(this).data('ctype'));
+            }
+        });
+
+        request();
+
+        $('#loan-content').children('div').each(function () {
+            $(this).addClass('am-hide');
+            var iNodes = $(document).find('i');
+            iNodes.addClass('am-icon-chevron-down');
+            iNodes.removeClass('am-icon-chevron-up');
+        })
+    })
+    
 
 </script>
 </body>

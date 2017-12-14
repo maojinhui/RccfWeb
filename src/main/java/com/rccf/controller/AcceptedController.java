@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.rccf.constants.ResponseConstants;
 import com.rccf.constants.UrlConstants;
-import com.rccf.enmu.HeaderType;
 import com.rccf.model.*;
 import com.rccf.model.accept.RibaoDeputyDirector;
 import com.rccf.model.accept.RibaoDirector;
@@ -385,12 +384,12 @@ public class AcceptedController {
                 "  e.`entry_time` ,e.`duties` ,2000 as task,\n" +
                 "                              (SELECT  sum(a.`service_fee_actual`)   FROM accepted a WHERE  a.`end_date`  >= '"+month_start+"' and  a.`end_date` < '"+month_end+"'  and  a.`clerk` =e.`code` and a.`state`=2 ) as monthyeji,\n" +
                 "                              (SELECT COUNT(*) FROM accepted a WHERE a.`accept_time` >='"+month_start+"'  and a.`accept_time` <'"+month_end+"'  and a.`clerk` =e.`code`  ) as monthaccept,\n" +
-                "                              (SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >='"+month_start+"' and a.`end_date` <'"+month_end+"'  and a.`clerk` =e.`code` ) as monthend,\n" +
+                "                              (SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >='"+month_start+"' and a.`end_date` <'"+month_end+"'  and a.`clerk` =e.`code` and  a.`state` = 2 ) as monthend,\n" +
                 "                              (SELECT COUNT(*) FROM accepted a WHERE a.`create_time`  >='"+month_start+"' and a.`create_time` <'"+month_end+"'  and a.`clerk` =e.`code`  and `state` = 3) as monthrefuse,\n" +
                 "\n" +
                 "                              (SELECT  sum(a.`service_fee_actual`)   FROM accepted a WHERE  a.`end_date`  >= '"+day_start+"'  and  a.`end_date` <'"+day_end+"'  and  a.`clerk` =e.`code` ) as dayyeji,\n" +
                 "                              (SELECT COUNT(*) FROM accepted a WHERE a.`accept_time` >='"+day_start+"'  and a.`accept_time` <'"+day_end+"'  and a.`clerk` =e.`code`  ) as dayaccept,\n" +
-                "                              (SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >='"+day_start+"'  and a.`end_date` <'"+day_end+"'  and a.`clerk` =e.`code` ) as dayend,\n" +
+                "                              (SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >='"+day_start+"'  and a.`end_date` <'"+day_end+"'  and a.`clerk` =e.`code` and a.`state` =2 ) as dayend,\n" +
                 "                              (SELECT COUNT(*) FROM accepted a WHERE a.`create_time`  >='"+day_start+"'  and a.`create_time` <'"+day_end+"'  and a.`clerk` =e.`code`  and `state` = 3) as dayrefuse,\n" +
                 "                              (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` =e.`code` ) as nowaccept,\n" +
                 "                              (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` =e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
@@ -398,7 +397,7 @@ public class AcceptedController {
                 "                              (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` =e.`code`AND a.business_type=2 ) as nowaccept_zhiya\n" +
                 "FROM `employee` e  WHERE `role`= 4 AND `state` =1 ORDER BY monthyeji DESC";
 
-        List list = baseService.queryBySqlFormatClass(sql, RibaoEmployee.class);
+        List list = baseService.queryBySqlFormatClass(RibaoEmployee.class, sql);
         modelAndView.addObject("list", list);
 
         return modelAndView;
@@ -445,7 +444,7 @@ public class AcceptedController {
                 "FROM `employee` e \n" +
                 "WHERE department LIKE '%金融%' AND  e.`role` =3 and e.`state` =1 ORDER BY monthyeji DESC ";
 
-        List list = baseService.queryBySqlFormatClass(sql , RibaoDeputyDirector.class);
+        List list = baseService.queryBySqlFormatClass(RibaoDeputyDirector.class, sql);
         modelAndView.addObject("list", list);
         logger.error(JSON.toJSONString(list));
 
@@ -493,7 +492,7 @@ public class AcceptedController {
                 "FROM `employee` e \n" +
                 "WHERE department LIKE '%金融%' AND  e.`role` =2 and e.`state` =1 ORDER BY monthyeji DESC ";
 
-        List list = baseService.queryBySqlFormatClass(sql , RibaoDirector.class);
+        List list = baseService.queryBySqlFormatClass(RibaoDirector.class, sql);
         modelAndView.addObject("list", list);
         logger.error(JSON.toJSONString(list));
         return modelAndView;
@@ -775,7 +774,7 @@ public class AcceptedController {
             object.put("clerk_name", objs[5]);
             object.put("clerk_phone", objs[6]);
             sql = sql_process + aid;
-            List list1 = baseService.queryBySqlFormatClass(sql, AcceptProcess.class);
+            List list1 = baseService.queryBySqlFormatClass(AcceptProcess.class, sql);
             String json_str = JSON.toJSONString(list1);
             JSONArray json_array = JSON.parseArray(json_str);
             object.put("da", json_array);

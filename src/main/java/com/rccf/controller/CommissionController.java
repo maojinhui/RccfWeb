@@ -99,7 +99,7 @@ public class CommissionController {
         String month_end = DateUtil.getPerFirstDayOfMonth(date);
         /*********时间换算完成***********/
         String sql_target = "select * from employee_target";
-        List<EmployeeTarget> targetList = baseService.queryBySqlFormatClass(sql_target, EmployeeTarget.class);
+        List<EmployeeTarget> targetList = baseService.queryBySqlFormatClass(EmployeeTarget.class, sql_target);
         if (targetList == null || targetList.size() < 1) {
             return new ModelAndView("/other/import_fail").addObject("data", "还未填写副总监和总监目标");
         }
@@ -125,7 +125,7 @@ public class CommissionController {
 
         JSONArray array = new JSONArray();
 
-        List<Commission> list = baseService.queryBySqlFormatClass(zongjian_sql, Commission.class);
+        List<Commission> list = baseService.queryBySqlFormatClass(Commission.class, zongjian_sql);
         for (int i = 0; i < list.size(); i++) {//总监循环
             JSONObject zobj = new JSONObject();
             Commission commission = list.get(i);
@@ -159,7 +159,7 @@ public class CommissionController {
                     " (SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'   and  a.`deputy_director`=e.dupty_director  AND a.`state` =2  and a.`clerk` !=e.`code`  ) AS yeji\n" +
                     "from `employee`  e WHERE e.`role` =3  and e.`state` =1 and `director` ='" + zobj.getString("code") + "' ORDER BY yeji DESC ";
             JSONArray farray = new JSONArray();
-            List<Commission> list1 = baseService.queryBySqlFormatClass(sql_fuzongjian, Commission.class);
+            List<Commission> list1 = baseService.queryBySqlFormatClass(Commission.class, sql_fuzongjian);
             if (list1 == null || list1.size() < 1) {
                 JSONObject objf = new JSONObject();
                 objf.put("id", 0);
@@ -174,7 +174,7 @@ public class CommissionController {
                         "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'   and  a.`clerk`=e.code  AND a.`state` =2) AS yeji \n" +
                         "from `employee`  e  WHERE e.`role` =4  and e.`state` =1 and e.`director` ='" + zobj.getString("code") + "'  ORDER BY yeji DESC  ";
                 JSONArray arrayY = new JSONArray();
-                List<Commission> list2 = baseService.queryBySqlFormatClass(sql_yewuyuan, Commission.class);
+                List<Commission> list2 = baseService.queryBySqlFormatClass(Commission.class, sql_yewuyuan);
                 for (int k = 0; k < list2.size(); k++) {
                     JSONObject objY = new JSONObject();
                     Commission commissionY = list2.get(k);
@@ -242,7 +242,7 @@ public class CommissionController {
                             "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'   and  a.`clerk`=e.code  AND a.`state` =2) AS yeji \n" +
                             "from `employee`  e  WHERE e.`role` =4  and e.`state` =1 and e.`dupty_director` ='" + objf.getString("code") + "'  ORDER BY yeji DESC  ";
                     JSONArray arrayY = new JSONArray();
-                    List<Commission> list2 = baseService.queryBySqlFormatClass(sql_yewuyuan, Commission.class);
+                    List<Commission> list2 = baseService.queryBySqlFormatClass(Commission.class, sql_yewuyuan);
                     for (int k = 0; k < list2.size(); k++) {
                         JSONObject objY = new JSONObject();
                         Commission commissionY = list2.get(k);
@@ -322,7 +322,7 @@ public class CommissionController {
         String month_end = DateUtil.getPerFirstDayOfMonth(date);
         /*********时间换算完成***********/
         String sql_target = "select * from employee_target";
-        List<EmployeeTarget> targetList = baseService.queryBySqlFormatClass(sql_target, EmployeeTarget.class);
+        List<EmployeeTarget> targetList = baseService.queryBySqlFormatClass(EmployeeTarget.class, sql_target);
         if (targetList == null || targetList.size() < 1) {
             return new ModelAndView("/other/import_fail").addObject("data", "还未填写副总监和总监目标");
         }
@@ -354,7 +354,7 @@ public class CommissionController {
                 ") as ey WHERE ey.yeji>0";
 
         JSONArray array = new JSONArray();
-        List<Commission> list = baseService.queryBySqlFormatClass(zongjian_sql, Commission.class);
+        List<Commission> list = baseService.queryBySqlFormatClass(Commission.class, zongjian_sql);
         for (int i = 0; i < list.size(); i++) {//总监循环
             JSONObject zobj = new JSONObject();
             Commission commission = list.get(i);
@@ -398,7 +398,7 @@ public class CommissionController {
 
 
             JSONArray farray = new JSONArray();
-            List<Commission> list1 = baseService.queryBySqlFormatClass(sql_fuzongjian, Commission.class);
+            List<Commission> list1 = baseService.queryBySqlFormatClass(Commission.class, sql_fuzongjian);
             if (list1 == null || list1.size() < 1) {
                 JSONObject objf = new JSONObject();
                 objf.put("id", 0);
@@ -419,7 +419,7 @@ public class CommissionController {
 
 
                 JSONArray arrayY = new JSONArray();
-                List<Commission> list2 = baseService.queryBySqlFormatClass(sql_yewuyuan, Commission.class);
+                List<Commission> list2 = baseService.queryBySqlFormatClass(Commission.class, sql_yewuyuan);
                 for (int k = 0; k < list2.size(); k++) {
                     JSONObject objY = new JSONObject();
                     Commission commissionY = list2.get(k);
@@ -487,7 +487,7 @@ public class CommissionController {
                             "from `employee`  e  WHERE e.`role` =4    and e.`dupty_director` ='"+objf.getString("code")+"'  ORDER BY yeji DESC ) as  ey\n" +
                             "WHERE ey.yeji>0 ";
                     JSONArray arrayY = new JSONArray();
-                    List<Commission> list2 = baseService.queryBySqlFormatClass(sql_yewuyuan, Commission.class);
+                    List<Commission> list2 = baseService.queryBySqlFormatClass(Commission.class, sql_yewuyuan);
                     for (int k = 0; k < list2.size(); k++) {
                         JSONObject objY = new JSONObject();
                         Commission commissionY = list2.get(k);

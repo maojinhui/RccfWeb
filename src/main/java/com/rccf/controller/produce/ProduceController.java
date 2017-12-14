@@ -7,7 +7,6 @@ import com.rccf.constants.PageConstants;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.ProducePersonMaterial;
 import com.rccf.model.produce.*;
-import com.rccf.model.RAgency;
 import com.rccf.model.Employee;
 import com.rccf.model.temp.ProduceTem;
 import com.rccf.service.BaseService;
@@ -19,7 +18,6 @@ import com.rccf.util.Strings;
 import com.rccf.util.produce.CreditProducePage;
 import com.rccf.util.produce.DataUtil;
 import com.rccf.util.produce.PageUtil;
-import com.rccf.util.verify.AgencyVerify;
 import com.rccf.util.verify.ProduceVerify;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.DetachedCriteria;
@@ -71,22 +69,21 @@ public class ProduceController {
         int role = employee.getRole();
 
         boolean showAll = false;
-        if(depart.contains("系统")){
-            showAll=true;
-        }else if(depart.contains("市场部")){
-            if(role<=2){
-                showAll=true;
-            }else{
-                showAll=false;
+        if (depart.contains("系统")) {
+            showAll = true;
+        } else if (depart.contains("市场部")) {
+            if (role <= 2) {
+                showAll = true;
+            } else {
+                showAll = false;
             }
-        }
-        else{
-            return ResponseUtil.fail(0,"暂无查看产品权限");
+        } else {
+            return ResponseUtil.fail(0, "暂无查看产品权限");
         }
 
         String eInfo = "";
-        if(!showAll){
-            eInfo = "where p.create_person = "+employee.getId();
+        if (!showAll) {
+            eInfo = "where p.create_person = " + employee.getId();
         }
 //        if(depart.contains("系统")){
 //
@@ -105,29 +102,29 @@ public class ProduceController {
                 "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
                 "         1 AS type,`state`,create_time,log,\n" +
                 "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
-                "       FROM `a_produce_diya` as p\n" +eInfo+
+                "       FROM `a_produce_diya` as p\n" + eInfo +
                 "       UNION ALL\n" +
                 "       SELECT `id`, `name`, `code`, agency_id,\n" +
                 "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
                 "         2 AS type,`state`,create_time,log,\n" +
                 "       (SELECT audit_opinion from a_produce_audit_log WHERE type=2 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
-                "       FROM `a_produce_zhiya` as p\n" +eInfo+
+                "       FROM `a_produce_zhiya` as p\n" + eInfo +
                 "       UNION ALL\n" +
                 "      SELECT `id`, `name`, `code`, agency_id,\n" +
                 "       (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
                 "       0 AS type,`state`,create_time,log,\n" +
                 "       (SELECT audit_opinion from a_produce_audit_log WHERE type=0 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason      " +
-                "       FROM `a_produce_credit` as p\n"+eInfo+
+                "       FROM `a_produce_credit` as p\n" + eInfo +
                 "     ) AS data\n" +
                 "ORDER BY data.create_time DESC " + limitStr;
         String sql_total = "SELECT count(*)\n" +
                 "FROM (SELECT `id`" +
-                "       FROM `a_produce_diya` as p\n" +eInfo+
+                "       FROM `a_produce_diya` as p\n" + eInfo +
                 "       UNION ALL\n" +
                 "       SELECT `id`" +
-                "       FROM `a_produce_zhiya` as p\n" +eInfo+
+                "       FROM `a_produce_zhiya` as p\n" + eInfo +
                 "       UNION ALL\n" +
-                "      SELECT `id`       FROM `a_produce_credit` as p \n"+eInfo+
+                "      SELECT `id`       FROM `a_produce_credit` as p \n" + eInfo +
                 "     ) AS data ";
 
 
@@ -230,7 +227,7 @@ public class ProduceController {
 //        }
 //        int agency_id = ragencyByName.getId();
 
-        if(Strings.isNullOrEmpty(agency_name)){
+        if (Strings.isNullOrEmpty(agency_name)) {
             return ResponseUtil.fail(0, "请填写正确的机构名称");
         }
         String produce_name = request.getParameter("produce_name");
@@ -372,8 +369,8 @@ public class ProduceController {
 
         String recommend = request.getParameter("recommend");
         String entry_time = request.getParameter("entry_time");
-        if(Strings.isNullOrEmpty(entry_time)){
-            return ResponseUtil.fail(0,"准入时间不能为空");
+        if (Strings.isNullOrEmpty(entry_time)) {
+            return ResponseUtil.fail(0, "准入时间不能为空");
         }
         produce.setRecommend(recommend);
         produce.setEntryTime(DateUtil.strToSqlDate(entry_time));
@@ -467,7 +464,7 @@ public class ProduceController {
 //        }
 //        int agency_id = ragencyByName.getId();
 
-        if(Strings.isNullOrEmpty(agency_name)){
+        if (Strings.isNullOrEmpty(agency_name)) {
             return ResponseUtil.fail(0, "请填写正确的机构名称");
         }
         String produce_name = request.getParameter("produce_name");
@@ -620,8 +617,8 @@ public class ProduceController {
 
         String recommend = request.getParameter("recommend");
         String entry_time = request.getParameter("entry_time");
-        if(Strings.isNullOrEmpty(entry_time)){
-            return ResponseUtil.fail(0,"准入时间不能为空");
+        if (Strings.isNullOrEmpty(entry_time)) {
+            return ResponseUtil.fail(0, "准入时间不能为空");
         }
         produce.setRecommend(recommend);
         produce.setEntryTime(DateUtil.strToSqlDate(entry_time));
@@ -695,7 +692,7 @@ public class ProduceController {
     @RequestMapping(value = "/credit/insert")
     public ModelAndView creditAddPage(HttpServletRequest request) {
         String produce_id = request.getParameter("produce_id");
-        AProduceCredit produce=null;
+        AProduceCredit produce = null;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/product/p_product_xindai_add");
         if (!Strings.isNullOrEmpty(produce_id)) {
@@ -710,7 +707,7 @@ public class ProduceController {
     }
 
     @RequestMapping(value = "/creditDetail")
-    public ModelAndView creditDetail(HttpServletRequest request){
+    public ModelAndView creditDetail(HttpServletRequest request) {
         String produce_id = request.getParameter("produce_id");
         if (Strings.isNullOrEmpty(produce_id)) {
             return ResponseUtil.pageFail("参数错误");
@@ -724,11 +721,10 @@ public class ProduceController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/product/p_product_xinddai_details");
         modelAndView.addObject("produce", produce);
-        CreditProducePage.addCreatePerson(modelAndView,produce,baseService);
-        CreditProducePage.addPersonMaterial(modelAndView,produce,baseService);
-        CreditProducePage.addCompanyMaterial(modelAndView,produce,baseService);
-        CreditProducePage.addRpayment(modelAndView,produce,baseService);
-
+        CreditProducePage.addCreatePerson(modelAndView, produce, baseService);
+        CreditProducePage.addPersonMaterial(modelAndView, produce, baseService);
+        CreditProducePage.addCompanyMaterial(modelAndView, produce, baseService);
+        CreditProducePage.addRpayment(modelAndView, produce, baseService);
 
 
         return modelAndView;
@@ -767,7 +763,7 @@ public class ProduceController {
 //        }
 //        int agency_id = ragencyByName.getId();
         String produce_name = request.getParameter("name");
-        if(Strings.isNullOrEmpty(agency_name)){
+        if (Strings.isNullOrEmpty(agency_name)) {
             return ResponseUtil.fail(0, "请填写正确的机构名称");
         }
 
@@ -840,8 +836,8 @@ public class ProduceController {
 
         String recommend = request.getParameter("recommend");
         String entry_time = request.getParameter("entry_time");
-        if(Strings.isNullOrEmpty(entry_time)){
-            return ResponseUtil.fail(0,"准入时间不能为空");
+        if (Strings.isNullOrEmpty(entry_time)) {
+            return ResponseUtil.fail(0, "准入时间不能为空");
         }
         produce.setRecommend(recommend);
         produce.setEntryTime(DateUtil.strToSqlDate(entry_time));
@@ -849,7 +845,6 @@ public class ProduceController {
 
         String access = request.getParameter("access");
         produce.setLoanAccess(access);
-
 
 
         try {
@@ -901,17 +896,16 @@ public class ProduceController {
         int role = employee.getRole();
 
         boolean showAll = false;
-        if(depart.contains("系统")){
-            showAll=true;
-        }else if(depart.contains("市场部")){
-            if(role<=2){
-                showAll=true;
-            }else{
-                showAll=false;
+        if (depart.contains("系统")) {
+            showAll = true;
+        } else if (depart.contains("市场部")) {
+            if (role <= 2) {
+                showAll = true;
+            } else {
+                showAll = false;
             }
-        }
-        else{
-            return ResponseUtil.fail(0,"暂无查看产品权限");
+        } else {
+            return ResponseUtil.fail(0, "暂无查看产品权限");
         }
 
 //        if(depart.contains("系统")){
@@ -921,8 +915,8 @@ public class ProduceController {
 //        }
 
         String eInfo = "";
-        if(!showAll){
-            eInfo = "where p.create_person = "+employee.getId();
+        if (!showAll) {
+            eInfo = "where p.create_person = " + employee.getId();
         }
 
         String pageNo = request.getParameter("pageNo");
@@ -937,28 +931,28 @@ public class ProduceController {
                 "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
                 "         1 AS type,`state`,create_time,log,\n" +
                 "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
-                "       FROM `a_produce_diya` as p \n" +eInfo+
+                "       FROM `a_produce_diya` as p \n" + eInfo +
                 "       UNION ALL\n" +
                 "       SELECT `id`, `name`, `code`, agency_id,\n" +
                 "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
                 "         2 AS type,`state`,create_time,log,\n" +
                 "(SELECT audit_opinion from a_produce_audit_log WHERE type=2 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
-                "       FROM `a_produce_zhiya` as p\n" +eInfo+
+                "       FROM `a_produce_zhiya` as p\n" + eInfo +
                 "       UNION ALL\n" +
                 "       SELECT `id`, `name`, `code`, agency_id,\n" +
                 "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
                 "         0 AS type,`state`,create_time,log,\n" +
                 "(SELECT audit_opinion from a_produce_audit_log WHERE type=0 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
-                "       FROM `a_produce_credit` as p\n" +eInfo+
+                "       FROM `a_produce_credit` as p\n" + eInfo +
                 "     ) AS data\n" +
                 "     WHERE state=3 \n" +
                 "ORDER BY data.create_time DESC " + limitStr;
         String sql_total = "SELECT count(*)\n" +
-                "FROM (SELECT id,state       FROM `a_produce_diya` as p\n" +eInfo+
+                "FROM (SELECT id,state       FROM `a_produce_diya` as p\n" + eInfo +
                 "      UNION ALL\n" +
-                "      SELECT id,state       FROM `a_produce_zhiya` as p\n" +eInfo+
+                "      SELECT id,state       FROM `a_produce_zhiya` as p\n" + eInfo +
                 "      UNION ALL\n" +
-                "      SELECT id,state       FROM `a_produce_credit` as p\n" +eInfo+
+                "      SELECT id,state       FROM `a_produce_credit` as p\n" + eInfo +
                 "     ) AS data\n" +
                 "WHERE state=3";
 
@@ -1008,13 +1002,13 @@ public class ProduceController {
                 break;
             case 0:
                 modelAndView.setViewName("/back/product/p_product_xindadi_audit");
-                AProduceCredit  produce_credit = (AProduceCredit) baseService.get(AProduceCredit.class, pid);
+                AProduceCredit produce_credit = (AProduceCredit) baseService.get(AProduceCredit.class, pid);
                 modelAndView.addObject("produce", produce_credit);
                 modelAndView.addObject("log_id", log_id);
-                CreditProducePage.addCreatePerson(modelAndView,produce_credit,baseService);
-                CreditProducePage.addPersonMaterial(modelAndView,produce_credit,baseService);
-                CreditProducePage.addCompanyMaterial(modelAndView,produce_credit,baseService);
-                CreditProducePage.addRpayment(modelAndView,produce_credit,baseService);
+                CreditProducePage.addCreatePerson(modelAndView, produce_credit, baseService);
+                CreditProducePage.addPersonMaterial(modelAndView, produce_credit, baseService);
+                CreditProducePage.addCompanyMaterial(modelAndView, produce_credit, baseService);
+                CreditProducePage.addRpayment(modelAndView, produce_credit, baseService);
                 break;
             default:
                 break;
@@ -1101,31 +1095,91 @@ public class ProduceController {
         return ResponseUtil.fail();
     }
 
-
     @ResponseBody
     @RequestMapping(value = "/filter/list")
-    public String findProduce(HttpServletRequest request){
+    public String findProduce(HttpServletRequest request) {
         String loan_type = request.getParameter("loan_type");
         String loan_amount = request.getParameter("loan_amount");
         String loan_term = request.getParameter("loan_term");
         String loan_repayment_type = request.getParameter("loan_repayment_type");
         String loan_people = request.getParameter("loan_people");
-        String loan_xinyong_type = request.getParameter("loan_xinyong_type");
-
-
-        if(!Strings.isNullOrEmpty(loan_type)){
-
+        String loan_credit_type = request.getParameter("loan_credit_type");
+        String where = "  where 1  ";
+        String limit = "  limit 5  ";
+        String sql_allproduce = "select * from (\n" +
+                "  (SELECT id,0 as type , agency_name, code,name, repayment_type , loan_people ,  loan_amount_min,loan_amount_max,loan_term_min,loan_term_max,loan_rate_min,loan_rate_max , loan_credit_type from a_produce_credit where state = 1\n" +
+                "   UNION ALL\n" +
+                "   SELECT id,1 as type ,agency_name, code,name, repayment_type  , loan_people , 10 as loan_amount_min, getJsonArrayMaxAmount(loan_amount) as loan_amount_max , min_month as loan_term_min , mix_month as loan_term_max , getJsonArrayMaxRate(loan_rate) as loan_rate_max , getJsonArrayMinRate(loan_rate) as loan_rate_min , -1 as loan_credit_type from a_produce_diya where state = 1\n" +
+                "   UNION ALL\n" +
+                "   SELECT id,2 as type , agency_name, code,name, repayment_type , loan_people , 10 as loan_amount_min, getJsonArrayMaxAmount(loan_amount) as loan_amount_max , min_month as loan_term_min , mix_month as loan_term_max , getJsonArrayMaxRate(loan_rate) as loan_rate_max , getJsonArrayMinRate(loan_rate) as loan_rate_min , -1 as loan_credit_type  from a_produce_zhiya where state = 1\n" +
+                "  ) as p\n" +
+                ")  ";
+        if (!Strings.isNullOrEmpty(loan_amount)) {
+            where += "  and p.loan_amount_min<= " + Integer.valueOf(loan_amount) + " and  p.loan_amount_max>=" + loan_amount + "\n ";
+        }
+        if (!Strings.isNullOrEmpty(loan_term)) {
+            where += "  and p.loan_term_min<= " + Integer.valueOf(loan_term) + " and  p.loan_term_max>=" + loan_term + "\n ";
+        }
+        if (!Strings.isNullOrEmpty(loan_repayment_type)) {
+            where += "  and  find_in_set(" + loan_repayment_type + " , substring(repayment_type,2,char_length(repayment_type)-2) ) ";
         }
 
-        if(!Strings.isNullOrEmpty(loan_amount)){
-
+        if (!Strings.isNullOrEmpty(loan_people)) {
+            JSONArray array = JSON.parseArray(loan_people);
+            if (array.size() > 0) {
+                String str = "";
+                for (int i = 0; i < array.size(); i++) {
+                    String people = array.get(i).toString();
+                    if (i == 0) {
+                        str += "  and  ( find_in_set(" + people + " , substring(loan_people,2,char_length(loan_people)-2) )  ";
+                    } else {
+                        str += " or find_in_set(" + people + " , substring(loan_people,2,char_length(loan_people)-2) ) ";
+                    }
+                    if (i == array.size() - 1) {
+                        str += " )";
+                    }
+                }
+                where += str;
+            }
         }
 
+        if (!Strings.isNullOrEmpty(loan_type)) {
+            Integer type = Integer.valueOf(loan_type);
+            if (type == 0) {//信用贷
+                where += " and p.type = 0 ";
+            } else if (type == 1) {//抵质押
+                where += " and ( p.type = 1 || p.type = 2) ";
+            }
+        }
+        if (!Strings.isNullOrEmpty(loan_credit_type) && !loan_credit_type.equals("[]")) {
+            if(Strings.isNullOrEmpty(loan_type) || loan_type.equals("0")){
+                where += " and p.type = 0 ";
+                JSONArray array = JSON.parseArray(loan_credit_type);
+                String str = "";
+                for (int i = 0; i < array.size(); i++) {
+                    Integer type = array.getIntValue(i);
+                    if (i == 0) {
+                        str += " and ( " + getCreditTypeStr(type);
+                    }else{
+                        str +=  "  or  " + getCreditTypeStr(type);
+                    }
+                    if(i==array.size()-1){
+                        str+=" ) ";
+                    }
+                }
+                where += str;
+            }
+        }
 
-        return ResponseUtil.fail(0,"没有找到产品");
+        String sql_result = sql_allproduce + where + limit;
+        List<ProduceFront> list = baseService.queryBySqlFormatClass(ProduceFront.class, sql_result);
+        JSONArray array = JSON.parseArray(JSON.toJSONString(list));
+        if (list != null && list.size() > 0) {
+            return ResponseUtil.success_front(array);
+        } else {
+            return ResponseUtil.success_front(null);
+        }
     }
-
-
 
 
     /**
@@ -1306,10 +1360,26 @@ public class ProduceController {
     }
 
 
+    public String getCreditTypeStr(Integer type){
+        switch (type){
+            case 1 : return " p.loan_credit_type = 1 ";
+            case 2 : return " p.loan_credit_type = 4 or p.loan_credit_type = 5 or p.loan_credit_type = 6 or p.loan_credit_type = 7 or p.loan_credit_type=8 or  p.loan_credit_type=15 ";
+            case 3 : return " p.loan_credit_type = 2 or p.loan_credit_type = 7 or p.loan_credit_type = 8 or p.loan_credit_type = 14 or p.loan_credit_type = 15   ";
+            case 4 : return " p.loan_credit_type = 3 or p.loan_credit_type = 15  or p.loan_credit_type = 18 ";
+            case 5 : return " p.loan_credit_type = 9 or p.loan_credit_type = 13 or p.loan_credit_type = 13 or p.loan_credit_type = 18 ";
+            case 6 : return " p.loan_credit_type = 10 or p.loan_credit_type = 11 or p.loan_credit_type = 12 or p.loan_credit_type = 15 or p.loan_credit_type = 16 ";
+            default: return "";
+        }
+    }
+
     public static void main(String[] args) {
         Integer integer = Integer.getInteger("1");
         System.out.println(integer);
 
     }
+
+
+
+
 
 }

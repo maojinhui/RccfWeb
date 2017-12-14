@@ -2,6 +2,7 @@ package com.rccf.service;
 
 import com.rccf.component.Page;
 import com.rccf.dao.BaseDao;
+import com.rccf.model.produce.ProduceFront;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,7 +66,7 @@ public class BaseService {
         return dao.queryBySqlFormatObject(sql);
     }
 
-    public List queryBySqlFormatClass(String sql, Class clazz) {
+    public List queryBySqlFormatClass(Class clazz, String sql) {
         return dao.queryBySqlFormatClass(sql, clazz);
     }
 

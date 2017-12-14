@@ -88,7 +88,7 @@
         <tr>
             <td class="am-text-middle am-text-center" rowspan="4">贷款人群</td>
             <td><input name="produce-adapt-crown" value="1" type="checkbox"
-                <%=objNotNull&&aproduce.getLoanPeople().contains("1")?"checked='checked'":""%>> 企业主</td>
+                <%=objNotNull&&aproduce.getLoanPeople().contains("1")?"checked='checked'":""%>> 企业主/实际控制人</td>
             <td class="am-text-middle am-text-center" rowspan="4">还款方式</td>
             <td><input name="produce_repayment_type" value="1" type="checkbox"
                 <%=objNotNull&&aproduce.getRepaymentType().contains("1")?"checked='checked'":""%>> 等额本金</td>
@@ -115,7 +115,7 @@
         </tr>
         <tr>
             <td style="border-top: none;"><input name="produce-adapt-crown" value="2" type="checkbox"
-                <%=objNotNull&&aproduce.getLoanPeople().contains("2")?"checked='checked'":""%>>实际控股人</td>
+                <%=objNotNull&&aproduce.getLoanPeople().contains("2")?"checked='checked'":""%>>授薪人士</td>
             <td style="border-top: none;"><input name="produce_repayment_type" value="2" type="checkbox"
                 <%=objNotNull&&aproduce.getRepaymentType().contains("2")?"checked='checked'":""%>> 等额本息</td>
             <td><input name="produce_loan_scale" value="6" type="checkbox" <%=loanscale&&aproduce.getLoanScale().contains("6")?"checked='checked'":""%>> 6成

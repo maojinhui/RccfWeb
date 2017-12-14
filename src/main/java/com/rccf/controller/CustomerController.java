@@ -79,7 +79,7 @@ public class CustomerController {
         } else if (employee.getRole() == 4) {//业务员
             sql = "SELECT id,name,sex,idcard,age,phone,want_money,want_time,use_type,use_cycle_year,use_cycle_month,use_cycle_day,repayment_type,rank,clerk,clerk_name,state,create_time,(SELECT process from customer_process cp WHERE  cp.customer_id = customer.id ORDER BY update_time DESC  LIMIT 1) as process FROM `customer` WHERE state = 1 and `clerk` = '" + code + "'";
         }
-        list = baseService.queryBySqlFormatClass(sql, Customer.class);
+        list = baseService.queryBySqlFormatClass(Customer.class, sql);
         JSONArray array = JSON.parseArray(JSON.toJSONString(list));
         if (Strings.isNullOrEmpty(callback)) {
             return ResponseUtil.success_front(array);
@@ -323,7 +323,7 @@ public class CustomerController {
                 sql = "SELECT * from `loanapply`  WHERE `clerk_phone` IN ( SELECT `phone`  from `employee` where 0  ) order by stat asc";
 
             }
-            List<Loanapply> loanapplies = baseService.queryBySqlFormatClass(sql, Loanapply.class);
+            List<Loanapply> loanapplies = baseService.queryBySqlFormatClass(Loanapply.class, sql);
             return ResponseUtil.success(loanapplies);
 
         }
@@ -369,7 +369,7 @@ public class CustomerController {
                 sql = "SELECT * from `loanapply`  WHERE `clerk_phone` IN ( SELECT `phone`  from `employee` where 0  ) order by stat asc";
 
             }
-            List<Loanapply> loanapplies = baseService.queryBySqlFormatClass(sql, Loanapply.class);
+            List<Loanapply> loanapplies = baseService.queryBySqlFormatClass(Loanapply.class, sql);
             return ResponseUtil.success(loanapplies);
         }
         return ResponseUtil.fail(0, "用户未登录");

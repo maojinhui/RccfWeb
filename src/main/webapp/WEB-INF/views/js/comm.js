@@ -295,7 +295,7 @@ function getAuditStateStr(state){
             return '未知';
         }
         if(state==1){
-            return '已审核';
+            return '审核通过';
         }else if (state==2){
             return '审核不通过';
         }else if(state==3){

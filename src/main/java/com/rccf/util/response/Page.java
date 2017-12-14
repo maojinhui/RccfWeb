@@ -48,7 +48,7 @@ public class Page {
      */
     public static String limit(BaseService baseService, String total, String info, Class clazz) {
         int count = baseService.getCount(total);
-        List list = baseService.queryBySqlFormatClass(info, clazz);
+        List list = baseService.queryBySqlFormatClass(clazz, info);
         String str = JSON.toJSONString(list);
         JSONArray array = JSON.parseArray(str);
         JSONObject object = new JSONObject();
