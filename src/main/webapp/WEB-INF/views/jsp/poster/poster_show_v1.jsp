@@ -27,7 +27,7 @@
             <span>本图可长按保存后使用</span>
             <a></a>
         </p>
-        <img id="showImg" class="animated shake" src="img/extension3.jpg" width="100%">
+        <img id="showImg" class="animated shake" src="" width="100%">
 
         <label><i class="fa fa-heart-o"></i> 收藏海报</label>
     </div>
@@ -97,15 +97,12 @@
             data:obj,
             success:function (result) {
                 console.log(result.data)
+                $('#showImg').attr('src',result.data);
             },
             error:function () {
                 
             }
-
         })
-
-
-
     })
 
 </script>
