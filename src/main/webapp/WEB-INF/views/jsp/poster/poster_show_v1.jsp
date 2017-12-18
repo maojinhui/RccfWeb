@@ -19,8 +19,84 @@
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/amaze/animate.css">
     <link rel="stylesheet" href="/css/bootstrap/img_show.css">
+    <style>
+
+        .load-hide {
+            display: none;
+        }
+
+        .loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            width: 100%;
+            height: 106%;
+            background-color: rgba(222, 222, 222, 0.1);
+        }
+
+        .spinner {
+            width: 2rem;
+            height: 2rem;
+
+            position: fixed;
+            top: 7rem;
+            left: 40%
+        }
+
+        .double-bounce1, .double-bounce2 {
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding-top: 0.8rem;
+            font-size: 0.4rem;
+            opacity: 0.6;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            -webkit-animation: bounce 2.0s infinite ease-in-out;
+            animation: bounce 2.0s infinite ease-in-out;
+        }
+
+        .double-bounce2 {
+            -webkit-animation-delay: -1.0s;
+            animation-delay: -1.0s;
+        }
+
+        @-webkit-keyframes bounce {
+            0%, 100% {
+                -webkit-transform: scale(0.0)
+            }
+            50% {
+                -webkit-transform: scale(1.0)
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: scale(0.0);
+                -webkit-transform: scale(0.0);
+            }
+            50% {
+                transform: scale(1.0);
+                -webkit-transform: scale(1.0);
+            }
+        }
+    </style>
+
 </head>
 <body>
+<div class="loading load-hide">
+    <div class="spinner ">
+        <div class="double-bounce1">loading</div>
+        <div class="double-bounce2">loading</div>
+    </div>
+</div>
 <div class="main">
     <div class="thumbnail">
         <p>
@@ -91,13 +167,18 @@
         obj.poster_id = '<%=bPoster.getId()%>';
         obj.name = name;
         obj.phone=phone;
+
+        $('.loading').removeClass('load-hide');
+
         $.ajax({
             url:'/poster/generate/img/default',
             dataType:'json',
             data:obj,
             success:function (result) {
-                console.log(result.data)
+                console.log(result.data);
                 $('#showImg').attr('src',result.data);
+                $('.loading').addClass('load-hide');
+
             },
             error:function () {
                 
