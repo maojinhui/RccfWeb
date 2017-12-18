@@ -330,7 +330,7 @@
         })
 
         $('#hot_product').click(function () {
-            window.location.href = "/loan/default";
+            window.location.href = "/app/produce/match";
         });
 
 

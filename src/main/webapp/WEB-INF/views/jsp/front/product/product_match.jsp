@@ -327,9 +327,9 @@
         </div>
     </div>
     <div id="produce_list" class="am-g ">
-        <div class="am-u-sm-12  little-info">
-            机构合作贷款产品<span class="am-text-warning">180</span>个：
-        </div>
+        <%--<div class="am-u-sm-12  little-info">--%>
+            <%--机构合作贷款产品<span class="am-text-warning">180</span>个：--%>
+        <%--</div>--%>
         <%--<div class="loan-product">--%>
             <%--<div class="loan-product-title">质押神灯贷-直投贷<span class="house-zhiya">房屋质押</span></div>--%>
             <%--<div class="loan-product-left">--%>
@@ -348,6 +348,10 @@
 <script src="/js/app/self_adaption.js"></script>
 <script src="/js/comm.js"></script>
 <script>
+
+    function tishi() {
+        alert('我们已收到您的申请信息，24小时内会有销售经理和您联系，请保持电话畅通');
+    }
 
     var loan_type = "";
     var loan_repayment_type = "";
@@ -404,7 +408,7 @@
                             '<p>月费率：<span class="text-green">'+produce.loan_rate_min+'%-'+produce.loan_rate_max+'%</span></p>\n' +
                             '<p>贷款期限：<span class="text-green">'+produce.loan_term_min+'-'+produce.loan_term_max+'个月</span></p>\n' +
                             '</div>\n' +
-                            '<a class="loan-product-btn">申请贷款</a>\n' +
+                            '<a onclick="tishi()" class="loan-product-btn">申请贷款</a>\n' +
                             '</div>';
 
                     }
