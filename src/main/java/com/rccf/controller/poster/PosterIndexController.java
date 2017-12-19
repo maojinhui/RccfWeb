@@ -53,9 +53,6 @@ public class PosterIndexController {
     @RequestMapping(value = "/generate/img/default")
     public String generateImage(HttpServletRequest request) {
         String realPath=request.getRealPath("");
-
-
-
         String poster_id = request.getParameter("poster_id");
         BPoster poster = null;
         try {
@@ -76,9 +73,18 @@ public class PosterIndexController {
         String backgroundImg =  realPath+poster.getBackimg();
         String src = "/temp/t_"+new Date().getTime()+".jpg";
         String targetPath = realPath+src;
-        MarkUtil.firstImage(backgroundImg, targetPath,name,phone);
+        if(poster_id.equals("1")){
+            MarkUtil.firstImage(backgroundImg, targetPath,name,phone);
+        }else if (poster_id.equals("2")){
+            MarkUtil.secondImage(backgroundImg,targetPath,name,phone);
+        }
         return ResponseUtil.success(src);
     }
+
+
+
+
+
 
 
 }

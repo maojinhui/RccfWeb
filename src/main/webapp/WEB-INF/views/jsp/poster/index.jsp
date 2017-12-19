@@ -56,7 +56,7 @@
     <div class="container img-container">
         <div class="row">
             <div class="col-xs-4" >
-                <img data-extension-img  data-poster-id="1" src="/image/poster/show1.jpg">
+                <img data-extension-img  data-poster-id="1" src="/image/poster/model/poster1.jpeg">
                 <div class="title-img">
                     <label>请找我</label>
                     <%--<span>新</span>--%>
@@ -66,16 +66,16 @@
                 <%--</div>--%>
             </div>
 
-            <%--<div class="col-xs-4">--%>
-                <%--<img data-extension-img src="/image/poster/show2.jpg">--%>
-                <%--<div class="title-img">--%>
-                    <%--<label>奋斗</label>--%>
-                    <%--&lt;%&ndash;<span>新</span>&ndash;%&gt;--%>
+            <div class="col-xs-4">
+                <img data-extension-img  data-poster-id="2" src="/image/poster/model/poster2.jpeg">
+                <div class="title-img">
+                    <label>圣诞活动</label>
+                    <%--<span>新</span>--%>
+                </div>
+                <%--<div class="img-used">--%>
+                    <%--<i class="fa fa-heart"></i>3306--%>
                 <%--</div>--%>
-                <%--&lt;%&ndash;<div class="img-used">&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;<i class="fa fa-heart"></i>3306&ndash;%&gt;--%>
-                <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-            <%--</div>--%>
+            </div>
             <%--<div class="col-xs-4">--%>
                 <%--<img data-extension-img src="/image/poster/show3.jpg">--%>
                 <%--<div class="title-img">--%>
@@ -107,19 +107,12 @@
                 <%--</div>--%>
             </div>
 
-            <%--<div class="col-xs-4">--%>
-                <%--<img data-extension-img  src="/image/poster/show5.jpg">--%>
-                <%--<div class="title-img">--%>
-                    <%--<label>奋斗</label>--%>
-                    <%--<span>新</span>--%>
-                <%--</div>--%>
-                <%--<div class="img-used">--%>
-                    <%--<i class="fa fa-heart"></i>3306--%>
-                <%--</div>--%>
-            <%--</div>--%>
-
-
-
+            <div class="col-xs-4">
+                <img data-extension-img  data-poster-id="2" src="/image/poster/model/poster2.jpeg">
+                <div class="title-img">
+                    <label>圣诞活动</label>
+                </div>
+            </div>
 
         </div>
     </div>

@@ -105,9 +105,8 @@
         </p>
         <img id="showImg" class="animated shake" src="" width="100%">
 
-        <label><i class="fa fa-heart-o"></i> 收藏海报</label>
+        <%--<label><i class="fa fa-heart-o"></i> 收藏海报</label>--%>
     </div>
-
     <div class="service">
         <p><i class="fa fa-check-square-o"></i> 同意《展业海报服务协议》</p>
         <div class="service-form">
