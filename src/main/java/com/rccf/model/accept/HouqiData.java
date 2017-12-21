@@ -12,7 +12,7 @@ public class HouqiData {
     private Integer endcount;
     private Integer refusecount;
     private Integer removecount;
-    private Integer actual;
+    private Double actual;
 
     @Id
     public String getName() {
@@ -55,11 +55,11 @@ public class HouqiData {
         this.removecount = removecount;
     }
 
-    public Integer getActual() {
+    public Double getActual() {
         return actual;
     }
 
-    public void setActual(Integer actual) {
+    public void setActual(Double actual) {
         this.actual = actual;
     }
 }
