@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.rccf.constants.ResponseConstants;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.*;
+import com.rccf.model.accept.HouqiData;
 import com.rccf.model.accept.RibaoDeputyDirector;
 import com.rccf.model.accept.RibaoDirector;
 import com.rccf.model.accept.RibaoEmployee;
@@ -580,6 +581,46 @@ public class AcceptedController {
         modelAndView.addObject("list", list);
         return modelAndView;
     }
+
+
+
+    @ResponseBody
+    @RequestMapping(value = "/houqi/data")
+    public String houqiTongji(HttpServletRequest request){
+        String start_time = request.getParameter("start_time");
+        String end_time = request.getParameter("end_time");
+        if(Strings.isNullOrEmpty(start_time) || Strings.isNullOrEmpty(end_time)){
+            return ResponseUtil.fail(0,"请传入正确的时间");
+        }
+        String sql = "SELECT\n" +
+                "  name,\n" +
+                "  (SELECT COUNT(*)\n" +
+                "   FROM `accepted`\n" +
+                "   WHERE `houqi` = name AND accept_time BETWEEN '"+start_time+"' AND '"+end_time+"')              AS acceptcount,\n" +
+                "  (SELECT COUNT(*)\n" +
+                "   FROM `accepted`\n" +
+                "   WHERE `state` = 2 AND `houqi` = name AND\n" +
+                "         end_date BETWEEN '"+start_time+"' AND '"+end_time+"')                                    AS endcount,\n" +
+                "  (SELECT COUNT(*)\n" +
+                "   FROM `accepted`\n" +
+                "   WHERE `state` = 3 AND `houqi` = name AND\n" +
+                "         end_date BETWEEN '"+start_time+"' AND '"+end_time+"')                                    AS refusecount,\n" +
+                "  (SELECT COUNT(*)\n" +
+                "   FROM `accepted`\n" +
+                "   WHERE `state` = 4 AND `houqi` = name AND\n" +
+                "         end_date BETWEEN '"+start_time+"' AND '"+end_time+"')                                    AS removecount,\n" +
+                "  (SELECT SUM(service_fee_actual)\n" +
+                "   FROM `accepted`\n" +
+                "   WHERE `houqi` = name AND `state` = 2 AND\n" +
+                "         end_date BETWEEN '"+start_time+"' AND '"+end_time+"') AS actual\n" +
+                "FROM `employee` WHERE `department` LIKE '%市场%' AND `role` = 4";
+        List<HouqiData> datas = baseService.queryBySqlFormatClass(HouqiData.class,sql);
+        String jsonStr = JSON.toJSONString(datas);
+        JSONArray array = JSON.parseArray(jsonStr);
+        return ResponseUtil.success_front(array);
+//        return ResponseUtil.fail();
+    }
+
 
 
     @RequestMapping(value = "/houqidetail")

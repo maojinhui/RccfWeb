@@ -13,6 +13,8 @@
 {"button":[{"type":"view","name":"融成金服","url":"http://weixin.rccfkg.com/auth/enter"},{"name":"管理系统","sub_button":[{"type":"view","name":"后台登录","url":"http://weixin.rccfkg.com/back/login"},{"type":"view","name":"营销工具","url":"http://weixin.rccfkg.com/advert/addsign"}]},{"name":"关于我们","sub_button":[{"type":"view","name":"产品介绍","url":"http://rccfkg.com/paymentService/productDisplay.html"},{"type":"view","name":"联系我们","url":"http://rccfkg.com/contact.html"}]}]}
 
 
+2017-12-19
+{"button":[{"type":"view","name":"融成金服","url":"http://weixin.rccfkg.com/auth/enter"},{"name":"营销工具","sub_button":[{"type":"view","name":"展业海报","url":"http://weixin.rccfkg.com/poster/index"},{"type":"view","name":"分享","url":"http://weixin.rccfkg.com/advert/addsign"}]},{"name":"关于我们","sub_button":[{"type":"view","name":"后台登录","url":"http://weixin.rccfkg.com/back/login"},{"type":"view","name":"产品介绍","url":"http://rccfkg.com/paymentService/productDisplay.html"},{"type":"view","name":"联系我们","url":"http://rccfkg.com/contact.html"}]}]}
 
 
 

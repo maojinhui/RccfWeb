@@ -13,7 +13,7 @@
     <title>展业海报</title>
     <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=no">
     <link rel="stylesheet" href="/css/app/normalize.css">
-    <link href="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet">
+    <%--<link href="https://cdn.bootcss.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet">--%>
     <link rel="stylesheet" href="/css/bootstrap/bootstrap.css">
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/bootstrap/extension.css">

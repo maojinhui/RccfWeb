@@ -34,8 +34,6 @@ public class WeixinController {
     @Autowired
     private SubcribeService subcribeService;
 
-
-
     @ResponseBody
     @RequestMapping(value = "/gettoken")
     public String getToken() {

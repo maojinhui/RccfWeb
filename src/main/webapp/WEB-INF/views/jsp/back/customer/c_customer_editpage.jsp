@@ -83,40 +83,40 @@
     </div>
     <div class="am-g">
         <div data-html="base" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
-            <img src="/image/customerinfo/客户基本信息.png">
+            <img src="/image/customerinfo/customer_baseinfo.png">
             <div><label>客户基本信息</label></div>
         </div>
         <div data-html="process" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-u-end am-text-center am-margin-vertical-xs">
-            <img src="/image/customerinfo/客户信用资料.png">
+            <img src="/image/customerinfo/customer_credit_info.png">
             <div><label>客户跟踪信息</label></div>
         </div>
         <div data-html="loaninfo" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
-            <img src="/image/customerinfo/客户贷款意向.png">
+            <img src="/image/customerinfo/customer_loan.png">
             <div><label>客户贷款意向</label></div>
         </div>
         <div data-html="work" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
-            <img src="/image/customerinfo/客户工作单位信息.png">
+            <img src="/image/customerinfo/customer_work.png">
             <div><label>客户工作单位信息</label></div>
         </div>
         <div data-html="mate" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
-            <img src="/image/customerinfo/客户配偶信息.png">
+            <img src="/image/customerinfo/customer_peiou.png">
             <div><label>客户配偶信息</label></div>
         </div>
         <div data-html="houselist" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
-            <img src="/image/customerinfo/客户房产信息.png">
+            <img src="/image/customerinfo/customer_house.png">
             <div><label>客户房产信息</label></div>
         </div>
         <div data-html="companylist"
              class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
-            <img src="/image/customerinfo/客户公司信息.png">
+            <img src="/image/customerinfo/customer_company.png">
             <div><label>客户公司信息</label></div>
         </div>
         <div data-html="contactlist" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
-            <img src="/image/customerinfo/其他联系人信息.png">
+            <img src="/image/customerinfo/other_connect_people.png">
             <div><label>其他联系人信息</label></div>
         </div>
         <div data-html="carlist" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
-            <img src="/image/customerinfo/客户车产信息.png">
+            <img src="/image/customerinfo/customer_car.png">
             <div><label>客户车产信息</label></div>
         </div>
 
@@ -130,8 +130,8 @@
     var customer_id = '<%=customer_id%>';
 
     $('#back').click(function () {
-        parent.document.getElementById('content_iframe').contentWindow.history.back();
-
+//        parent.document.getElementById('content_iframe').contentWindow.history.back();
+        window.history.back();
     });
 
     $('[data-html]').click(function () {
