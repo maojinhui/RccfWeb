@@ -33,7 +33,7 @@ public class ImageRemarkUtil {
 
 //    private static Font font1 = Font.createFont(Font.TRUETYPE_FONT,new File(fontPath));
     // 水印文字颜色
-    private static Color color = Color.black;
+    private static Color color = Color.BLACK;
 
     /**
      * @param alpha          水印透明度
