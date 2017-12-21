@@ -396,7 +396,7 @@ public class AcceptedController {
                 "                              (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` =e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
                 "                              (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` =e.`code` AND a.business_type=1 ) as nowaccept_diya,\n" +
                 "                              (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` =e.`code`AND a.business_type=2 ) as nowaccept_zhiya\n" +
-                "FROM `employee` e  WHERE `role`= 4 AND `state` =1 ORDER BY monthyeji DESC";
+                "FROM `employee` e  WHERE  department like '%金融%'  and `role`= 4    AND `state` =1 ORDER BY monthyeji DESC";
 
         List list = baseService.queryBySqlFormatClass(RibaoEmployee.class, sql);
         modelAndView.addObject("list", list);
