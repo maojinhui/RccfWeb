@@ -614,6 +614,8 @@ public class AcceptedController {
                 "   WHERE `houqi` = name AND `state` = 2 AND\n" +
                 "         end_date BETWEEN '"+start_time+"' AND '"+end_time+"') AS actual\n" +
                 "FROM `employee` WHERE `department` LIKE '%市场%' AND `role` = 4";
+
+
         List<HouqiData> datas = baseService.queryBySqlFormatClass(HouqiData.class,sql);
         String jsonStr = JSON.toJSONString(datas);
         JSONArray array = JSON.parseArray(jsonStr);
