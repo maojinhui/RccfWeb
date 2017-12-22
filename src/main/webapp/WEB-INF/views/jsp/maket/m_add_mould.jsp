@@ -1,0 +1,221 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Administrator
+  Date: 2017/12/22 0022
+  Time: 13:40
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>海报模板上传</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../../css/app/normalize.css">
+    <link rel="stylesheet" href="../../css/extension/img_push.css">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>
+        融成海报上传页
+    </h1>
+    <div>
+        <label>上传图片：</label>
+        <div data-img-push class="img-container">
+            <span>点击上传图片</span>
+            <img id="img" class="hide" src="">
+            <input id="img_push" class="hide" type="file" accept="image/*">
+        </div>
+    </div>
+    <div class="text-area-btn">
+        <!--<button id="add"><i class="fa fa-plus-square-o"></i> 添加文本内容</button>-->
+        <button id="submit"><i class="fa fa-cloud-upload"></i> 提交海报模板</button>
+    </div>
+
+    <div id="name" class="">
+        <h3>姓名设置 </h3>
+        <div class="text-area">
+            <label>文本内容：</label>
+            <input type="text">
+        </div>
+        <div class="text-area">
+            <label>文本字体：</label>
+            <input type="text">
+        </div>
+        <div class="text-area">
+            <label>字体大小：</label>
+            <input type="number">px
+        </div>
+        <div class="text-area">
+            <label>文本颜色：</label>
+            <select style="width: 5em;">
+                <option value="black">黑色</option>
+                <option value="white">白色</option>
+                <option value="yellow">黄色</option>
+                <option value="blue">蓝色</option>
+                <option value="cyan">青色</option>
+                <option value="red">红色</option>
+                <option value="magenta">粉色</option>
+                <option value="green">绿色</option>
+                <option value="grey">灰色</option>
+            </select>
+        </div>
+        <div class="text-area">
+            <label>字透明度：</label>
+            <input type="number" max="1" min="0" step="0.1" value="1" style="width: 4em;padding-left: 1em">(最大1，最小0)
+        </div>
+        <div class="text-area">
+            <label>水平距离：</label>
+            <input type="number">px
+        </div>
+        <div class="text-area">
+            <label>垂直距离：</label>
+            <input type="number">px
+        </div>
+    </div>
+    <div id="phone" class="">
+        <h3>联系方式设置 </h3>
+        <div class="text-area">
+            <label>文本内容：</label>
+            <input type="text">
+        </div>
+        <div class="text-area">
+            <label>文本字体：</label>
+            <input type="text">
+        </div>
+        <div class="text-area">
+            <label>字体大小：</label>
+            <input type="number">px
+        </div>
+        <div class="text-area">
+            <label>文本颜色：</label>
+            <select style="width: 5em;">
+                <option value="black">黑色</option>
+                <option value="white">白色</option>
+                <option value="yellow">黄色</option>
+                <option value="blue">蓝色</option>
+                <option value="cyan">青色</option>
+                <option value="red">红色</option>
+                <option value="magenta">粉色</option>
+                <option value="green">绿色</option>
+                <option value="grey">灰色</option>
+            </select>
+        </div>
+        <div class="text-area">
+            <label>字透明度：</label>
+            <input type="number" max="1" min="0" step="0.1" value="1" style="width: 4em;padding-left: 1em">(最大1，最小0)
+        </div>
+        <div class="text-area">
+            <label>水平距离：</label>
+            <input type="number">px
+        </div>
+        <div class="text-area">
+            <label>垂直距离：</label>
+            <input type="number">px
+        </div>
+    </div>
+
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    $("[data-img-push]").click(function () {
+
+        var pNode = $(this);
+
+        var img_p = document.getElementById('img_push');
+
+        img_p.click(); //隐藏了input:file样式后，点击头像就可以本地上传
+
+        $(img_p).on("change", function () {
+            var objUrl = getObjectURL(this.files[0]); //获取图片的路径，该路径不是图片在本地的路径
+            if (objUrl) {
+                $("#img").attr("src", objUrl); //将图片路径存入src中，显示出图片
+                $("#img").removeClass('hide');
+            }
+
+            var spNode = pNode.children('span')[0];
+            $(spNode).addClass('hide');
+        });
+    });
+
+    function getObjectURL(file) {
+        var url = null;
+        if (window.createObjectURL != undefined) { // basic
+            url = window.createObjectURL(file);
+        } else if (window.URL != undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file);
+        } else if (window.webkitURL != undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file);
+        }
+        return url;
+    }
+
+
+    $('#submit').click(function () {
+
+        var formData = new FormData();
+        formData.append('img', $('#img_push')[0].files[0]);
+//    console.log(formData);
+//    console.log(formData.get('img'));
+
+        var nameObj = {};
+
+        var inputN = $('#name').find('input');
+
+        nameObj.content = $(inputN[0]).val();
+        nameObj.font = $(inputN[1]).val();
+        nameObj.fontSize = $(inputN[2]).val();
+        nameObj.alpha = $(inputN[3]).val();
+        nameObj.pWidth = $(inputN[4]).val();
+        nameObj.pHeight = $(inputN[5]).val();
+        var selectN = $('#name').find('select')[0];
+        nameObj.color = $(selectN).val();
+        console.log(nameObj);
+        formData.append('name', nameObj);
+
+        var phoneObj = {};
+
+        var inputP = $('#phone').find('input');
+
+        phoneObj.content = $(inputP[0]).val();
+        phoneObj.font = $(inputP[1]).val();
+        phoneObj.fontSize = $(inputP[2]).val();
+        phoneObj.alpha = $(inputP[3]).val();
+        phoneObj.pWidth = $(inputP[4]).val();
+        phoneObj.pHeight = $(inputP[5]).val();
+        var selectP = $('#phone').find('select')[0];
+
+        phoneObj.color = $(selectP).val();
+        console.log(phoneObj);
+        formData.append('phone', phoneObj);
+
+        console.log(formData);
+        console.log(formData.get("img"));
+        console.log(formData.get("name"));
+        console.log(formData.get("phone"));
+
+
+        $.ajax({
+            url: '',
+            type: 'post',
+            data: formData,
+            dataType: 'json',
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function () {
+
+            },
+            error: function () {
+
+            }
+        });
+
+    });
+
+
+</script>
+</body>
+</html>
