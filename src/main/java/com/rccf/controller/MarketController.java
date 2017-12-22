@@ -1,9 +1,15 @@
 package com.rccf.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.rccf.constants.UrlConstants;
 import com.rccf.constants.build.DebugManager;
+import com.rccf.model.Employee;
+import com.rccf.model.poster.BPoster;
 import com.rccf.service.BaseService;
+import com.rccf.service.EmployeeService;
+import com.rccf.util.BackUtil;
+import com.rccf.util.DateUtil;
 import com.rccf.util.ResponseUtil;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.UUID;
 import org.apache.log4j.Logger;
 
@@ -31,6 +38,11 @@ public class MarketController {
     @Autowired
     BaseService baseService;
 
+    @Autowired
+    EmployeeService employeeService;
+
+
+
     @RequestMapping(value = "/add_mould")
     public ModelAndView addMarketText(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
@@ -42,12 +54,17 @@ public class MarketController {
     @ResponseBody
     @RequestMapping(value = "/upload")
     public String uploadImageAndText(@RequestParam(value = "file", required = true) MultipartFile file , HttpServletRequest request){
-        String  srcImg = "";
-
+        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+        String srcImg = "";
         logger.info("开始上传图片");
-        String server_path = DebugManager.SERVER_IMAGE_PATH;
+        String server_path ;
+        String  host_address ;
         if(DebugManager.DEBUG){
             server_path = DebugManager.LOCAL_IMAGE_PATH;
+            host_address = DebugManager.LOCAL_HOST_ADDRESS;
+        }else{
+            server_path = DebugManager.SERVER_IMAGE_PATH;
+            host_address = DebugManager.SERVER_HOST_ADDRESS;
         }
         String fileName = file.getOriginalFilename();
         String extention = fileName.substring(fileName.lastIndexOf("."));
@@ -67,7 +84,7 @@ public class MarketController {
             try {
                 int  state = IOUtils.copy(file.getInputStream(), new FileOutputStream(new File(path)));
                 if(state>0){
-//                    srcImg =
+                    srcImg = host_address+fileName;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -82,14 +99,25 @@ public class MarketController {
         String nameObject = request.getParameter("name");
         String phoneObject = request.getParameter("phone");
 
+        JSONObject object = new JSONObject();
+        object.put("img",path);
+        object.put("name",nameObject);
+        object.put("phone",phoneObject);
 
-
-
-
-
-
-
-        return ResponseUtil.fail();
+        BPoster bPoster = new BPoster();
+        bPoster.setBackimg(path);
+        bPoster.setExtra(object.toJSONString());
+        bPoster.setType(1);
+        bPoster.setThumb(srcImg);
+        bPoster.setAddTime(DateUtil.date2Timestamp(new Date()));
+        if(employee!=null){
+            bPoster.setAddPerson(employee.getId());
+        }
+        boolean save = baseService.save(bPoster);
+        if(save){
+            return ResponseUtil.success();
+        }
+        return ResponseUtil.fail(0,"上传失败");
     }
 
 

@@ -173,7 +173,7 @@
         var selectN = $('#name').find('select')[0];
         nameObj.color = $(selectN).val();
         console.log(nameObj);
-        formData.append('name', nameObj);
+        formData.append('name', JSON.stringify(nameObj));
 
         var phoneObj = {};
 
@@ -189,7 +189,7 @@
 
         phoneObj.color = $(selectP).val();
         console.log(phoneObj);
-        formData.append('phone', phoneObj);
+        formData.append('phone', JSON.stringify(phoneObj));
 
         console.log(formData);
         console.log(formData.get("img"));
@@ -205,8 +205,12 @@
             cache: false,
             processData: false,
             contentType: false,
-            success: function () {
-
+            success: function (result) {
+                if(result.code){
+                    alert("上传成功")
+                }else{
+                    alert(result.errormsg);
+                }
             },
             error: function () {
 
