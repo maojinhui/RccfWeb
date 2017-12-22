@@ -1,0 +1,95 @@
+
+html, body {
+    font-family: 'kaiti', 'microsoft yahei', arial, sans-serif;
+    font-size: 20px;
+
+    background-color: #423737;
+    color: #fff;
+}
+
+h3 {
+    color: #0f9ae0;
+}
+
+.fa-remove {
+    display: inline-block;
+    color: red;
+    margin-left: 80px;
+    padding: 2px;
+    border: 1px solid red;
+}
+
+.hide {
+    display: none !important;
+}
+
+.container {
+    position: relative;
+    margin-top: 40px;
+    margin-left: 30%;
+    margin-bottom: 100px;
+}
+
+@media screen and (max-width: 540px) {
+    .container {
+        margin-left: 2em;
+    }
+}
+
+.img-container {
+    /*display: inline-block;*/
+    position: relative;
+    width: 150px;
+    height: 220px;
+
+    margin-left: 5.5em;
+    border: 2px solid #e3e3e3;
+}
+
+.img-container span {
+    display: inline-block;
+    position: absolute;
+    font-size: 14px;
+    width: 100%;
+    text-align: center;
+
+    top: 90px;
+}
+
+.img-container img {
+    width: 150px;
+    height: 220px;
+}
+
+.text-area {
+    margin-top: 20px;
+}
+
+.text-area-btn {
+    position: fixed;
+    bottom: 20px;
+}
+
+.text-area input,
+.text-area select,
+.text-area-btn button {
+    font-family: 'kaiti', 'microsoft yahei', arial, sans-serif;
+    font-size: 17px;
+    padding: 1px 0;
+}
+
+.text-area input {
+    border: none;
+}
+
+.text-area-btn button {
+
+    background-color: #42bde5;
+    color: #f5f5f5;
+
+    margin-top: 10px;
+    margin-left: 60px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+}
