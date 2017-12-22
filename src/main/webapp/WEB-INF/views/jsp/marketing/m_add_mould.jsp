@@ -19,10 +19,10 @@
 <body>
 <div class="container">
     <h1>
-        融成海报上传页
+        &emsp;&emsp;融成海报上传页
     </h1>
     <div>
-        <label>上传图片：</label>
+        <label>上传图片：</label><input id="title" type="text" placeholder="海报名称">
         <div data-img-push class="img-container">
             <span>点击上传图片</span>
             <img id="img" class="hide" src="">
@@ -30,7 +30,7 @@
         </div>
     </div>
     <div class="text-area-btn">
-        <!--<button id="add"><i class="fa fa-plus-square-o"></i> 添加文本内容</button>-->
+        <button id="preview"><i class="fa fa-eye"></i> 预览海报模板</button>
         <button id="submit"><i class="fa fa-cloud-upload"></i> 提交海报模板</button>
     </div>
 
@@ -118,6 +118,10 @@
     </div>
 
 </div>
+<div class="img-preview hide">
+    <img src="">
+</div>
+
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script>
     $("[data-img-push]").click(function () {
@@ -159,6 +163,12 @@
         formData.append('file', $('#img_push')[0].files[0]);
 //    console.log(formData);
 //    console.log(formData.get('img'));
+        var title = $('#title').val();
+        if (title === '') {
+            alert('请输入海报名称');
+            return;
+        }
+        formData.append('title', title);
 
         var nameObj = {};
 
@@ -219,7 +229,13 @@
 
     });
 
+    $('#preview').click(function () {
+        $('.img-preview').removeClass('hide');
+    });
 
+    $('.img-preview img').click(function () {
+        $('.img-preview').addClass('hide');
+    })
 </script>
 </body>
 </html>

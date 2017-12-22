@@ -11,6 +11,22 @@ h3 {
     color: #0f9ae0;
 }
 
+h1 {
+    color: #c4e3f3;
+    font-size: 1.4em;
+}
+
+.img-preview {
+    position: fixed;
+    width: 100%;
+    top: 5em;
+    left: 0;
+}
+
+.img-preview img {
+    width: 100%;
+}
+
 .fa-remove {
     display: inline-block;
     color: red;
