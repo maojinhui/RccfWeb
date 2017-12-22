@@ -15,8 +15,8 @@ public class BPoster {
     private Integer addPerson;
     private Integer type;
     private Integer collections;
-    private String temp2;
     private String extra;
+    private String thumb;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -90,17 +90,6 @@ public class BPoster {
 
 
     @Basic
-    @Column(name = "temp2", nullable = true, length = 225)
-    public String getTemp2() {
-        return temp2;
-    }
-
-    public void setTemp2(String temp2) {
-        this.temp2 = temp2;
-    }
-
-
-    @Basic
     @Column(name = "extra", nullable = true, length = -1)
     public String getExtra() {
         return extra;
@@ -108,6 +97,18 @@ public class BPoster {
 
     public void setExtra(String extra) {
         this.extra = extra;
+    }
+
+
+
+    @Basic
+    @Column(name = "thumb", nullable = true, length = 225)
+    public String getThumb() {
+        return thumb;
+    }
+
+    public void setThumb(String thumb) {
+        this.thumb = thumb;
     }
 
 
@@ -123,13 +124,13 @@ public class BPoster {
                 Objects.equal(addPerson, bPoster.addPerson) &&
                 Objects.equal(type, bPoster.type) &&
                 Objects.equal(collections, bPoster.collections) &&
-                Objects.equal(temp2, bPoster.temp2) &&
-                Objects.equal(extra, bPoster.extra);
+                Objects.equal(extra, bPoster.extra) &&
+                Objects.equal(thumb, bPoster.thumb);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, title, backimg, addTime, addPerson, type, collections, temp2, extra);
+        return Objects.hashCode(id, title, backimg, addTime, addPerson, type, collections, extra, thumb);
     }
 
 
@@ -143,8 +144,9 @@ public class BPoster {
                 .add("addPerson", addPerson)
                 .add("type", type)
                 .add("collections", collections)
-                .add("temp2", temp2)
                 .add("extra", extra)
+                .add("thumb", thumb)
                 .toString();
     }
 }
+

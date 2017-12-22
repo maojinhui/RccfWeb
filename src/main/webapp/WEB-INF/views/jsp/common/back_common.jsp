@@ -149,7 +149,7 @@
             <% if (depart.contains("系统") || depart.contains("金融")) {%>
             <li class="sidebar-nav-link">
                 <a href="#" class="sidebar-nav-sub-title">
-                    <i class="am-icon-user-secret sidebar-nav-link-logo"></i> 客户管理
+                    <i class="am-icon-user-secret sidebar-nav-link-logo"></i> 销售中心
                     <span class="am-icon-chevron-right am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                 </a>
                 <ul class="sidebar-nav sidebar-nav-sub">
@@ -197,14 +197,14 @@
             <% if (depart.contains("市场") || depart.equals("系统管理")) {%>
             <li class="sidebar-nav-link">
                 <a class="sidebar-nav-sub-title">
-                    <i class="am-icon-tasks sidebar-nav-link-logo"></i> 受理单管理
+                    <i class="am-icon-tasks sidebar-nav-link-logo"></i> 受理中心
                     <span class="am-icon-chevron-right am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                 </a>
                 <ul class="sidebar-nav sidebar-nav-sub">
                     <%if (role < 4 || role > 4) {%>
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/employee/acceptedlist">
-                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 受理单列表
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 受理列表
                         </a>
                     </li>
                     <li class="sidebar-nav-link">
@@ -256,7 +256,7 @@
             <% if (depart.equals("系统管理") || (depart.contains("市场")) ) {%>
             <li class="sidebar-nav-link">
                 <a class="sidebar-nav-sub-title">
-                    <i class="am-icon-file sidebar-nav-link-logo"></i> 产品管理
+                    <i class="am-icon-file sidebar-nav-link-logo"></i> 产品中心
                     <span class="am-icon-chevron-right am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                 </a>
                     <% if (depart.equals("系统管理")){ %>

@@ -10,10 +10,12 @@
 <%
     String depart = "";
     int role = 100;
+    String phone = "";
     Employee user = (Employee) request.getAttribute("user");
     if (user != null) {
         depart = user.getDepartment();
         role = user.getRole();
+        phone = user.getPhone();
     }
 %>
 
@@ -43,7 +45,7 @@
     <div class="am-g am-margin am-padding-right-xl am-text-left">
         <a id="display_all" class="am-btn am-btn-secondary">显示全部</a>
         <a data-type="xls" id="export" class="am-btn am-btn-secondary">导出表格</a>
-        <% if (depart.contains("系统")) { %>
+        <% if (depart.contains("系统") || phone.equals("18655402678")) { %>
         <a data-type="xls" id="sync" class="am-btn am-btn-secondary">同步进度到受理单列表</a>
         <%}%>
     </div>
