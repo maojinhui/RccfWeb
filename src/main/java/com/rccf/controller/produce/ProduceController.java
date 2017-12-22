@@ -99,7 +99,7 @@ public class ProduceController {
         String limitStr = " limit " + offset + "," + PageConstants.EVERYPAGE;
         String sql = "SELECT *\n" +
                 "FROM (SELECT `id`, `name`, `code`, agency_id,\n" +
-                "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
+                "         agency_name,\n" +
                 "         1 AS type,`state`,create_time,log,\n" +
                 "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
                 "       FROM `a_produce_diya` as p\n" + eInfo +
@@ -928,7 +928,7 @@ public class ProduceController {
         String limitStr = " limit " + offset + "," + PageConstants.EVERYPAGE;
         String sql = "SELECT *\n" +
                 "FROM (SELECT `id`, `name`, `code`, agency_id,\n" +
-                "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
+                "          agency_name,\n" +
                 "         1 AS type,`state`,create_time,log,\n" +
                 "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
                 "       FROM `a_produce_diya` as p \n" + eInfo +

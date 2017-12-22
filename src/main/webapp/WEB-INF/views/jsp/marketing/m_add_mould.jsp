@@ -12,8 +12,8 @@
     <meta charset="UTF-8">
     <title>海报模板上传</title>
     <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="../../css/app/normalize.css">
-    <link rel="stylesheet" href="../../css/extension/img_push.css">
+    <link rel="stylesheet" href="/css/marketing/normalize.css">
+    <link rel="stylesheet" href="/css/marketing/img_push.css">
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
@@ -156,7 +156,7 @@
     $('#submit').click(function () {
 
         var formData = new FormData();
-        formData.append('img', $('#img_push')[0].files[0]);
+        formData.append('file', $('#img_push')[0].files[0]);
 //    console.log(formData);
 //    console.log(formData.get('img'));
 
@@ -198,7 +198,7 @@
 
 
         $.ajax({
-            url: '',
+            url: '/market/upload',
             type: 'post',
             data: formData,
             dataType: 'json',

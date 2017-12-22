@@ -167,23 +167,23 @@
         <tr>
             <td>城六区</td>
             <td colspan="3">
-                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="1" type="checkbox" <%=area&&diya.getHouseArea().contains("1")?"checked='checked'":""%>>  朝阳区</span>
-                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="2" type="checkbox" <%=area&&diya.getHouseArea().contains("2")?"checked='checked'":""%>>  海淀区</span>
-                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="3" type="checkbox" <%=area&&diya.getHouseArea().contains("3")?"checked='checked'":""%>>  东城区</span>
-                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="4" type="checkbox" <%=area&&diya.getHouseArea().contains("4")?"checked='checked'":""%>>  西城区</span>
-                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="5" type="checkbox" <%=area&&diya.getHouseArea().contains("5")?"checked='checked'":""%>>  丰台区</span>
-                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="6" type="checkbox" <%=area&&diya.getHouseArea().contains("6")?"checked='checked'":""%>>  石景山区</span>
+                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="1" type="checkbox" <%=(area&&diya.getHouseArea().contains("1"))||!objNotNull?"checked='checked'":""%>>  朝阳区</span>
+                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="2" type="checkbox" <%=(area&&diya.getHouseArea().contains("2"))||!objNotNull?"checked='checked'":""%>>  海淀区</span>
+                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="3" type="checkbox" <%=(area&&diya.getHouseArea().contains("3"))||!objNotNull?"checked='checked'":""%>>  东城区</span>
+                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="4" type="checkbox" <%=(area&&diya.getHouseArea().contains("4"))||!objNotNull?"checked='checked'":""%>>  西城区</span>
+                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="5" type="checkbox" <%=(area&&diya.getHouseArea().contains("5"))||!objNotNull?"checked='checked'":""%>>  丰台区</span>
+                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="6" type="checkbox" <%=(area&&diya.getHouseArea().contains("6"))||!objNotNull?"checked='checked'":""%>>  石景山区</span>
             </td>
         </tr>
         <tr>
             <td>近郊区域</td>
             <td colspan="3">
-                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="7" type="checkbox" <%=area&&diya.getHouseArea().contains("7")?"checked='checked'":""%>>  顺义区</span>
-                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="8" type="checkbox" <%=area&&diya.getHouseArea().contains("8")?"checked='checked'":""%>>  房山区</span>
-                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="9" type="checkbox" <%=area&&diya.getHouseArea().contains("9")?"checked='checked'":""%>>  通州区</span>
-                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="10" type="checkbox" <%=area&&diya.getHouseArea().contains("10")?"checked='checked'":""%>>  大兴区</span>
-                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="11" type="checkbox" <%=area&&diya.getHouseArea().contains("11")?"checked='checked'":""%>>  亦庄</span>
-                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="12" type="checkbox" <%=area&&diya.getHouseArea().contains("12")?"checked='checked'":""%>>  昌平</span>
+                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="7" type="checkbox" <%=(area&&diya.getHouseArea().contains("7"))||!objNotNull?"checked='checked'":""%>>  顺义区</span>
+                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="8" type="checkbox" <%=(area&&diya.getHouseArea().contains("8"))||!objNotNull?"checked='checked'":""%>>  房山区</span>
+                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="9" type="checkbox" <%=(area&&diya.getHouseArea().contains("9"))||!objNotNull?"checked='checked'":""%>>  通州区</span>
+                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="10" type="checkbox" <%=(area&&diya.getHouseArea().contains("10"))||!objNotNull?"checked='checked'":""%>>  大兴区</span>
+                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="11" type="checkbox" <%=(area&&diya.getHouseArea().contains("11"))||!objNotNull?"checked='checked'":""%>>  亦庄</span>
+                <span class="am-margin-right-xl am-margin-left"><input name="produce_area" value="12" type="checkbox" <%=(area&&diya.getHouseArea().contains("12"))||!objNotNull?"checked='checked'":""%>>  昌平</span>
             </td>
         </tr>
         <tr>
@@ -405,19 +405,19 @@
             <td rowspan="3" class="am-text-middle ">可申请房屋类型</td>
             <td colspan="3">
                 <span class="am-margin-right-xl am-margin-left">
-                    <input name="house_nature" value="1" type="checkbox" <%=applyLoanHouseNature&&diya.getApplyHouseNature().contains("1")?"checked='checked'":""%>>  住宅</span>
+                    <input name="house_nature" value="1" type="checkbox" <%=(applyLoanHouseNature&&diya.getApplyHouseNature().contains("1"))||!objNotNull?"checked='checked'":""%>>  住宅</span>
                 <span class="am-margin-right-xl am-margin-left">
-                    <input name="house_nature" value="2" type="checkbox" <%=applyLoanHouseNature&&diya.getApplyHouseNature().contains("2")?"checked='checked'":""%>>  70年产权公寓</span>
+                    <input name="house_nature" value="2" type="checkbox" <%=(applyLoanHouseNature&&diya.getApplyHouseNature().contains("2"))||!objNotNull?"checked='checked'":""%>>  70年产权公寓</span>
                 <span class="am-margin-right-xl am-margin-left">
-                    <input name="house_nature" value="3" type="checkbox" <%=applyLoanHouseNature&&diya.getApplyHouseNature().contains("3")?"checked='checked'":""%>>  成本价</span>
+                    <input name="house_nature" value="3" type="checkbox" <%=(applyLoanHouseNature&&diya.getApplyHouseNature().contains("3"))||!objNotNull?"checked='checked'":""%>>  成本价</span>
                 <span class="am-margin-right-xl am-margin-left">
-                    <input name="house_nature" value="4" type="checkbox" <%=applyLoanHouseNature&&diya.getApplyHouseNature().contains("4")?"checked='checked'":""%>>  商住</span>
+                    <input name="house_nature" value="4" type="checkbox" <%=(applyLoanHouseNature&&diya.getApplyHouseNature().contains("4"))||!objNotNull?"checked='checked'":""%>>  别墅</span>
             </td>
         </tr>
         <tr>
             <td colspan="3">
                 <span class="am-margin-right-xl am-margin-left"><input name="house_nature" value="5" type="checkbox" <%=applyLoanHouseNature&&diya.getApplyHouseNature().contains("5")?"checked='checked'":""%>>  商业</span>
-                <span class="am-margin-right-xl am-margin-left"><input name="house_nature" value="6" type="checkbox" <%=applyLoanHouseNature&&diya.getApplyHouseNature().contains("6")?"checked='checked'":""%>>  别墅</span>
+                <%--<span class="am-margin-right-xl am-margin-left"><input name="house_nature" value="6" type="checkbox" <%=applyLoanHouseNature&&diya.getApplyHouseNature().contains("6")?"checked='checked'":""%>>  别墅</span>--%>
                 <span class="am-margin-right-xl am-margin-left"><input name="house_nature" value="7" type="checkbox" <%=applyLoanHouseNature&&diya.getApplyHouseNature().contains("7")?"checked='checked'":""%>>  写字楼/办公</span>
                 <span class="am-margin-right-xl am-margin-left"><input name="house_nature" value="8" type="checkbox" <%=applyLoanHouseNature&&diya.getApplyHouseNature().contains("8")?"checked='checked'":""%>>  央产房</span>
                 <span class="am-margin-right-xl am-margin-left"><input name="house_nature" value="9" type="checkbox" <%=applyLoanHouseNature&&diya.getApplyHouseNature().contains("9")?"checked='checked'":""%>>  厂房</span>
@@ -426,7 +426,7 @@
         <tr>
             <td colspan="3">
                 <span class="am-margin-right-xl am-margin-left"><input name="house_nature" value="10" type="checkbox" <%=applyLoanHouseNature&&diya.getApplyHouseNature().contains("10")?"checked='checked'":""%>>  经济适用房(2008年4月11日之前)</span>
-                <span class="am-margin-right-xl am-margin-left"><input name="house_nature" value="11" type="checkbox" <%=applyLoanHouseNature&&diya.getApplyHouseNature().contains("11")?"checked='checked'":""%>>  按经适房管理(2008年4月11日之前)</span>
+                <span class="am-margin-right-xl am-margin-left"><input name="house_nature" value="11" type="checkbox" <%=applyLoanHouseNature&&diya.getApplyHouseNature().contains("11")?"checked='checked'":""%>>  按经适房管理</span>
             </td>
         </tr>
         <%

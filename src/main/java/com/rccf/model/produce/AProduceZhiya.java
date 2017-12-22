@@ -58,6 +58,7 @@ public class AProduceZhiya extends BaseProduct{
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.AUTO)
     public int getId() {
         return id;
     }

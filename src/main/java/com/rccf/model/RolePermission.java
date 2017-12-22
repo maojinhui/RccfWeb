@@ -15,6 +15,7 @@ public class RolePermission {
     private Timestamp createTime;
 
     @Id
+
     @Column(name = "id")
     public int getId() {
         return id;

@@ -194,7 +194,7 @@
             </li>
             <%}%>
 
-            <% if (depart.contains("市场") || depart.equals("系统管理")) {%>
+            <% if (depart.contains("市场") || depart.equals("系统管理") ||  depart.contains("金融")) {%>
             <li class="sidebar-nav-link">
                 <a class="sidebar-nav-sub-title">
                     <i class="am-icon-tasks sidebar-nav-link-logo"></i> 受理中心
@@ -248,7 +248,14 @@
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 受理单进度管理
                         </a>
                     </li>
-
+                    <% if (user.getDepartment().contains("金融") || user.getDepartment().contains("系统")) {%>
+                    <li class="sidebar-nav-link">
+                        <a class="rcmenu" data-rccf-menu="/accept/mylistpage">
+                            <i class="am-icon-bookmark-o sidebar-nav-link-logo"></i>
+                            受理中受理单
+                        </a>
+                    </li>
+                    <%}%>
                 </ul>
             </li>
             <%}%>
@@ -259,7 +266,7 @@
                     <i class="am-icon-file sidebar-nav-link-logo"></i> 产品中心
                     <span class="am-icon-chevron-right am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                 </a>
-                    <% if (depart.equals("系统管理")){ %>
+                    <% if (depart.equals("系统管理")|| (depart.contains("市场") && role<=2) ){ %>
                 <ul class="sidebar-nav sidebar-nav-sub">
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/prod/audit/list">
@@ -286,17 +293,34 @@
             <%}%>
 
 
-
-            <% if (user.getDepartment().contains("金融") || user.getDepartment().contains("系统")) {%>
             <li class="sidebar-nav-link">
-                <a class="rcmenu" data-rccf-menu="/accept/mylistpage">
-                    <i class="am-icon-bookmark-o sidebar-nav-link-logo"></i>
-                    受理中受理单
+                <a class="sidebar-nav-sub-title">
+                    <i class="am-icon-file sidebar-nav-link-logo"></i> 营销中心
+                    <span class="am-icon-chevron-right am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                 </a>
-            </li>
-            <%}%>
 
-            <% if (depart.equals("系统管理")) {%>
+                <% if (depart.equals("系统管理")){ %>
+                <ul class="sidebar-nav sidebar-nav-sub">
+                    <li class="sidebar-nav-link">
+                        <a class="rcmenu" data-rccf-menu="/prod/audit/list">
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 审核列表
+                        </a>
+                    </li>
+                </ul>
+                <%}%>
+
+                <ul class="sidebar-nav sidebar-nav-sub">
+                    <li class="sidebar-nav-link">
+                        <%--class="rcmenu" data-rccf-menu="/market/add_mould"--%>
+                        <a   href="/market/add_mould">
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 录入模板
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
+            <% if (depart.equals("系统管理") && false) {%>
             <li class="sidebar-nav-link">
                 <a class="sidebar-nav-sub-title">
                     <i class="am-icon-balance-scale  sidebar-nav-link-logo"></i> 匹配方案

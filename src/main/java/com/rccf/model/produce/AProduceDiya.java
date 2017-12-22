@@ -57,6 +57,7 @@ public class AProduceDiya extends BaseProduct{
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.AUTO)
     public int getId() {
         return id;
     }
