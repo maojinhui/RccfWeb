@@ -199,11 +199,11 @@
         var inputN = $('#name').find('input');
 
         nameObj.content = $(inputN[0]).val();
-        nameObj.font = $(inputN[1]).val();
-        nameObj.fontSize = $(inputN[2]).val();
-        nameObj.alpha = $(inputN[3]).val();
-        nameObj.pWidth = $(inputN[4]).val();
-        nameObj.pHeight = $(inputN[5]).val();
+//        nameObj.font = $(inputN[1]).val();
+        nameObj.fontSize = $(inputN[1]).val();
+        nameObj.alpha = $(inputN[2]).val();
+        nameObj.pWidth = $(inputN[3]).val();
+        nameObj.pHeight = $(inputN[4]).val();
 //        var selectN = $('#name').find('select')[0];
 //        nameObj.color = $(selectN).val();
 
@@ -221,10 +221,10 @@
 
         phoneObj.content = $(inputP[0]).val();
 //        phoneObj.font = $(inputP[1]).val();
-        phoneObj.fontSize = $(inputP[2]).val();
-        phoneObj.alpha = $(inputP[3]).val();
-        phoneObj.pWidth = $(inputP[4]).val();
-        phoneObj.pHeight = $(inputP[5]).val();
+        phoneObj.fontSize = $(inputP[1]).val();
+        phoneObj.alpha = $(inputP[2]).val();
+        phoneObj.pWidth = $(inputP[3]).val();
+        phoneObj.pHeight = $(inputP[4]).val();
         var selectFont = $('#phone').find('select')[0];
         phoneObj.font = $(selectFont).val();
         var selectColor = $('#phone').find('select')[1];
@@ -278,29 +278,36 @@
         var inputN = $('#name').find('input');
 
         nameObj.content = $(inputN[0]).val();
-        nameObj.font = $(inputN[1]).val();
-        nameObj.fontSize = $(inputN[2]).val();
-        nameObj.alpha = $(inputN[3]).val();
-        nameObj.pWidth = $(inputN[4]).val();
-        nameObj.pHeight = $(inputN[5]).val();
-        var selectN = $('#name').find('select')[0];
-        nameObj.color = $(selectN).val();
+//        nameObj.font = $(inputN[1]).val();
+        nameObj.fontSize = $(inputN[1]).val();
+        nameObj.alpha = $(inputN[2]).val();
+        nameObj.pWidth = $(inputN[3]).val();
+        nameObj.pHeight = $(inputN[4]).val();
+//        var selectN = $('#name').find('select')[0];
+//        nameObj.color = $(selectN).val();
+
+        var selectFont = $('#name').find('select')[0];
+        nameObj.font = $(selectFont).val();
+        var selectColor = $('#name').find('select')[1];
+        nameObj.color = $(selectColor).val();
         console.log(nameObj);
         formData.append('name', JSON.stringify(nameObj));
 
-        var phoneObj = {};
 
+
+        var phoneObj = {};
         var inputP = $('#phone').find('input');
 
         phoneObj.content = $(inputP[0]).val();
-        phoneObj.font = $(inputP[1]).val();
-        phoneObj.fontSize = $(inputP[2]).val();
-        phoneObj.alpha = $(inputP[3]).val();
-        phoneObj.pWidth = $(inputP[4]).val();
-        phoneObj.pHeight = $(inputP[5]).val();
-        var selectP = $('#phone').find('select')[0];
-
-        phoneObj.color = $(selectP).val();
+//        phoneObj.font = $(inputP[1]).val();
+        phoneObj.fontSize = $(inputP[1]).val();
+        phoneObj.alpha = $(inputP[2]).val();
+        phoneObj.pWidth = $(inputP[3]).val();
+        phoneObj.pHeight = $(inputP[4]).val();
+        var selectFont = $('#phone').find('select')[0];
+        phoneObj.font = $(selectFont).val();
+        var selectColor = $('#phone').find('select')[1];
+        phoneObj.color = $(selectColor).val();
         console.log(phoneObj);
         formData.append('phone', JSON.stringify(phoneObj));
 

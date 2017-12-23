@@ -94,7 +94,7 @@ public class MarketController {
             try {
                 int  state = IOUtils.copy(file.getInputStream(), new FileOutputStream(new File(path)));
                 if(state>0){
-                    srcImg = host_address+fileName;
+                    srcImg = host_address+newFileName;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -197,7 +197,7 @@ public class MarketController {
         if(employee!=null){
             bPoster.setAddPerson(employee.getId());
         }
-        String name = "陈小融";
+        String name = "钱小融";
         String phone = "188888888888";
         String src = "/temp/t_"+new Date().getTime()+".jpg";
         String targetPath = request.getRealPath("")+src;

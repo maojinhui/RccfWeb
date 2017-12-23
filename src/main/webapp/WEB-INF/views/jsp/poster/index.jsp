@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.util.List" %>
+<%@ page import="com.rccf.model.poster.BPoster" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/12/15
@@ -25,10 +26,10 @@
 </head>
 <body>
 <%--<div class="head">--%>
-    <%--&lt;%&ndash;<i class="fa fa-search"></i>&ndash;%&gt;--%>
-    <%--&lt;%&ndash;<input type="text" placeholder="搜索之前浏览的，标题中内容">&ndash;%&gt;--%>
-    <%--&lt;%&ndash;<a>搜索</a>&ndash;%&gt;--%>
-    <%--<h1>展业海报</h1>--%>
+<%--&lt;%&ndash;<i class="fa fa-search"></i>&ndash;%&gt;--%>
+<%--&lt;%&ndash;<input type="text" placeholder="搜索之前浏览的，标题中内容">&ndash;%&gt;--%>
+<%--&lt;%&ndash;<a>搜索</a>&ndash;%&gt;--%>
+<%--<h1>展业海报</h1>--%>
 <%--</div>--%>
 <div class="head-img">
     <img src="/image/poster/extension_head.png">
@@ -49,70 +50,60 @@
         </div>
     </div>
 </div>
-<div class="img-show am-hide">
-    <div class="img-title">
-        今日推荐
-    </div>
-    <div class="container img-container">
-        <div class="row">
-            <div class="col-xs-4" >
-                <img data-extension-img  data-poster-id="1" src="/image/poster/model/poster1.jpeg">
-                <div class="title-img">
-                    <label>请找我</label>
-                    <%--<span>新</span>--%>
-                </div>
-                <%--<div class="img-used">--%>
-                    <%--<i class="fa fa-heart"></i>3306--%>
-                <%--</div>--%>
-            </div>
+<%--<div class="img-show am-hide">--%>
+<%--<div class="img-title">--%>
+<%--今日推荐--%>
+<%--</div>--%>
+<%--<div class="container img-container">--%>
+<%--<div class="row">--%>
 
-            <div class="col-xs-4">
-                <img data-extension-img  data-poster-id="2" src="/image/poster/model/poster2.jpeg">
-                <div class="title-img">
-                    <label>圣诞活动</label>
-                    <%--<span>新</span>--%>
-                </div>
-                <%--<div class="img-used">--%>
-                    <%--<i class="fa fa-heart"></i>3306--%>
-                <%--</div>--%>
-            </div>
-            <%--<div class="col-xs-4">--%>
-                <%--<img data-extension-img src="/image/poster/show3.jpg">--%>
-                <%--<div class="title-img">--%>
-                    <%--<label>贷款</label>--%>
-                    <%--&lt;%&ndash;<span>新</span>&ndash;%&gt;--%>
-                <%--</div>--%>
-                <%--&lt;%&ndash;<div class="img-used">&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;<i class="fa fa-heart"></i>3306&ndash;%&gt;--%>
-                <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-            <%--</div>--%>
-        </div>
-    </div>
-</div>
+
+<%--<div class="col-xs-4" >--%>
+<%--<img data-extension-img  data-poster-id="1" src="/image/poster/model/poster1.jpeg">--%>
+<%--<div class="title-img">--%>
+<%--<label>请找我</label>--%>
+<%--</div>--%>
+<%--</div>--%>
+
+
+<%--<div class="col-xs-4">--%>
+<%--<img data-extension-img  data-poster-id="2" src="/image/poster/model/poster2.jpeg">--%>
+<%--<div class="title-img">--%>
+<%--<label>圣诞活动</label>--%>
+<%--</div>--%>
+<%--</div>--%>
+
+<%--</div>--%>
+<%--</div>--%>
+<%--</div>--%>
+
 <div class="img-show">
     <div class="img-title">
         热门海报
     </div>
     <div class="container img-container">
         <div class="row">
-
-            <div class="col-xs-4" >
-                <img data-extension-img  data-poster-id="1" src="/image/poster/show1.jpg">
+            <%
+                List<BPoster> posters = (List<BPoster>) request.getAttribute("posters");
+                for (int i = 0; i < posters.size(); i++) {
+                    BPoster poster = posters.get(i);
+            %>
+            <div class="col-xs-4" data-poster_id="<%=poster.getId()%>">
+                <img data-extension-img data-poster-id="<%=poster.getId()%>" src="<%=poster.getThumb()%>">
                 <div class="title-img">
-                    <label>请找我</label>
-                    <%--<span>新</span>--%>
-                </div>
-                <%--<div class="img-used">--%>
-                <%--<i class="fa fa-heart"></i>3306--%>
-                <%--</div>--%>
-            </div>
-
-            <div class="col-xs-4">
-                <img data-extension-img  data-poster-id="2" src="/image/poster/model/poster2.jpeg">
-                <div class="title-img">
-                    <label>圣诞活动</label>
+                    <label><%=poster.getTitle()%></label>
                 </div>
             </div>
+            <%
+                }
+            %>
+
+            <%--<div class="col-xs-4">--%>
+            <%--<img data-extension-img  data-poster-id="2" src="/image/poster/model/poster2.jpeg">--%>
+            <%--<div class="title-img">--%>
+            <%--<label>圣诞活动</label>--%>
+            <%--</div>--%>
+            <%--</div>--%>
 
         </div>
     </div>
@@ -125,12 +116,13 @@
     $('[data-extension-img]').click(function () {
         var poster_id = $(this).data('posterId');
         var showSrc = this.src;
-        console.log(showSrc);
-        console.log(typeof showSrc);
-        var extensionSrc = showSrc.replace('show','extension');
-        console.log(extensionSrc);
-        sessionStorage.setItem('extensionSrc',extensionSrc);
-        window.location.href ='/poster/show_v1?poster_id='+poster_id;
+//        console.log(showSrc);
+//        console.log(typeof showSrc);
+//        var extensionSrc = showSrc.replace('show', 'extension');
+//        console.log(extensionSrc);
+        sessionStorage.setItem('posterId', poster_id);
+        sessionStorage.setItem('src',showSrc);
+        window.location.href = '/poster/show_v1?poster_id=' + poster_id;
     })
 </script>
 </body>

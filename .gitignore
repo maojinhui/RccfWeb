@@ -47,4 +47,5 @@ gen
 
 /src/main/java/com/rccf/constants/AccountConstants.java
 /src/main/java/com/rccf/util/encrypt/PasswordUtil.java
+/src/main/java/com/rccf/constants/build/DebugManager.java
 

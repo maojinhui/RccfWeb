@@ -129,11 +129,43 @@
 <script src="/js/app/self_adaption.js"></script>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script>
+
     $(function () {
-        var extensionSrc = sessionStorage.getItem("extensionSrc");
+        var extensionSrc = sessionStorage.getItem("src");
+        var poster_id = sessionStorage.getItem('posterId');
         var showImg = document.getElementById('showImg');
         showImg.src = extensionSrc;
+
+
+        $('#submit_info').click(function () {
+            var obj = {};
+            var name = $('#submit_name').val();
+            var phone = $('#submit_phone').val();
+            <%--obj.poster_id = '<%=bPoster.getId()%>';--%>
+            obj.name = name;
+            obj.phone=phone;
+            obj.poster_id = poster_id;
+
+            $('.loading').removeClass('load-hide');
+
+            $.ajax({
+                url:'/poster/generate/img/v2',
+                dataType:'json',
+                data:obj,
+                success:function (result) {
+                    console.log(result.data);
+                    $('#showImg').attr('src',result.data);
+                    $('.loading').addClass('load-hide');
+
+                },
+                error:function () {
+
+                }
+            })
+        })
+
     });
+
     //TODO 收藏海报功能
     $('.thumbnail label').click(function () {
         var iNode = $(this).children('i')[0];
@@ -159,31 +191,7 @@
     })
 
 
-    $('#submit_info').click(function () {
-        var obj = {};
-        var name = $('#submit_name').val();
-        var phone = $('#submit_phone').val();
-        obj.poster_id = '<%=bPoster.getId()%>';
-        obj.name = name;
-        obj.phone=phone;
 
-        $('.loading').removeClass('load-hide');
-
-        $.ajax({
-            url:'/poster/generate/img/default',
-            dataType:'json',
-            data:obj,
-            success:function (result) {
-                console.log(result.data);
-                $('#showImg').attr('src',result.data);
-                $('.loading').addClass('load-hide');
-
-            },
-            error:function () {
-                
-            }
-        })
-    })
 
 </script>
 </body>

@@ -41,14 +41,14 @@ public class Watermark {
         float phoneAlpha = Float.valueOf(phoneObject.getString("alpha"));
         String nameStr = nameObject.getString("content");
         String phoneStr = phoneObject.getString("content");
-        if(nameStr.contains(":")||nameStr.contains("：")){
-        }else{
-            nameStr = nameStr+":";
-        }
-        if(phoneStr.contains(":")||phoneStr.contains("：")){
-        }else{
-            phoneStr = phoneStr+":";
-        }
+//        if(nameStr.contains(":")||nameStr.contains("：")){
+//        }else{
+//            nameStr = nameStr+":";
+//        }
+//        if(phoneStr.contains(":")||phoneStr.contains("：")){
+//        }else{
+//            phoneStr = phoneStr+":";
+//        }
         int nameWidth = nameObject.getIntValue("pWidth");
         int nameHeight = nameObject.getIntValue("pHeight");
         int phoneWidth = phoneObject.getIntValue("pWidth");
