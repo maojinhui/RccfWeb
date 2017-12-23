@@ -31,8 +31,8 @@ public class Watermark {
         String extra = bPoster.getExtra();
         JSONObject object = JSON.parseObject(extra);
         String img = object.getString("img");
-        JSONObject nameObject = object.getJSONObject("name");
-        JSONObject phoneObject = object.getJSONObject("phone");
+        JSONObject nameObject = JSON.parseObject(object.getString("name")) ;
+        JSONObject phoneObject = JSON.parseObject(object.getString("phone")) ;
         Font nameFont = getFont(nameObject);
         Font phoneFont = getFont(phoneObject);
         Color nameColor = getColor(nameObject.getString("color"))  ;
@@ -41,15 +41,23 @@ public class Watermark {
         float phoneAlpha = Float.valueOf(phoneObject.getString("alpha"));
         String nameStr = nameObject.getString("content");
         String phoneStr = phoneObject.getString("content");
+        if(nameStr.contains(":")||nameStr.contains("：")){
+        }else{
+            nameStr = nameStr+":";
+        }
+        if(phoneStr.contains(":")||phoneStr.contains("：")){
+        }else{
+            phoneStr = phoneStr+":";
+        }
         int nameWidth = nameObject.getIntValue("pWidth");
         int nameHeight = nameObject.getIntValue("pHeight");
-        int phoneWidth = nameObject.getIntValue("pWidth");
-        int phoneHeight = nameObject.getIntValue("pHeight");
+        int phoneWidth = phoneObject.getIntValue("pWidth");
+        int phoneHeight = phoneObject.getIntValue("pHeight");
         if(Strings.isNullOrEmpty(targetPath)){
             targetPath = "/usr/local/tomcat/webapps/web/temp/t_"+new Date().getTime()+".jpg";
         }
-        String path   =  drawText(img, nameColor , nameFont, nameAlpha , nameStr , nameWidth , nameHeight ,  targetPath);
-        String path2  =  drawText(path , phoneColor , phoneFont , phoneAlpha ,phoneStr , phoneWidth,phoneHeight , path );
+        String path   =  drawText(img, nameColor , nameFont, nameAlpha , nameStr+name , nameWidth , nameHeight ,  targetPath);
+        String path2  =  drawText(path , phoneColor , phoneFont , phoneAlpha ,phoneStr+phone , phoneWidth,phoneHeight , path );
         return path2;
     }
 

@@ -1,6 +1,6 @@
 
 html, body {
-    font-family: 'STkaiti' , 'kaiti', 'microsoft yahei', arial, sans-serif;
+    font-family: '楷体' , '华文楷体', '微软雅黑', arial, sans-serif;
     font-size: 20px;
 
     background-color: #423737;
@@ -43,7 +43,7 @@ h1 {
     position: relative;
     margin-top: 40px;
     margin-left: 30%;
-    margin-bottom: 100px;
+    margin-bottom: 150px;
 }
 
 @media screen and (max-width: 540px) {
@@ -57,7 +57,7 @@ h1 {
     position: relative;
     width: 150px;
     height: 220px;
-
+    margin-top: 1em;
     margin-left: 5.5em;
     border: 2px solid #e3e3e3;
 }
@@ -86,10 +86,10 @@ h1 {
     bottom: 20px;
 }
 
-.text-area input,
+input,
 .text-area select,
 .text-area-btn button {
-    font-family: 'kaiti', 'microsoft yahei', arial, sans-serif;
+    font-family: '楷体' , '华文楷体', '微软雅黑', arial, sans-serif;
     font-size: 17px;
     padding: 1px 0;
     background-color: white;
@@ -106,7 +106,7 @@ h1 {
     color: #f5f5f5;
 
     margin-top: 10px;
-    margin-left: 60px;
+    margin-left: 1.5em;
     padding: 10px 20px;
     border: none;
     border-radius: 4px;

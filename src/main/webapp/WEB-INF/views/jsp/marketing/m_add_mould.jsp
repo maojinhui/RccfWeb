@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.util.List" %>
+<%@ page import="com.rccf.model.poster.BPosterFont" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2017/12/22 0022
@@ -30,10 +31,12 @@
         </div>
     </div>
     <div class="text-area-btn">
-        <button id="preview"><i class="fa fa-eye"></i> 预览海报模板</button>
-        <button id="submit"><i class="fa fa-cloud-upload"></i> 提交海报模板</button>
+        <button id="preview"><i class="fa fa-eye"></i> 预览</button>
+        <button id="submit"><i class="fa fa-cloud-upload"></i> 提交</button>
     </div>
-
+    <%
+        List<BPosterFont> fonts = (List<BPosterFont>) request.getAttribute("fonts");
+    %>
     <div id="name" class="">
         <h3>姓名设置 </h3>
         <div class="text-area">
@@ -42,7 +45,18 @@
         </div>
         <div class="text-area">
             <label>文本字体：</label>
-            <input type="text">
+            <select style="width: 5em;">
+                <%
+                    for(int i = 0 ;i<fonts.size();i++){
+                        BPosterFont font = fonts.get(i);
+                %>
+                <option value="<%=font.getName()%>"><%=font.getName()%></option>
+                <%
+                    }
+                %>
+            </select>
+
+
         </div>
         <div class="text-area">
             <label>字体大小：</label>
@@ -81,9 +95,19 @@
             <label>文本内容：</label>
             <input type="text">
         </div>
+
         <div class="text-area">
             <label>文本字体：</label>
-            <input type="text">
+            <select style="width: 5em;">
+            <%
+                for(int i = 0 ;i<fonts.size();i++){
+                    BPosterFont font = fonts.get(i);
+            %>
+                <option value="<%=font.getName()%>"><%=font.getName()%></option>
+            <%
+                }
+            %>
+            </select>
         </div>
         <div class="text-area">
             <label>字体大小：</label>
@@ -119,7 +143,7 @@
 
 </div>
 <div class="img-preview hide">
-    <img src="">
+    <img id="preview_img" src="">
 </div>
 
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
@@ -180,24 +204,31 @@
         nameObj.alpha = $(inputN[3]).val();
         nameObj.pWidth = $(inputN[4]).val();
         nameObj.pHeight = $(inputN[5]).val();
-        var selectN = $('#name').find('select')[0];
-        nameObj.color = $(selectN).val();
+//        var selectN = $('#name').find('select')[0];
+//        nameObj.color = $(selectN).val();
+
+        var selectFont = $('#phone').find('select')[0];
+        nameObj.font = $(selectFont).val();
+        var selectColor = $('#phone').find('select')[1];
+        nameObj.color = $(selectColor).val();
         console.log(nameObj);
         formData.append('name', JSON.stringify(nameObj));
 
-        var phoneObj = {};
 
+
+        var phoneObj = {};
         var inputP = $('#phone').find('input');
 
         phoneObj.content = $(inputP[0]).val();
-        phoneObj.font = $(inputP[1]).val();
+//        phoneObj.font = $(inputP[1]).val();
         phoneObj.fontSize = $(inputP[2]).val();
         phoneObj.alpha = $(inputP[3]).val();
         phoneObj.pWidth = $(inputP[4]).val();
         phoneObj.pHeight = $(inputP[5]).val();
-        var selectP = $('#phone').find('select')[0];
-
-        phoneObj.color = $(selectP).val();
+        var selectFont = $('#phone').find('select')[0];
+        phoneObj.font = $(selectFont).val();
+        var selectColor = $('#phone').find('select')[1];
+        phoneObj.color = $(selectColor).val();
         console.log(phoneObj);
         formData.append('phone', JSON.stringify(phoneObj));
 
@@ -230,7 +261,77 @@
     });
 
     $('#preview').click(function () {
-        $('.img-preview').removeClass('hide');
+
+        var formData = new FormData();
+        formData.append('file', $('#img_push')[0].files[0]);
+//    console.log(formData);
+//    console.log(formData.get('img'));
+        var title = $('#title').val();
+        if (title === '') {
+            alert('请输入海报名称');
+            return;
+        }
+        formData.append('title', title);
+
+        var nameObj = {};
+
+        var inputN = $('#name').find('input');
+
+        nameObj.content = $(inputN[0]).val();
+        nameObj.font = $(inputN[1]).val();
+        nameObj.fontSize = $(inputN[2]).val();
+        nameObj.alpha = $(inputN[3]).val();
+        nameObj.pWidth = $(inputN[4]).val();
+        nameObj.pHeight = $(inputN[5]).val();
+        var selectN = $('#name').find('select')[0];
+        nameObj.color = $(selectN).val();
+        console.log(nameObj);
+        formData.append('name', JSON.stringify(nameObj));
+
+        var phoneObj = {};
+
+        var inputP = $('#phone').find('input');
+
+        phoneObj.content = $(inputP[0]).val();
+        phoneObj.font = $(inputP[1]).val();
+        phoneObj.fontSize = $(inputP[2]).val();
+        phoneObj.alpha = $(inputP[3]).val();
+        phoneObj.pWidth = $(inputP[4]).val();
+        phoneObj.pHeight = $(inputP[5]).val();
+        var selectP = $('#phone').find('select')[0];
+
+        phoneObj.color = $(selectP).val();
+        console.log(phoneObj);
+        formData.append('phone', JSON.stringify(phoneObj));
+
+        console.log(formData);
+        console.log(formData.get("img"));
+        console.log(formData.get("name"));
+        console.log(formData.get("phone"));
+
+        $.ajax({
+            url: '/market/preview',
+            type: 'post',
+            data: formData,
+            dataType: 'json',
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (result) {
+                if(result.code){
+                    alert("返回值："+result.data);
+                    $('.img-preview').removeClass('hide');
+                    $('#preview_img').attr("src",result.data);
+                }else{
+                    alert(result.errormsg);
+                }
+            },
+            error: function () {
+
+            }
+        });
+
+
     });
 
     $('.img-preview img').click(function () {
