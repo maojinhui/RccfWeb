@@ -19,7 +19,7 @@ h1 {
 .img-preview {
     position: fixed;
     width: 100%;
-    top: 5em;
+    top: 0;
     left: 0;
 }
 
