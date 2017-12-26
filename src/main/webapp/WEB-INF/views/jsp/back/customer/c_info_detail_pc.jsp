@@ -510,7 +510,10 @@
     <!--客户跟踪情况-->
     <table class="am-table am-table-striped am-table-bordered am-radius ">
         <tr>
-            <th colspan="8">客户跟踪情况</th>
+            <th colspan="8">
+                客户跟踪情况<a target="_blank" href="/customer/info/process?customer_id=<%=rCustomer.getId()%>" class="am-btn am-btn-primary am-btn-sm am-align-right" style="height: 2em;padding: 0.5em; margin-bottom: 0;">添加进度</a>
+                <a onclick="location.reload();" class="am-btn am-btn-primary am-btn-sm am-align-right" style="height: 2em;padding: 0.5em; margin-bottom: 0;">刷新进度</a>
+            </th>
         </tr>
         <%
             if (processes != null) {

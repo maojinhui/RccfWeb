@@ -1,0 +1,105 @@
+
+
+.row {
+  margin: 0;
+  padding: 0.4rem;
+  background-color: #fff;
+}
+
+.a-table {
+
+  border: 0.013rem solid #eee;
+  font-size: 0.4rem;
+}
+.a-table th ,
+.a-table td {
+  border: 0.013rem solid #eee;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  padding-left: 0.266rem;
+
+  box-sizing: border-box;
+}
+.a-table td:first-child {
+  width: 2.666rem;
+}
+
+.a-table input {
+  border: none;
+  width: 100%;
+  padding-left: 1em;
+
+  font-size: large;
+  box-sizing: border-box;
+}
+
+.row p {
+  margin-bottom: 0.266rem;
+}
+
+.col-33 img {
+  width: 2.666rem;
+  height: 2.666rem;
+}
+
+
+.a-btn-group{
+  position: relative;
+  width: 100%;
+  height: 1.572rem;
+  background-color: #fff;
+  text-align: center;
+  border-top: 0.266rem outset #f5f5f5;
+  padding-top: 0.2rem;
+  box-sizing: border-box;
+}
+.a-btn {
+  width: 8.666rem;
+  height: 0.9333rem;
+  font-size: 0.4267rem;
+  background-color: #eea91f;
+  color: #fff;
+  border: none;
+  border-radius: 0.2rem;
+}
+
+.popup {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  padding-top: 30%;
+  background-color: rgba(0,0,0,0.3);
+}
+.popup .container {
+  position: relative;
+  background-color: #fff;
+  width: auto;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  padding: 0.4rem;
+  border-radius: 0.1222rem;
+}
+
+.popup .col-5 {
+  margin-bottom: 0.32rem;
+  text-align: center;
+}
+.col-5 a {
+  display: inline-block;
+  width: 2.666rem;
+  height: 0.667rem;
+
+  padding-top: 0.2rem;
+  border: 1px solid #999999;
+  border-radius: 0.1222rem;
+}
+.back {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.2rem;
+  font-size: 0.44rem;
+  color: #999;
+}

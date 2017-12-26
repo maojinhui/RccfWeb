@@ -51,9 +51,11 @@
 <body>
 <script>
     function toEdit(process_id) {
-        var url = '/customer/info/editProcess?process_id=' + process_id;
-        parent.changeUrl(url);
+//        var url = '/customer/info/editProcess?process_id=' + process_id;
+//        parent.changeUrl(url);
+        window.location.href='/customer/info/editProcess?process_id=' + process_id;
     }
+
 </script>
 <div class="am-container am-margin">
     <div id="back" class="am-text-lg">
@@ -122,8 +124,9 @@
     });
 
     $('#add_new').click(function () {
-        var url = '/customer/info/editProcess?customer_id=' + customer_id;
-        parent.changeUrl(url);
+//        var url = '/customer/info/editProcess?customer_id=' + customer_id;
+//        parent.changeUrl(url);
+        location.href='/customer/info/editProcess?customer_id=' + customer_id;
     });
 
 </script>

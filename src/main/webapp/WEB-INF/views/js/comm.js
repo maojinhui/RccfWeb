@@ -1,5 +1,5 @@
 
-function netwoerk(url,obj,succ,err) {
+function network(url,obj,succ,err) {
     $.ajax({
         url:url,
         dataType:'json',

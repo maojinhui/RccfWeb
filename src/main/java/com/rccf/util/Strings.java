@@ -30,7 +30,9 @@ public class Strings {
         if ("null".equals(data)) {
             return true;
         }
-
+        if("undefined".equals(data)){
+            return true;
+        }
         return false;
     }
 

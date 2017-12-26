@@ -65,12 +65,12 @@
             <a id="level_star" class="am-align-right am-margin-right-xl am-text-danger">
                 <i class="am-icon-star"></i>
                 <select id="level">
-                <%--<option value="0"></option>--%>
-                <option value="1" <%=level==1?"selected='selected'":""%>>A</option>
-                <option value="2" <%=level==2?"selected='selected'":""%>>B</option>
-                <option value="3" <%=level==3?"selected='selected'":""%>>C</option>
-                <option value="4" <%=level==4?"selected='selected'":""%>>D</option>
-            </select>
+                    <%--<option value="0"></option>--%>
+                    <option value="1" <%=level==1?"selected='selected'":""%>>A</option>
+                    <option value="2" <%=level==2?"selected='selected'":""%>>B</option>
+                    <option value="3" <%=level==3?"selected='selected'":""%>>C</option>
+                    <option value="4" <%=level==4?"selected='selected'":""%>>D</option>
+                </select>
             </a>
 
         </div>
@@ -93,10 +93,6 @@
         <div data-html="loaninfo" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
             <img src="/image/customerinfo/customer_loan.png">
             <div><label>客户贷款意向</label></div>
-        </div>
-        <div data-html="file"  class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-u-end am-text-center am-margin-vertical-xs">
-            <img src="/image/customerinfo/customer_file.png">
-            <div><label>客户附件资料</label></div>
         </div>
         <div data-html="work" class="am-u-sm-6 am-u-md-4 am-u-lg-3 am-text-center am-margin-vertical-xs">
             <img src="/image/customerinfo/customer_work.png">
@@ -150,7 +146,7 @@
         }
     });
 
-   $('#level').change(function () {
+    $('#level').change(function () {
         var value = $(this).val();
         console.log(value);
         var obj = {};
@@ -168,15 +164,15 @@
                 }
             },
             error:function () {
-                
+
             }
         })
 
 
-   })
+    })
 
     $('#admin_time').bind('input propertychange' ,function () {
-      var value =   $(this).val();
+        var value =   $(this).val();
         var obj = {};
         obj.admin_time=value;
         obj.customer_id=customer_id;

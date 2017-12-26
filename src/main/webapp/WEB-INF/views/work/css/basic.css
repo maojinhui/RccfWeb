@@ -1,0 +1,117 @@
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  font-family: '苹方','华文细黑', arial, sans-serif ;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #f5f5f5;
+  color:#333;
+  font-size: 0.4267rem;
+}
+
+.container {
+  width: 100%;
+  font-size: 0.4267rem;
+}
+
+.row {
+  width: 100%;
+  margin: 0.4rem 0 0;
+  padding: 0 0.4rem;
+}
+
+[class *= 'col-'] {
+  position: relative;
+  float: left;
+  width: 100%;
+
+}
+
+.container:before,
+.container:after,
+.row:before,
+.row:after {
+  content: " ";
+  clear: both;
+  display: table;
+}
+.container,
+.row ,
+[class *= 'col-'] {
+  box-sizing: border-box;
+}
+
+
+.hide {
+  display: none !important;
+}
+
+
+.col-1 {
+  width: 10% !important;
+}
+.col-2 {
+  width: 20% !important;
+}
+.col-25 {
+  width: 25% !important;
+}
+.col-3 {
+  width: 30% !important;
+}
+.col-33 {
+  width: 33.333% !important;
+}
+.col-4 {
+  width: 40% !important;
+}
+.col-5 {
+  width: 50% !important;
+}
+.col-6 {
+  width: 60% !important;
+}
+.col-7 {
+  width: 70% !important;
+}
+.col-8 {
+  width: 80% !important;
+}
+.col-9 {
+  width: 90% !important;
+}
+.col-10 {
+  width: 100% !important;
+}
+
+
+.a-table{
+  width: 100%;
+  padding: 0.1rem;
+  background-color: #fff;
+  border: 0.013rem solid #333333;
+  text-align: center;
+
+  border-collapse: collapse !important;
+}
+.a-table th ,
+.a-table td {
+  border: 1px solid #3bb4f2;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.a-table tr th {
+  background-color: #3bb4f2;
+  color: #fff;
+  font-weight: 300;
+}
+
+.a-margin-top {
+  margin-top: 0.266rem;
+}

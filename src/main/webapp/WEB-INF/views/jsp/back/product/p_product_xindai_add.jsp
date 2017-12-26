@@ -588,7 +588,7 @@ Created by IntelliJ IDEA.
         obj.access=access;
 
         var url = "/prod/edit/credit";
-        netwoerk(url,obj,function (result) {
+        network(url,obj,function (result) {
             if(result.code){
                 alert("提交成功");
                 window.history.back();

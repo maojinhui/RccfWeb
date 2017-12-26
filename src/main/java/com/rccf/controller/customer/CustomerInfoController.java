@@ -4,6 +4,7 @@ package com.rccf.controller.customer;
 import com.alibaba.fastjson.JSON;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.*;
+import com.rccf.model.customer.RCustomerFile;
 import com.rccf.model.temp.CustomerTemPc;
 import com.rccf.model.temp.CustomerTmp;
 import com.rccf.service.BaseService;
@@ -148,7 +149,7 @@ public class CustomerInfoController {
         DetachedCriteria criteria = DetachedCriteria.forClass(Employee.class);
         criteria.add(Restrictions.eq("role", 3));
         criteria.add(Restrictions.eq("state", 1));
-        criteria.add(Restrictions.like("department","%金融%"));
+        criteria.add(Restrictions.like("department", "%金融%"));
         if (department.contains("金融") && role == 2) {
             criteria.add(Restrictions.eq("director", code));
         }
@@ -159,8 +160,6 @@ public class CustomerInfoController {
         DetachedCriteria loan_type_criteria = DetachedCriteria.forClass(ILoanType.class);
         List<ILoanType> types = baseService.getList(loan_type_criteria);
         modelAndView.addObject("types", types);
-
-
 
 
         return modelAndView;
@@ -417,9 +416,9 @@ public class CustomerInfoController {
         rCustomer.setName(name);
         rCustomer.setPhone(phone);
         rCustomer.setLevel(Integer.valueOf(level));
-        if(Strings.isNullOrEmpty(admin_time)){
+        if (Strings.isNullOrEmpty(admin_time)) {
             rCustomer.setAdminTime(DateUtil.date2Timestamp(new Date()));
-        }else{
+        } else {
             rCustomer.setAdminTime(DateUtil.string2Timestamp(admin_time));
         }
         rCustomer.setCreateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
@@ -484,34 +483,34 @@ public class CustomerInfoController {
 
     @ResponseBody
     @RequestMapping(value = "/edit/level")
-    public String editLevel(HttpServletRequest request){
-        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+    public String editLevel(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         String level = request.getParameter("level");
         String customer_id = request.getParameter("customer_id");
-        RCustomer rCustomer = (RCustomer) baseService.get(RCustomer.class,customer_id);
+        RCustomer rCustomer = (RCustomer) baseService.get(RCustomer.class, customer_id);
         rCustomer.setLevel(Integer.valueOf(level));
         boolean save = baseService.save(rCustomer);
-        if(save){
+        if (save) {
             return ResponseUtil.success();
         }
         return ResponseUtil.fail();
     }
+
     @ResponseBody
     @RequestMapping(value = "/edit/admin_time")
-    public String editAdminTime(HttpServletRequest request){
-        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+    public String editAdminTime(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         String admin_time = request.getParameter("admin_time");
         String customer_id = request.getParameter("customer_id");
-        RCustomer rCustomer = (RCustomer) baseService.get(RCustomer.class,customer_id);
+        RCustomer rCustomer = (RCustomer) baseService.get(RCustomer.class, customer_id);
         rCustomer.setAdminTime(DateUtil.string2Timestamp(admin_time));
         boolean save = baseService.save(rCustomer);
-        if(save){
+        if (save) {
             return ResponseUtil.success();
         }
 
         return ResponseUtil.fail();
     }
-
 
 
     @RequestMapping(value = "/base")
@@ -1312,7 +1311,23 @@ public class CustomerInfoController {
 /*********************跟踪进度***************************************/
 
 
-/*********************附件信息***************************************/
+    /*********************附件信息***************************************/
+    @RequestMapping(value = "/file")
+    public ModelAndView customerFilePage(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/gzh/sales/customer_file");
+        String customer_id = request.getParameter("customer_id");
+        if (customer_id == null) {
+            return new ModelAndView("redirect:/gzh/auth/page/login");
+        }
+        modelAndView.addObject("customer_id", customer_id);
+        DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerFile.class);
+        criteria.add(Restrictions.eq("customerId", customer_id));
+        List<RCustomerFile> files = baseService.getList(criteria);
+        modelAndView.addObject("files",files);
+
+        return modelAndView;
+    }
 
 
 /*********************附件信息***************************************/

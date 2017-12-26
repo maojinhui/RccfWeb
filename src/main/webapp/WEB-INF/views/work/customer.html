@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>个人客户管理</title>
+  <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/basic.css">
+  <link rel="stylesheet" href="css/customer.css">
+</head>
+<body>
+<div class="container">
+  <div class="row">
+
+    <a>添加新客户</a>
+
+    <table class="a-table">
+      <thead>
+      <tr>
+        <th>序号</th>
+        <th>姓名</th>
+        <th>手机号</th>
+      </tr>
+      </thead>
+
+      <tbody id="c_content">
+      <tr data-customer-id="2">
+        <td>1</td>
+        <td>张三</td>
+        <td>12345678901</td>
+      </tr>
+      <tr data-customer-id="3">
+        <td>2</td>
+        <td>张三</td>
+        <td>12345678901</td>
+      </tr>
+      <tr data-customer-id="4">
+        <td>3</td>
+        <td>张三</td>
+        <td>12345678901</td>
+      </tr>
+      <tr data-customer-id="5">
+        <td>4</td>
+        <td>张三</td>
+        <td>12345678901</td>
+      </tr>
+      <tr data-customer-id="6">
+        <td>5</td>
+        <td>张三</td>
+        <td>12345678901</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="popup hide">
+    <div class="row">
+      <div class="col-5">
+        <button id="customer_info" class="a-btn a-btn-blue"> &nbsp;查看客户详情</button>
+      </div>
+      <div class="col-5">
+        <button id="product_match" class="a-btn a-btn-red"> &nbsp;进行产品匹配</button>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<script src="js/self_adaption.js"></script>
+<script src="js/jquery.js"></script>
+<script>
+  $(function () {
+
+    var jsonObj = {};
+
+    $.ajax({
+      url: '',
+      data: jsonObj,
+      dataType: 'json',
+      success: function (result) {
+        if (result.code) {
+          var customer = result.data;
+          var count = 1;
+          var str = '';
+          for (var i = 0; i < customer.length; i++) {
+            str += '<tr data-customer-id="' + customer.id + '">\n' +
+                '        <td>' + count + '</td>\n' +
+                '        <td>' + customer.name + '</td>\n' +
+                '        <td>' + customer.phone + '</td>\n' +
+                '      </tr>'
+            count++;
+          }
+
+          $('#c_content').html(str);
+        }
+      },
+      error: function () {
+
+      }
+    })
+  });
+
+  $('.a-table tr').click(function () {
+    var customerId = $(this).data('customerId');
+    console.log(customerId);
+    sessionStorage.setItem('customerId', customerId);
+
+    $('.popup').removeClass('hide');
+
+  })
+  
+  $('#customer_info').click(function () {
+    window.location.href = 'http://localhost:63342/rccf_manager/html/work/customer_all_info.html'
+  })
+  $('#product_match').click(function () {
+    window.location.href = 'http://localhost:63342/rccf_manager/html/work/send.html'
+  })
+</script>
+</body>
+</html>

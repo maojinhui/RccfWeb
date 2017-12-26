@@ -195,6 +195,8 @@
             <%}%>
 
             <% if (depart.contains("市场") || depart.equals("系统管理") ||  depart.contains("金融")) {%>
+
+            <% if (depart.contains("市场") || depart.equals("系统管理")){%>
             <li class="sidebar-nav-link">
                 <a class="sidebar-nav-sub-title">
                     <i class="am-icon-tasks sidebar-nav-link-logo"></i> 受理中心
@@ -248,6 +250,8 @@
                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 受理单进度管理
                         </a>
                     </li>
+                    <%}%>
+
                     <% if (user.getDepartment().contains("金融") || user.getDepartment().contains("系统")) {%>
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/accept/mylistpage">

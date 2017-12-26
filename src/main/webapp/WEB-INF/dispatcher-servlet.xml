@@ -25,6 +25,7 @@
     <mvc:resources mapping="/js/**" location="/WEB-INF/views/js/"/>
     <mvc:resources mapping="/image/**" location="/WEB-INF/views/img/"/>
     <mvc:resources mapping="/easyui/**" location="/WEB-INF/views/easyui/"/>
+    <mvc:resources mapping="/work/**" location="/WEB-INF/views/work/"/>
     <mvc:resources mapping="/*.txt" location="/WEB-INF/views/txt/" />
     <mvc:resources mapping="/file/**" location="/upload/"/>
     <mvc:resources mapping="/temp/**" location="/temp/"/>

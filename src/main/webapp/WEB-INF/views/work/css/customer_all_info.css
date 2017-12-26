@@ -1,0 +1,100 @@
+
+html,body{
+  font-family: '微软雅黑','华文楷体','楷体', arial, sans-serif;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.hide {
+  display: none !important;
+}
+
+
+.customer-info-title {
+  position: relative;
+
+  font-size: 20px;
+  background-color: #396c93;
+  color:#fff;
+
+  box-shadow: 0 1px 1px #bcbcbc;
+
+  margin: 1em 0 0;
+  padding:0.4em 1em;
+}
+
+.customer-active {
+  background-color: #488abd ;
+}
+
+.title-2 {
+  background-color: #5dc6ac !important;
+
+}
+
+.customer-info {
+  width: 100%;
+  font-size: 17px;
+
+  background-color: #fff;
+  color:#333;
+  margin: 0;
+  padding: 0;
+}
+.am-table {
+  padding: 0.2em 0;
+}
+.customer-info input ,
+.customer-info select
+{
+  border: none;
+  width: 100%;
+
+}
+
+.confirm-btn {
+  display: inline-block;
+  width: 100%;
+
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  text-align: center;
+
+}
+.confirm-btn ,
+.confirm-btn:hover,
+.confirm-btn:visited,
+.confirm-btn:link,
+.confirm-btn:focus {
+  background-color: #eea91e;
+  color:#fff;
+}
+
+.am-table textarea {
+  width: 100%;
+  height: 6em;
+
+  border: none;
+}
+
+.img-container {
+  /*display: inline-block;*/
+  position: relative;
+  width: 100%;
+  height: 10em;
+  border: 2px solid #e3e3e3;
+}
+
+.img-container span {
+  display: inline-block;
+  position: absolute;
+  font-size: 14px;
+  width: 100%;
+  text-align: center;
+
+  top:90px;
+}
+.img-container img {
+  width: 100%;
+  height: 10em;
+}
