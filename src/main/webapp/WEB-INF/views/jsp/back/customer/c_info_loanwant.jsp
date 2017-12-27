@@ -87,18 +87,18 @@
                         <option value="2" <%=typeNotnull && loaninfo.getLoanType() == 2 ? "selected='selected'" : ""%>>
                             质押贷款
                         </option>
-                        <option value="3" <%=typeNotnull && loaninfo.getLoanType() == 3 ? "selected='selected'" : ""%>>
-                            权证
-                        </option>
-                        <option value="4" <%=typeNotnull && loaninfo.getLoanType() == 4 ? "selected='selected'" : ""%>>
-                            车贷
-                        </option>
-                        <option value="5" <%=typeNotnull && loaninfo.getLoanType() == 5 ? "selected='selected'" : ""%>>
-                            拼份
-                        </option>
-                        <option value="6" <%=typeNotnull && loaninfo.getLoanType() == 6 ? "selected='selected'" : ""%>>
-                            包装费
-                        </option>
+                        <%--<option value="3" <%=typeNotnull && loaninfo.getLoanType() == 3 ? "selected='selected'" : ""%>>--%>
+                            <%--权证--%>
+                        <%--</option>--%>
+                        <%--<option value="4" <%=typeNotnull && loaninfo.getLoanType() == 4 ? "selected='selected'" : ""%>>--%>
+                            <%--车贷--%>
+                        <%--</option>--%>
+                        <%--<option value="5" <%=typeNotnull && loaninfo.getLoanType() == 5 ? "selected='selected'" : ""%>>--%>
+                            <%--拼份--%>
+                        <%--</option>--%>
+                        <%--<option value="6" <%=typeNotnull && loaninfo.getLoanType() == 6 ? "selected='selected'" : ""%>>--%>
+                            <%--包装费--%>
+                        <%--</option>--%>
                         <option value="10" <%=typeNotnull && loaninfo.getLoanType() == 10 ? "selected='selected'" : ""%>>
                             融成贷
                         </option>
@@ -113,13 +113,13 @@
                            value="<%=notnull?Strings.getInputString(loaninfo.getApplyLoanAmount()):""%>">
                 </div>
             </div>
-            <div class="am-u-sm-12 am-u-md-8 am-u-lg-6">
-                <div class="am-input-group am-u-sm-12">
-                    <label class="am-u-sm-6 ">贷款期限(年)</label>
-                    <input id="loan_term_year" class="am-u-sm-6" type="number"
-                           value="<%=notnull?Strings.getInputString(loaninfo.getLoanTermYear()):""%>">
-                </div>
-            </div>
+            <%--<div class="am-u-sm-12 am-u-md-8 am-u-lg-6">--%>
+                <%--<div class="am-input-group am-u-sm-12">--%>
+                    <%--<label class="am-u-sm-6 ">贷款期限(年)</label>--%>
+                    <%--<input id="loan_term_year" class="am-u-sm-6" type="number"--%>
+                           <%--value="<%=notnull?Strings.getInputString(loaninfo.getLoanTermYear()):""%>">--%>
+                <%--</div>--%>
+            <%--</div>--%>
             <div class="am-u-sm-12 am-u-md-8 am-u-lg-6">
                 <div class="am-input-group am-u-sm-12">
                     <label class="am-u-sm-6 ">贷款期限(月)</label>

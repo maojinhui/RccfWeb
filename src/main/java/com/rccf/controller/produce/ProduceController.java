@@ -111,7 +111,7 @@ public class ProduceController {
                 "       FROM `a_produce_zhiya` as p\n" + eInfo +
                 "       UNION ALL\n" +
                 "      SELECT `id`, `name`, `code`, agency_id,\n" +
-                "       (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
+                "      agency_name,\n" +
                 "       0 AS type,`state`,create_time,log,\n" +
                 "       (SELECT audit_opinion from a_produce_audit_log WHERE type=0 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason      " +
                 "       FROM `a_produce_credit` as p\n" + eInfo +
@@ -934,13 +934,13 @@ public class ProduceController {
                 "       FROM `a_produce_diya` as p \n" + eInfo +
                 "       UNION ALL\n" +
                 "       SELECT `id`, `name`, `code`, agency_id,\n" +
-                "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
+                "         agency_name,\n" +
                 "         2 AS type,`state`,create_time,log,\n" +
                 "(SELECT audit_opinion from a_produce_audit_log WHERE type=2 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
                 "       FROM `a_produce_zhiya` as p\n" + eInfo +
                 "       UNION ALL\n" +
                 "       SELECT `id`, `name`, `code`, agency_id,\n" +
-                "         (SELECT name from r_agency ra WHERE ra.id = p.agency_id) as agency_name,\n" +
+                "          agency_name,\n" +
                 "         0 AS type,`state`,create_time,log,\n" +
                 "(SELECT audit_opinion from a_produce_audit_log WHERE type=0 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
                 "       FROM `a_produce_credit` as p\n" + eInfo +

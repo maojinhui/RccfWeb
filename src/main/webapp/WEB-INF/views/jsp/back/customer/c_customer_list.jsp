@@ -55,12 +55,28 @@
         [class*=am-u-] {
             margin-bottom: 0;
         }
+
+        .search {
+            margin-top: 0.4em;
+            margin-bottom: 0.4em;
+        }
+        .search input {
+            width: 80%;
+            padding: 0.5em;
+            border: 1px solid #999999;
+            border-radius:15px;
+        }
+
+
     </style>
 </head>
 <body>
 <div class="am-container am-margin-vertical">
-
-    <div class="am-text-right am-margin-vertical-xs">
+    <div class="search am-margin-bottom">
+        <input id="search_condition" placeholder="姓名/电话 " type="text">
+        <button  id="search_btn" class="am-btn am-btn-sm am-btn-primary">搜索</button>
+    </div>
+    <div class="am-margin-vertical-xs">
         <span class="am-btn am-btn-warning" id="add_customer">添加新客户</span>
     </div>
     <div id="wrapper" class="am-g">
@@ -71,8 +87,6 @@
                 <label class="am-u-sm-6" style="background-color: #2c4666;color: #ffffff;">手机号</label>
             </div>
         </div>
-
-
     </div>
 </div>
 <div id="page"></div>
@@ -89,7 +103,9 @@
     }
 //    $.cookie('customer_list_page_num',0);
     $(document).ready(function () {
-        function doPage(pageNumber, curr) {
+
+        function doPage(pageNumber, curr ) {
+            $('#page').removeClass('am-hide');
             var first = false;
             var last = false;
             if (pageNumber > 5) {
@@ -135,17 +151,20 @@
                 jump: function (context, first) {
                     console.log('当前第：' + context.option.curr + "页");
 //                  $("#content").html(dealData(context.option.curr, false));
-                    getData(context.option.curr);
                     $.cookie('customer_list_page_num',context.option.curr);
+                    getData(context.option.curr );
 
                 }
             });
         }
 
-        function getPage() {
+        function getPage(search_condition) {
             var info = {};
             info.department = department;
             info.role = role;
+            if(!isNull(search_condition)){
+                info.condition = search_condition;
+            }
             $.ajax({
                 url: '/customer/info/list',
                 dataType: 'json',
@@ -158,9 +177,11 @@
 
                     var pages = Math.ceil(total / every);
                     if (pages == 1) {
+                        $.cookie('customer_list_page_num',1);
+                        $('#page').addClass('am-hide');
                         getData(1);
                     } else {
-                        doPage(pages, 1);
+                        doPage(pages, 1 );
                     }
                 },
                 error: function () {
@@ -174,10 +195,14 @@
         var role = <%=role%>;
 
         function getData(currentPage) {
+            var search_condition = $('#search_condition').val();
 
             var info = {};
             info.department = department;
             info.role = role;
+            if(!isNull(search_condition)){
+                info.condition = search_condition;
+            }
             var num = $.cookie('customer_list_page_num');
             if(num>1){
                 info.pageNo = num;
@@ -233,7 +258,18 @@
         });
 
 
+        $('#search_btn').click(function () {
+            var search_condition = $('#search_condition').val();
+            getPage(search_condition);
+        });
+
     })
+
+
+
+
+
+
 
 </script>
 

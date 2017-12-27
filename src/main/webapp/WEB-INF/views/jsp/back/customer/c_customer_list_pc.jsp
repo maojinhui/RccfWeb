@@ -82,7 +82,11 @@
 <script>
     function toDetail(id) {
         var url = '/customer/info/detailpc?customer_id=' + id;
-        parent.changeUrl(url);
+        location.href=url;
+    }
+    function toEdit(id) {
+        var url_edit = '/customer/info/editpage?customer_id=' + id;
+        location.href=url_edit;
     }
 </script>
 
@@ -304,7 +308,7 @@
                 }
                 pstr+="</ul></div>";
             }
-            str += '<tr onclick="toDetail(\'' + da.id + '\')" >\n' +
+            str += '<tr  >\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.name) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.phone) + '</td>\n' +
 //                '                        <td class="am-text-left">' + getStringWithspace(da.manager_d) + '</td>\n' +
@@ -324,7 +328,10 @@
 //                '                        <td class="am-text-left">' + getStringWithspace(da.carcount) + '</td>\n' +
                 '                        <td>\n' +
                 '                            <a  onclick="toDetail(\'' + da.id + '\')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
-                '                                    class="am-icon-pencil-square-o"></span> 详情\n' +
+                '                                    class="am-icon-commenting-o"></span> 详情\n' +
+                '                            </a>\n' +
+                 '                            <a  onclick="toEdit(\'' + da.id + '\')" class="am-btn am-btn-default am-btn-xs am-text-warning"><span\n' +
+                '                                    class="am-icon-pencil-square-o"></span> 编辑\n' +
                 '                            </a>\n' +
                 '                        </td>\n' +
                 '                        <td class="am-text-nowrap am-text-truncate" style="max-width: 10em;" onmouseenter="showSomething(this)" onmouseleave="hideSomething(this)">' + getStringWithspace(da.process)  +

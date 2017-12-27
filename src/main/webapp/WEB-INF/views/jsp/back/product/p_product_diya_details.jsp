@@ -234,9 +234,9 @@
 <div class="am-margin-bottom-xl">
     <div class="am-padding am-padding-bottom-0">
         <p>
-            <a href="/prod/listPage">产品管理</a>
+            <a href="javascript:" >产品列表</a>
             >
-            <a style="color: #666666">抵押产品详情</a>
+            <a  href="javascript:" style="color: #666666">抵押产品详情</a>
         </p>
     </div>
     <div class="am-padding-horizontal">

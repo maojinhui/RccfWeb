@@ -66,6 +66,8 @@ public class CustomerInfoController {
     @ResponseBody
     @RequestMapping(value = "/list")
     public String customerListSimple(HttpServletRequest request) {
+
+        String condition = request.getParameter("condition");
         String callback = request.getParameter("callback");
         Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         if (employee == null) {
@@ -111,14 +113,26 @@ public class CustomerInfoController {
                         return data;
                     }
                 } else if (role == 4) {
-                    String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ")";
-                    String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ") order by create_time desc " + limit;
-                    String data = Page.limit(baseService, sql_count, sql_info, CustomerTmp.class);
-                    if (!Strings.isNullOrEmpty(callback)) {
-                        return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
-                    } else {
-                        return data;
+                    if(!Strings.isNullOrEmpty(condition)){
+                        String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE ( name like '%"+condition+"%' or phone like '%"+condition+"%' ) and `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ")";
+                        String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer`  WHERE  ( name like '%"+condition+"%' or phone like '%"+condition+"%' ) and   `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ") order by create_time desc " + limit;
+                        String data = Page.limit(baseService, sql_count, sql_info, CustomerTmp.class);
+                        if (!Strings.isNullOrEmpty(callback)) {
+                            return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
+                        } else {
+                            return data;
+                        }
+                    }else{
+                        String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ")";
+                        String sql_info = "SELECT   id,`name` ,`phone`   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`salesman` =" + employee.getId() + ") order by create_time desc " + limit;
+                        String data = Page.limit(baseService, sql_count, sql_info, CustomerTmp.class);
+                        if (!Strings.isNullOrEmpty(callback)) {
+                            return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
+                        } else {
+                            return data;
+                        }
                     }
+
                 }
             }
         } else {

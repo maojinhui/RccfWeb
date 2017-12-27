@@ -63,11 +63,9 @@
 
     <div class="am-padding am-padding-bottom-0">
         <p>
-            <a href="product_org.html">产品管理</a>
+            <a href="javascript:" >产品列表</a>
             >
-            <a href="">产品列表</a>
-            >
-            <a style="color: #666666">信贷产品详情</a>
+            <a href="javascript:" style="color: #666666">信贷产品详情</a>
         </p>
     </div>
 

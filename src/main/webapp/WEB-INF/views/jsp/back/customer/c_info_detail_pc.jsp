@@ -58,7 +58,7 @@
     <!--客户基本信息-->
     <table class="am-table am-table-striped am-table-bordered am-radius am-text-nowrap">
         <tr>
-            <th colspan="10">客户基本信息</th>
+            <th colspan="10">客户基本信息<a target="_blank" href="/customer/info/editpage?customer_id=<%=rCustomer.getId()%>" class="am-btn am-btn-primary am-btn-sm am-align-right" style="height: 2em;padding: 0.5em; margin-bottom: 0;">编辑信息</a></th>
         </tr>
         <tr>
             <td>姓名</td>
