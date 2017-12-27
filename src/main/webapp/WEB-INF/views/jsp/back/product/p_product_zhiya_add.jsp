@@ -63,7 +63,7 @@
     <p>
         <a href="/prod/listPage">产品管理</a>
         >
-        <a style="color: #666666">质押产品</a>
+        <a href="javascript:" style="color: #666666">质押产品</a>
     </p>
 </div>
 
