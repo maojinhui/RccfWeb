@@ -243,7 +243,6 @@
         $('.popup_1 img').attr('src', src);
     }
 
-
     function uploadImg(obj) {
         console.log('itppp');
         var ppNode = obj.parentNode;
@@ -308,7 +307,6 @@
         $('.popup_1').addClass('hide');
     });
 
-
     $('#popup_del').click(function () {
         var imgEl = document.getElementById('popupimg');
         var fileId = imgEl.dataset.fileId;
@@ -326,8 +324,6 @@
             function () {
 
             })
-
-
     });
 
     function getObjectURL(file) {
@@ -397,8 +393,12 @@
         var loan_repayment_type = $('#loan_repayment_type').val();
         var customer_loan_monthly_repayment = $('#customer_loan_monthly_repayment').val();
         var loan_repayment_source = $('#loan_repayment_source').val();
+        var customer_files = '';
+
 
         var obj = {};
+
+        obj.customer_id = '<%=customer_id%>';
         obj.customer_name = customer_name;
         obj.customer_phone = customer_phone;
         obj.customer_applyamount = customer_applyamount;
@@ -408,7 +408,8 @@
         obj.customer_loan_usage = customer_loan_usage;
         obj.loan_repayment_type = loan_repayment_type;
         obj.customer_loan_monthly_repayment = customer_loan_monthly_repayment;
-        obj.loan_repayment_source = loan_repayment_source;
+        obj.loan_repayment_source = loan_repayment_source;obj.customer_files = customer_files;
+        obj.customer_files = customer_files;
 
         network('',obj,
         function () {
@@ -417,13 +418,11 @@
         function () {
 
         });
-
-
-
-
     })
 
+function getFiles(){
 
+}
 </script>
 
 </body>

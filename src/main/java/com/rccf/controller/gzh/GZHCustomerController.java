@@ -6,9 +6,12 @@ import com.rccf.model.Employee;
 import com.rccf.model.RCustomer;
 import com.rccf.model.RCustomerLoaninfo;
 import com.rccf.model.customer.RCustomerFile;
+import com.rccf.model.customer.RCustomerSubmitLog;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
+import com.rccf.util.BackUtil;
 import com.rccf.util.ResponseUtil;
+import com.rccf.util.Strings;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
@@ -17,6 +20,7 @@ import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -82,17 +86,11 @@ public class GZHCustomerController {
     }
 
 
+    @ResponseBody
+    @RequestMapping(value = "/")
     public String submitCustomerInfo(HttpServletRequest request){
-//        obj.customer_name = customer_name;
-//        obj.customer_phone = customer_phone;
-//        obj.customer_applyamount = customer_applyamount;
-//        obj.loan_type = loan_type;
-//        obj.customer_loanterm_month = customer_loanterm_month;
-//        obj.customer_loanterm_day = customer_loanterm_day;
-//        obj.customer_loan_usage = customer_loan_usage;
-//        obj.loan_repayment_type = loan_repayment_type;
-//        obj.customer_loan_monthly_repayment = customer_loan_monthly_repayment;
-//        obj.loan_repayment_source = loan_repayment_source;
+        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+        String customer_id = request.getParameter("customer_id");
         String customer_name = request.getParameter("customer_name");
         String customer_phone = request.getParameter("customer_phone");
         String customer_applyamount = request.getParameter("customer_applyamount");
@@ -103,14 +101,69 @@ public class GZHCustomerController {
         String loan_repayment_type = request.getParameter("loan_repayment_type");
         String customer_loan_monthly_repayment = request.getParameter("customer_loan_monthly_repayment");
         String loan_repayment_source = request.getParameter("loan_repayment_source");
+        String customerFiles = request.getParameter("customer_files");
+        boolean saveCustomer = true;
 
+        RCustomer customer = (RCustomer) baseService.get(RCustomer.class , customer_id);
+        if(customer==null){
+            return ResponseUtil.fail(0,"没有查找到该客户");
+        }
+        String cname  = customer.getName();
+        String cphone = customer.getPhone();
+        if(cname.equals(customer_name) && cphone.equals(customer_phone)){
+        }else{
+            customer.setName(customer_name);
+            customer.setPhone(customer_phone);
+            saveCustomer = baseService.save(customer);
+        }
 
+        RCustomerLoaninfo loaninfo = null ;
+        DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerLoaninfo.class);
+        criteria.add(Restrictions.eq("customerId", customer_id));
+        List list = baseService.getList(criteria);
+        if (list != null && list.size() > 0) {
+            loaninfo = (RCustomerLoaninfo) list.get(0);
+        }
+        if(loaninfo==null){
+            loaninfo=new RCustomerLoaninfo();
+        }
+        if(!Strings.isNullOrEmpty(customer_applyamount)){
+            loaninfo.setApplyLoanAmount(Double.valueOf(customer_applyamount));
+        }
+        loaninfo.setLoanType(Integer.valueOf(loan_type));
+        loaninfo.setLoanUsage(customer_loan_usage);
+        loaninfo.setLoanRepayment(Integer.valueOf(loan_repayment_type));
+        loaninfo.setLoanRepaymentSource(loan_repayment_source);
 
+        if(Strings.isNullOrEmpty(customer_loanterm_month)){
+            loaninfo.setLoanTermMonth(Integer.valueOf(customer_loanterm_month));
+        }
+        if(Strings.isNullOrEmpty(customer_loanterm_day)){
+            loaninfo.setLoanTermDay(Integer.valueOf(customer_loanterm_day));
+        }
+        if(Strings.isNullOrEmpty(customer_loan_monthly_repayment)){
+            loaninfo.setLoanMonthlyRepayment(Integer.valueOf(customer_loan_monthly_repayment));
+        }
 
+        boolean saveLoaninfo = baseService.save(loaninfo);
+        if(saveCustomer && saveLoaninfo){
+            RCustomerSubmitLog log = new RCustomerSubmitLog();
+            log.setCustomerFiles(customerFiles);
+            log.setCustomerId(customer_id);
+            log.setCustomerLoanAmount(loaninfo.getApplyLoanAmount().intValue());
+            log.setCustomerLoanTermMonth(loaninfo.getLoanTermMonth());
+            log.setCustomerLoanTermDay(loaninfo.getLoanTermDay());
+            log.setCustomerLoanUsetype(loaninfo.getLoanUsage());
+            log.setCustomerLoanRepayment(loaninfo.getLoanRepayment());
+            log.setCustomerRepayResource(loaninfo.getLoanRepaymentSource());
+            log.setCustomerRepayResource(loaninfo.getLoanRepaymentSource());
+            log.setSubmitSaleman(employee.getId());
+//            log.setSubmitHouqi();
 
-
-
-        return ResponseUtil.fail(0,"提交失败");
+        }else{
+            return ResponseUtil.fail(0,"提交失败");
+        }
+        return ResponseUtil.fail();
     }
 
 
