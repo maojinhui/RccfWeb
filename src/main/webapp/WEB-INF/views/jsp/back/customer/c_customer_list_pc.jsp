@@ -184,10 +184,10 @@
                 <tr>
                     <th>姓名</th>
                     <th>电话</th>
+                    <th>销售经理</th>
                     <th>客户类别</th>
                     <%--<th>总监</th>--%>
                     <%--<th>副总监</th>--%>
-                    <%--<th>销售经理</th>--%>
                     <%--<th>录入时间</th>--%>
                     <th>申请贷款类型</th>
                     <th>申请贷款金额</th>
@@ -311,26 +311,26 @@
             str += '<tr  >\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.name) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.phone) + '</td>\n' +
-//                '                        <td class="am-text-left">' + getStringWithspace(da.manager_d) + '</td>\n' +
-//                '                        <td class="am-text-left">' + getStringWithspace(da.manager_dd) + '</td>\n' +
-//                '                        <td class="am-text-left">' + getStringWithspace(da.manager_e) + '</td>\n' +
-//                '                        <td class="am-text-left">' + getDateComplete(da.create_time) + '</td>\n' +
+                //                '                        <td class="am-text-left">' + getStringWithspace(da.manager_d) + '</td>\n' +
+                //                '                        <td class="am-text-left">' + getStringWithspace(da.manager_dd) + '</td>\n' +
+                '                        <td class="am-text-left">' + getStringWithspace(da.manager_e) + '</td>\n' +
+                //                '                        <td class="am-text-left">' + getDateComplete(da.create_time) + '</td>\n' +
                 '                        <td class="am-text-left">' + String.fromCharCode(da.level+64)+ '</td>\n' +
                 '                        <td class="am-text-left">' + getType(da.loan_type) + '</td>\n' +
                 '                        <td class="am-text-left">' + getStringWithspace(da.applyamount) + '</td>\n' +
-//                '                        <td class="am-text-left">' + getStringWithspace(getTime(da.term_year, da.term_month, da.term_day)) + '</td>\n' +
-//                '                        <td class="am-text-left">' + getStringWithspace(da.fee_percent) + '%</td>\n' +
-//                '                        <td class="am-text-left">' + getSex(da.sex) + '</td>\n' +
-//                '                        <td class="am-text-left">' + getStringWithspace(da.age) + '</td>\n' +
-//                '                        <td class="am-text-left">' + getStringWithspace(da.birthplace) + '</td>\n' +
-//                '                        <td class="am-text-left">' + getStringWithspace(da.companycount) + '</td>\n' +
-//                '                        <td class="am-text-left">' + getStringWithspace(da.housecount) + '</td>\n' +
-//                '                        <td class="am-text-left">' + getStringWithspace(da.carcount) + '</td>\n' +
+                //                '                        <td class="am-text-left">' + getStringWithspace(getTime(da.term_year, da.term_month, da.term_day)) + '</td>\n' +
+                //                '                        <td class="am-text-left">' + getStringWithspace(da.fee_percent) + '%</td>\n' +
+                //                '                        <td class="am-text-left">' + getSex(da.sex) + '</td>\n' +
+                //                '                        <td class="am-text-left">' + getStringWithspace(da.age) + '</td>\n' +
+                //                '                        <td class="am-text-left">' + getStringWithspace(da.birthplace) + '</td>\n' +
+                //                '                        <td class="am-text-left">' + getStringWithspace(da.companycount) + '</td>\n' +
+                //                '                        <td class="am-text-left">' + getStringWithspace(da.housecount) + '</td>\n' +
+                //                '                        <td class="am-text-left">' + getStringWithspace(da.carcount) + '</td>\n' +
                 '                        <td>\n' +
                 '                            <a  onclick="toDetail(\'' + da.id + '\')" class="am-btn am-btn-default am-btn-xs am-text-secondary"><span\n' +
                 '                                    class="am-icon-commenting-o"></span> 详情\n' +
                 '                            </a>\n' +
-                 '                            <a  onclick="toEdit(\'' + da.id + '\')" class="am-btn am-btn-default am-btn-xs am-text-warning"><span\n' +
+                '                            <a  onclick="toEdit(\'' + da.id + '\')" class="am-btn am-btn-default am-btn-xs am-text-warning"><span\n' +
                 '                                    class="am-icon-pencil-square-o"></span> 编辑\n' +
                 '                            </a>\n' +
                 '                        </td>\n' +
