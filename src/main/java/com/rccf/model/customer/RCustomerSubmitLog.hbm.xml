@@ -18,7 +18,7 @@
             <column name="customer_phone" sql-type="varchar(255)" not-null="true"/>
         </property>
         <property name="customerLoanAmount">
-            <column name="customer_loan_amount" sql-type="int(11)" not-null="true"/>
+            <column name="customer_loan_amount" sql-type="double" precision="-1" not-null="true"/>
         </property>
         <property name="customerLoanType">
             <column name="customer_loan_type" sql-type="int(11)" not-null="true"/>
@@ -38,6 +38,9 @@
         <property name="customerRepayResource">
             <column name="customer_repay_resource" sql-type="varchar(255)" not-null="true"/>
         </property>
+        <property name="customerLoanTermDay">
+            <column name="customer_loan_term_day" sql-type="int(11)" not-null="true"/>
+        </property>
         <property name="customerFiles">
             <column name="customer_files" sql-type="varchar(255)" not-null="true"/>
         </property>
@@ -45,16 +48,19 @@
             <column name="submit_saleman" sql-type="int(11)" not-null="true"/>
         </property>
         <property name="submitDeputy">
-            <column name="submit_deputy" sql-type="int(11)" not-null="true"/>
+            <column name="submit_deputy" sql-type="varchar(255)" not-null="true"/>
         </property>
         <property name="submitDirector">
-            <column name="submit_director" sql-type="int(11)" not-null="true"/>
+            <column name="submit_director" sql-type="varchar(255)" not-null="true"/>
         </property>
         <property name="submitHouqi">
-            <column name="submit_houqi" sql-type="varchar(255)" not-null="true"/>
+            <column name="submit_houqi" sql-type="int(11)" not-null="true"/>
         </property>
-        <property name="customerLoanTermDay">
-            <column name="customer_loan_term_day" sql-type="int(11)" not-null="true"/>
+        <property name="submitTime">
+            <column name="submit_time" sql-type="datetime" not-null="true"/>
+        </property>
+        <property name="state">
+            <column name="state" sql-type="int(11)" not-null="true"/>
         </property>
     </class>
 </hibernate-mapping>

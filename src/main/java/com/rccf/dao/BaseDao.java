@@ -89,6 +89,11 @@ public class BaseDao extends HibernateDaoSupport {
         return getHibernateTemplate().findByCriteria(detachedCriteria);
     }
 
+    public List getList(DetachedCriteria detachedCriteria , int limit) {
+        Criteria criteria = detachedCriteria.getExecutableCriteria(getSession());
+        criteria.setMaxResults(limit);
+        return criteria.list();
+    }
 
     public List queryBySql(String sql) {
         List<Object[]> list = getSession().createSQLQuery(sql).list();

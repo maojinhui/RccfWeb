@@ -1,6 +1,8 @@
 package com.rccf.controller.gzh;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.Employee;
 import com.rccf.model.RCustomer;
@@ -10,6 +12,7 @@ import com.rccf.model.customer.RCustomerSubmitLog;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.util.BackUtil;
+import com.rccf.util.DateUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
 import org.hibernate.criterion.DetachedCriteria;
@@ -19,11 +22,13 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -87,8 +92,10 @@ public class GZHCustomerController {
 
 
     @ResponseBody
-    @RequestMapping(value = "/")
+    @Transactional
+    @RequestMapping(value = "/submit/customer")
     public String submitCustomerInfo(HttpServletRequest request){
+
         Employee employee = BackUtil.getLoginEmployee(request,employeeService);
         String customer_id = request.getParameter("customer_id");
         String customer_name = request.getParameter("customer_name");
@@ -135,35 +142,53 @@ public class GZHCustomerController {
         loaninfo.setLoanRepayment(Integer.valueOf(loan_repayment_type));
         loaninfo.setLoanRepaymentSource(loan_repayment_source);
 
-        if(Strings.isNullOrEmpty(customer_loanterm_month)){
+        if(!Strings.isNullOrEmpty(customer_loanterm_month)){
             loaninfo.setLoanTermMonth(Integer.valueOf(customer_loanterm_month));
         }
-        if(Strings.isNullOrEmpty(customer_loanterm_day)){
+        if(!Strings.isNullOrEmpty(customer_loanterm_day)){
             loaninfo.setLoanTermDay(Integer.valueOf(customer_loanterm_day));
         }
-        if(Strings.isNullOrEmpty(customer_loan_monthly_repayment)){
+        if(!Strings.isNullOrEmpty(customer_loan_monthly_repayment)){
             loaninfo.setLoanMonthlyRepayment(Integer.valueOf(customer_loan_monthly_repayment));
         }
 
         boolean saveLoaninfo = baseService.save(loaninfo);
-        if(saveCustomer && saveLoaninfo){
-            RCustomerSubmitLog log = new RCustomerSubmitLog();
-            log.setCustomerFiles(customerFiles);
-            log.setCustomerId(customer_id);
-            log.setCustomerLoanAmount(loaninfo.getApplyLoanAmount().intValue());
-            log.setCustomerLoanTermMonth(loaninfo.getLoanTermMonth());
-            log.setCustomerLoanTermDay(loaninfo.getLoanTermDay());
-            log.setCustomerLoanUsetype(loaninfo.getLoanUsage());
-            log.setCustomerLoanRepayment(loaninfo.getLoanRepayment());
-            log.setCustomerRepayResource(loaninfo.getLoanRepaymentSource());
-            log.setCustomerRepayResource(loaninfo.getLoanRepaymentSource());
-            log.setSubmitSaleman(employee.getId());
-//            log.setSubmitHouqi();
 
+        String houqis = request.getParameter("houqis");
+        if(Strings.isNullOrEmpty(houqis)){
+            return ResponseUtil.fail(0,"请选择后期提交至的后期专员");
+        }
+        if(saveCustomer && saveLoaninfo){
+            JSONArray houqiArray = JSON.parseArray(houqis);
+            for (int i =0 ; i< houqiArray.size();i++){
+                int employeeId = houqiArray.getIntValue(i);
+                RCustomerSubmitLog log = new RCustomerSubmitLog();
+                log.setCustomerName(customer_name);
+                log.setCustomerPhone(customer_phone);
+                log.setCustomerFiles(customerFiles);
+                log.setCustomerId(customer_id);
+                log.setCustomerLoanAmount(loaninfo.getApplyLoanAmount());
+                log.setCustomerLoanTermMonth(loaninfo.getLoanTermMonth());
+                log.setCustomerLoanTermDay(loaninfo.getLoanTermDay());
+                log.setCustomerLoanUsetype(loaninfo.getLoanUsage());
+                log.setCustomerLoanRepayment(loaninfo.getLoanRepayment());
+                log.setCustomerRepayResource(loaninfo.getLoanRepaymentSource());
+                log.setCustomerRepayResource(loaninfo.getLoanRepaymentSource());
+                log.setSubmitSaleman(employee.getId());
+                log.setSubmitHouqi(employeeId);
+                log.setSubmitDeputy(employee.getDuptyDirector());
+                log.setSubmitDirector(employee.getDirector());
+                log.setSubmitTime(DateUtil.date2Timestamp(new Date()));
+                log.setState(1);
+                boolean state = baseService.save(log);
+                if(!state){
+                    return ResponseUtil.fail(0,"提交失败");
+                }
+            }
+            return ResponseUtil.success();
         }else{
             return ResponseUtil.fail(0,"提交失败");
         }
-        return ResponseUtil.fail();
     }
 
 

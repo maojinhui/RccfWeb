@@ -83,12 +83,12 @@
             <tr>
                 <td>客户姓名</td>
                 <td><input id="customer_name" type="text"
-                           value="<%=loaninfoNotnull?Strings.getInputString(customer.getName()):""%>"></td>
+                           value="<%=Strings.getInputString(customer.getName())%>"></td>
             </tr>
             <tr>
                 <td>客户电话</td>
                 <td><input id="customer_phone" type="text"
-                           value="<%=loaninfoNotnull?Strings.getInputString(customer.getPhone()):""%>"></td>
+                           value="<%=Strings.getInputString(customer.getPhone())%>"></td>
             </tr>
             <tr>
                 <td>申请金额</td>
@@ -163,7 +163,7 @@
 </div>
 
 <div class="container a-margin-top">
-    <div class="row">
+    <div id="images" class="row">
         <p>上传照片附件</p>
         <%
             List<RCustomerFile> files = (List<RCustomerFile>) request.getAttribute("files");
@@ -348,6 +348,32 @@
         $('.popup').addClass('hide');
     });
 
+
+    function getImages() {
+        var images = [];
+        $('#images').children('div').each(function () {
+           var imgNode =  $(this).children('img')[0];
+           var imgSrc = $(imgNode).attr('src');
+           if(imgSrc !== '/work/img/add.png'){
+               images.push(imgSrc);
+           }
+        })
+        return images;
+    }
+
+    function getHouqis() {
+        var hqs = [];
+        $('#hq').children('div').each(function () {
+            var houqiID = $(this).data('hq-id');
+            var imgNode =  $(this).children('a')[0];
+            if($(imgNode).hasClass('selected')){
+                hqs.push(houqiID);
+            }
+        })
+        return hqs;
+    }
+
+
     $(function () {
         $.ajax({
             url: '',
@@ -393,7 +419,8 @@
         var loan_repayment_type = $('#loan_repayment_type').val();
         var customer_loan_monthly_repayment = $('#customer_loan_monthly_repayment').val();
         var loan_repayment_source = $('#loan_repayment_source').val();
-        var customer_files = '';
+        var customer_files = JSON.stringify(getImages());
+        var houqis = JSON.stringify(getHouqis());
 
 
         var obj = {};
@@ -410,19 +437,24 @@
         obj.customer_loan_monthly_repayment = customer_loan_monthly_repayment;
         obj.loan_repayment_source = loan_repayment_source;obj.customer_files = customer_files;
         obj.customer_files = customer_files;
+        obj.houqis = houqis;
 
-        network('',obj,
-        function () {
-            
+        network('/gzh/customer/submit/customer',obj,
+        function (result) {
+            if(result.code){
+                alert('提交成功');
+                history.back();
+
+            }else{
+                alert(result.errormsg);
+            }
         },
         function () {
 
         });
     })
 
-function getFiles(){
 
-}
 </script>
 
 </body>

@@ -1,4 +1,6 @@
-<%@ page import="com.rccf.constants.build.Application" %><%--
+<%@ page import="com.rccf.constants.build.Application" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.rccf.model.customer.CustomerSubmit" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/12/25
@@ -25,65 +27,57 @@
         <div class="row">
             <div data-nav-bar="1" class="col-5 nav-bar active">
                 通知
+                <% if(false){ %>
                 <sup>11</sup>
+                <% }%>
             </div>
             <div data-nav-bar="2" class="col-5 nav-bar">已办事项</div>
         </div>
-        <ul data-nav="1" class=" nav-block ">
-            <li class="notice">
-                <span>客户张三来找你了，快到前台来啊---速度</span>
-                <label>11-01</label>
-                <label>11:01</label>
-            </li>
-            <li class="notice">
-                <span>客户李四来找你了，快到前台来啊---速度</span>
-                <label>11-01</label>
-                <label>11:01</label>
-            </li>
-            <li class="notice">
-                <span>客户王五来找你了，快到前台来啊---速度</span>
-                <label>11-01</label>
-                <label>11:01</label>
-            </li>
-            <li class="notice">
-                <span>客户赵六来找你了，快到前台来啊---速度</span>
-                <label>11-01</label>
-                <label>11:01</label>
-            </li>
-            <li class="notice">
-                <span>客户赵七来找你了，快到前台来啊---速度</span>
-                <label>11-01</label>
-                <label>11:01</label>
-            </li>
+        <ul  data-nav="1"  class=" nav-block ">
+            <%
+                List<CustomerSubmit> logs = (List<CustomerSubmit>) request.getAttribute("submitlogs");
+                if(logs!=null){
+                    int count = logs.size()>5?5:logs.size();
+                    for (int i = 0 ; i< count ;i++){
+                        CustomerSubmit log = logs.get(i);
+            %>
+            <%--<li class="notice">--%>
+                <%--<span>客户<%=log.getCustomer_name()%>已提交至<%=log.getHouqi_name()%>进行产品匹配</span>--%>
+                <%--<label><%=log.getMonth_day()%></label>--%>
+                <%--<label><%=log.getHourminute()%></label>--%>
+            <%--</li>--%>
+            <%
+                    }
+                }
+            %>
+
+            <% if(logs.size()>5){ %>
             <li class="notice-all">查看全部 >></li>
+            <% } %>
+
         </ul>
         <ul data-nav="2" class="nav-block hide">
+
+            <%
+                if(logs!=null){
+                    int count = logs.size()>5?5:logs.size();
+                    for (int i = 0 ; i< count ;i++){
+                        CustomerSubmit log = logs.get(i);
+            %>
             <li class="notice">
-                <span>客户小栗子蛋来找你了，快到前台来啊---速度</span>
-                <label>11-01</label>
-                <label>11:01</label>
+                <span>客户<%=log.getCustomer_name()%>已提交至<%=log.getHouqi_name()%>进行产品匹配</span>
+                <label><%=log.getMonth_day()%></label>
+                <label><%=log.getHourminute()%></label>
             </li>
-            <li class="notice">
-                <span>客户小栗子蛋来找你了，快到前台来啊---速度</span>
-                <label>11-01</label>
-                <label>11:01</label>
-            </li>
-            <li class="notice">
-                <span>客户小栗子蛋来找你了，快到前台来啊---速度</span>
-                <label>11-01</label>
-                <label>11:01</label>
-            </li>
-            <li class="notice">
-                <span>客户小栗子蛋来找你了，快到前台来啊---速度</span>
-                <label>11-01</label>
-                <label>11:01</label>
-            </li>
-            <li class="notice">
-                <span>客户小栗子蛋来找你了，快到前台来啊---速度</span>
-                <label>11-01</label>
-                <label>11:01</label>
-            </li>
+            <%
+                    }
+                }
+            %>
+
+            <% if(logs !=null && logs.size()>5){ %>
             <li class="notice-all">查看全部 >></li>
+            <% } %>
+
         </ul>
     </div>
 

@@ -3,7 +3,7 @@ package com.rccf.constants.build;
 public class DebugManager {
 
     //TODO 提交至线上的时候注意修改
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
 
     public static String SERVER_IMAGE_PATH = "/home/php-www/photo/";

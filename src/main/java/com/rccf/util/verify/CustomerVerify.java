@@ -1,5 +1,6 @@
 package com.rccf.util.verify;
 
+import com.rccf.model.Employee;
 import com.rccf.model.RCustomer;
 import com.rccf.service.BaseService;
 import com.rccf.util.CheckUtil;
@@ -10,6 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 public class CustomerVerify {
+
+
+
+    @Autowired
+    static BaseService baseService;
+
 
     /**
      * 查询手机号是否已经存在在客户

@@ -105,7 +105,7 @@ public class DateUtil {
         }
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String str = format.format(date);
-        str=str.replaceAll(" ","T");
+        str = str.replaceAll(" ", "T");
         return str;
     }
 
@@ -253,8 +253,33 @@ public class DateUtil {
     }
 
 
+    /**
+     * 获取  MM-dd
+     *
+     * @param date
+     * @return
+     */
+    public static String getMonthDay(Date date) {
+        if (date == null) {
+            return null;
+        }
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd");
+        return format.format(date);
+    }
 
-
+    /**
+     * 获取  HH-mm
+     *
+     * @param date
+     * @return
+     */
+    public static String getHourMinute(Date date) {
+        if (date == null) {
+            return null;
+        }
+        SimpleDateFormat format = new SimpleDateFormat("HH-mm");
+        return format.format(date);
+    }
 
 
 
@@ -263,7 +288,7 @@ public class DateUtil {
 //        lastString = lastString.substring(lastString.indexOf("-") + 1);
 //        System.out.println(lastString);
         String time = "2017-11-23T02:05";
-        time = time.replaceAll("T"," ");
+        time = time.replaceAll("T", " ");
 
         Date date = new Date(string2DateTime(time).getTime());
 

@@ -412,10 +412,10 @@ public class CustomerInfoController {
             return ResponseUtil.fail(0, "客户姓名不能为空");
         }
         if (!Strings.isNullOrEmpty(phone)) {
-            boolean hasCustomer = CustomerVerify.hasCustomerByPhone(baseService, phone);
-            if (hasCustomer) {
-                return ResponseUtil.fail(0, "该客户已经被别人录入");
-            }
+//            boolean hasCustomer = CustomerVerify.hasCustomerByPhone(baseService, phone);
+//            if (hasCustomer) {
+//                return ResponseUtil.fail(0, "该客户已经被别人录入");
+//            }
         } else {
             return ResponseUtil.fail(0, "请填写客户手机号");
         }

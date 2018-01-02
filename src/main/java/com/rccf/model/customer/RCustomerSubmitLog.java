@@ -3,6 +3,7 @@ package com.rccf.model.customer;
 import com.google.common.base.Objects;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "r_customer_submit_log", schema = "rccf", catalog = "")
@@ -11,19 +12,21 @@ public class RCustomerSubmitLog {
     private String customerId;
     private String customerName;
     private String customerPhone;
-    private Integer customerLoanAmount;
+    private Double customerLoanAmount;
     private Integer customerLoanType;
     private Integer customerLoanTermMonth;
     private String customerLoanUsetype;
     private Integer customerLoanRepayment;
     private Integer customerLoanMonthrepay;
     private String customerRepayResource;
+    private Integer customerLoanTermDay;
     private String customerFiles;
     private Integer submitSaleman;
-    private Integer submitDeputy;
-    private Integer submitDirector;
-    private String submitHouqi;
-    private Integer customerLoanTermDay;
+    private String submitDeputy;
+    private String submitDirector;
+    private Integer submitHouqi;
+    private Timestamp submitTime;
+    private Integer state;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -66,12 +69,12 @@ public class RCustomerSubmitLog {
     }
 
     @Basic
-    @Column(name = "customer_loan_amount", nullable = true)
-    public Integer getCustomerLoanAmount() {
+    @Column(name = "customer_loan_amount", nullable = true, precision = 0)
+    public Double getCustomerLoanAmount() {
         return customerLoanAmount;
     }
 
-    public void setCustomerLoanAmount(Integer customerLoanAmount) {
+    public void setCustomerLoanAmount(Double customerLoanAmount) {
         this.customerLoanAmount = customerLoanAmount;
     }
 
@@ -136,6 +139,16 @@ public class RCustomerSubmitLog {
     }
 
     @Basic
+    @Column(name = "customer_loan_term_day", nullable = true)
+    public Integer getCustomerLoanTermDay() {
+        return customerLoanTermDay;
+    }
+
+    public void setCustomerLoanTermDay(Integer customerLoanTermDay) {
+        this.customerLoanTermDay = customerLoanTermDay;
+    }
+
+    @Basic
     @Column(name = "customer_files", nullable = true, length = 255)
     public String getCustomerFiles() {
         return customerFiles;
@@ -156,43 +169,53 @@ public class RCustomerSubmitLog {
     }
 
     @Basic
-    @Column(name = "submit_deputy", nullable = true)
-    public Integer getSubmitDeputy() {
+    @Column(name = "submit_deputy", nullable = true, length = 255)
+    public String getSubmitDeputy() {
         return submitDeputy;
     }
 
-    public void setSubmitDeputy(Integer submitDeputy) {
+    public void setSubmitDeputy(String submitDeputy) {
         this.submitDeputy = submitDeputy;
     }
 
     @Basic
-    @Column(name = "submit_director", nullable = true)
-    public Integer getSubmitDirector() {
+    @Column(name = "submit_director", nullable = true, length = 255)
+    public String getSubmitDirector() {
         return submitDirector;
     }
 
-    public void setSubmitDirector(Integer submitDirector) {
+    public void setSubmitDirector(String submitDirector) {
         this.submitDirector = submitDirector;
     }
 
     @Basic
-    @Column(name = "submit_houqi", nullable = true, length = 255)
-    public String getSubmitHouqi() {
+    @Column(name = "submit_houqi", nullable = true)
+    public Integer getSubmitHouqi() {
         return submitHouqi;
     }
 
-    public void setSubmitHouqi(String submitHouqi) {
+    public void setSubmitHouqi(Integer submitHouqi) {
         this.submitHouqi = submitHouqi;
     }
 
     @Basic
-    @Column(name = "customer_loan_term_day", nullable = true)
-    public Integer getCustomerLoanTermDay() {
-        return customerLoanTermDay;
+    @Column(name = "submit_time", nullable = true)
+    public Timestamp getSubmitTime() {
+        return submitTime;
     }
 
-    public void setCustomerLoanTermDay(Integer customerLoanTermDay) {
-        this.customerLoanTermDay = customerLoanTermDay;
+    public void setSubmitTime(Timestamp submitTime) {
+        this.submitTime = submitTime;
+    }
+
+    @Basic
+    @Column(name = "state", nullable = true)
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 
     @Override
@@ -211,16 +234,18 @@ public class RCustomerSubmitLog {
                 Objects.equal(customerLoanRepayment, log.customerLoanRepayment) &&
                 Objects.equal(customerLoanMonthrepay, log.customerLoanMonthrepay) &&
                 Objects.equal(customerRepayResource, log.customerRepayResource) &&
+                Objects.equal(customerLoanTermDay, log.customerLoanTermDay) &&
                 Objects.equal(customerFiles, log.customerFiles) &&
                 Objects.equal(submitSaleman, log.submitSaleman) &&
                 Objects.equal(submitDeputy, log.submitDeputy) &&
                 Objects.equal(submitDirector, log.submitDirector) &&
                 Objects.equal(submitHouqi, log.submitHouqi) &&
-                Objects.equal(customerLoanTermDay, log.customerLoanTermDay);
+                Objects.equal(submitTime, log.submitTime) &&
+                Objects.equal(state, log.state);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, customerId, customerName, customerPhone, customerLoanAmount, customerLoanType, customerLoanTermMonth, customerLoanUsetype, customerLoanRepayment, customerLoanMonthrepay, customerRepayResource, customerFiles, submitSaleman, submitDeputy, submitDirector, submitHouqi, customerLoanTermDay);
+        return Objects.hashCode(id, customerId, customerName, customerPhone, customerLoanAmount, customerLoanType, customerLoanTermMonth, customerLoanUsetype, customerLoanRepayment, customerLoanMonthrepay, customerRepayResource, customerLoanTermDay, customerFiles, submitSaleman, submitDeputy, submitDirector, submitHouqi, submitTime, state);
     }
 }

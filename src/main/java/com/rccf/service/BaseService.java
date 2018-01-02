@@ -3,6 +3,7 @@ package com.rccf.service;
 import com.rccf.component.Page;
 import com.rccf.dao.BaseDao;
 import com.rccf.model.produce.ProduceFront;
+import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,10 @@ public class BaseService {
 
     public List getList(DetachedCriteria detachedCriteria) {
         return dao.getList(detachedCriteria);
+    }
+
+    public List getList(DetachedCriteria detachedCriteria , int limit){
+        return dao.getList(detachedCriteria,limit);
     }
 
     public List queryBySql(String sql) {

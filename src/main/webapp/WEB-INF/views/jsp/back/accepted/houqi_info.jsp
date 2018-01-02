@@ -247,7 +247,7 @@
                             '                        <td>' + row.endcount + '</td>\n' +
                             '                        <td>' + row.removecount + '</td>\n' +
                             '                        <td>' + row.refusecount + '</td>\n' +
-                            '                        <td>' + row.actual + '</td>\n' +
+                            '                        <td>' + Math.round(row.actual * 100) / 100 + '</td>\n' +
                             '                    </tr>'
                     }
                     $('#content_2').html(str);
