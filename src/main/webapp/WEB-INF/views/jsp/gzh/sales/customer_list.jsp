@@ -25,23 +25,29 @@
         }
 
         .search {
-            margin-top: 0.4em;
-            margin-bottom: 0.4em;
+            margin: 0.4rem;
         }
         .search input {
             width: 80%;
-            padding: 0.5em;
+            padding: 0.166rem 0.1333rem 0.166rem 0.266rem;
             border: 1px solid #999999;
-            border-radius:15px;
+            border-radius: 10px;
         }
 
+        .search button {
+            padding: 0.166rem 0.1333rem 0.166rem 0.1333rem;
+            border: none;
+            border-radius: 2px;
+            background-color: #f16969;
+            color: #fff;
+        }
 
     </style>
 </head>
 <body>
 <div class="container">
 
-    <div class="search am-margin-bottom">
+    <div class="search">
         <input id="search_condition" placeholder="姓名/电话 " type="text">
         <button  id="search_btn" class="">搜索</button>
     </div>
