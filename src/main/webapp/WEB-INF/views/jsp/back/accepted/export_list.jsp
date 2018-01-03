@@ -32,6 +32,11 @@
         .field_btn {
             width: 100%;
         }
+
+        .am-g input {
+            padding-top: 0.5em;
+            padding-bottom: 0.5em;
+        }
     </style>
 </head>
 <body>
@@ -47,19 +52,25 @@
         <a id="export" data-type="csv" href="javascript:;" class="am-btn am-btn-secondary">导出表格</a>
     </div>
     <div class="am-g">
-        <div class="am-u-sm-12 am-u-md-3 am-margin-bottom">
+        <div class="am-u-sm-12 am-u-md-2 am-margin-left am-margin-bottom">
             <div class="am-input-group am-input-group-sm">
                 <label>开始日期:</label>
                 <input id="start" class="am-form-field" type="date">
             </div>
         </div>
-        <div class="am-u-sm-12 am-u-md-3 am-margin-bottom">
+        <div class="am-u-sm-12 am-u-md-2 am-margin-left am-margin-bottom">
             <div class="am-input-group am-input-group-sm">
                 <label>结束日期:</label>
                 <input id="end" class="am-form-field" type="date">
             </div>
         </div>
-        <div class="am-u-sm-12 am-u-md-3 am-margin-bottom">
+        <div class="am-u-sm-12 am-u-md-3 am-margin-left am-margin-bottom">
+            <div class="am-input-group am-input-group-sm">
+                <label>&emsp;</label>
+                <input id="name" class="am-form-field" type="text" placeholder="总监/副总监/业务员">
+            </div>
+        </div>
+        <div class="am-u-sm-12 am-u-md-3 am-margin-left am-margin-bottom">
             <div class="am-input-group am-input-group-sm">
                 <label>&emsp;</label>
                 <select id="state" style="display:block;height: 2.2em;">
@@ -71,7 +82,7 @@
                 </select>
             </div>
         </div>
-        <div class="am-u-sm-12 am-u-md-3 am-margin-bottom">
+        <div class="am-u-sm-12 am-u-md-1 am-u-end am-margin-bottom">
             <div class="am-input-group am-input-group-sm">
                 <label>&emsp;</label>
                 <button id="search" class="am-btn am-btn-primary field_btn" type="button">搜索</button>
