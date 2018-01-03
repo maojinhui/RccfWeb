@@ -11,13 +11,25 @@
   padding: 0.4rem;
   border-radius: 0.2334rem 0.2334rem 0 0;
 }
-.nav-bar sup{
+
+.nav-bar sup {
+  width: 0.4rem;
+  height: 0.4rem;
+  display: inline-block;
+  vertical-align: top;
   background-color: #c41c1c;
-  color:#fff;
-  padding: 0.05rem;
+  color: #fff;
+  /* padding: 0.1rem; */
+  /* padding-left: 0.12rem; */
+  /* padding-right: 0.12rem; */
+  /* padding-bottom: 0.08rem; */
+  padding-top: 0.2rem;
+  box-sizing: border-box;
   font-size: 0.293rem;
   border-radius: 50%;
 }
+
+
 .active {
   background-color: #2a7ac4;
   color: #fff;

@@ -77,7 +77,7 @@ public class GZHAuthController {
                 }
             }else if(department.contains("市场")){
                 if(role==4){//市场部专员--后期专员等人页面
-
+                    return new ModelAndView("redirect:/gzh/shichang/index");
                 }else{//市场部管理人员页面
 
                 }
@@ -148,12 +148,12 @@ public class GZHAuthController {
             }
         }else if(department.contains("市场")){
             if(role==4){//市场部专员--后期专员等人页面
-
+                return ResponseUtil.success("/gzh/shichang/index");
             }else{//市场部管理人员页面
 
             }
         } else{
-            return ResponseUtil.fail(0,"本系统目前只对金融部和市场部开放，后续功能敬请期待");
+            return ResponseUtil.fail(0,"本系统目前仅对金融部和市场部开放，后续功能敬请期待");
         }
         return ResponseUtil.fail();
     }
