@@ -1,4 +1,8 @@
-<%@ page import="com.rccf.model.customer.RCustomerSubmitLog" %><%--
+<%@ page import="com.alibaba.fastjson.JSON" %>
+<%@ page import="com.rccf.model.customer.RCustomerSubmitLog" %>
+<%@ page import="com.alibaba.fastjson.JSONArray" %>
+<%@ page import="com.rccf.util.Strings" %>
+<%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2018/1/3 0003
@@ -55,47 +59,59 @@
         <table class="a-table">
             <tr>
                 <td>客户姓名</td>
-                <td><%=log.getCustomerName()%>
+                <td><%=Strings.getInputString(log.getCustomerName())%>
                 </td>
             </tr>
             <tr>
                 <td>客户电话</td>
-                <td><%=log.getCustomerPhone()%>
+                <td><%=Strings.getInputString(log.getCustomerPhone())%>
                 </td>
             </tr>
             <tr>
                 <td>申请金额</td>
-                <td><%=log.getCustomerLoanAmount()%>
+                <td><%=Strings.getInputString(log.getCustomerLoanAmount())%>
                 </td>
             </tr>
             <tr>
                 <td>贷款类型</td>
-                <td><%=customer.loan_type%>
+                <td><%=Strings.getInputString(log.getCustomerLoanType())%>
                 </td>
             </tr>
             <tr>
                 <td>贷款期限</td>
-                <td><%=customer.loan_time%>
+                <%
+                    String loanTime = "";
+                    if (log.getCustomerLoanTermMonth() != null) {
+                        loanTime += log.getCustomerLoanTermMonth() + "月";
+                    }
+                    if (log.getCustomerLoanTermDay() != null) {
+                        loanTime += log.getCustomerLoanTermDay() + "日";
+                    }
+                    if (log.getCustomerLoanTermMonth() == null && log.getCustomerLoanTermDay() == null) {
+                        loanTime = "暂无此信息";
+                    }
+                %>
+                <td><%=loanTime%>
                 </td>
             </tr>
             <tr>
                 <td>贷款用途</td>
-                <td><%=customer.loan_used%>
+                <td><%=Strings.getInputString(log.getCustomerLoanUsetype())%>
                 </td>
             </tr>
             <tr>
                 <td>还款方式</td>
-                <td><%=customer.repayment%>
+                <td><%=Strings.getInputString(log.getCustomerLoanRepayment())%>
                 </td>
             </tr>
             <tr>
                 <td>月承受还款额</td>
-                <td><%=customer.repay_month%>
+                <td><%=Strings.getInputString(log.getCustomerLoanMonthrepay())%>
                 </td>
             </tr>
             <tr>
                 <td>还款来源</td>
-                <td><%=customer.repay_origin%>
+                <td><%=Strings.getInputString(log.getCustomerRepayResource())%>
                 </td>
             </tr>
         </table>
@@ -103,15 +119,26 @@
 </div>
 
 <div class="container a-margin-top">
-    <% for (int i = 0; i
-            < customer.imgs.length
-            (); i++) { %>
     <div class="row">
+        <%
+            if (log.getCustomerFiles() != null) {
+                JSONArray customer_files = JSON.parseArray(log.getCustomerFiles());
+
+                for (int i = 0; i < customer_files.size(); i++) {
+                    String customers = customer_files.getString(i);
+        %>
+
+
         <div class="col-33">
-            <img onclick="uploadImg(this)" src="img/add.png">
+            <img onclick="uploadImg(this)" src="http://192.168.1.24:8080<%=customers%>">
         </div>
+
+
+        <%
+                }
+            }
+        %>
     </div>
-    <%}%>
 </div>
 
 <div class="" style="display: flex;">
