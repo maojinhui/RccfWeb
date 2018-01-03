@@ -27,7 +27,24 @@
     <link rel="stylesheet" href="/work/css/normalize.css">
     <link rel="stylesheet" href="/work/css/basic.css">
     <link rel="stylesheet" href="/work/css/index.css">
+    <style type="text/css">
+        .exit {
+            position: absolute;
+            bottom: 3rem;
+            font-size: 0.4rem;
+            width: 100%;
+            text-align: center;
+        }
 
+        .exit button {
+            width: 1.5rem;
+            height: 1.5rem;
+            background-color: #0a628f;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+        }
+    </style>
 </head>
 <body>
 <div class="content">
@@ -37,32 +54,35 @@
             <div data-nav-bar="1" class="col-5 nav-bar active">
                 通知
                 <% Integer notificationCount = (Integer) request.getAttribute("notificationCount");
-                if(notificationCount!=null){ %>
-                <sup><%=notificationCount%></sup>
-                   <% }%>
+                    if (notificationCount != null) { %>
+                <sup><%=notificationCount%>
+                </sup>
+                <% }%>
             </div>
             <div data-nav-bar="2" class="col-5 nav-bar">已办事项</div>
         </div>
-        <ul  data-nav="1"  class=" nav-block ">
+        <ul data-nav="1" class=" nav-block ">
             <%
                 List<CustomerSubmit> logs = (List<CustomerSubmit>) request.getAttribute("submitlogs");
-                if(logs!=null){
-                    int count = logs.size()>5?5:logs.size();
-                    for (int i = 0 ; i< count ;i++){
+                if (logs != null) {
+                    int count = logs.size() > 5 ? 5 : logs.size();
+                    for (int i = 0; i < count; i++) {
                         CustomerSubmit log = logs.get(i);
             %>
             <li onclick="toDetail(<%=log.getId()%>)" class="notice">
                 <%--<%=log.getSubmit_saleman_name()%>提交--%>
-            <span>客户<%=log.getCustomer_name()%>贷款方案待匹配</span>
-            <label><%=log.getMonth_day()%></label>
-            <label><%=log.getHourminute()%></label>
+                <span>客户<%=log.getCustomer_name()%>贷款方案待匹配</span>
+                <label><%=log.getMonth_day()%>
+                </label>
+                <label><%=log.getHourminute()%>
+                </label>
             </li>
             <%
                     }
                 }
             %>
 
-            <% if( logs !=null && logs.size()>5){ %>
+            <% if (logs != null && logs.size() > 5) { %>
             <li class="notice-all">查看全部 >></li>
             <% } %>
 
@@ -70,28 +90,27 @@
         <ul data-nav="2" class="nav-block hide">
 
             <%
-                if(logs!=null){
-                    int count = logs.size()>5?5:logs.size();
-                    for (int i = 0 ; i< count ;i++){
+                if (logs != null) {
+                    int count = logs.size() > 5 ? 5 : logs.size();
+                    for (int i = 0; i < count; i++) {
                         CustomerSubmit log = logs.get(i);
             %>
             <%--<li class="notice">--%>
-                <%--<span>客户<%=log.getCustomer_name()%>已提交至<%=log.getHouqi_name()%>进行产品匹配</span>--%>
-                <%--<label><%=log.getMonth_day()%></label>--%>
-                <%--<label><%=log.getHourminute()%></label>--%>
+            <%--<span>客户<%=log.getCustomer_name()%>已提交至<%=log.getHouqi_name()%>进行产品匹配</span>--%>
+            <%--<label><%=log.getMonth_day()%></label>--%>
+            <%--<label><%=log.getHourminute()%></label>--%>
             <%--</li>--%>
             <%
                     }
                 }
             %>
 
-            <% if(logs !=null && logs.size()>5){ %>
+            <% if (logs != null && logs.size() > 5) { %>
             <li class="notice-all">查看全部 >></li>
             <% } %>
 
         </ul>
     </div>
-
 
 
 </div>
@@ -108,15 +127,17 @@
         </div>
     </div>
 </div>
-
+<%--<div class="exit">--%>
+<%--<button>退出</button>--%>
+<%--</div>--%>
 
 <script src="/work/js/self_adaption.js"></script>
 <script src="/work/js/jquery.js"></script>
 <script>
 
 
-    function toDetail(log_id){
-        window.location.href='/gzh/shichang/customer/info?log_id='+log_id;
+    function toDetail(log_id) {
+        window.location.href = '/gzh/shichang/customer/info?log_id=' + log_id;
     }
 
 
