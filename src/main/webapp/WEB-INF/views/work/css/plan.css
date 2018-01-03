@@ -1,16 +1,28 @@
 .loan-plan {
+    position: relative;
     background-color: #fff;
     font-size: 0.5rem;
-    color: #23527c;
+    color: #333333;
     margin-top: 0.4rem;
 
     padding: 0.4rem 0.266rem;
 }
 
+.loan-plan span {
+    color: #e7505a;
+}
 .loan-plan a {
-    float: right;
-    color: #3bb4f2;
+    position: absolute;
+    display: inline-block;
+    background-color: #3bb4f2;
+    color: #fff;
+
+    top: 1.2rem;
+    right: 0.5rem;
+
     font-size: 0.4rem;
+
+    padding: 0.2rem;
 }
 
 .loan-plan i {
@@ -48,7 +60,6 @@
     padding-bottom: 0.26rem;
     border-bottom: 1px solid #eee;
 }
-
 .plan-add i {
     color: #f18989;
     font-size: 0.5rem;
@@ -58,7 +69,6 @@
 .a-table {
     border: 1px solid #eee;
 }
-
 .a-table td {
     border: 0.013rem solid #eee;
     padding-top: 0.15rem;

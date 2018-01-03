@@ -1,11 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2018/1/3 0003
-  Time: 17:12
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,10 +11,24 @@
 </head>
 <body>
 <div id="content" class="container">
-    <p class="loan-plan">
-        平安银行 — 新一贷
+    <div class="loan-plan">
+        <p>平安银行 — 新一贷</p>
+        <p>预贷金额：<span>30万</span></p>
+        <p>贷款利息：<span>2.4%</span></p>
+        <p>&emsp;备注&emsp;：<span>额度高，利息高</span></p>
+
         <a>删除</a>
-    </p>
+    </div>
+
+    <div class="loan-plan">
+        <p>平安银行 — 新一贷</p>
+        <p>预贷金额：<span>30万</span></p>
+        <p>贷款利息：<span>2.4%</span></p>
+        <p>&emsp;备注&emsp;：<span>额度高，利息高</span></p>
+
+        <a>删除</a>
+    </div>
+
     <p id="add_plan" class="loan-plan">
         <i class="fa fa-plus-circle"></i> 添加产品
     </p>
@@ -97,10 +103,14 @@
                     var info = result.data;
 
                     var str = '';
-                    str += '<p class="loan-plan">\n' +
-                        info.org_name + ' — ' + info.product_name + '\n' +
+                    str += '<div class="loan-plan">\n' +
+                        '    <p>平安银行 — 新一贷</p>\n' +
+                        '    <p>预贷金额：<span>30万</span></p>\n' +
+                        '    <p>贷款利息：<span>2.4%</span></p>\n' +
+                        '    <p>&emsp;备注&emsp;：<span>额度高，利息高</span></p>\n' +
+                        '\n' +
                         '    <a>删除</a>\n' +
-                        '  </p>';
+                        '  </div>';
                     var str_add = '';
                     str_add += '<p id="add_plan" class="loan-plan">\n' +
                         '    <i class="fa fa-plus-circle"></i> 添加产品\n' +
