@@ -14,19 +14,17 @@
 <div id="content" class="container">
     <%--<div class="loan-plan">--%>
         <%--<p>平安银行 — 新一贷</p>--%>
-        <%--<p>预贷金额：<span>30万</span></p>--%>
+        <%--<p>预估额度：<span>30万</span></p>--%>
         <%--<p>贷款利息：<span>2.4%</span></p>--%>
         <%--<p>&emsp;备注&emsp;：<span>额度高，利息高</span></p>--%>
-
         <%--<a>删除</a>--%>
     <%--</div>--%>
 
     <%--<div class="loan-plan">--%>
         <%--<p>平安银行 — 新一贷</p>--%>
-        <%--<p>预贷金额：<span>30万</span></p>--%>
+        <%--<p>预估额度：<span>30万</span></p>--%>
         <%--<p>贷款利息：<span>2.4%</span></p>--%>
         <%--<p>&emsp;备注&emsp;：<span>额度高，利息高</span></p>--%>
-
         <%--<a>删除</a>--%>
     <%--</div>--%>
 
@@ -38,7 +36,7 @@
 <div class="popup hide">
     <div class="container">
         <p class="plan-add">
-            添加方案
+            添加产品
             <i class="fa fa-times-circle-o"></i>
         </p>
 
@@ -52,7 +50,7 @@
                 <td><input type="text"></td>
             </tr>
             <tr>
-                <td>预贷金额</td>
+                <td>预估额度</td>
                 <td><input type="text"></td>
             </tr>
             <tr>

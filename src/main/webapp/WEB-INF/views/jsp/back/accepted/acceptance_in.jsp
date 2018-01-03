@@ -141,11 +141,15 @@
                     <ul class="autocompleter-list"></ul>
                 </div>
             </td>
-            <td>机构名称</td>
-            <td>
-                <input id="agency" type="text"
-                       value="<%=Strings.getInputString(accepted.getAgency())%>"/>
-            </td>
+            <%--<td>机构名称</td>--%>
+            <%--<td>--%>
+                <%--<input id="agency" type="text"--%>
+                       <%--value="<%=Strings.getInputString(accepted.getAgency())%>"/>--%>
+            <%--</td>--%>
+
+            <td></td>
+            <td></td>
+
             <td>业务类别</td>
             <td>
                 <select id="business_type"
