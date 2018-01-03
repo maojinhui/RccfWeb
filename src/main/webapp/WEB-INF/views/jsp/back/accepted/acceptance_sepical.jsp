@@ -61,6 +61,25 @@
         .payment-info input {
             width: 5em;
         }
+
+        .title span {
+            display: inline-block;
+            width: 5em;
+
+            background-color: #2c4666;
+            color: #fff;
+            border: 1px solid #eee;
+            text-align: center;
+            vertical-align: top;
+
+        }
+
+        .title input {
+            margin-left: -0.4em;
+            margin-top: -0.2em;
+            vertical-align: top;
+            border: 1px solid #eee;
+        }
     </style>
 </head>
 <body>
@@ -74,15 +93,14 @@
 
 <div class="am-padding-horizontal">
 
+    <div class="am-margin-bottom title">
+        <span>受理单号</span>
+        <input type="text"
+               value="<%=Strings.getInputString(accepted.getCustomerName())%>"/>
+    </div>
     <!--客户信息-->
     <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
-        <tr>
-            <td style="width: 5em;">受理单号</td>
-            <td>
-                <input type="text"
-                       value="<%=Strings.getInputString(accepted.getCustomerName())%>"/>
-            </td>
-        </tr>
+
         <tr>
             <th colspan="6">客户信息</th>
         </tr>
@@ -123,6 +141,28 @@
             <td>后期专员</td>
             <td>
                 <input id="houqi" type="text"
+                       value="<%=Strings.getInputString(accepted.getHouqi())%>"/>
+                <div class="autocompleter autocompleter-closed" id="autocompleter-3">
+                    <div class="autocompleter-hint"></div>
+                    <ul class="autocompleter-list"></ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>总监</td>
+            <td>
+                <input id="director" hidden value="<%=accepted.getId()!=0?accepted.getId():""%>"/>
+                <input id="" type="text" value="<%=Strings.getInputString(accepted.getClerkName())%>">
+                <input type="text" hidden name="" id="flerk_code"
+                       value="<%=Strings.getInputString(accepted.getClerk())%>"/>
+                <div class="autocompleter autocompleter-closed" id="autocompleter-1">
+                    <div class="autocompleter-hint"></div>
+                    <ul class="autocompleter-list"></ul>
+                </div>
+            </td>
+            <td>副总监</td>
+            <td>
+                <input id="" type="text"
                        value="<%=Strings.getInputString(accepted.getHouqi())%>"/>
                 <div class="autocompleter autocompleter-closed" id="autocompleter-3">
                     <div class="autocompleter-hint"></div>
