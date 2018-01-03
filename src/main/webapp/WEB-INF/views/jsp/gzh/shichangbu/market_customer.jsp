@@ -2,6 +2,7 @@
 <%@ page import="com.rccf.model.customer.RCustomerSubmitLog" %>
 <%@ page import="com.alibaba.fastjson.JSONArray" %>
 <%@ page import="com.rccf.util.Strings" %>
+<%@ page import="com.alibaba.fastjson.JSONObject" %>
 <%--
   Created by IntelliJ IDEA.
   User: Administrator
@@ -12,6 +13,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     RCustomerSubmitLog log = (RCustomerSubmitLog) request.getAttribute("log");
+    JSONObject loanTypes = (JSONObject) request.getAttribute("loanTypes");
+    JSONObject repayments = (JSONObject) request.getAttribute("repayments");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,7 +89,7 @@
 
 <div class="container">
     <p class="a-align-right">
-        <a>详细信息</a>
+        <a href="/customer/info/editpage?customer_id=<%=log.getCustomerId()%>">客户详细信息</a>
     </p>
     <div class="row">
         <table class="a-table">
@@ -107,7 +110,7 @@
             </tr>
             <tr>
                 <td>贷款类型</td>
-                <td><%=Strings.getInputString(log.getCustomerLoanType())%>
+                <td><%=log.getCustomerLoanType()==null?"无此信息":loanTypes.getString(""+log.getCustomerLoanType())%>
                 </td>
             </tr>
             <tr>
@@ -121,7 +124,7 @@
                         loanTime += log.getCustomerLoanTermDay() + "日";
                     }
                     if (log.getCustomerLoanTermMonth() == null && log.getCustomerLoanTermDay() == null) {
-                        loanTime = "暂无此信息";
+                        loanTime = "无此信息";
                     }
                 %>
                 <td><%=loanTime%>
@@ -134,7 +137,7 @@
             </tr>
             <tr>
                 <td>还款方式</td>
-                <td><%=Strings.getInputString(log.getCustomerLoanRepayment())%>
+                <td><%=log.getCustomerLoanRepayment()==null?"无此信息":repayments.getString(""+log.getCustomerLoanRepayment())%>
                 </td>
             </tr>
             <tr>
@@ -163,7 +166,7 @@
 
 
         <div class="col-33">
-            <img onclick="viewImg(this)" src="http://192.168.1.24:8080<%=customers%>">
+            <img onclick="viewImg(this)" src="<%=customers%>">
         </div>
 
 

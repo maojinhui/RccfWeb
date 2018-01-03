@@ -1,7 +1,6 @@
 package com.rccf.util.image;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.rccf.model.poster.BPoster;
 import com.rccf.util.Strings;

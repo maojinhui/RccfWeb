@@ -1,10 +1,14 @@
 package com.rccf.controller.gzh;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.Employee;
-import com.rccf.model.RCustomer;
+import com.rccf.model.ILoanType;
 import com.rccf.model.customer.CustomerSubmit;
 import com.rccf.model.customer.RCustomerSubmitLog;
+import com.rccf.model.produce.ProduceRepayment;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.util.BackUtil;
@@ -59,7 +63,6 @@ public class GZHShichangController {
         return modelAndView;
     }
 
-
     @RequestMapping(value = "/customer/info")
     public ModelAndView customerIndex(HttpServletRequest request){
         Employee employee = BackUtil.getLoginEmployee(request,employeeService);
@@ -71,9 +74,43 @@ public class GZHShichangController {
         if(Strings.isNullOrEmpty(log_id)){
             return ResponseUtil.pageFail("参数错误");
         }
-
         RCustomerSubmitLog log = (RCustomerSubmitLog) baseService.get(RCustomerSubmitLog.class,Integer.valueOf(log_id));
         modelAndView.addObject("log",log);
+
+
+
+        DetachedCriteria criteria = DetachedCriteria.forClass(ILoanType.class);
+//        criteria.createAlias("id","id");
+//        criteria.createAlias("name","name");
+        List<ILoanType> iLoanTypes = baseService.getList(criteria);
+        JSONArray jsonArray = JSON.parseArray(JSON.toJSONString(iLoanTypes));
+        JSONObject object = new JSONObject();
+        for (int i = 0 ; i< jsonArray.size();i++){
+            JSONObject obj = jsonArray.getJSONObject(i);
+            String id = obj.getString("id");
+            String name = obj.getString("name");
+            object.put(id,name);
+        }
+        modelAndView.addObject("loanTypes",object);
+
+        DetachedCriteria repaymentCriteria = DetachedCriteria.forClass(ProduceRepayment.class);
+//        repaymentCriteria.createAlias("id","id");
+//        repaymentCriteria.createAlias("name","name");
+        List<ProduceRepayment> produceRepayments = baseService.getList(repaymentCriteria);
+        JSONArray produceRepaymentsJsonarray = JSON.parseArray(JSON.toJSONString(produceRepayments));
+        JSONObject repaymentObject = new JSONObject();
+        for (int i = 0 ; i< produceRepaymentsJsonarray.size();i++){
+            JSONObject obj = produceRepaymentsJsonarray.getJSONObject(i);
+            String id = obj.getString("id");
+            String name = obj.getString("name");
+            repaymentObject.put(id,name);
+        }
+        modelAndView.addObject("repayments",repaymentObject);
+
+
+
+
+
         return modelAndView;
     }
 

@@ -272,7 +272,7 @@ public class AcceptedController {
                 "(SELECT  e.`name`  from `employee` e WHERE  `code`  = a .`director`  ) as director_name,\n" +
                 "`houqi`,`state`, a .`end_date` , a .`loan_money` ,a.`service_agreement`,a .`id`,a .`beizhu`,a .`agreement_number`,a .`process` \n" +
                 "FROM `accepted` a    ";
-        String sql_post = " ORDER BY a.`id` DESC";
+        String sql_post = " ORDER BY a.`accepted_number` DESC";
         String sql_where = " where ";
         if (!Strings.isNullOrEmpty(clerk_name)) {
             sql_where = sql_where + " clerk_name like '%" + clerk_name + "%' &&";
