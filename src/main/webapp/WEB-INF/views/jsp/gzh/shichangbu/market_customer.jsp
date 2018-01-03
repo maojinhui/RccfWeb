@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.rccf.model.customer.RCustomerSubmitLog" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2018/1/3 0003
@@ -6,6 +6,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    RCustomerSubmitLog log = (RCustomerSubmitLog) request.getAttribute("log");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,17 +55,17 @@
         <table class="a-table">
             <tr>
                 <td>客户姓名</td>
-                <td><%=customer.name%>
+                <td><%=log.getCustomerName()%>
                 </td>
             </tr>
             <tr>
                 <td>客户电话</td>
-                <td><%=customer.phone%>
+                <td><%=log.getCustomerPhone()%>
                 </td>
             </tr>
             <tr>
                 <td>申请金额</td>
-                <td><%=customer.loan_money%>
+                <td><%=log.getCustomerLoanAmount()%>
                 </td>
             </tr>
             <tr>
