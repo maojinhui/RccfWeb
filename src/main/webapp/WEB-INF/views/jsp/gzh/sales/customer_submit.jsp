@@ -69,9 +69,6 @@
             margin-left: 1.8rem;
         }
 
-        .table-input-3 {
-            width:;
-        }
 
     </style>
 </head>

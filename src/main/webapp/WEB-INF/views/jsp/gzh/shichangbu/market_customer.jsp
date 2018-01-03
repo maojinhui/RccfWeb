@@ -47,6 +47,39 @@
             color: #0f9ae0;
 
         }
+
+        .popup_1 {
+            padding-top: 2rem;
+            min-height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto !important;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+
+        }
+
+        .popup_1 img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            /*width: 9.2rem;*/
+            height: 11rem;
+        }
+
+        .popup_1 a {
+            display: inline-block;
+            width: 6.67rem;
+            padding-top: 0.2rem;
+            text-align: center;
+            font-size: 0.4369rem;
+            box-sizing: border-box;
+            margin-left: 1.8rem;
+        }
     </style>
 </head>
 <body>
@@ -130,7 +163,7 @@
 
 
         <div class="col-33">
-            <img onclick="uploadImg(this)" src="http://192.168.1.24:8080<%=customers%>">
+            <img onclick="viewImg(this)" src="http://192.168.1.24:8080<%=customers%>">
         </div>
 
 
@@ -145,11 +178,25 @@
     <button class="a-btn btn1">无方案</button>
     <button class="a-btn btn2">生成贷款方案</button>
 </div>
-
+<div class="popup_1 hide" style="z-index: 999">
+    <img id="popupimg" data-file-id class=" " src="">
+</div>
 <script src="/work/js/self_adaption.js"></script>
 <script src="/work/js/jquery.js"></script>
 <script>
+    function viewImg(obj) {
+//        $('.popup img').dataset.fileId= $(obj).dataset.fileId;
+        var fId = obj.dataset.fileId;
+        var el = document.getElementById('popupimg');
+        el.dataset.fileId = fId;
+        $('.popup_1').removeClass('hide');
+        var src = obj.src;
+        $('.popup_1 img').attr('src', src);
+    }
 
+    $('.popup_1 img').click(function () {
+        $('.popup_1').addClass('hide');
+    });
 </script>
 </body>
 </html>
