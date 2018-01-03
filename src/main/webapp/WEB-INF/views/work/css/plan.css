@@ -1,0 +1,85 @@
+.loan-plan {
+    background-color: #fff;
+    font-size: 0.5rem;
+    color: #23527c;
+    margin-top: 0.4rem;
+
+    padding: 0.4rem 0.266rem;
+}
+
+.loan-plan a {
+    float: right;
+    color: #3bb4f2;
+    font-size: 0.4rem;
+}
+
+.loan-plan i {
+    color: #00e359;
+    margin-right: 0.2rem;
+}
+
+.popup {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.popup .container {
+    position: relative;
+    background-color: #fff;
+    color: #333;
+    width: auto;
+
+    margin-top: 3rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    padding: 0.4rem;
+    border-radius: 0.1222rem;
+}
+
+.plan-add {
+    font-size: 0.5rem;
+    text-align: center;
+
+    padding-bottom: 0.26rem;
+    border-bottom: 1px solid #eee;
+}
+
+.plan-add i {
+    color: #f18989;
+    font-size: 0.5rem;
+    float: right;
+}
+
+.a-table {
+    border: 1px solid #eee;
+}
+
+.a-table td {
+    border: 0.013rem solid #eee;
+    padding-top: 0.15rem;
+    padding-bottom: 0.15rem;
+}
+
+.a-table input,
+.a-table select {
+    border: none;
+    font-size: 0.5rem;
+}
+
+.a-btn {
+    display: inline-block;
+    width: 8.3rem;
+    height: 0.9333rem;
+    font-size: 0.4267rem;
+    background-color: #dc982d;
+    color: #fff;
+
+    margin-top: 0.6rem;
+    border: none;
+    border-radius: 0.15rem;
+}
