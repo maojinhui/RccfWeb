@@ -125,6 +125,12 @@ public class AcceptSepicalController {
         String agreement_number = request.getParameter("agreement_number");
         String customer_idcard = request.getParameter("customer_idcard");
 
+        String dupty_name = request.getParameter("dupty_name");
+        String director_name = request.getParameter("director_name");
+        String accept_number = request.getParameter("accept_number");
+
+
+
         Accepted accepted = null;
         if (!Strings.isNullOrEmpty(id)) {
             int _id = Integer.valueOf(id);
@@ -133,8 +139,16 @@ public class AcceptSepicalController {
         } else {
             accepted = new Accepted();
             accepted.setCreateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
-            accepted.setAcceptedNumber(getLastNumber());
+//            accepted.setAcceptedNumber();
         }
+        if(Strings.isNullOrEmpty(accept_number)){
+            return ResponseUtil.fail(0,"受理单号不能为空");
+        }else{
+            accepted.setAcceptedNumber(accept_number);
+        }
+
+
+
         if (!Strings.isNullOrEmpty(accept_time)) {
             Date date = DateUtil.string2Date(accept_time);
             accepted.setAcceptTime(DateUtil.date2Timestamp(date));
@@ -147,20 +161,34 @@ public class AcceptSepicalController {
             accepted.setClerkName(clerk_name);
             Employee employee = employeeService.findEmpolyeeByName(clerk_name);
             if (employee != null) {
+
                 accepted.setClerk(employee.getCode());
-                accepted.setDeputyDirector(employee.getDuptyDirector());
-                accepted.setDirector(employee.getDirector());
+//                accepted.setDeputyDirector(employee.getDuptyDirector());
+//                accepted.setDirector(employee.getDirector());
             } else {
                 accepted.setClerk(null);
-                accepted.setDeputyDirector(null);
-                accepted.setDirector(null);
+//                accepted.setDeputyDirector(null);
+//                accepted.setDirector(null);
+            }
+        }
+
+        if(!Strings.isNullOrEmpty(dupty_name)){
+            Employee employee = employeeService.findEmpolyeeByName(dupty_name);
+            if(employee!=null){
+                accepted.setDeputyDirector(employee.getCode());
+            }
+        }
+
+        if(!Strings.isNullOrEmpty(director_name)){
+            Employee employee = employeeService.findEmpolyeeByName(director_name);
+            if(employee!=null){
+                accepted.setDirector(employee.getCode());
             }
         }
 
         if (!Strings.isNullOrEmpty(custom_name)) {
             accepted.setCustomerName(custom_name);
         }
-
         if (!Strings.isNullOrEmpty(custom_phone)) {
             accepted.setCustomerPhone(custom_phone);
         }

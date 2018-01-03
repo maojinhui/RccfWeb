@@ -115,5 +115,18 @@ public class GZHShichangController {
     }
 
 
+    @RequestMapping(value = "/page/program")
+    public ModelAndView programPage(HttpServletRequest request ){
+
+        String customer_id = request.getParameter("customer_id");
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/gzh/shichangbu/market_loan_plan");
+        return modelAndView;
+    }
+
+
+
+
 
 }

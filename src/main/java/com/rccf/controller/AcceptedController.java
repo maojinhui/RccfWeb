@@ -515,6 +515,8 @@ public class AcceptedController {
         String start_time = request.getParameter("start");
         String end_time = request.getParameter("end");
         String state = request.getParameter("state");
+        String name = request.getParameter("name");
+
         String sql = "";
         String pre = "SELECT  *,\n" +
                 "(SELECT name from `employee`  WHERE code = `accepted`.`deputy_director` ) as fu ,\n" +
@@ -522,7 +524,8 @@ public class AcceptedController {
                 "FROM `accepted` \n";
         String where = "where  ";
         String post = " ORDER BY `accept_time` desc\n";
-        if (Strings.isNullOrEmpty(start_time) && Strings.isNullOrEmpty(end_time) && Strings.isNullOrEmpty(state)) {
+        if (Strings.isNullOrEmpty(start_time) && Strings.isNullOrEmpty(end_time) && Strings.isNullOrEmpty(state)
+                ) {
             sql = pre + post;
         } else {
             if (!Strings.isNullOrEmpty(state)) {
@@ -539,23 +542,29 @@ public class AcceptedController {
                 } else {
                     time = "create_time";
                 }
-
                 if (!Strings.isNullOrEmpty(start_time)) {
                     where += time + " >= '" + start_time + "'  && ";
                 }
-
                 if (!Strings.isNullOrEmpty(end_time)) {
                     where += time + " <= '" + end_time + "'  && ";
                 }
+            }else{
+
 
             }
+
+
 //            where+=" create_time is not null ";
 
-            where = where.substring(0, where.length() - 3);
-
-
+            where = where.substring(0, where.length()-3 );
             sql = pre + where + post;
         }
+
+
+        if(!Strings.isNullOrEmpty(name)){
+            sql = "select * from ("+sql+") as a  where a.fu like '%"+name+"%' or zong like '%"+name+"%' or clerk_name like '%"+name+"%'";
+        }
+
         List list = baseService.queryBySql(sql);
         if (!Strings.isNullOrEmpty(callback)) {
             return ResponseUtil.success_jsonp(callback, list);

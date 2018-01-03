@@ -66,9 +66,7 @@
 <body>
 <div class="am-padding">
     <p>
-        <a href="">受理单管理</a>
-        >
-        <a style="color: #666666">受理单编辑</a>
+        <a href="/accept/sepical/insert_edit" target="_blank">特殊受理单处理</a>
     </p>
 </div>
 

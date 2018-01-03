@@ -178,8 +178,8 @@
 </div>
 
 <div class="" style="display: flex;">
-    <button class="a-btn btn1">无方案</button>
-    <button class="a-btn btn2">生成贷款方案</button>
+    <button id="notProgram" class="a-btn btn1">无方案</button>
+    <button id="generateProgram" class="a-btn btn2">生成贷款方案</button>
 </div>
 <div class="popup_1 hide" style="z-index: 999">
     <img id="popupimg" data-file-id class=" " src="">
@@ -200,6 +200,15 @@
     $('.popup_1 img').click(function () {
         $('.popup_1').addClass('hide');
     });
+
+    $('#generateProgram').click(function () {
+        window.location.href='/gzh/shichang/page/program?customer_id=<%=log.getCustomerId()%>';
+    });
+
+
+
+
+    
 </script>
 </body>
 </html>

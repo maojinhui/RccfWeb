@@ -163,11 +163,14 @@
         var start = $('#start').val();
         var end = $('#end').val();
         var state = $('#state').val();
+        var name = $('#name').val();
         obj.start = start;
         obj.end = end;
         if (state !== '0') {
             obj.state = state;
         }
+        obj.name = name;
+
         $.ajax({
             url: '/accept/list',
             data: obj,

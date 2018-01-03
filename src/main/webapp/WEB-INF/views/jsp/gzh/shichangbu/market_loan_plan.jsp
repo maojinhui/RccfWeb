@@ -1,33 +1,34 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>贷款方案</title>
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1">
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/basic.css">
-    <link rel="stylesheet" href="css/plan.css">
-    <link rel="stylesheet" href="css/font-awesome.css">
+    <link rel="stylesheet" href="/work/css/normalize.css">
+    <link rel="stylesheet" href="/work/css/basic.css">
+    <link rel="stylesheet" href="/work/css/plan.css">
+    <link rel="stylesheet" href="/work/css/font-awesome.css">
 </head>
 <body>
 <div id="content" class="container">
-    <div class="loan-plan">
-        <p>平安银行 — 新一贷</p>
-        <p>预贷金额：<span>30万</span></p>
-        <p>贷款利息：<span>2.4%</span></p>
-        <p>&emsp;备注&emsp;：<span>额度高，利息高</span></p>
+    <%--<div class="loan-plan">--%>
+        <%--<p>平安银行 — 新一贷</p>--%>
+        <%--<p>预贷金额：<span>30万</span></p>--%>
+        <%--<p>贷款利息：<span>2.4%</span></p>--%>
+        <%--<p>&emsp;备注&emsp;：<span>额度高，利息高</span></p>--%>
 
-        <a>删除</a>
-    </div>
+        <%--<a>删除</a>--%>
+    <%--</div>--%>
 
-    <div class="loan-plan">
-        <p>平安银行 — 新一贷</p>
-        <p>预贷金额：<span>30万</span></p>
-        <p>贷款利息：<span>2.4%</span></p>
-        <p>&emsp;备注&emsp;：<span>额度高，利息高</span></p>
+    <%--<div class="loan-plan">--%>
+        <%--<p>平安银行 — 新一贷</p>--%>
+        <%--<p>预贷金额：<span>30万</span></p>--%>
+        <%--<p>贷款利息：<span>2.4%</span></p>--%>
+        <%--<p>&emsp;备注&emsp;：<span>额度高，利息高</span></p>--%>
 
-        <a>删除</a>
-    </div>
+        <%--<a>删除</a>--%>
+    <%--</div>--%>
 
     <p id="add_plan" class="loan-plan">
         <i class="fa fa-plus-circle"></i> 添加产品
@@ -69,9 +70,10 @@
     </div>
 </div>
 
+<script src="/work/js/self_adaption.js"></script>
+<script src="/work/js/jquery.js"></script>
 
-<script src="js/self_adaption.js"></script>
-<script src="js/jquery.js"></script>
+
 <script>
     $('#add_plan').click(function () {
         $('.popup').removeClass('hide');

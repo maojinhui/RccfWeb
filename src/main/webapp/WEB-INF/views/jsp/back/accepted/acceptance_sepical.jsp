@@ -95,8 +95,8 @@
 
     <div class="am-margin-bottom title">
         <span>受理单号</span>
-        <input type="text"
-               value="<%=Strings.getInputString(accepted.getCustomerName())%>"/>
+        <input  id="accept_number" type="text"
+               value="<%=Strings.getInputString(accepted.getAcceptedNumber())%>"/>
     </div>
     <!--客户信息-->
     <table class="am-table am-table-bordered am-text-nowrap am-table-compact">
@@ -151,23 +151,14 @@
         <tr>
             <td>总监</td>
             <td>
-                <input id="director" hidden value="<%=accepted.getId()!=0?accepted.getId():""%>"/>
-                <input id="" type="text" value="<%=Strings.getInputString(accepted.getClerkName())%>">
-                <input type="text" hidden name="" id="flerk_code"
-                       value="<%=Strings.getInputString(accepted.getClerk())%>"/>
-                <div class="autocompleter autocompleter-closed" id="autocompleter-1">
-                    <div class="autocompleter-hint"></div>
-                    <ul class="autocompleter-list"></ul>
-                </div>
+                <input id="director_name" type="text" value=""/>
+
             </td>
             <td>副总监</td>
             <td>
-                <input id="" type="text"
-                       value="<%=Strings.getInputString(accepted.getHouqi())%>"/>
-                <div class="autocompleter autocompleter-closed" id="autocompleter-3">
-                    <div class="autocompleter-hint"></div>
-                    <ul class="autocompleter-list"></ul>
-                </div>
+                <input id="dupty_name" type="text"
+                       value=""/>
+
             </td>
             <%--<td>总&emsp;&emsp;监</td>--%>
             <%--<td><input type="text"></td>--%>
@@ -564,8 +555,20 @@
                 var beizhu = $('#beizhu').val();
                 var state = $('#handle_status').val();
                 var houqi = $('#houqi').val();
+
+
+                var dupty_name = $('#dupty_name').val();
+                var director_name = $('#director_name').val();
+                var accept_number = $('#accept_number').val();
+
+                var confirmMsg = confirm("受理单号录入后不可更改。单号为："+accept_number+",确认无误。");
+
+                if(!confirmMsg){
+                    return ;
+                }
+
                 $.ajax({
-                    url: '/accept/info/save',
+                    url: '/accept/sepical/info/save',
                     type: 'POST',
                     dataType: 'json',
                     data: {
@@ -590,7 +593,10 @@
                         'agreement_number': agreement_number,
                         'beizhu': beizhu,
                         'state': state,
-                        'houqi': houqi
+                        'houqi': houqi,
+                        'dupty_name':dupty_name,
+                        'director_name':director_name,
+                        'accept_number':accept_number
                     },
                     success: function (result) {
                         if (result.code) {
