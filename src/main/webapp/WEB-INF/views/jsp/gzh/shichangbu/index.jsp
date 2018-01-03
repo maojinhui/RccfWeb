@@ -51,7 +51,7 @@
                     for (int i = 0 ; i< count ;i++){
                         CustomerSubmit log = logs.get(i);
             %>
-            <li class="notice">
+            <li onclick="toDetail(<%=log.getId()%>)" class="notice">
                 <%--<%=log.getSubmit_saleman_name()%>提交--%>
             <span>客户<%=log.getCustomer_name()%>贷款方案待匹配</span>
             <label><%=log.getMonth_day()%></label>
@@ -113,6 +113,13 @@
 <script src="/work/js/self_adaption.js"></script>
 <script src="/work/js/jquery.js"></script>
 <script>
+
+
+    function toDetail(log_id){
+        window.location.href='/gzh/shichang/customer/info?log_id='+log_id;
+    }
+
+
     $('[data-nav-bar]').click(function () {
         var barNum = this.dataset.navBar;
         console.log(barNum);

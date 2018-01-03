@@ -2,11 +2,14 @@ package com.rccf.controller.gzh;
 
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.Employee;
+import com.rccf.model.RCustomer;
 import com.rccf.model.customer.CustomerSubmit;
 import com.rccf.model.customer.RCustomerSubmitLog;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.util.BackUtil;
+import com.rccf.util.ResponseUtil;
+import com.rccf.util.Strings;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,17 +60,20 @@ public class GZHShichangController {
     }
 
 
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "/customer/info")
     public ModelAndView customerIndex(HttpServletRequest request){
         Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+        String log_id = request.getParameter("log_id");
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/shichangbu/market_customer");
         int employeeID= employee.getId();
+        if(Strings.isNullOrEmpty(log_id)){
+            return ResponseUtil.pageFail("参数错误");
+        }
 
-
-
-
-
+        RCustomerSubmitLog log = (RCustomerSubmitLog) baseService.get(RCustomerSubmitLog.class,Integer.valueOf(log_id));
+        modelAndView.addObject("log",log);
         return modelAndView;
     }
 
