@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.rccf.model.accept.AcceptChannelInfo" table="accept_channel_info" schema="rccf">
+        <id name="id">
+            <column name="id" sql-type="int(11)"/>
+        </id>
+        <property name="acceptId">
+            <column name="accept_id" sql-type="int(11)" not-null="true"/>
+        </property>
+        <property name="agencyName">
+            <column name="agency_name" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="productName">
+            <column name="product_name" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="contactName">
+            <column name="contact_name" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="contactPhone">
+            <column name="contact_phone" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="loanAmount">
+            <column name="loan_amount" sql-type="decimal(8,2)" precision="8" scale="2" not-null="true"/>
+        </property>
+        <property name="faceSign">
+            <column name="face_sign" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="content">
+            <column name="content" sql-type="text" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

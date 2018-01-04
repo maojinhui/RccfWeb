@@ -2,10 +2,7 @@ package com.rccf.model;
 
 import com.google.common.base.Objects;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
@@ -40,6 +37,7 @@ public class Accepted {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.AUTO)
     public int getId() {
         return id;
     }

@@ -6,6 +6,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.rccf.util.DateUtil" %>
 <%@ page import="com.rccf.model.AcceptIncomeExpenditure" %>
+<%@ page import="com.rccf.model.accept.AcceptChannelInfo" %>
 <%--
   Created by IntelliJ IDEA.
   User: Administrator
@@ -61,6 +62,11 @@
         .payment-info input {
             width: 5em;
         }
+
+        .channel-info input {
+            width: 5em;
+        }
+
     </style>
 </head>
 <body>
@@ -127,32 +133,6 @@
         </tr>
     </table>
 
-    <!--机构信息-->
-    <table class="am-table am-table-bordered am-text-nowrap am-table-compact am-text-center">
-        <tr>
-            <th colspan="7">机构信息</th>
-        </tr>
-        <tr>
-            <th>机构名称</th>
-            <th>产品名称</th>
-            <th>联系人</th>
-            <th>金额</th>
-            <th>面签人</th>
-            <th>备注</th>
-            <th>操作</th>
-        </tr>
-        <tbody>
-
-        </tbody>
-
-        <tr>
-            <td colspan="7">
-                <button onclick="addOrg(this)" class="am-btn am-btn-secondary">添加机构信息</button>
-            </td>
-        </tr>
-
-    </table>
-
     <!--贷款信息-->
     <table class="loan-info am-table am-table-bordered am-text-nowrap am-table-compact">
         <tr>
@@ -168,15 +148,11 @@
                     <ul class="autocompleter-list"></ul>
                 </div>
             </td>
-            <%--<td>机构名称</td>--%>
-            <%--<td>--%>
-            <%--<input id="agency" type="text"--%>
-            <%--value="<%=Strings.getInputString(accepted.getAgency())%>"/>--%>
-            <%--</td>--%>
-
-            <td></td>
-            <td></td>
-
+            <td>机构名称</td>
+            <td>
+            <input id="agency" type="text"
+            value="<%=Strings.getInputString(accepted.getAgency())%>"/>
+            </td>
             <td>业务类别</td>
             <td>
                 <select id="business_type"
@@ -310,6 +286,54 @@
             </td>
         </tr>
     </table>
+
+    <!--机构信息-->
+    <table class="am-table am-table-bordered am-text-nowrap am-table-compact am-text-center channel-info">
+        <tr>
+            <th colspan="7">机构信息</th>
+        </tr>
+        <tr>
+            <th>机构名称</th>
+            <th>产品名称</th>
+            <th>联系人</th>
+            <th>金额(万)</th>
+            <th>面签人</th>
+            <th>备注</th>
+            <th>操作</th>
+        </tr>
+        <tbody id="organize">
+            <%
+            List<AcceptChannelInfo> channelInfos = (List<AcceptChannelInfo>) request.getAttribute("channelInfos");
+            if(channelInfos!=null){
+                for (int i = 0 ; i<channelInfos.size();i++){
+                    AcceptChannelInfo channelInfo = channelInfos.get(i);
+            %>
+            <tr data-org-id="">
+                <td><input type="text" placeholder="机构名称" value="<%=Strings.getInputString(channelInfo.getAgencyName())%>"></td>
+                <td><input type="text" placeholder="产品名称" value="<%=Strings.getInputString(channelInfo.getProductName())%>"></td>
+                <td><input type="text" placeholder="联系人" value="<%=Strings.getInputString(channelInfo.getContactName())%>"></td>
+                <td><input type="number" placeholder="金额(万)" value="<%=Strings.getInputString(channelInfo.getLoanAmount())%>"></td>
+                <td><input type="text" placeholder="面签人" value="<%=Strings.getInputString(channelInfo.getFaceSign())%>"></td>
+                <td><input type="text" placeholder="备注" value="<%=Strings.getInputString(channelInfo.getContent())%>"></td>
+                <td>
+                    <a onclick="cancelOrg(this)" class="am-btn am-btn-danger am-btn-xs"><span class="am-icon-trash-o"></span> 取消
+                    </a>
+                </td>
+            </tr>
+            <%
+                    }
+            }
+            %>
+        </tbody>
+
+        <tr>
+            <td colspan="7">
+                <button onclick="addOrg(this)" class="am-btn am-btn-secondary">添加机构信息</button>
+            </td>
+        </tr>
+
+    </table>
+
 
     <% if (accepted.getId() > 0) { %>
     <!--收支信息-->
@@ -545,6 +569,8 @@
                 var beizhu = $('#beizhu').val();
                 var state = $('#handle_status').val();
                 var houqi = $('#houqi').val();
+                var channelJson = getOrg();
+
                 $.ajax({
                     url: '/accept/info/save',
                     type: 'POST',
@@ -571,7 +597,8 @@
                         'agreement_number': agreement_number,
                         'beizhu': beizhu,
                         'state': state,
-                        'houqi': houqi
+                        'houqi': houqi,
+                        'channelJson':channelJson
                     },
                     success: function (result) {
                         if (result.code) {
@@ -632,8 +659,7 @@
                 '    </tr>';
             $("#content").append(str);
 
-        }
-    );
+        });
     $("#pay_add").click(function () {
         var str = '';
         str += '<tr data-earn-type="2" data-earn-id="">\n' +
@@ -1039,7 +1065,7 @@
             '      <td><input type="text" placeholder="机构名称"></td>\n' +
             '      <td><input type="text" placeholder="产品名称"></td>\n' +
             '      <td><input type="text" placeholder="联系人"></td>\n' +
-            '      <td><input type="text" placeholder="金额"></td>\n' +
+            '      <td><input type="number" placeholder="金额(万)"></td>\n' +
             '      <td><input type="text" placeholder="面签人"></td>\n' +
             '      <td><input type="text" placeholder="备注"></td>\n' +
             '      <td>\n' +
@@ -1058,31 +1084,45 @@
         var tbNode = document.getElementById('organize');
 
         var trNodes = $(tbNode).children('tr');
-        console.log(trNodes);
+//        console.log(trNodes);
 
         var jsonArr = [];
         for (var i = 0; i < trNodes.length; i++) {
             var ins = $(trNodes[i]).find('input');
-
-            console.log(ins);
-
             var jsonObj = {};
-
-            jsonObj.org_name = $(ins[0]).val();
+            jsonObj.agengcy_name = $(ins[0]).val();
             jsonObj.product_name = $(ins[1]).val();
-            jsonObj.org_connection = $(ins[2]).val();
-            jsonObj.amount = $(ins[3]).val();
-            jsonObj.person = $(ins[4]).val();
-            jsonObj.other_info = $(ins[5]).val();
-
-            console.log(jsonObj);
+            jsonObj.contact_name = $(ins[2]).val();
+            jsonObj.loan_amount = $(ins[3]).val();
+            jsonObj.face_sign = $(ins[4]).val();
+            jsonObj.content = $(ins[5]).val();
+//            console.log(jsonObj);
             jsonArr.push(jsonObj);
         }
 
-        console.log(JSON.stringify(jsonArr));
+        return JSON.stringify(jsonArr);
+//        console.log(JSON.stringify(jsonArr));
 
 
     }
+
+    $('#handle_status').change(function () {
+        var value = $(this).val();
+        if(value ==2){
+            $('.channel-info').removeClass('am-hide');
+        }else{
+            $('.channel-info').addClass('am-hide');
+        }
+    });
+
+    (function () {
+       var value =  $('#handle_status').val();
+        if(value ==2){
+            $('.channel-info').removeClass('am-hide');
+        }else{
+            $('.channel-info').addClass('am-hide');
+        }
+    }());
 
 </script>
 </body>
