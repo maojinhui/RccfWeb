@@ -89,7 +89,8 @@
                        value="<%=Strings.getInputString(accepted.getCustomerPhone())%>"/>
             </td>
             <td>身份证号</td>
-            <td><input id="customer_idcard" type="text" value="<%=Strings.getInputString(accepted.getCustomerIdcard())%>"></td>
+            <td><input id="customer_idcard" type="text"
+                       value="<%=Strings.getInputString(accepted.getCustomerIdcard())%>"></td>
         </tr>
     </table>
 
@@ -126,6 +127,32 @@
         </tr>
     </table>
 
+    <!--机构信息-->
+    <table class="am-table am-table-bordered am-text-nowrap am-table-compact am-text-center">
+        <tr>
+            <th colspan="7">机构信息</th>
+        </tr>
+        <tr>
+            <th>机构名称</th>
+            <th>产品名称</th>
+            <th>联系人</th>
+            <th>金额</th>
+            <th>面签人</th>
+            <th>备注</th>
+            <th>操作</th>
+        </tr>
+        <tbody>
+
+        </tbody>
+
+        <tr>
+            <td colspan="7">
+                <button onclick="addOrg(this)" class="am-btn am-btn-secondary">添加机构信息</button>
+            </td>
+        </tr>
+
+    </table>
+
     <!--贷款信息-->
     <table class="loan-info am-table am-table-bordered am-text-nowrap am-table-compact">
         <tr>
@@ -143,8 +170,8 @@
             </td>
             <%--<td>机构名称</td>--%>
             <%--<td>--%>
-                <%--<input id="agency" type="text"--%>
-                       <%--value="<%=Strings.getInputString(accepted.getAgency())%>"/>--%>
+            <%--<input id="agency" type="text"--%>
+            <%--value="<%=Strings.getInputString(accepted.getAgency())%>"/>--%>
             <%--</td>--%>
 
             <td></td>
@@ -284,7 +311,7 @@
         </tr>
     </table>
 
-    <% if(accepted.getId()>0){ %>
+    <% if (accepted.getId() > 0) { %>
     <!--收支信息-->
     <table class="payment-info am-table am-table-bordered am-text-nowrap am-table-compact am-text-center">
         <tr>
@@ -301,39 +328,52 @@
         <tbody id="content">
         <%
             List<AcceptIncomeExpenditure> incomelist = (List<AcceptIncomeExpenditure>) request.getAttribute("incomelist");
-            if(incomelist!=null){
-                for (int i =0 ; i<incomelist.size();i++){
+            if (incomelist != null) {
+                for (int i = 0; i < incomelist.size(); i++) {
                     AcceptIncomeExpenditure acceptIncomeExpenditure = incomelist.get(i);
-            %>
+        %>
 
         <tr data-earn-type="<%=acceptIncomeExpenditure.getType()%>" data-earn-id="<%=acceptIncomeExpenditure.getId()%>">
-            <td><input type="text" placeholder="项目名称" value="<%=acceptIncomeExpenditure.getSubject()%>"  disabled="disabled"></td>
+            <td><input type="text" placeholder="项目名称" value="<%=acceptIncomeExpenditure.getSubject()%>"
+                       disabled="disabled"></td>
 
             <%
-                if(acceptIncomeExpenditure.getType()!=null && acceptIncomeExpenditure.getType()==1){
+                if (acceptIncomeExpenditure.getType() != null && acceptIncomeExpenditure.getType() == 1) {
 
-             %>
-            <td><input type="number" placeholder="收入金额" value="<%=acceptIncomeExpenditure.getAmount()%>"  disabled="disabled"></td>
+            %>
+            <td><input type="number" placeholder="收入金额" value="<%=acceptIncomeExpenditure.getAmount()%>"
+                       disabled="disabled"></td>
             <td>-</td>
-            <td><input type="datetime-local" placeholder="时间" style="width: 13em;"  disabled="disabled" value="<%=acceptIncomeExpenditure.getDealTime()!=null?DateUtil.dateTime2String(DateUtil.timestamp2Date(acceptIncomeExpenditure.getDealTime())):""%>"></td>
-            <td><input type="text" placeholder="说明信息" value="<%=acceptIncomeExpenditure.getDescription()%>" disabled="disabled"></td>
+            <td><input type="datetime-local" placeholder="时间" style="width: 13em;" disabled="disabled"
+                       value="<%=acceptIncomeExpenditure.getDealTime()!=null?DateUtil.dateTime2String(DateUtil.timestamp2Date(acceptIncomeExpenditure.getDealTime())):""%>">
+            </td>
+            <td><input type="text" placeholder="说明信息" value="<%=acceptIncomeExpenditure.getDescription()%>"
+                       disabled="disabled"></td>
             <td>
-                <a onclick="editEarn(this)" class="am-btn am-btn-secondary am-btn-xs"><span class="am-icon-copy"></span> 编辑
+                <a onclick="editEarn(this)" class="am-btn am-btn-secondary am-btn-xs"><span class="am-icon-copy"></span>
+                    编辑
                 </a>
-                <a onclick="removeEarn(this)"  class="am-btn am-btn-default am-btn-xs"><span class="am-icon-trash-o"></span> 删除
+                <a onclick="removeEarn(this)" class="am-btn am-btn-default am-btn-xs"><span
+                        class="am-icon-trash-o"></span> 删除
                 </a>
             </td>
-               <%
-                }else {
-               %>
+            <%
+            } else {
+            %>
             <td>-</td>
-            <td><input type="number" placeholder="支出金额" value="<%=acceptIncomeExpenditure.getAmount()%>" disabled="disabled"></td>
-            <td><input type="datetime-local" placeholder="时间" style="width: 13em;"  disabled="disabled" value="<%=acceptIncomeExpenditure.getDealTime()!=null?DateUtil.dateTime2String(DateUtil.timestamp2Date(acceptIncomeExpenditure.getDealTime())):""%>"></td>
-            <td><input type="text" placeholder="说明信息" value="<%=acceptIncomeExpenditure.getDescription()%>" disabled="disabled"></td>
+            <td><input type="number" placeholder="支出金额" value="<%=acceptIncomeExpenditure.getAmount()%>"
+                       disabled="disabled"></td>
+            <td><input type="datetime-local" placeholder="时间" style="width: 13em;" disabled="disabled"
+                       value="<%=acceptIncomeExpenditure.getDealTime()!=null?DateUtil.dateTime2String(DateUtil.timestamp2Date(acceptIncomeExpenditure.getDealTime())):""%>">
+            </td>
+            <td><input type="text" placeholder="说明信息" value="<%=acceptIncomeExpenditure.getDescription()%>"
+                       disabled="disabled"></td>
             <td>
-                <a onclick="editPay(this)" class="am-btn am-btn-secondary am-btn-xs"><span class="am-icon-copy"></span> 编辑
+                <a onclick="editPay(this)" class="am-btn am-btn-secondary am-btn-xs"><span class="am-icon-copy"></span>
+                    编辑
                 </a>
-                <a onclick="removePay(this)"  class="am-btn am-btn-default am-btn-xs"><span class="am-icon-trash-o"></span> 删除
+                <a onclick="removePay(this)" class="am-btn am-btn-default am-btn-xs"><span
+                        class="am-icon-trash-o"></span> 删除
                 </a>
             </td>
             <%
@@ -342,8 +382,8 @@
 
 
         </tr>
-       <%
-               }
+        <%
+                }
             }
 
         %>
@@ -376,7 +416,7 @@
 <script src="/js/comm.js"></script>
 <script>
 
-    var accept_id='<%=accepted.getId()%>';
+    var accept_id = '<%=accepted.getId()%>';
 
     var employees =<%=JSON.toJSONString(employees).replaceAll("name","label") %>;
 
@@ -518,7 +558,7 @@
                         'latter_number': latter_number,
                         'custom_name': custom_name,
                         'custom_phone': custom_phone,
-                        'customer_idcard':customer_idcard,
+                        'customer_idcard': customer_idcard,
                         'business_type': business_type,
                         'agency': agency,
                         'business_nature': business_nature,
@@ -537,15 +577,13 @@
                         if (result.code) {
                             alert("添加成功");
                             window.location.reload();
-                        }else{
+                        } else {
                             alert(result.errormsg);
                         }
                     }
 
                 });
             });
-
-
 
 
         });
@@ -570,7 +608,7 @@
         var second = date.getSeconds();
         minute = minute < 10 ? ('0' + minute) : minute;
         second = second < 10 ? ('0' + second) : second;
-        return y + '-' + m + '-' + d + 'T' + h + ':' +minute ;
+        return y + '-' + m + '-' + d + 'T' + h + ':' + minute;
     };
 
 
@@ -618,9 +656,9 @@
 
     function updateEarn(obj) {
 
-        if(accept_id==0){
+        if (accept_id == 0) {
             alert("请先提交受理单，再添加收支明细");
-            return ;
+            return;
         }
 
 
@@ -645,7 +683,7 @@
         jsonObj.subject = $(input1).val();
         jsonObj.amount = $(input2).val();
         jsonObj.deal_time = $(input3).val();
-        if(isNull(jsonObj.deal_time)){
+        if (isNull(jsonObj.deal_time)) {
             $(input3).val('');
         }
         jsonObj.description = $(input4).val();
@@ -682,9 +720,9 @@
         });
     }
     function updatePay(obj) {
-        if(accept_id==0){
+        if (accept_id == 0) {
             alert("请先提交受理单，再添加收支明细");
-            return ;
+            return;
         }
 
 
@@ -709,7 +747,7 @@
         jsonObj.subject = $(input1).val();
         jsonObj.amount = $(input2).val();
         jsonObj.deal_time = $(input3).val();
-        if(isNull(jsonObj.deal_time)){
+        if (isNull(jsonObj.deal_time)) {
             $(input3).val('');
         }
         jsonObj.description = $(input4).val();
@@ -830,17 +868,17 @@
         var type = trNode.dataset.earnType;
         var id = trNode.dataset.earnId;
 
-        if(id === "") {
+        if (id === "") {
             var tBodyNode = trNode.parentNode;
             tBodyNode.removeChild(trNode);
-        }else {
+        } else {
             $.ajax({
-                url:'/accept/getIncomeExpenditureInfo',
-                data:{"id":id},
-                dataType:"json",
-                success:function (result) {
-                    if(result.code){
-                        var info =JSON.parse(result.data) ;
+                url: '/accept/getIncomeExpenditureInfo',
+                data: {"id": id},
+                dataType: "json",
+                success: function (result) {
+                    if (result.code) {
+                        var info = JSON.parse(result.data);
                         var subject = info.subject;
                         var amount = info.amount;
                         var dealTime = info.dealTime;
@@ -864,12 +902,12 @@
                             '   class="am-icon-trash-o"></span> 删除' +
                             '   </a>';
                         $(tdNode).html(str);
-                    }else{
+                    } else {
                         alert(result.errorMsg);
                     }
                 },
-                error:function () {
-                    
+                error: function () {
+
                 }
             })
         }
@@ -892,17 +930,17 @@
         var type = trNode.dataset.earnType;
         var id = trNode.dataset.earnId;
 
-        if(id === "") {
+        if (id === "") {
             var tBodyNode = trNode.parentNode;
             tBodyNode.removeChild(trNode);
-        }else {
+        } else {
             $.ajax({
-                url:'/accept/getIncomeExpenditureInfo',
-                data:{"id":id},
-                dataType:"json",
-                success:function (result) {
-                    if(result.code){
-                        var info =JSON.parse(result.data) ;
+                url: '/accept/getIncomeExpenditureInfo',
+                data: {"id": id},
+                dataType: "json",
+                success: function (result) {
+                    if (result.code) {
+                        var info = JSON.parse(result.data);
                         var subject = info.subject;
                         var amount = info.amount;
                         var dealTime = info.dealTime;
@@ -925,11 +963,11 @@
                             '   class="am-icon-trash-o"></span> 删除' +
                             '   </a>';
                         $(tdNode).html(str);
-                    }else{
+                    } else {
                         alert(result.errorMsg);
                     }
                 },
-                error:function () {
+                error: function () {
 
                 }
             })
@@ -943,16 +981,16 @@
         var id = trNode.dataset.earnId;
 
         $.ajax({
-            url:'/accept/info/incomeexpenditure/delete',
-            data:{"id":id},
-            dataType:"json",
-            success:function () {
+            url: '/accept/info/incomeexpenditure/delete',
+            data: {"id": id},
+            dataType: "json",
+            success: function () {
                 var tBodyNode = trNode.parentNode;
                 tBodyNode.removeChild(trNode);
                 alert("移除成功！");
             },
-            error:function () {
-                
+            error: function () {
+
             }
         })
     }
@@ -962,19 +1000,90 @@
         var id = trNode.dataset.earnId;
 
         $.ajax({
-            url:'/accept/info/incomeexpenditure/delete',
-            data:{"id":id},
-            dataType:"json",
-            success:function () {
+            url: '/accept/info/incomeexpenditure/delete',
+            data: {"id": id},
+            dataType: "json",
+            success: function () {
                 var tBodyNode = trNode.parentNode;
                 tBodyNode.removeChild(trNode);
                 alert("移除成功！");
             },
-            error:function () {
+            error: function () {
 
             }
         })
     }
+
+
+    //  删除机构信息
+    function cancelOrg(obj) {
+        var tdNode = obj.parentNode;
+        var trNode = tdNode.parentNode;
+        var tbNode = trNode.parentNode;
+
+        tbNode.removeChild(trNode);
+    }
+
+    // 添加机构信息
+    function addOrg(obj) {
+        var tdNode = obj.parentNode;
+        var trNode = tdNode.parentNode;
+        var tbNode = trNode.parentNode;
+        var tabNode = tbNode.parentNode;
+        var tbChild = tabNode.childNodes[2];
+        console.log(tabNode);
+        console.log(tbChild);
+
+        var str = '';
+        str += '<tr data-org-id>\n' +
+            '      <td><input type="text" placeholder="机构名称"></td>\n' +
+            '      <td><input type="text" placeholder="产品名称"></td>\n' +
+            '      <td><input type="text" placeholder="联系人"></td>\n' +
+            '      <td><input type="text" placeholder="金额"></td>\n' +
+            '      <td><input type="text" placeholder="面签人"></td>\n' +
+            '      <td><input type="text" placeholder="备注"></td>\n' +
+            '      <td>\n' +
+            '        <a onclick="cancelOrg(this)" class="am-btn am-btn-danger am-btn-xs"><span\n' +
+            '                  class="am-icon-trash-o"></span> 取消\n' +
+            '         </a>\n' +
+            '      </td>\n' +
+            '    </tr>';
+
+        $(tbChild).append(str);
+
+
+    }
+
+    function getOrg() {
+        var tbNode = document.getElementById('organize');
+
+        var trNodes = $(tbNode).children('tr');
+        console.log(trNodes);
+
+        var jsonArr = [];
+        for (var i = 0; i < trNodes.length; i++) {
+            var ins = $(trNodes[i]).find('input');
+
+            console.log(ins);
+
+            var jsonObj = {};
+
+            jsonObj.org_name = $(ins[0]).val();
+            jsonObj.product_name = $(ins[1]).val();
+            jsonObj.org_connection = $(ins[2]).val();
+            jsonObj.amount = $(ins[3]).val();
+            jsonObj.person = $(ins[4]).val();
+            jsonObj.other_info = $(ins[5]).val();
+
+            console.log(jsonObj);
+            jsonArr.push(jsonObj);
+        }
+
+        console.log(JSON.stringify(jsonArr));
+
+
+    }
+
 </script>
 </body>
 </html>
