@@ -33,6 +33,11 @@
     </p>
 </div>
 
+<div class="a-btn-group" style="position: fixed;width: 100%;
+     bottom: 0;left: 0;background-color: #fff;text-align: center; padding-bottom: 1em;">
+    <button id="send_loanplan" class="a-btn">确认方案并回复</button>
+</div>
+
 <div class="popup hide">
     <div class="container">
         <p class="plan-add">
@@ -71,20 +76,25 @@
 <script src="/work/js/self_adaption.js"></script>
 <script src="/work/js/jquery.js"></script>
 
-
 <script>
+
     $('#add_plan').click(function () {
         $('.popup').removeClass('hide');
     });
+
     $('.fa-times-circle-o').click(function () {
         $('.popup').addClass('hide');
+
     });
 
+    function removeParent(obj) {
+        var pNode = obj.parentNode;
+        var pParentNode = pNode.parentNode;
+        pParentNode.removeChild(pNode);
+    }
 
     $('#submit').click(function () {
         var inps = $('.a-table input');
-        console.log(inps);
-
         var jsonObj = {};
         jsonObj.org_name = $(inps[0]).val();
         jsonObj.product_name = $(inps[1]).val();
@@ -93,46 +103,40 @@
         jsonObj.other_info = $(inps[4]).val();
         console.log(jsonObj);
 
-        $.ajax({
-            type: 'POST',
-            url: '',
-            data: jsonObj,
-            dataType: 'json',
-            success: function (result) {
-                if (result.code) {
-                    var info = result.data;
+        var str = '';
+        str += '<div class="loan-plan">\n' +
+            '    <p><span>'+jsonObj.org_name+'</span>-<span>'+jsonObj.product_name+'</span></p>\n' +
+            '    <p>预估额度：<span>'+jsonObj.loan_amount+'</span></p>\n' +
+            '    <p>利息信息：<span>'+jsonObj.loan_accrual+'</span></p>\n' +
+            '    <p>&emsp;备注&emsp;：<span>'+jsonObj.other_info+'</span></p>\n' +
+            '\n' +
+            '    <a onclick="removeParent(this)">删除</a>\n' +
+            '  </div>';
 
-                    var str = '';
-                    str += '<div class="loan-plan">\n' +
-                        '    <p>平安银行 — 新一贷</p>\n' +
-                        '    <p>预贷金额：<span>30万</span></p>\n' +
-                        '    <p>贷款利息：<span>2.4%</span></p>\n' +
-                        '    <p>&emsp;备注&emsp;：<span>额度高，利息高</span></p>\n' +
-                        '\n' +
-                        '    <a>删除</a>\n' +
-                        '  </div>';
-                    var str_add = '';
-                    str_add += '<p id="add_plan" class="loan-plan">\n' +
-                        '    <i class="fa fa-plus-circle"></i> 添加产品\n' +
-                        '  </p>';
+        $('#add_plan').before(str);
 
-                    var content = $('#content');
-                    content.remove(str_add);
-                    content.append(str);
-                    content.append(str_add);
-
-                    $('.popup').addClass('hide');
-
-                } else {
-                    alert('请求超时！请稍后重试');
-                }
-            },
-            error: function () {
-                alert('请求错误！');
-            }
-        })
+        $('.popup').addClass('hide');
+        $(inps[0]).val('');
+        $(inps[1]).val('');
+        $(inps[2]).val('');
+        $(inps[3]).val('');
+        $(inps[4]).val('');
 
     })
+
+    $('#send_loanplan').click(function () {
+
+    });
+
+    function getProducts(){
+             var dataArray = [];
+        $('#content').children('div').each(function () {
+
+
+
+        })
+    }
+
 
 
 </script>
