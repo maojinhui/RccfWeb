@@ -27,31 +27,33 @@
         <div class="row">
             <div data-nav-bar="1" class="col-5 nav-bar active">
                 通知
-                <% if(true){ %>
-                <sup>11</sup>
+                <% Integer notificationCount = (Integer) request.getAttribute("notificationCount");
+                    if (notificationCount != null) { %>
+                <sup><%=notificationCount%>
+                </sup>
                 <% }%>
             </div>
             <div data-nav-bar="2" class="col-5 nav-bar">已办事项</div>
         </div>
         <ul  data-nav="1"  class=" nav-block ">
             <%
-                List<CustomerSubmit> logs = (List<CustomerSubmit>) request.getAttribute("submitlogs");
-                if(logs!=null){
-                    int count = logs.size()>5?5:logs.size();
+                List<CustomerSubmit> programs = (List<CustomerSubmit>) request.getAttribute("programs");
+                if(programs!=null){
+                    int count = programs.size()>5?5:programs.size();
                     for (int i = 0 ; i< count ;i++){
-                        CustomerSubmit log = logs.get(i);
+                        CustomerSubmit program = programs.get(i);
             %>
-            <%--<li class="notice">--%>
-                <%--<span>客户<%=log.getCustomer_name()%>已提交至<%=log.getHouqi_name()%>进行产品匹配</span>--%>
-                <%--<label><%=log.getMonth_day()%></label>--%>
-                <%--<label><%=log.getHourminute()%></label>--%>
-            <%--</li>--%>
+            <li class="notice">
+                <span>客户<%=program.getCustomer_name()%>的贷款方案已由市场部<%=program.getHouqi_name()%>给出</span>
+                <label><%=program.getMonth_day()%></label>
+                <label><%=program.getHourminute()%></label>
+            </li>
             <%
                     }
                 }
             %>
 
-            <% if(logs !=null &&  logs.size()>5){ %>
+            <% if(programs !=null &&  programs.size()>5){ %>
             <li class="notice-all">查看全部 >></li>
             <% } %>
 
@@ -59,6 +61,7 @@
         <ul data-nav="2" class="nav-block hide">
 
             <%
+                List<CustomerSubmit> logs = (List<CustomerSubmit>) request.getAttribute("programs");
                 if(logs!=null){
                     int count = logs.size()>5?5:logs.size();
                     for (int i = 0 ; i< count ;i++){

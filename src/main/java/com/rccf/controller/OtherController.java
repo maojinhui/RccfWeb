@@ -104,11 +104,11 @@ public class OtherController {
                     zongjianemployee.setRole(2);
                     zongjianemployee.setCreateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
                     if (zongjianCode > 10) {
-                        zongjianemployee.setCode("s0" + zongjianemployee);
+                        zongjianemployee.setCode("z0" + zongjianemployee);
                     } else if (zongjianCode > 100) {
-                        zongjianemployee.setCode("s0" + i);
+                        zongjianemployee.setCode("z0" + i);
                     } else {
-                        zongjianemployee.setCode("s00" + i);
+                        zongjianemployee.setCode("z00" + i);
                     }
                     zongjianemployee.setLeader("1");
                     zongjianemployee.setName(zongjian);

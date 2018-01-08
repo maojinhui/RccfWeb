@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.rccf.model.accept.Accepted0105" table="accepted_0105" schema="rccf">
+        <id name="id">
+            <column name="id" sql-type="int(11)"/>
+        </id>
+        <property name="acceptTime">
+            <column name="accept_time" sql-type="datetime" not-null="true"/>
+        </property>
+        <property name="letterNumber">
+            <column name="letter_number" sql-type="varchar(100)" length="100" not-null="true"/>
+        </property>
+        <property name="acceptedNumber">
+            <column name="accepted_number" sql-type="varchar(100)" length="100" not-null="true"/>
+        </property>
+        <property name="customerName">
+            <column name="customer_name" sql-type="varchar(225)" length="225" not-null="true"/>
+        </property>
+        <property name="customerPhone">
+            <column name="customer_phone" sql-type="varchar(11)" length="11" not-null="true"/>
+        </property>
+        <property name="businessType">
+            <column name="business_type" sql-type="int(11)" not-null="true"/>
+        </property>
+        <property name="agency">
+            <column name="agency" sql-type="varchar(225)" length="225" not-null="true"/>
+        </property>
+        <property name="businessNature">
+            <column name="business_nature" sql-type="varchar(225)" length="225" not-null="true"/>
+        </property>
+        <property name="wantMoney">
+            <column name="want_money" sql-type="float" precision="-1" not-null="true"/>
+        </property>
+        <property name="serviceFee">
+            <column name="service_fee" sql-type="float" precision="-1" not-null="true"/>
+        </property>
+        <property name="serviceFeeActual">
+            <column name="service_fee_actual" sql-type="double" precision="-1" not-null="true"/>
+        </property>
+        <property name="endDate">
+            <column name="end_date" sql-type="datetime" not-null="true"/>
+        </property>
+        <property name="clerk">
+            <column name="clerk" sql-type="varchar(32)" length="32" not-null="true"/>
+        </property>
+        <property name="clerkName">
+            <column name="clerk_name" sql-type="varchar(225)" length="225" not-null="true"/>
+        </property>
+        <property name="state">
+            <column name="state" sql-type="int(11)" not-null="true"/>
+        </property>
+        <property name="loanMoney">
+            <column name="loan_money" sql-type="float" precision="-1" not-null="true"/>
+        </property>
+        <property name="serviceAgreement">
+            <column name="service_agreement" sql-type="int(11)" not-null="true"/>
+        </property>
+        <property name="beizhu">
+            <column name="beizhu" sql-type="text" not-null="true"/>
+        </property>
+        <property name="createTime">
+            <column name="create_time" sql-type="datetime" not-null="true"/>
+        </property>
+        <property name="admin">
+            <column name="admin" sql-type="varchar(32)" length="32" not-null="true"/>
+        </property>
+        <property name="houqi">
+            <column name="houqi" sql-type="varchar(32)" length="32" not-null="true"/>
+        </property>
+        <property name="deputyDirector">
+            <column name="deputy_director" sql-type="varchar(32)" length="32" not-null="true"/>
+        </property>
+        <property name="director">
+            <column name="director" sql-type="varchar(32)" length="32" not-null="true"/>
+        </property>
+        <property name="process">
+            <column name="process" sql-type="text" not-null="true"/>
+        </property>
+        <property name="agreementNumber">
+            <column name="agreement_number" sql-type="varchar(100)" length="100" not-null="true"/>
+        </property>
+        <property name="customerIdcard">
+            <column name="customer_idcard" sql-type="varchar(18)" length="18" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

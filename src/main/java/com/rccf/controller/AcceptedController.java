@@ -377,7 +377,7 @@ public class AcceptedController {
                 "(SELECT  e.`name`  from `employee` e WHERE  `code`  = a .`deputy_director` ) as deputy_name,\n" +
                 "(SELECT  e.`name`  from `employee` e WHERE  `code`  = a .`director`  ) as director_name,\n" +
                 "`houqi`,`state`, a .`end_date` , a .`loan_money` ,a.`service_agreement`,a .`id`,a .`beizhu` ,\n" +
-                " (SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  ',' ) m from accept_process ap  WHERE ap.accept_id=a.id   GROUP BY accept_id ) as pro \n" +
+                " (SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) order by update_time DESC SEPARATOR  ',' ) m from accept_process ap  WHERE ap.accept_id=a.id   GROUP BY accept_id ) as pro \n" +
                 "FROM `accepted` a    ";
         String sql_post = " ORDER BY a.`id` DESC";
         String sql_where = " where state = 1 &&";
@@ -746,7 +746,7 @@ public class AcceptedController {
                 "(SELECT name from `employee`  e2 WHERE  e2.`code` =a.`director`  ) as zname ,\n" +
                 "  a.business_type ,a.agency , a.want_money , a.service_fee , a.`houqi` ,\n" +
 //                "(SELECT  process  from  accept_process WHERE  accept_id = a.`id`   ORDER BY  update_time desc  LIMIT 1) as pro\n" +
-                "(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  ',' ) m from accept_process ap  WHERE ap.accept_id=a.id   GROUP BY accept_id ) as pro  \n" +
+                "(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) order by update_time DESC SEPARATOR  ',' ) m from accept_process ap  WHERE ap.accept_id=a.id   GROUP BY accept_id ) as pro  \n" +
                 "from `accepted`  a  \n" +
                 "WHERE   a.`state` = 1 ";
 
@@ -920,7 +920,7 @@ public class AcceptedController {
             if (!employee.getDepartment().contains("系统") && !employee.getPhone().equals("18655402678") ) {
                 return ResponseUtil.fail(0, "您还没有权限操作");
             }
-            String sql = "UPDATE `accepted` a set `process` =(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) SEPARATOR  '；' ) m from accept_process ap  WHERE ap.accept_id=a.id   GROUP BY accept_id)";
+            String sql = "UPDATE `accepted` a set `process` =(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) order by update_time DESC  SEPARATOR  '；' ) m from accept_process ap  WHERE ap.accept_id=a.id   GROUP BY accept_id)";
             boolean state = baseService.excuteSql(sql);
             if (state) {
                 return ResponseUtil.success();

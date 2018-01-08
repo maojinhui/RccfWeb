@@ -15,6 +15,7 @@
     RCustomerSubmitLog log = (RCustomerSubmitLog) request.getAttribute("log");
     JSONObject loanTypes = (JSONObject) request.getAttribute("loanTypes");
     JSONObject repayments = (JSONObject) request.getAttribute("repayments");
+    repayments.put("0","无此信息");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -202,7 +203,7 @@
     });
 
     $('#generateProgram').click(function () {
-        window.location.href='/gzh/shichang/page/program?customer_id=<%=log.getCustomerId()%>';
+        window.location.href='/gzh/shichang/page/program?customer_id=<%=log.getCustomerId()%>&log_id=<%=log.getId()%>';
     });
 
 

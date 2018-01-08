@@ -3,6 +3,7 @@ package com.rccf.util.response;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.rccf.service.BaseService;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class Page {
     public static String limit(BaseService baseService, String total, String info) {
         int count = baseService.getCount(total);
         List list = baseService.queryBySql(info);
-        String str = JSON.toJSONString(list);
+        String str = JSON.toJSONString(list,SerializerFeature.DisableCircularReferenceDetect);
         JSONArray array = JSON.parseArray(str);
         JSONObject object = new JSONObject();
         object.put("total", count);
@@ -49,7 +50,7 @@ public class Page {
     public static String limit(BaseService baseService, String total, String info, Class clazz) {
         int count = baseService.getCount(total);
         List list = baseService.queryBySqlFormatClass(clazz, info);
-        String str = JSON.toJSONString(list);
+        String str = JSON.toJSONString(list, SerializerFeature.DisableCircularReferenceDetect);
         JSONArray array = JSON.parseArray(str);
         JSONObject object = new JSONObject();
         object.put("total", count);

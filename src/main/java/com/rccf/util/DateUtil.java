@@ -132,6 +132,9 @@ public class DateUtil {
      * @return
      */
     public static Timestamp string2Timestamp(String tsStr) {
+        if(Strings.isNullOrEmpty(tsStr)){
+            return null;
+        }
         Timestamp ts = null;
         try {
             ts = Timestamp.valueOf(tsStr);

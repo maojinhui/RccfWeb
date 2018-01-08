@@ -9,7 +9,7 @@
 <%@ page import="com.rccf.constants.build.Application" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.rccf.model.customer.CustomerSubmit" %>
-<%@ page import="org.springframework.util.StringUtils" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/12/25
@@ -90,22 +90,23 @@
         <ul data-nav="2" class="nav-block hide">
 
             <%
-                if (logs != null) {
-                    int count = logs.size() > 5 ? 5 : logs.size();
+                List<CustomerSubmit> programs = (List<CustomerSubmit>) request.getAttribute("programs");
+                if (programs != null) {
+                    int count = programs.size() > 5 ? 5 : programs.size();
                     for (int i = 0; i < count; i++) {
-                        CustomerSubmit log = logs.get(i);
+                        CustomerSubmit program = programs.get(i);
             %>
-            <%--<li class="notice">--%>
-            <%--<span>客户<%=log.getCustomer_name()%>已提交至<%=log.getHouqi_name()%>进行产品匹配</span>--%>
-            <%--<label><%=log.getMonth_day()%></label>--%>
-            <%--<label><%=log.getHourminute()%></label>--%>
-            <%--</li>--%>
+            <li class="notice">
+            <span>已给出客户<%=program.getCustomer_name()%>-<%=program.getSubmit_saleman_name()%>的方案</span>
+            <label><%=program.getMonth_day()%></label>
+            <label><%=program.getHourminute()%></label>
+            </li>
             <%
                     }
                 }
             %>
 
-            <% if (logs != null && logs.size() > 5) { %>
+            <% if (programs != null && programs.size() > 5) { %>
             <li class="notice-all">查看全部 >></li>
             <% } %>
 
