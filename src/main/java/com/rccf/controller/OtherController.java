@@ -1,14 +1,12 @@
 package com.rccf.controller;
 
 import com.rccf.constants.UrlConstants;
-import com.rccf.model.Accepted;
-import com.rccf.model.Employee;
+import com.rccf.model.*;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
-import com.rccf.util.DateUtil;
-import com.rccf.util.ResponseUtil;
-import com.rccf.util.SpringContextUtil;
+import com.rccf.util.*;
 import com.rccf.util.file.ImportUtil;
+import com.rccf.util.verify.CustomerVerify;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.stereotype.Controller;
@@ -571,9 +569,123 @@ public class OtherController {
         System.out.println(i + 1);
 
 
+    }
 
 
+    @RequestMapping(value = "/page/submit/customer")
+    public ModelAndView customerSubmitPage(HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/other/customer_submit");
+        return modelAndView;
+    }
 
+    @RequestMapping(value = "/import/customer")
+    public ModelAndView importCustomer(HttpServletRequest request , @RequestPart(value = "upload") MultipartFile file){
+        String employeeId = request.getParameter("employeeID");
+        if(Strings.isNullOrEmpty(employeeId)){
+            Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+            employeeId = String.valueOf(employee.getId());
+        }
+
+        HibernateTransactionManager transactionManager = (HibernateTransactionManager) SpringContextUtil
+                .getBean("txManager");
+        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW); // 事物隔离级别，开启新事务，这样会比较安全些。
+        TransactionStatus status = transactionManager.getTransaction(def); // 获得事务状态
+        InputStream in = null;
+        List<List<Object>> listob = null;
+//        MultipartFile file = multipartRequest.getFile("upload");
+
+        if (file.isEmpty()) {
+//            throw new Exception("文件不存在！");
+            return new ModelAndView("/other/import_fail");
+        }
+
+        try {
+            in = file.getInputStream();
+            listob = new ImportUtil().getBankListByExcel(in, file.getOriginalFilename());
+            in.close();
+            for (int i = 0; i < listob.size(); i++) {
+
+                List<Object> lo = listob.get(i);
+                RCustomer customer = new RCustomer();
+                customer.setCreateTime(DateUtil.date2Timestamp(DateUtil.date2Timestamp(new Date(System.currentTimeMillis()))));
+                customer.setAdminTime(DateUtil.date2Timestamp(DateUtil.string2Date2((String) lo.get(0))));
+                String name = (String) lo.get(2);
+                customer.setName(name);
+                String phone = (String) lo.get(3);
+                customer.setPhone(phone.substring(0,phone.lastIndexOf(".")));
+                boolean has = CustomerVerify.hasCustomerByPhone(baseService,phone.substring(0,phone.lastIndexOf(".")));
+                if(has){
+                    continue;
+                }
+
+                String level = (String)lo.get(1);
+                if(Strings.isNullOrEmpty(level)){
+                    customer.setLevel(4);
+                }else if(level.equals("C") || level.equals("c")){
+                    customer.setLevel(3);
+                }else if (level.equals("B") || level.equals("b")){
+                    customer.setLevel(2);
+                }else if(level.equals("A") || level.equals("a")){
+                    customer.setLevel(1);
+                }else {
+                    customer.setLevel(4);
+                }
+                String loanType = lo.get(4).toString();
+                String processInfo1 = lo.get(5).toString();
+                String processInfo2 = lo.get(6).toString();
+
+
+                boolean save = baseService.save(customer);
+                if (save){
+                    RCustomerAssign assign = new RCustomerAssign();
+                    assign.setCustomerId(customer.getId());
+                    assign.setAdmin(31);
+                    assign.setAdminTime(DateUtil.date2Timestamp(new Date()));
+                    assign.setSalesman(31);
+                    assign.setDeputyDirector(9);
+                    assign.setDirector(2);
+                    baseService.save(assign);
+                    if(!Strings.isNullOrEmpty(loanType)){
+                        RCustomerLoaninfo loaninfo = new RCustomerLoaninfo();
+                        loaninfo.setCustomerId(customer.getId());
+                        if(loanType.equals("信贷")){
+                            loaninfo.setLoanType(0);
+                        }else if (loanType.equals("抵押")){
+                            loaninfo.setLoanType(1);
+                        }else if (loanType.equals("质押")){
+                            loaninfo.setLoanType(2);
+                        }
+                        baseService.save(loaninfo);
+                    }
+                    RCustomerProcess process1 = new RCustomerProcess();
+                    process1.setCustomerId(customer.getId());
+                    process1.setAdmin(31);
+                    process1.setState(0);
+                    process1.setProcess(processInfo1);
+                    process1.setUpdateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
+                    baseService.save(process1);
+
+                    RCustomerProcess process2 =  new RCustomerProcess();
+                    process2.setCustomerId(customer.getId());
+                    process2.setAdmin(31);
+                    process2.setState(0);
+                    process2.setProcess(processInfo2);
+                    process2.setUpdateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
+                    baseService.save(process2);
+
+                }
+            }
+            transactionManager.commit(status);
+            return new ModelAndView("/other/import_success");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            transactionManager.rollback(status);
+        }
+
+        return new ModelAndView();
     }
 
 
