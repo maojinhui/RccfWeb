@@ -1106,14 +1106,14 @@ public class ProduceController {
         String loan_credit_type = request.getParameter("loan_credit_type");
         String where = "  where 1  ";
         String limit = "  limit 5  ";
-        String sql_allproduce = "select * from (\n" +
+        String sql_allproduce = "select * from \n" +
                 "  (SELECT id,0 as type , agency_name, code,name, repayment_type , loan_people ,  loan_amount_min,loan_amount_max,loan_term_min,loan_term_max,loan_rate_min,loan_rate_max , loan_credit_type from a_produce_credit where state = 1\n" +
                 "   UNION ALL\n" +
                 "   SELECT id,1 as type ,agency_name, code,name, repayment_type  , loan_people , 10 as loan_amount_min, getJsonArrayMaxAmount(loan_amount) as loan_amount_max , min_month as loan_term_min , mix_month as loan_term_max , getJsonArrayMaxRate(loan_rate) as loan_rate_max , getJsonArrayMinRate(loan_rate) as loan_rate_min , -1 as loan_credit_type from a_produce_diya where state = 1\n" +
                 "   UNION ALL\n" +
                 "   SELECT id,2 as type , agency_name, code,name, repayment_type , loan_people , 10 as loan_amount_min, getJsonArrayMaxAmount(loan_amount) as loan_amount_max , min_month as loan_term_min , mix_month as loan_term_max , getJsonArrayMaxRate(loan_rate) as loan_rate_max , getJsonArrayMinRate(loan_rate) as loan_rate_min , -1 as loan_credit_type  from a_produce_zhiya where state = 1\n" +
                 "  ) as p\n" +
-                ")  ";
+                " ";
         if (!Strings.isNullOrEmpty(loan_amount)) {
             where += "  and p.loan_amount_min<= " + Integer.valueOf(loan_amount) + " and  p.loan_amount_max>=" + loan_amount + "\n ";
         }
