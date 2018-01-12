@@ -69,13 +69,13 @@
 
 <div class="tab-bar">
     <div class="row ">
-        <a class="col-5 tab-bar-on" href="/gzh/sales/index">
-            <img src="/work/img/index_on.jpg">
-            <p>个人</p>
+        <a class="col-5 tab-bar-on" href="/gzh/sales/index" style="border: none;">
+            <img src="/work/img/index.png">
+            <p style="color:#999;">个人</p>
         </a>
-        <a class="col-5">
-            <img src="/work/img/data.png">
-            <p>数据统计</p>
+        <a class="col-5" style="border: none;">
+            <img src="/work/img/data_on.png">
+            <p style="color:#4d5398;">数据统计</p>
         </a>
     </div>
 </div>
