@@ -233,4 +233,12 @@ public class GZHSalesController {
     }
 
 
+    @RequestMapping(value = "/")
+    public ModelAndView duptyDataPage(HttpServletRequest request){
+
+        return new ModelAndView();
+    }
+
+
+
 }

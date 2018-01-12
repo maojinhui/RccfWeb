@@ -76,7 +76,7 @@
 
 <div class="tab-bar">
     <div class="row ">
-        <a class="col-5 tab-bar-on" href="/gzh/sales/index" style="border: none;">
+        <a class="col-5 tab-bar-on" href="/gzh/shichang/index" style="border: none;">
             <img src="/work/img/index.png">
             <p style="color:#999;">个人</p>
         </a>
@@ -106,7 +106,7 @@
     // 请求业绩数据并展示
     $.ajax({
         type: 'POST',
-        url: '/gzh/data/sale/yeji',
+        url: '/gzh/data/market/yeji',
         data: '',
         dataType: 'json',
         success: function (result) {
@@ -128,7 +128,7 @@
     //  请求本月受理单数据并展示
     $.ajax({
         type: 'POST',
-        url: '/gzh/data/sale/acceptend',
+        url: '/gzh/data/market/acceptend',
         data: '',
         dataType: 'json',
         success: function (result) {
@@ -192,7 +192,7 @@
     // 获取本月受理单数据 并绘制饼图
     $.ajax({
         type: 'POST',
-        url: '/gzh/data/sale/accepting',
+        url: '/gzh/data/market/accepting',
         data: '',
         dataType: 'json',
         success: function (result) {

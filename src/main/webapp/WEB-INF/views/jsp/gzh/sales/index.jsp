@@ -18,7 +18,14 @@
     <link rel="stylesheet" href="/work/css/normalize.css">
     <link rel="stylesheet" href="/work/css/basic.css">
     <link rel="stylesheet" href="/work/css/index.css">
-
+    <style type="text/css">
+        a:link,a:visited{
+            text-decoration:none;  /*超链接无下划线*/
+        }
+        a:hover{
+            text-decoration:none;  /*鼠标放上去有下划线*/
+        }
+    </style>
 </head>
 <body>
 <div class="content">

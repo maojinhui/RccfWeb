@@ -44,6 +44,12 @@
             border: none;
             border-radius: 50%;
         }
+        a:link,a:visited{
+            text-decoration:none;  /*超链接无下划线*/
+        }
+        a:hover{
+            text-decoration:none;  /*鼠标放上去有下划线*/
+        }
     </style>
 </head>
 <body>
@@ -122,7 +128,7 @@
             <img src="/work/img/index_on.png">
             <p style="color:#4d5398;border: none;">个人</p>
         </a>
-        <a class="col-5">
+        <a class="col-5" href="/gzh/shichang/page/data">
             <img src="/work/img/data.png" style="border: none;">
             <p style="color:#999;">数据统计</p>
         </a>

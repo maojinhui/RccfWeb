@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-@RequestMapping(value = "/gzh/auth" , produces = UrlConstants.PRODUCES)
+@RequestMapping(value = "/gzh/auth", produces = UrlConstants.PRODUCES)
 public class GZHAuthController {
 
 
@@ -42,9 +42,8 @@ public class GZHAuthController {
     SpyMemcachedManager spyMemcachedManager;
 
 
-
     @RequestMapping(value = "/page/login")
-    public ModelAndView loginPage(HttpServletRequest request){
+    public ModelAndView loginPage(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView("/gzh/login");
         Cookie[] cookies = request.getCookies();
         // 获取cookies
@@ -64,31 +63,31 @@ public class GZHAuthController {
             }
         }
         if (!Strings.isNullOrEmpty(userid)) {
-            Employee user = (Employee) baseService.get(Employee.class,Integer.valueOf(userid));
+            Employee user = (Employee) baseService.get(Employee.class, Integer.valueOf(userid));
 
             String department = user.getDepartment();
-            int role =  user.getRole();
+            int role = user.getRole();
+            if (department.contains("系统") || department.contains("总经办")) {
+                return new ModelAndView("redirect:/gzh/top/index");
 
-            if(department.contains("金融")){
-                if(role==4){//金融部普通业务员页面
+            } else if (department.contains("金融")) {
+                if (role == 4) {//金融部普通业务员页面
                     return new ModelAndView("redirect:/gzh/sales/index");
-                }else{//金融部副总监和总监页面
-
+                } else if (role == 3) {//金融部副总监和总监页面
+                    return new ModelAndView();
                 }
-            }else if(department.contains("市场")){
-                if(role==4){//市场部专员--后期专员等人页面
+            } else if (department.contains("市场")) {
+                if (role == 4) {//市场部专员--后期专员等人页面
                     return new ModelAndView("redirect:/gzh/shichang/index");
-                }else{//市场部管理人员页面
-
+                } else {//市场部管理人员页面
+                    return new ModelAndView("redirect:/back/login");
                 }
-            } else{
+            } else {
 //                return ResponseUtil.pageFail("redirect:/back/login");
-                return  new ModelAndView("redirect:/back/login");
+                return new ModelAndView("redirect:/back/login");
             }
 
         }
-
-
 
 
         return modelAndView;
@@ -97,13 +96,12 @@ public class GZHAuthController {
 
     @ResponseBody
     @RequestMapping(value = "/login")
-    public String login(HttpServletRequest request , HttpServletResponse response){
+    public String login(HttpServletRequest request, HttpServletResponse response) {
         String phone = request.getParameter("phone");
         String pwd = request.getParameter("pwd");
         if (Strings.isNullOrEmpty(phone)) {
             return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_NOT_NULL);
         }
-
         String password = null;
         try {
             password = new DesEncrypt().decrypt(pwd);
@@ -117,8 +115,8 @@ public class GZHAuthController {
         }
 
         Employee user = employeeService.findEmpolyeeByPhone(phone);
-        if(user==null){
-            return ResponseUtil.fail(0,"没有找到该用户");
+        if (user == null) {
+            return ResponseUtil.fail(0, "没有找到该用户");
         }
         Cookie nameCookie = new Cookie("username", user.getName());
         nameCookie.setPath("/");
@@ -136,41 +134,39 @@ public class GZHAuthController {
         Integer state = user.getState();
         String department = user.getDepartment();
         int role = user.getRole();
-        if(state==null || state==0){
-            return ResponseUtil.fail(0,"您已经不属于融成的一员，欢迎你的再次加入。");
+        if (state == null || state == 0) {
+            return ResponseUtil.fail(0, "您已经不属于融成的一员，欢迎你的再次加入。");
         }
 
-        if(department.contains("金融")){
-            if(role==4){//金融部普通业务员页面
+        if (department.contains("金融")) {
+            if (role == 4) {//金融部普通业务员页面
                 return ResponseUtil.success("/gzh/sales/index");
-            }else{//金融部副总监和总监页面
+            } else {//金融部副总监和总监页面
 
             }
-        }else if(department.contains("市场")){
-            if(role==4){//市场部专员--后期专员等人页面
+        } else if (department.contains("市场")) {
+            if (role == 4) {//市场部专员--后期专员等人页面
                 return ResponseUtil.success("/gzh/shichang/index");
-            }else{//市场部管理人员页面
+            } else {//市场部管理人员页面
 
             }
-        } else{
-            return ResponseUtil.fail(0,"本系统目前仅对金融部和市场部开放，后续功能敬请期待");
+        } else {
+            return ResponseUtil.fail(0, "本系统目前仅对金融部和市场部开放，后续功能敬请期待");
         }
         return ResponseUtil.fail();
     }
 
 
-
     @RequestMapping(value = "/page/resetpwd")
-    public ModelAndView resetPwdPage(){
+    public ModelAndView resetPwdPage() {
         ModelAndView modelAndView = new ModelAndView("/gzh/resetpwd");
         return modelAndView;
     }
 
 
-
     @ResponseBody
     @RequestMapping(value = "/resetpwd")
-    public String resetPwd(HttpServletRequest request){
+    public String resetPwd(HttpServletRequest request) {
         String phone = request.getParameter("phone");
         String phoneCode = request.getParameter("phonecode");
         String notifyPwd = request.getParameter("pwd");

@@ -1,3 +1,11 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: greatland
+  Date: 2018/1/12
+  Time: 下午9:06
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.rccf.constants.build.Application" %><%--
   Created by IntelliJ IDEA.
   User: greatland
@@ -30,7 +38,7 @@
 </head>
 <body>
 <div class="container" style="margin-bottom: 1.5rem;">
-    <div class="achievement">
+    <div id="top_yeji" class="achievement">
         <p>
             <span>本月<i class="fa fa-chevron-down"></i></span>
         </p>
@@ -74,19 +82,6 @@
     </div>
 </div>
 
-<div class="tab-bar">
-    <div class="row ">
-        <a class="col-5 tab-bar-on" href="/gzh/sales/index" style="border: none;">
-            <img src="/work/img/index.png">
-            <p style="color:#999;">个人</p>
-        </a>
-        <a class="col-5" style="border: none;">
-            <img src="/work/img/data_on.png">
-            <p style="color:#4d5398;">数据统计</p>
-        </a>
-    </div>
-</div>
-
 
 <script src="/work/js/self_adaption.js"></script>
 <script src="/work/js/jquery.js"></script>
@@ -106,7 +101,7 @@
     // 请求业绩数据并展示
     $.ajax({
         type: 'POST',
-        url: '/gzh/data/sale/yeji',
+        url: '/gzh/data/manager/general/yeji',
         data: '',
         dataType: 'json',
         success: function (result) {
@@ -128,7 +123,7 @@
     //  请求本月受理单数据并展示
     $.ajax({
         type: 'POST',
-        url: '/gzh/data/sale/acceptend',
+        url: '/gzh/data/manager/general/acceptend',
         data: '',
         dataType: 'json',
         success: function (result) {
@@ -192,7 +187,7 @@
     // 获取本月受理单数据 并绘制饼图
     $.ajax({
         type: 'POST',
-        url: '/gzh/data/sale/accepting',
+        url: '/gzh/data/manager/general/accepting',
         data: '',
         dataType: 'json',
         success: function (result) {
@@ -298,9 +293,7 @@
         }
     });
 
-
-
-
 </script>
 </body>
 </html>
+

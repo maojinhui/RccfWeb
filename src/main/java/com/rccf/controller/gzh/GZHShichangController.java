@@ -228,6 +228,12 @@ public class GZHShichangController {
     }
 
 
+    @RequestMapping(value = "/page/data")
+    public ModelAndView dataPage(HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/gzh/shichangbu/data");
+        return modelAndView;
+    }
 
 
 
