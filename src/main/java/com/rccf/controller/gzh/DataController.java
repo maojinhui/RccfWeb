@@ -74,7 +74,11 @@ public class DataController {
     }
 
 
-
+    /**
+     *
+     * @param request
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/sale/acceptend")
     public String acceptEndSituation(HttpServletRequest request){
@@ -124,6 +128,58 @@ public class DataController {
     }
 
 
+    @ResponseBody
+    @RequestMapping(value = "/sale/accepting")
+    public String acceptingSituation(HttpServletRequest request){
+        Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
+        if(loginEmployee==null){
+            return ResponseUtil.fail(0,"登录状态失效");
+        }
+        int state = loginEmployee.getState();
+        if(state<1){
+            return ResponseUtil.fail(0,"账号已失效，请联系管理员");
+        }
+        String departMent = loginEmployee.getDepartment();
+        int role = loginEmployee.getRole();
+        String code = loginEmployee.getCode();
+
+        long current = System.currentTimeMillis();//当前时间毫秒数
+        long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();//今天零点零分零秒的毫秒数
+        long twelve = zero + 24 * 60 * 60 * 1000 - 1;//今天23点59分59秒的毫秒数
+        String time = request.getParameter("time");
+        Date date = null;
+        if (!Strings.isNullOrEmpty(time)) {
+            date = DateUtil.string2Date(time);
+            current = date.getTime();
+            zero = current;
+            twelve = zero + 24 * 60 * 60 * 1000 - 1;//今天23点59分59秒的毫秒数
+        }
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String day_start = format.format(zero);
+        String month_start = day_start.substring(0, 8) + "01";
+        String day_end = format.format(twelve);
+        String month_end = DateUtil.getPerFirstDayOfMonth(date);
+        /*********时间换算完成***********/
+        String sql_accepting_xinyong = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` ='"+code+"' AND a.business_type=0";
+        int xinyongCount = baseService.getCount(sql_accepting_xinyong);
+
+        String sql_accepting_diya = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` ='"+code+"' AND a.business_type=1";
+        int diyaCount = baseService.getCount(sql_accepting_diya);
+
+        String sql_accepting_zhiya = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` ='"+code+"' AND a.business_type=2";
+        int zhiyaCount = baseService.getCount(sql_accepting_zhiya);
+
+        String sql_accepting_other = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` ='"+code+"' " +
+                "AND a.business_type !=0 and a.business_type !=1 and a.business_type !=2";
+        int otherCount = baseService.getCount(sql_accepting_zhiya);
+
+        JSONObject object = new JSONObject();
+        object.put("xinyongCount",xinyongCount);
+        object.put("diyaCount",diyaCount);
+        object.put("zhiyaCount",zhiyaCount);
+        object.put("otherCount",otherCount);
+        return ResponseUtil.success_front(object);
+    }
 
 
 
