@@ -244,7 +244,7 @@ public class DataController {
                 pname=agency_name+"-"+product_name;
             }
             object.put("id",produceData.getId());
-            object.put("product_name",produceData.getProduct_name());
+            object.put("product_name",pname);
             object.put("count",produceData.getCount());
             object.put("type",produceData.getType());
             object.put("sum",produceData.getSum());
