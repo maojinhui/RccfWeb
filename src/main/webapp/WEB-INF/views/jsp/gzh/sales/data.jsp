@@ -121,7 +121,7 @@
 
     $.ajax({
         type: 'POST',
-        url: '/gzh/data/sales/yeji',
+        url: '/gzh/data/sale/yeji',
         data: '',
         dataType: 'json',
         success: function (result) {

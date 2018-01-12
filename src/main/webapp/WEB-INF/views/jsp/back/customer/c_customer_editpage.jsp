@@ -1,6 +1,7 @@
 <%@ page import="com.rccf.model.RCustomer" %>
 <%@ page import="com.rccf.util.DateUtil" %>
 <%@ page import="com.rccf.util.Strings" %>
+<%@ page import="com.rccf.model.RCustomerLoaninfo" %>
 <%--
   Created by IntelliJ IDEA.
   User: greatland
@@ -78,7 +79,48 @@
             <span class="am-icon-border"><%=phone%></span>
         </div>
         <div class="am-u-sm-12  am-text-left am-margin-vertical-xs">时间：&emsp;
-            <span class="am-icon-border"><input id="admin_time" type="date" value="<%=admin_time%>"></span>
+            <span class="am-icon-border"><input id="admin_time" type="date" value="<%=admin_time%>"
+                                                style="border: none;"></span>
+        </div>
+        <div class="am-u-sm-12  am-text-left am-margin-vertical-xs">贷款类型：&emsp;
+            <%
+                RCustomerLoaninfo loaninfo = (RCustomerLoaninfo) request.getAttribute("loan");
+                boolean notnull = false;
+                if (loaninfo != null) {
+                    notnull = true;
+                }
+                boolean typeNotnull = false;
+                if (notnull && loaninfo.getLoanType() != null) {
+                    typeNotnull = true;
+                }
+            %>
+            <select id="loan_type">
+                <option value="-1">未知</option>
+                <option value="0" <%=typeNotnull && loaninfo.getLoanType() == 0 ? "selected='selected'" : ""%>>
+                    信用贷款
+                </option>
+                <option value="1" <%=typeNotnull && loaninfo.getLoanType() == 1 ? "selected='selected'" : ""%>>
+                    抵押贷款
+                </option>
+                <option value="2" <%=typeNotnull && loaninfo.getLoanType() == 2 ? "selected='selected'" : ""%>>
+                    质押贷款
+                </option>
+                <%--<option value="3" <%=typeNotnull && loaninfo.getLoanType() == 3 ? "selected='selected'" : ""%>>--%>
+                <%--权证--%>
+                <%--</option>--%>
+                <%--<option value="4" <%=typeNotnull && loaninfo.getLoanType() == 4 ? "selected='selected'" : ""%>>--%>
+                <%--车贷--%>
+                <%--</option>--%>
+                <%--<option value="5" <%=typeNotnull && loaninfo.getLoanType() == 5 ? "selected='selected'" : ""%>>--%>
+                <%--拼份--%>
+                <%--</option>--%>
+                <%--<option value="6" <%=typeNotnull && loaninfo.getLoanType() == 6 ? "selected='selected'" : ""%>>--%>
+                <%--包装费--%>
+                <%--</option>--%>
+                <option value="10" <%=typeNotnull && loaninfo.getLoanType() == 10 ? "selected='selected'" : ""%>>
+                    融成贷
+                </option>
+            </select>
         </div>
     </div>
     <div class="am-g">
