@@ -490,6 +490,18 @@ public class CustomerInfoController {
         }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("customer", rCustomer);
+
+        if (!Strings.isNullOrEmpty(customer_id)) {
+            DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerLoaninfo.class);
+            criteria.add(Restrictions.eq("customerId", customer_id));
+            List list = baseService.getList(criteria);
+            if (list != null && list.size() > 0) {
+                RCustomerLoaninfo loan = (RCustomerLoaninfo) list.get(0);
+                modelAndView.addObject("loan", loan);
+            }
+        }
+
+
         modelAndView.setViewName("/back/customer/c_customer_editpage");
         return modelAndView;
     }
