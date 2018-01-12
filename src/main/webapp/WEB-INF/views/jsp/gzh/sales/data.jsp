@@ -69,7 +69,7 @@
 
 <div class="tab-bar">
     <div class="row ">
-        <a class="col-5 tab-bar-on">
+        <a class="col-5 tab-bar-on" href="/gzh/sales/index">
             <img src="/work/img/index_on.jpg">
             <p>个人</p>
         </a>
