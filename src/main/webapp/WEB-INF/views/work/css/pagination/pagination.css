@@ -1,0 +1,21 @@
+
+
+.a-pagination {
+  display: block;
+  position: relative;
+  float: right;
+  margin-top: 0.6rem;
+  margin-right: 0.4rem;
+}
+.a-pagination span {
+  display: inline-block;
+  background-color: #fff;
+  color: #3bb4f2;
+  border: 1px solid #0f9ae0;
+  padding: 4px 9px;
+}
+.a-pagination-on {
+  background-color: #42bde5 !important;
+  color: #fff !important;
+  border: none !important;
+}

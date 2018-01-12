@@ -97,16 +97,16 @@
                 <td>
                     <select id="loan_type" class="am-u-sm-6">
                         <option value="-1">未知</option>
-                        <option value="0" <%=loaninfoNotnull && loan.getLoanType() == 0 ? "selected='selected'" : ""%>>
+                        <option value="0" <%=loaninfoNotnull && loan.getLoanType()!=null && loan.getLoanType() == 0 ? "selected='selected'" : ""%>>
                             信用贷款
                         </option>
-                        <option value="1" <%=loaninfoNotnull && loan.getLoanType() == 1 ? "selected='selected'" : ""%>>
+                        <option value="1" <%=loaninfoNotnull && loan.getLoanType()!=null && loan.getLoanType() == 1 ? "selected='selected'" : ""%>>
                             抵押贷款
                         </option>
-                        <option value="2" <%=loaninfoNotnull && loan.getLoanType() == 2 ? "selected='selected'" : ""%>>
+                        <option value="2" <%=loaninfoNotnull && loan.getLoanType()!=null && loan.getLoanType() == 2 ? "selected='selected'" : ""%>>
                             质押贷款
                         </option>
-                        <option value="10" <%=loaninfoNotnull && loan.getLoanType() == 10 ? "selected='selected'" : ""%>>
+                        <option value="10" <%=loaninfoNotnull && loan.getLoanType()!=null && loan.getLoanType() == 10 ? "selected='selected'" : ""%>>
                             融成贷
                         </option>
                     </select>
@@ -130,16 +130,16 @@
                 <td>
                     <select id="loan_repayment_type" class="am-u-sm-6">
                         <option value="0">未知</option>
-                        <option value="1" <%=loaninfoNotnull && loan.getLoanRepayment() == 1 ? "selected='selected'" : ""%>>
+                        <option value="1" <%=loaninfoNotnull && loan.getLoanRepayment() !=null  && loan.getLoanRepayment() == 1 ? "selected='selected'" : ""%>>
                             等额本金
                         </option>
-                        <option value="2" <%=loaninfoNotnull && loan.getLoanRepayment() == 2 ? "selected='selected'" : ""%>>
+                        <option value="2" <%=loaninfoNotnull && loan.getLoanRepayment() !=null && loan.getLoanRepayment() == 2 ? "selected='selected'" : ""%>>
                             等额本息
                         </option>
-                        <option value="3" <%=loaninfoNotnull && loan.getLoanRepayment() == 3 ? "selected='selected'" : ""%>>
+                        <option value="3" <%=loaninfoNotnull && loan.getLoanRepayment() !=null && loan.getLoanRepayment() == 3 ? "selected='selected'" : ""%>>
                             停本付息
                         </option>
-                        <option value="4" <%=loaninfoNotnull && loan.getLoanRepayment() == 4 ? "selected='selected'" : ""%>>
+                        <option value="4" <%=loaninfoNotnull && loan.getLoanRepayment() !=null && loan.getLoanRepayment() == 4 ? "selected='selected'" : ""%>>
                             先息后本
                         </option>
                     </select>

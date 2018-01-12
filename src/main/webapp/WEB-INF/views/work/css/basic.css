@@ -6,14 +6,16 @@
 
 html,
 body {
-  font-family: '苹方','华文细黑', arial, sans-serif ;
+  font-family: PingFang-SC-Regular,'华文细黑', arial, sans-serif ;
   overflow-x: hidden;
   overflow-y: auto;
   background-color: #f5f5f5;
   color:#333;
   font-size: 0.4267rem;
 }
-
+.content {
+  margin-bottom: 2rem;
+}
 .container {
   width: 100%;
   font-size: 0.4267rem;
@@ -50,8 +52,12 @@ body {
 .hide {
   display: none !important;
 }
-
-
+.right {
+   float: right;
+}
+.left {
+    float: left;
+}
 .col-1 {
   width: 10% !important;
 }
@@ -101,17 +107,21 @@ body {
 }
 .a-table th ,
 .a-table td {
-  border: 1px solid #3bb4f2;
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
+  border: 0.013rem solid #333333;
+  padding-top: 0.15rem;
+  padding-bottom: 0.15rem;
 }
 
 .a-table tr th {
-  background-color: #3bb4f2;
+  background-color: #464646;
   color: #fff;
   font-weight: 300;
 }
 
 .a-margin-top {
   margin-top: 0.266rem;
+}
+
+.white {
+  background-color: #fff;
 }

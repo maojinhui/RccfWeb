@@ -81,14 +81,27 @@
             <div class="am-u-sm-12 apply-conditions am-margin-bottom" style="background-color: #2c4666;color: #fff">
                 <div><i class="am-icon-genderless"></i> 基础信息</div>
             </div>
+            <%
+                Integer amountMin = produce.getLoanAmountMin();
+                Integer amountMax = produce.getLoanAmountMax();
+                if(amountMin !=null || amountMax!=null){
+            %>
             <div class="am-g  ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">贷款金额：</div>
-                <div class="am-u-sm-10"><%=Strings.getInputString(produce.getLoanAmountMin())%>-<%=Strings.getInputString(produce.getLoanAmountMax())%></div>
+                <div class="am-u-sm-10"><%=Strings.getInputString(amountMin)%><%=amountMin==null || amountMax==null ? "" :"-"%><%=Strings.getInputString(amountMax)%></div>
             </div>
+            <% } %>
+            <%
+                Double rateMin = produce.getLoanRateMin();
+                Double rateMax = produce.getLoanRateMax();
+                if(rateMin !=null || rateMax!=null){
+            %>
             <div class="am-g  ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2 ">贷款利率：</div>
-                <div class="am-u-sm-10"><%=Strings.getInputString(produce.getLoanRateMin())%>-<%=Strings.getInputString(produce.getLoanRateMax())%></div>
+                <div class="am-u-sm-10"><%=Strings.getInputString(rateMin)%><%=rateMin==null || rateMax==null ? "" :"-"%><%=Strings.getInputString(rateMax)%></div>
             </div>
+            <% } %>
+
             <div class="am-g ">
                 <div class="am-u-sm-4 am-u-md-2 am-u-lg-2">还款方式：</div>
                 <div class="am-u-sm-10">可选：<%=repaymentType%></div>
@@ -158,18 +171,6 @@
                     }
                 }
             %>
-            <%--<div class="am-g ">--%>
-                <%--<div class="am-u-sm-12">1.什么</div>--%>
-            <%--</div>--%>
-            <%--<div class="am-g ">--%>
-                <%--<div class="am-u-sm-12">2.为什么</div>--%>
-            <%--</div>--%>
-            <%--<div class="am-g ">--%>
-                <%--<div class="am-u-sm-12">3.gan什么</div>--%>
-            <%--</div>--%>
-            <%--<div class="am-g ">--%>
-                <%--<div class="am-u-sm-12">4.zuo什么</div>--%>
-            <%--</div>--%>
         </div>
 
         <!--所需材料-->

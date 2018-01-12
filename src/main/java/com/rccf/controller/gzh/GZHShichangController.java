@@ -3,6 +3,7 @@ package com.rccf.controller.gzh;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.Employee;
 import com.rccf.model.ILoanType;
@@ -10,6 +11,7 @@ import com.rccf.model.customer.CustomerSubmit;
 import com.rccf.model.customer.RCustomerLoanProgram;
 import com.rccf.model.customer.RCustomerSubmitLog;
 import com.rccf.model.produce.ProduceRepayment;
+import com.rccf.model.temp.ProduceTem;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.util.BackUtil;
@@ -133,9 +135,57 @@ public class GZHShichangController {
         String customer_id = request.getParameter("customer_id");
         String log_id = request.getParameter("log_id");
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/gzh/shichangbu/market_loan_plan");
+        modelAndView.setViewName("/gzh/shichangbu/market_loan_program");
         modelAndView.addObject("customer_id",customer_id);
         modelAndView.addObject("log_id",log_id);
+
+
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        //登录用户
+        String depart = employee.getDepartment();
+        int role = employee.getRole();
+        boolean showAll = false;
+        if (depart.contains("系统")) {
+            showAll = true;
+        } else if (depart.contains("市场部")) {
+            if (role <= 2) {
+                showAll = true;
+            } else {
+                showAll = false;
+            }
+        } else {
+            return ResponseUtil.pageFail("没有找到产品");
+        }
+        String eInfo = "";
+        if (!showAll) {
+            eInfo = "where p.create_person = " + employee.getId();
+        }
+        String sql = "SELECT *\n" +
+                "FROM (SELECT `id`, `name`, `code`, agency_id,\n" +
+                "         agency_name,\n" +
+                "         1 AS type,`state`,create_time,log,\n" +
+                "(SELECT audit_opinion from a_produce_audit_log WHERE type=1 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
+                "       FROM `a_produce_diya` as p\n" + eInfo +
+                "       UNION ALL\n" +
+                "       SELECT `id`, `name`, `code`, agency_id,\n" +
+                "          agency_name,\n" +
+                "         2 AS type,`state`,create_time,log,\n" +
+                "       (SELECT audit_opinion from a_produce_audit_log WHERE type=2 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason" +
+                "       FROM `a_produce_zhiya` as p\n" + eInfo +
+                "       UNION ALL\n" +
+                "      SELECT `id`, `name`, `code`, agency_id,\n" +
+                "      agency_name,\n" +
+                "       0 AS type,`state`,create_time,log,\n" +
+                "       (SELECT audit_opinion from a_produce_audit_log WHERE type=0 and produce_id=p.id ORDER BY audit_time DESC  LIMIT  1) as reason      " +
+                "       FROM `a_produce_credit` as p\n" + eInfo +
+                "     ) AS data  where data.state = 1 \n" +
+                "ORDER BY data.create_time DESC ";
+
+        List<ProduceTem> produeList = baseService.queryBySqlFormatClass(ProduceTem.class, sql);
+//        String str = JSON.toJSONString(list, SerializerFeature.DisableCircularReferenceDetect);
+//        JSONArray array = JSON.parseArray(str);
+        modelAndView.addObject("produeList" , produeList);
+
         return modelAndView;
     }
 
@@ -174,9 +224,6 @@ public class GZHShichangController {
         }else{
             return ResponseUtil.fail(0,"提交信息失败");
         }
-
-
-
 
     }
 

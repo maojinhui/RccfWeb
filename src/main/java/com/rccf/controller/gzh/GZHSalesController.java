@@ -6,9 +6,15 @@ import com.rccf.model.Employee;
 import com.rccf.model.customer.CustomerSubmit;
 import com.rccf.model.customer.RCustomerLoanProgram;
 import com.rccf.model.customer.RCustomerSubmitLog;
+import com.rccf.model.produce.AProduceCredit;
+import com.rccf.model.produce.AProduceDiya;
+import com.rccf.model.produce.AProduceZhiya;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
-import com.rccf.util.BackUtil;
+import com.rccf.util.*;
+import com.rccf.util.produce.CreditProducePage;
+import com.rccf.util.produce.DZProducePage;
+import com.sun.org.apache.regexp.internal.RE;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
@@ -19,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -76,6 +83,7 @@ public class GZHSalesController {
         return modelAndView;
     }
 
+
     @RequestMapping(value = "/customer/list")
     public ModelAndView customerListPage(){
         ModelAndView modelAndView = new ModelAndView();
@@ -84,5 +92,136 @@ public class GZHSalesController {
     }
 
 
+    @RequestMapping(value = "/customer/program")
+    public ModelAndView custoemrProgram(HttpServletRequest request){
+        String programID = request.getParameter("program_id");
+        if(Strings.isNullOrEmpty(programID)){
+            return ResponseUtil.pageFail("方案没有找到");
+        }
+        RCustomerLoanProgram program =
+                (RCustomerLoanProgram) baseService.get(RCustomerLoanProgram.class,Integer.valueOf(programID));
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/gzh/sales/produce_program");
+        modelAndView.addObject("program" , program);
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/produce/info")
+    public ModelAndView produceInfo(HttpServletRequest request, HttpServletResponse response){
+        String amount = request.getParameter("amount");
+        String rate = request.getParameter("rate");
+        String content = request.getParameter("content");
+
+        String productId = request.getParameter("produce_id");
+        String type = request.getParameter("type");
+        CookiesUtil.addCookies("amount",amount,response);
+        CookiesUtil.addCookies("rate",rate,response);
+        CookiesUtil.addCookies("content",content,response);
+        CookiesUtil.addCookies("produce_type",type,response);
+        CookiesUtil.addCookies("produce_id",productId,response);
+
+        if(Strings.isNullOrEmpty(productId)){
+            return ResponseUtil.pageFail("产品未找到");
+        }
+        int id = Integer.valueOf(productId);
+        ModelAndView modelAndView = new ModelAndView();
+        if(type.equals("0")){
+            AProduceCredit produce = (AProduceCredit) baseService.get(AProduceCredit.class, id);
+            if (produce == null) {
+                return ResponseUtil.pageFail("没有找到该产品");
+            }
+            modelAndView.setViewName("/gzh/produce/produce_credit_detail");
+            modelAndView.addObject("produce", produce);
+            CreditProducePage.addCreatePerson(modelAndView, produce, baseService);
+            CreditProducePage.addPersonMaterial(modelAndView, produce, baseService);
+            CreditProducePage.addCompanyMaterial(modelAndView, produce, baseService);
+            CreditProducePage.addRpayment(modelAndView, produce, baseService);
+
+        }else if(type.equals("1")){
+            DZProducePage dzProducePage = new DZProducePage(baseService);
+            AProduceDiya produce = (AProduceDiya) baseService.get(AProduceDiya.class, id);
+            if (produce == null) {
+                return ResponseUtil.pageFail("没有找到该产品");
+            }
+            modelAndView.setViewName("/gzh/produce/produce_diya_detail");
+            modelAndView.addObject("produce", produce);
+            dzProducePage.addCreatePerson(modelAndView,produce);
+            dzProducePage.addPersonMaterial(modelAndView, produce);
+            dzProducePage.addCompanyMaterial(modelAndView, produce);
+            dzProducePage.addRpayment(modelAndView, produce);
+        }else if(type.equals("2")){
+
+            DZProducePage dzProducePage = new DZProducePage(baseService);
+            AProduceZhiya produce = (AProduceZhiya) baseService.get(AProduceZhiya.class, id);
+            if (produce == null) {
+                return ResponseUtil.pageFail("没有找到该产品");
+            }
+            modelAndView.setViewName("/gzh/produce/produce_zhiya_detail");
+            modelAndView.addObject("produce", produce);
+            dzProducePage.addCreatePerson(modelAndView,produce);
+            dzProducePage.addPersonMaterial(modelAndView, produce);
+            dzProducePage.addCompanyMaterial(modelAndView, produce);
+            dzProducePage.addRpayment(modelAndView, produce);
+        }
+
+
+
+
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/share")
+    public ModelAndView shareProduce(HttpServletRequest request){
+        String productId = request.getParameter("produce_id");
+        String type = request.getParameter("type");
+
+        if(Strings.isNullOrEmpty(productId)){
+            return ResponseUtil.pageFail("产品未找到");
+        }
+        int id = Integer.valueOf(productId);
+        ModelAndView modelAndView = new ModelAndView();
+        if(type.equals("0")){
+            AProduceCredit produce = (AProduceCredit) baseService.get(AProduceCredit.class, id);
+            if (produce == null) {
+                return ResponseUtil.pageFail("没有找到该产品");
+            }
+            modelAndView.setViewName("/gzh/share/credit_share");
+            modelAndView.addObject("produce", produce);
+            CreditProducePage.addCreatePerson(modelAndView, produce, baseService);
+            CreditProducePage.addPersonMaterial(modelAndView, produce, baseService);
+            CreditProducePage.addCompanyMaterial(modelAndView, produce, baseService);
+            CreditProducePage.addRpayment(modelAndView, produce, baseService);
+
+        }else if(type.equals("1")){
+            DZProducePage dzProducePage = new DZProducePage(baseService);
+            AProduceDiya produce = (AProduceDiya) baseService.get(AProduceDiya.class, id);
+            if (produce == null) {
+                return ResponseUtil.pageFail("没有找到该产品");
+            }
+            modelAndView.setViewName("/gzh/share/diya_share");
+            modelAndView.addObject("produce", produce);
+            dzProducePage.addCreatePerson(modelAndView,produce);
+            dzProducePage.addPersonMaterial(modelAndView, produce);
+            dzProducePage.addCompanyMaterial(modelAndView, produce);
+            dzProducePage.addRpayment(modelAndView, produce);
+        }else if(type.equals("2")){
+
+            DZProducePage dzProducePage = new DZProducePage(baseService);
+            AProduceZhiya produce = (AProduceZhiya) baseService.get(AProduceZhiya.class, id);
+            if (produce == null) {
+                return ResponseUtil.pageFail("没有找到该产品");
+            }
+            modelAndView.setViewName("/gzh/share/zhiya_share");
+            modelAndView.addObject("produce", produce);
+            dzProducePage.addCreatePerson(modelAndView,produce);
+            dzProducePage.addPersonMaterial(modelAndView, produce);
+            dzProducePage.addCompanyMaterial(modelAndView, produce);
+            dzProducePage.addRpayment(modelAndView, produce);
+        }
+        return modelAndView;
+    }
 
 }

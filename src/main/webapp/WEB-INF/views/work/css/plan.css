@@ -1,95 +1,121 @@
 .loan-plan {
-    position: relative;
-    background-color: #fff;
-    font-size: 0.5rem;
-    color: #333333;
-    margin-top: 0.4rem;
+  position: relative;
+  background-color: #fff;
+  font-size: 0.5rem;
+  color: #333333;
+  margin-top: 0.4rem;
 
-    padding: 0.4rem 0.266rem;
+  padding: 0.4rem 0.266rem;
 }
-
 .loan-plan span {
-    color: #e7505a;
+  color: #e7505a;
 }
 .loan-plan a {
-    position: absolute;
-    display: inline-block;
-    background-color: #3bb4f2;
-    color: #fff;
+  position: absolute;
+  display: inline-block;
+  background-color: #3bb4f2;
+  color:#aa3333;
 
-    top: 1.2rem;
-    right: 0.5rem;
+  right:0.5rem;
 
-    font-size: 0.4rem;
+  font-size: 0.4rem;
 
-    padding: 0.2rem;
+  padding: 0.15rem;
+}
+
+.loan-plan h3 ,
+.loan-plan h3 i {
+  color:#2e6da4;
+}
+.loan-plan a i {
+  color:#aa3333;
 }
 
 .loan-plan i {
-    color: #00e359;
-    margin-right: 0.2rem;
+  color: #00e359;
+  margin-right: 0.2rem;
 }
 
 .popup {
-    width: 100%;
-    height: 100%;
-    position: fixed;
+  width: 100%;
+  height: 100%;
+  position: fixed;
 
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.3);
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.3);
+
+  font-family: "微软雅黑", serif;
 }
 
 .popup .container {
-    position: relative;
-    background-color: #fff;
-    color: #333;
-    width: auto;
+  position: relative;
+  background-color: #fff;
+  color: #333;
+  width: auto;
 
-    margin-top: 3rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    padding: 0.4rem;
-    border-radius: 0.1222rem;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  margin-top: 3rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  padding: 0.4rem;
+  border-radius: 0.1222rem;
+
+
+}
+.popup ul {
+  height: 8rem;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+.popup ul li{
+  list-style: none;
+  font-size: 0.5rem;
+  color:#3b2c8f;
+  margin: 0.266rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid #f5f5f5;
 }
 
 .plan-add {
-    font-size: 0.5rem;
-    text-align: center;
+  font-size: 0.5rem;
+  text-align: center;
 
-    padding-bottom: 0.26rem;
-    border-bottom: 1px solid #eee;
+  padding-bottom: 0.26rem;
+  border-bottom: 1px solid #eee;
 }
 .plan-add i {
-    color: #f18989;
-    font-size: 0.5rem;
-    float: right;
+  color:#f18989;
+  font-size: 0.5rem;
+  float: right;
 }
 
 .a-table {
-    border: 1px solid #eee;
+  border: 1px solid #eee;
+  font-size: 0.432rem;
 }
 .a-table td {
-    border: 0.013rem solid #eee;
-    padding-top: 0.15rem;
-    padding-bottom: 0.15rem;
+  border: 0.013rem solid #eee;
+  padding: 0.266rem 0.2rem;
 }
-
-.a-table input,
+.a-table input ,
 .a-table select {
-    border: none;
-    font-size: 0.5rem;
+  border: none;
+  font-size: 0.5rem;
 }
 
 .a-btn {
-    display: inline-block;
-    width: 8.3rem;
-    height: 0.9333rem;
-    font-size: 0.4267rem;
-    background-color: #dc982d;
-    color: #fff;
+  display: inline-block;
+  width: 8.3rem;
+  height: 0.9333rem;
+  font-size: 0.4267rem;
+  background-color: #dc982d;
+  color: #fff;
 
-    margin-top: 0.6rem;
-    border: none;
-    border-radius: 0.15rem;
+  margin-top: 0.6rem;
+  border: none;
+  border-radius: 0.15rem;
 }

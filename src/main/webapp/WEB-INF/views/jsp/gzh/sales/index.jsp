@@ -28,7 +28,7 @@
             <div data-nav-bar="1" class="col-5 nav-bar active">
                 通知
                 <% Integer notificationCount = (Integer) request.getAttribute("notificationCount");
-                    if (notificationCount != null) { %>
+                    if (notificationCount != null && notificationCount > 0) { %>
                 <sup><%=notificationCount%>
                 </sup>
                 <% }%>
@@ -43,7 +43,7 @@
                     for (int i = 0 ; i< count ;i++){
                         CustomerSubmit program = programs.get(i);
             %>
-            <li class="notice">
+            <li class="notice" data-program-id="<%=program.getId()%>" onclick="clickNotice(this)" >
                 <span>客户<%=program.getCustomer_name()%>的贷款方案已由市场部<%=program.getHouqi_name()%>给出</span>
                 <label><%=program.getMonth_day()%></label>
                 <label><%=program.getHourminute()%></label>
@@ -130,6 +130,15 @@
     $('.personal-customer').click(function () {
         window.location.href = '/gzh/sales/customer/list'
     })
+    
+    function clickNotice(obj) {
+        var programId =  $(obj).data("programId");
+        var url = '/gzh/sales/customer/program?program_id='+programId;
+        window.location.href=url;
+    }
+    
+    
+    
 </script>
 </body>
 </html>

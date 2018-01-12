@@ -12,21 +12,6 @@
 </head>
 <body>
 <div id="content" class="container">
-    <%--<div class="loan-plan">--%>
-    <%--<p>平安银行 — 新一贷</p>--%>
-    <%--<p>预估额度：<span>30万</span></p>--%>
-    <%--<p>贷款利息：<span>2.4%</span></p>--%>
-    <%--<p>&emsp;备注&emsp;：<span>额度高，利息高</span></p>--%>
-    <%--<a>删除</a>--%>
-    <%--</div>--%>
-
-    <%--<div class="loan-plan">--%>
-    <%--<p>平安银行 — 新一贷</p>--%>
-    <%--<p>预估额度：<span>30万</span></p>--%>
-    <%--<p>贷款利息：<span>2.4%</span></p>--%>
-    <%--<p>&emsp;备注&emsp;：<span>额度高，利息高</span></p>--%>
-    <%--<a>删除</a>--%>
-    <%--</div>--%>
 
     <p id="add_plan" class="loan-plan">
         <i class="fa fa-plus-circle"></i> 添加产品

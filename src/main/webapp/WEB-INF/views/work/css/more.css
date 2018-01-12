@@ -1,0 +1,81 @@
+.content{
+  margin-bottom: 2rem;
+}
+
+.nav-bar {
+  list-style: none;
+  background-color: #fff;
+  color: #999;
+  text-align: center;
+  padding: 0.4rem;
+}
+.nav-bar sup{
+  background-color: #c41c1c;
+  color:#fff;
+  padding: 0.05rem;
+  font-size: 0.293rem;
+  border-radius: 50%;
+}
+.active {
+  border-bottom:0.08rem solid #ff8585;
+  color: #333;
+}
+
+.nav-block {
+  width: 9.2rem;
+  margin: 0 0.4rem;
+  padding: 0 0.233rem;
+  box-sizing: border-box;
+}
+
+ul,
+ul li {
+  margin: 0;
+  padding: 0;
+  list-style: inside url("circle.png");
+}
+
+
+
+
+.notice {
+  padding: 0;
+  margin-top: 0.4333rem;
+}
+
+.notice span {
+  display: inline-block;
+  vertical-align: bottom;
+  margin-left: 0.4rem;
+  width: 5.53rem;
+  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+}
+@media screen and (max-width: 375px){
+  .notice span {
+    width: 5rem;
+  }
+}
+.notice label {
+  display: inline;
+  font-size: 0.32rem;
+  color: #999;
+}
+
+.notice label {
+  margin-left: 0.2rem;
+}
+
+.notice label:last-child {
+  margin-left: 0.13rem;
+}
+
+.notice-all {
+  list-style: none;
+  margin-top: 0.33rem;
+  text-align: right;
+}
+

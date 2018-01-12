@@ -1,0 +1,70 @@
+
+html ,
+body {
+
+}
+.container li {
+  margin-top: 0.266rem;
+}
+.container li a {
+  display: block;
+  font-size: 0.466rem;
+  background-color: #fff;
+  color:#23527c;
+  padding: 0.3rem;
+  margin-bottom: 0.266rem;
+}
+.basic-info {
+  position: relative;
+  font-size: 0.466rem;
+
+  margin-bottom: 0.4rem;
+  padding: 0.4rem;
+}
+
+.basic-info h3 {
+  color: #3b2c8f;
+  margin-bottom: 0.266rem;
+}
+
+.basic-info p {
+  padding-left: 0.266rem;
+  margin: 0.266rem;
+}
+
+.basic-info span  {
+  font-size: 0.5rem;
+  color:#f0ad4e;
+}
+.lookup-btn{
+  display: inline-block;
+  position: absolute;
+  top:0.4rem;
+  right: 0.4rem;
+
+  font-size: 0.4rem !important;
+  background-color: #3bb4f2 !important;
+  color: #fff !important;
+
+  border-radius: 5px;
+
+  border: none;
+  padding: 0.2rem;
+}
+.condition {
+  font-size: 0.432rem;
+
+  padding: 0.4rem;
+}
+
+.condition h4 {
+  color: #3b2c8f;
+  margin-bottom: 0.266rem;
+  font-size: 1.2em;
+}
+
+.condition ul li {
+  list-style: none;
+
+  padding-left: 0.266rem;
+}

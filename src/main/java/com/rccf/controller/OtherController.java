@@ -581,10 +581,24 @@ public class OtherController {
 
     @RequestMapping(value = "/import/customer")
     public ModelAndView importCustomer(HttpServletRequest request , @RequestPart(value = "upload") MultipartFile file){
-        String employeeId = request.getParameter("employeeID");
-        if(Strings.isNullOrEmpty(employeeId)){
-            Employee employee = BackUtil.getLoginEmployee(request,employeeService);
-            employeeId = String.valueOf(employee.getId());
+//        String employeeId = request.getParameter("employeeID");
+//        if(Strings.isNullOrEmpty(employeeId)){
+//
+//        }
+
+        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+        String  employeeId = String.valueOf(employee.getId());
+        Employee duptyEmployee = null;
+        Employee directorEmployee = null;
+
+        if(employee.getDepartment().contains("金融") && employee.getRole()==4){
+            String decode =  employee.getDuptyDirector();
+            String directorCode = employee.getDirector();
+            duptyEmployee = employeeService.findEmpolyeeByCode(decode);
+            directorEmployee = employeeService.findEmpolyeeByCode(directorCode);
+
+        }else {
+            return ResponseUtil.pageFail("请登录业务员账号进行导入客户");
         }
 
         HibernateTransactionManager transactionManager = (HibernateTransactionManager) SpringContextUtil
@@ -606,7 +620,9 @@ public class OtherController {
             listob = new ImportUtil().getBankListByExcel(in, file.getOriginalFilename());
             in.close();
             for (int i = 0; i < listob.size(); i++) {
-
+                if(i<1){
+                    continue;
+                }
                 List<Object> lo = listob.get(i);
                 RCustomer customer = new RCustomer();
                 customer.setCreateTime(DateUtil.date2Timestamp(DateUtil.date2Timestamp(new Date(System.currentTimeMillis()))));
@@ -615,10 +631,10 @@ public class OtherController {
                 customer.setName(name);
                 String phone = (String) lo.get(3);
                 customer.setPhone(phone.substring(0,phone.lastIndexOf(".")));
-                boolean has = CustomerVerify.hasCustomerByPhone(baseService,phone.substring(0,phone.lastIndexOf(".")));
-                if(has){
-                    continue;
-                }
+//                boolean has = CustomerVerify.hasCustomerByPhone(baseService,phone.substring(0,phone.lastIndexOf(".")));
+//                if(has){
+//                    continue;
+//                }
 
                 String level = (String)lo.get(1);
                 if(Strings.isNullOrEmpty(level)){
@@ -634,18 +650,18 @@ public class OtherController {
                 }
                 String loanType = lo.get(4).toString();
                 String processInfo1 = lo.get(5).toString();
-                String processInfo2 = lo.get(6).toString();
+//                String processInfo2 = lo.get(6).toString();
 
 
                 boolean save = baseService.save(customer);
                 if (save){
                     RCustomerAssign assign = new RCustomerAssign();
                     assign.setCustomerId(customer.getId());
-                    assign.setAdmin(31);
+                    assign.setAdmin(Integer.valueOf(employeeId));
                     assign.setAdminTime(DateUtil.date2Timestamp(new Date()));
-                    assign.setSalesman(31);
-                    assign.setDeputyDirector(9);
-                    assign.setDirector(2);
+                    assign.setSalesman(employee.getId());
+                    assign.setDeputyDirector(duptyEmployee.getId());
+                    assign.setDirector(directorEmployee.getId());
                     baseService.save(assign);
                     if(!Strings.isNullOrEmpty(loanType)){
                         RCustomerLoaninfo loaninfo = new RCustomerLoaninfo();
@@ -667,13 +683,13 @@ public class OtherController {
                     process1.setUpdateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
                     baseService.save(process1);
 
-                    RCustomerProcess process2 =  new RCustomerProcess();
-                    process2.setCustomerId(customer.getId());
-                    process2.setAdmin(31);
-                    process2.setState(0);
-                    process2.setProcess(processInfo2);
-                    process2.setUpdateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
-                    baseService.save(process2);
+//                    RCustomerProcess process2 =  new RCustomerProcess();
+//                    process2.setCustomerId(customer.getId());
+//                    process2.setAdmin(31);
+//                    process2.setState(0);
+//                    process2.setProcess(processInfo2);
+//                    process2.setUpdateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
+//                    baseService.save(process2);
 
                 }
             }

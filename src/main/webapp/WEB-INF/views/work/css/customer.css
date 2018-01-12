@@ -1,14 +1,30 @@
 
 
-.container a{
+.search {
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+.search input {
+  width: 80%;
+  padding: 0.2rem;
+  border: 1px solid #999999;
+  border-radius:15px;
+}
+.search button {
+  background-color: #3bb4f2;
+  color: #fff;
+  border: none;
+  border-radius: 15px;
+  padding: 0.2rem;
+}
+
+.add-cus{
   display: block;
   width: 100%;
   text-align: right;
   margin-bottom: 0.2rem;
   color: #0f9ae0;
 }
-
-
 
 .popup {
   width: 100%;
@@ -47,13 +63,5 @@
   padding-left: 0.45rem;
 
 }
-.a-table tr th {
-  background-color: #3bb4f2 !important;
-  border: 1px solid #eee !important;
-  color: #fff !important;
-  font-weight: 300 !important;
-  text-align: center !important;
-}
-
 
 

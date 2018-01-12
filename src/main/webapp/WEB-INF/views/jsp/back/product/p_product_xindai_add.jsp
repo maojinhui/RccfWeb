@@ -590,7 +590,8 @@ Created by IntelliJ IDEA.
         network(url,obj,function (result) {
             if(result.code){
                 alert("提交成功");
-                window.history.back();
+                window.location.href='/prod/listPage';
+
             }else{
                 alert(result.errormsg);
             }

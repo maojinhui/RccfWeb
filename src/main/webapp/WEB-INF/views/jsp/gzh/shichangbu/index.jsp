@@ -54,7 +54,7 @@
             <div data-nav-bar="1" class="col-5 nav-bar active">
                 通知
                 <% Integer notificationCount = (Integer) request.getAttribute("notificationCount");
-                    if (notificationCount != null) { %>
+                    if (notificationCount != null && notificationCount > 0) { %>
                 <sup><%=notificationCount%>
                 </sup>
                 <% }%>
