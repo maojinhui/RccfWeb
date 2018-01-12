@@ -230,7 +230,27 @@ public class DataController {
                 " ORDER BY   count desc , sum desc \n" +
                 "        ";
         List<ProduceData>  produceDataList =  baseService.queryBySqlFormatClass(ProduceData.class,sql_produce);
-        JSONArray array= JSON.parseArray(JSON.toJSONString(produceDataList));
+        JSONArray array = new JSONArray();
+        JSONObject object ;
+        for (int i=0;i<produceDataList.size();i++){
+            object=new JSONObject();
+            ProduceData produceData = produceDataList.get(i);
+            String pname = "";
+            String agency_name = produceData.getAgency_name();
+            String product_name = produceData.getProduct_name();
+            if(agency_name.equals(product_name)){
+                pname = product_name;
+            }else{
+                pname=agency_name+"-"+product_name;
+            }
+            object.put("id",produceData.getId());
+            object.put("product_name",produceData.getProduct_name());
+            object.put("count",produceData.getCount());
+            object.put("type",produceData.getType());
+            object.put("sum",produceData.getSum());
+            array.add(object);
+        }
+//        JSONArray array= JSON.parseArray(JSON.toJSONString(produceDataList));
         return  ResponseUtil.success_front(array);
     }
 
