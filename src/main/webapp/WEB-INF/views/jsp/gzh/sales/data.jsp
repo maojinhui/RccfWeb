@@ -226,7 +226,11 @@
                         var myChart = et.init(document.getElementById('month_apply'));
 
                         var option = {
-
+                            title: {
+                                text: '受理中',
+                                x: 'center',
+                                y: '170'
+                            },
                             calculable: false,
                             series: [
                                 {
