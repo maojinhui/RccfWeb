@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="/work/css/font-awesome.css">
 
 
-
 </head>
 <body>
 <div class="container">
@@ -119,6 +118,29 @@
 <!--<script src="/work/js/echarts.js"></script>-->
 
 <script>
+
+    $.ajax({
+        type: 'POST',
+        url: '/gzh/data/sales/yeji',
+        data: '',
+        dataType: 'json',
+        success: function (result) {
+            if (result.code) {
+                var data = JSON.parse(result.data);
+                var ache = data.yeji;
+                $('.achievement h1').html(ache);
+
+            } else {
+                $('.achievement h1').html(result.errorMsg);
+            }
+        },
+        error: function () {
+            $('.achievement h1').html('暂无数据，请稍后再试')
+                .css('color', 'red');
+        }
+    });
+
+
     // 路径配置
     require.config({
         paths: {
@@ -166,22 +188,22 @@
             var myChart = et.init(document.getElementById('customer'));
 
             var option = {
-                title : {
+                title: {
                     text: '客户统计数据',
                     x: '140',
                     y: '20'
                 },
-                calculable : false,
-                series : [
+                calculable: false,
+                series: [
                     {
-                        name:'漏斗图',
-                        type:'funnel',
+                        name: '漏斗图',
+                        type: 'funnel',
                         width: '50%',
-                        data:[
-                            {value:120, name:' 一周以内 120'},
-                            {value:89, name:' 一月以内 89'},
-                            {value:46, name:' 三月以内 46'},
-                            {value:22, name:' 三月以上 22'}
+                        data: [
+                            {value: 120, name: ' 一周以内 120'},
+                            {value: 89, name: ' 一月以内 89'},
+                            {value: 46, name: ' 三月以内 46'},
+                            {value: 22, name: ' 三月以上 22'}
                         ]
                     }
                 ]
