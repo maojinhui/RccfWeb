@@ -1,8 +1,11 @@
 package com.rccf.controller.gzh;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.Employee;
+import com.rccf.model.produce.ProduceData;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.util.BackUtil;
@@ -18,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 @Controller
@@ -182,6 +186,53 @@ public class DataController {
     }
 
 
+
+    @ResponseBody
+    @RequestMapping(value = "/sale/produce")
+    public String productList(HttpServletRequest request){
+        Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
+        if(loginEmployee==null){
+            return ResponseUtil.fail(0,"登录状态失效");
+        }
+        int state = loginEmployee.getState();
+        if(state<1){
+            return ResponseUtil.fail(0,"账号已失效，请联系管理员");
+        }
+        String departMent = loginEmployee.getDepartment();
+        int role = loginEmployee.getRole();
+        String code = loginEmployee.getCode();
+
+        long current = System.currentTimeMillis();//当前时间毫秒数
+        long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();//今天零点零分零秒的毫秒数
+        long twelve = zero + 24 * 60 * 60 * 1000 - 1;//今天23点59分59秒的毫秒数
+        String time = request.getParameter("time");
+        Date date = null;
+        if (!Strings.isNullOrEmpty(time)) {
+            date = DateUtil.string2Date(time);
+            current = date.getTime();
+            zero = current;
+            twelve = zero + 24 * 60 * 60 * 1000 - 1;//今天23点59分59秒的毫秒数
+        }
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String day_start = format.format(zero);
+        String month_start = day_start.substring(0, 8) + "01";
+        String day_end = format.format(twelve);
+        String month_end = DateUtil.getPerFirstDayOfMonth(date);
+        /*********时间换算完成***********/
+        String sql_produce="SELECT id, COUNT(*) as count,\n" +
+                "       `product_name`,\n" +
+                "       `agency_name`,\n" +
+                "       SUM(`loan_amount`) as sum , \n" +
+                "    (SELECT `accepted`.`business_type`  from `accepted`  WHERE `accepted` .id=aci.`accept_id` ) as type\n" +
+                "  from `accept_channel_info` aci\n" +
+                " GROUP BY aci.`agency_name`,\n" +
+                "         aci.`product_name`\n" +
+                " ORDER BY   count desc , sum desc \n" +
+                "        ";
+        List<ProduceData>  produceDataList =  baseService.queryBySqlFormatClass(ProduceData.class,sql_produce);
+        JSONArray array= JSON.parseArray(JSON.toJSONString(produceDataList));
+        return  ResponseUtil.success_front(array);
+    }
 
 
 }
