@@ -1,5 +1,6 @@
 package com.rccf.controller.gzh;
 
+import com.alibaba.fastjson.JSONObject;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.Employee;
 import com.rccf.service.BaseService;
@@ -109,11 +110,17 @@ public class DataController {
         String sql_accept_month = "SELECT COUNT(*) FROM accepted a WHERE a.`accept_time` >='"+month_start+"'  and a.`accept_time` <'"+month_end+"'  and a.`clerk` ='"+code+"' ";
         int acceptCount = baseService.getCount(sql_accept_month);
 
-//        String end_month = ""
+        String sql_end_month = "SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >='"+month_start+"' and a.`end_date` <'"+month_end+"'  and a.`clerk` ='"+code+"' and  a.`state` = 2 ";
+        int endCount = baseService.getCount(sql_end_month);
 
+        String sql_refuse_month = "SELECT COUNT(*) FROM accepted a WHERE a.`end_date`  >='"+month_start+"' and a.`end_date` <'"+month_end+"'  and a.`clerk` ='"+code+"'  and ( `state` = 3 or `state` = 4  )";
+        int refuseCount = baseService.getCount(sql_end_month);
 
-
-        return ResponseUtil.success(acceptCount);
+        JSONObject object = new JSONObject();
+        object.put("acceptCount",acceptCount);
+        object.put("endCount",endCount);
+        object.put("refuseCount",refuseCount);
+        return ResponseUtil.success_front(object);
     }
 
 
