@@ -83,4 +83,8 @@ public class BaseService {
         return dao.getCount(sql);
     }
 
+    public Object getUnionData(String sql){
+        return dao.getUnionData(sql);
+    }
+
 }

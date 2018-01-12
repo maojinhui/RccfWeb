@@ -136,4 +136,11 @@ public class BaseDao extends HibernateDaoSupport {
     }
 
 
+    public Object getUnionData(String sql){
+        Query query = getSessionFactory().getCurrentSession().createSQLQuery(sql);
+        List list = query.list();
+        Object object = list.get(0);
+        return object;
+    }
+
 }
