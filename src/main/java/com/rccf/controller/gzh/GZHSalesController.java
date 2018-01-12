@@ -224,4 +224,13 @@ public class GZHSalesController {
         return modelAndView;
     }
 
+
+    @RequestMapping(value = "/page/data")
+    public ModelAndView dataPage(HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/gzh/sales/data");
+        return modelAndView;
+    }
+
+
 }
