@@ -27,30 +27,23 @@
         <p>
             <span>本月<i class="fa fa-chevron-down"></i></span>
         </p>
-        <h1>1,500,000</h1>
+        <h1></h1>
         <p>业绩统计</p>
     </div>
 
-    <div class="customer">
-        <div id="customer" class="customer-table">
-
-        </div>
-    </div>
-
-
     <div class="apply">
         <p>本月受理单情况</p>
-        <div class="row">
+        <div id="month_accept" class="row">
             <div class="col-33">
-                <p>123</p>
+                <p></p>
                 <p>受理</p>
             </div>
             <div class="col-33">
-                <p>60</p>
+                <p></p>
                 <p>办结</p>
             </div>
             <div class="col-33">
-                <p>10</p>
+                <p></p>
                 <p>拒单/撤单</p>
             </div>
         </div>
@@ -67,32 +60,8 @@
                 <th>受理单数</th>
                 <th>总成交额</th>
             </tr>
-            <tbody>
-            <tr>
-                <td>中国银行-抵押贷</td>
-                <td>25</td>
-                <td>1000万</td>
-            </tr>
-            <tr>
-                <td>平安普惠-信用贷</td>
-                <td>12</td>
-                <td>1000万</td>
-            </tr>
-            <tr>
-                <td>哈尔滨银行-摘e贷</td>
-                <td>6</td>
-                <td>1000万</td>
-            </tr>
-            <tr>
-                <td>中国银行</td>
-                <td>4</td>
-                <td>1000万</td>
-            </tr>
-            <tr>
-                <td>中国银行</td>
-                <td>12</td>
-                <td>1000万</td>
-            </tr>
+            <tbody id="content">
+
             </tbody>
         </table>
     </div>
@@ -118,7 +87,16 @@
 <!--<script src="/work/js/echarts.js"></script>-->
 
 <script>
+    // 判断数据是否为0
+    var isZero = function (data) {
+        if (data === 0) {
+            return true;
+        } else {
+            return false;
+        }
+    };
 
+    // 请求业绩数据并展示
     $.ajax({
         type: 'POST',
         url: '/gzh/data/sale/yeji',
@@ -127,11 +105,11 @@
         success: function (result) {
             if (result.code) {
                 var data = JSON.parse(result.data);
-                var ache = data.yeji;
-                $('.achievement h1').html(ache);
+                console.log(data);
+                $('.achievement h1').html(data);
 
             } else {
-                $('.achievement h1').html(result.errorMsg);
+                $('.achievement h1').html(result.errormsg);
             }
         },
         error: function () {
@@ -140,6 +118,63 @@
         }
     });
 
+    //  请求本月受理单数据并展示
+    $.ajax({
+        type: 'POST',
+        url: '/gzh/data/sale/acceptend',
+        data: '',
+        dataType: 'json',
+        success: function (result) {
+            if (result.code) {
+                var data = JSON.stringify(result.data);
+                var info = JSON.parse(data);
+                var pNodes = $('.col-33 p:first-child');
+                console.log(pNodes);
+                pNodes[0].innerHTML = info.acceptCount;
+                pNodes[1].innerHTML = info.endCount;
+                pNodes[2].innerHTML = info.refuseCount
+            } else {
+                $('#month_accept').html(result.errormsg);
+            }
+        },
+        error: function () {
+            $('#month_accept').html('数据整理中……');
+        }
+    });
+
+
+    //获取产品统计数据
+    $.ajax({
+        type: 'POST',
+        url: '/gzh/data/sale/produce',
+        data: {},
+        dataType: 'json',
+        success: function (result) {
+            if (result.code) {
+//                var produces = JSON.stringify(result.data);
+//                var info = JSON.parse(produces);
+                var info = result.data;
+                console.log(result);
+                console.log(info);
+
+                var str = '';
+                var i = 0;
+                for (; i < info.length; i++) {
+                    var data = info[i];
+                    str += '<tr>\n' +
+                        '                <td>' + data.product_name + '</td>\n' +
+                        '                <td>' + data.count + '</td>\n' +
+                        '                <td>' + data.sum + '万</td>\n' +
+                        '            </tr>';
+                }
+
+                $('#content').html(str);
+            }
+        }
+    });
+
+
+    //—————————— 图表数据———————————
 
     // 路径配置
     require.config({
@@ -147,72 +182,114 @@
             echarts: 'http://echarts.baidu.com/build/dist'
         }
     });
-    //  受理单统计
-    require(
-        [
-            'echarts',
-            'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
-        ],
-        function (et) {
-            // 基于准备好的dom，初始化echarts图表
-            var myChart = et.init(document.getElementById('month_apply'));
+    // 获取本月受理单数据 并绘制饼图
+    $.ajax({
+        type: 'POST',
+        url: '/gzh/data/sale/accepting',
+        data: '',
+        dataType: 'json',
+        success: function (result) {
+            if (result.code) {
+                var accepts = JSON.stringify(result.data);
+                var info = JSON.parse(accepts);
+                console.log(info);
+                var dyNo = info.diyaCount;
+                var xdNo = info.xinyongCount;
+                var zyNo = info.zhiyaCount;
+                var qtNo = info.otherCount;
 
-            var option = {
+                var data;
+                if (isZero(dyNo) && isZero(xdNo) && isZero(zyNo) && isZero(qtNo)) {
+                    data = [
+                        {value: 1, name: '抵押 0'},
+                        {value: 1, name: '信贷 0'},
+                        {value: 1, name: '质押 0'},
+                        {value: 1, name: '其他 0'}
+                    ]
+                } else {
+                    data = [
+                        {value: dyNo, name: '抵押 ' + dyNo},
+                        {value: xdNo, name: '信贷 ' + xdNo},
+                        {value: zyNo, name: '质押 ' + zyNo},
+                        {value: qtNo, name: '其他 ' + qtNo}
+                    ]
+                }
 
-                calculable: false,
-                series: [
-                    {
-                        name: '访问来源',
-                        type: 'pie',
-                        radius: '55%',
-                        center: ['50%', '60%'],
-                        data: [
-                            {value: 20, name: '抵押 20'},
-                            {value: 30, name: '质押 30'},
-                            {value: 123, name: '信贷 123'}
-                        ]
+                //  受理单统计
+                require(
+                    [
+                        'echarts',
+                        'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
+                    ],
+                    function (et) {
+                        // 基于准备好的dom，初始化echarts图表
+                        var myChart = et.init(document.getElementById('month_apply'));
+
+                        var option = {
+
+                            calculable: false,
+                            series: [
+                                {
+                                    name: '访问来源',
+                                    type: 'pie',
+                                    radius: '55%',
+                                    center: ['50%', '50%'],
+                                    data: data
+                                }
+                            ]
+                        };
+                        myChart.setOption(option);
                     }
-                ]
-            };
-            myChart.setOption(option);
-        }
-    );
-    //  客户统计
-    require(
-        [
-            'echarts',
-            'echarts/chart/funnel' // 使用柱状图就加载bar模块，按需加载
-        ],
-        function (et) {
-            // 基于准备好的dom，初始化echarts图表
-            var myChart = et.init(document.getElementById('customer'));
+                );
 
-            var option = {
-                title: {
-                    text: '客户统计数据',
-                    x: '140',
-                    y: '20'
-                },
-                calculable: false,
-                series: [
-                    {
-                        name: '漏斗图',
-                        type: 'funnel',
-                        width: '50%',
-                        data: [
-                            {value: 120, name: ' 一周以内 120'},
-                            {value: 89, name: ' 一月以内 89'},
-                            {value: 46, name: ' 三月以内 46'},
-                            {value: 22, name: ' 三月以上 22'}
+            } else {
+                alert(result.errormsg);
+            }
+
+        },
+        error: function () {
+            var data = data = [
+                {value: 1, name: '抵押 0'},
+                {value: 1, name: '信贷 0'},
+                {value: 1, name: '质押 0'},
+                {value: 1, name: '其他 0'}
+            ];
+            //  受理单统计
+            require(
+                [
+                    'echarts',
+                    'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
+                ],
+                function (et) {
+                    // 基于准备好的dom，初始化echarts图表
+                    var myChart = et.init(document.getElementById('month_apply'));
+
+                    var option = {
+                        title: {
+                            text: '数据错误,请稍后再试',
+                            x: 'center',
+                            y: '20'
+                        },
+                        calculable: false,
+                        series: [
+                            {
+                                name: '访问来源',
+                                type: 'pie',
+                                radius: '55%',
+                                center: ['50%', '50%'],
+                                data: data
+                            }
                         ]
-                    }
-                ]
-            };
-
-
-            myChart.setOption(option);
+                    };
+                    myChart.setOption(option);
+                }
+            );
         }
-    );
+    });
+
+
+
+
 </script>
 </body>
 </html>
