@@ -179,8 +179,11 @@
 
                 var deputy = deputies[i];
                 var name = deputy.name;
-                var goalCount = deputy.target;
-                var compCount = deputy.monthyeji;
+                var role = deputy.role;
+                var goalCount = deputy.target === undefined ? 0 : deputy.target;
+                var compCount = deputy.monthyeji === undefined ? 0 : deputy.monthyeji;
+
+
 
                 var flag = '';
                 var dValue = goalCount - compCount;
@@ -191,7 +194,7 @@
                     flag = 'success'
                 }
 
-                str += '<div class="col-10 ' + flag + '">\n' +
+                str += '<div data-role="' + role + '" class="col-10 ' + flag + '">\n' +
                     '        <p>' + name + '</p>\n' +
                     '        <p>目标业绩：' + goalCount + '</p>\n' +
                     '        <p>完成业绩：' + compCount + '</p>\n' +
