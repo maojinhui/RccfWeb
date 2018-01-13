@@ -202,7 +202,7 @@ public class TopController {
         String director_id = request.getParameter("id");
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/gzh/manager/director_yeji");
+        modelAndView.setViewName("/gzh/manager/director_accept");
         String sql = "SELECT e.`id`  from `employee`  e WHERE  e.`department` like '%金融%' and `role` =2 and `state` =1; ";
         List list = baseService.queryBySql(sql);
         JSONArray array = JSON.parseArray(JSON.toJSONString(list));
@@ -253,8 +253,8 @@ public class TopController {
         String directorcode = employee.getDirector();
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/gzh/manager/director_yeji");
-        String sql = "SELECT e.`id`  from `employee`  e WHERE  e.`department` like '%金融%' and `role` =3 and `state` =1 and  ";
+        modelAndView.setViewName("/gzh/manager/director_accept");
+        String sql = "SELECT e.`id`  from `employee`  e WHERE  e.`department` like '%金融%' and `role` =3 and `state` =1 and  director='"+directorcode+"'";
         List list = baseService.queryBySql(sql);
         JSONArray array = JSON.parseArray(JSON.toJSONString(list));
         modelAndView.addObject("director_array" , array);
