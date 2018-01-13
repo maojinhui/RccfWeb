@@ -24,7 +24,8 @@
 <body>
 <div class="container">
     <header>
-        <h3 data-depart-id="<%=yeji.getId()%>" class=""><span class="left">&lt;</span><%=yeji.getDepartment()%><span class="right">&gt;</span></h3>
+        <h3 data-depart-id="<%=yeji.getId()%>" class=""><span class="left">&lt;</span><%=yeji.getName()%><span
+                class="right">&gt;</span></h3>
     </header>
 
     <div class="">
@@ -109,7 +110,6 @@
     }
 
 
-
     require(
         [
             'echarts',
@@ -164,10 +164,9 @@
     );
 
 
-
     $.ajax({
         type: 'POST',
-        url: '/gzh/data/director/data',
+        url: '/gzh/data/duptydirector/data',
         data: {'id': departId},
         dataType: 'json',
         success: function (result) {
@@ -184,7 +183,6 @@
                 var compCount = deputy.monthyeji === undefined ? 0 : deputy.monthyeji;
 
 
-
                 var flag = '';
                 var dValue = goalCount - compCount;
 
@@ -194,7 +192,7 @@
                     flag = 'success'
                 }
 
-                str += '<div onclick="toDupty(this)" data-dupty-id="' + deputy.id + '" data-role="' + role + '" class="col-10 ' + flag + '">\n' +
+                str += '<div data-role="' + role + '" class="col-10 ' + flag + '">\n' +
                     '        <p>' + name + '</p>\n' +
                     '        <p>目标业绩：' + goalCount + '</p>\n' +
                     '        <p>完成业绩：' + compCount + '</p>\n' +
@@ -206,19 +204,8 @@
 
         }
 
-    });
+    })
 
-
-    var toDupty = function (obj) {
-        var id = obj.dataset.duptyId;
-        var role = obj.dataset.role;
-
-        if (role === 3) {
-            window.location.href = '/gzh/top/page/yeji/duptydirector?director_id=' + departId + '&dupty_id=' + id;
-        } else {
-            window.location.href = '/gzh/top/page/yeji/duptydirector?director_id=' + departId + '&dupty_id=' + id;
-        }
-    }
 </script>
 </body>
 </html>
