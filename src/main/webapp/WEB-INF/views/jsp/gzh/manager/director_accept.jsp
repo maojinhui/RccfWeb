@@ -1,4 +1,6 @@
-<%@ page import="com.rccf.model.gzh.Yeji" %><%--
+<%@ page import="com.rccf.model.gzh.Yeji" %>
+<%@ page import="com.alibaba.fastjson.JSONArray" %>
+<%@ page import="com.rccf.model.gzh.Accept" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2018/1/13 0013
@@ -7,7 +9,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Yeji yeji = (Yeji) request.getAttribute("data");
+    Accept accept = (Accept) request.getAttribute("accept");
 
 %>
 <!DOCTYPE html>
@@ -24,7 +26,7 @@
 <body>
 <div class="container">
     <header>
-        <h3 data-depart-id="<%=yeji.getId()%>" class=""><span class="left">&lt;</span><%=yeji.getName()%><span
+        <h3 data-depart-id="<%=accept.getId()%>" class=""><span class="left">&lt;</span><%=accept.getDepartment()%><span
                 class="right">&gt;</span></h3>
     </header>
 
@@ -32,15 +34,15 @@
         <div class="apply">
             <div class="row">
                 <div class="col-33">
-                    <p></p>
+                    <p><%=accept.getMonthaccept()%></p>
                     <p>受理</p>
                 </div>
                 <div class="col-33">
-                    <p></p>
+                    <p><%=accept.getMonthend()%></p>
                     <p>办结</p>
                 </div>
                 <div class="col-33">
-                    <p></p>
+                    <p><%=accept.getMonthrefuse()%></p>
                     <p>拒单/撤单</p>
                 </div>
             </div>
@@ -109,29 +111,10 @@
         }
     });
 
-    var complete = <%=yeji.getMonthyeji()==null ? 0 : yeji.getMonthyeji()%>;
-    var goal = <%=yeji.getTarget()==null ? 0 : yeji.getTarget()%>;
-    var legend;
-    var seri;
-    var val = goal - complete;
-
-    if (val <= 0) {
-
-        val = Math.abs(val);
-
-        legend = ['目标业绩 ' + goal, '超出业绩 ' + val];
-        seri = [
-            {value: goal, name: '目标业绩 ' + goal},
-            {value: val, name: '超出业绩 ' + val}
-        ];
-    } else {
-        legend = ['已完成业绩 ' + complete, '未完成业绩 ' + val];
-        seri = [
-            {value: complete, name: '已完成业绩 ' + complete},
-            {value: val, name: '未完成业绩 ' + val}
-        ];
-    }
-
+    var xindai = <%=accept.getNowaccept_xindai()%>;
+    var diya = <%=accept.getNowaccept_diya()%>;
+    var zhiya = <%=accept.getNowaccept_zhiya()%>;
+    var other = <%=accept.getNowaccept_other()%>;
 
     require(
         [
