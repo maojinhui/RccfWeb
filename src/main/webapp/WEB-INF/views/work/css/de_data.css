@@ -1,0 +1,51 @@
+
+
+html ,
+body{
+  background-color: #fff;
+}
+.container {
+  padding: 0.4rem 0.266rem;
+}
+h3{
+  margin-top: 0.3rem;
+  text-align: center;
+}
+.right {
+  font-size: 0.7rem;
+  color: #F37B1D;
+  margin-right: 0.5rem;
+}
+.left {
+  font-size: 0.7rem;
+  color: #F37B1D;
+  margin-left: 0.5rem;
+}
+.row {
+  margin-top: 0.4rem;
+}
+.col-10 {
+  color: #fff;
+
+  border-right: 1px solid #fff;
+  padding: 0.266rem ;
+  margin-bottom: 0.2rem;
+  box-sizing: border-box;
+}
+
+.col-10 p {
+  margin-bottom: 0.266rem;
+}
+.success {
+  background-color: #4cae4c;
+}
+.failed {
+  background-color: #d7342e;
+}
+.my-canvas {
+  width: 90%;
+  height: 320px;
+  margin: 0.4rem auto;
+
+  box-shadow: 1px 1px 1px 1px #999999;
+}

@@ -19,9 +19,10 @@ public class TopController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/page/yeji/director")
     public ModelAndView directorYejiPage(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/gzh/manager/general_manager");
+        modelAndView.setViewName("/gzh/manager/director_yeji");
         return modelAndView;
     }
 
