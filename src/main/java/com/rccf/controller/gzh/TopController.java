@@ -218,7 +218,7 @@ public class TopController {
                 " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
                 " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=1 ) as nowaccept_diya,\n" +
                 " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=2 ) as nowaccept_zhiya,\n" +
-                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type= !=0 and a.business_type !=1 and a.business_type= !=2 ) as nowaccept_other\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type= !=0 and a.business_type !=1 and a.business_type !=2 ) as nowaccept_other\n" +
                 "FROM `employee` e  WHERE e.`role` =2 and e.`id` = "+director_id;
         List list1 = baseService.queryBySqlFormatClass(Accept.class,sql_data);
         if(list1!=null && list1.size()>0){
@@ -231,6 +231,7 @@ public class TopController {
     @RequestMapping(value = "/page/accept/duptydirector")
     public ModelAndView duptyDirectorAcceptPage(HttpServletRequest request){
         String dupty_id = request.getParameter("dupty_id");
+
         long current = System.currentTimeMillis();//当前时间毫秒数
         long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();//今天零点零分零秒的毫秒数
         long twelve = zero + 24 * 60 * 60 * 1000 - 1;//今天23点59分59秒的毫秒数
@@ -252,7 +253,7 @@ public class TopController {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/manager/director_yeji");
-        String sql = "SELECT e.`id`  from `employee`  e WHERE  e.`department` like '%金融%' and `role` =2 and `state` =1; ";
+        String sql = "SELECT e.`id`  from `employee`  e WHERE  e.`department` like '%金融%' and `role` =3 and `state` =1; ";
         List list = baseService.queryBySql(sql);
         JSONArray array = JSON.parseArray(JSON.toJSONString(list));
         modelAndView.addObject("director_array" , array);
