@@ -609,15 +609,12 @@ public class DataController {
     @ResponseBody
     @RequestMapping(value = "/duptydirector/data")
     public String duptyDirectorData(HttpServletRequest request) {
-
-
         String duptydirector_id = request.getParameter("id");
         if(Strings.isNullOrEmpty(duptydirector_id)){
             return ResponseUtil.fail(0,"请上传id");
         }
         Employee employee = employeeService.findEmpolyeeById(Integer.valueOf(duptydirector_id));
         String code = employee.getCode();
-
 
         long current = System.currentTimeMillis();//当前时间毫秒数
         long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();//今天零点零分零秒的毫秒数
@@ -639,9 +636,9 @@ public class DataController {
 
         String sql_dupty = "\n" +
                 "SELECT e.id,e.`name` ,e.`department` , e.`code` , e.role,\n" +
-                "(SELECT et.target*10000  from `employee_target` et WHERE et.`eid` = e.`id` ) as target ,\n" +
+                "20000 as target ,\n" +
                 "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'   and  a.`deputy_director`  =e.code AND a.`state` =2) as monthyeji\n" +
-                "from `employee`  e WHERE e.`director` ='" + code + "' and e.`state` =1 and e.`role` =3;";
+                "from `employee`  e WHERE e.`dupty_director` ='" + code + "' and e.`state` =1 and e.`role` =4;";
 
 
         List<Yeji> list = baseService.queryBySqlFormatClass(Yeji.class, sql_dupty);
