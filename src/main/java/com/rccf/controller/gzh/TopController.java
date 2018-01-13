@@ -60,7 +60,7 @@ public class TopController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/page/yeji/duptudirector")
+    @RequestMapping(value = "/page/yeji/duptydirector")
     public ModelAndView duptyDirectorYjiePage(HttpServletRequest request){
         String director_id = request.getParameter("director_id");
         String dupty_id = request.getParameter("dupty_id");
@@ -89,6 +89,9 @@ public class TopController {
         }
         return modelAndView;
     }
+
+
+
 
 
 }
