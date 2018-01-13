@@ -82,6 +82,56 @@ public class TopController {
     }
 
 
+    @RequestMapping(value = "/accept/sales")
+    public ModelAndView salesAccept(HttpServletRequest request){
+//        String director_id = request.getParameter("director_id");
+//        String dupty_id = request.getParameter("dupty_id");
+
+//        Employee employee = employeeService.findEmpolyeeById(Integer.valueOf(director_id));
+//        String directorCode = employee.getDirector();
+        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+        int dupty_id = employee.getId();
+
+
+        long current = System.currentTimeMillis();//当前时间毫秒数
+        long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();//今天零点零分零秒的毫秒数
+        long twelve = zero + 24 * 60 * 60 * 1000 - 1;//今天23点59分59秒的毫秒数
+        String time = request.getParameter("time");
+        Date date = null;
+        if (!Strings.isNullOrEmpty(time)) {
+            date = DateUtil.string2Date(time);
+            current = date.getTime();
+            zero = current;
+            twelve = zero + 24 * 60 * 60 * 1000 - 1;//今天23点59分59秒的毫秒数
+        }
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String day_start = format.format(zero);
+        String month_start = day_start.substring(0, 8) + "01";
+        String day_end = format.format(twelve);
+        String month_end = DateUtil.getPerFirstDayOfMonth(date);
+        /*********时间换算完成***********/
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/gzh/manager/sales_accept");
+
+        String sql_data = "SELECT e.id,e.code , e.`name` ,e.`department`, e.role,\n" +
+                "(SELECT  COUNT(*) from `accepted`  a WHERE  a.`accept_time` >= '"+month_end+"' and a.`accept_time` < '"+month_end+"'  and  a.`deputy_director` =e.code ) as monthaccept,\n" +
+                "(SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >= '"+month_start+"' and a.`end_date` < '"+month_end+"'  and  a.`deputy_director` =e.code  and `state` =2) as monthend,\n" +
+                "(SELECT COUNT(*) FROM accepted a WHERE a.`create_time`  >= '"+month_start+"' and a.`create_time`< '"+month_end+"'  and  a.`deputy_director` =e.code AND (`state` =3 or `state` =4) ) as monthrefuse ,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type=1 ) as nowaccept_diya,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type=2 ) as nowaccept_zhiya,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type !=0 and a.business_type !=1 and a.business_type !=2 ) as nowaccept_other\n" +
+                "FROM `employee` e  WHERE e.`role` =3 and e.`id` = "+dupty_id;
+        List list1 = baseService.queryBySqlFormatClass(Accept.class,sql_data);
+        if(list1!=null && list1.size()>0){
+            modelAndView.addObject("accept", list1.get(0));
+        }
+        return modelAndView;
+
+    }
+
+
     @RequestMapping(value = "/page/yeji/director")
     public ModelAndView directorYejiPage(HttpServletRequest request){
         String director_id = request.getParameter("id");
@@ -230,8 +280,11 @@ public class TopController {
 
     @RequestMapping(value = "/page/accept/duptydirector")
     public ModelAndView duptyDirectorAcceptPage(HttpServletRequest request){
+        String director_id = request.getParameter("director_id");
         String dupty_id = request.getParameter("dupty_id");
 
+        Employee employee = employeeService.findEmpolyeeById(Integer.valueOf(director_id));
+        String directorCode = employee.getDirector();
         long current = System.currentTimeMillis();//当前时间毫秒数
         long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();//今天零点零分零秒的毫秒数
         long twelve = zero + 24 * 60 * 60 * 1000 - 1;//今天23点59分59秒的毫秒数
@@ -249,14 +302,11 @@ public class TopController {
         String day_end = format.format(twelve);
         String month_end = DateUtil.getPerFirstDayOfMonth(date);
         /*********时间换算完成***********/
-        Employee employee = employeeService.findEmpolyeeById(Integer.valueOf(dupty_id));
-        String duptyCode = employee.getDirector();
-        String directorCode = employee.getDirector();
-
-
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/manager/dupty_accept");
+        modelAndView.addObject("director_id",director_id);
+
         String sql = "SELECT e.`id`  from `employee`  e WHERE  e.`department` like '%金融%' and `role` =3 and `state` =1 and  director='"+directorCode+"'";
         List list = baseService.queryBySql(sql);
         JSONArray array = JSON.parseArray(JSON.toJSONString(list));
@@ -268,10 +318,10 @@ public class TopController {
                 "(SELECT  COUNT(*) from `accepted`  a WHERE  a.`accept_time` >= '"+month_end+"' and a.`accept_time` < '"+month_end+"'  and  a.`deputy_director` =e.code ) as monthaccept,\n" +
                 "(SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >= '"+month_start+"' and a.`end_date` < '"+month_end+"'  and  a.`deputy_director` =e.code  and `state` =2) as monthend,\n" +
                 "(SELECT COUNT(*) FROM accepted a WHERE a.`create_time`  >= '"+month_start+"' and a.`create_time`< '"+month_end+"'  and  a.`deputy_director` =e.code AND (`state` =3 or `state` =4) ) as monthrefuse ,\n" +
-                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`dupty_director` = e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
-                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`dupty_director` = e.`code` AND a.business_type=1 ) as nowaccept_diya,\n" +
-                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`dupty_director` = e.`code` AND a.business_type=2 ) as nowaccept_zhiya,\n" +
-                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`dupty_director` = e.`code` AND a.business_type !=0 and a.business_type !=1 and a.business_type !=2 ) as nowaccept_other\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type=1 ) as nowaccept_diya,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type=2 ) as nowaccept_zhiya,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type !=0 and a.business_type !=1 and a.business_type !=2 ) as nowaccept_other\n" +
                 "FROM `employee` e  WHERE e.`role` =3 and e.`id` = "+dupty_id;
         List list1 = baseService.queryBySqlFormatClass(Accept.class,sql_data);
         if(list1!=null && list1.size()>0){

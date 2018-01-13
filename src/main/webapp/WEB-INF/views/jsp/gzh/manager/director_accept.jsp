@@ -218,7 +218,7 @@
         var id = obj.dataset.duptyId;
         var role = obj.dataset.role;
 
-        if (role === 3) {
+        if (role === "3") {
             window.location.href = '/gzh/top/page/accept/duptydirector?director_id=' + departId + '&dupty_id=' + id;
         } else {
 

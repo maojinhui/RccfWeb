@@ -40,7 +40,7 @@
         <p>业绩统计</p>
     </div>
 
-    <div class="apply">
+    <div id="top_accept" class="apply">
         <p>本月受理单情况</p>
         <div id="month_accept" class="row">
             <div class="col-33">
@@ -290,6 +290,9 @@
 
     $('#top_yeji').click(function () {
         window.location.href='/gzh/top/page/yeji/duptydirector?director_id=<%=request.getAttribute("director_id")%>';
+    })
+    $('#top_accept').click(function () {
+        window.location.href='/gzh/top/page/accept/duptydirector?director_id=<%=request.getAttribute("director_id")%>';
     })
 
 </script>

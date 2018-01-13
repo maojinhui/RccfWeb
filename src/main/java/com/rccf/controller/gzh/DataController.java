@@ -1031,10 +1031,10 @@ public class DataController {
                 "(SELECT  COUNT(*) from `accepted`  a WHERE  a.`accept_time` >= '"+month_end+"' and a.`accept_time` < '"+month_end+"'  and  a.`clerk` =e.code ) as monthaccept,\n" +
                 "(SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >= '"+month_start+"' and a.`end_date` < '"+month_end+"'  and  a.`clerk` =e.code  and `state` =2) as monthend ,\n" +
                 "(SELECT COUNT(*) FROM accepted a WHERE a.`create_time`  >= '"+month_start+"' and a.`create_time`< '"+month_end+"'  and  a.`clerk` =e.code AND (`state` =3 or `state` =4) ) as monthrefuse ,\n" +
-                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`dupty_director` = e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
-                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`dupty_director` = e.`code` AND a.business_type=1 ) as nowaccept_diya,\n" +
-                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`dupty_director` = e.`code` AND a.business_type=2 ) as nowaccept_zhiya,\n" +
-                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`dupty_director` = e.`code` AND a.business_type !=0 and a.business_type !=1 and a.business_type !=2 ) as nowaccept_other\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type=1 ) as nowaccept_diya,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type=2 ) as nowaccept_zhiya,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type !=0 and a.business_type !=1 and a.business_type !=2 ) as nowaccept_other\n" +
                 "from `employee`  e WHERE e.`dupty_director` ='" + code + "' and e.`state` =1 and e.`role` =4;";
 
 

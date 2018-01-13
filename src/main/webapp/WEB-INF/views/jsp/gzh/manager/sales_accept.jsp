@@ -31,8 +31,7 @@
 <body>
 <div class="container">
     <header>
-        <h3 data-depart-id="<%=accept.getId()%>" class=""><span class="left">&lt;</span><%=accept.getName()%><span
-                class="right">&gt;</span></h3>
+        <h3 data-depart-id="<%=accept.getId()%>" class=""><%=accept.getName()%></h3>
     </header>
 
     <div class="">
@@ -76,39 +75,7 @@
             return false;
         }
     };
-    var arr = <%=request.getAttribute("dupty_array")%>;
     var departId = $('h3').data('departId');
-    var index = arr.indexOf(departId);
-
-    $('.right').click(function () {
-
-        if (index === arr.length - 1) {
-            index = 0;
-        } else {
-            index++;
-        }
-
-        var depart_id = arr[index];
-
-        window.location.href = "?director_id=<%=request.getAttribute("director_id")%>&dupty_id=" + depart_id;
-
-    });
-
-    $('.left').click(function () {
-
-
-        if (index === 0) {
-            index = arr.length - 1;
-        } else {
-            index--;
-        }
-
-        var depart_id = arr[index];
-
-        window.location.href = "?director_id=<%=request.getAttribute("director_id")%>&dupty_id=" + depart_id;
-
-    });
-
 
     // 路径配置
     require.config({
@@ -208,7 +175,7 @@
                 var compCount = deputy.monthend === undefined ? 0 : deputy.monthend;
 
 
-                str += '<div onclick="toDupty(this)" data-dupty-id="' + id + '" data-role="' + role + '" class="col-10 success">\n' +
+                str += '<div  data-dupty-id="' + id + '" data-role="' + role + '" class="col-10 success">\n' +
                     '        <p>' + name + '</p>\n' +
                     '        <p>受理数：' + goalCount + '</p>\n' +
                     '        <p>办结数：' + compCount + '</p>\n' +
@@ -223,16 +190,7 @@
     });
 
 
-//    var toDupty = function (obj) {
-//        var id = obj.dataset.duptyId;
-//        var role = obj.dataset.role;
-//
-//        if (role === "3") {
-//            window.location.href = '/gzh/top/page/yeji/duptydirector?director_id=' + departId + '&dupty_id=' + id;
-//        } else {
-//
-//        }
-//    }
+
 </script>
 </body>
 </html>
