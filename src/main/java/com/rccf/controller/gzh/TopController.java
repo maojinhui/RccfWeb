@@ -250,22 +250,21 @@ public class TopController {
         String month_end = DateUtil.getPerFirstDayOfMonth(date);
         /*********时间换算完成***********/
         Employee employee = employeeService.findEmpolyeeById(Integer.valueOf(dupty_id));
-        String directorcode = employee.getDirector();
+        String duptyCode = employee.getDirector();
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/gzh/manager/director_accept");
-        String sql = "SELECT e.`id`  from `employee`  e WHERE  e.`department` like '%金融%' and `role` =3 and `state` =1 and  director='"+directorcode+"'";
+        modelAndView.setViewName("/gzh/manager/dupty_accept");
+        String sql = "SELECT e.`id`  from `employee`  e WHERE  e.`department` like '%金融%' and `role` =3 and `state` =1 and  deputy_director='"+duptyCode+"'";
         List list = baseService.queryBySql(sql);
         JSONArray array = JSON.parseArray(JSON.toJSONString(list));
-        modelAndView.addObject("director_array" , array);
+        modelAndView.addObject("dupty_array" , array);
         if(Strings.isNullOrEmpty(dupty_id)){
             dupty_id = list.get(0).toString();
         }
-
         String sql_data = "SELECT e.id,e.code , e.`name` ,e.`department`, e.role,\n" +
-                "(SELECT  COUNT(*) from `accepted`  a WHERE  a.`accept_time` >= '"+month_end+"' and a.`accept_time` < '"+month_end+"'  and  a.`director` =e.code ) as monthaccept,\n" +
-                "(SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >= '"+month_start+"' and a.`end_date` < '"+month_end+"'  and  a.`director` =e.code  and `state` =2) as monthend,\n" +
-                "(SELECT COUNT(*) FROM accepted a WHERE a.`create_time`  >= '"+month_start+"' and a.`create_time`< '"+month_end+"'  and  a.`director` =e.code AND (`state` =3 or `state` =4) ) as monthrefuse ,\n" +
+                "(SELECT  COUNT(*) from `accepted`  a WHERE  a.`accept_time` >= '"+month_end+"' and a.`accept_time` < '"+month_end+"'  and  a.`deputy_director` =e.code ) as monthaccept,\n" +
+                "(SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >= '"+month_start+"' and a.`end_date` < '"+month_end+"'  and  a.`deputy_director` =e.code  and `state` =2) as monthend,\n" +
+                "(SELECT COUNT(*) FROM accepted a WHERE a.`create_time`  >= '"+month_start+"' and a.`create_time`< '"+month_end+"'  and  a.`deputy_director` =e.code AND (`state` =3 or `state` =4) ) as monthrefuse ,\n" +
                 " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
                 " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=1 ) as nowaccept_diya,\n" +
                 " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=2 ) as nowaccept_zhiya,\n" +
