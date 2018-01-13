@@ -641,7 +641,7 @@ public class DataController {
             sql_dupty = "SELECT e.id,e.`name` ,e.`department` , e.`code` , e.role,\n" +
                     "(SELECT et.target*10000  from `employee_target` et WHERE et.`eid` = e.`id` ) as target ,\n" +
                     "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'   and  a.`clerk`  =e.code AND a.`state` =2) as monthyeji\n" +
-                    "from `employee`  e WHERE e.`director` ='" + code + "' and e.`state` =1 and e.`role` =4;";
+                    "from `employee`  e WHERE e.`director` ='" + code + "' and e.`state` =1 and e.`role` =4 ;";
         }
 
         List<Yeji> list = baseService.queryBySqlFormatClass(Yeji.class, sql_dupty);
