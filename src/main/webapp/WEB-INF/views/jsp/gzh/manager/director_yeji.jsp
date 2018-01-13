@@ -27,17 +27,8 @@
         <div id="depart" class="my-canvas">
 
         </div>
-        <div class="row">
-            <div class="col-10 success">
-                <p>刘彩芳</p>
-                <p>目标业绩：90000</p>
-                <p>完成业绩：90000</p>
-            </div>
-            <div class="col-10 failed">
-                <p>刘彩芳</p>
-                <p>目标业绩：90000</p>
-                <p>完成业绩：8000</p>
-            </div>
+        <div id="content" class="row">
+
         </div>
     </div>
 
@@ -90,12 +81,27 @@
         }
     });
 
+    var complete = 10000;
+    var goal = 20000;
+    var legend;
+    var seri;
+    var val = goal - complete;
 
-    var legend = ['已完成业绩 10000.32', '未完成业绩 10000.32'];
-    var seri = [
-        {value: 10000.32, name: '已完成业绩 10000.32'},
-        {value: 10000.32, name: '未完成业绩 10000.32'}
-    ];
+    if (val >= 0) {
+        legend = ['目标业绩 ' + goal, '超出业绩 ' + val];
+        seri = [
+            {value: goal, name: '目标业绩 ' + goal},
+            {value: val, name: '超出业绩 ' + val}
+        ];
+    } else {
+        legend = ['已完成业绩 ' + complete, '未完成业绩 ' + val];
+        seri = [
+            {value: complete, name: '已完成业绩 ' + complete},
+            {value: val, name: '未完成业绩 ' + val}
+        ];
+    }
+
+
 
     require(
         [
@@ -151,12 +157,42 @@
     );
 
 
+
     $.ajax({
         type: 'POST',
         url: '',
         data: {'id': departId},
         dataType: 'json',
         success: function (result) {
+
+            var deputies = result.data;
+
+            var str = '';
+            for (var i = 0; i < deputies.length; i++) {
+
+                var deputy = deputies[i];
+                var name = deputy.name;
+                var goalCount = deputy.goalCount;
+                var compCount = deputy.completeCount;
+
+                var flag = '';
+                var dValue = goalCount - compCount;
+
+                if (dValue > 0) {
+                    flag = 'failed'
+                } else {
+                    flag = 'success'
+                }
+
+                str += '<div class="col-10 ' + flag + '">\n' +
+                    '        <p>' + name + '</p>\n' +
+                    '        <p>目标业绩：' + goalCount + '</p>\n' +
+                    '        <p>完成业绩：' + compCount + '</p>\n' +
+                    '      </div>';
+            }
+
+
+            $('#content').html(str);
 
         }
 
