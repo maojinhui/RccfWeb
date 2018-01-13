@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.Employee;
+import com.rccf.model.gzh.Accept;
 import com.rccf.model.gzh.Yeji;
 import com.rccf.model.produce.ProduceData;
 import com.rccf.service.BaseService;
@@ -940,6 +941,64 @@ public class DataController {
         object.put("otherCount", otherCount);
         return ResponseUtil.success_front(object);
     }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/accept/director/data")
+    public String directorAcceptData(HttpServletRequest request){
+        String director_id = request.getParameter("id");
+        if (Strings.isNullOrEmpty(director_id)) {
+            return ResponseUtil.fail(0, "请上传id");
+        }
+        Employee employee = employeeService.findEmpolyeeById(Integer.valueOf(director_id));
+        String code = employee.getCode();
+
+        long current = System.currentTimeMillis();//当前时间毫秒数
+        long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();//今天零点零分零秒的毫秒数
+        long twelve = zero + 24 * 60 * 60 * 1000 - 1;//今天23点59分59秒的毫秒数
+        String time = request.getParameter("time");
+        Date date = null;
+        if (!Strings.isNullOrEmpty(time)) {
+            date = DateUtil.string2Date(time);
+            current = date.getTime();
+            zero = current;
+            twelve = zero + 24 * 60 * 60 * 1000 - 1;//今天23点59分59秒的毫秒数
+        }
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String day_start = format.format(zero);
+        String month_start = day_start.substring(0, 8) + "01";
+        String day_end = format.format(twelve);
+        String month_end = DateUtil.getPerFirstDayOfMonth(date);
+        /*********时间换算完成***********/
+
+        String sql_dupty = "\n" +
+                "SELECT e.id,e.`name` ,e.`department` , e.`code` , e.role ,\n" +
+                "(SELECT  COUNT(*) from `accepted`  a WHERE  a.`accept_time` >= '"+month_end+"' and a.`accept_time` < '"+month_end+"'  and  a.`director` =e.code ) as monthaccept,\n" +
+                "(SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >= '"+month_start+"' and a.`end_date` < '"+month_end+"'  and  a.`director` =e.code  and `state` =2) as monthend ,\n" +
+                "(SELECT COUNT(*) FROM accepted a WHERE a.`create_time`  >= '"+month_start+"' and a.`create_time`< '"+month_end+"'  and  a.`director` =e.code AND (`state` =3 or `state` =4) ) as monthrefuse ,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=1 ) as nowaccept_diya,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=2 ) as nowaccept_zhiya,\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type !=0 and a.business_type !=1 and a.business_type !=2 ) as nowaccept_other\n" +
+                "from `employee`  e WHERE e.`director` ='" + code + "' and e.`state` =1 and e.`role` =3;";
+
+        if (employee.getDepartment().equals("金融渠道部")) {
+            sql_dupty = "SELECT e.id,e.`name` ,e.`department` , e.`code` , e.role,\n" +
+                    "(SELECT  COUNT(*) from `accepted`  a WHERE  a.`accept_time` >= '"+month_end+"' and a.`accept_time` < '"+month_end+"'  and  a.`director` =e.code ) as monthaccept,\n" +
+                    "(SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >= '"+month_start+"' and a.`end_date` < '"+month_end+"'  and  a.`director` =e.code  and `state` =2) as monthend,\n" +
+                    "(SELECT COUNT(*) FROM accepted a WHERE a.`create_time`  >= '"+month_start+"' and a.`create_time`< '"+month_end+"'  and  a.`director` =e.code AND (`state` =3 or `state` =4) ) as monthrefuse ,\n" +
+                    " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
+                    " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=1 ) as nowaccept_diya,\n" +
+                    " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=2 ) as nowaccept_zhiya,\n" +
+                    " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type !=0 and a.business_type !=1 and a.business_type !=2 ) as nowaccept_other\n" +
+                    "from `employee`  e WHERE e.`director` ='" + code + "' and e.`state` =1 and e.`role` =4 ;";
+        }
+        List<Accept> list = baseService.queryBySqlFormatClass(Accept.class, sql_dupty);
+        JSONArray array = JSON.parseArray(JSON.toJSONString(list));
+        return ResponseUtil.success_front(array);
+    }
+
+
 
 
 
