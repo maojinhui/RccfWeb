@@ -562,18 +562,7 @@ public class DataController {
     @ResponseBody
     @RequestMapping(value = "/director/data")
     public String directorData(HttpServletRequest request) {
-//        Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
-//        if(loginEmployee==null){
-//            return ResponseUtil.fail(0,"登录状态失效");
-//        }
-//        int state = loginEmployee.getState();
-//        if(state<1){
-//            return ResponseUtil.fail(0,"账号已失效，请联系管理员");
-//        }
-//        String departMent = loginEmployee.getDepartment();
-//        int role = loginEmployee.getRole();
-//        String code = loginEmployee.getCode();
-//        String name = loginEmployee.getName();
+
 
         String director_id = request.getParameter("id");
         if(Strings.isNullOrEmpty(director_id)){
@@ -611,6 +600,55 @@ public class DataController {
         JSONArray array = JSON.parseArray(JSON.toJSONString(list));
         return ResponseUtil.success_front(array);
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/duptydirector/data")
+    public String duptyDirectorData(HttpServletRequest request) {
+
+
+        String duptydirector_id = request.getParameter("id");
+        if(Strings.isNullOrEmpty(duptydirector_id)){
+            return ResponseUtil.fail(0,"请上传id");
+        }
+        Employee employee = employeeService.findEmpolyeeById(Integer.valueOf(duptydirector_id));
+        String code = employee.getCode();
+
+
+        long current = System.currentTimeMillis();//当前时间毫秒数
+        long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();//今天零点零分零秒的毫秒数
+        long twelve = zero + 24 * 60 * 60 * 1000 - 1;//今天23点59分59秒的毫秒数
+        String time = request.getParameter("time");
+        Date date = null;
+        if (!Strings.isNullOrEmpty(time)) {
+            date = DateUtil.string2Date(time);
+            current = date.getTime();
+            zero = current;
+            twelve = zero + 24 * 60 * 60 * 1000 - 1;//今天23点59分59秒的毫秒数
+        }
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String day_start = format.format(zero);
+        String month_start = day_start.substring(0, 8) + "01";
+        String day_end = format.format(twelve);
+        String month_end = DateUtil.getPerFirstDayOfMonth(date);
+        /*********时间换算完成***********/
+
+        String sql_dupty = "\n" +
+                "SELECT e.id,e.`name` ,e.`department` , e.`code` , e.role,\n" +
+                "(SELECT et.target*10000  from `employee_target` et WHERE et.`eid` = e.`id` ) as target ,\n" +
+                "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'   and  a.`deputy_director`  =e.code AND a.`state` =2) as monthyeji\n" +
+                "from `employee`  e WHERE e.`director` ='" + code + "' and e.`state` =1 and e.`role` =3;";
+        if(employee.getDepartment().equals("金融渠道部")){
+            sql_dupty = "SELECT e.id,e.`name` ,e.`department` , e.`code` , e.role,\n" +
+                    "(SELECT et.target*10000  from `employee_target` et WHERE et.`eid` = e.`id` ) as target ,\n" +
+                    "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'   and  a.`clerk`  =e.code AND a.`state` =2) as monthyeji\n" +
+                    "from `employee`  e WHERE e.`director` ='" + code + "' and e.`state` =1 and e.`role` =4;";
+        }
+
+        List<Yeji> list = baseService.queryBySqlFormatClass(Yeji.class, sql_dupty);
+        JSONArray array = JSON.parseArray(JSON.toJSONString(list));
+        return ResponseUtil.success_front(array);
+    }
+
 
 
 }
