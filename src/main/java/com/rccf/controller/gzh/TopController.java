@@ -218,8 +218,8 @@ public class TopController {
                 " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
                 " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=1 ) as nowaccept_diya,\n" +
                 " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=2 ) as nowaccept_zhiya,\n" +
-                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type= !=0 and a.business_type !=1 and a.business_type !=2 ) as nowaccept_other\n" +
-                "FROM `employee` e  WHERE e.`role` =2 and e.`id` = "+director_id;
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type !=0 and a.business_type !=1 and a.business_type !=2 ) as nowaccept_other\n" +
+                " FROM `employee` e  WHERE e.`role` =2 and e.`id` = "+director_id;
         List list1 = baseService.queryBySqlFormatClass(Accept.class,sql_data);
         if(list1!=null && list1.size()>0){
             modelAndView.addObject("accept", list1.get(0));
@@ -249,11 +249,12 @@ public class TopController {
         String day_end = format.format(twelve);
         String month_end = DateUtil.getPerFirstDayOfMonth(date);
         /*********时间换算完成***********/
-
+        Employee employee = employeeService.findEmpolyeeById(Integer.valueOf(dupty_id));
+        String directorcode = employee.getDirector();
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/manager/director_yeji");
-        String sql = "SELECT e.`id`  from `employee`  e WHERE  e.`department` like '%金融%' and `role` =3 and `state` =1; ";
+        String sql = "SELECT e.`id`  from `employee`  e WHERE  e.`department` like '%金融%' and `role` =3 and `state` =1 and  ";
         List list = baseService.queryBySql(sql);
         JSONArray array = JSON.parseArray(JSON.toJSONString(list));
         modelAndView.addObject("director_array" , array);
