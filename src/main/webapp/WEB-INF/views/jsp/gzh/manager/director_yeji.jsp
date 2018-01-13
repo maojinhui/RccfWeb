@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.rccf.model.gzh.Yeji" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2018/1/12
@@ -6,21 +6,25 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    Yeji yeji = (Yeji) request.getAttribute("data");
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>各部门业绩</title>
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1">
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/basic.css">
-    <link rel="stylesheet" href="css/de_data.css">
-    <link rel="stylesheet" href="css/font-awesome.css">
+    <link rel="stylesheet" href="/work/css/normalize.css">
+    <link rel="stylesheet" href="/work/css/basic.css">
+    <link rel="stylesheet" href="/work/css/de_data.css">
+    <link rel="stylesheet" href="/work/css/font-awesome.css">
 </head>
 <body>
 <div class="container">
     <header>
-        <h3 data-depart-id="1" class=""><span class="left">&lt;</span>金融一部<span class="right">&gt;</span></h3>
+        <h3 data-depart-id="<%=yeji.getId()%>" class=""><span class="left">&lt;</span><%=yeji.getDepartment()%><span class="right">&gt;</span></h3>
     </header>
 
     <div class="">
@@ -34,13 +38,13 @@
 
 </div>
 
-<script src="js/self_adaption.js"></script>
-<script src="js/jquery.js"></script>
+<script src="/work/js/self_adaption.js"></script>
+<script src="/work/js/jquery.js"></script>
 <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
 
 <script>
 
-    var arr = [2, 3, 4];
+    var arr = <%=request.getAttribute("director_array")%>;
     var departId = $('h3').data('departId');
     var index = arr.indexOf(departId);
 
@@ -81,13 +85,16 @@
         }
     });
 
-    var complete = 10000;
-    var goal = 20000;
+    var complete = <%=yeji.getMonthyeji()==null ? 0 : yeji.getMonthyeji()%>;
+    var goal = <%=yeji.getTarget()==null ? 0 : yeji.getTarget()%>;
     var legend;
     var seri;
     var val = goal - complete;
 
-    if (val >= 0) {
+    if (val <= 0) {
+
+        val = Math.abs(val);
+
         legend = ['目标业绩 ' + goal, '超出业绩 ' + val];
         seri = [
             {value: goal, name: '目标业绩 ' + goal},
@@ -160,7 +167,7 @@
 
     $.ajax({
         type: 'POST',
-        url: '',
+        url: '/gzh/data/director/data',
         data: {'id': departId},
         dataType: 'json',
         success: function (result) {
@@ -172,8 +179,8 @@
 
                 var deputy = deputies[i];
                 var name = deputy.name;
-                var goalCount = deputy.goalCount;
-                var compCount = deputy.completeCount;
+                var goalCount = deputy.target;
+                var compCount = deputy.monthyeji;
 
                 var flag = '';
                 var dValue = goalCount - compCount;

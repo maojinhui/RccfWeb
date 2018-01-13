@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.Employee;
+import com.rccf.model.gzh.Yeji;
 import com.rccf.model.produce.ProduceData;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
@@ -25,7 +26,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 @Controller
-@RequestMapping(value = "/gzh/data" , produces = UrlConstants.PRODUCES)
+@RequestMapping(value = "/gzh/data", produces = UrlConstants.PRODUCES)
 public class DataController {
 
 
@@ -33,19 +34,19 @@ public class DataController {
     EmployeeService employeeService;
 
     @Autowired
-    BaseService baseService ;
+    BaseService baseService;
 
 
     @ResponseBody
     @RequestMapping(value = "/sale/yeji")
-    public String saleYeji(HttpServletRequest request){
+    public String saleYeji(HttpServletRequest request) {
         Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
-        if(loginEmployee==null){
-            return ResponseUtil.fail(0,"登录状态失效");
+        if (loginEmployee == null) {
+            return ResponseUtil.fail(0, "登录状态失效");
         }
         int state = loginEmployee.getState();
-        if(state<1){
-            return ResponseUtil.fail(0,"账号已失效，请联系管理员");
+        if (state < 1) {
+            return ResponseUtil.fail(0, "账号已失效，请联系管理员");
         }
         String departMent = loginEmployee.getDepartment();
         int role = loginEmployee.getRole();
@@ -70,29 +71,28 @@ public class DataController {
         /*********时间换算完成***********/
 
         String sql = "SELECT ifnull(SUM(a.`service_fee_actual`),0) as sum  from `accepted` a \n" +
-                " WHERE   a.`end_date` >  '"+month_start+"'  AND  a.`end_date` < '"+month_end+"'" +
-                " AND a.`state` =2 AND a.`clerk` = '"+code+"'";
+                " WHERE   a.`end_date` >  '" + month_start + "'  AND  a.`end_date` < '" + month_end + "'" +
+                " AND a.`state` =2 AND a.`clerk` = '" + code + "'";
         Object obj = baseService.getUnionData(sql);
-        Double dou = Double.valueOf(obj.toString()) ;
+        Double dou = Double.valueOf(obj.toString());
         return ResponseUtil.success(dou);
     }
 
 
     /**
-     *
      * @param request
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/sale/acceptend")
-    public String acceptEndSituation(HttpServletRequest request){
+    public String acceptEndSituation(HttpServletRequest request) {
         Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
-        if(loginEmployee==null){
-            return ResponseUtil.fail(0,"登录状态失效");
+        if (loginEmployee == null) {
+            return ResponseUtil.fail(0, "登录状态失效");
         }
         int state = loginEmployee.getState();
-        if(state<1){
-            return ResponseUtil.fail(0,"账号已失效，请联系管理员");
+        if (state < 1) {
+            return ResponseUtil.fail(0, "账号已失效，请联系管理员");
         }
         String departMent = loginEmployee.getDepartment();
         int role = loginEmployee.getRole();
@@ -115,33 +115,33 @@ public class DataController {
         String day_end = format.format(twelve);
         String month_end = DateUtil.getPerFirstDayOfMonth(date);
         /*********时间换算完成***********/
-        String sql_accept_month = "SELECT COUNT(*) FROM accepted a WHERE a.`accept_time` >='"+month_start+"'  and a.`accept_time` <'"+month_end+"'  and a.`clerk` ='"+code+"' ";
+        String sql_accept_month = "SELECT COUNT(*) FROM accepted a WHERE a.`accept_time` >='" + month_start + "'  and a.`accept_time` <'" + month_end + "'  and a.`clerk` ='" + code + "' ";
         int acceptCount = baseService.getCount(sql_accept_month);
 
-        String sql_end_month = "SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >='"+month_start+"' and a.`end_date` <'"+month_end+"'  and a.`clerk` ='"+code+"' and  a.`state` = 2 ";
+        String sql_end_month = "SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >='" + month_start + "' and a.`end_date` <'" + month_end + "'  and a.`clerk` ='" + code + "' and  a.`state` = 2 ";
         int endCount = baseService.getCount(sql_end_month);
 
-        String sql_refuse_month = "SELECT COUNT(*) FROM accepted a WHERE a.`end_date`  >='"+month_start+"' and a.`end_date` <'"+month_end+"'  and a.`clerk` ='"+code+"'  and ( `state` = 3 or `state` = 4  )";
+        String sql_refuse_month = "SELECT COUNT(*) FROM accepted a WHERE a.`end_date`  >='" + month_start + "' and a.`end_date` <'" + month_end + "'  and a.`clerk` ='" + code + "'  and ( `state` = 3 or `state` = 4  )";
         int refuseCount = baseService.getCount(sql_refuse_month);
 
         JSONObject object = new JSONObject();
-        object.put("acceptCount",acceptCount);
-        object.put("endCount",endCount);
-        object.put("refuseCount",refuseCount);
+        object.put("acceptCount", acceptCount);
+        object.put("endCount", endCount);
+        object.put("refuseCount", refuseCount);
         return ResponseUtil.success_front(object);
     }
 
 
     @ResponseBody
     @RequestMapping(value = "/sale/accepting")
-    public String acceptingSituation(HttpServletRequest request){
+    public String acceptingSituation(HttpServletRequest request) {
         Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
-        if(loginEmployee==null){
-            return ResponseUtil.fail(0,"登录状态失效");
+        if (loginEmployee == null) {
+            return ResponseUtil.fail(0, "登录状态失效");
         }
         int state = loginEmployee.getState();
-        if(state<1){
-            return ResponseUtil.fail(0,"账号已失效，请联系管理员");
+        if (state < 1) {
+            return ResponseUtil.fail(0, "账号已失效，请联系管理员");
         }
         String departMent = loginEmployee.getDepartment();
         int role = loginEmployee.getRole();
@@ -164,38 +164,38 @@ public class DataController {
         String day_end = format.format(twelve);
         String month_end = DateUtil.getPerFirstDayOfMonth(date);
         /*********时间换算完成***********/
-        String sql_accepting_xinyong = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` ='"+code+"' AND a.business_type=0";
+        String sql_accepting_xinyong = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` ='" + code + "' AND a.business_type=0";
         int xinyongCount = baseService.getCount(sql_accepting_xinyong);
 
-        String sql_accepting_diya = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` ='"+code+"' AND a.business_type=1";
+        String sql_accepting_diya = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` ='" + code + "' AND a.business_type=1";
         int diyaCount = baseService.getCount(sql_accepting_diya);
 
-        String sql_accepting_zhiya = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` ='"+code+"' AND a.business_type=2";
+        String sql_accepting_zhiya = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` ='" + code + "' AND a.business_type=2";
         int zhiyaCount = baseService.getCount(sql_accepting_zhiya);
 
-        String sql_accepting_other = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` ='"+code+"' " +
+        String sql_accepting_other = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` ='" + code + "' " +
                 "AND a.business_type !=0 and a.business_type !=1 and a.business_type !=2";
         int otherCount = baseService.getCount(sql_accepting_other);
 
         JSONObject object = new JSONObject();
-        object.put("xinyongCount",xinyongCount);
-        object.put("diyaCount",diyaCount);
-        object.put("zhiyaCount",zhiyaCount);
-        object.put("otherCount",otherCount);
+        object.put("xinyongCount", xinyongCount);
+        object.put("diyaCount", diyaCount);
+        object.put("zhiyaCount", zhiyaCount);
+        object.put("otherCount", otherCount);
         return ResponseUtil.success_front(object);
     }
 
 
     @ResponseBody
     @RequestMapping(value = "/sale/produce")
-    public String productList(HttpServletRequest request){
+    public String productList(HttpServletRequest request) {
         Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
-        if(loginEmployee==null){
-            return ResponseUtil.fail(0,"登录状态失效");
+        if (loginEmployee == null) {
+            return ResponseUtil.fail(0, "登录状态失效");
         }
         int state = loginEmployee.getState();
-        if(state<1){
-            return ResponseUtil.fail(0,"账号已失效，请联系管理员");
+        if (state < 1) {
+            return ResponseUtil.fail(0, "账号已失效，请联系管理员");
         }
         String departMent = loginEmployee.getDepartment();
         int role = loginEmployee.getRole();
@@ -218,7 +218,7 @@ public class DataController {
         String day_end = format.format(twelve);
         String month_end = DateUtil.getPerFirstDayOfMonth(date);
         /*********时间换算完成***********/
-        String sql_produce="SELECT id, COUNT(*) as count,\n" +
+        String sql_produce = "SELECT id, COUNT(*) as count,\n" +
                 "       `product_name`,\n" +
                 "       `agency_name`,\n" +
                 "       SUM(`loan_amount`) as sum , \n" +
@@ -228,43 +228,42 @@ public class DataController {
                 "         aci.`product_name`\n" +
                 " ORDER BY   count desc , sum desc \n" +
                 "        ";
-        List<ProduceData>  produceDataList =  baseService.queryBySqlFormatClass(ProduceData.class,sql_produce);
+        List<ProduceData> produceDataList = baseService.queryBySqlFormatClass(ProduceData.class, sql_produce);
         JSONArray array = new JSONArray();
-        JSONObject object ;
-        for (int i=0;i<produceDataList.size();i++){
-            object=new JSONObject();
+        JSONObject object;
+        for (int i = 0; i < produceDataList.size(); i++) {
+            object = new JSONObject();
             ProduceData produceData = produceDataList.get(i);
             String pname = "";
             String agency_name = produceData.getAgency_name();
             String product_name = produceData.getProduct_name();
-            if(agency_name.equals(product_name)){
+            if (agency_name.equals(product_name)) {
                 pname = product_name;
-            }else{
-                pname=agency_name+"-"+product_name;
+            } else {
+                pname = agency_name + "-" + product_name;
             }
-            object.put("id",produceData.getId());
-            object.put("product_name",pname);
-            object.put("count",produceData.getCount());
-            object.put("type",produceData.getType());
-            object.put("sum",produceData.getSum());
+            object.put("id", produceData.getId());
+            object.put("product_name", pname);
+            object.put("count", produceData.getCount());
+            object.put("type", produceData.getType());
+            object.put("sum", produceData.getSum());
             array.add(object);
         }
 //        JSONArray array= JSON.parseArray(JSON.toJSONString(produceDataList));
-        return  ResponseUtil.success_front(array);
+        return ResponseUtil.success_front(array);
     }
-
 
 
     @ResponseBody
     @RequestMapping(value = "/market/yeji")
-    public String marketYeji(HttpServletRequest request){
+    public String marketYeji(HttpServletRequest request) {
         Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
-        if(loginEmployee==null){
-            return ResponseUtil.fail(0,"登录状态失效");
+        if (loginEmployee == null) {
+            return ResponseUtil.fail(0, "登录状态失效");
         }
         int state = loginEmployee.getState();
-        if(state<1){
-            return ResponseUtil.fail(0,"账号已失效，请联系管理员");
+        if (state < 1) {
+            return ResponseUtil.fail(0, "账号已失效，请联系管理员");
         }
         String departMent = loginEmployee.getDepartment();
         int role = loginEmployee.getRole();
@@ -290,28 +289,27 @@ public class DataController {
         /*********时间换算完成***********/
 
         String sql = "SELECT ifnull(SUM(a.`service_fee_actual`),0) as sum  from `accepted` a \n" +
-                " WHERE   a.`end_date` >  '"+month_start+"'  AND  a.`end_date` < '"+month_end+"'" +
-                " AND a.`state` =2 AND a.`houqi` = '"+name+"'";
+                " WHERE   a.`end_date` >  '" + month_start + "'  AND  a.`end_date` < '" + month_end + "'" +
+                " AND a.`state` =2 AND a.`houqi` = '" + name + "'";
         Object obj = baseService.getUnionData(sql);
-        Double dou = Double.valueOf(obj.toString()) ;
+        Double dou = Double.valueOf(obj.toString());
         return ResponseUtil.success(dou);
     }
 
     /**
-     *
      * @param request
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/market/acceptend")
-    public String marketAcceptendSituation(HttpServletRequest request){
+    public String marketAcceptendSituation(HttpServletRequest request) {
         Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
-        if(loginEmployee==null){
-            return ResponseUtil.fail(0,"登录状态失效");
+        if (loginEmployee == null) {
+            return ResponseUtil.fail(0, "登录状态失效");
         }
         int state = loginEmployee.getState();
-        if(state<1){
-            return ResponseUtil.fail(0,"账号已失效，请联系管理员");
+        if (state < 1) {
+            return ResponseUtil.fail(0, "账号已失效，请联系管理员");
         }
         String departMent = loginEmployee.getDepartment();
         int role = loginEmployee.getRole();
@@ -336,33 +334,33 @@ public class DataController {
         String day_end = format.format(twelve);
         String month_end = DateUtil.getPerFirstDayOfMonth(date);
         /*********时间换算完成***********/
-        String sql_accept_month = "SELECT COUNT(*) FROM accepted a WHERE a.`accept_time` >='"+month_start+"'  and a.`accept_time` <'"+month_end+"'  and a.`houqi` ='"+name+"' ";
+        String sql_accept_month = "SELECT COUNT(*) FROM accepted a WHERE a.`accept_time` >='" + month_start + "'  and a.`accept_time` <'" + month_end + "'  and a.`houqi` ='" + name + "' ";
         int acceptCount = baseService.getCount(sql_accept_month);
 
-        String sql_end_month = "SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >='"+month_start+"' and a.`end_date` <'"+month_end+"'  and a.`houqi` ='"+name+"' and  a.`state` = 2 ";
+        String sql_end_month = "SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >='" + month_start + "' and a.`end_date` <'" + month_end + "'  and a.`houqi` ='" + name + "' and  a.`state` = 2 ";
         int endCount = baseService.getCount(sql_end_month);
 
-        String sql_refuse_month = "SELECT COUNT(*) FROM accepted a WHERE a.`end_date`  >='"+month_start+"' and a.`end_date` <'"+month_end+"'  and a.`houqi` ='"+name+"'  and ( `state` = 3 or `state` = 4  )";
+        String sql_refuse_month = "SELECT COUNT(*) FROM accepted a WHERE a.`end_date`  >='" + month_start + "' and a.`end_date` <'" + month_end + "'  and a.`houqi` ='" + name + "'  and ( `state` = 3 or `state` = 4  )";
         int refuseCount = baseService.getCount(sql_refuse_month);
 
         JSONObject object = new JSONObject();
-        object.put("acceptCount",acceptCount);
-        object.put("endCount",endCount);
-        object.put("refuseCount",refuseCount);
+        object.put("acceptCount", acceptCount);
+        object.put("endCount", endCount);
+        object.put("refuseCount", refuseCount);
         return ResponseUtil.success_front(object);
     }
 
 
     @ResponseBody
     @RequestMapping(value = "/market/accepting")
-    public String marketAcceptingSituation(HttpServletRequest request){
+    public String marketAcceptingSituation(HttpServletRequest request) {
         Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
-        if(loginEmployee==null){
-            return ResponseUtil.fail(0,"登录状态失效");
+        if (loginEmployee == null) {
+            return ResponseUtil.fail(0, "登录状态失效");
         }
         int state = loginEmployee.getState();
-        if(state<1){
-            return ResponseUtil.fail(0,"账号已失效，请联系管理员");
+        if (state < 1) {
+            return ResponseUtil.fail(0, "账号已失效，请联系管理员");
         }
         String departMent = loginEmployee.getDepartment();
         int role = loginEmployee.getRole();
@@ -386,40 +384,38 @@ public class DataController {
         String day_end = format.format(twelve);
         String month_end = DateUtil.getPerFirstDayOfMonth(date);
         /*********时间换算完成***********/
-        String sql_accepting_xinyong = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`houqi` ='"+name+"' AND a.business_type=0";
+        String sql_accepting_xinyong = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`houqi` ='" + name + "' AND a.business_type=0";
         int xinyongCount = baseService.getCount(sql_accepting_xinyong);
 
-        String sql_accepting_diya = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`houqi` ='"+name+"' AND a.business_type=1";
+        String sql_accepting_diya = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`houqi` ='" + name + "' AND a.business_type=1";
         int diyaCount = baseService.getCount(sql_accepting_diya);
 
-        String sql_accepting_zhiya = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`houqi` ='"+name+"' AND a.business_type=2";
+        String sql_accepting_zhiya = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`houqi` ='" + name + "' AND a.business_type=2";
         int zhiyaCount = baseService.getCount(sql_accepting_zhiya);
 
-        String sql_accepting_other = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`houqi` ='"+name+"' " +
+        String sql_accepting_other = "SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`houqi` ='" + name + "' " +
                 "AND a.business_type !=0 and a.business_type !=1 and a.business_type !=2";
         int otherCount = baseService.getCount(sql_accepting_other);
 
         JSONObject object = new JSONObject();
-        object.put("xinyongCount",xinyongCount);
-        object.put("diyaCount",diyaCount);
-        object.put("zhiyaCount",zhiyaCount);
-        object.put("otherCount",otherCount);
+        object.put("xinyongCount", xinyongCount);
+        object.put("diyaCount", diyaCount);
+        object.put("zhiyaCount", zhiyaCount);
+        object.put("otherCount", otherCount);
         return ResponseUtil.success_front(object);
     }
 
 
-
-
     @ResponseBody
     @RequestMapping(value = "/manager/general/yeji")
-    public String generalManagerYeji(HttpServletRequest request){
+    public String generalManagerYeji(HttpServletRequest request) {
         Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
-        if(loginEmployee==null){
-            return ResponseUtil.fail(0,"登录状态失效");
+        if (loginEmployee == null) {
+            return ResponseUtil.fail(0, "登录状态失效");
         }
         int state = loginEmployee.getState();
-        if(state<1){
-            return ResponseUtil.fail(0,"账号已失效，请联系管理员");
+        if (state < 1) {
+            return ResponseUtil.fail(0, "账号已失效，请联系管理员");
         }
         String departMent = loginEmployee.getDepartment();
         int role = loginEmployee.getRole();
@@ -445,30 +441,28 @@ public class DataController {
         /*********时间换算完成***********/
 
         String sql = "SELECT ifnull(SUM(a.`service_fee_actual`),0) as sum  from `accepted` a \n" +
-                " WHERE   a.`end_date` >  '"+month_start+"'  AND  a.`end_date` < '"+month_end+"'" +
+                " WHERE   a.`end_date` >  '" + month_start + "'  AND  a.`end_date` < '" + month_end + "'" +
                 " AND a.`state` =2 ";
         Object obj = baseService.getUnionData(sql);
-        Double dou = Double.valueOf(obj.toString()) ;
+        Double dou = Double.valueOf(obj.toString());
         return ResponseUtil.success(dou);
     }
 
 
-
     /**
-     *
      * @param request
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/manager/general/acceptend")
-    public String generalManagerAcceptendSituation(HttpServletRequest request){
+    public String generalManagerAcceptendSituation(HttpServletRequest request) {
         Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
-        if(loginEmployee==null){
-            return ResponseUtil.fail(0,"登录状态失效");
+        if (loginEmployee == null) {
+            return ResponseUtil.fail(0, "登录状态失效");
         }
         int state = loginEmployee.getState();
-        if(state<1){
-            return ResponseUtil.fail(0,"账号已失效，请联系管理员");
+        if (state < 1) {
+            return ResponseUtil.fail(0, "账号已失效，请联系管理员");
         }
         String departMent = loginEmployee.getDepartment();
         int role = loginEmployee.getRole();
@@ -493,33 +487,33 @@ public class DataController {
         String day_end = format.format(twelve);
         String month_end = DateUtil.getPerFirstDayOfMonth(date);
         /*********时间换算完成***********/
-        String sql_accept_month = "SELECT COUNT(*) FROM accepted a WHERE a.`accept_time` >='"+month_start+"'  and a.`accept_time` <'"+month_end+"' ";
+        String sql_accept_month = "SELECT COUNT(*) FROM accepted a WHERE a.`accept_time` >='" + month_start + "'  and a.`accept_time` <'" + month_end + "' ";
         int acceptCount = baseService.getCount(sql_accept_month);
 
-        String sql_end_month = "SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >='"+month_start+"' and a.`end_date` <'"+month_end+"' and  a.`state` = 2 ";
+        String sql_end_month = "SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >='" + month_start + "' and a.`end_date` <'" + month_end + "' and  a.`state` = 2 ";
         int endCount = baseService.getCount(sql_end_month);
 
-        String sql_refuse_month = "SELECT COUNT(*) FROM accepted a WHERE a.`end_date`  >='"+month_start+"' and a.`end_date` <'"+month_end+"' and ( `state` = 3 or `state` = 4  )";
+        String sql_refuse_month = "SELECT COUNT(*) FROM accepted a WHERE a.`end_date`  >='" + month_start + "' and a.`end_date` <'" + month_end + "' and ( `state` = 3 or `state` = 4  )";
         int refuseCount = baseService.getCount(sql_refuse_month);
 
         JSONObject object = new JSONObject();
-        object.put("acceptCount",acceptCount);
-        object.put("endCount",endCount);
-        object.put("refuseCount",refuseCount);
+        object.put("acceptCount", acceptCount);
+        object.put("endCount", endCount);
+        object.put("refuseCount", refuseCount);
         return ResponseUtil.success_front(object);
     }
 
 
     @ResponseBody
     @RequestMapping(value = "/manager/general/accepting")
-    public String generalManagerAcceptingSituation(HttpServletRequest request){
+    public String generalManagerAcceptingSituation(HttpServletRequest request) {
         Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
-        if(loginEmployee==null){
-            return ResponseUtil.fail(0,"登录状态失效");
+        if (loginEmployee == null) {
+            return ResponseUtil.fail(0, "登录状态失效");
         }
         int state = loginEmployee.getState();
-        if(state<1){
-            return ResponseUtil.fail(0,"账号已失效，请联系管理员");
+        if (state < 1) {
+            return ResponseUtil.fail(0, "账号已失效，请联系管理员");
         }
         String departMent = loginEmployee.getDepartment();
         int role = loginEmployee.getRole();
@@ -557,28 +551,37 @@ public class DataController {
         int otherCount = baseService.getCount(sql_accepting_other);
 
         JSONObject object = new JSONObject();
-        object.put("xinyongCount",xinyongCount);
-        object.put("diyaCount",diyaCount);
-        object.put("zhiyaCount",zhiyaCount);
-        object.put("otherCount",otherCount);
+        object.put("xinyongCount", xinyongCount);
+        object.put("diyaCount", diyaCount);
+        object.put("zhiyaCount", zhiyaCount);
+        object.put("otherCount", otherCount);
         return ResponseUtil.success_front(object);
     }
 
 
+    @ResponseBody
+    @RequestMapping(value = "/director/data")
+    public String directorData(HttpServletRequest request) {
+//        Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
+//        if(loginEmployee==null){
+//            return ResponseUtil.fail(0,"登录状态失效");
+//        }
+//        int state = loginEmployee.getState();
+//        if(state<1){
+//            return ResponseUtil.fail(0,"账号已失效，请联系管理员");
+//        }
+//        String departMent = loginEmployee.getDepartment();
+//        int role = loginEmployee.getRole();
+//        String code = loginEmployee.getCode();
+//        String name = loginEmployee.getName();
 
-    public String directorData(HttpServletRequest request){
-        Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
-        if(loginEmployee==null){
-            return ResponseUtil.fail(0,"登录状态失效");
+        String director_id = request.getParameter("id");
+        if(Strings.isNullOrEmpty(director_id)){
+            return ResponseUtil.fail(0,"请上传id");
         }
-        int state = loginEmployee.getState();
-        if(state<1){
-            return ResponseUtil.fail(0,"账号已失效，请联系管理员");
-        }
-        String departMent = loginEmployee.getDepartment();
-        int role = loginEmployee.getRole();
-        String code = loginEmployee.getCode();
-        String name = loginEmployee.getName();
+        Employee employee = employeeService.findEmpolyeeById(Integer.valueOf(director_id));
+        String code = employee.getCode();
+
 
         long current = System.currentTimeMillis();//当前时间毫秒数
         long zero = current / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();//今天零点零分零秒的毫秒数
@@ -598,13 +601,15 @@ public class DataController {
         String month_end = DateUtil.getPerFirstDayOfMonth(date);
         /*********时间换算完成***********/
 
-        String sql_yeji = "SELECT e.`name`,e.`department` ,\n" +
-                "(SELECT et.target*10000  from `employee_target` et WHERE et.`eid` = e.`id` ) as target , \n" +
-                "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '"+month_start+"' and a.`end_date`< '"+month_end+"'   and  a.`director` =e.code AND a.`state` =2) as monthyeji\n" +
-                "from `employee` e WHERE e.`department` like '%金融%' and `role` =2 and `state` =1";
+        String sql_dupty = "\n" +
+                "SELECT e.id,e.`name` ,e.`department` , e.`code` ,\n" +
+                "(SELECT et.target*10000  from `employee_target` et WHERE et.`eid` = e.`id` ) as target ,\n" +
+                "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'   and  a.`deputy_director`  =e.code AND a.`state` =2) as monthyeji\n" +
+                "from `employee`  e WHERE e.`director` ='" + code + "' and e.`state` =1 and e.`role` =3;";
 
-
-        return null;
+        List<Yeji> list = baseService.queryBySqlFormatClass(Yeji.class, sql_dupty);
+        JSONArray array = JSON.parseArray(JSON.toJSONString(list));
+        return ResponseUtil.success_front(array);
     }
 
 
