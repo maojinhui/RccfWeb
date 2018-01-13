@@ -216,7 +216,6 @@
         if (role === 3) {
             window.location.href = '/gzh/top/page/yeji/duptydirector?director_id=' + departId + '&dupty_id=' + id;
         } else {
-            window.location.href = '/gzh/top/page/yeji/duptydirector?director_id=' + departId + '&dupty_id=' + id;
         }
     }
 </script>

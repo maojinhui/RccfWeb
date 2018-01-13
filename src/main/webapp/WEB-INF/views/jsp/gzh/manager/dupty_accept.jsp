@@ -31,7 +31,7 @@
 <body>
 <div class="container">
     <header>
-        <h3 data-depart-id="<%=accept.getId()%>" class=""><span class="left">&lt;</span><%=accept.getDepartment()%><span
+        <h3 data-depart-id="<%=accept.getId()%>" class=""><span class="left">&lt;</span><%=accept.getName()%><span
                 class="right">&gt;</span></h3>
     </header>
 
@@ -39,15 +39,18 @@
         <div class="apply">
             <div class="row">
                 <div class="col-33">
-                    <p><%=accept.getMonthaccept()%></p>
+                    <p><%=accept.getMonthaccept()%>
+                    </p>
                     <p>受理</p>
                 </div>
                 <div class="col-33">
-                    <p><%=accept.getMonthend()%></p>
+                    <p><%=accept.getMonthend()%>
+                    </p>
                     <p>办结</p>
                 </div>
                 <div class="col-33">
-                    <p><%=accept.getMonthrefuse()%></p>
+                    <p><%=accept.getMonthrefuse()%>
+                    </p>
                     <p>拒单/撤单</p>
                 </div>
             </div>
@@ -65,8 +68,15 @@
 <script src="/work/js/jquery.js"></script>
 <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
 <script>
-
-    var arr = <%=request.getAttribute("director_array")%>;
+    // 判断数据是否为0
+    var isZero = function (data) {
+        if (data === 0) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+    var arr = <%=request.getAttribute("dupty_array")%>;
     var departId = $('h3').data('departId');
     var index = arr.indexOf(departId);
 
@@ -80,7 +90,7 @@
 
         var depart_id = arr[index];
 
-        window.location.href = "?id=" + depart_id;
+        window.location.href = "?dupty_id=" + depart_id;
 
     });
 
@@ -95,7 +105,7 @@
 
         var depart_id = arr[index];
 
-        window.location.href = "?id=" + depart_id;
+        window.location.href = "?dupty_id=" + depart_id;
 
     });
 
@@ -111,7 +121,6 @@
     var diya = <%=accept.getNowaccept_diya()%>;
     var zhiya = <%=accept.getNowaccept_zhiya()%>;
     var other = <%=accept.getNowaccept_other()%>;
-
 
     require(
         [
@@ -181,7 +190,7 @@
 
     $.ajax({
         type: 'POST',
-        url: '/gzh/data/accept/director/data',
+        url: '/gzh/data/accept/dupty/data',
         data: {'id': departId},
         dataType: 'json',
         success: function (result) {
@@ -219,7 +228,7 @@
         var role = obj.dataset.role;
 
         if (role === 3) {
-            window.location.href = '/gzh/top/page/accept/duptydirector?director_id=' + departId + '&dupty_id=' + id;
+            window.location.href = '/gzh/top/page/yeji/duptydirector?director_id=' + departId + '&dupty_id=' + id;
         } else {
 
         }
