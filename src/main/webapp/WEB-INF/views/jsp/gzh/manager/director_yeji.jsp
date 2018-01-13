@@ -10,58 +10,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    
-    <title>部门业绩</title>
+    <title>各部门业绩</title>
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1">
-    <link rel="stylesheet" href="/work/css/normalize.css">
-    <link rel="stylesheet" href="/work/css/basic.css">
-    <link rel="stylesheet" href="/work/css/de_data.css">
-    <link rel="stylesheet" href="/work/css/font-awesome.css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/basic.css">
+    <link rel="stylesheet" href="css/de_data.css">
+    <link rel="stylesheet" href="css/font-awesome.css">
 </head>
 <body>
 <div class="container">
     <header>
         <h3 data-depart-id="1" class=""><span class="left">&lt;</span>金融一部<span class="right">&gt;</span></h3>
-        <h3 data-depart-id="2" class="hide"><span class="left">&lt;</span>金融二部<span class="right">&gt;</span></h3>
-        <h3 data-depart-id="3" class="hide"><span class="left">&lt;</span>金融三部<span class="right">&gt;</span></h3>
-        <h3 data-depart-id="4" class="hide"><span class="left">&lt;</span>金融渠道部<span class="right">&gt;</span></h3>
     </header>
 
-    <div data-depart="1" class="">
-        <div id="depart_one" class="my-canvas">
-
-        </div>
-        <div class="row">
-            <div class="col-10 success">
-                <p>刘彩芳</p>
-                <p>目标业绩：90000</p>
-                <p>完成业绩：90000</p>
-            </div>
-            <div class="col-10 failed">
-                <p>刘彩芳</p>
-                <p>目标业绩：90000</p>
-                <p>完成业绩：8000</p>
-            </div>
-            <div class="col-10 failed">
-                <p>刘彩芳</p>
-                <p>目标业绩：90000</p>
-                <p>完成业绩：8000</p>
-            </div>
-            <div class="col-10 failed">
-                <p>刘彩芳</p>
-                <p>目标业绩：90000</p>
-                <p>完成业绩：8000</p>
-            </div>
-            <div class="col-10 failed">
-                <p>刘彩芳</p>
-                <p>目标业绩：90000</p>
-                <p>完成业绩：8000</p>
-            </div>
-        </div>
-    </div>
-
-    <div data-depart="2" class="hide">
-        <div id="depart_two" class="my-canvas">
+    <div class="">
+        <div id="depart" class="my-canvas">
 
         </div>
         <div class="row">
@@ -76,92 +39,46 @@
                 <p>完成业绩：8000</p>
             </div>
         </div>
-    </div>
-
-    <div data-depart="3" class="hide">
-        <div id="depart_three" class="my-canvas">
-
-        </div>
-        <div class="row">
-            <div class="col-10 success">
-                <p>刘彩芳</p>
-                <p>目标业绩：90000</p>
-                <p>完成业绩：90000</p>
-            </div>
-            <div class="col-10 failed">
-                <p>刘彩芳</p>
-                <p>目标业绩：90000</p>
-                <p>完成业绩：8000</p>
-            </div>
-        </div>
-    </div>
-
-    <div data-depart="4" class="hide">
-        <div id="depart_four" class="my-canvas">
-
-        </div>
-        <div class="row">
-            <div class="col-10 success">
-                <p>刘彩芳</p>
-                <p>目标业绩：90000</p>
-                <p>完成业绩：90000</p>
-            </div>
-            <div class="col-10 failed">
-                <p>刘彩芳</p>
-                <p>目标业绩：90000</p>
-                <p>完成业绩：8000</p>
-            </div>
-        </div>
-
-
     </div>
 
 </div>
 
-<script src="/work/js/self_adaption.js"></script>
-<script src="/work/js/jquery.js"></script>
+<script src="js/self_adaption.js"></script>
+<script src="js/jquery.js"></script>
 <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
 
 <script>
-    $('.right').click(function () {
-        var hNode = this.parentNode;
-        var departId = parseInt(hNode.dataset.departId);
 
-        if (departId === 4) {
-            departId = 1;
+    var arr = [2, 3, 4];
+    var departId = $('h3').data('departId');
+    var index = arr.indexOf(departId);
+
+    $('.right').click(function () {
+
+        if (index === arr.length - 1) {
+            index = 0;
         } else {
-            departId++;
+            index++;
         }
 
-        var str = '[data-depart-id=' + departId + ']';
-        var htm = '[data-depart=' + departId + ']';
+        var depart_id = arr[index];
 
-        $('[data-depart-id]').addClass('hide');
-        $('[data-depart]').addClass('hide');
-
-        $(str).removeClass('hide');
-        $(htm).removeClass('hide');
+        window.location.href = "?id=" + depart_id;
 
     });
 
     $('.left').click(function () {
-        var hNode = this.parentNode;
-        var departId = parseInt(hNode.dataset.departId);
 
-        if (departId === 1) {
-            departId = 4;
+
+        if (index === 0) {
+            index = arr.length - 1;
         } else {
-            departId--;
+            index--;
         }
 
-        var str = '[data-depart-id=' + departId + ']';
-        var htm = '[data-depart=' + departId + ']';
+        var depart_id = arr[index];
 
-        $('[data-depart-id]').addClass('hide');
-        $('[data-depart]').addClass('hide');
-
-        $(str).removeClass('hide');
-        $(htm).removeClass('hide');
+        window.location.href = "?id=" + depart_id;
 
     });
 
@@ -173,6 +90,13 @@
         }
     });
 
+
+    var legend = ['已完成业绩 10000.32', '未完成业绩 10000.32'];
+    var seri = [
+        {value: 10000.32, name: '已完成业绩 10000.32'},
+        {value: 10000.32, name: '未完成业绩 10000.32'}
+    ];
+
     require(
         [
             'echarts',
@@ -180,14 +104,14 @@
         ],
         function (ec) {
             // 基于准备好的dom，初始化echarts图表
-            var myChart = ec.init(document.getElementById('depart_one'));
+            var myChart = ec.init(document.getElementById('depart'));
 
             var option = {
                 legend: {
                     orient: 'vertical',
                     x: 'center',
                     y: 'center',
-                    data: ['已完成业绩 10000.32', '未完成业绩 10000.32']
+                    data: legend
                 },
                 calculable: true,
                 series: [
@@ -215,11 +139,7 @@
                                 }
                             }
                         },
-                        data: [
-                            {value: 10000.32, name: '已完成业绩 10000.32'},
-                            {value: 10000.32, name: '未完成业绩 10000.32'}
-
-                        ]
+                        data: seri
                     }
                 ]
             };
@@ -229,6 +149,19 @@
             myChart.setOption(option);
         }
     );
+
+
+    $.ajax({
+        type: 'POST',
+        url: '',
+        data: {'id': departId},
+        dataType: 'json',
+        success: function (result) {
+
+        }
+
+    })
+
 </script>
 </body>
 </html>
