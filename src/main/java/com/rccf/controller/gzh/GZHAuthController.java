@@ -74,7 +74,9 @@ public class GZHAuthController {
                 if (role == 4) {//金融部普通业务员页面
                     return new ModelAndView("redirect:/gzh/sales/index");
                 } else if (role == 3) {//金融部副总监和总监页面
-                    return new ModelAndView();
+                    return new ModelAndView("redirect:/gzh/top/dupty/index");
+                }else if(role==2){
+                    return new ModelAndView("redirect:/gzh/top/director/index");
                 }
             } else if (department.contains("市场")) {
                 if (role == 4) {//市场部专员--后期专员等人页面

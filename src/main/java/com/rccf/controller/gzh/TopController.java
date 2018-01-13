@@ -7,6 +7,7 @@ import com.rccf.model.Employee;
 import com.rccf.model.gzh.Yeji;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
+import com.rccf.util.BackUtil;
 import com.rccf.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,47 @@ public class TopController {
         return modelAndView;
     }
 
+
+    @RequestMapping(value = "/director/index")
+    public ModelAndView directorIndexPage(HttpServletRequest request){
+        Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/gzh/manager/director_manager");
+        modelAndView.addObject("director_id",loginEmployee.getId());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/dupty/index")
+    public ModelAndView duptyIndexPage(HttpServletRequest request){
+        Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
+        String directorcode = loginEmployee.getDirector();
+        Employee director = employeeService.findEmpolyeeByCode(directorcode);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/gzh/manager/dupty_manager");
+        modelAndView.addObject("director_id",director.getId());
+        modelAndView.addObject("dupty_id",loginEmployee.getId());
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/yeji/sales")
+    public ModelAndView salesYeiji(HttpServletRequest request){
+        Employee employee = BackUtil.getLoginEmployee(request , employeeService);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/gzh/manager/sales_yeji");
+        String sql_data = "SELECT  e.`id` , e.`name`,e.`department` , e.`code` ,  e.role,\n" +
+                "(SELECT et.target*10000  from `employee_target` et WHERE et.`eid` = e.`id` ) as target , \n" +
+                "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '2018-01' and a.`end_date`< '2018-02'   and  a.`deputy_director` =e.code AND a.`state` =2) as monthyeji\n" +
+                "from `employee` e WHERE e.id="+employee.getId();
+        List list1 = baseService.queryBySqlFormatClass(Yeji.class, sql_data);
+        if(list1!=null && list1.size()>0){
+            modelAndView.addObject("data",list1.get(0));
+        }
+
+        return modelAndView;
+    }
+
+
     @RequestMapping(value = "/page/yeji/director")
     public ModelAndView directorYejiPage(HttpServletRequest request){
         String director_id = request.getParameter("id");
@@ -60,13 +102,14 @@ public class TopController {
         return modelAndView;
     }
 
+
     @RequestMapping(value = "/page/yeji/duptydirector")
     public ModelAndView duptyDirectorYjiePage(HttpServletRequest request){
         String director_id = request.getParameter("director_id");
         String dupty_id = request.getParameter("dupty_id");
 
         Employee director = employeeService.findEmpolyeeById(Integer.valueOf(director_id));
-        Employee dupty = employeeService.findEmpolyeeById(Integer.valueOf(dupty_id));
+//        Employee dupty = employeeService.findEmpolyeeById(Integer.valueOf(dupty_id));
 
 
         ModelAndView modelAndView = new ModelAndView();
@@ -76,7 +119,7 @@ public class TopController {
         List list = baseService.queryBySql(sql);
         JSONArray array = JSON.parseArray(JSON.toJSONString(list));
         modelAndView.addObject("dupty_array" , array);
-        if(Strings.isNullOrEmpty(director_id)){
+        if(Strings.isNullOrEmpty(dupty_id)){
             dupty_id = list.get(0).toString();
         }
 
@@ -90,6 +133,8 @@ public class TopController {
         }
         return modelAndView;
     }
+
+
 
 
 
