@@ -8,6 +8,7 @@ public class Yeji {
 
     private int id;
     private String name ;
+    private int role;
     private String department;
     private String code ;
     private Double target;
@@ -48,6 +49,14 @@ public class Yeji {
 
     public Double getTarget() {
         return target;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 
     public void setTarget(Double target) {
