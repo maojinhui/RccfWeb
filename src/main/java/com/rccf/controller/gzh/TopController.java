@@ -217,7 +217,7 @@ public class TopController {
                "(SELECT COUNT(*) FROM accepted a WHERE a.`create_time`  >= '"+month_start+"' and a.`create_time`< '"+month_end+"'  and  a.`director` =e.code AND (`state` =3 or `state` =4) ) as monthrefuse ,\n" +
                 " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
                 " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=1 ) as nowaccept_diya,\n" +
-                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=2 ) as nowaccept_zhiya\n" +
+                " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=2 ) as nowaccept_zhiya,\n" +
                 " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type= !=0 and a.business_type= !=1 and a.business_type= !=2 ) as nowaccept_other\n" +
                 "FROM `employee` e  WHERE e.`role` =2 and e.`id` = "+director_id;
         List list1 = baseService.queryBySqlFormatClass(Accept.class,sql_data);
