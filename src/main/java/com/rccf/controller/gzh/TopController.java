@@ -251,10 +251,13 @@ public class TopController {
         /*********时间换算完成***********/
         Employee employee = employeeService.findEmpolyeeById(Integer.valueOf(dupty_id));
         String duptyCode = employee.getDirector();
+        String directorCode = employee.getDirector();
+
+
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/manager/dupty_accept");
-        String sql = "SELECT e.`id`  from `employee`  e WHERE  e.`department` like '%金融%' and `role` =3 and `state` =1 and  dupty_director='"+duptyCode+"'";
+        String sql = "SELECT e.`id`  from `employee`  e WHERE  e.`department` like '%金融%' and `role` =3 and `state` =1 and  director='"+directorCode+"'";
         List list = baseService.queryBySql(sql);
         JSONArray array = JSON.parseArray(JSON.toJSONString(list));
         modelAndView.addObject("dupty_array" , array);
