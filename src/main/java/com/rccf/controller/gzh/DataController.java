@@ -591,11 +591,16 @@ public class DataController {
         /*********时间换算完成***********/
 
         String sql_dupty = "\n" +
-                "SELECT e.id,e.`name` ,e.`department` , e.`code` ,\n" +
+                "SELECT e.id,e.`name` ,e.`department` , e.`code` , e.role ,\n" +
                 "(SELECT et.target*10000  from `employee_target` et WHERE et.`eid` = e.`id` ) as target ,\n" +
                 "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'   and  a.`deputy_director`  =e.code AND a.`state` =2) as monthyeji\n" +
                 "from `employee`  e WHERE e.`director` ='" + code + "' and e.`state` =1 and e.`role` =3;";
-
+        if(employee.getDepartment().equals("金融渠道部")){
+            sql_dupty = "SELECT e.id,e.`name` ,e.`department` , e.`code` , e.role,\n" +
+                    "20000 as target ,\n" +
+                    "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'   and  a.`clerk`  =e.code AND a.`state` =2) as monthyeji\n" +
+                    "from `employee`  e WHERE e.`director` ='" + code + "' and e.`state` =1 and e.`role` =4 ;";
+        }
         List<Yeji> list = baseService.queryBySqlFormatClass(Yeji.class, sql_dupty);
         JSONArray array = JSON.parseArray(JSON.toJSONString(list));
         return ResponseUtil.success_front(array);
@@ -637,12 +642,7 @@ public class DataController {
                 "(SELECT et.target*10000  from `employee_target` et WHERE et.`eid` = e.`id` ) as target ,\n" +
                 "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'   and  a.`deputy_director`  =e.code AND a.`state` =2) as monthyeji\n" +
                 "from `employee`  e WHERE e.`director` ='" + code + "' and e.`state` =1 and e.`role` =3;";
-        if(employee.getDepartment().equals("金融渠道部")){
-            sql_dupty = "SELECT e.id,e.`name` ,e.`department` , e.`code` , e.role,\n" +
-                    "(SELECT et.target*10000  from `employee_target` et WHERE et.`eid` = e.`id` ) as target ,\n" +
-                    "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'   and  a.`clerk`  =e.code AND a.`state` =2) as monthyeji\n" +
-                    "from `employee`  e WHERE e.`director` ='" + code + "' and e.`state` =1 and e.`role` =4 ;";
-        }
+
 
         List<Yeji> list = baseService.queryBySqlFormatClass(Yeji.class, sql_dupty);
         JSONArray array = JSON.parseArray(JSON.toJSONString(list));
