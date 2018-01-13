@@ -45,7 +45,7 @@
 
 <script>
 
-    var arr = <%=request.getAttribute("director_array")%>;
+    var arr = <%=request.getAttribute("dupty_array")%>;
     var departId = $('h3').data('departId');
     var index = arr.indexOf(departId);
 
@@ -59,7 +59,7 @@
 
         var depart_id = arr[index];
 
-        window.location.href = "?id=" + depart_id;
+        window.location.href = "/gzh/top/page/yeji/duptydirector?director_id=<%=request.getAttribute("director_id")%>&dupty_id="+depart_id;
 
     });
 
@@ -74,7 +74,7 @@
 
         var depart_id = arr[index];
 
-        window.location.href = "?id=" + depart_id;
+        window.location.href = "/gzh/top/page/yeji/duptydirector?director_id=<%=request.getAttribute("director_id")%>&dupty_id="+depart_id;
 
     });
 
@@ -163,7 +163,6 @@
         }
     );
 
-
     $.ajax({
         type: 'POST',
         url: '/gzh/data/duptydirector/data',
@@ -205,6 +204,7 @@
         }
 
     })
+
 
 </script>
 </body>

@@ -637,7 +637,7 @@ public class DataController {
         String sql_dupty = "\n" +
                 "SELECT e.id,e.`name` ,e.`department` , e.`code` , e.role,\n" +
                 "20000 as target ,\n" +
-                "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'   and  a.`deputy_director`  =e.code AND a.`state` =2) as monthyeji\n" +
+                "(SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'   and  a.`clerk`  =e.code AND a.`state` =2) as monthyeji\n" +
                 "from `employee`  e WHERE e.`dupty_director` ='" + code + "' and e.`state` =1 and e.`role` =4;";
 
 

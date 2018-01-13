@@ -70,8 +70,9 @@ public class TopController {
 
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/gzh/manager/director_yeji");
-        String sql = "SELECT e.`id`  from `employee`  e WHERE  e.`department` like '%金融%' and `role` =3 and `state` =1 and director= "+director.getCode();
+        modelAndView.setViewName("/gzh/manager/dupty_yeji");
+        modelAndView.addObject("director_id",director_id);
+        String sql = "SELECT e.`id`  from `employee`  e WHERE `role` =3 and `state` =1 and director = '"+director.getCode()+"'";
         List list = baseService.queryBySql(sql);
         JSONArray array = JSON.parseArray(JSON.toJSONString(list));
         modelAndView.addObject("dupty_array" , array);
