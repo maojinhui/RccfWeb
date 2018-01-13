@@ -1035,7 +1035,7 @@ public class DataController {
                 " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=1 ) as nowaccept_diya,\n" +
                 " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=2 ) as nowaccept_zhiya,\n" +
                 " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type !=0 and a.business_type !=1 and a.business_type !=2 ) as nowaccept_other\n" +
-                "from `employee`  e WHERE e.`director` ='" + code + "' and e.`state` =1 and e.`role` =3;";
+                "from `employee`  e WHERE e.`dupty_director` ='" + code + "' and e.`state` =1 and e.`role` =4;";
 
 
         List<Accept> list = baseService.queryBySqlFormatClass(Accept.class, sql_dupty);
