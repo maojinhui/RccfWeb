@@ -148,6 +148,9 @@
 
 </div>
 
+<div style="text-align: center; width: 100%; ">
+    <img class="share_img hide" src="" style="width: 100% ;height: auto; ">
+</div>
 
 <script src="/work/js/self_adaption.js"></script>
 <script src="/work/js/jquery.js"></script>
@@ -175,9 +178,12 @@
 
     var node = document.getElementById('content');
     html2canvas(node).then(function (canvas) {
-        document.body.appendChild(canvas);
-
-        $('.container').addClass('hide')
+        $('.container').addClass('hide');
+        var imgUria = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"); // 获取生成的图片的url
+        $('.share_img').removeClass('hide');
+        $(".share_img").attr('src', imgUria);
+        $(".share_img").css('display', 'block');
+        $(".share_bg").css('display', 'block');
     });
 </script>
 </body>
