@@ -170,8 +170,8 @@
         <tr>
             <td><%=imgStr%></td>
             <td style="<%=color%>"><%=ribaoEmployee.getName()%></td>
-            <td style="<%=color%>"<%=ribaoEmployee.getDepartment()%></td>
-            <td style="<%=color%>"><%=ribaoEmployee.getFu()+"组"%></td>
+            <%--<td style="<%=color%>"><%=ribaoEmployee.getDepartment()%></td>--%>
+            <td style="<%=color%>"><%=ribaoEmployee.getFu()!=null ? ribaoEmployee.getFu()+"组" : ribaoEmployee.getZong()+"组"%></td>
             <td>
                 <img src="/work/img/money.png"><%=ribaoEmployee.getMonthyeji()%>
             </td>

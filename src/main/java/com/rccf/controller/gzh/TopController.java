@@ -262,7 +262,7 @@ public class TopController {
         }
 
         String sql_data = "SELECT e.id,e.code , e.`name` ,e.`department`, e.role,\n" +
-               "(SELECT  COUNT(*) from `accepted`  a WHERE  a.`accept_time` >= '"+month_end+"' and a.`accept_time` < '"+month_end+"'  and  a.`director` =e.code ) as monthaccept,\n" +
+               "(SELECT  COUNT(*) from `accepted`  a WHERE  a.`accept_time` >= '"+month_start+"' and a.`accept_time` < '"+month_end+"'  and  a.`director` =e.code ) as monthaccept,\n" +
                "(SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >= '"+month_start+"' and a.`end_date` < '"+month_end+"'  and  a.`director` =e.code  and `state` =2) as monthend,\n" +
                "(SELECT COUNT(*) FROM accepted a WHERE a.`create_time`  >= '"+month_start+"' and a.`create_time`< '"+month_end+"'  and  a.`director` =e.code AND (`state` =3 or `state` =4) ) as monthrefuse ,\n" +
                 " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`director` = e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
@@ -315,7 +315,7 @@ public class TopController {
             dupty_id = list.get(0).toString();
         }
         String sql_data = "SELECT e.id,e.code , e.`name` ,e.`department`, e.role,\n" +
-                "(SELECT  COUNT(*) from `accepted`  a WHERE  a.`accept_time` >= '"+month_end+"' and a.`accept_time` < '"+month_end+"'  and  a.`deputy_director` =e.code ) as monthaccept,\n" +
+                "(SELECT  COUNT(*) from `accepted`  a WHERE  a.`accept_time` >= '"+month_start+"' and a.`accept_time` < '"+month_end+"'  and  a.`deputy_director` =e.code ) as monthaccept,\n" +
                 "(SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >= '"+month_start+"' and a.`end_date` < '"+month_end+"'  and  a.`deputy_director` =e.code  and `state` =2) as monthend,\n" +
                 "(SELECT COUNT(*) FROM accepted a WHERE a.`create_time`  >= '"+month_start+"' and a.`create_time`< '"+month_end+"'  and  a.`deputy_director` =e.code AND (`state` =3 or `state` =4) ) as monthrefuse ,\n" +
                 " (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`deputy_director` = e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
