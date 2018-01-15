@@ -88,6 +88,12 @@ ul li:before{ content:''; width:8px; height:8px; border-radius:50%; background:#
   list-style: none;
   margin-top: 0.33rem;
   text-align: right;
+  color:#0000FF;
+}
+.notice-all:before {
+  content: "";
+  width: 0;
+  height: 0;
 }
 
 .personal-customer {
@@ -128,4 +134,11 @@ ul li:before{ content:''; width:8px; height:8px; border-radius:50%; background:#
 .tab-bar img {
   width: 0.6rem;
   height: 0.75rem;
+}
+
+.click-no{
+  color: #0b76ac;
+}
+.clicked{
+  color: #333;
 }
