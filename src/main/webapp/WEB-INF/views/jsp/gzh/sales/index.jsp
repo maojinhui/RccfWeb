@@ -127,6 +127,15 @@
 <script src="/work/js/self_adaption.js"></script>
 <script src="/work/js/jquery.js"></script>
 <script>
+    window.addEventListener("popstate", function (e) {
+        self.location.reload();
+    }, false);
+    var state = {
+        title: "",
+        url: "#"
+    };
+</script>
+<script>
     $('[data-nav-bar]').click(function () {
         var barNum = this.dataset.navBar;
         console.log(barNum);
@@ -163,6 +172,8 @@
 
 <script>
 
+
+    window.history.replaceState(state, "", "#");
     var rnumber = Math.floor(Math.random()*1000)
     history.replaceState({mod: rnumber}, 'Title', '?mod='+rnumber);
 
