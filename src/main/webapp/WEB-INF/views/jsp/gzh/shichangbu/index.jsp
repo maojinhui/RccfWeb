@@ -122,15 +122,21 @@
 
 </div>
 
+
+
 <div class="tab-bar">
     <div class="row ">
-        <a class="col-5 tab-bar-on" style="border: none;">
+        <a class="col-33 tab-bar-on" style="border: none;">
             <img src="/work/img/index_on.png">
             <p style="color:#4d5398;border: none;">个人</p>
         </a>
-        <a class="col-5" href="/gzh/shichang/page/data">
-            <img src="/work/img/data.png" style="border: none;">
-            <p style="color:#999;">数据统计</p>
+        <a class="col-33" href="/gzh/rank/index" style="border: none;">
+            <img src="/work/img/rank.png" >
+            <p style="color:#999;border: none;">排行榜</p>
+        </a>
+        <a class="col-33" href="/gzh/shichang/page/data" style="border: none;">
+            <img src="/work/img/data.png">
+            <p style="color:#999;border: none;">数据统计</p>
         </a>
     </div>
 </div>

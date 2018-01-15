@@ -133,28 +133,58 @@ public class GZHAuthController {
         response.addCookie(idcookie);
 
 
-        Integer state = user.getState();
-        String department = user.getDepartment();
-        int role = user.getRole();
-        if (state == null || state == 0) {
-            return ResponseUtil.fail(0, "您已经不属于融成的一员，欢迎你的再次加入。");
+//        Integer state = user.getState();
+//        String department = user.getDepartment();
+//        int role = user.getRole();
+//        if (state == null || state == 0) {
+//            return ResponseUtil.fail(0, "您已经不属于融成的一员，欢迎你的再次加入。");
+//        }
+//
+//        if (department.contains("金融")) {
+//            if (role == 4) {//金融部普通业务员页面
+//                return ResponseUtil.success("/gzh/sales/index");
+//            } else {//金融部副总监和总监页面
+//
+//            }
+//        } else if (department.contains("市场")) {
+//            if (role == 4) {//市场部专员--后期专员等人页面
+//                return ResponseUtil.success("/gzh/shichang/index");
+//            } else {//市场部管理人员页面
+//
+//            }
+//        } else {
+//            return ResponseUtil.fail(0, "本系统目前仅对金融部和市场部开放，后续功能敬请期待");
+//        }
+
+
+        if (user !=null ) {
+
+            String department = user.getDepartment();
+            int role = user.getRole();
+            if (department.contains("系统") || department.contains("总经办")) {
+                return ResponseUtil.success("/gzh/top/index");
+
+            } else if (department.contains("金融")) {
+                if (role == 4) {//金融部普通业务员页面
+                    return ResponseUtil.success("/gzh/sales/index");
+                } else if (role == 3) {//金融部副总监和总监页面
+                    return ResponseUtil.success("/gzh/top/dupty/index");
+                }else if(role==2){
+                    return ResponseUtil.success("/gzh/top/director/index");
+                }
+            } else if (department.contains("市场")) {
+                if (role == 4) {//市场部专员--后期专员等人页面
+                    return ResponseUtil.success("/gzh/shichang/index");
+                } else {//市场部管理人员页面
+                    return ResponseUtil.success("/back/login");
+                }
+            } else {
+//                return ResponseUtil.pageFail("redirect:/back/login");
+                return ResponseUtil.success("/back/login");
+            }
+
         }
 
-        if (department.contains("金融")) {
-            if (role == 4) {//金融部普通业务员页面
-                return ResponseUtil.success("/gzh/sales/index");
-            } else {//金融部副总监和总监页面
-
-            }
-        } else if (department.contains("市场")) {
-            if (role == 4) {//市场部专员--后期专员等人页面
-                return ResponseUtil.success("/gzh/shichang/index");
-            } else {//市场部管理人员页面
-
-            }
-        } else {
-            return ResponseUtil.fail(0, "本系统目前仅对金融部和市场部开放，后续功能敬请期待");
-        }
         return ResponseUtil.fail();
     }
 

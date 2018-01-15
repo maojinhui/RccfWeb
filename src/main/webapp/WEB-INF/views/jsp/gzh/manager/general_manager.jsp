@@ -76,6 +76,20 @@
     </div>
 </div>
 
+<div class="tab-bar">
+    <div class="row ">
+        <a class="col-5" style="border: none;">
+            <img src="/work/img/data_on.png">
+            <p style="color:#4d5398;border: none;">数据统计</p>
+        </a>
+        <a class="col-5" href="/gzh/rank/index" style="border: none;">
+            <img src="/work/img/rank.png" >
+            <p style="color:#999;border: none;">排行榜</p>
+        </a>
+    </div>
+</div>
+
+
 
 <script src="/work/js/self_adaption.js"></script>
 <script src="/work/js/jquery.js"></script>

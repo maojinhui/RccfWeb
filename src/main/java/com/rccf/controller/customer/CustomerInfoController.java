@@ -184,17 +184,13 @@ public class CustomerInfoController {
     @RequestMapping(value = "/list/all")
     public String customerListAll(HttpServletRequest request) {
         String callback = request.getParameter("callback");
+        String pageNo = request.getParameter("pageNo");
         Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         if (employee == null) {
             return ResponseUtil.fail(0, "请重新登录");
         }
         int employeeID = employee.getId();
-        String pageNo = request.getParameter("pageNo");
-        int p = 1;
-        if (!Strings.isNullOrEmpty(pageNo)) {
-            p = Integer.valueOf(pageNo);
-        }
-        int offset = 10 * (p - 1);
+
         String deputy_name = request.getParameter("deputy_name");
         String customer_name = request.getParameter("customer_name");
         String clerk_name = request.getParameter("clerk_name");
@@ -227,7 +223,11 @@ public class CustomerInfoController {
             whereNotAnd = " where " + builder.toString().substring(3);
             whereWithAnd = builder.toString();
         }
-
+        int p = 1;
+        if (!Strings.isNullOrEmpty(pageNo)) {
+            p = Integer.valueOf(pageNo);
+        }
+        int offset = 10 * (p - 1);
         String limit = " limit " + offset + ",10";
         String department = employee.getDepartment();
         String sql_prefix = "select * from (SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,create_time,admin_time,level,\n" +
@@ -244,7 +244,7 @@ public class CustomerInfoController {
                 "(SELECT  loan_fee_percent  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as fee_percent ,\n" +
                 "(SELECT  loan_type  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as loan_type ,\n" +
                 "(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) order by update_time DESC SEPARATOR  '；' ) m from `r_customer_process`  rcp  WHERE rcp.customer_id=rc.id   GROUP BY customer_id) as process\n" +
-                "from `r_customer` rc ) as p\n";
+                "from `r_customer` rc ) as p\n" ;
 
 
         if (department.contains("金融") || department.contains("系统")) {
@@ -253,7 +253,7 @@ public class CustomerInfoController {
 //                String sql_info = "SELECT   *   from `r_customer` order by create_time desc " + limit;
                 String sql_info = sql_prefix +
                         whereNotAnd +
-                        " order by create_time desc\n";
+                        " order by create_time desc\n"+limit;
 
                 String data = Page.limit(baseService, sql_count, sql_info, CustomerTemPc.class);
                 if (!Strings.isNullOrEmpty(callback)) {
@@ -270,8 +270,7 @@ public class CustomerInfoController {
                             "WHERE p.`id` in \n" +
                             "(SELECT `customer_id` from `r_customer_assign`  s where s.`director` = '" + employeeID + "')  " +
                             whereWithAnd +
-                            "order by create_time desc\n" +
-                            "\n";
+                            "order by create_time desc\n" + limit;
 
                     String data = Page.limit(baseService, sql_count, sql_info, CustomerTemPc.class);
 
@@ -289,8 +288,7 @@ public class CustomerInfoController {
                             "WHERE p.`id` in \n" +
                             "(SELECT `customer_id` from `r_customer_assign`  s where s.`deputy_director` = '" + employeeID + "')  " +
                             whereWithAnd +
-                            "order by create_time desc\n" +
-                            "\n";
+                            "order by create_time desc\n" + limit ;
 
                     String data = Page.limit(baseService, sql_count, sql_info, CustomerTemPc.class);
                     if (!Strings.isNullOrEmpty(callback)) {
@@ -305,8 +303,7 @@ public class CustomerInfoController {
                             "WHERE p.`id` in \n" +
                             "( SELECT `customer_id` from `r_customer_assign`  s where s.`salesman` = '" + employeeID + "') " +
                             whereWithAnd +
-                            " order by create_time desc\n" +
-                            "\n";
+                            " order by create_time desc\n" + limit;
                     String data = Page.limit(baseService, sql_count, sql_info, CustomerTemPc.class);
                     if (!Strings.isNullOrEmpty(callback)) {
                         return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
