@@ -235,7 +235,45 @@ public class GZHShichangController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/info/all")
+    public ModelAndView  showAllInfo(HttpServletRequest request){
+        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/gzh/shichangbu/index_allinfo");
+        int employeeID= employee.getId();
 
+        String sql = "SELECT count(*) from r_customer_submit_log WHERE  state=1 and submit_houqi = 154";
+        DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerSubmitLog.class);
+        criteria.add(Restrictions.eq("state",1));
+        criteria.add(Restrictions.eq("submitHouqi",employeeID));
+//        criteria.setProjection(Projections.rowCount());
+        int notificationCount = baseService.getCount(criteria);
+        modelAndView.addObject("notificationCount",notificationCount);
+        String sql_logs = "\n" +
+                "  SELECT id,customer_id,customer_name,submit_saleman,state, \n" +
+                "  (SELECT name from employee WHERE id = submit_saleman ) as submit_saleman_name,\n" +
+                "  (SELECT name from employee WHERE id = submit_houqi ) as houqi_name,\n" +
+                "  DATE_FORMAT(submit_time,'%m-%d') as month_day,\n" +
+                "  DATE_FORMAT(submit_time,'%H:%i') as hourminute\n" +
+                "  FROM r_customer_submit_log log " +
+                "  where state=1 and submit_houqi = " +employeeID+" \n"+
+                "   ;\n";
+        List<CustomerSubmit> submits =    baseService.queryBySqlFormatClass(CustomerSubmit.class,sql_logs);
+        modelAndView.addObject("submitlogs",submits);
+
+        String sql_already = "SELECT program_id  as  id ,customer_id,\n" +
+                "  (SELECT name from r_customer WHERE id=customer_id) as customer_name,\n" +
+                "  submit_person as submit_saleman , state,\n" +
+                "  (SELECT name from employee WHERE id = submit_person ) as submit_saleman_name,\n" +
+                "  (SELECT name from employee WHERE id = create_person ) as houqi_name,\n" +
+                "  DATE_FORMAT(create_time,'%m-%d') as month_day,\n" +
+                "  DATE_FORMAT(create_time,'%H:%i') as hourminute\n" +
+                "FROM r_customer_loan_program program  where  create_person = " + employeeID +
+                " ;";
+        List<CustomerSubmit> programs =    baseService.queryBySqlFormatClass(CustomerSubmit.class,sql_already);
+        modelAndView.addObject("programs",programs);
+        return modelAndView;
+    }
 
 
 

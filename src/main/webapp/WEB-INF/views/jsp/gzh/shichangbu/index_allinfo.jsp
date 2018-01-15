@@ -1,19 +1,9 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: greatland
-  Date: 2018/1/2
-  Time: 上午10:55
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.rccf.constants.build.Application" %>
-<%@ page import="java.util.List" %>
 <%@ page import="com.rccf.model.customer.CustomerSubmit" %>
-<%--
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: greatland
-  Date: 2017/12/25
-  Time: 下午6:19
+  Date: 2018/1/15
+  Time: 下午3:32
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -21,36 +11,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <%=Application.web_head_title%>
-    <%=Application.web_head_img%>
+    <title>全部事项</title>
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1">
     <link rel="stylesheet" href="/work/css/normalize.css">
     <link rel="stylesheet" href="/work/css/basic.css">
-    <link rel="stylesheet" href="/work/css/index.css">
-    <style type="text/css">
-        .exit {
-            position: absolute;
-            bottom: 3rem;
-            font-size: 0.4rem;
-            width: 100%;
-            text-align: center;
-        }
-
-        .exit button {
-            width: 1.5rem;
-            height: 1.5rem;
-            background-color: #0a628f;
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-        }
-        a:link,a:visited{
-            text-decoration:none;  /*超链接无下划线*/
-        }
-        a:hover{
-            text-decoration:none;  /*鼠标放上去有下划线*/
-        }
-    </style>
+    <link rel="stylesheet" href="/work/css/more.css">
 </head>
 <body>
 <div class="content">
@@ -68,6 +33,7 @@
             <div data-nav-bar="2" class="col-5 nav-bar">已办事项</div>
         </div>
         <ul data-nav="1" class=" nav-block ">
+
             <%
                 List<CustomerSubmit> logs = (List<CustomerSubmit>) request.getAttribute("submitlogs");
                 if (logs != null) {
@@ -88,13 +54,9 @@
                 }
             %>
 
-            <% if (logs != null && logs.size() > 5) { %>
-            <li class="notice-all">查看全部 >></li>
-            <% } %>
 
         </ul>
         <ul data-nav="2" class="nav-block hide">
-
             <%
                 List<CustomerSubmit> programs = (List<CustomerSubmit>) request.getAttribute("programs");
                 if (programs != null) {
@@ -103,51 +65,24 @@
                         CustomerSubmit program = programs.get(i);
             %>
             <li class="notice">
-            <span>已给出客户<%=program.getCustomer_name()%>-<%=program.getSubmit_saleman_name()%>的方案</span>
-            <label><%=program.getMonth_day()%></label>
-            <label><%=program.getHourminute()%></label>
+                <span>已给出客户<%=program.getCustomer_name()%>-<%=program.getSubmit_saleman_name()%>的方案</span>
+                <label><%=program.getMonth_day()%></label>
+                <label><%=program.getHourminute()%></label>
             </li>
             <%
                     }
                 }
             %>
-
-            <% if (programs != null && programs.size() > 5) { %>
-            <li class="notice-all">查看全部 >></li>
-            <% } %>
-
         </ul>
-    </div>
 
+    </div>
 
 </div>
 
-<div class="tab-bar">
-    <div class="row ">
-        <a class="col-5 tab-bar-on" style="border: none;">
-            <img src="/work/img/index_on.png">
-            <p style="color:#4d5398;border: none;">个人</p>
-        </a>
-        <a class="col-5" href="/gzh/shichang/page/data">
-            <img src="/work/img/data.png" style="border: none;">
-            <p style="color:#999;">数据统计</p>
-        </a>
-    </div>
-</div>
-<%--<div class="exit">--%>
-<%--<button>退出</button>--%>
-<%--</div>--%>
 
 <script src="/work/js/self_adaption.js"></script>
 <script src="/work/js/jquery.js"></script>
 <script>
-
-
-    function toDetail(log_id) {
-        window.location.href = '/gzh/shichang/customer/info?log_id=' + log_id;
-    }
-
-
     $('[data-nav-bar]').click(function () {
         var barNum = this.dataset.navBar;
         console.log(barNum);
@@ -166,17 +101,15 @@
             block_1.addClass('hide');
             block_2.removeClass('hide');
         }
-    })
+    });
 
-    $('.personal-customer').click(function () {
-        window.location.href = '/gzh/sales/customer/list'
-    })
+    function clickNotice(obj) {
+        var programId =  $(obj).data("programId");
+        var url = '/gzh/sales/customer/program?program_id='+programId;
+        window.location.href=url;
+    }
 
-    $('.notice-all').click(function () {
-        window.location.href='/gzh/shichang/info/all';
-    })
 
 </script>
 </body>
 </html>
-

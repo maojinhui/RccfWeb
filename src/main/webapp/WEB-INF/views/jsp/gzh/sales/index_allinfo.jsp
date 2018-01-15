@@ -1,44 +1,21 @@
-<%@ page import="com.rccf.constants.build.Application" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.rccf.model.customer.CustomerSubmit" %><%--
+<%@ page import="com.rccf.model.customer.CustomerSubmit" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: greatland
-  Date: 2017/12/25
-  Time: 下午6:19
+  Date: 2018/1/15
+  Time: 下午3:32
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-//    if (request.getProtocol().compareTo("HTTP/1.0") == 0){
-//        response.setHeader("Pragma","no-cache");
-//    }else if (request.getProtocol().compareTo("HTTP/1.1") == 0){
-//        response.setHeader("Cache-Control","no-cache");
-//    }
-    response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
-    response.setHeader("Expires", "0");
-    response.setHeader("Pragma","no-cache");
-%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <%=Application.web_head_title%>
-    <%=Application.web_head_img%>
+    <title>全部事项</title>
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1">
-    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
-    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
-    <META HTTP-EQUIV="expires" CONTENT="0">
     <link rel="stylesheet" href="/work/css/normalize.css">
     <link rel="stylesheet" href="/work/css/basic.css">
-    <link rel="stylesheet" href="/work/css/index.css">
-    <style type="text/css">
-        a:link,a:visited{
-            text-decoration:none;  /*超链接无下划线*/
-        }
-        a:hover{
-            text-decoration:none;  /*鼠标放上去有下划线*/
-        }
-    </style>
+    <link rel="stylesheet" href="/work/css/more.css">
 </head>
 <body>
 <div class="content">
@@ -55,7 +32,8 @@
             </div>
             <div data-nav-bar="2" class="col-5 nav-bar">已办事项</div>
         </div>
-        <ul  data-nav="1"  class=" nav-block ">
+        <ul data-nav="1" class=" nav-block ">
+
             <%
                 List<CustomerSubmit> programs = (List<CustomerSubmit>) request.getAttribute("programs");
                 if(programs!=null){
@@ -73,13 +51,8 @@
                 }
             %>
 
-            <% if(programs !=null &&  programs.size()>5){ %>
-            <li class="notice-all" >查看全部 >></li>
-            <% } %>
-
         </ul>
         <ul data-nav="2" class="nav-block hide">
-
             <%
                 List<CustomerSubmit> logs = (List<CustomerSubmit>) request.getAttribute("programs");
                 if(logs!=null){
@@ -96,45 +69,15 @@
                     }
                 }
             %>
-
-            <% if(logs !=null && logs.size()>5){ %>
-            <li class="notice-all">查看全部 >></li>
-            <% } %>
-
         </ul>
+
     </div>
 
-    <div class="personal-customer">
-        个人客户管理
-    </div>
-
-</div>
-
-<div class="tab-bar">
-    <div class="row ">
-        <a class="col-5 tab-bar-on" style="border: none;">
-            <img src="/work/img/index_on.png">
-            <p style="color:#4d5398;border: none;">个人</p>
-        </a>
-        <a class="col-5" href="/gzh/sales/page/data" style="border: none;">
-            <img src="/work/img/data.png">
-            <p style="color:#999;border: none;">数据统计</p>
-        </a>
-    </div>
 </div>
 
 
 <script src="/work/js/self_adaption.js"></script>
 <script src="/work/js/jquery.js"></script>
-<script>
-    window.addEventListener("popstate", function (e) {
-        self.location.reload();
-    }, false);
-    var state = {
-        title: "",
-        url: "#"
-    };
-</script>
 <script>
     $('[data-nav-bar]').click(function () {
         var barNum = this.dataset.navBar;
@@ -154,34 +97,15 @@
             block_1.addClass('hide');
             block_2.removeClass('hide');
         }
-    })
+    });
 
-    $('.personal-customer').click(function () {
-        window.location.href = '/gzh/sales/customer/list'
-    })
-    
     function clickNotice(obj) {
         var programId =  $(obj).data("programId");
         var url = '/gzh/sales/customer/program?program_id='+programId;
         window.location.href=url;
     }
 
-//    window.history.pushState(state, "title", "#");
 
 </script>
-
-<script>
-
-
-    window.history.replaceState(state, "", "#");
-    var rnumber = Math.floor(Math.random()*1000)
-    history.replaceState({mod: rnumber}, 'Title', '?mod='+rnumber);
-
-    $('.notice-all').click(function () {
-        window.location.href='/gzh/sales/info/all';
-    })
-</script>
-
-
 </body>
 </html>

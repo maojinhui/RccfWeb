@@ -9,12 +9,19 @@
   text-align: center;
   padding: 0.4rem;
 }
-.nav-bar sup{
+.nav-bar sup {
   background-color: #c41c1c;
-  color:#fff;
-  padding: 0.05rem;
+  color: #fff;
+  /* padding: 0.05rem; */
   font-size: 0.293rem;
   border-radius: 50%;
+  width: 0.5rem;
+  display: inline-block;
+  height: 0.5rem;
+  text-align: center;
+  vertical-align: top;
+  padding-top: 0.25rem;
+  box-sizing: border-box;
 }
 .active {
   border-bottom:0.08rem solid #ff8585;
@@ -28,15 +35,16 @@
   box-sizing: border-box;
 }
 
+
+
 ul,
 ul li {
   margin: 0;
   padding: 0;
-  list-style: inside url("circle.png");
+  list-style: none;
 }
 
-
-
+ul li:before{ content:''; width:8px; height:8px; border-radius:50%; background:#EEA91F; display:inline-block; margin-right:5px; vertical-align:middle; margin-top:-3px;}
 
 .notice {
   padding: 0;
@@ -46,19 +54,25 @@ ul li {
 .notice span {
   display: inline-block;
   vertical-align: bottom;
-  margin-left: 0.4rem;
-  width: 5.53rem;
+  /*margin-left: 0.4rem;*/
+  width: 6rem;
   word-wrap: break-word;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 
 }
-@media screen and (max-width: 375px){
+
+@media screen and (max-width: 374px){
   .notice span {
     width: 5rem;
   }
 }
+
+
+
+
+
 .notice label {
   display: inline;
   font-size: 0.32rem;
@@ -73,9 +87,10 @@ ul li {
   margin-left: 0.13rem;
 }
 
-.notice-all {
-  list-style: none;
-  margin-top: 0.33rem;
-  text-align: right;
+.click-no{
+  color: #0b76ac;
+}
+.clicked{
+  color: #333;
 }
 
