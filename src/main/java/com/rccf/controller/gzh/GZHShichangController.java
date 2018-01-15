@@ -90,13 +90,18 @@ public class GZHShichangController {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/shichangbu/market_customer");
+
+
+
+
         int employeeID= employee.getId();
         if(Strings.isNullOrEmpty(log_id)){
             return ResponseUtil.pageFail("参数错误");
         }
         RCustomerSubmitLog log = (RCustomerSubmitLog) baseService.get(RCustomerSubmitLog.class,Integer.valueOf(log_id));
         modelAndView.addObject("log",log);
-
+        modelAndView.addObject("customer_id",log.getCustomerId());
+        modelAndView.addObject("log_id",log_id);
         DetachedCriteria criteria = DetachedCriteria.forClass(ILoanType.class);
 //        criteria.createAlias("id","id");
 //        criteria.createAlias("name","name");
@@ -124,6 +129,8 @@ public class GZHShichangController {
             repaymentObject.put(id,name);
         }
         modelAndView.addObject("repayments",repaymentObject);
+
+
 
 
         return modelAndView;
@@ -196,15 +203,28 @@ public class GZHShichangController {
         String customer_id = request.getParameter("customer_id");
         String products = request.getParameter("products");
         String log_id = request.getParameter("log_id");
+        String no_product = request.getParameter("no_product");
+
         if(Strings.isNullOrEmpty(log_id)){
             ResponseUtil.fail(0,"参数错误");
         }
         int logId = Integer.valueOf(log_id);
         RCustomerSubmitLog log = (RCustomerSubmitLog) baseService.get(RCustomerSubmitLog.class,logId);
 
+        if(!Strings.isNullOrEmpty(no_product)){
+            log.setState(3);
+            boolean save = baseService.save(log);
+            if(save){
+                return ResponseUtil.success();
+            }else{
+                return ResponseUtil.fail(0,"提交出错");
+            }
+        }
+
         if(Strings.isNullOrEmpty(products)){
             return ResponseUtil.fail(0,"请添加产品信息");
         }
+
         JSONArray array = JSON.parseArray(products);
         if(array.size()<1){
             return ResponseUtil.fail(0,"请添加产品信息");
@@ -224,7 +244,6 @@ public class GZHShichangController {
         }else{
             return ResponseUtil.fail(0,"提交信息失败");
         }
-
     }
 
 
@@ -242,7 +261,7 @@ public class GZHShichangController {
         modelAndView.setViewName("/gzh/shichangbu/index_allinfo");
         int employeeID= employee.getId();
 
-        String sql = "SELECT count(*) from r_customer_submit_log WHERE  state=1 and submit_houqi = 154";
+//        String sql = "SELECT count(*) from r_customer_submit_log WHERE  state=1 and submit_houqi = 154";
         DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerSubmitLog.class);
         criteria.add(Restrictions.eq("state",1));
         criteria.add(Restrictions.eq("submitHouqi",employeeID));

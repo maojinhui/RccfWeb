@@ -268,7 +268,7 @@ public class GZHSalesController {
                 "  (SELECT name from employee WHERE id = create_person ) as houqi_name,\n" +
                 "  DATE_FORMAT(create_time,'%m-%d') as month_day,\n" +
                 "  DATE_FORMAT(create_time,'%H:%i') as hourminute\n" +
-                "  FROM r_customer_loan_program program  where submit_person = " +employeeID+
+                "  FROM r_customer_loan_program program  where  submit_person = " +employeeID+
                 "  order by state asc;\n";
         List<CustomerSubmit> programs =    baseService.queryBySqlFormatClass(CustomerSubmit.class,sql_notice);
         modelAndView.addObject("programs",programs);

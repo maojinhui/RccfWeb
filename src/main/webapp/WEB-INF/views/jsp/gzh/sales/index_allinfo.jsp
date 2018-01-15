@@ -37,7 +37,7 @@
             <%
                 List<CustomerSubmit> programs = (List<CustomerSubmit>) request.getAttribute("programs");
                 if(programs!=null){
-                    int count = programs.size()>5?5:programs.size();
+                    int count = programs.size();
                     for (int i = 0 ; i< count ;i++){
                         CustomerSubmit program = programs.get(i);
             %>
@@ -56,7 +56,7 @@
             <%
                 List<CustomerSubmit> logs = (List<CustomerSubmit>) request.getAttribute("programs");
                 if(logs!=null){
-                    int count = logs.size()>5?5:logs.size();
+                    int count = logs.size();
                     for (int i = 0 ; i< count ;i++){
                         CustomerSubmit log = logs.get(i);
             %>

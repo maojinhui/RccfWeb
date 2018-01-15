@@ -15,7 +15,7 @@
     RCustomerSubmitLog log = (RCustomerSubmitLog) request.getAttribute("log");
     JSONObject loanTypes = (JSONObject) request.getAttribute("loanTypes");
     JSONObject repayments = (JSONObject) request.getAttribute("repayments");
-    repayments.put("0","无此信息");
+    repayments.put("0", "无此信息");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -111,7 +111,7 @@
             </tr>
             <tr>
                 <td>贷款类型</td>
-                <td><%=log.getCustomerLoanType()==null?"无此信息":loanTypes.getString(""+log.getCustomerLoanType())%>
+                <td><%=log.getCustomerLoanType() == null ? "无此信息" : loanTypes.getString("" + log.getCustomerLoanType())%>
                 </td>
             </tr>
             <tr>
@@ -138,7 +138,7 @@
             </tr>
             <tr>
                 <td>还款方式</td>
-                <td><%=log.getCustomerLoanRepayment()==null?"无此信息":repayments.getString(""+log.getCustomerLoanRepayment())%>
+                <td><%=log.getCustomerLoanRepayment() == null ? "无此信息" : repayments.getString("" + log.getCustomerLoanRepayment())%>
                 </td>
             </tr>
             <tr>
@@ -187,6 +187,7 @@
 </div>
 <script src="/work/js/self_adaption.js"></script>
 <script src="/work/js/jquery.js"></script>
+<script src="/js/comm.js"></script>
 <script>
     function viewImg(obj) {
 //        $('.popup img').dataset.fileId= $(obj).dataset.fileId;
@@ -203,13 +204,31 @@
     });
 
     $('#generateProgram').click(function () {
-        window.location.href='/gzh/shichang/page/program?customer_id=<%=log.getCustomerId()%>&log_id=<%=log.getId()%>';
+        window.location.href = '/gzh/shichang/page/program?customer_id=<%=log.getCustomerId()%>&log_id=<%=log.getId()%>';
+    });
+
+    $('#notProgram').click(function () {
+
+        var customer_id = '<%=request.getAttribute("customer_id")%>';
+        var log_id = '<%=request.getAttribute("log_id")%>';
+        var obj = {};
+        obj.log_id = log_id;
+        obj.customer_id = customer_id;
+        obj.no_product = "no";
+        var url = '/gzh/shichang/program/submit';
+        network(url, obj,
+            function (result) {
+                if (result.code) {
+                    alert("提交成功");
+                    window.location.href='/gzh/shichang/index';
+
+                } else {
+                    alert(result.errormsg);
+                }
+            })
     });
 
 
-
-
-    
 </script>
 </body>
 </html>
