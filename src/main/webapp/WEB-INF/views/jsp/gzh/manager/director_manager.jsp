@@ -290,7 +290,7 @@
 
     $('#top_yeji').click(function () {
         window.location.href='/gzh/top/page/yeji/duptydirector?director_id=<%=request.getAttribute("director_id")%>';
-    })
+    });
     $('#top_accept').click(function () {
         window.location.href='/gzh/top/page/accept/duptydirector?director_id=<%=request.getAttribute("director_id")%>';
     })

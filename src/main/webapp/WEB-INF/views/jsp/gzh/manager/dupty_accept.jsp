@@ -90,7 +90,7 @@
 
         var depart_id = arr[index];
 
-        window.location.href = "?director_id=<%=request.getAttribute("director_id")%>&dupty_id=" + depart_id;
+        window.location.replace("?director_id=<%=request.getAttribute("director_id")%>&dupty_id=" + depart_id);
 
     });
 
@@ -105,7 +105,8 @@
 
         var depart_id = arr[index];
 
-        window.location.href = "?director_id=<%=request.getAttribute("director_id")%>&dupty_id=" + depart_id;
+        window.location.replace("?director_id=<%=request.getAttribute("director_id")%>&dupty_id=" + depart_id);
+
 
     });
 

@@ -289,6 +289,7 @@
 
     $('#top_yeji').click(function () {
         window.location.href='/gzh/top/page/yeji/director';
+//        window.location.replace('/gzh/top/page/yeji/director')
     })
 
       $('#top_accept').click(function () {

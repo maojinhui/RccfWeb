@@ -58,7 +58,7 @@
 
         var depart_id = arr[index];
 
-        window.location.href = "?id=" + depart_id;
+        window.location.replace("?id=" + depart_id);
 
     });
 
@@ -73,7 +73,7 @@
 
         var depart_id = arr[index];
 
-        window.location.href = "?id=" + depart_id;
+        window.location.replace("?id=" + depart_id);
 
     });
 

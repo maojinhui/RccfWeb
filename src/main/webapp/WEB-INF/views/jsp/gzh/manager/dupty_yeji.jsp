@@ -60,7 +60,7 @@
 
         var depart_id = arr[index];
 
-        window.location.href = "/gzh/top/page/yeji/duptydirector?director_id=<%=request.getAttribute("director_id")%>&dupty_id="+depart_id;
+        window.location.replace("/gzh/top/page/yeji/duptydirector?director_id=<%=request.getAttribute("director_id")%>&dupty_id=" + depart_id);
 
     });
 
@@ -75,7 +75,8 @@
 
         var depart_id = arr[index];
 
-        window.location.href = "/gzh/top/page/yeji/duptydirector?director_id=<%=request.getAttribute("director_id")%>&dupty_id="+depart_id;
+        window.location.replace("/gzh/top/page/yeji/duptydirector?director_id=<%=request.getAttribute("director_id")%>&dupty_id=" + depart_id);
+
 
     });
 
