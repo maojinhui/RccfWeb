@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.*;
 import com.rccf.model.customer.RCustomerFile;
+import com.rccf.model.temp.CustomerPc;
 import com.rccf.model.temp.CustomerTemPc;
 import com.rccf.model.temp.CustomerTmp;
 import com.rccf.service.BaseService;
@@ -230,32 +231,37 @@ public class CustomerInfoController {
         int offset = 10 * (p - 1);
         String limit = " limit " + offset + ",10";
         String department = employee.getDepartment();
-        String sql_prefix = "select * from (SELECT `id`,`name`,`phone`,`sex`,`age`,`birthplace`,create_time,admin_time,level,\n" +
+        String sql_prefix = "select * from (SELECT `id`,`name`,`phone`,create_time,admin_time,level,\n" +
                 " (SELECT  name from `employee`  WHERE  id = (SELECT salesman from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_e,\n" +
                 " (SELECT  name from `employee`  WHERE  id = (SELECT rca.`deputy_director`   from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_dd,\n" +
                 " (SELECT  name from `employee`  WHERE  id = (SELECT  rca.`director`  from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_d,\n" +
-                "(SELECT COUNT(*) from `r_customer_company`  WHERE `customer_id` =rc.`id` ) as companycount,\n" +
-                "(SELECT COUNT(*) from `r_customer_house`   WHERE `customer_id` =rc.`id` ) as housecount,\n" +
-                "(SELECT COUNT(*) from `r_customer_car`   WHERE `customer_id` =rc.`id` ) as carcount,\n" +
                 "(SELECT  apply_loan_amount  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as applyamount ,\n" +
-                "(SELECT  loan_term_year  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_year ,\n" +
-                "(SELECT  loan_term_month  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_month ,\n" +
-                "(SELECT  loan_term_day  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as term_day ,\n" +
-                "(SELECT  loan_fee_percent  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as fee_percent ,\n" +
+                "(SELECT  loan_type  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as loan_type ,\n" +
+                "(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) order by update_time DESC SEPARATOR  '；' ) m from `r_customer_process`  rcp  WHERE rcp.customer_id=rc.id   GROUP BY customer_id) as process\n" +
+                "from `r_customer` rc ) as p\n" ;
+
+        String sql_prefix_count = "select count(*) from (SELECT `id`,`name`,`phone`,create_time,admin_time,level,\n" +
+                " (SELECT  name from `employee`  WHERE  id = (SELECT salesman from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_e,\n" +
+                " (SELECT  name from `employee`  WHERE  id = (SELECT rca.`deputy_director`   from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_dd,\n" +
+                " (SELECT  name from `employee`  WHERE  id = (SELECT  rca.`director`  from `r_customer_assign` rca  WHERE rca.customer_id=rc.id)) as manager_d,\n" +
+                "(SELECT  apply_loan_amount  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as applyamount ,\n" +
                 "(SELECT  loan_type  FROM  `r_customer_loaninfo`  WHERE `customer_id` =rc.`id` ORDER BY  update_time desc limit 1) as loan_type ,\n" +
                 "(SELECT GROUP_CONCAT(concat_ws(':',DATE_FORMAT(update_time,'%m%d') , process) order by update_time DESC SEPARATOR  '；' ) m from `r_customer_process`  rcp  WHERE rcp.customer_id=rc.id   GROUP BY customer_id) as process\n" +
                 "from `r_customer` rc ) as p\n" ;
 
 
+
         if (department.contains("金融") || department.contains("系统")) {
             if (department.contains("系统")) {
-                String sql_count = "SELECT COUNT(`id`)  from `r_customer` ";
+//                String sql_count = "SELECT COUNT(`id`)  from `r_customer` ";
+
+                String sql_count =  sql_prefix_count+whereNotAnd;
 //                String sql_info = "SELECT   *   from `r_customer` order by create_time desc " + limit;
                 String sql_info = sql_prefix +
                         whereNotAnd +
                         " order by create_time desc\n"+limit;
 
-                String data = Page.limit(baseService, sql_count, sql_info, CustomerTemPc.class);
+                String data = Page.limit(baseService, sql_count, sql_info, CustomerPc.class);
                 if (!Strings.isNullOrEmpty(callback)) {
                     return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
                 } else {
@@ -264,15 +270,20 @@ public class CustomerInfoController {
             } else {
                 int role = employee.getRole();
                 if (role == 2) {
-                    String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`director` =" + employee.getId() + ")";
+//                    String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`director` =" + employee.getId() + ")";
 //                    String sql_info = "SELECT   *   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`director` =" + employee.getId() + ") order by create_time desc " + limit;
+                    String sql_count = sql_prefix_count +
+                            "WHERE p.`id` in \n" +
+                            "(SELECT `customer_id` from `r_customer_assign`  s where s.`director` = '" + employeeID + "')  " +
+                            whereWithAnd ;
+
                     String sql_info = sql_prefix +
                             "WHERE p.`id` in \n" +
                             "(SELECT `customer_id` from `r_customer_assign`  s where s.`director` = '" + employeeID + "')  " +
                             whereWithAnd +
                             "order by create_time desc\n" + limit;
 
-                    String data = Page.limit(baseService, sql_count, sql_info, CustomerTemPc.class);
+                    String data = Page.limit(baseService, sql_count, sql_info, CustomerPc.class);
 
 
                     if (!Strings.isNullOrEmpty(callback)) {
@@ -282,15 +293,21 @@ public class CustomerInfoController {
                     }
 
                 } else if (role == 3) {
-                    String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ")";
+//                    String sql_count = "SELECT COUNT(`id`)  from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ")";
 //                    String sql_info = "SELECT   *   from `r_customer`  WHERE `id` in (SELECT `customer_id` from `r_customer_assign` sign where sign.`deputy_director` =" + employee.getId() + ") order by create_time desc " + limit;
+
+                    String sql_count = sql_prefix_count +
+                            "WHERE p.`id` in \n" +
+                            "(SELECT `customer_id` from `r_customer_assign`  s where s.`deputy_director` = '" + employeeID + "')  " +
+                            whereWithAnd ;
+
                     String sql_info = sql_prefix +
                             "WHERE p.`id` in \n" +
                             "(SELECT `customer_id` from `r_customer_assign`  s where s.`deputy_director` = '" + employeeID + "')  " +
                             whereWithAnd +
                             "order by create_time desc\n" + limit ;
 
-                    String data = Page.limit(baseService, sql_count, sql_info, CustomerTemPc.class);
+                    String data = Page.limit(baseService, sql_count, sql_info, CustomerPc.class);
                     if (!Strings.isNullOrEmpty(callback)) {
                         return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
                     } else {
@@ -304,7 +321,7 @@ public class CustomerInfoController {
                             "( SELECT `customer_id` from `r_customer_assign`  s where s.`salesman` = '" + employeeID + "') " +
                             whereWithAnd +
                             " order by create_time desc\n" + limit;
-                    String data = Page.limit(baseService, sql_count, sql_info, CustomerTemPc.class);
+                    String data = Page.limit(baseService, sql_count, sql_info, CustomerPc.class);
                     if (!Strings.isNullOrEmpty(callback)) {
                         return ResponseUtil.success_jsonp(callback, JSON.parseObject(data));
                     } else {

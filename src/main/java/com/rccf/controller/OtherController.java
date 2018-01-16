@@ -630,6 +630,9 @@ public class OtherController {
                 String name = (String) lo.get(2);
                 customer.setName(name);
                 String phone = (String) lo.get(3);
+                if(Strings.isNullOrEmpty(phone) || phone.length()<11 ){
+                    continue;
+                }
                 customer.setPhone(phone.substring(0,phone.lastIndexOf(".")));
 //                boolean has = CustomerVerify.hasCustomerByPhone(baseService,phone.substring(0,phone.lastIndexOf(".")));
 //                if(has){

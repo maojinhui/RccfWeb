@@ -30,8 +30,7 @@ public class CustomerTemPc {
     private Integer level;
     private Timestamp admin_time;
 
-    public CustomerTemPc() {
-    }
+
 
 
     @Id

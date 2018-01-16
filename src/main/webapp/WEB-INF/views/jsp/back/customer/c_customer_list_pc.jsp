@@ -217,9 +217,9 @@
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="/js/amaze/amazeui.page.js"></script>
 <script src="/js/comm.js"></script>
-<script src="/js/table2excel/Blob.js"></script>
-<script src="/js/table2excel/FileSaver.js"></script>
-<script src="/js/table2excel/tableExport.js"></script>
+<%--<script src="/js/table2excel/Blob.js"></script>--%>
+<%--<script src="/js/table2excel/FileSaver.js"></script>--%>
+<%--<script src="/js/table2excel/tableExport.js"></script>--%>
 <%--<script>--%>
 
     <%--function showSomething(obj) {--%>
@@ -451,8 +451,7 @@
                 var every = result.epage;
 
                 var pages = Math.ceil(total / every);
-                if (pages == 1) {
-                    $.cookie('customer_list_page_num',1);
+                if (pages <= 1) {
                     $('#page').addClass('am-hide');
                     getData(1);
                 } else {
@@ -540,7 +539,6 @@
             obj.pageNo = currentPage;
         }
 
-
         if(isNull(obj)){
            obj={};
         }
@@ -551,12 +549,13 @@
             type: 'GET',
             data: obj,
             success: function (result) {
+                $('#content').empty();
                 var str = '';
                 var info = result.data;
                 var epage = result.epage;
-                var start = (currentPage - 1) * epage + 1;
+
                 for (var i = 0; i < info.length; i++) {
-                    $('#content').empty();
+
                     var da = info[i];
                     var process = da.process;
                     var pstrarr = [];
@@ -637,9 +636,9 @@
         if(customer_level>0){
             obj.customer_level = customer_level;
         }
-        getdata(obj);
+        getPage(obj);
 
-    })
+    });
 
 
     var $exportLink = document.getElementById('export');
