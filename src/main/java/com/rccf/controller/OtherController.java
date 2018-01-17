@@ -684,7 +684,10 @@ public class OtherController {
                     process1.setState(0);
                     process1.setProcess(processInfo1);
                     process1.setUpdateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
-                    baseService.save(process1);
+                    if(!Strings.isNullOrEmpty(processInfo1)){
+                        baseService.save(process1);
+                    }
+
 
 //                    RCustomerProcess process2 =  new RCustomerProcess();
 //                    process2.setCustomerId(customer.getId());

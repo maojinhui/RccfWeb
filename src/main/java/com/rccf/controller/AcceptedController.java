@@ -269,16 +269,16 @@ public class AcceptedController {
             }
             if (acceptedService.saveOrUpdate(accepted)) {
                 int accept_id = accepted.getId();
-                try {
                     //删除之前的机构信息
                     DetachedCriteria channelCriteria = DetachedCriteria.forClass(AcceptChannelInfo.class);
                     channelCriteria.add(Restrictions.eq("acceptId",accept_id));
                     channelCriteria.addOrder(Order.desc("id"));
                     List<AcceptChannelInfo> channelInfos = baseService.getList(channelCriteria);
-                    for (int i = 0 ; i<channelInfos.size() ;i++){
-                        baseService.delete(channelInfos.get(i));
+                    if(channelInfos!=null){
+                        for (int i = 0 ; i<channelInfos.size() ;i++){
+                            baseService.delete(channelInfos.get(i));
+                        }
                     }
-
                     //添加新的机构信息
                     String channelJson = request.getParameter("channelJson");
                     JSONArray array = JSON.parseArray(channelJson);
@@ -309,9 +309,7 @@ public class AcceptedController {
                             return ResponseUtil.fail(0, "渠道信息保存失败");
                         }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
                 txManager.commit(status);
 
             } else {
