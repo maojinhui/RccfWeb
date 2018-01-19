@@ -145,7 +145,7 @@ public class ProduceController {
         String produce_id = request.getParameter("produce_id");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/product/p_product_diya_add");
-        PageUtil.addAgencys(modelAndView, baseService);
+//        PageUtil.addAgencys(modelAndView, baseService);
         AProduceDiya diya = null;
         if (!Strings.isNullOrEmpty(produce_id)) {
             diya = (AProduceDiya) baseService.get(AProduceDiya.class, Integer.valueOf(produce_id));
@@ -175,7 +175,7 @@ public class ProduceController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/product/p_product_diya_details");
         modelAndView.addObject("produce", produce);
-        PageUtil.addAgencys(modelAndView, baseService);
+//        PageUtil.addAgencys(modelAndView, baseService);
         addCreatePerson(modelAndView, produce);
         addLoanAmountTao(modelAndView, produce);
         addProduceRepayment(modelAndView, produce);
@@ -417,7 +417,7 @@ public class ProduceController {
         String produce_id = request.getParameter("produce_id");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/product/p_product_zhiya_add");
-        PageUtil.addAgencys(modelAndView, baseService);
+//        PageUtil.addAgencys(modelAndView, baseService);
         AProduceZhiya produce = null;
         if (!Strings.isNullOrEmpty(produce_id)) {
             produce = (AProduceZhiya) baseService.get(AProduceZhiya.class, Integer.valueOf(produce_id));
@@ -676,7 +676,7 @@ public class ProduceController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/back/product/p_product_zhiya_details");
         modelAndView.addObject("produce", produce);
-        PageUtil.addAgencys(modelAndView, baseService);
+//        PageUtil.addAgencys(modelAndView, baseService);
         addCreatePerson(modelAndView, produce);
         addLoanAmountTao(modelAndView, produce);
         addProduceRepayment(modelAndView, produce);
@@ -699,7 +699,7 @@ public class ProduceController {
             produce = (AProduceCredit) baseService.get(AProduceCredit.class, Integer.valueOf(produce_id));
             modelAndView.addObject("produce", produce);
         }
-        PageUtil.addAgencys(modelAndView, baseService);
+//        PageUtil.addAgencys(modelAndView, baseService);
         PageUtil.addCreditType(modelAndView, baseService);
         PageUtil.addCreditMaterialPerson(modelAndView, baseService);
         PageUtil.addCreditMaterialCompany(modelAndView, baseService);
@@ -977,7 +977,7 @@ public class ProduceController {
                 produce = (AProduceDiya) baseService.get(AProduceDiya.class, pid);
                 modelAndView.addObject("produce", produce);
                 modelAndView.addObject("log_id", log_id);
-                PageUtil.addAgencys(modelAndView, baseService);
+//                PageUtil.addAgencys(modelAndView, baseService);
                 addCreatePerson(modelAndView, produce);
                 addLoanAmountTao(modelAndView, produce);
                 addProduceRepayment(modelAndView, produce);
@@ -991,7 +991,7 @@ public class ProduceController {
                 produce = (AProduceZhiya) baseService.get(AProduceZhiya.class, pid);
                 modelAndView.addObject("produce", produce);
                 modelAndView.addObject("log_id", log_id);
-                PageUtil.addAgencys(modelAndView, baseService);
+//                PageUtil.addAgencys(modelAndView, baseService);
                 addCreatePerson(modelAndView, produce);
                 addLoanAmountTao(modelAndView, produce);
                 addProduceRepayment(modelAndView, produce);

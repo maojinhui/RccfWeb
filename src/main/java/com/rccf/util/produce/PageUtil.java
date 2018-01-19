@@ -1,6 +1,5 @@
 package com.rccf.util.produce;
 
-import com.rccf.model.RAgency;
 import com.rccf.model.produce.AProduceCreditMaterialCompany;
 import com.rccf.model.produce.AProduceCreditMaterialPerson;
 import com.rccf.model.produce.AProduceCreditType;
@@ -17,18 +16,18 @@ import java.util.List;
 public class PageUtil {
 
 
-    /**
-     * 向前端页面传递所有机构
-     *
-     * @param modelAndView
-     * @param baseService
-     */
-    public static void addAgencys(ModelAndView modelAndView, BaseService baseService) {
-        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(RAgency.class);
-        detachedCriteria.addOrder(Order.desc("createTime"));
-        List<RAgency> agencys = baseService.getList(detachedCriteria);
-        modelAndView.addObject("agencys", agencys);
-    }
+//    /**
+//     * 向前端页面传递所有机构
+//     *
+//     * @param modelAndView
+//     * @param baseService
+//     */
+//    public static void addAgencys(ModelAndView modelAndView, BaseService baseService) {
+//        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(RAgency.class);
+//        detachedCriteria.addOrder(Order.desc("createTime"));
+//        List<RAgency> agencys = baseService.getList(detachedCriteria);
+//        modelAndView.addObject("agencys", agencys);
+//    }
 
     /**
      * 向前端页面传递信贷贷款类型

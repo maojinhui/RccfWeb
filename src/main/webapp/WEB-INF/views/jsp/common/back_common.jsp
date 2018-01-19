@@ -293,9 +293,25 @@
                         </a>
                     </li>
                 </ul>
+
+                <ul class="sidebar-nav sidebar-nav-sub">
+                    <li class="sidebar-nav-link">
+                        <a class="rcmenu" data-rccf-menu="/back/ragency/page/list">
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 渠道列表
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="sidebar-nav sidebar-nav-sub">
+                    <li class="sidebar-nav-link">
+                        <a class="rcmenu" data-rccf-menu="/back/ragency/entry">
+                            <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 渠道录入
+                        </a>
+                    </li>
+                </ul>
+
             </li>
             <%}%>
-
 
             <li class="sidebar-nav-link">
                 <a class="sidebar-nav-sub-title">
@@ -401,43 +417,61 @@
     var isIE = (!!window.ActiveXObject || "ActiveXObject" in window);
     var isIE9More = (!-[1,] == false);
 
-    function reinitIframe(iframeId, minHeight) {
-        try {
-            var iframe = document.getElementById(iframeId);
-            var bHeight = 0;
-            if (isChrome == false && isSafari == false)
-                bHeight = iframe.contentWindow.document.body.scrollHeight;
+//    function reinitIframe(iframeId, minHeight) {
+//        try {
+////            var iframe = document.getElementById(iframeId);
+//            var iframe = document.getElementById("content_iframe");
+//            var bHeight = 0;
+//            if (isChrome == false && isSafari == false)
+//                bHeight = iframe.contentWindow.document.body.scrollHeight;
+//
+//            var dHeight = 0;
+//            if (isFireFox == true)
+//                dHeight = iframe.contentWindow.document.documentElement.offsetHeight + 2;
+//            else if (isIE == false && isOpera == false)
+//                dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
+//            else if (isIE == true && isIE9More) {//ie9+
+//                var heightDeviation = bHeight - eval("window.IE9MoreRealHeight" + iframeId);
+//                if (heightDeviation == 0) {
+//                    bHeight += 3;
+//                } else if (heightDeviation != 3) {
+//                    eval("window.IE9MoreRealHeight" + iframeId + "=" + bHeight);
+//                    bHeight += 3;
+//                }
+//            }
+//            else//ie[6-8]、OPERA
+//                bHeight += 3;
+//
+//            var height = Math.max(bHeight, dHeight);
+//            if (height < minHeight) height = minHeight;
+//            iframe.style.height = height + "px";
+//        } catch (ex) {
+//        }
+//    }
+//
+//    function startInit(iframeId, minHeight) {
+//        eval("window.IE9MoreRealHeight" + iframeId + "=0");
+//        window.setInterval("reinitIframe('" + iframeId + "'," + minHeight + ")", 100);
+//    }
+//    startInit('content_iframe', 560);
 
-            var dHeight = 0;
-            if (isFireFox == true)
-                dHeight = iframe.contentWindow.document.documentElement.offsetHeight + 2;
-            else if (isIE == false && isOpera == false)
-                dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
-            else if (isIE == true && isIE9More) {//ie9+
-                var heightDeviation = bHeight - eval("window.IE9MoreRealHeight" + iframeId);
-                if (heightDeviation == 0) {
-                    bHeight += 3;
-                } else if (heightDeviation != 3) {
-                    eval("window.IE9MoreRealHeight" + iframeId + "=" + bHeight);
-                    bHeight += 3;
-                }
-            }
-            else//ie[6-8]、OPERA
-                bHeight += 3;
 
+
+    function reinitIframe(){
+        var iframe = document.getElementById("content_iframe");
+        try{
+            var bHeight = iframe.contentWindow.document.body.scrollHeight;
+            var dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
             var height = Math.max(bHeight, dHeight);
-            if (height < minHeight) height = minHeight;
-            iframe.style.height = height + "px";
-        } catch (ex) {
-        }
+            iframe.height =  height;
+            console.log(height);
+        }catch (ex){}
     }
 
-    function startInit(iframeId, minHeight) {
-        eval("window.IE9MoreRealHeight" + iframeId + "=0");
-        window.setInterval("reinitIframe('" + iframeId + "'," + minHeight + ")", 100);
-    }
+    window.setInterval("reinitIframe()", 200);
 
-    startInit('content_iframe', 560);
+
+
 
 
     var rcmenus = $('.rcmenu');

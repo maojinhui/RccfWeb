@@ -179,7 +179,7 @@
     <div class="am-u-sm-12 ">
         <div class="am-form am-scrollable-horizontal">
             <table id="customer_list"
-                   class="am-scrollable-horizontal am-form-horizontal am-text-nowrap am-table-centered am-table-bordered am-table am-table-striped am-table-hover table-main">
+                   class="am-scrollable-horizontal am-table-compact am-form-horizontal am-text-nowrap am-table-centered am-table-bordered am-table am-table-striped am-table-hover table-main ">
                 <thead>
                 <tr>
                     <th>姓名</th>
