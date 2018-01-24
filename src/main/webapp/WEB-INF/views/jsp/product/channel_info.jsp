@@ -17,7 +17,7 @@
     <meta charset="UTF-8">
     <title>渠道详情信息</title>
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1">
-    <link href="/css/amaze/amazeui.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.bootcss.com/amazeui/2.7.2/css/amazeui.css" rel="stylesheet">
     <style>
         html,
         body {
@@ -96,10 +96,7 @@
 </head>
 <body>
 <div class="am-container am-margin-top-xl ">
-
-    <p><i class="am-icon-bank am-icon"></i>信贷—中信银行—无抵押贷款</p>
-
-
+    <p><i class="am-icon-bank am-icon"></i><%=Strings.getProductType(agency.getProductType())%>-<%=agency.getAgencyName()%>-<%=agency.getProductName()%></p>
     <ul>
         <li>
             <span>推荐人：</span>
@@ -114,8 +111,8 @@
             <span><%=DateUtil.date2StringSimple(agency.getEntryTime())%></span>
         </li>
         <li>
-            <span>地点：</span>
-            <span><%=agency.getAddress()%></span>
+            <span>可做疑难：</span>
+            <span><%= agency.getCanDifficult()!=null && agency.getCanDifficult()==1?"是":"否" %></span>
         </li>
     </ul>
 
@@ -135,7 +132,7 @@
             </div>
             <div class="am-u-sm-12 am-u-md-4 am-margin-top-sm">
                 <span>职位：</span>
-                <span><%=agency.getContactDupty()%></span>
+                <span><%=Strings.isNullOrEmpty(agency.getContactDupty())?"无":agency.getContactDupty()%></span>
             </div>
         </div>
 
@@ -162,6 +159,12 @@
                 <span><%=Strings.isNullOrEmpty(agency.getFanfei())?"无":agency.getFanfei()%></span>
             </div>
         </div>
+        <div class="am-u-sm-12 row">
+            <div class="am-u-sm-12  am-margin-top">
+                <span>地址：</span>
+                <span><%=Strings.isNullOrEmpty(agency.getAddress())?"无":agency.getAddress()%></span>
+            </div>
+        </div>
 
         <div class="am-u-sm-12 row">
             <div class="am-u-sm-12  am-margin-top">
@@ -179,7 +182,7 @@
 
         <div class="am-u-sm-12 row">
             <div class="am-u-sm-12  am-margin-top">
-                <a><i class="am-icon-tags"></i>附件<b class="file"><%=agency.getAnnexUrl().substring(agency.getAnnexUrl().lastIndexOf('/')+1)%></b></a>
+                <a href="<%=agency.getAnnexUrl()%>"  target="_blank"><i class="am-icon-tags"></i>附件<b class="file"><%=agency.getAnnexUrl().substring(agency.getAnnexUrl().lastIndexOf('/')+1)%></b></a>
             </div>
         </div>
     </div>

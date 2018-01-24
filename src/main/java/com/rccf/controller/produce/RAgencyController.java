@@ -2,6 +2,7 @@ package com.rccf.controller.produce;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.rccf.constants.ResponseConstants;
 import com.rccf.constants.UrlConstants;
 import com.rccf.constants.build.DebugManager;
 import com.rccf.model.Employee;
@@ -57,7 +58,7 @@ public class RAgencyController {
 
     @ResponseBody
     @RequestMapping(value = "/submit")
-    public String submitAgency(@RequestParam(value = "file", required = true) MultipartFile file, HttpServletRequest request) {
+    public String submitAgency(@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request) {
 
         String agency_id = request.getParameter("agency_id");
         RAgency rAgency = null;
@@ -90,6 +91,10 @@ public class RAgencyController {
             server_path = DebugManager.SERVER_PATH_PRODUCT_FILE;
             host_address = DebugManager.SERVER_ADDRESS_PRODUCT_FILE;
         }
+        if(file ==null){
+            return ResponseUtil.fail(0,"请上传渠道附加信息");
+        }
+
         String fileName = file.getOriginalFilename();
         String extention = "";
         if (fileName.contains(".")) {
@@ -145,6 +150,11 @@ public class RAgencyController {
         String channel_special = request.getParameter("channel_special");
         String channel_info = request.getParameter("channel_info");
 
+        String can_difficualt = request.getParameter("can_difficualt");
+        if(Strings.isNullOrEmpty(can_difficualt)){
+            return ResponseUtil.fail(0,"请选择是否可做疑难产品");
+        }
+        rAgency.setCanDifficult(Integer.valueOf(can_difficualt));
 
         /*********机构产品信息************/
         if (!Strings.isNullOrEmpty(product_type)) {
@@ -210,7 +220,15 @@ public class RAgencyController {
             return ResponseUtil.fail(0, "请填写联系人姓名");
         }
         if (!Strings.isNullOrEmpty(channel_phone)) {
-            rAgency.setContactPhone(channel_phone);
+            if(Strings.isMobileNO(channel_phone)){
+                rAgency.setContactPhone(channel_phone);
+
+            }else {
+                return ResponseUtil.fail(0, ResponseConstants.MSG_PHONE_FORMAT_ERROR);
+            }
+
+
+
         } else {
             return ResponseUtil.fail(0, "请填写联系人电话");
         }
@@ -238,7 +256,6 @@ public class RAgencyController {
     }
 
 
-    @ResponseBody
     @RequestMapping(value = "/page/list")
     public ModelAndView listPage(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
@@ -255,9 +272,10 @@ public class RAgencyController {
         int eid = employee.getId();
         String depart = employee.getDepartment();
         int role = employee.getRole();
-        if (!(depart.contains("系统")) && !(depart.contains("市场"))) {
+        if (!(depart.contains("系统")) && !(depart.contains("市场")) && eid!=4 ) {
             return ResponseUtil.fail(0, "获取失败");
         }
+
 
         String pageNo = request.getParameter("pageNo");
         int p = 1;
@@ -302,6 +320,14 @@ public class RAgencyController {
                 where=" where "+where_type;
             }else{
                 where=" where "+where_type+"  and ("+where_condition+") ";
+            }
+        }
+
+        if(eid==4 || role>=4 ){
+            if(where.equals("")){
+                where = " where ra.create_person = "+eid + " ";
+            }else{
+                where = " and  ra.create_person = "+eid + " ";
             }
         }
 

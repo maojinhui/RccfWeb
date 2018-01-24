@@ -36,6 +36,7 @@
                 <option value="1">抵押</option>
                 <option value="2">质押</option>
                 <option value="0">信贷</option>
+                <option value="10">疑难</option>
             </select>
             <input id="search_condition" type="text">
             <button id="search_button"><i class="am-icon-search"></i></button>
@@ -175,7 +176,7 @@
 //                        '            <td>'+agency.contactPhone+'</td>\n' +
 //                        '            <td>'+agency.contactWechat+'</td>\n' +
 //                        '            <td>'+agency.contactEmail+'</td>\n' +
-                        '            <td>'+agency.contactDupty+'</td>\n' +
+                        '            <td>'+getString(agency.contactDupty)+'</td>\n' +
 //                        '            <td>'+agency.advantages+'</td>\n' +
 //                        '            <td>'+agency.channelSpecial+'</td>\n' +
 //                        '            <td>'+agency.beizhu+'</td>\n' +

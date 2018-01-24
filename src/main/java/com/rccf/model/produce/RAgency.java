@@ -35,6 +35,7 @@ public class RAgency {
     private Integer auditState;
     private Integer reviewState;
     private String channelSpecial;
+    private Integer canDifficult;
 
     @Id
     @Column(name = "id", nullable = false, length = 64)
@@ -288,40 +289,51 @@ public class RAgency {
         this.channelSpecial = channelSpecial;
     }
 
+    @Basic
+    @Column(name = "can_difficult", nullable = true)
+    public Integer getCanDifficult() {
+        return canDifficult;
+    }
+
+    public void setCanDifficult(Integer canDifficult) {
+        this.canDifficult = canDifficult;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RAgency rAgency = (RAgency) o;
-        return Objects.equal(id, rAgency.id) &&
-                Objects.equal(productType, rAgency.productType) &&
-                Objects.equal(agencyName, rAgency.agencyName) &&
-                Objects.equal(productName, rAgency.productName) &&
-                Objects.equal(recommend, rAgency.recommend) &&
-                Objects.equal(dockingPeople, rAgency.dockingPeople) &&
-                Objects.equal(address, rAgency.address) &&
-                Objects.equal(shangkou, rAgency.shangkou) &&
-                Objects.equal(fanfei, rAgency.fanfei) &&
-                Objects.equal(entryTime, rAgency.entryTime) &&
-                Objects.equal(contactName, rAgency.contactName) &&
-                Objects.equal(contactPhone, rAgency.contactPhone) &&
-                Objects.equal(contactWechat, rAgency.contactWechat) &&
-                Objects.equal(contactEmail, rAgency.contactEmail) &&
-                Objects.equal(contactDupty, rAgency.contactDupty) &&
-                Objects.equal(advantages, rAgency.advantages) &&
-                Objects.equal(beizhu, rAgency.beizhu) &&
-                Objects.equal(createTime, rAgency.createTime) &&
-                Objects.equal(createPerson, rAgency.createPerson) &&
-                Objects.equal(annex, rAgency.annex) &&
-                Objects.equal(annexUrl, rAgency.annexUrl) &&
-                Objects.equal(state, rAgency.state) &&
-                Objects.equal(auditState, rAgency.auditState) &&
-                Objects.equal(reviewState, rAgency.reviewState) &&
-                Objects.equal(channelSpecial, rAgency.channelSpecial);
+        RAgency agency = (RAgency) o;
+        return Objects.equal(id, agency.id) &&
+                Objects.equal(productType, agency.productType) &&
+                Objects.equal(agencyName, agency.agencyName) &&
+                Objects.equal(productName, agency.productName) &&
+                Objects.equal(recommend, agency.recommend) &&
+                Objects.equal(dockingPeople, agency.dockingPeople) &&
+                Objects.equal(address, agency.address) &&
+                Objects.equal(shangkou, agency.shangkou) &&
+                Objects.equal(fanfei, agency.fanfei) &&
+                Objects.equal(entryTime, agency.entryTime) &&
+                Objects.equal(contactName, agency.contactName) &&
+                Objects.equal(contactPhone, agency.contactPhone) &&
+                Objects.equal(contactWechat, agency.contactWechat) &&
+                Objects.equal(contactEmail, agency.contactEmail) &&
+                Objects.equal(contactDupty, agency.contactDupty) &&
+                Objects.equal(advantages, agency.advantages) &&
+                Objects.equal(beizhu, agency.beizhu) &&
+                Objects.equal(createTime, agency.createTime) &&
+                Objects.equal(createPerson, agency.createPerson) &&
+                Objects.equal(annex, agency.annex) &&
+                Objects.equal(annexUrl, agency.annexUrl) &&
+                Objects.equal(state, agency.state) &&
+                Objects.equal(auditState, agency.auditState) &&
+                Objects.equal(reviewState, agency.reviewState) &&
+                Objects.equal(channelSpecial, agency.channelSpecial) &&
+                Objects.equal(canDifficult, agency.canDifficult);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, productType, agencyName, productName, recommend, dockingPeople, address, shangkou, fanfei, entryTime, contactName, contactPhone, contactWechat, contactEmail, contactDupty, advantages, beizhu, createTime, createPerson, annex, annexUrl, state, auditState, reviewState, channelSpecial);
+        return Objects.hashCode(id, productType, agencyName, productName, recommend, dockingPeople, address, shangkou, fanfei, entryTime, contactName, contactPhone, contactWechat, contactEmail, contactDupty, advantages, beizhu, createTime, createPerson, annex, annexUrl, state, auditState, reviewState, channelSpecial, canDifficult);
     }
 }

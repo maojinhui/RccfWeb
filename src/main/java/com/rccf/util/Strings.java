@@ -238,6 +238,22 @@ public class Strings {
     }
 
 
+    public static String getProductType(Integer type){
+        String str = "";
+        if(type == null ){
+            return str;
+        }
+        switch (type){
+            case -1: str="未知";break;
+            case 0: str="信贷";break;
+            case 1: str="抵押";break;
+            case 2: str="质押";break;
+            case 100: str="疑难";break;
+        }
+        return str;
+
+    }
+
     /**
      * 根据小数计算出百分比
      *

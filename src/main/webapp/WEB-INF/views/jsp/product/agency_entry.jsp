@@ -19,6 +19,13 @@
 <div class="am-container am-margin-top-xl ">
     <div class="am-g">
         <h3>产品基本信息</h3>
+        <div class="am-u-sm-12 am-margin-bottom">
+            <span>可做疑难</span>
+            <select id="can_difficualt">
+                <option value="0">否</option>
+                <option value="1">是</option>
+            </select>
+        </div>
         <div class="am-u-sm-12 am-u-md-4 ">
             <span>产品类型</span>
             <select id="product_type">
@@ -26,6 +33,7 @@
                 <option value="1">抵押</option>
                 <option value="2">质押</option>
                 <option value="0">信贷</option>
+                <%--<option value="100">疑难</option>--%>
             </select>
         </div>
         <div class="am-u-sm-12 am-u-md-4 ">
@@ -190,6 +198,7 @@
         var channel_swot = $('#channel_swot').val();
         var channel_up = $('#channel_up').val();
         var channel_back = $('#channel_back').val();
+        var can_difficualt = $('#can_difficualt').val();
 
         formdata.append('product_type',product_type);
         formdata.append('product_org',product_org);
@@ -209,6 +218,7 @@
         formdata.append('channel_swot',channel_swot);
         formdata.append('channel_special',channel_special);
         formdata.append('channel_info',channel_info);
+        formdata.append('can_difficualt',can_difficualt);
 
         var file = $('#upFile')[0].files[0];
 
@@ -225,6 +235,7 @@
             success:function (result) {
                 if(result.code){
                     alert('提交成功');
+                    window.location.reload();
                 }else{
                     alert(result.errormsg);
                 }

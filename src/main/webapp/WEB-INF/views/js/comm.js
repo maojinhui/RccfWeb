@@ -168,6 +168,8 @@ function getType(type) {
         return '包装';
     } else if (type === 10) {
         return '融成贷';
+    } else if (type === 100) {
+        return '疑难贷';
     } else {
         return '未知';
     }

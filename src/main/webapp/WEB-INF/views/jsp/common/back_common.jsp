@@ -264,7 +264,7 @@
             </li>
             <%}%>
 
-            <% if (depart.equals("系统管理") || (depart.contains("市场")) ) {%>
+            <% if (depart.equals("系统管理") || (depart.contains("市场")) ||  userid .equals("4")) {%>
             <li class="sidebar-nav-link">
                 <a class="sidebar-nav-sub-title">
                     <i class="am-icon-file sidebar-nav-link-logo"></i> 产品中心
@@ -286,6 +286,7 @@
                         <%--</a>--%>
                     <%--</li>--%>
                 <%--</ul>--%>
+                <% if (depart.equals("系统管理")|| (depart.contains("市场") && role<=4) ){ %>
                 <ul class="sidebar-nav sidebar-nav-sub">
                     <li class="sidebar-nav-link">
                         <a class="rcmenu" data-rccf-menu="/prod/listPage">
@@ -293,6 +294,7 @@
                         </a>
                     </li>
                 </ul>
+                <% }%>
 
                 <ul class="sidebar-nav sidebar-nav-sub">
                     <li class="sidebar-nav-link">
@@ -309,6 +311,7 @@
                         </a>
                     </li>
                 </ul>
+
 
             </li>
             <%}%>

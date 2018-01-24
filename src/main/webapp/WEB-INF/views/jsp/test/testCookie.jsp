@@ -22,8 +22,7 @@
 <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
 <script>
 
-    $.cookie("user_id", result.data)
-
+    $.cookie("user_id", result.data);
 
 </script>
 
