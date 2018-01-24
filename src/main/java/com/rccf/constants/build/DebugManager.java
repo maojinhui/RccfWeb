@@ -3,7 +3,7 @@ package com.rccf.constants.build;
 public class DebugManager {
 
     //TODO 提交至线上的时候注意修改
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
 
     public static String SERVER_IMAGE_PATH = "/home/php-www/photo/";
@@ -23,7 +23,12 @@ public class DebugManager {
     public static String SERVER_ADDRESS_PRODUCT_FILE="/file/product/";
 
 
-
+    /**
+     *
+     * /opt/openoffice4/program/soffice -headless -accept="socket,host=127.0.0.1,port=8100;urp;" -nofirststartwizard
+     *
+     *
+     */
 
 
 

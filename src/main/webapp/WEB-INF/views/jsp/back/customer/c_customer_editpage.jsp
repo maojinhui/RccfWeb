@@ -239,6 +239,30 @@
         })
 
     });
+   
+   $('#loan_type').change(function () {
+        var value = $(this).val();
+        console.log('loan_type'+value);
+       var obj = {};
+       obj.loan_type=value;
+       obj.customer_id=customer_id;
+       $.ajax({
+           url:'/customer/info/update/loantype',
+           dataType:'json',
+           data:obj,
+           success:function (result) {
+               if(result.code){
+                   alert('修改成功');
+               }else{
+                   alert(result.errormsg);
+               }
+           },
+           error:function () {
+
+           }
+       })
+   });
+   
 </script>
 </body>
 </html>

@@ -1,5 +1,4 @@
 <%@ page import="com.alibaba.fastjson.JSON" %>
-<%@ page import="com.rccf.model.RAgency" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.rccf.model.produce.AProduceCreditType" %>
 <%@ page import="com.rccf.model.produce.AProduceCreditMaterialPerson" %>
@@ -421,21 +420,7 @@ Created by IntelliJ IDEA.
 <script src="/js/jquery.autocompleter.js"></script>
 <script src="/js/back/datacommon.js"></script>
 <script src="/js/comm.js"></script>
-<%  List<RAgency> agencys = (List<RAgency>) request.getAttribute("agencys"); %>
 <script>
-    var agencys = <%=JSON.toJSONString(agencys).replaceAll("name","label")%>;
-    $('#agency_name').autocompleter({
-        highlightMatches: true,
-        source: agencys,
-        template: '{{ label }} <span>{{ id }}</span>',
-        hint: false,
-        empty: false,
-        limit: 5,
-        callback: function (value, index, selected) {
-            $('#agency_id').val(selected.id);
-        }
-    })
-
     //UNUSED 点击添加个人准备资料
     function addPersonalInfo(obj) {
         var tdNode = obj.parentNode;

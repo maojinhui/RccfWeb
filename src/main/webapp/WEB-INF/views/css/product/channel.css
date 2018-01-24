@@ -1,0 +1,54 @@
+
+.am-container {
+  margin-bottom: 150px;
+}
+.am-g h3 {
+  text-align: center;
+  background-color: #999;
+  color: #fff;
+
+  padding: 0.2em;
+}
+.am-u-sm-12 span,
+.am-u-md-4 span {
+  display: inline-block;
+  width: 4.5em;
+  text-align: right;
+  padding-right: 0.4em;
+  color: #095f8a;
+}
+
+
+
+.am-g select,
+.am-g input {
+  width: 11em;
+
+  color: #095f8a;
+
+  padding-left: 0.4em;
+  border: 1px solid #095f8a;
+}
+
+.am-g .product_area {
+  width: 60%;
+  border: none;
+
+  border-bottom: 1px solid #095f8a;
+}
+
+.fy {
+ padding: 0;
+}
+.send {
+  height: 6em;
+
+  font-size: 0.8em;
+  border: dashed 2px #999999;
+  padding-top: 1.8em;
+  text-align: center;
+}
+
+.send i {
+  font-size: 1.2em;
+}

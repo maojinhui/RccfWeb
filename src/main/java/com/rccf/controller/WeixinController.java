@@ -75,7 +75,7 @@ public class WeixinController {
                             msg.setFromUserName(toUserName);
                             msg.setToUserName(fromUserName);
                             msg.setCreateTime(new Date().getTime()/1000);
-                            msg.setContent("欢迎关注融成金服！");
+                            msg.setContent("您好，欢迎关注融成金服！融成金服作为融成财富旗下领先的金融科技服务平台，汇聚了国内众多大型商业银行、信托、基金、互联网金融等机构的优质金融产品信息服务，致力于打造一站式金融超市，为广大用户提供小额信用贷款产品搜索服务、房产、车抵押贷款产品组合信息服务，以及一对一投资咨询等金融信息服务。");
                             msg.setMsgType("text");
                             String xml= WeixinUtil.getXml(msg);
                             return xml;

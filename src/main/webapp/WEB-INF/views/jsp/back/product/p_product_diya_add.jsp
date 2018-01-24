@@ -1,5 +1,4 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.rccf.model.RAgency" %>
 <%@ page import="com.alibaba.fastjson.JSON" %>
 <%@ page import="com.rccf.model.produce.AProduceDiya" %>
 <%@ page import="com.rccf.util.Strings" %>
@@ -12,7 +11,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<RAgency> agencys = (List<RAgency>) request.getAttribute("agencys");
     AProduceDiya diya = (AProduceDiya) request.getAttribute("produce");
     boolean objNotNull = false;
     int produce_id = 0;
@@ -533,18 +531,7 @@
 <script src="/js/back/datacommon.js"></script>
 <script src="/js/comm.js"></script>
 <script>
-    var agencys = <%=JSON.toJSONString(agencys).replaceAll("name","label")%>;
-    $('#agency_name').autocompleter({
-        highlightMatches: true,
-        source: agencys,
-        template: '{{ label }} <span>{{ id }}</span>',
-        hint: false,
-        empty: false,
-        limit: 5,
-        callback: function (value, index, selected) {
-            $('#agency_id').val(selected.id);
-        }
-    })
+
 
     $('#save').click(function () {
         var produce_id = <%=produce_id%>;

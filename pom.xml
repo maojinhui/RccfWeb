@@ -278,8 +278,63 @@
       <artifactId>java-sdk</artifactId>
       <version>3.3.2</version>
     </dependency>
-    <!-- 百度语音识别 -->
 
+
+
+    <!-- 百度语音识别 -->
+    <!-- jodconverter-->
+    <!--<dependency>-->
+      <!--<groupId>com.artofsolving</groupId>-->
+      <!--<artifactId>jodconverter</artifactId>-->
+      <!--<version>2.2.1</version>-->
+    <!--</dependency>-->
+    <!-- jodconverter-->
+    <!-- https://mvnrepository.com/artifact/org.artofsolving.jodconverter/jodconverter-core -->
+    <!--<dependency>-->
+      <!--<groupId>org.artofsolving.jodconverter</groupId>-->
+      <!--<artifactId>jodconverter-core</artifactId>-->
+      <!--<version>3.0-beta-4</version>-->
+    <!--</dependency>-->
+
+    <!--<dependency>-->
+      <!--<groupId>com.artofsolving</groupId>-->
+      <!--<artifactId>jodconverter</artifactId>-->
+      <!--<version>2.2.1</version>-->
+    <!--</dependency>-->
+
+
+    <!-- https://mvnrepository.com/artifact/org.jodconverter/jodconverter-core -->
+    <!--<dependency>-->
+      <!--<groupId>org.jodconverter</groupId>-->
+      <!--<artifactId>jodconverter-core</artifactId>-->
+      <!--<version>4.0.0-RELEASE</version>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.jodconverter</groupId>-->
+      <!--<artifactId>jodconverter-spring-boot-starter</artifactId>-->
+      <!--<version>4.1.0</version>-->
+    <!--</dependency>-->
+
+    <!--<dependency>-->
+      <!--<groupId>org.libreoffice</groupId>-->
+      <!--<artifactId>juh</artifactId>-->
+      <!--<version>5.4.0</version>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.libreoffice</groupId>-->
+      <!--<artifactId>jurt</artifactId>-->
+      <!--<version>5.4.2</version>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.libreoffice</groupId>-->
+      <!--<artifactId>ridl</artifactId>-->
+      <!--<version>5.4.2</version>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.libreoffice</groupId>-->
+      <!--<artifactId>unoil</artifactId>-->
+      <!--<version>5.4.2</version>-->
+    <!--</dependency>-->
 
   </dependencies>
   <build>

@@ -1372,6 +1372,34 @@ public class CustomerInfoController {
 
 /*********************附件信息***************************************/
 
+    @ResponseBody
+    @RequestMapping(value = "/update/loantype")
+    public String customerLoantype(HttpServletRequest request){
+        String customer_id = request.getParameter("customer_id");
+        String loan_type = request.getParameter("loan_type");
+        if(Strings.isNullOrEmpty(loan_type)){
+            return ResponseUtil.fail(0,"参数错误");
+        }
+        int type = Integer.valueOf(loan_type);
+
+        DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerLoaninfo.class);
+        criteria.add(Restrictions.eq("customerId", customer_id));
+        List list = baseService.getList(criteria);
+        if (list != null && list.size() > 0) {
+            RCustomerLoaninfo loan = (RCustomerLoaninfo) list.get(0);
+            loan.setLoanType(type);
+            boolean save = baseService.save(loan);
+            if(save){
+                return ResponseUtil.success();
+            }else{
+                return ResponseUtil.fail(0,"更新失败");
+            }
+        }
+        return ResponseUtil.fail(0,"更新错误");
+    }
+
+
+
 
     /**
      * 在页面中添加客户信息
@@ -1391,6 +1419,11 @@ public class CustomerInfoController {
         } else {
         }
     }
+
+
+
+
+
 
 
 }

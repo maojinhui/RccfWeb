@@ -14,23 +14,27 @@ public class RAgency {
     private Integer productType;
     private String agencyName;
     private String productName;
+    private String recommend;
+    private String dockingPeople;
+    private String address;
+    private String shangkou;
+    private String fanfei;
+    private Date entryTime;
     private String contactName;
     private String contactPhone;
     private String contactWechat;
     private String contactEmail;
     private String contactDupty;
-    private String description;
-    private String recommend;
-    private Date entryTime;
+    private String advantages;
+    private String beizhu;
     private Timestamp createTime;
     private Integer createPerson;
     private String annex;
     private String annexUrl;
     private Integer state;
-    private Integer updatePerson;
-    private Timestamp updateTime;
     private Integer auditState;
     private Integer reviewState;
+    private String channelSpecial;
 
     @Id
     @Column(name = "id", nullable = false, length = 64)
@@ -72,6 +76,66 @@ public class RAgency {
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    @Basic
+    @Column(name = "recommend", nullable = true, length = 255)
+    public String getRecommend() {
+        return recommend;
+    }
+
+    public void setRecommend(String recommend) {
+        this.recommend = recommend;
+    }
+
+    @Basic
+    @Column(name = "docking_people", nullable = true, length = 255)
+    public String getDockingPeople() {
+        return dockingPeople;
+    }
+
+    public void setDockingPeople(String dockingPeople) {
+        this.dockingPeople = dockingPeople;
+    }
+
+    @Basic
+    @Column(name = "address", nullable = true, length = -1)
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @Basic
+    @Column(name = "shangkou", nullable = true, length = -1)
+    public String getShangkou() {
+        return shangkou;
+    }
+
+    public void setShangkou(String shangkou) {
+        this.shangkou = shangkou;
+    }
+
+    @Basic
+    @Column(name = "fanfei", nullable = true, length = -1)
+    public String getFanfei() {
+        return fanfei;
+    }
+
+    public void setFanfei(String fanfei) {
+        this.fanfei = fanfei;
+    }
+
+    @Basic
+    @Column(name = "entry_time", nullable = true)
+    public Date getEntryTime() {
+        return entryTime;
+    }
+
+    public void setEntryTime(Date entryTime) {
+        this.entryTime = entryTime;
     }
 
     @Basic
@@ -125,33 +189,23 @@ public class RAgency {
     }
 
     @Basic
-    @Column(name = "description", nullable = true, length = -1)
-    public String getDescription() {
-        return description;
+    @Column(name = "advantages", nullable = true, length = -1)
+    public String getAdvantages() {
+        return advantages;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Basic
-    @Column(name = "recommend", nullable = true, length = 255)
-    public String getRecommend() {
-        return recommend;
-    }
-
-    public void setRecommend(String recommend) {
-        this.recommend = recommend;
+    public void setAdvantages(String advantages) {
+        this.advantages = advantages;
     }
 
     @Basic
-    @Column(name = "entry_time", nullable = true)
-    public Date getEntryTime() {
-        return entryTime;
+    @Column(name = "beizhu", nullable = true, length = -1)
+    public String getBeizhu() {
+        return beizhu;
     }
 
-    public void setEntryTime(Date entryTime) {
-        this.entryTime = entryTime;
+    public void setBeizhu(String beizhu) {
+        this.beizhu = beizhu;
     }
 
     @Basic
@@ -205,26 +259,6 @@ public class RAgency {
     }
 
     @Basic
-    @Column(name = "update_person", nullable = true)
-    public Integer getUpdatePerson() {
-        return updatePerson;
-    }
-
-    public void setUpdatePerson(Integer updatePerson) {
-        this.updatePerson = updatePerson;
-    }
-
-    @Basic
-    @Column(name = "update_time", nullable = true)
-    public Timestamp getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    @Basic
     @Column(name = "audit_state", nullable = true)
     public Integer getAuditState() {
         return auditState;
@@ -244,6 +278,15 @@ public class RAgency {
         this.reviewState = reviewState;
     }
 
+    @Basic
+    @Column(name = "channel_special", nullable = true, length = -1)
+    public String getChannelSpecial() {
+        return channelSpecial;
+    }
+
+    public void setChannelSpecial(String channelSpecial) {
+        this.channelSpecial = channelSpecial;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -254,54 +297,31 @@ public class RAgency {
                 Objects.equal(productType, rAgency.productType) &&
                 Objects.equal(agencyName, rAgency.agencyName) &&
                 Objects.equal(productName, rAgency.productName) &&
+                Objects.equal(recommend, rAgency.recommend) &&
+                Objects.equal(dockingPeople, rAgency.dockingPeople) &&
+                Objects.equal(address, rAgency.address) &&
+                Objects.equal(shangkou, rAgency.shangkou) &&
+                Objects.equal(fanfei, rAgency.fanfei) &&
+                Objects.equal(entryTime, rAgency.entryTime) &&
                 Objects.equal(contactName, rAgency.contactName) &&
                 Objects.equal(contactPhone, rAgency.contactPhone) &&
                 Objects.equal(contactWechat, rAgency.contactWechat) &&
                 Objects.equal(contactEmail, rAgency.contactEmail) &&
                 Objects.equal(contactDupty, rAgency.contactDupty) &&
-                Objects.equal(description, rAgency.description) &&
-                Objects.equal(recommend, rAgency.recommend) &&
-                Objects.equal(entryTime, rAgency.entryTime) &&
+                Objects.equal(advantages, rAgency.advantages) &&
+                Objects.equal(beizhu, rAgency.beizhu) &&
                 Objects.equal(createTime, rAgency.createTime) &&
                 Objects.equal(createPerson, rAgency.createPerson) &&
                 Objects.equal(annex, rAgency.annex) &&
                 Objects.equal(annexUrl, rAgency.annexUrl) &&
                 Objects.equal(state, rAgency.state) &&
-                Objects.equal(updatePerson, rAgency.updatePerson) &&
-                Objects.equal(updateTime, rAgency.updateTime) &&
                 Objects.equal(auditState, rAgency.auditState) &&
-                Objects.equal(reviewState, rAgency.reviewState);
+                Objects.equal(reviewState, rAgency.reviewState) &&
+                Objects.equal(channelSpecial, rAgency.channelSpecial);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, productType, agencyName, productName, contactName, contactPhone, contactWechat, contactEmail, contactDupty, description, recommend, entryTime, createTime, createPerson, annex, annexUrl, state, updatePerson, updateTime, auditState, reviewState);
-    }
-
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this)
-                .add("id", id)
-                .add("productType", productType)
-                .add("agencyName", agencyName)
-                .add("productName", productName)
-                .add("contactName", contactName)
-                .add("contactPhone", contactPhone)
-                .add("contactWechat", contactWechat)
-                .add("contactEmail", contactEmail)
-                .add("contactDupty", contactDupty)
-                .add("description", description)
-                .add("recommend", recommend)
-                .add("entryTime", entryTime)
-                .add("createTime", createTime)
-                .add("createPerson", createPerson)
-                .add("annex", annex)
-                .add("annexUrl", annexUrl)
-                .add("state", state)
-                .add("updatePerson", updatePerson)
-                .add("updateTime", updateTime)
-                .add("auditState", auditState)
-                .add("reviewState", reviewState)
-                .toString();
+        return Objects.hashCode(id, productType, agencyName, productName, recommend, dockingPeople, address, shangkou, fanfei, entryTime, contactName, contactPhone, contactWechat, contactEmail, contactDupty, advantages, beizhu, createTime, createPerson, annex, annexUrl, state, auditState, reviewState, channelSpecial);
     }
 }
