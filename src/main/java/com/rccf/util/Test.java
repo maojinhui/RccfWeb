@@ -7,6 +7,10 @@ package com.rccf.util;
 //import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
 
 
+import org.apache.commons.io.IOUtils;
+
+import javax.persistence.PrePersist;
+import java.io.IOException;
 import java.util.regex.Pattern;
 
 /**
@@ -82,7 +86,27 @@ public class Test {
 //                .to(outputFile)
 //                .execute();
 
+//        String outputFilePath = "/Users/greatland/Desktop/产品编号-1.xlsx";
+
+        try {
+            String string = excute();
+            System.out.println(string);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
+
+
+
+    public static String excute() throws IOException {
+        Runtime runtime = Runtime.getRuntime();
+        Process ls = runtime.exec("ls");
+        String str = IOUtils.toString(ls.getInputStream());
+        return str;
+    }
+
+
 
 
 

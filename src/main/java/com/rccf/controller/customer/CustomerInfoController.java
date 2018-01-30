@@ -1394,8 +1394,18 @@ public class CustomerInfoController {
             }else{
                 return ResponseUtil.fail(0,"更新失败");
             }
+        }else{
+            RCustomerLoaninfo loan = new RCustomerLoaninfo();
+            loan.setCustomerId(customer_id);
+            loan.setLoanType(type);
+            boolean save = baseService.save(loan);
+            if(save){
+                return ResponseUtil.success();
+            }else{
+                return ResponseUtil.fail(0,"修改失败");
+            }
         }
-        return ResponseUtil.fail(0,"更新错误");
+//        return ResponseUtil.fail(0,"更新错误");
     }
 
 

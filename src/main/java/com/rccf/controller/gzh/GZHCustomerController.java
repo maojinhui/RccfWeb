@@ -54,7 +54,7 @@ public class GZHCustomerController {
     @RequestMapping(value = "/page/submit")
     public ModelAndView customerSubmitPage(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/gzh/sales/customer_submit");
+        modelAndView.setViewName("/gzh/sales/customer_submit_accept");
         String customer_id=request.getParameter("customer_id");
         RCustomer rCustomer = (RCustomer) baseService.get(RCustomer.class,customer_id);
         modelAndView.addObject("rcustomer",rCustomer);

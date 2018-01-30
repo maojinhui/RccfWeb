@@ -71,16 +71,21 @@
         </table>
     </div>
 <div id="page"></div>
+
     <div class="popup hide">
         <div class="row">
-            <div class="col-5">
-                <button id="customer_info" class="a-btn a-btn-blue"> &nbsp;查看客户详情</button>
-            </div>
-            <div class="col-5">
-                <button id="product_match" class="a-btn a-btn-red"> &nbsp;进行产品匹配</button>
+            <div class="col-10" >
+                <h3 style="text-align: center">为<span id="name"></span>进行下列哪项操作?</h3>
+                <div class="col-10">
+                    <a id="customer_info" class=" a-btn a-btn-blue">查看客户详情</a>
+                </div>
+                <div class="col-10">
+                    <a id="product_match" class=" a-btn a-btn-red">提交受理单</a>
+                </div>
             </div>
         </div>
     </div>
+
 
 
 </div>
@@ -91,22 +96,39 @@
 <script src="/js/comm.js"></script>
 <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
-
 <script>
 
-    $('tr[data-customer-id]').click(function () {
-        var customerId = $(this).data('customerId');
-        console.log(customerId);
-        sessionStorage.setItem('customerId', customerId);
-        $('.popup').removeClass('hide');
-    })
+//    $('tr[data-customer-id]').click(function () {
+//        var customerId = $(this).data('customerId');
+//        console.log(customerId);
+//        sessionStorage.setItem('customerId', customerId);
+//        var tdnode = $(this).children('td')[1];
+//        var name = tdnode.innerHTML;
+//        $('#name').html(name);
+//
+//        $('.popup').removeClass('hide');
+//
+//    })
 
 
     function clickCustomer(obj) {
+//        var customerId = $(obj).data('customerId');
+//        console.log(customerId);
+//        sessionStorage.setItem('customerId', customerId);
+//        $('.popup').removeClass('hide');
+
+
         var customerId = $(obj).data('customerId');
         console.log(customerId);
         sessionStorage.setItem('customerId', customerId);
+        var tdnode = $(obj).children('td')[1];
+        var name = tdnode.innerHTML;
+        $('#name').html(name);
+
         $('.popup').removeClass('hide');
+
+
+
     }
 
     $('#customer_info').click(function () {

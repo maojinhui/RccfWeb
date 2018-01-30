@@ -36,32 +36,39 @@
   padding-top: 40%;
   background-color: rgba(255,255,255,0.8);
 }
-.a-btn {
-  display: inline-block;
-  width: 2rem;
-  height: 2rem;
+.popup .row {
+  width: 90%;
+  margin: 0 auto;
+  background-color: #42bde5;
+  color:#fff;
 
-  font-size: 0.4rem;
-  border: none;
-  border-radius: 50%;
+  padding: 0.6rem;
+  border-radius: 4px;
+
 }
-
+.a-btn {
+  display: block;
+  width: 6rem;
+  margin: 0.4rem auto;
+  padding: 0.2rem;
+  text-align: center;
+  font-size: 0.5rem;
+  border: none;
+  border-radius: 5px;
+}
+.popup h3 {
+  font-weight: 400;
+}
 .a-btn-blue {
-  background-color: #6fc4dd;
+  background-color: #666;
   color:#fff;
 }
 .a-btn-red {
   background-color: #da7e5e;
   color:#fff;
 }
-.popup .col-5:first-child {
-  text-align: right;
-  padding-right: 0.45rem;
+
+
+#name {
+  color:red;
 }
-.popup .col-5:last-child {
-  text-align: left;
-  padding-left: 0.45rem;
-
-}
-
-
