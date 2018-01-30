@@ -77,6 +77,26 @@
 <div class="container">
     <div class="row">
         <table class="a-table">
+
+            <%--人员信息--%>
+            <tr>
+                <td>销售经理</td>
+                <td><input id="employee" type="text"
+                           value="<%=Strings.getInputString(customer.getName())%>"></td>
+            </tr>
+            <tr>
+                <td>副总监</td>
+                <td><input id="duty" type="text"
+                           value="<%=Strings.getInputString(customer.getPhone())%>"></td>
+            </tr>
+            <tr>
+                <td>总监</td>
+                <td><input id="director" type="text"
+                           value="<%=Strings.getInputString(customer.getIdcard())%>"></td>
+            </tr>
+
+
+            <%--客户信息--%>
             <tr>
                 <td>客户姓名</td>
                 <td><input id="customer_name" type="text"
@@ -88,73 +108,125 @@
                            value="<%=Strings.getInputString(customer.getPhone())%>"></td>
             </tr>
             <tr>
-                <td>申请金额</td>
-                <td><input id="customer_applyamount" type="text"
-                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
+                <td>身份证号</td>
+                <td><input id="customer_idCard" type="text"
+                           value="<%=Strings.getInputString(customer.getIdcard())%>"></td>
             </tr>
             <tr>
                 <td>贷款类型</td>
                 <td>
                     <select id="loan_type" class="am-u-sm-6">
                         <option value="-1">未知</option>
-                        <option value="0" <%=loaninfoNotnull && loan.getLoanType()!=null && loan.getLoanType() == 0 ? "selected='selected'" : ""%>>
+                        <option value="0" <%=loaninfoNotnull && loan.getLoanType() != null && loan.getLoanType() == 0 ? "selected='selected'" : ""%>>
                             信用贷款
                         </option>
-                        <option value="1" <%=loaninfoNotnull && loan.getLoanType()!=null && loan.getLoanType() == 1 ? "selected='selected'" : ""%>>
+                        <option value="1" <%=loaninfoNotnull && loan.getLoanType() != null && loan.getLoanType() == 1 ? "selected='selected'" : ""%>>
                             抵押贷款
                         </option>
-                        <option value="2" <%=loaninfoNotnull && loan.getLoanType()!=null && loan.getLoanType() == 2 ? "selected='selected'" : ""%>>
+                        <option value="2" <%=loaninfoNotnull && loan.getLoanType() != null && loan.getLoanType() == 2 ? "selected='selected'" : ""%>>
                             质押贷款
                         </option>
-                        <option value="10" <%=loaninfoNotnull && loan.getLoanType()!=null && loan.getLoanType() == 10 ? "selected='selected'" : ""%>>
+                        <option value="10" <%=loaninfoNotnull && loan.getLoanType() != null && loan.getLoanType() == 10 ? "selected='selected'" : ""%>>
                             融成贷
                         </option>
                     </select>
                 </td>
             </tr>
             <tr>
-                <td>贷款期限</td>
-                <td><input id="customer_loanterm_month" type="text" style="width: 4em;border-bottom: 1px solid #999"
-                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getLoanTermMonth()):""%>">月
-                    <input id="customer_loanterm_day" type="text" style="width: 4em;border-bottom: 1px solid #999"
-                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getLoanTermDay()):""%>">日
-                </td>
+                <td>预贷金额</td>
+                <td><input id="customer_applyamount" type="text"
+                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
             </tr>
             <tr>
-                <td>贷款用途</td>
-                <td><input id="customer_loan_usage" type="text"
-                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getLoanUsage()):""%>"></td>
+                <td>服务费比例</td>
+                <td><input id="fwf" type="text"
+                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
+            </tr>
+
+
+            <%--市场部--%>
+            <tr>
+                <td>受理方案</td>
+                <td><input id="slfa" type="text"
+                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
             </tr>
             <tr>
-                <td>希望还款方式</td>
-                <td>
-                    <select id="loan_repayment_type" class="am-u-sm-6">
-                        <option value="0">未知</option>
-                        <option value="1" <%=loaninfoNotnull && loan.getLoanRepayment() !=null  && loan.getLoanRepayment() == 1 ? "selected='selected'" : ""%>>
-                            等额本金
-                        </option>
-                        <option value="2" <%=loaninfoNotnull && loan.getLoanRepayment() !=null && loan.getLoanRepayment() == 2 ? "selected='selected'" : ""%>>
-                            等额本息
-                        </option>
-                        <option value="3" <%=loaninfoNotnull && loan.getLoanRepayment() !=null && loan.getLoanRepayment() == 3 ? "selected='selected'" : ""%>>
-                            停本付息
-                        </option>
-                        <option value="4" <%=loaninfoNotnull && loan.getLoanRepayment() !=null && loan.getLoanRepayment() == 4 ? "selected='selected'" : ""%>>
-                            先息后本
-                        </option>
-                    </select>
-                </td>
+                <td>渠道费用</td>
+                <td><input id="qdfy" type="text"
+                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
             </tr>
             <tr>
-                <td>月承受还款额</td>
-                <td><input id="customer_loan_monthly_repayment" type="text"
-                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getLoanMonthlyRepayment()):""%>"></td>
+                <td>材料费</td>
+                <td><input id="clf" type="text"
+                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
+            </tr>
+
+            <tr>
+                <td>三方费用</td>
+                <td><input id="sffy" type="text"
+                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
+            </tr>
+
+            <%--受理中心--%>
+            <tr>
+                <td>产品编号</td>
+                <td><input id="product_id" type="text"
+                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
             </tr>
             <tr>
-                <td>还款来源</td>
-                <td><input id="loan_repayment_source" type="text"
-                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getLoanRepaymentSource()):""%>"></td>
+                <td>受理单号</td>
+                <td><input id="apply_id" type="text"
+                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
             </tr>
+            <tr>
+                <td>受理日期</td>
+                <td><input id="apply_date" type="text"
+                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
+            </tr>
+
+            <%--<tr>--%>
+            <%--<td>贷款期限</td>--%>
+            <%--<td><input id="customer_loanterm_month" type="text" style="width: 4em;border-bottom: 1px solid #999"--%>
+            <%--value="<%=loaninfoNotnull?Strings.getInputString(loan.getLoanTermMonth()):""%>">月--%>
+            <%--<input id="customer_loanterm_day" type="text" style="width: 4em;border-bottom: 1px solid #999"--%>
+            <%--value="<%=loaninfoNotnull?Strings.getInputString(loan.getLoanTermDay()):""%>">日--%>
+            <%--</td>--%>
+            <%--</tr>--%>
+            <%--<tr>--%>
+            <%--<td>贷款用途</td>--%>
+            <%--<td><input id="customer_loan_usage" type="text"--%>
+            <%--value="<%=loaninfoNotnull?Strings.getInputString(loan.getLoanUsage()):""%>"></td>--%>
+            <%--</tr>--%>
+            <%--<tr>--%>
+            <%--<td>希望还款方式</td>--%>
+            <%--<td>--%>
+            <%--<select id="loan_repayment_type" class="am-u-sm-6">--%>
+            <%--<option value="0">未知</option>--%>
+            <%--<option value="1" <%=loaninfoNotnull && loan.getLoanRepayment() !=null  && loan.getLoanRepayment() == 1 ? "selected='selected'" : ""%>>--%>
+            <%--等额本金--%>
+            <%--</option>--%>
+            <%--<option value="2" <%=loaninfoNotnull && loan.getLoanRepayment() !=null && loan.getLoanRepayment() == 2 ? "selected='selected'" : ""%>>--%>
+            <%--等额本息--%>
+            <%--</option>--%>
+            <%--<option value="3" <%=loaninfoNotnull && loan.getLoanRepayment() !=null && loan.getLoanRepayment() == 3 ? "selected='selected'" : ""%>>--%>
+            <%--停本付息--%>
+            <%--</option>--%>
+            <%--<option value="4" <%=loaninfoNotnull && loan.getLoanRepayment() !=null && loan.getLoanRepayment() == 4 ? "selected='selected'" : ""%>>--%>
+            <%--先息后本--%>
+            <%--</option>--%>
+            <%--</select>--%>
+            <%--</td>--%>
+            <%--</tr>--%>
+            <%--<tr>--%>
+            <%--<td>月承受还款额</td>--%>
+            <%--<td><input id="customer_loan_monthly_repayment" type="text"--%>
+            <%--value="<%=loaninfoNotnull?Strings.getInputString(loan.getLoanMonthlyRepayment()):""%>"></td>--%>
+            <%--</tr>--%>
+            <%--<tr>--%>
+            <%--<td>还款来源</td>--%>
+            <%--<td><input id="loan_repayment_source" type="text"--%>
+            <%--value="<%=loaninfoNotnull?Strings.getInputString(loan.getLoanRepaymentSource()):""%>"></td>--%>
+            <%--</tr>--%>
         </table>
     </div>
 </div>
@@ -349,11 +421,11 @@
     function getImages() {
         var images = [];
         $('#images').children('div').each(function () {
-           var imgNode =  $(this).children('img')[0];
-           var imgSrc = $(imgNode).attr('src');
-           if(imgSrc !== '/work/img/add.png'){
-               images.push(imgSrc);
-           }
+            var imgNode = $(this).children('img')[0];
+            var imgSrc = $(imgNode).attr('src');
+            if (imgSrc !== '/work/img/add.png') {
+                images.push(imgSrc);
+            }
         })
         return images;
     }
@@ -362,8 +434,8 @@
         var hqs = [];
         $('#hq').children('div').each(function () {
             var houqiID = $(this).data('hq-id');
-            var imgNode =  $(this).children('a')[0];
-            if($(imgNode).hasClass('selected')){
+            var imgNode = $(this).children('a')[0];
+            if ($(imgNode).hasClass('selected')) {
                 hqs.push(houqiID);
             }
         })
@@ -432,23 +504,24 @@
         obj.customer_loan_usage = customer_loan_usage;
         obj.loan_repayment_type = loan_repayment_type;
         obj.customer_loan_monthly_repayment = customer_loan_monthly_repayment;
-        obj.loan_repayment_source = loan_repayment_source;obj.customer_files = customer_files;
+        obj.loan_repayment_source = loan_repayment_source;
+        obj.customer_files = customer_files;
         obj.customer_files = customer_files;
         obj.houqis = houqis;
 
-        network('/gzh/customer/submit/customer',obj,
-        function (result) {
-            if(result.code){
-                alert('提交成功');
-                history.back();
+        network('/gzh/customer/submit/customer', obj,
+            function (result) {
+                if (result.code) {
+                    alert('提交成功');
+                    history.back();
 
-            }else{
-                alert(result.errormsg);
-            }
-        },
-        function () {
+                } else {
+                    alert(result.errormsg);
+                }
+            },
+            function () {
 
-        });
+            });
     })
 
 

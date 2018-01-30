@@ -100,14 +100,14 @@ body {
   width: 100%;
   padding: 0.1rem;
   background-color: #fff;
-  border: 0.013rem solid #333333;
+  border: 1px solid #333333;
   text-align: center;
 
   border-collapse: collapse !important;
 }
 .a-table th ,
 .a-table td {
-  border: 0.013rem solid #333333;
+  border: 1px solid #333333;
   padding-top: 0.15rem;
   padding-bottom: 0.15rem;
 }
