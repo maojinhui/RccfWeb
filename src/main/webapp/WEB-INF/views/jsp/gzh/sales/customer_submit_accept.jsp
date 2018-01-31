@@ -77,26 +77,6 @@
 <div class="container">
     <div class="row">
         <table class="a-table">
-
-            <%--人员信息--%>
-            <tr>
-                <td>销售经理</td>
-                <td><input id="employee" type="text"
-                           value="<%=Strings.getInputString(customer.getName())%>"></td>
-            </tr>
-            <tr>
-                <td>副总监</td>
-                <td><input id="duty" type="text"
-                           value="<%=Strings.getInputString(customer.getPhone())%>"></td>
-            </tr>
-            <tr>
-                <td>总监</td>
-                <td><input id="director" type="text"
-                           value="<%=Strings.getInputString(customer.getIdcard())%>"></td>
-            </tr>
-
-
-            <%--客户信息--%>
             <tr>
                 <td>客户姓名</td>
                 <td><input id="customer_name" type="text"
@@ -142,91 +122,6 @@
                 <td><input id="fwf" type="text"
                            value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
             </tr>
-
-
-            <%--市场部--%>
-            <tr>
-                <td>受理方案</td>
-                <td><input id="slfa" type="text"
-                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
-            </tr>
-            <tr>
-                <td>渠道费用</td>
-                <td><input id="qdfy" type="text"
-                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
-            </tr>
-            <tr>
-                <td>材料费</td>
-                <td><input id="clf" type="text"
-                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
-            </tr>
-
-            <tr>
-                <td>三方费用</td>
-                <td><input id="sffy" type="text"
-                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
-            </tr>
-
-            <%--受理中心--%>
-            <tr>
-                <td>产品编号</td>
-                <td><input id="product_id" type="text"
-                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
-            </tr>
-            <tr>
-                <td>受理单号</td>
-                <td><input id="apply_id" type="text"
-                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
-            </tr>
-            <tr>
-                <td>受理日期</td>
-                <td><input id="apply_date" type="text"
-                           value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
-            </tr>
-
-            <%--<tr>--%>
-            <%--<td>贷款期限</td>--%>
-            <%--<td><input id="customer_loanterm_month" type="text" style="width: 4em;border-bottom: 1px solid #999"--%>
-            <%--value="<%=loaninfoNotnull?Strings.getInputString(loan.getLoanTermMonth()):""%>">月--%>
-            <%--<input id="customer_loanterm_day" type="text" style="width: 4em;border-bottom: 1px solid #999"--%>
-            <%--value="<%=loaninfoNotnull?Strings.getInputString(loan.getLoanTermDay()):""%>">日--%>
-            <%--</td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-            <%--<td>贷款用途</td>--%>
-            <%--<td><input id="customer_loan_usage" type="text"--%>
-            <%--value="<%=loaninfoNotnull?Strings.getInputString(loan.getLoanUsage()):""%>"></td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-            <%--<td>希望还款方式</td>--%>
-            <%--<td>--%>
-            <%--<select id="loan_repayment_type" class="am-u-sm-6">--%>
-            <%--<option value="0">未知</option>--%>
-            <%--<option value="1" <%=loaninfoNotnull && loan.getLoanRepayment() !=null  && loan.getLoanRepayment() == 1 ? "selected='selected'" : ""%>>--%>
-            <%--等额本金--%>
-            <%--</option>--%>
-            <%--<option value="2" <%=loaninfoNotnull && loan.getLoanRepayment() !=null && loan.getLoanRepayment() == 2 ? "selected='selected'" : ""%>>--%>
-            <%--等额本息--%>
-            <%--</option>--%>
-            <%--<option value="3" <%=loaninfoNotnull && loan.getLoanRepayment() !=null && loan.getLoanRepayment() == 3 ? "selected='selected'" : ""%>>--%>
-            <%--停本付息--%>
-            <%--</option>--%>
-            <%--<option value="4" <%=loaninfoNotnull && loan.getLoanRepayment() !=null && loan.getLoanRepayment() == 4 ? "selected='selected'" : ""%>>--%>
-            <%--先息后本--%>
-            <%--</option>--%>
-            <%--</select>--%>
-            <%--</td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-            <%--<td>月承受还款额</td>--%>
-            <%--<td><input id="customer_loan_monthly_repayment" type="text"--%>
-            <%--value="<%=loaninfoNotnull?Strings.getInputString(loan.getLoanMonthlyRepayment()):""%>"></td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-            <%--<td>还款来源</td>--%>
-            <%--<td><input id="loan_repayment_source" type="text"--%>
-            <%--value="<%=loaninfoNotnull?Strings.getInputString(loan.getLoanRepaymentSource()):""%>"></td>--%>
-            <%--</tr>--%>
         </table>
     </div>
 </div>
