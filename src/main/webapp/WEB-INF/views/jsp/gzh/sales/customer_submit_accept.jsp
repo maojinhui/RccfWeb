@@ -31,6 +31,31 @@
     <link rel="stylesheet" href="/work/css/send.css">
     <link rel="stylesheet" href="/work/css/font-awesome.css">
     <style>
+        @keyframes toBig {
+            0% {
+                width: 2.666rem;
+                height: 2.666rem;
+            }
+
+            100% {
+                width: 2.7rem;
+                height: 2.7rem;
+                border: 2px solid #095f8a;
+            }
+        }
+
+        .big {
+            width: 2.7rem;
+            height: 2.7rem;
+            border: 2px solid #095f8a;
+        }
+
+        .bigImg {
+            animation-name: toBig;
+            animation-delay: 0s;
+            animation-duration: 500ms;
+        }
+
         html,
         body {
             background-color: #fff;
@@ -137,25 +162,18 @@
         %>
 
         <div class="col-33">
-            <img data-file-id="<%=file.getId()%>" onclick="viewImg(this)" src="<%=file.getUrl()%>">
-            <input type="file" class="hide" accept="image/*">
+            <img data-file-id="<%=file.getId()%>" onclick="bigImg(this)" src="<%=file.getUrl()%>">
         </div>
         <%
                 }
             }
         %>
-        <div class="col-33">
-            <img data-file-id="" onclick="uploadImg(this)" src="/work/img/add.png">
-            <input type="file" class="hide" accept="image/*">
-        </div>
+
     </div>
 </div>
-<div class="popup_1 hide" style="z-index: 999">
-    <img id="popupimg" data-file-id class=" " src="">
-    <a id="popup_del" class="a-btn a-margin-top">删除此证件信息</a>
-</div>
 
-<div class="a-btn-group">
+
+<div class="a-btn-group" style="position: fixed;bottom:0.2rem;">
     <button id="send-customer" class="a-btn">提交客户资料</button>
 </div>
 
@@ -183,127 +201,15 @@
     </div>
 </div>
 
-
-<%--<div class="popup_1 hide">--%>
-<%--<img id="popupimg" data-file-id class=" " src="">--%>
-<%--<a id="popup_del" class="a-btn a-margin-top">删除此证件信息</a>--%>
-<%--</div>--%>
-
 <script src="/work/js/self_adaption.js"></script>
 <script src="/work/js/jquery.js"></script>
 <script src="/js/comm.js"></script>
-
 <script>
-    //点击上传图片功能实现
-    var image = '';
-
-    function viewImg(obj) {
-//        $('.popup img').dataset.fileId= $(obj).dataset.fileId;
-        var fId = obj.dataset.fileId;
-        var el = document.getElementById('popupimg');
-        el.dataset.fileId = fId;
-        $('.popup_1').removeClass('hide');
-        var src = obj.src;
-        $('.popup_1 img').attr('src', src);
+    function bigImg(obj) {
+        $(obj).toggleClass("bigImg", "");
+        $(obj).toggleClass("big", "");
     }
 
-    function uploadImg(obj) {
-        console.log('itppp');
-        var ppNode = obj.parentNode;
-        var ppNo = $(ppNode);
-        var pppNode = ppNode.parentNode;
-
-        var imgNode = ppNo.children('img')[0];
-
-        var img_p = ppNo.children('input')[0];
-
-        img_p.click(); //隐藏了input:file样式后，点击头像就可以本地上传
-
-        $(img_p).on("change", function () {
-
-            var fileId = imgNode.dataset.fileId;
-            var obj = new FormData();
-            obj.append('file', $(this)[0].files[0]);
-            obj.append("customer_id", '<%=customer_id%>');
-            obj.append('file_id', fileId);
-            $.ajax({
-                url: '/customer/file/upload',
-                type: 'POST',
-                dataType: 'json',
-                data: obj,
-                cache: false,
-                processData: false,
-                contentType: false,
-                success: function (result) {
-//                    alert(result.code);
-                    if (result.code) {
-                        var info = JSON.parse(result.data);
-                        imgNode.dataset.fileId = info.id;
-                        $(imgNode).attr('src', info.url);
-                        var str = '';
-                        str += '<div  class="col-33">\n' +
-                            '      <img data-file-id onclick="uploadImg(this)" src="/work/img/add.png" >\n' +
-                            '      <input  type="file" class="hide" accept="image/*">\n' +
-                            '    </div>';
-
-                        $(pppNode).append(str);
-                        imgNode.onclick = function () {
-                            $('.popup').removeClass('hide');
-                            var src = this.src;
-                            $('.popup img').attr('src', src);
-                        };
-
-                    } else {
-                        alert(result.errormsg);
-                    }
-
-
-                },
-                error: function () {
-
-                }
-
-            })
-        });
-    }
-
-    $('.popup_1 img').click(function () {
-        $('.popup_1').addClass('hide');
-    });
-
-    $('#popup_del').click(function () {
-        var imgEl = document.getElementById('popupimg');
-        var fileId = imgEl.dataset.fileId;
-        var info = {};
-        info.file_id = fileId;
-
-        network('/customer/file/del', info,
-            function (result) {
-                if (result.code) {
-                    window.location.reload();
-                } else {
-                    alert(result.errormsg);
-                }
-            },
-            function () {
-
-            })
-    });
-
-    function getObjectURL(file) {
-        var url = null;
-        if (window.createObjectURL != undefined) { // basic
-            url = window.createObjectURL(file);
-        } else if (window.URL != undefined) { // mozilla(firefox)
-            url = window.URL.createObjectURL(file);
-        } else if (window.webkitURL != undefined) { // webkit or chrome
-            url = window.webkitURL.createObjectURL(file);
-        }
-        return url;
-    }
-</script>
-
-<script>
     $('#send-customer').click(function () {
         $('.popup').removeClass('hide');
     });
@@ -368,6 +274,7 @@
         if (hq_name.hasClass('selected')) {
             hq_name.removeClass('selected')
         } else {
+            $('.a-hq').removeClass('selected');
             $(hq_a).addClass('selected')
         }
     }
