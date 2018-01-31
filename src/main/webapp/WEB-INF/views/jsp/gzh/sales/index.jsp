@@ -9,14 +9,14 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-//    if (request.getProtocol().compareTo("HTTP/1.0") == 0){
+    //    if (request.getProtocol().compareTo("HTTP/1.0") == 0){
 //        response.setHeader("Pragma","no-cache");
 //    }else if (request.getProtocol().compareTo("HTTP/1.1") == 0){
 //        response.setHeader("Cache-Control","no-cache");
 //    }
-    response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
+    response.setHeader("Cache-Control", "no-cache,no-store,must-revalidate");
     response.setHeader("Expires", "0");
-    response.setHeader("Pragma","no-cache");
+    response.setHeader("Pragma", "no-cache");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,11 +32,29 @@
     <link rel="stylesheet" href="/work/css/basic.css">
     <link rel="stylesheet" href="/work/css/index.css">
     <style type="text/css">
-        a:link,a:visited{
-            text-decoration:none;  /*超链接无下划线*/
+        a:link, a:visited {
+            text-decoration: none; /*超链接无下划线*/
         }
-        a:hover{
-            text-decoration:none;  /*鼠标放上去有下划线*/
+
+        a:hover {
+            text-decoration: none; /*鼠标放上去有下划线*/
+        }
+
+        .top-info {
+            display: block;
+            position: absolute;
+            top: -0.15rem;
+            right: 0.6rem;
+
+            width: 0.5rem;
+            height: 0.5rem;
+
+            padding-top: 0.1rem;
+            background-color: #a4241f;
+            color: #fff;
+            border-radius: 50%;
+
+            box-sizing: border-box;
         }
     </style>
 </head>
@@ -55,26 +73,29 @@
             </div>
             <div data-nav-bar="2" class="col-5 nav-bar">已办事项</div>
         </div>
-        <ul  data-nav="1"  class=" nav-block ">
+        <ul data-nav="1" class=" nav-block ">
             <%
                 List<CustomerSubmit> programs = (List<CustomerSubmit>) request.getAttribute("programs");
-                if(programs!=null){
-                    int count = programs.size()>5?5:programs.size();
-                    for (int i = 0 ; i< count ;i++){
+                if (programs != null) {
+                    int count = programs.size() > 5 ? 5 : programs.size();
+                    for (int i = 0; i < count; i++) {
                         CustomerSubmit program = programs.get(i);
             %>
-            <li class="notice  <%=program.getState()==1?"click-no":"clicked"%> " data-program-id="<%=program.getId()%>" onclick="clickNotice(this)" >
+            <li class="notice  <%=program.getState()==1?"click-no":"clicked"%> " data-program-id="<%=program.getId()%>"
+                onclick="clickNotice(this)">
                 <span>客户<%=program.getCustomer_name()%>的贷款方案已由市场部<%=program.getHouqi_name()%>给出</span>
-                <label><%=program.getMonth_day()%></label>
-                <label><%=program.getHourminute()%></label>
+                <label><%=program.getMonth_day()%>
+                </label>
+                <label><%=program.getHourminute()%>
+                </label>
             </li>
             <%
                     }
                 }
             %>
 
-            <% if(programs !=null &&  programs.size()>5){ %>
-            <li class="notice-all" >查看全部 >></li>
+            <% if (programs != null && programs.size() > 5) { %>
+            <li class="notice-all">查看全部 >></li>
             <% } %>
 
         </ul>
@@ -82,22 +103,24 @@
 
             <%
                 List<CustomerSubmit> logs = (List<CustomerSubmit>) request.getAttribute("programs");
-                if(logs!=null){
-                    int count = logs.size()>5?5:logs.size();
-                    for (int i = 0 ; i< count ;i++){
+                if (logs != null) {
+                    int count = logs.size() > 5 ? 5 : logs.size();
+                    for (int i = 0; i < count; i++) {
                         CustomerSubmit log = logs.get(i);
             %>
             <li class="notice ">
                 <span>客户<%=log.getCustomer_name()%>已提交至<%=log.getHouqi_name()%>进行产品匹配</span>
-                <label><%=log.getMonth_day()%></label>
-                <label><%=log.getHourminute()%></label>
+                <label><%=log.getMonth_day()%>
+                </label>
+                <label><%=log.getHourminute()%>
+                </label>
             </li>
             <%
                     }
                 }
             %>
 
-            <% if(logs !=null && logs.size()>5){ %>
+            <% if (logs != null && logs.size() > 5) { %>
             <li class="notice-all">查看全部 >></li>
             <% } %>
 
@@ -112,15 +135,21 @@
 
 <div class="tab-bar">
     <div class="row ">
-        <a class="col-33 tab-bar-on" style="border: none;">
+        <a class="col-25 tab-bar-on" style="border: none;">
             <img src="/work/img/index_on.png">
             <p style="color:#4d5398;border: none;">个人</p>
         </a>
-        <a class="col-33" href="/gzh/rank/index" style="border: none;">
-            <img src="/work/img/rank.png" >
+        <a class="col-25" style="border: none;">
+            <img src="/work/img/apply.png">
+            <p style="color:#999;border: none;">受理信息</p>
+
+            <span class="top-info">10</span>
+        </a>
+        <a class="col-25" href="/gzh/rank/index" style="border: none;">
+            <img src="/work/img/rank.png">
             <p style="color:#999;border: none;">排行榜</p>
         </a>
-        <a class="col-33" href="/gzh/sales/page/data" style="border: none;">
+        <a class="col-25" href="/gzh/sales/page/data" style="border: none;">
             <img src="/work/img/data.png">
             <p style="color:#999;border: none;">数据统计</p>
         </a>
@@ -163,14 +192,14 @@
     $('.personal-customer').click(function () {
         window.location.href = '/gzh/sales/customer/list'
     })
-    
+
     function clickNotice(obj) {
-        var programId =  $(obj).data("programId");
-        var url = '/gzh/sales/customer/program?program_id='+programId;
-        window.location.href=url;
+        var programId = $(obj).data("programId");
+        var url = '/gzh/sales/customer/program?program_id=' + programId;
+        window.location.href = url;
     }
 
-//    window.history.pushState(state, "title", "#");
+    //    window.history.pushState(state, "title", "#");
 
 </script>
 
@@ -178,11 +207,11 @@
 
 
     window.history.replaceState(state, "", "#");
-    var rnumber = Math.floor(Math.random()*1000)
-    history.replaceState({mod: rnumber}, 'Title', '?mod='+rnumber);
+    var rnumber = Math.floor(Math.random() * 1000)
+    history.replaceState({mod: rnumber}, 'Title', '?mod=' + rnumber);
 
     $('.notice-all').click(function () {
-        window.location.href='/gzh/sales/info/all';
+        window.location.href = '/gzh/sales/info/all';
     })
 </script>
 
