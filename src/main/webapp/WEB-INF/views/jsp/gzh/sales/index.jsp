@@ -1,6 +1,7 @@
 <%@ page import="com.rccf.constants.build.Application" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.rccf.model.customer.CustomerSubmit" %><%--
+<%@ page import="com.rccf.model.customer.CustomerSubmit" %>
+<%@ page import="com.rccf.util.accept.AcceptUtil" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2017/12/25
@@ -133,17 +134,26 @@
 
 </div>
 
+
 <div class="tab-bar">
     <div class="row ">
         <a class="col-25 tab-bar-on" style="border: none;">
             <img src="/work/img/index_on.png">
             <p style="color:#4d5398;border: none;">个人</p>
         </a>
-        <a class="col-25" style="border: none;">
+        <a class="col-25" href="/gzh/accept/list/sales" style="border: none;">
             <img src="/work/img/apply.png">
             <p style="color:#999;border: none;">受理信息</p>
+            <%
+                Integer count = (Integer) request.getAttribute("acceptNotificationCount");
 
+                if(count!=null && count>0){
+            %>
             <span class="top-info">10</span>
+            <%
+                }
+            %>
+
         </a>
         <a class="col-25" href="/gzh/rank/index" style="border: none;">
             <img src="/work/img/rank.png">

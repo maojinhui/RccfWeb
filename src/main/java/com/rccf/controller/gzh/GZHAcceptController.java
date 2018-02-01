@@ -1,5 +1,7 @@
 package com.rccf.controller.gzh;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.rccf.constants.ResponseConstants;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.Employee;
@@ -11,13 +13,20 @@ import com.rccf.util.BackUtil;
 import com.rccf.util.DateUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
+import com.rccf.util.accept.AcceptUtil;
+import com.rccf.util.file.BackCustomerImg;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/gzh/accept", produces = UrlConstants.PRODUCES)
@@ -31,11 +40,17 @@ public class GZHAcceptController {
     EmployeeService employeeService;
 
 
+    /**
+     * 销售填报受理单
+     *
+     * @param request
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/generate/sale")
     public String submitAccepted(HttpServletRequest request) {
-        Employee login = BackUtil.getLoginEmployee(request,employeeService);
-        if(login == null){
+        Employee login = BackUtil.getLoginEmployee(request, employeeService);
+        if (login == null) {
             return ResponseUtil.fail(0, ResponseConstants.MSG_EMPLOYEE_IS_NULL);
         }
 
@@ -43,13 +58,23 @@ public class GZHAcceptController {
         String newData;
 
         String code = null;
-        String deputy   = null ;
-        String director = null  ;
+        String loginName = login.getName();
+        String deputy = null;
+        String director = null;
+        String employeeName = login.getName();
+        String deputyName = null;
+        String directorName = null;
+
+
         int role = login.getRole();
         String department = login.getDepartment();
-        if( role ==4 ){
+        if (role == 4) {
+            code = login.getCode();
             deputy = login.getDuptyDirector();
             director = login.getDirector();
+
+        }else{
+            return ResponseUtil.fail(0,"目前仅支持业务员提交受理单");
         }
 
         String accepttemp_id = request.getParameter("accepttemp_id");
@@ -61,73 +86,104 @@ public class GZHAcceptController {
         String want_money = request.getParameter("loan_amount");
         String service_propertion = request.getParameter("service_propertion");
         String customer_files = request.getParameter("customer_files");
+        String houqi = request.getParameter("houqi");
 
         AcceptedTemp acceptedTemp = null;
-        if(!Strings.isNullOrEmpty(accepttemp_id)){
-            acceptedTemp = (AcceptedTemp) baseService.get(AcceptedTemp.class , accepttemp_id);
+        if (!Strings.isNullOrEmpty(accepttemp_id)) {
+            acceptedTemp = (AcceptedTemp) baseService.get(AcceptedTemp.class, accepttemp_id);
         }
-        if(acceptedTemp == null ){
-             acceptedTemp = new AcceptedTemp();
-             acceptedTemp.setEmployee(code);
-             acceptedTemp.setDeputy(deputy);
-             acceptedTemp.setDirector(director);
-             acceptedTemp.setState(1);
-             oldData = null;
-        }else{
+        if (acceptedTemp == null) {
+            acceptedTemp = new AcceptedTemp();
+            acceptedTemp.setCreateTime(DateUtil.date2Timestamp(new Date()));
+            acceptedTemp.setEmployee(code);
+            acceptedTemp.setEmployeeName(loginName);
+            if(!Strings.isNullOrEmpty(deputy)){
+               Employee deputyEmployee =  employeeService.findEmpolyeeByCode(deputy);
+               acceptedTemp.setDeputy(deputy);
+               acceptedTemp.setDeputyName(deputyEmployee.getName());
+            }
+            if(!Strings.isNullOrEmpty(director)){
+                Employee directorEmployee =  employeeService.findEmpolyeeByCode(director);
+                acceptedTemp.setDirector(director);
+                acceptedTemp.setDirectorName(directorEmployee.getName());
+        }
+            acceptedTemp.setDirector(director);
+            acceptedTemp.setState(1);
+            oldData = null;
+        } else {
             oldData = acceptedTemp.toString();
         }
 
-        if(!Strings.isNullOrEmpty(customer_id)){
+        if (!Strings.isNullOrEmpty(customer_id)) {
             acceptedTemp.setCustomerId(customer_id);
-        }else{
+        } else {
             acceptedTemp.setCustomerId(null);
         }
 
-        if(!Strings.isNullOrEmpty(customer_name)){
+        if (!Strings.isNullOrEmpty(customer_name)) {
             acceptedTemp.setCustomerName(customer_name);
-        }else{
+        } else {
             acceptedTemp.setCustomerName(null);
         }
 
-        if(!Strings.isNullOrEmpty(customer_phone)){
+        if (!Strings.isNullOrEmpty(customer_phone)) {
             acceptedTemp.setCustomerPhone(customer_phone);
-        }else{
+        } else {
             acceptedTemp.setCustomerPhone(null);
         }
 
-        if(!Strings.isNullOrEmpty(customer_idcard)){
+        if (!Strings.isNullOrEmpty(customer_idcard)) {
             acceptedTemp.setCustomerIdcard(customer_idcard);
-        }else{
+        } else {
             acceptedTemp.setCustomerIdcard(null);
         }
 
-        if(!Strings.isNullOrEmpty(customer_files)){
-            acceptedTemp.setCustomerFile(customer_files);
-        }else{
+
+        if (!Strings.isNullOrEmpty(customer_files)) {
+            JSONArray fileArray = new JSONArray();
+//            acceptedTemp.setCustomerFile(customer_files);
+            JSONArray array = JSON.parseArray(customer_files);
+            if (array.size() > 0) {
+                for (int i = 0; i < array.size(); i++) {
+                    String url = array.getString(i);
+                    String newUrl = BackCustomerImg.copyFile(url);
+                    fileArray.add(newUrl);
+                }
+                acceptedTemp.setCustomerFile(JSON.toJSONString(fileArray));
+            }
+        } else {
             acceptedTemp.setCustomerFile(null);
         }
 
-        if(!Strings.isNullOrEmpty(loan_type)){
+        if (!Strings.isNullOrEmpty(loan_type)) {
             acceptedTemp.setCustomerLoanType(Integer.valueOf(loan_type));
-        }else{
+        } else {
             acceptedTemp.setCustomerLoanType(null);
         }
 
-        if(!Strings.isNullOrEmpty(want_money)){
+        if (!Strings.isNullOrEmpty(want_money)) {
             acceptedTemp.setCustomerWantmoney(Double.valueOf(want_money));
-        }else{
+        } else {
             acceptedTemp.setCustomerWantmoney(null);
         }
 
-        if(!Strings.isNullOrEmpty(service_propertion)){
+        if (!Strings.isNullOrEmpty(service_propertion)) {
             acceptedTemp.setServiceProportion(Double.valueOf(service_propertion));
-        }else{
+        } else {
             acceptedTemp.setServiceProportion(null);
         }
 
-        boolean  save = baseService.save(acceptedTemp);
+        if (!Strings.isNullOrEmpty(houqi)) {
+            acceptedTemp.setHouqi(Integer.valueOf(houqi));
+            Employee houqiEmployee = employeeService.findEmpolyeeById(Integer.valueOf(houqi));
+            acceptedTemp.setHouqiName(houqiEmployee.getName());
+        } else {
+            acceptedTemp.setHouqi(null);
+        }
 
-        if(save){
+        boolean save = baseService.save(acceptedTemp);
+
+        if (save) {
             String acceptTempId = acceptedTemp.getId();
             AcceptedTempLog tempLog = new AcceptedTempLog();
             tempLog.setAcceptedTempId(acceptTempId);
@@ -138,15 +194,53 @@ public class GZHAcceptController {
             tempLog.setOldData(oldData);
             tempLog.setNewData(acceptedTemp.toString());
             boolean saveLog = baseService.save(tempLog);
-            if(saveLog){
+            if (saveLog) {
                 return ResponseUtil.success();
-            }else{
-                 return ResponseUtil.fail(0,"受理日志保存失败");
+            } else {
+                return ResponseUtil.fail(0, "受理日志保存失败");
             }
-        }else{
-            return ResponseUtil.fail(0,"受理单提交失败");
+        } else {
+            return ResponseUtil.fail(0, "受理单提交失败");
         }
     }
+
+
+    @RequestMapping(value = "/list/sales")
+    public ModelAndView saleAcceptInfolist(HttpServletRequest request){
+        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/gzh/sales/accept_info_list");
+        AcceptUtil.addSalesNotificationCount(baseService,employee,modelAndView);
+        return  modelAndView;
+    }
+
+
+
+    @ResponseBody
+    @RequestMapping(value = "/info/list")
+    public String getSaleAcceptInfo(HttpServletRequest request) {
+        Employee login = BackUtil.getLoginEmployee(request, employeeService);
+        String  code = login.getCode();
+        String department = login.getDepartment();
+        int role = login.getRole();
+
+        if(role == 4){ // 销售
+            DetachedCriteria detachedCriteria = DetachedCriteria.forClass(AcceptedTemp.class);
+            detachedCriteria.add(Restrictions.eq("employee", code));
+            detachedCriteria.addOrder(Order.desc("createTime"));
+            List<AcceptedTemp> acceptedTemps = baseService.getList(detachedCriteria);
+            JSONArray array = JSON.parseArray(JSON.toJSONString(acceptedTemps));
+            return ResponseUtil.success_front(array);
+        }
+
+        return ResponseUtil.fail();
+    }
+
+
+
+
+
+
 
 
 

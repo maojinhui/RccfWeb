@@ -90,9 +90,9 @@
                         <%--<option value="3" <%=typeNotnull && loaninfo.getLoanType() == 3 ? "selected='selected'" : ""%>>--%>
                             <%--权证--%>
                         <%--</option>--%>
-                        <%--<option value="4" <%=typeNotnull && loaninfo.getLoanType() == 4 ? "selected='selected'" : ""%>>--%>
-                            <%--车贷--%>
-                        <%--</option>--%>
+                        <option value="4" <%=typeNotnull && loaninfo.getLoanType() == 4 ? "selected='selected'" : ""%>>
+                            车贷
+                        </option>
                         <%--<option value="5" <%=typeNotnull && loaninfo.getLoanType() == 5 ? "selected='selected'" : ""%>>--%>
                             <%--拼份--%>
                         <%--</option>--%>

@@ -31,6 +31,11 @@
     <link rel="stylesheet" href="/work/css/send.css">
     <link rel="stylesheet" href="/work/css/font-awesome.css">
     <style>
+
+        .col-33 {
+            height:2.7rem;
+            margin-top:0.266rem;
+        }
         @keyframes toBig {
             0% {
                 width: 2.666rem;
@@ -131,6 +136,9 @@
                         <option value="2" <%=loaninfoNotnull && loan.getLoanType() != null && loan.getLoanType() == 2 ? "selected='selected'" : ""%>>
                             质押贷款
                         </option>
+                        <option value="4" <%=loaninfoNotnull && loan.getLoanType() != null && loan.getLoanType() == 4 ? "selected='selected'" : ""%>>
+                            车贷
+                        </option>
                         <option value="10" <%=loaninfoNotnull && loan.getLoanType() != null && loan.getLoanType() == 10 ? "selected='selected'" : ""%>>
                             融成贷
                         </option>
@@ -139,7 +147,8 @@
             </tr>
             <tr>
                 <td>预贷金额</td>
-                <td><input id="customer_applyamount" type="text"
+                <td>
+                    <input id="customer_applyamount" type="text"
                            value="<%=loaninfoNotnull?Strings.getInputString(loan.getApplyLoanAmount()):""%>"></td>
             </tr>
             <tr>
@@ -153,7 +162,7 @@
 
 <div class="container a-margin-top">
     <div id="images" class="row">
-        <p>上传照片附件</p>
+        <p>选择客户照片附件</p>
         <%
             List<RCustomerFile> files = (List<RCustomerFile>) request.getAttribute("files");
             if (files != null) {
@@ -174,7 +183,7 @@
 
 
 <div class="a-btn-group" style="position: fixed;bottom:0.2rem;">
-    <button id="send-customer" class="a-btn">提交客户资料</button>
+    <button id="send-customer" class="a-btn">提交客户生成受理单</button>
 </div>
 
 <div class="popup hide">
@@ -206,7 +215,7 @@
 <script src="/js/comm.js"></script>
 <script>
     function bigImg(obj) {
-        $(obj).toggleClass("bigImg", "");
+//        $(obj).toggleClass("bigImg", "");
         $(obj).toggleClass("big", "");
     }
 
@@ -224,7 +233,7 @@
         $('#images').children('div').each(function () {
             var imgNode = $(this).children('img')[0];
             var imgSrc = $(imgNode).attr('src');
-            if (imgSrc !== '/work/img/add.png') {
+            if ( $(imgNode).hasClass('big') ) {
                 images.push(imgSrc);
             }
         })
@@ -233,14 +242,16 @@
 
     function getHouqis() {
         var hqs = [];
+        var houqi = '';
         $('#hq').children('div').each(function () {
             var houqiID = $(this).data('hq-id');
             var imgNode = $(this).children('a')[0];
             if ($(imgNode).hasClass('selected')) {
                 hqs.push(houqiID);
+                houqi = houqiID;
             }
         })
-        return hqs;
+        return houqi;
     }
 
 
@@ -282,36 +293,28 @@
     $('#send').click(function () {
         var customer_name = $('#customer_name').val();
         var customer_phone = $('#customer_phone').val();
+        var customer_idcard = $('#customer_idCard').val();
         var customer_applyamount = $('#customer_applyamount').val();
         var loan_type = $('#loan_type').val();
-        var customer_loanterm_month = $('#customer_loanterm_month').val();
-        var customer_loanterm_day = $('#customer_loanterm_day').val();
-        var customer_loan_usage = $('#customer_loan_usage').val();
-        var loan_repayment_type = $('#loan_repayment_type').val();
-        var customer_loan_monthly_repayment = $('#customer_loan_monthly_repayment').val();
-        var loan_repayment_source = $('#loan_repayment_source').val();
         var customer_files = JSON.stringify(getImages());
-        var houqis = JSON.stringify(getHouqis());
-
+        var houqi = getHouqis();
+        var service_propertion = $('#fwf').val();
 
         var obj = {};
-
         obj.customer_id = '<%=customer_id%>';
         obj.customer_name = customer_name;
         obj.customer_phone = customer_phone;
-        obj.customer_applyamount = customer_applyamount;
+        obj.customer_idcard = customer_idcard;
+        obj.loan_amount = customer_applyamount;
         obj.loan_type = loan_type;
-        obj.customer_loanterm_month = customer_loanterm_month;
-        obj.customer_loanterm_day = customer_loanterm_day;
-        obj.customer_loan_usage = customer_loan_usage;
-        obj.loan_repayment_type = loan_repayment_type;
-        obj.customer_loan_monthly_repayment = customer_loan_monthly_repayment;
-        obj.loan_repayment_source = loan_repayment_source;
-        obj.customer_files = customer_files;
-        obj.customer_files = customer_files;
-        obj.houqis = houqis;
+        obj.service_propertion = service_propertion;
 
-        network('/gzh/customer/submit/customer', obj,
+        obj.customer_files = customer_files;
+        obj.houqi = houqi ;
+
+
+
+        network('/gzh/accept/generate/sale', obj,
             function (result) {
                 if (result.code) {
                     alert('提交成功');

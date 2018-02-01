@@ -1,0 +1,77 @@
+
+
+html,
+body {
+  font-family: "微软雅黑 Light", sans-serif;
+}
+
+.apply-pro {
+  background-color: #fff;
+  margin: 0.4em 0;
+
+  padding: 0.26rem;
+}
+
+.head {
+  text-align: right;
+}
+.head a{
+  display: inline-block;
+  margin-right: 0.2rem;
+  margin-top: 0.3rem;
+  color: #42bde5;
+  text-decoration:underline;
+}
+
+
+.apply-title {
+  font-size: 0.389rem;
+  color:#666;
+}
+.apply-title span {
+  display: inline-block;
+  padding-left: 1em;
+  color:#4aaa4a;
+}
+
+.apply-message {
+  width: 94%;
+  margin: 0.12rem auto;
+  border:1px solid #b2e2fa;
+  font-size: 0.4566rem;
+
+  padding: 0.266rem;
+}
+
+
+.done {
+  color:#999999;
+}
+.danger {
+  color: #ff8585;
+}
+
+.tab-bar {
+  padding-top: 0.2rem;
+  position: fixed;
+  width: 100%;
+  height: 1.31rem;
+  bottom: 0;
+  font-size: 0.293rem;
+
+  background-color: #fff;
+  text-align: center;
+
+}
+.tab-bar-on {
+  color:#f3c680;
+}
+.tab-bar .row {
+  margin: 0;
+  padding: 0;
+}
+
+.tab-bar img {
+  width: 0.6rem;
+  height: 0.75rem;
+}

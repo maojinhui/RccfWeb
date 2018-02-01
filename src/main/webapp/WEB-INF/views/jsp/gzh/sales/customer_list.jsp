@@ -77,7 +77,7 @@
             <div class="col-10" >
                 <h3 style="text-align: center">为<span id="name"></span>进行下列哪项操作?</h3>
                 <div class="col-10">
-                    <a id="customer_info" class=" a-btn a-btn-blue">查看客户详情</a>
+                    <a id="customer_info" class=" a-btn a-btn-blue">编辑客户信息</a>
                 </div>
                 <div class="col-10">
                     <a id="product_match" class=" a-btn a-btn-red">提交受理单</a>

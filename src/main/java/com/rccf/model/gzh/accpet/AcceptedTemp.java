@@ -4,6 +4,7 @@ import com.google.common.base.Objects;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "accepted_temp", schema = "rccf", catalog = "")
@@ -26,11 +27,16 @@ public class AcceptedTemp {
     private Double materialFee;
     private Double sanfangFee;
     private Integer state;
+    private String employeeName;
+    private String deputyName;
+    private String directorName;
+    private String houqiName;
+    private Timestamp createTime;
 
     @Id
     @Column(name = "id", nullable = false, length = 64)
     @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid" , strategy = "uuid")
+    @GenericGenerator(name = "uuid",strategy = "uuid")
     public String getId() {
         return id;
     }
@@ -209,6 +215,56 @@ public class AcceptedTemp {
         this.state = state;
     }
 
+    @Basic
+    @Column(name = "employee_name", nullable = true, length = 255)
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
+    }
+
+    @Basic
+    @Column(name = "deputy_name", nullable = true, length = 255)
+    public String getDeputyName() {
+        return deputyName;
+    }
+
+    public void setDeputyName(String deputyName) {
+        this.deputyName = deputyName;
+    }
+
+    @Basic
+    @Column(name = "director_name", nullable = true, length = 255)
+    public String getDirectorName() {
+        return directorName;
+    }
+
+    public void setDirectorName(String directorName) {
+        this.directorName = directorName;
+    }
+
+    @Basic
+    @Column(name = "houqi_name", nullable = true, length = 255)
+    public String getHouqiName() {
+        return houqiName;
+    }
+
+    public void setHouqiName(String houqiName) {
+        this.houqiName = houqiName;
+    }
+
+    @Basic
+    @Column(name = "create_time", nullable = true)
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -231,11 +287,45 @@ public class AcceptedTemp {
                 Objects.equal(channelFee, that.channelFee) &&
                 Objects.equal(materialFee, that.materialFee) &&
                 Objects.equal(sanfangFee, that.sanfangFee) &&
-                Objects.equal(state, that.state);
+                Objects.equal(state, that.state) &&
+                Objects.equal(employeeName, that.employeeName) &&
+                Objects.equal(deputyName, that.deputyName) &&
+                Objects.equal(directorName, that.directorName) &&
+                Objects.equal(houqiName, that.houqiName) &&
+                Objects.equal(createTime, that.createTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, customerId, customerName, customerPhone, customerIdcard, customerLoanType, customerFile, employee, deputy, director, customerWantmoney, serviceProportion, houqi, produceInfo, channelFee, materialFee, sanfangFee, state);
+        return Objects.hashCode(id, customerId, customerName, customerPhone, customerIdcard, customerLoanType, customerFile, employee, deputy, director, customerWantmoney, serviceProportion, houqi, produceInfo, channelFee, materialFee, sanfangFee, state, employeeName, deputyName, directorName, houqiName, createTime);
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("id", id)
+                .add("customerId", customerId)
+                .add("customerName", customerName)
+                .add("customerPhone", customerPhone)
+                .add("customerIdcard", customerIdcard)
+                .add("customerLoanType", customerLoanType)
+                .add("customerFile", customerFile)
+                .add("employee", employee)
+                .add("deputy", deputy)
+                .add("director", director)
+                .add("customerWantmoney", customerWantmoney)
+                .add("serviceProportion", serviceProportion)
+                .add("houqi", houqi)
+                .add("produceInfo", produceInfo)
+                .add("channelFee", channelFee)
+                .add("materialFee", materialFee)
+                .add("sanfangFee", sanfangFee)
+                .add("state", state)
+                .add("employeeName", employeeName)
+                .add("deputyName", deputyName)
+                .add("directorName", directorName)
+                .add("houqiName", houqiName)
+                .add("createTime", createTime)
+                .toString();
     }
 }

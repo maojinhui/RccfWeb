@@ -12,6 +12,7 @@ import com.rccf.model.produce.AProduceZhiya;
 import com.rccf.service.BaseService;
 import com.rccf.service.EmployeeService;
 import com.rccf.util.*;
+import com.rccf.util.accept.AcceptUtil;
 import com.rccf.util.produce.CreditProducePage;
 import com.rccf.util.produce.DZProducePage;
 import com.sun.org.apache.regexp.internal.RE;
@@ -22,6 +23,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -78,6 +80,9 @@ public class GZHSalesController {
                 "  order by state asc;\n";
         List<CustomerSubmit> programs =    baseService.queryBySqlFormatClass(CustomerSubmit.class,sql_notice);
         modelAndView.addObject("programs",programs);
+
+
+
 
 
         return modelAndView;
@@ -235,7 +240,7 @@ public class GZHSalesController {
 
 
     @RequestMapping(value = "/info/all")
-   public ModelAndView showAllInfo(HttpServletRequest request){
+    public ModelAndView showAllInfo(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/sales/index_allinfo");
         Employee employee = BackUtil.getLoginEmployee(request,employeeService);
