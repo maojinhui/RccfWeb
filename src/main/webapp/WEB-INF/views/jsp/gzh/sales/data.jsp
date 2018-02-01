@@ -88,7 +88,7 @@
 
                 if(count!=null && count>0){
             %>
-            <span class="top-info">10</span>
+            <span class="top-info"><%=count%></span>
             <%
                 }
             %>
