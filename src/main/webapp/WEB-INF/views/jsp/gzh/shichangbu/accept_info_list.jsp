@@ -53,7 +53,7 @@
 
 <div class="tab-bar">
     <div class="row ">
-        <a class="col-25 tab-bar-on" href="/gzh/sales/index" style="border: none;">
+        <a class="col-25 tab-bar-on" href="/gzh/shichang/index" style="border: none;">
             <img src="/work/img/index.png">
             <p style="color:#999;border: none;">个人</p>
         </a>
@@ -71,10 +71,10 @@
             %>
         </a>
         <a class="col-25" href="/gzh/rank/index" style="border: none;">
-            <img src="/work/img/rank.png">
+            <img src="/work/img/rank.png" >
             <p style="color:#999;border: none;">排行榜</p>
         </a>
-        <a class="col-25" href="/gzh/sales/page/data" style="border: none;">
+        <a class="col-25" href="/gzh/shichang/page/data" style="border: none;">
             <img src="/work/img/data.png">
             <p style="color:#999;border: none;">数据统计</p>
         </a>
@@ -86,7 +86,7 @@
 <script src="/js/accept.js"></script>
 <script>
     $.ajax({
-        url: '/gzh/accept/info/list',
+        url: '/gzh/accept/info/list/shichang',
         type: 'POST',
         dataType: 'json',
         data: {},

@@ -205,6 +205,11 @@ public class GZHAcceptController {
     }
 
 
+    /**
+     * 销售部受理信息页面
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/list/sales")
     public ModelAndView saleAcceptInfolist(HttpServletRequest request){
         Employee employee = BackUtil.getLoginEmployee(request,employeeService);
@@ -215,9 +220,23 @@ public class GZHAcceptController {
     }
 
 
+    /**
+     * 市场部受理信息页面
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/list/shichang")
+    public ModelAndView saleAcceptInfoShichang(HttpServletRequest request){
+        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/gzh/shichangbu/accept_info_list");
+        AcceptUtil.addSalesNotificationCount(baseService,employee,modelAndView);
+        return  modelAndView;
+    }
+
 
     @ResponseBody
-    @RequestMapping(value = "/info/list")
+    @RequestMapping(value = "/info/list/sale")
     public String getSaleAcceptInfo(HttpServletRequest request) {
         Employee login = BackUtil.getLoginEmployee(request, employeeService);
         String  code = login.getCode();
@@ -238,6 +257,27 @@ public class GZHAcceptController {
 
 
 
+
+    @ResponseBody
+    @RequestMapping(value = "/info/list/shichang")
+    public String getSaleAcceptInfoShichang(HttpServletRequest request) {
+        Employee login = BackUtil.getLoginEmployee(request, employeeService);
+        int eId= login.getId();
+        String  code = login.getCode();
+        String department = login.getDepartment();
+        int role = login.getRole();
+
+        if(role == 4){ // 后期专员
+            DetachedCriteria detachedCriteria = DetachedCriteria.forClass(AcceptedTemp.class);
+            detachedCriteria.add(Restrictions.eq("houqi", eId));
+            detachedCriteria.addOrder(Order.desc("createTime"));
+            List<AcceptedTemp> acceptedTemps = baseService.getList(detachedCriteria);
+            JSONArray array = JSON.parseArray(JSON.toJSONString(acceptedTemps));
+            return ResponseUtil.success_front(array);
+        }
+
+        return ResponseUtil.fail();
+    }
 
 
 

@@ -76,15 +76,28 @@
 
 <div class="tab-bar">
     <div class="row ">
-        <a class="col-33 tab-bar-on"  href="/gzh/shichang/index" style="border: none;">
+        <a class="col-25 tab-bar-on"  href="/gzh/shichang/index" style="border: none;">
             <img src="/work/img/index.png">
             <p style="color:#999;border: none;">个人</p>
         </a>
-        <a class="col-33" href="/gzh/rank/index" style="border: none;">
+        <a class="col-25" href="/gzh/accept/list/shichang" style="border: none;">
+            <img src="/work/img/apply.png">
+            <p style="color:#999;border: none;">受理信息</p>
+            <%
+                Integer count = (Integer) request.getAttribute("acceptNotificationCount");
+
+                if(count!=null && count>0){
+            %>
+            <span class="top-info"><%=count%></span>
+            <%
+                }
+            %>
+        </a>
+        <a class="col-25" href="/gzh/rank/index" style="border: none;">
             <img src="/work/img/rank.png" >
             <p style="color:#999;border: none;">排行榜</p>
         </a>
-        <a class="col-33" style="border: none;">
+        <a class="col-25" style="border: none;">
             <img src="/work/img/data_on.png">
             <p style="color:#4d5398;border: none;">数据统计</p>
         </a>

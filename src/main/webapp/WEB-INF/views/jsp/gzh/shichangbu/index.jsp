@@ -126,11 +126,11 @@
 
 <div class="tab-bar">
     <div class="row ">
-        <a class="col-33 tab-bar-on" style="border: none;">
+        <a class="col-25 tab-bar-on" style="border: none;">
             <img src="/work/img/index_on.png">
             <p style="color:#4d5398;border: none;">个人</p>
         </a>
-        <a class="col-25" href="/gzh/accept/list/sales" style="border: none;">
+        <a class="col-25" href="/gzh/accept/list/shichang" style="border: none;">
             <img src="/work/img/apply.png">
             <p style="color:#999;border: none;">受理信息</p>
             <%
@@ -143,11 +143,11 @@
                 }
             %>
         </a>
-        <a class="col-33" href="/gzh/rank/index" style="border: none;">
+        <a class="col-25" href="/gzh/rank/index" style="border: none;">
             <img src="/work/img/rank.png" >
             <p style="color:#999;border: none;">排行榜</p>
         </a>
-        <a class="col-33" href="/gzh/shichang/page/data" style="border: none;">
+        <a class="col-25" href="/gzh/shichang/page/data" style="border: none;">
             <img src="/work/img/data.png">
             <p style="color:#999;border: none;">数据统计</p>
         </a>

@@ -86,7 +86,7 @@
 <script src="/js/accept.js"></script>
 <script>
     $.ajax({
-        url: '/gzh/accept/info/list',
+        url: '/gzh/accept/info/list/sale',
         type: 'POST',
         dataType: 'json',
         data: {},
