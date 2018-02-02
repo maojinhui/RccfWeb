@@ -100,8 +100,8 @@
                         messageClass = "apply-message danger";
                     }
 
-                    var content = isNull(accept.content)?'':"原因："+accept.c;
-                var str = '<div class="apply-pro">\n' +
+                    var content = isNull(accept.content)?'':"原因："+accept.content;
+                var str = '<div data-accept-id = "'+accept.id+'" onclick="acceptInfo(this)"  class="apply-pro">\n' +
                     '        <div class="apply-title">\n' +
                     '            <span>'+new Date(accept.createTime).format('yyyy-MM-dd')+'</span>\n' +
                     '            <span>'+new Date(accept.createTime).format('hh:mm:ss')+'</span>\n' +

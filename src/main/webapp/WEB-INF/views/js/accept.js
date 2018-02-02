@@ -17,3 +17,9 @@ function getAcceptStateInfo(state,customerName,employee,houqi){
     }
 
 }
+
+
+function acceptInfo(obj) {
+    var accept_id = obj.dataset.acceptId ;
+    location.href = '/gzh/accept/info?accept_id='+accept_id;
+}

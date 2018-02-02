@@ -4,8 +4,10 @@ package com.rccf.controller.gzh;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.Employee;
 import com.rccf.model.customer.CustomerSubmit;
+import com.rccf.model.customer.RCustomerFile;
 import com.rccf.model.customer.RCustomerLoanProgram;
 import com.rccf.model.customer.RCustomerSubmitLog;
+import com.rccf.model.gzh.accpet.AcceptedTemp;
 import com.rccf.model.produce.AProduceCredit;
 import com.rccf.model.produce.AProduceDiya;
 import com.rccf.model.produce.AProduceZhiya;
@@ -31,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/gzh/sales" , produces = UrlConstants.PRODUCES)
+@RequestMapping(value = "/gzh/sales", produces = UrlConstants.PRODUCES)
 public class GZHSalesController {
 
 
@@ -43,11 +45,11 @@ public class GZHSalesController {
 
 
     @RequestMapping(value = "/index")
-    public ModelAndView index(HttpServletRequest request){
-        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+    public ModelAndView index(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/sales/index");
-        int employeeID= employee.getId();
+        int employeeID = employee.getId();
 
         /*****已办事项*******/
         String sql_already = "\n" +
@@ -57,16 +59,16 @@ public class GZHSalesController {
                 "  DATE_FORMAT(submit_time,'%m-%d') as month_day,\n" +
                 "  DATE_FORMAT(submit_time,'%H:%i') as hourminute,\n" +
                 "  state FROM r_customer_submit_log log " +
-                "  where submit_saleman = " +employeeID+" \n"+
+                "  where submit_saleman = " + employeeID + " \n" +
                 "   ;\n";
-        List<CustomerSubmit> submits =    baseService.queryBySqlFormatClass(CustomerSubmit.class,sql_already);
-        modelAndView.addObject("submitlogs",submits);
+        List<CustomerSubmit> submits = baseService.queryBySqlFormatClass(CustomerSubmit.class, sql_already);
+        modelAndView.addObject("submitlogs", submits);
         /*******通知事项************/
         DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerLoanProgram.class);
-        criteria.add(Restrictions.eq("state",1));
-        criteria.add(Restrictions.eq("submitPerson",employeeID));
+        criteria.add(Restrictions.eq("state", 1));
+        criteria.add(Restrictions.eq("submitPerson", employeeID));
         int notificationCount = baseService.getCount(criteria);
-        modelAndView.addObject("notificationCount",notificationCount);
+        modelAndView.addObject("notificationCount", notificationCount);
 
         String sql_notice = "\n" +
                 "  SELECT program_id as id ,customer_id,\n" +
@@ -76,13 +78,11 @@ public class GZHSalesController {
                 "  (SELECT name from employee WHERE id = create_person ) as houqi_name,\n" +
                 "  DATE_FORMAT(create_time,'%m-%d') as month_day,\n" +
                 "  DATE_FORMAT(create_time,'%H:%i') as hourminute\n" +
-                "  FROM r_customer_loan_program program  where submit_person = " +employeeID+
+                "  FROM r_customer_loan_program program  where submit_person = " + employeeID +
                 "  order by state asc;\n";
-        List<CustomerSubmit> programs =    baseService.queryBySqlFormatClass(CustomerSubmit.class,sql_notice);
-        modelAndView.addObject("programs",programs);
-
-
-
+        List<CustomerSubmit> programs = baseService.queryBySqlFormatClass(CustomerSubmit.class, sql_notice);
+        modelAndView.addObject("programs", programs);
+        AcceptUtil.addSalesNotificationCount(baseService, employee, modelAndView);
 
 
         return modelAndView;
@@ -90,7 +90,7 @@ public class GZHSalesController {
 
 
     @RequestMapping(value = "/customer/list")
-    public ModelAndView customerListPage(){
+    public ModelAndView customerListPage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/sales/customer_list");
         return modelAndView;
@@ -98,42 +98,42 @@ public class GZHSalesController {
 
 
     @RequestMapping(value = "/customer/program")
-    public ModelAndView custoemrProgram(HttpServletRequest request){
+    public ModelAndView custoemrProgram(HttpServletRequest request) {
         String programID = request.getParameter("program_id");
-        if(Strings.isNullOrEmpty(programID)){
+        if (Strings.isNullOrEmpty(programID)) {
             return ResponseUtil.pageFail("方案没有找到");
         }
         RCustomerLoanProgram program =
-                (RCustomerLoanProgram) baseService.get(RCustomerLoanProgram.class,Integer.valueOf(programID));
+                (RCustomerLoanProgram) baseService.get(RCustomerLoanProgram.class, Integer.valueOf(programID));
         program.setState(2);
         baseService.save(program);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/sales/produce_program");
-        modelAndView.addObject("program" , program);
+        modelAndView.addObject("program", program);
         return modelAndView;
     }
 
 
     @RequestMapping(value = "/produce/info")
-    public ModelAndView produceInfo(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView produceInfo(HttpServletRequest request, HttpServletResponse response) {
         String amount = request.getParameter("amount");
         String rate = request.getParameter("rate");
         String content = request.getParameter("content");
 
         String productId = request.getParameter("produce_id");
         String type = request.getParameter("type");
-        CookiesUtil.addCookies("amount",amount,response);
-        CookiesUtil.addCookies("rate",rate,response);
-        CookiesUtil.addCookies("content",content,response);
-        CookiesUtil.addCookies("produce_type",type,response);
-        CookiesUtil.addCookies("produce_id",productId,response);
+        CookiesUtil.addCookies("amount", amount, response);
+        CookiesUtil.addCookies("rate", rate, response);
+        CookiesUtil.addCookies("content", content, response);
+        CookiesUtil.addCookies("produce_type", type, response);
+        CookiesUtil.addCookies("produce_id", productId, response);
 
-        if(Strings.isNullOrEmpty(productId)){
+        if (Strings.isNullOrEmpty(productId)) {
             return ResponseUtil.pageFail("产品未找到");
         }
         int id = Integer.valueOf(productId);
         ModelAndView modelAndView = new ModelAndView();
-        if(type.equals("0")){
+        if (type.equals("0")) {
             AProduceCredit produce = (AProduceCredit) baseService.get(AProduceCredit.class, id);
             if (produce == null) {
                 return ResponseUtil.pageFail("没有找到该产品");
@@ -145,7 +145,7 @@ public class GZHSalesController {
             CreditProducePage.addCompanyMaterial(modelAndView, produce, baseService);
             CreditProducePage.addRpayment(modelAndView, produce, baseService);
 
-        }else if(type.equals("1")){
+        } else if (type.equals("1")) {
             DZProducePage dzProducePage = new DZProducePage(baseService);
             AProduceDiya produce = (AProduceDiya) baseService.get(AProduceDiya.class, id);
             if (produce == null) {
@@ -153,11 +153,11 @@ public class GZHSalesController {
             }
             modelAndView.setViewName("/gzh/produce/produce_diya_detail");
             modelAndView.addObject("produce", produce);
-            dzProducePage.addCreatePerson(modelAndView,produce);
+            dzProducePage.addCreatePerson(modelAndView, produce);
             dzProducePage.addPersonMaterial(modelAndView, produce);
             dzProducePage.addCompanyMaterial(modelAndView, produce);
             dzProducePage.addRpayment(modelAndView, produce);
-        }else if(type.equals("2")){
+        } else if (type.equals("2")) {
 
             DZProducePage dzProducePage = new DZProducePage(baseService);
             AProduceZhiya produce = (AProduceZhiya) baseService.get(AProduceZhiya.class, id);
@@ -166,13 +166,11 @@ public class GZHSalesController {
             }
             modelAndView.setViewName("/gzh/produce/produce_zhiya_detail");
             modelAndView.addObject("produce", produce);
-            dzProducePage.addCreatePerson(modelAndView,produce);
+            dzProducePage.addCreatePerson(modelAndView, produce);
             dzProducePage.addPersonMaterial(modelAndView, produce);
             dzProducePage.addCompanyMaterial(modelAndView, produce);
             dzProducePage.addRpayment(modelAndView, produce);
         }
-
-
 
 
         return modelAndView;
@@ -180,16 +178,16 @@ public class GZHSalesController {
 
 
     @RequestMapping(value = "/share")
-    public ModelAndView shareProduce(HttpServletRequest request){
+    public ModelAndView shareProduce(HttpServletRequest request) {
         String productId = request.getParameter("produce_id");
         String type = request.getParameter("type");
 
-        if(Strings.isNullOrEmpty(productId)){
+        if (Strings.isNullOrEmpty(productId)) {
             return ResponseUtil.pageFail("产品未找到");
         }
         int id = Integer.valueOf(productId);
         ModelAndView modelAndView = new ModelAndView();
-        if(type.equals("0")){
+        if (type.equals("0")) {
             AProduceCredit produce = (AProduceCredit) baseService.get(AProduceCredit.class, id);
             if (produce == null) {
                 return ResponseUtil.pageFail("没有找到该产品");
@@ -201,7 +199,7 @@ public class GZHSalesController {
             CreditProducePage.addCompanyMaterial(modelAndView, produce, baseService);
             CreditProducePage.addRpayment(modelAndView, produce, baseService);
 
-        }else if(type.equals("1")){
+        } else if (type.equals("1")) {
             DZProducePage dzProducePage = new DZProducePage(baseService);
             AProduceDiya produce = (AProduceDiya) baseService.get(AProduceDiya.class, id);
             if (produce == null) {
@@ -209,11 +207,11 @@ public class GZHSalesController {
             }
             modelAndView.setViewName("/gzh/share/diya_share");
             modelAndView.addObject("produce", produce);
-            dzProducePage.addCreatePerson(modelAndView,produce);
+            dzProducePage.addCreatePerson(modelAndView, produce);
             dzProducePage.addPersonMaterial(modelAndView, produce);
             dzProducePage.addCompanyMaterial(modelAndView, produce);
             dzProducePage.addRpayment(modelAndView, produce);
-        }else if(type.equals("2")){
+        } else if (type.equals("2")) {
 
             DZProducePage dzProducePage = new DZProducePage(baseService);
             AProduceZhiya produce = (AProduceZhiya) baseService.get(AProduceZhiya.class, id);
@@ -222,7 +220,7 @@ public class GZHSalesController {
             }
             modelAndView.setViewName("/gzh/share/zhiya_share");
             modelAndView.addObject("produce", produce);
-            dzProducePage.addCreatePerson(modelAndView,produce);
+            dzProducePage.addCreatePerson(modelAndView, produce);
             dzProducePage.addPersonMaterial(modelAndView, produce);
             dzProducePage.addCompanyMaterial(modelAndView, produce);
             dzProducePage.addRpayment(modelAndView, produce);
@@ -232,19 +230,21 @@ public class GZHSalesController {
 
 
     @RequestMapping(value = "/page/data")
-    public ModelAndView dataPage(HttpServletRequest request){
+    public ModelAndView dataPage(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/sales/data");
+        AcceptUtil.addSalesNotificationCount(baseService, employee, modelAndView);
         return modelAndView;
     }
 
 
     @RequestMapping(value = "/info/all")
-    public ModelAndView showAllInfo(HttpServletRequest request){
+    public ModelAndView showAllInfo(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/sales/index_allinfo");
-        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
-        int employeeID= employee.getId();
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        int employeeID = employee.getId();
 
         /*****已办事项*******/
         String sql_already = "\n" +
@@ -254,16 +254,16 @@ public class GZHSalesController {
                 "  DATE_FORMAT(submit_time,'%m-%d') as month_day,\n" +
                 "  DATE_FORMAT(submit_time,'%H:%i') as hourminute,\n" +
                 "  state FROM r_customer_submit_log log " +
-                "  where submit_saleman = " +employeeID+" \n"+
+                "  where submit_saleman = " + employeeID + " \n" +
                 "   ;\n";
-        List<CustomerSubmit> submits =    baseService.queryBySqlFormatClass(CustomerSubmit.class,sql_already);
-        modelAndView.addObject("submitlogs",submits);
+        List<CustomerSubmit> submits = baseService.queryBySqlFormatClass(CustomerSubmit.class, sql_already);
+        modelAndView.addObject("submitlogs", submits);
         /*******通知事项************/
         DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerLoanProgram.class);
-        criteria.add(Restrictions.eq("state",1));
-        criteria.add(Restrictions.eq("submitPerson",employeeID));
+        criteria.add(Restrictions.eq("state", 1));
+        criteria.add(Restrictions.eq("submitPerson", employeeID));
         int notificationCount = baseService.getCount(criteria);
-        modelAndView.addObject("notificationCount",notificationCount);
+        modelAndView.addObject("notificationCount", notificationCount);
 
         String sql_notice = "\n" +
                 "  SELECT program_id as id ,customer_id,\n" +
@@ -273,15 +273,37 @@ public class GZHSalesController {
                 "  (SELECT name from employee WHERE id = create_person ) as houqi_name,\n" +
                 "  DATE_FORMAT(create_time,'%m-%d') as month_day,\n" +
                 "  DATE_FORMAT(create_time,'%H:%i') as hourminute\n" +
-                "  FROM r_customer_loan_program program  where  submit_person = " +employeeID+
+                "  FROM r_customer_loan_program program  where  submit_person = " + employeeID +
                 "  order by state asc;\n";
-        List<CustomerSubmit> programs =    baseService.queryBySqlFormatClass(CustomerSubmit.class,sql_notice);
-        modelAndView.addObject("programs",programs);
+        List<CustomerSubmit> programs = baseService.queryBySqlFormatClass(CustomerSubmit.class, sql_notice);
+        modelAndView.addObject("programs", programs);
 
 
         return modelAndView;
-   }
+    }
 
+
+    @RequestMapping(value = "/accept/edit")
+    public ModelAndView editAcceptInfoPage(HttpServletRequest request) {
+        String accept_id = request.getParameter("accept_id");
+        if (Strings.isNullOrEmpty(accept_id)) {
+            return ResponseUtil.pageFail("请填写受理单编号");
+        }
+        AcceptedTemp temp = (AcceptedTemp) baseService.get(AcceptedTemp.class, accept_id);
+        if (temp == null) {
+            return ResponseUtil.pageFail("没有找到本受理单");
+        }
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/gzh/sales/customer_accept_edit");
+        modelAndView.addObject("accept",temp);
+
+        String customer_id = temp.getCustomerId();
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(RCustomerFile.class);
+        detachedCriteria.add(Restrictions.eq("customerId",customer_id));
+        List<RCustomerFile> files = baseService.getList(detachedCriteria);
+        modelAndView.addObject("files",files);
+        return modelAndView;
+    }
 
 
 

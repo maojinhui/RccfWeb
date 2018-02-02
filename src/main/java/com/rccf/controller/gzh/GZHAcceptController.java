@@ -77,7 +77,7 @@ public class GZHAcceptController {
             return ResponseUtil.fail(0,"目前仅支持业务员提交受理单");
         }
 
-        String accepttemp_id = request.getParameter("accepttemp_id");
+        String accepttemp_id = request.getParameter("accept_id");
         String customer_id = request.getParameter("customer_id");
         String customer_name = request.getParameter("customer_name");
         String customer_phone = request.getParameter("customer_phone");
@@ -108,12 +108,12 @@ public class GZHAcceptController {
                 acceptedTemp.setDirectorName(directorEmployee.getName());
         }
             acceptedTemp.setDirector(director);
-            acceptedTemp.setState(1);
+
             oldData = null;
         } else {
             oldData = acceptedTemp.toString();
         }
-
+        acceptedTemp.setState(1);
         if (!Strings.isNullOrEmpty(customer_id)) {
             acceptedTemp.setCustomerId(customer_id);
         } else {
@@ -280,7 +280,22 @@ public class GZHAcceptController {
     }
 
 
+    @RequestMapping(value = "/info")
+    public ModelAndView acceptInfo(HttpServletRequest request){
+        Employee loginEmployee = BackUtil.getLoginEmployee(request,employeeService);
+        if(loginEmployee==null){
+            return ResponseUtil.pageFail("登录信息失效，请重新登录");
+        }
+        String accept_id = request.getParameter("accept_id");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/gzh/accept/info");
+        modelAndView.addObject("employee" , loginEmployee);//添加人员信息
+        AcceptedTemp acceptedTemp = (AcceptedTemp) baseService.get(AcceptedTemp.class,accept_id);
+        modelAndView.addObject("accept",acceptedTemp); //添加受理单信息
 
+
+        return modelAndView;
+    }
 
 
 

@@ -18,12 +18,31 @@
     <link rel="stylesheet" href="/work/css/index.css">
     <link rel="stylesheet" href="/work/css/director.css">
     <link rel="stylesheet" href="/work/css/font-awesome.css">
+
     <style type="text/css">
-        a:link,a:visited{
-            text-decoration:none;  /*超链接无下划线*/
+        a:link, a:visited {
+            text-decoration: none; /*超链接无下划线*/
         }
-        a:hover{
-            text-decoration:none;  /*鼠标放上去有下划线*/
+
+        a:hover {
+            text-decoration: none; /*鼠标放上去有下划线*/
+        }
+
+        .top-info {
+            display: block;
+            position: absolute;
+            top: -0.15rem;
+            right: 0.6rem;
+
+            width: 0.5rem;
+            height: 0.5rem;
+
+            padding-top: 0.1rem;
+            background-color: #a4241f;
+            color: #fff;
+            border-radius: 50%;
+
+            box-sizing: border-box;
         }
     </style>
 
@@ -92,7 +111,6 @@
             <%
                 }
             %>
-
         </a>
         <a class="col-25" href="/gzh/rank/index" style="border: none;">
             <img src="/work/img/rank.png" >

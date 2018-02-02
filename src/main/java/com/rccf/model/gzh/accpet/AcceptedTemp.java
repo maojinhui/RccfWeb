@@ -32,6 +32,7 @@ public class AcceptedTemp {
     private String directorName;
     private String houqiName;
     private Timestamp createTime;
+    private String content;
 
     @Id
     @Column(name = "id", nullable = false, length = 64)
@@ -298,6 +299,14 @@ public class AcceptedTemp {
     @Override
     public int hashCode() {
         return Objects.hashCode(id, customerId, customerName, customerPhone, customerIdcard, customerLoanType, customerFile, employee, deputy, director, customerWantmoney, serviceProportion, houqi, produceInfo, channelFee, materialFee, sanfangFee, state, employeeName, deputyName, directorName, houqiName, createTime);
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Override
