@@ -18,7 +18,7 @@ public class AcceptUtil {
      * @param code
      * @return
      */
-    public static int getSalesNotificationCount(BaseService baseService,String code){
+    private static int getSalesNotificationCount(BaseService baseService,String code){
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(AcceptedTemp.class);
         detachedCriteria.add(Restrictions.eq("state" , 2));
         detachedCriteria.add(Restrictions.eq("employee" , code));
@@ -48,7 +48,7 @@ public class AcceptUtil {
      * @param eID
      * @return
      */
-    public static int getHouqiNotificationCount(BaseService baseService,int eID){
+    private static int getHouqiNotificationCount(BaseService baseService,int eID){
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(AcceptedTemp.class);
         detachedCriteria.add(Restrictions.eq("state" , 4));
         detachedCriteria.add(Restrictions.eq("houqi" , eID));

@@ -10,6 +10,8 @@ import com.rccf.model.ILoanType;
 import com.rccf.model.customer.CustomerSubmit;
 import com.rccf.model.customer.RCustomerLoanProgram;
 import com.rccf.model.customer.RCustomerSubmitLog;
+import com.rccf.model.gzh.accpet.AcceptPeroduceSimple;
+import com.rccf.model.gzh.accpet.AcceptedTemp;
 import com.rccf.model.produce.ProduceRepayment;
 import com.rccf.model.temp.ProduceTem;
 import com.rccf.service.BaseService;
@@ -18,6 +20,7 @@ import com.rccf.util.BackUtil;
 import com.rccf.util.DateUtil;
 import com.rccf.util.ResponseUtil;
 import com.rccf.util.Strings;
+import com.rccf.util.accept.AcceptUtil;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +34,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/gzh/shichang" , produces = UrlConstants.PRODUCES)
+@RequestMapping(value = "/gzh/shichang", produces = UrlConstants.PRODUCES)
 public class GZHShichangController {
 
     @Autowired
@@ -41,19 +44,19 @@ public class GZHShichangController {
     BaseService baseService;
 
     @RequestMapping(value = "/index")
-    public  ModelAndView index(HttpServletRequest request){
-        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+    public ModelAndView index(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/shichangbu/index");
-        int employeeID= employee.getId();
+        int employeeID = employee.getId();
 
         String sql = "SELECT count(*) from r_customer_submit_log WHERE  state=1 and submit_houqi = 154";
         DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerSubmitLog.class);
-        criteria.add(Restrictions.eq("state",1));
-        criteria.add(Restrictions.eq("submitHouqi",employeeID));
+        criteria.add(Restrictions.eq("state", 1));
+        criteria.add(Restrictions.eq("submitHouqi", employeeID));
 //        criteria.setProjection(Projections.rowCount());
         int notificationCount = baseService.getCount(criteria);
-        modelAndView.addObject("notificationCount",notificationCount);
+        modelAndView.addObject("notificationCount", notificationCount);
         String sql_logs = "\n" +
                 "  SELECT id,customer_id,customer_name,submit_saleman,state, \n" +
                 "  (SELECT name from employee WHERE id = submit_saleman ) as submit_saleman_name,\n" +
@@ -61,10 +64,10 @@ public class GZHShichangController {
                 "  DATE_FORMAT(submit_time,'%m-%d') as month_day,\n" +
                 "  DATE_FORMAT(submit_time,'%H:%i') as hourminute\n" +
                 "  FROM r_customer_submit_log log " +
-                "  where state=1 and submit_houqi = " +employeeID+" \n"+
+                "  where state=1 and submit_houqi = " + employeeID + " \n" +
                 "   ;\n";
-        List<CustomerSubmit> submits =    baseService.queryBySqlFormatClass(CustomerSubmit.class,sql_logs);
-        modelAndView.addObject("submitlogs",submits);
+        List<CustomerSubmit> submits = baseService.queryBySqlFormatClass(CustomerSubmit.class, sql_logs);
+        modelAndView.addObject("submitlogs", submits);
 
         String sql_already = "SELECT program_id  as  id ,customer_id,\n" +
                 "  (SELECT name from r_customer WHERE id=customer_id) as customer_name,\n" +
@@ -75,46 +78,42 @@ public class GZHShichangController {
                 "  DATE_FORMAT(create_time,'%H:%i') as hourminute\n" +
                 "FROM r_customer_loan_program program  where  create_person = " + employeeID +
                 " ;";
-        List<CustomerSubmit> programs =    baseService.queryBySqlFormatClass(CustomerSubmit.class,sql_already);
-        modelAndView.addObject("programs",programs);
-
-
+        List<CustomerSubmit> programs = baseService.queryBySqlFormatClass(CustomerSubmit.class, sql_already);
+        modelAndView.addObject("programs", programs);
+        AcceptUtil.addHouqiNotificationCount(baseService, employee, modelAndView);
 
         return modelAndView;
     }
 
     @RequestMapping(value = "/customer/info")
-    public ModelAndView customerIndex(HttpServletRequest request){
-        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+    public ModelAndView customerIndex(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         String log_id = request.getParameter("log_id");
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/shichangbu/market_customer");
 
-
-
-
-        int employeeID= employee.getId();
-        if(Strings.isNullOrEmpty(log_id)){
+        int employeeID = employee.getId();
+        if (Strings.isNullOrEmpty(log_id)) {
             return ResponseUtil.pageFail("参数错误");
         }
-        RCustomerSubmitLog log = (RCustomerSubmitLog) baseService.get(RCustomerSubmitLog.class,Integer.valueOf(log_id));
-        modelAndView.addObject("log",log);
-        modelAndView.addObject("customer_id",log.getCustomerId());
-        modelAndView.addObject("log_id",log_id);
+        RCustomerSubmitLog log = (RCustomerSubmitLog) baseService.get(RCustomerSubmitLog.class, Integer.valueOf(log_id));
+        modelAndView.addObject("log", log);
+        modelAndView.addObject("customer_id", log.getCustomerId());
+        modelAndView.addObject("log_id", log_id);
         DetachedCriteria criteria = DetachedCriteria.forClass(ILoanType.class);
 //        criteria.createAlias("id","id");
 //        criteria.createAlias("name","name");
         List<ILoanType> iLoanTypes = baseService.getList(criteria);
         JSONArray jsonArray = JSON.parseArray(JSON.toJSONString(iLoanTypes));
         JSONObject object = new JSONObject();
-        for (int i = 0 ; i< jsonArray.size();i++){
+        for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject obj = jsonArray.getJSONObject(i);
             String id = obj.getString("id");
             String name = obj.getString("name");
-            object.put(id,name);
+            object.put(id, name);
         }
-        modelAndView.addObject("loanTypes",object);
+        modelAndView.addObject("loanTypes", object);
 
         DetachedCriteria repaymentCriteria = DetachedCriteria.forClass(ProduceRepayment.class);
 //        repaymentCriteria.createAlias("id","id");
@@ -122,15 +121,13 @@ public class GZHShichangController {
         List<ProduceRepayment> produceRepayments = baseService.getList(repaymentCriteria);
         JSONArray produceRepaymentsJsonarray = JSON.parseArray(JSON.toJSONString(produceRepayments));
         JSONObject repaymentObject = new JSONObject();
-        for (int i = 0 ; i< produceRepaymentsJsonarray.size();i++){
+        for (int i = 0; i < produceRepaymentsJsonarray.size(); i++) {
             JSONObject obj = produceRepaymentsJsonarray.getJSONObject(i);
             String id = obj.getString("id");
             String name = obj.getString("name");
-            repaymentObject.put(id,name);
+            repaymentObject.put(id, name);
         }
-        modelAndView.addObject("repayments",repaymentObject);
-
-
+        modelAndView.addObject("repayments", repaymentObject);
 
 
         return modelAndView;
@@ -138,13 +135,13 @@ public class GZHShichangController {
 
 
     @RequestMapping(value = "/page/program")
-    public ModelAndView programPage(HttpServletRequest request ){
+    public ModelAndView programPage(HttpServletRequest request) {
         String customer_id = request.getParameter("customer_id");
         String log_id = request.getParameter("log_id");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/shichangbu/market_loan_program");
-        modelAndView.addObject("customer_id",customer_id);
-        modelAndView.addObject("log_id",log_id);
+        modelAndView.addObject("customer_id", customer_id);
+        modelAndView.addObject("log_id", log_id);
 
 
         Employee employee = BackUtil.getLoginEmployee(request, employeeService);
@@ -191,43 +188,43 @@ public class GZHShichangController {
         List<ProduceTem> produeList = baseService.queryBySqlFormatClass(ProduceTem.class, sql);
 //        String str = JSON.toJSONString(list, SerializerFeature.DisableCircularReferenceDetect);
 //        JSONArray array = JSON.parseArray(str);
-        modelAndView.addObject("produeList" , produeList);
+        modelAndView.addObject("produeList", produeList);
 
         return modelAndView;
     }
 
     @ResponseBody
     @RequestMapping(value = "/program/submit")
-    public String submitProgram(HttpServletRequest request){
-        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+    public String submitProgram(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         String customer_id = request.getParameter("customer_id");
         String products = request.getParameter("products");
         String log_id = request.getParameter("log_id");
         String no_product = request.getParameter("no_product");
 
-        if(Strings.isNullOrEmpty(log_id)){
-            ResponseUtil.fail(0,"参数错误");
+        if (Strings.isNullOrEmpty(log_id)) {
+            ResponseUtil.fail(0, "参数错误");
         }
         int logId = Integer.valueOf(log_id);
-        RCustomerSubmitLog log = (RCustomerSubmitLog) baseService.get(RCustomerSubmitLog.class,logId);
+        RCustomerSubmitLog log = (RCustomerSubmitLog) baseService.get(RCustomerSubmitLog.class, logId);
 
-        if(!Strings.isNullOrEmpty(no_product)){
+        if (!Strings.isNullOrEmpty(no_product)) {
             log.setState(3);
             boolean save = baseService.save(log);
-            if(save){
+            if (save) {
                 return ResponseUtil.success();
-            }else{
-                return ResponseUtil.fail(0,"提交出错");
+            } else {
+                return ResponseUtil.fail(0, "提交出错");
             }
         }
 
-        if(Strings.isNullOrEmpty(products)){
-            return ResponseUtil.fail(0,"请添加产品信息");
+        if (Strings.isNullOrEmpty(products)) {
+            return ResponseUtil.fail(0, "请添加产品信息");
         }
 
         JSONArray array = JSON.parseArray(products);
-        if(array.size()<1){
-            return ResponseUtil.fail(0,"请添加产品信息");
+        if (array.size() < 1) {
+            return ResponseUtil.fail(0, "请添加产品信息");
         }
         RCustomerLoanProgram program = new RCustomerLoanProgram();
         program.setCreateTime(DateUtil.date2Timestamp(new Date()));
@@ -237,37 +234,39 @@ public class GZHShichangController {
         program.setState(1);
         program.setSubmitPerson(log.getSubmitSaleman());
         boolean save = baseService.save(program);
-        if(save){
+        if (save) {
             log.setState(2);
             baseService.save(log);
             return ResponseUtil.success();
-        }else{
-            return ResponseUtil.fail(0,"提交信息失败");
+        } else {
+            return ResponseUtil.fail(0, "提交信息失败");
         }
     }
 
 
     @RequestMapping(value = "/page/data")
-    public ModelAndView dataPage(HttpServletRequest request){
+    public ModelAndView dataPage(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/shichangbu/data");
+        AcceptUtil.addHouqiNotificationCount(baseService, employee, modelAndView);
         return modelAndView;
     }
 
     @RequestMapping(value = "/info/all")
-    public ModelAndView  showAllInfo(HttpServletRequest request){
-        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+    public ModelAndView showAllInfo(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/shichangbu/index_allinfo");
-        int employeeID= employee.getId();
+        int employeeID = employee.getId();
 
 //        String sql = "SELECT count(*) from r_customer_submit_log WHERE  state=1 and submit_houqi = 154";
         DetachedCriteria criteria = DetachedCriteria.forClass(RCustomerSubmitLog.class);
-        criteria.add(Restrictions.eq("state",1));
-        criteria.add(Restrictions.eq("submitHouqi",employeeID));
+        criteria.add(Restrictions.eq("state", 1));
+        criteria.add(Restrictions.eq("submitHouqi", employeeID));
 //        criteria.setProjection(Projections.rowCount());
         int notificationCount = baseService.getCount(criteria);
-        modelAndView.addObject("notificationCount",notificationCount);
+        modelAndView.addObject("notificationCount", notificationCount);
         String sql_logs = "\n" +
                 "  SELECT id,customer_id,customer_name,submit_saleman,state, \n" +
                 "  (SELECT name from employee WHERE id = submit_saleman ) as submit_saleman_name,\n" +
@@ -275,10 +274,10 @@ public class GZHShichangController {
                 "  DATE_FORMAT(submit_time,'%m-%d') as month_day,\n" +
                 "  DATE_FORMAT(submit_time,'%H:%i') as hourminute\n" +
                 "  FROM r_customer_submit_log log " +
-                "  where state=1 and submit_houqi = " +employeeID+" \n"+
+                "  where state=1 and submit_houqi = " + employeeID + " \n" +
                 "   ;\n";
-        List<CustomerSubmit> submits =    baseService.queryBySqlFormatClass(CustomerSubmit.class,sql_logs);
-        modelAndView.addObject("submitlogs",submits);
+        List<CustomerSubmit> submits = baseService.queryBySqlFormatClass(CustomerSubmit.class, sql_logs);
+        modelAndView.addObject("submitlogs", submits);
 
         String sql_already = "SELECT program_id  as  id ,customer_id,\n" +
                 "  (SELECT name from r_customer WHERE id=customer_id) as customer_name,\n" +
@@ -289,11 +288,65 @@ public class GZHShichangController {
                 "  DATE_FORMAT(create_time,'%H:%i') as hourminute\n" +
                 "FROM r_customer_loan_program program  where  create_person = " + employeeID +
                 " ;";
-        List<CustomerSubmit> programs =    baseService.queryBySqlFormatClass(CustomerSubmit.class,sql_already);
-        modelAndView.addObject("programs",programs);
+        List<CustomerSubmit> programs = baseService.queryBySqlFormatClass(CustomerSubmit.class, sql_already);
+        modelAndView.addObject("programs", programs);
         return modelAndView;
     }
 
 
+    @RequestMapping(value = "/accept/produceinfo")
+    public ModelAndView acceptProduceInfo(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        if (employee == null || employee.getState() == null || employee.getState() != 1) {
+            return ResponseUtil.pageFail("用户登录状态有误");
+        }
+        String accept_id = request.getParameter("accept_id");
+        if (Strings.isNullOrEmpty(accept_id)) {
+            return ResponseUtil.pageFail("上传信息错误");
+        }
+        AcceptedTemp acceptedTemp = (AcceptedTemp) baseService.get(AcceptedTemp.class, accept_id);
+        if (acceptedTemp == null) {
+            return ResponseUtil.pageFail("受理单信息有误");
+        }
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/gzh/shichangbu/accept_produce_info");
+        modelAndView.addObject("accept", acceptedTemp);
+
+        String sql_produce = "SELECT  *,(@rowNum\\:=@rowNum+1) as rowNo FROM (\n" +
+                "                                               SELECT  `id`, `agency_name` ,name ,`code`,`create_person`,0 as type     from `a_produce_credit`\n" +
+                "                                               UNION  ALL\n" +
+                "                                               SELECT `id`, name, `agency_name` ,code,`create_person`,1 as type  from `a_produce_diya`\n" +
+                "                                               UNION ALL\n" +
+                "                                               SELECT `id`, name , `agency_name` ,`code`,`create_person`,2 as type   from `a_produce_zhiya`\n" +
+                "                                             ) AS p   ,  (Select (@rowNum\\:=0)  as temprow ) b\n" +
+                "WHERE p.create_person = " + employee.getId();
+
+        List<AcceptPeroduceSimple> list = baseService.queryBySqlFormatClass(AcceptPeroduceSimple.class, sql_produce);
+        JSONArray array = JSON.parseArray(JSON.toJSONString(list));
+        modelAndView.addObject("produces", array);
+
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/accept/acceptCenterinfo")
+    public ModelAndView acceptAcceptInfo(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        String accept_id = request.getParameter("accept_id");
+        if (employee == null || employee.getState() == null || employee.getState() != 1) {
+            return ResponseUtil.pageFail("用户登录状态有误");
+        }
+        if (Strings.isNullOrEmpty(accept_id)) {
+            return ResponseUtil.pageFail("上传信息错误");
+        }
+        AcceptedTemp acceptedTemp = (AcceptedTemp) baseService.get(AcceptedTemp.class, accept_id);
+        if (acceptedTemp == null) {
+            return ResponseUtil.pageFail("受理单信息有误");
+        }
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/gzh/acceptCenter");
+        modelAndView.addObject("accept", acceptedTemp);
+        return modelAndView;
+    }
 
 }

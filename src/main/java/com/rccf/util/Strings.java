@@ -287,6 +287,20 @@ public class Strings {
         return str;
     }
 
+
+    public static String getProductName(String agency_name , String product_name){
+        if(Strings.isNullOrEmpty(agency_name)){
+            return "";
+        }
+        if(Strings.isNullOrEmpty(product_name)){
+            return agency_name;
+        }else{
+            return agency_name+"-"+product_name;
+        }
+    }
+
+
+
     public static void main(String args[]){
         char c = (char)65;
        String str =  String.valueOf(c);

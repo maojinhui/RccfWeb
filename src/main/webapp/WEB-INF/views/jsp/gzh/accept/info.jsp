@@ -1,9 +1,9 @@
 <%@ page import="com.rccf.model.gzh.accpet.AcceptedTemp" %>
 <%@ page import="com.alibaba.fastjson.JSONArray" %>
 <%@ page import="com.alibaba.fastjson.JSON" %>
-<%@ page import="com.alibaba.fastjson.JSONObject" %>
 <%@ page import="com.rccf.model.Employee" %>
-<%@ page import="com.rccf.util.Strings" %><%--
+<%@ page import="com.rccf.util.Strings" %>
+<%@ page import="com.alibaba.fastjson.JSONObject" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2018/2/1
@@ -12,9 +12,10 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-response.setHeader("Pragma","No-cache");
-response.setHeader("Cache-Control","no-cache");
-response.setDateHeader("Expires", -1);
+    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Cache-Control", "no-cache");
+    response.setDateHeader("Expires", -1);
+    response.setHeader("Cache-Control", "no-store");
 %>
 <%
     AcceptedTemp accept = (AcceptedTemp) request.getAttribute("accept");
@@ -79,6 +80,7 @@ response.setDateHeader("Expires", -1);
          <span id="now_state"></span> <br>
         <%
             int state = accept.getState();
+//            int employeeId= employee.getId();
             String depart = employee.getDepartment();
             String name = employee.getName();
             int role = employee.getRole();
@@ -96,7 +98,11 @@ response.setDateHeader("Expires", -1);
         <%
             }else if(depart.contains("市场") && role==4 && (state == 1 || state == 4 )){
         %>
-        <a href="">下一步</a>
+        <a href="/gzh/shichang/accept/produceinfo?accept_id=<%=accept.getId()%>">下一步</a>
+        <%
+            }else if( depart.contains("市场") && role==5 && state==3 ){
+        %>
+        <a href="/gzh/shichang/accept/acceptCenterinfo?accept_id=<%=accept.getId()%>">下一步</a>
         <%
             }
         %>
@@ -220,28 +226,37 @@ response.setDateHeader("Expires", -1);
                         <input type="text" value="<%=accept.getHouqiName()%>">
                     </td>
                 </tr>
+                <%
+                    String produceFangan = "";
+                    String produces = accept.getProduceInfo();
+                    JSONArray array = JSON.parseArray(produces);
+                    for (int i =0 ;i < array.size();i++){
+                        JSONObject object = array.getJSONObject(i);
+                        produceFangan+=Strings.getProductName(object.getString("agency_name") , object.getString("name"));
+                    }
+                %>
                 <tr>
                     <td>受理方案</td>
                     <td>
-                        <input type="text" value="">
+                        <input type="text" value="<%=produceFangan%>">
                     </td>
                 </tr>
                 <tr>
                     <td>渠道费用</td>
                     <td>
-                        <input type="number" value="<%=accept.getChannelFee()%>">
+                        <input value="<%=accept.getChannelFee()%>">
                     </td>
                 </tr>
                 <tr>
                     <td>材料费</td>
                     <td>
-                        <input type="number" value="<%=accept.getMaterialFee()%>">
+                        <input  value="<%=accept.getMaterialFee()%>">
                     </td>
                 </tr>
                 <tr>
                     <td>三方费用</td>
                     <td>
-                        <input type="number" value="<%=accept.getSanfangFee()%>">
+                        <input  value="<%=accept.getSanfangFee()%>">
                     </td>
                 </tr>
             </table>
@@ -316,8 +331,15 @@ response.setDateHeader("Expires", -1);
 <script src="/work/js/nav.js"></script>
 <script src="/js/accept.js"></script>
 <script>
+
+    $(window).on('popstate', function () {
+        alert(1);
+        window.location.reload();
+    });
+
     //初始化
     $(document).ready(function () {
+//        window.location.reload();
         var state = <%=accept.getState()%>;
         var str = getAcceptStateInfo(state, '<%=accept.getCustomerName()%>' , "<%=accept.getEmployeeName()%>" , "<%=accept.getHouqiName()%>");
         $('#now_state').text(str);

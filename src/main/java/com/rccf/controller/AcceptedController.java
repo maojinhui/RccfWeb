@@ -455,12 +455,12 @@ public class AcceptedController {
                 "                              (SELECT  sum(a.`service_fee_actual`)   FROM accepted a WHERE  a.`end_date`  >= '"+month_start+"' and  a.`end_date` < '"+month_end+"'  and  a.`clerk` =e.`code` and a.`state`=2 ) as monthyeji,\n" +
                 "                              (SELECT COUNT(*) FROM accepted a WHERE a.`accept_time` >='"+month_start+"'  and a.`accept_time` <'"+month_end+"'  and a.`clerk` =e.`code`  ) as monthaccept,\n" +
                 "                              (SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >='"+month_start+"' and a.`end_date` <'"+month_end+"'  and a.`clerk` =e.`code` and  a.`state` = 2 ) as monthend,\n" +
-                "                              (SELECT COUNT(*) FROM accepted a WHERE a.`create_time`  >='"+month_start+"' and a.`create_time` <'"+month_end+"'  and a.`clerk` =e.`code`  and `state` = 3) as monthrefuse,\n" +
+                "                              (SELECT COUNT(*) FROM accepted a WHERE a.`end_date`  >='"+month_start+"' and a.`end_date` <'"+month_end+"'  and a.`clerk` =e.`code`  and `state` = 3) as monthrefuse,\n" +
                 "\n" +
                 "                              (SELECT  sum(a.`service_fee_actual`)   FROM accepted a WHERE  a.`end_date`  >= '"+day_start+"'  and  a.`end_date` <'"+day_end+"'  and  a.`clerk` =e.`code` ) as dayyeji,\n" +
                 "                              (SELECT COUNT(*) FROM accepted a WHERE a.`accept_time` >='"+day_start+"'  and a.`accept_time` <'"+day_end+"'  and a.`clerk` =e.`code`  ) as dayaccept,\n" +
                 "                              (SELECT COUNT(*) FROM accepted a WHERE a.`end_date` >='"+day_start+"'  and a.`end_date` <'"+day_end+"'  and a.`clerk` =e.`code` and a.`state` =2 ) as dayend,\n" +
-                "                              (SELECT COUNT(*) FROM accepted a WHERE a.`create_time`  >='"+day_start+"'  and a.`create_time` <'"+day_end+"'  and a.`clerk` =e.`code`  and `state` = 3) as dayrefuse,\n" +
+                "                              (SELECT COUNT(*) FROM accepted a WHERE a.`end_date`  >='"+day_start+"'  and a.`end_date` <'"+day_end+"'  and a.`clerk` =e.`code`  and `state` = 3) as dayrefuse,\n" +
                 "                              (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` =e.`code` ) as nowaccept,\n" +
                 "                              (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` =e.`code` AND a.business_type=0 ) as nowaccept_xindai,\n" +
                 "                              (SELECT COUNT(*) FROM accepted a WHERE a.state = 1 and a.`clerk` =e.`code` AND a.business_type=1 ) as nowaccept_diya,\n" +
@@ -497,12 +497,12 @@ public class AcceptedController {
         String sql = "SELECT e.code , e.`department` ,e.`name`   ,\n" +
                 "  (SELECT  COUNT(*) from `accepted` a WHERE  a.`accept_time` >= '" + month_start + "' and a.`accept_time` < '" + month_end + "'  and  a.`deputy_director` =e.code ) as monthaccept,\n" +
                 "  (SELECT COUNT(*) FROM `accepted` a WHERE a.`end_date` >= '" + month_start + "' and a.`end_date` < '" + month_end + "'  and  a.`deputy_director` =e.code  and `state` =2) as monthend,\n" +
-                "  (SELECT COUNT(*) FROM `accepted` a WHERE a.`create_time`  >= '" + month_start + "' and a.`create_time`< '" + month_end + "'  and  a.`deputy_director` =e.code AND `state` =3 ) as monthrefuse,\n" +
+                "  (SELECT COUNT(*) FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'  and  a.`deputy_director` =e.code AND `state` =3 ) as monthrefuse,\n" +
                 "  (SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'   and  a.`deputy_director` =e.code AND `state` =2) as monthyeji,\n" +
                 "\n" +
                 "  (SELECT  COUNT(*) from `accepted` a WHERE  a.`accept_time` >= '" + day_start + "' and a.`accept_time` < '" + day_end + "'  and  a.`deputy_director` =e.code ) as dayaccept,\n" +
                 "  (SELECT COUNT(*) FROM `accepted` a WHERE a.`end_date` >= '" + day_start + "' and a.`end_date` < '" + day_end + "'  and  a.`deputy_director` =e.code  and `state` =2) as dayend,\n" +
-                "  (SELECT COUNT(*) FROM `accepted` a WHERE a.`create_time`  >= '" + day_start + "' and a.`create_time`< '" + day_end + "'  and  a.`deputy_director` =e.code AND `state` =3 ) as dayrefuse,\n" +
+                "  (SELECT COUNT(*) FROM `accepted` a WHERE a.`end_date`  >= '" + day_start + "' and a.`end_date`< '" + day_end + "'  and  a.`deputy_director` =e.code AND `state` =3 ) as dayrefuse,\n" +
                 "  (SELECT sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + day_start + "' and a.`end_date`< '" + day_end + "'   and  a.`deputy_director` =e.code AND `state` =2) as dayyeji,\n" +
                 " ( SELECT  COUNT(*) from (SELECT COUNT(*),`clerk`,`director`, `deputy_director` FROM `accepted` a  \n" +
                 "WHERE a.`end_date` >='" + month_start + "'  and a.`end_date`  < '" + month_end + "' and a.`state` =2 AND  `clerk` IS NOT NULL  \n" +
@@ -545,12 +545,12 @@ public class AcceptedController {
         String sql = "SELECT e.code , e.`department` ,e.`name`   ,\n" +
                 "  (SELECT  COUNT(*) from `accepted` a WHERE  a.`accept_time` >= '" + month_start + "' and a.`accept_time` < '" + month_end + "'  and  a.`director` =e.code ) as monthaccept,\n" +
                 "  (SELECT COUNT(*) FROM `accepted` a WHERE a.`end_date` >= '" + month_start + "' and a.`end_date` < '" + month_end + "'  and  a.`director` =e.code  and `state` =2) as monthend,\n" +
-                "  (SELECT COUNT(*) FROM `accepted` a WHERE a.`create_time`  >= '" + month_start + "' and a.`create_time`< '" + month_end + "'  and  a.`director` =e.code AND `state` =3 ) as monthrefuse,\n" +
+                "  (SELECT COUNT(*) FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'  and  a.`director` =e.code AND `state` =3 ) as monthrefuse,\n" +
                 "  (SELECT  sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + month_start + "' and a.`end_date`< '" + month_end + "'   and  a.`director` =e.code AND `state` =2) as monthyeji,\n" +
                 "\n" +
                 "  (SELECT  COUNT(*) from `accepted` a WHERE  a.`accept_time` >= '" + day_start + "' and a.`accept_time` < '" + day_end + "'  and  a.`director` =e.code ) as dayaccept,\n" +
                 "  (SELECT COUNT(*) FROM `accepted` a WHERE a.`end_date` >= '" + day_start + "' and a.`end_date` < '" + day_end + "'  and  a.`director` =e.code  and `state` =2) as dayend,\n" +
-                "  (SELECT COUNT(*) FROM `accepted` a WHERE a.`create_time`  >= '" + day_start + "' and a.`create_time`< '" + day_end + "'  and  a.`director` =e.code AND `state` =3 ) as dayrefuse,\n" +
+                "  (SELECT COUNT(*) FROM `accepted` a WHERE a.`end_date`  >= '" + day_start + "' and a.`end_date`< '" + day_end + "'  and  a.`director` =e.code AND `state` =3 ) as dayrefuse,\n" +
                 "  (SELECT sum(a.`service_fee_actual`)  FROM `accepted` a WHERE a.`end_date`  >= '" + day_start + "' and a.`end_date`< '" + day_end + "'   and  a.`director` =e.code AND `state` =2) as dayyeji,\n" +
                 " (SELECT  COUNT(*) from (SELECT COUNT(*),`clerk`,`director`, `deputy_director`    FROM `accepted` a  \n" +
                 "WHERE a.`end_date` >='" + month_start + "'  and a.`end_date`  < '" + month_end + "' and a.`state` =2 AND  `clerk` IS NOT NULL  \n" +

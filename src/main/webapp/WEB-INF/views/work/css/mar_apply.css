@@ -1,0 +1,141 @@
+
+
+html,
+body {
+  background-color: #fff;
+  height: 100%;
+}
+.container {
+  height: 100%;
+}
+
+.pro-data,
+.add-btn,
+.add-form,
+.add-pro {
+  position: relative;
+  margin-top: 1em;
+  padding-left: 2em;
+
+}
+
+.add-btn a{
+  color:#42bde5;
+}
+
+.add-form input {
+  width: 90%;
+  padding: 0.4em;
+
+  border: 1px solid #999;
+}
+
+.add-pro span {
+  display: inline-block;
+  font-size: 0.45rem;
+  padding: 0.5em;
+  margin-bottom: 1em;
+  margin-right: 0.2em;
+  background-color: #5c4375;
+  color: #fff;
+}
+.add-pro span i {
+  display: inline-block;
+  margin-left: 0.5em;
+  text-align: right;
+}
+.pro-data textarea{
+  border: solid 1px #ff8585;
+  padding: 0.5em;
+}
+.txt-hint {
+  position: absolute;
+  width: 86%;
+  top:2.3em;
+  padding-top: 1em;
+  background-color: #fff;
+  color: #666;
+  z-index: 999;
+
+  border: 1px solid #666;
+}
+.txt-hint span {
+  display: block;
+  font-size: 0.5rem;
+  padding-left: 1em;
+  margin-bottom: 0.5em;
+}
+
+.a-btns {
+  position: fixed;
+  bottom:0;
+  width: 100%;
+}
+
+.a-btn {
+  display: inline-block;
+  padding: 0.5em;
+  border: none;
+  box-sizing: border-box;
+}
+.b-btn {
+  float: right;
+  margin-right: 3em;
+  margin-top: 1em;
+  background-color: #f0ad4e;
+  color: #fff;
+}
+
+.a-btn-success {
+  background-color: #4aaa4a;
+  color: #fff;
+}
+.a-btn-wrong {
+  background-color: #aa3333;
+  color: #fff;
+}
+
+.b-table{
+  width: 100%;
+  padding: 0.1rem;
+  background-color: #fff;
+  border: 0.013rem solid #999;
+  text-align: center;
+
+  border-collapse: collapse !important;
+}
+.b-table th ,
+.b-table td {
+  border: 0.013rem solid #999;
+  padding-top: 0.15rem;
+  padding-bottom: 0.15rem;
+}
+.b-table tr th {
+  background-color: #464646;
+  color: #fff;
+  font-weight: 300;
+}
+.add-btn,
+.b-table caption {
+  background-color: #615f99;
+  color: #fff;
+  text-align: left;
+  padding: 0.266rem;
+}
+.b-table input,
+.b-table select{
+  width: 80%;
+  font-size: 0.46rem;
+  border: none;
+  background-color: #fff;
+  padding: 0.5em;
+}
+
+.b-table select,
+.b-table option{
+  text-align: center;
+}
+
+.apply-list {
+  margin-top: 2em;
+}

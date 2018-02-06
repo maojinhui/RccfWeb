@@ -2,9 +2,11 @@ package com.rccf.controller.gzh;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.rccf.constants.ResponseConstants;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.Employee;
+import com.rccf.model.gzh.accpet.AcceptPeroduceSimple;
 import com.rccf.model.gzh.accpet.AcceptedTemp;
 import com.rccf.model.gzh.accpet.AcceptedTempLog;
 import com.rccf.service.BaseService;
@@ -73,8 +75,8 @@ public class GZHAcceptController {
             deputy = login.getDuptyDirector();
             director = login.getDirector();
 
-        }else{
-            return ResponseUtil.fail(0,"目前仅支持业务员提交受理单");
+        } else {
+            return ResponseUtil.fail(0, "目前仅支持业务员提交受理单");
         }
 
         String accepttemp_id = request.getParameter("accept_id");
@@ -97,16 +99,16 @@ public class GZHAcceptController {
             acceptedTemp.setCreateTime(DateUtil.date2Timestamp(new Date()));
             acceptedTemp.setEmployee(code);
             acceptedTemp.setEmployeeName(loginName);
-            if(!Strings.isNullOrEmpty(deputy)){
-               Employee deputyEmployee =  employeeService.findEmpolyeeByCode(deputy);
-               acceptedTemp.setDeputy(deputy);
-               acceptedTemp.setDeputyName(deputyEmployee.getName());
+            if (!Strings.isNullOrEmpty(deputy)) {
+                Employee deputyEmployee = employeeService.findEmpolyeeByCode(deputy);
+                acceptedTemp.setDeputy(deputy);
+                acceptedTemp.setDeputyName(deputyEmployee.getName());
             }
-            if(!Strings.isNullOrEmpty(director)){
-                Employee directorEmployee =  employeeService.findEmpolyeeByCode(director);
+            if (!Strings.isNullOrEmpty(director)) {
+                Employee directorEmployee = employeeService.findEmpolyeeByCode(director);
                 acceptedTemp.setDirector(director);
                 acceptedTemp.setDirectorName(directorEmployee.getName());
-        }
+            }
             acceptedTemp.setDirector(director);
 
             oldData = null;
@@ -114,6 +116,7 @@ public class GZHAcceptController {
             oldData = acceptedTemp.toString();
         }
         acceptedTemp.setState(1);
+        acceptedTemp.setContent(null);
         if (!Strings.isNullOrEmpty(customer_id)) {
             acceptedTemp.setCustomerId(customer_id);
         } else {
@@ -177,9 +180,8 @@ public class GZHAcceptController {
             acceptedTemp.setHouqi(Integer.valueOf(houqi));
             Employee houqiEmployee = employeeService.findEmpolyeeById(Integer.valueOf(houqi));
             acceptedTemp.setHouqiName(houqiEmployee.getName());
-        } else {
-            acceptedTemp.setHouqi(null);
         }
+
 
         boolean save = baseService.save(acceptedTemp);
 
@@ -206,32 +208,173 @@ public class GZHAcceptController {
 
 
     /**
+     * 市场部提交缺少客户资料
+     *
+     * @param request
+     * @return
+     */
+
+    @ResponseBody
+    @RequestMapping(value = "/submit/state2")
+    public String submitState2(HttpServletRequest request) {
+        AcceptedTempLog log = new AcceptedTempLog();
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        String accept_id = request.getParameter("accept_id");
+        if (Strings.isNullOrEmpty(accept_id)) {
+            return ResponseUtil.fail(0, "参数错误");
+        }
+        AcceptedTemp acceptedTemp = (AcceptedTemp) baseService.get(AcceptedTemp.class, accept_id);
+        if (acceptedTemp == null) {
+            return ResponseUtil.fail(0, "受理单未找到");
+        }
+
+
+        if (acceptedTemp.getHouqi() != employee.getId()) {
+            return ResponseUtil.fail(0, "您还没有操作本受理单权限");
+        }
+        String content = request.getParameter("content");
+        if (Strings.isNullOrEmpty(content)) {
+            return ResponseUtil.fail(0, "请填写退回原因");
+        }
+        log.setAcceptedTempId(acceptedTemp.getId());
+        log.setCreateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
+        log.setCreatePerson(employee.getId());
+        log.setState(2);
+        log.setContent(content);
+        log.setOldData(acceptedTemp.toString());
+
+
+
+        acceptedTemp.setState(2);
+        acceptedTemp.setContent(content);
+        boolean save = baseService.save(acceptedTemp);
+        if (save) {
+            log.setNewData(acceptedTemp.toString());
+            boolean saveLog = baseService.save(log);
+            if(!saveLog){
+                return ResponseUtil.fail(0,"保存日志失败，请重新提交");
+            }
+
+            return ResponseUtil.success();
+        }
+
+        return ResponseUtil.fail(0, "提交失败,请联系管理员");
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/submit/state3")
+    public String submitState3(HttpServletRequest request) {
+        AcceptedTempLog log = new AcceptedTempLog();
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
+        if (employee == null && employee.getState() == null && employee.getState() != 1) {
+            return ResponseUtil.fail(0, "登录状态错误，请重新登录");
+        }
+        String channelFee = request.getParameter("qudaoFee");
+        String sanfangFee = request.getParameter("sanfangFee");
+        String cailiaoFee = request.getParameter("cailiaoFee");
+        String produces = request.getParameter("products");
+        String accept_id = request.getParameter("accept_id");
+        if (Strings.isNullOrEmpty(accept_id)) {
+            return ResponseUtil.fail(0, "没有获取到受理单ID");
+        }
+
+        AcceptedTemp acceptedTemp = (AcceptedTemp) baseService.get(AcceptedTemp.class, accept_id);
+        if (acceptedTemp == null) {
+            return ResponseUtil.fail(0, "没有查找到对应的受理单");
+        }
+        log.setAcceptedTempId(acceptedTemp.getId());
+        log.setCreateTime(DateUtil.date2Timestamp(new Date(System.currentTimeMillis())));
+        log.setCreatePerson(employee.getId());
+        log.setState(3);
+        log.setContent("");
+        log.setOldData(acceptedTemp.toString());
+
+
+        acceptedTemp.setChannelFee(channelFee);
+        acceptedTemp.setSanfangFee(sanfangFee);
+        acceptedTemp.setMaterialFee(cailiaoFee);
+        if (Strings.isNullOrEmpty(produces)) {
+            return ResponseUtil.fail(0, "请选择产品后提交");
+        }
+        JSONArray array = JSON.parseArray(produces);
+        if (array == null || array.size() < 1) {
+            return ResponseUtil.fail(0, "请选择产品后提交");
+        }
+        AcceptPeroduceSimple acceptPeroduceSimple = null;
+        JSONArray produceArray = new JSONArray();
+        for (int i = 0; i < array.size(); i++) {
+            JSONObject object = array.getJSONObject(i);
+            String product_id = object.getString("productId");
+            String product_type = object.getString("productType");
+
+            String sql = "SELECT  `id`, `agency_name` ,name ,`code`,`create_person`,0 as type , 0 as temprow , 0 as rowNo from ";
+            if(product_type.equals("0")){//信贷
+                sql = sql+"a_produce_credit where id = "+product_id;
+            }else if(product_type.equals("1")){//抵押
+                sql = sql+"a_produce_diya  where id = "+product_id;
+            }else if(product_type.equals("2")){//质押
+                sql = sql +"a_produce_zhiya where id = "+product_id;
+            }
+            acceptPeroduceSimple = (AcceptPeroduceSimple) baseService.queryObjectBySqlFormatClass(AcceptPeroduceSimple.class,sql);
+            if(acceptPeroduceSimple !=null){
+                JSONObject object1 = JSON.parseObject(JSON.toJSONString(acceptPeroduceSimple));
+                produceArray.add(object1);
+            }
+        }
+        if(produceArray.size()<1){
+            return ResponseUtil.fail(0,"没有找到相关产品，请核对信息");
+        }
+
+        String productinfo = JSON.toJSONString(produceArray);
+        acceptedTemp.setProduceInfo(productinfo);
+        acceptedTemp.setState(3);
+
+        boolean save = baseService.save(acceptedTemp);
+        if(save){
+            log.setNewData(acceptedTemp.toString());
+            boolean saveLog = baseService.save(log);
+            if(!saveLog){
+                return ResponseUtil.fail(0,"保存日志失败，请重新提交");
+            }
+            return ResponseUtil.success();
+        }
+        return ResponseUtil.fail(0, "提交失败");
+    }
+
+
+
+
+
+    /**
      * 销售部受理信息页面
+     *
      * @param request
      * @return
      */
     @RequestMapping(value = "/list/sales")
-    public ModelAndView saleAcceptInfolist(HttpServletRequest request){
-        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+    public ModelAndView saleAcceptInfolist(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/sales/accept_info_list");
-        AcceptUtil.addSalesNotificationCount(baseService,employee,modelAndView);
-        return  modelAndView;
+        AcceptUtil.addSalesNotificationCount(baseService, employee, modelAndView);
+        return modelAndView;
     }
 
 
     /**
      * 市场部受理信息页面
+     *
      * @param request
      * @return
      */
     @RequestMapping(value = "/list/shichang")
-    public ModelAndView saleAcceptInfoShichang(HttpServletRequest request){
-        Employee employee = BackUtil.getLoginEmployee(request,employeeService);
+    public ModelAndView saleAcceptInfoShichang(HttpServletRequest request) {
+        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/shichangbu/accept_info_list");
-        AcceptUtil.addSalesNotificationCount(baseService,employee,modelAndView);
-        return  modelAndView;
+        AcceptUtil.addSalesNotificationCount(baseService, employee, modelAndView);
+        return modelAndView;
     }
 
 
@@ -239,11 +382,11 @@ public class GZHAcceptController {
     @RequestMapping(value = "/info/list/sale")
     public String getSaleAcceptInfo(HttpServletRequest request) {
         Employee login = BackUtil.getLoginEmployee(request, employeeService);
-        String  code = login.getCode();
+        String code = login.getCode();
         String department = login.getDepartment();
         int role = login.getRole();
 
-        if(role == 4){ // 销售
+        if (role == 4) { // 销售
             DetachedCriteria detachedCriteria = DetachedCriteria.forClass(AcceptedTemp.class);
             detachedCriteria.add(Restrictions.eq("employee", code));
             detachedCriteria.addOrder(Order.desc("createTime"));
@@ -256,18 +399,16 @@ public class GZHAcceptController {
     }
 
 
-
-
     @ResponseBody
     @RequestMapping(value = "/info/list/shichang")
     public String getSaleAcceptInfoShichang(HttpServletRequest request) {
         Employee login = BackUtil.getLoginEmployee(request, employeeService);
-        int eId= login.getId();
-        String  code = login.getCode();
+        int eId = login.getId();
+        String code = login.getCode();
         String department = login.getDepartment();
         int role = login.getRole();
 
-        if(role == 4){ // 后期专员
+        if (role == 4) { // 后期专员
             DetachedCriteria detachedCriteria = DetachedCriteria.forClass(AcceptedTemp.class);
             detachedCriteria.add(Restrictions.eq("houqi", eId));
             detachedCriteria.addOrder(Order.desc("createTime"));
@@ -281,21 +422,22 @@ public class GZHAcceptController {
 
 
     @RequestMapping(value = "/info")
-    public ModelAndView acceptInfo(HttpServletRequest request){
-        Employee loginEmployee = BackUtil.getLoginEmployee(request,employeeService);
-        if(loginEmployee==null){
+    public ModelAndView acceptInfo(HttpServletRequest request) {
+        Employee loginEmployee = BackUtil.getLoginEmployee(request, employeeService);
+        if (loginEmployee == null) {
             return ResponseUtil.pageFail("登录信息失效，请重新登录");
         }
         String accept_id = request.getParameter("accept_id");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/gzh/accept/info");
-        modelAndView.addObject("employee" , loginEmployee);//添加人员信息
-        AcceptedTemp acceptedTemp = (AcceptedTemp) baseService.get(AcceptedTemp.class,accept_id);
-        modelAndView.addObject("accept",acceptedTemp); //添加受理单信息
+        modelAndView.addObject("employee", loginEmployee);//添加人员信息
+        AcceptedTemp acceptedTemp = (AcceptedTemp) baseService.get(AcceptedTemp.class, accept_id);
+        modelAndView.addObject("accept", acceptedTemp); //添加受理单信息
 
 
         return modelAndView;
     }
+
 
 
 

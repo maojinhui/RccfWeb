@@ -115,6 +115,16 @@ public class BaseDao extends HibernateDaoSupport {
         return list;
     }
 
+    public Object queryObjectBySqlFormatClass(String sql,Class clazz){
+        List list = getSession().createSQLQuery(sql).addEntity(clazz).list();
+        if(list==null || list.size()<1){
+            return null;
+        }
+        Object o = list.get(0);
+        return o;
+    }
+
+
 
     public boolean excuteSql(String sql) {
         try {

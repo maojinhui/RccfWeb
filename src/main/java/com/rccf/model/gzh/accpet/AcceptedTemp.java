@@ -23,14 +23,17 @@ public class AcceptedTemp {
     private Double serviceProportion;
     private Integer houqi;
     private String produceInfo;
-    private Double channelFee;
-    private Double materialFee;
-    private Double sanfangFee;
+    private String channelFee;
+    private String materialFee;
+    private String sanfangFee;
     private Integer state;
     private String employeeName;
     private String deputyName;
     private String directorName;
     private String houqiName;
+    private Timestamp acceptTime;
+    private String acceptNumber;
+    private String letterNumber;
     private Timestamp createTime;
     private String content;
 
@@ -178,31 +181,31 @@ public class AcceptedTemp {
 
     @Basic
     @Column(name = "channel_fee", nullable = true, precision = 0)
-    public Double getChannelFee() {
+    public String getChannelFee() {
         return channelFee;
     }
 
-    public void setChannelFee(Double channelFee) {
+    public void setChannelFee(String channelFee) {
         this.channelFee = channelFee;
     }
 
     @Basic
     @Column(name = "material_fee", nullable = true, precision = 0)
-    public Double getMaterialFee() {
+    public String getMaterialFee() {
         return materialFee;
     }
 
-    public void setMaterialFee(Double materialFee) {
+    public void setMaterialFee(String materialFee) {
         this.materialFee = materialFee;
     }
 
     @Basic
     @Column(name = "sanfang_fee", nullable = true, precision = 0)
-    public Double getSanfangFee() {
+    public String getSanfangFee() {
         return sanfangFee;
     }
 
-    public void setSanfangFee(Double sanfangFee) {
+    public void setSanfangFee(String sanfangFee) {
         this.sanfangFee = sanfangFee;
     }
 
@@ -266,6 +269,41 @@ public class AcceptedTemp {
         this.createTime = createTime;
     }
 
+
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+
+    public Timestamp getAcceptTime() {
+        return acceptTime;
+    }
+
+    public void setAcceptTime(Timestamp acceptTime) {
+        this.acceptTime = acceptTime;
+    }
+
+    public String getAcceptNumber() {
+        return acceptNumber;
+    }
+
+    public void setAcceptNumber(String acceptNumber) {
+        this.acceptNumber = acceptNumber;
+    }
+
+    public String getLetterNumber() {
+        return letterNumber;
+    }
+
+    public void setLetterNumber(String letterNumber) {
+        this.letterNumber = letterNumber;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -293,20 +331,16 @@ public class AcceptedTemp {
                 Objects.equal(deputyName, that.deputyName) &&
                 Objects.equal(directorName, that.directorName) &&
                 Objects.equal(houqiName, that.houqiName) &&
-                Objects.equal(createTime, that.createTime);
+                Objects.equal(acceptTime, that.acceptTime) &&
+                Objects.equal(acceptNumber, that.acceptNumber) &&
+                Objects.equal(letterNumber, that.letterNumber) &&
+                Objects.equal(createTime, that.createTime) &&
+                Objects.equal(content, that.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, customerId, customerName, customerPhone, customerIdcard, customerLoanType, customerFile, employee, deputy, director, customerWantmoney, serviceProportion, houqi, produceInfo, channelFee, materialFee, sanfangFee, state, employeeName, deputyName, directorName, houqiName, createTime);
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
+        return Objects.hashCode(id, customerId, customerName, customerPhone, customerIdcard, customerLoanType, customerFile, employee, deputy, director, customerWantmoney, serviceProportion, houqi, produceInfo, channelFee, materialFee, sanfangFee, state, employeeName, deputyName, directorName, houqiName, acceptTime, acceptNumber, letterNumber, createTime, content);
     }
 
     @Override
@@ -334,7 +368,11 @@ public class AcceptedTemp {
                 .add("deputyName", deputyName)
                 .add("directorName", directorName)
                 .add("houqiName", houqiName)
+                .add("acceptTime", acceptTime)
+                .add("acceptNumber", acceptNumber)
+                .add("letterNumber", letterNumber)
                 .add("createTime", createTime)
+                .add("content", content)
                 .toString();
     }
 }
