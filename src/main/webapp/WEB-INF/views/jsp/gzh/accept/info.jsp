@@ -60,6 +60,39 @@
 </head>
 <body>
 <div class="container">
+
+    <div class="txt-hint">
+        <span id="now_state"></span> <br>
+        <%
+            int state = accept.getState();
+//            int employeeId= employee.getId();
+            String depart = employee.getDepartment();
+            String name = employee.getName();
+            int role = employee.getRole();
+            if(depart.contains("金融") && role ==4 && state==2 ) {
+        %>
+        <%
+            if(!Strings.isNullOrEmpty(accept.getContent())){
+        %>
+        <i class="fa <%=accept.getState()==2||accept.getState()==4?"fa-exclamation-triangle":""%> "></i>
+        <span id="content"><%=accept.getContent()%></span><br>
+        <%
+            }
+        %>
+        <a href="/gzh/sales/accept/edit?accept_id=<%=accept.getId()%>">继续编辑客户信息</a>
+        <%
+        } else if (depart.contains("市场") && role == 4 && (state == 1 || state == 4)) {
+        %>
+        <a href="/gzh/shichang/accept/produceinfo?accept_id=<%=accept.getId()%>">下一步</a>
+        <%
+        } else if (depart.contains("市场") && role == 5 && state == 3) {
+        %>
+        <a href="/gzh/shichang/accept/acceptCenterinfo?accept_id=<%=accept.getId()%>">下一步</a>
+        <%
+            }
+        %>
+    </div>
+
     <div class="row">
         <div data-nav-number="1" class="col-25 panel panel-on">
             销售中心
@@ -75,38 +108,6 @@
         </div>
     </div>
 
-
-    <div class="txt-hint">
-         <span id="now_state"></span> <br>
-        <%
-            int state = accept.getState();
-//            int employeeId= employee.getId();
-            String depart = employee.getDepartment();
-            String name = employee.getName();
-            int role = employee.getRole();
-            if(depart.contains("金融") && role ==4 && state==2 ) {
-         %>
-        <%
-            if(!Strings.isNullOrEmpty(accept.getContent())){
-        %>
-        <i class="fa <%=accept.getState()==2||accept.getState()==4?"fa-exclamation-triangle":""%> "></i>
-        <span id="content"><%=accept.getContent()%></span><br>
-        <%
-            }
-        %>
-        <a href="/gzh/sales/accept/edit?accept_id=<%=accept.getId()%>">继续编辑客户信息</a>
-        <%
-            }else if(depart.contains("市场") && role==4 && (state == 1 || state == 4 )){
-        %>
-        <a href="/gzh/shichang/accept/produceinfo?accept_id=<%=accept.getId()%>">下一步</a>
-        <%
-            }else if( depart.contains("市场") && role==5 && state==3 ){
-        %>
-        <a href="/gzh/shichang/accept/acceptCenterinfo?accept_id=<%=accept.getId()%>">下一步</a>
-        <%
-            }
-        %>
-    </div>
 
     <div data-nav="1" class="apply-list">
         <fieldset disabled>

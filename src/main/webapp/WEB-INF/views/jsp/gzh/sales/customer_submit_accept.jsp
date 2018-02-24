@@ -35,6 +35,7 @@
         .col-33 {
             height:2.7rem;
             margin-top:0.266rem;
+            margin-bottom: 0.266rem;
         }
         @keyframes toBig {
             0% {
@@ -63,7 +64,7 @@
 
         html,
         body {
-            background-color: #fff;
+            background-color: #f5f5f5;
         }
 
         .popup_1 {
@@ -99,6 +100,9 @@
             margin-left: 1.8rem;
         }
 
+        .a-margin-bottom {
+            margin-bottom: 5em;
+        }
 
     </style>
 </head>
@@ -160,7 +164,7 @@
     </div>
 </div>
 
-<div class="container a-margin-top">
+<div class="container a-margin-top a-margin-bottom">
     <div id="images" class="row">
         <p>选择客户照片附件</p>
         <%
