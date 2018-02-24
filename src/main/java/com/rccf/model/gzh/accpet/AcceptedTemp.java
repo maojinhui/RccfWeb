@@ -32,15 +32,16 @@ public class AcceptedTemp {
     private String directorName;
     private String houqiName;
     private Timestamp acceptTime;
+    private String content;
     private String acceptNumber;
+    private Integer acceptId;
     private String letterNumber;
     private Timestamp createTime;
-    private String content;
 
     @Id
     @Column(name = "id", nullable = false, length = 64)
     @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid",strategy = "uuid")
+    @GenericGenerator(name="uuid",strategy = "uuid")
     public String getId() {
         return id;
     }
@@ -180,7 +181,7 @@ public class AcceptedTemp {
     }
 
     @Basic
-    @Column(name = "channel_fee", nullable = true, precision = 0)
+    @Column(name = "channel_fee", nullable = true, length = -1)
     public String getChannelFee() {
         return channelFee;
     }
@@ -190,7 +191,7 @@ public class AcceptedTemp {
     }
 
     @Basic
-    @Column(name = "material_fee", nullable = true, precision = 0)
+    @Column(name = "material_fee", nullable = true, length = -1)
     public String getMaterialFee() {
         return materialFee;
     }
@@ -200,7 +201,7 @@ public class AcceptedTemp {
     }
 
     @Basic
-    @Column(name = "sanfang_fee", nullable = true, precision = 0)
+    @Column(name = "sanfang_fee", nullable = true, length = -1)
     public String getSanfangFee() {
         return sanfangFee;
     }
@@ -260,26 +261,7 @@ public class AcceptedTemp {
     }
 
     @Basic
-    @Column(name = "create_time", nullable = true)
-    public Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
-
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-
+    @Column(name = "accept_time", nullable = true)
     public Timestamp getAcceptTime() {
         return acceptTime;
     }
@@ -288,6 +270,18 @@ public class AcceptedTemp {
         this.acceptTime = acceptTime;
     }
 
+    @Basic
+    @Column(name = "content", nullable = true, length = -1)
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    @Basic
+    @Column(name = "acceptNumber", nullable = true, length = 255)
     public String getAcceptNumber() {
         return acceptNumber;
     }
@@ -296,12 +290,34 @@ public class AcceptedTemp {
         this.acceptNumber = acceptNumber;
     }
 
+    @Basic
+    @Column(name = "accept_id", nullable = true)
+    public Integer getAcceptId() {
+        return acceptId;
+    }
+
+    public void setAcceptId(Integer acceptId) {
+        this.acceptId = acceptId;
+    }
+
+    @Basic
+    @Column(name = "letterNumber", nullable = true, length = 255)
     public String getLetterNumber() {
         return letterNumber;
     }
 
     public void setLetterNumber(String letterNumber) {
         this.letterNumber = letterNumber;
+    }
+
+    @Basic
+    @Column(name = "create_time", nullable = true)
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
     @Override
@@ -332,15 +348,16 @@ public class AcceptedTemp {
                 Objects.equal(directorName, that.directorName) &&
                 Objects.equal(houqiName, that.houqiName) &&
                 Objects.equal(acceptTime, that.acceptTime) &&
+                Objects.equal(content, that.content) &&
                 Objects.equal(acceptNumber, that.acceptNumber) &&
+                Objects.equal(acceptId, that.acceptId) &&
                 Objects.equal(letterNumber, that.letterNumber) &&
-                Objects.equal(createTime, that.createTime) &&
-                Objects.equal(content, that.content);
+                Objects.equal(createTime, that.createTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, customerId, customerName, customerPhone, customerIdcard, customerLoanType, customerFile, employee, deputy, director, customerWantmoney, serviceProportion, houqi, produceInfo, channelFee, materialFee, sanfangFee, state, employeeName, deputyName, directorName, houqiName, acceptTime, acceptNumber, letterNumber, createTime, content);
+        return Objects.hashCode(id, customerId, customerName, customerPhone, customerIdcard, customerLoanType, customerFile, employee, deputy, director, customerWantmoney, serviceProportion, houqi, produceInfo, channelFee, materialFee, sanfangFee, state, employeeName, deputyName, directorName, houqiName, acceptTime, content, acceptNumber, acceptId, letterNumber, createTime);
     }
 
     @Override
@@ -369,10 +386,11 @@ public class AcceptedTemp {
                 .add("directorName", directorName)
                 .add("houqiName", houqiName)
                 .add("acceptTime", acceptTime)
+                .add("content", content)
                 .add("acceptNumber", acceptNumber)
+                .add("acceptId", acceptId)
                 .add("letterNumber", letterNumber)
                 .add("createTime", createTime)
-                .add("content", content)
                 .toString();
     }
 }

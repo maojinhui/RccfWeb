@@ -67,9 +67,9 @@
         <!-- Additional required wrapper -->
         <div class="swiper-wrapper">
             <!-- Slides -->
-            <div class="swiper-slide"><img src="/image/app/headimg/1.jpg"/></div>
-            <div class="swiper-slide"><img src="/image/app/headimg/2.jpg"/></div>
-            <div class="swiper-slide"><img src="/image/app/headimg/3.jpg"/></div>
+            <div class="swiper-slide"><img src="/image/app/headimg/happyyear.jpg"/></div>
+            <div class="swiper-slide"><img src="/image/app/headimg/2018.jpg"/></div>
+            <div class="swiper-slide"><img src="/image/app/headimg/ssa.jpg"/></div>
             <div class="swiper-slide"><img src="/image/app/headimg/4.jpg"/></div>
         </div>
         <!-- 如果需要分页器 -->

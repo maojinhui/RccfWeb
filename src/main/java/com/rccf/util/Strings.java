@@ -1,5 +1,8 @@
 package com.rccf.util;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.util.StringUtils;
 
@@ -299,6 +302,36 @@ public class Strings {
         }
     }
 
+    public static String getProductName(String agency_name , String product_name,String code){
+        if(Strings.isNullOrEmpty(agency_name)){
+            return "";
+        }
+        if(Strings.isNullOrEmpty(product_name)){
+            if(!Strings.isNullOrEmpty(code)){
+                return agency_name+"("+code+")";
+            }
+            return agency_name;
+        }else{
+            if(!Strings.isNullOrEmpty(code)){
+                return agency_name+"-"+product_name+"("+code+")";
+            }
+            return agency_name+"-"+product_name;
+        }
+    }
+
+    public static String getAcceptedAgency(String produceInfo){
+        if(isNullOrEmpty(produceInfo)){
+            return "";
+        }
+        String agency = "";
+        JSONArray array = JSON.parseArray(produceInfo);
+        for (int i = 0 ; i< array.size() ;i++){
+            JSONObject object = array.getJSONObject(i);
+            agency+=getProductName(object.getString("agency_name"),object.getString("name"));
+        }
+
+        return agency;
+    }
 
 
     public static void main(String args[]){

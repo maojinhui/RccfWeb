@@ -81,7 +81,10 @@ public class GZHAuthController {
             } else if (department.contains("市场")) {
                 if (role == 4) {//市场部专员--后期专员等人页面
                     return new ModelAndView("redirect:/gzh/shichang/index");
-                } else {//市场部管理人员页面
+                } else if(role ==5){
+                    return new ModelAndView("redirect:/gzh/acceptcenter/accept/list");
+                }
+                else {//市场部管理人员页面
                     return new ModelAndView("redirect:/back/login");
                 }
             } else {

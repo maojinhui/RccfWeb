@@ -1,4 +1,5 @@
-<%@ page import="com.rccf.model.gzh.accpet.AcceptedTemp" %><%--
+<%@ page import="com.rccf.model.gzh.accpet.AcceptedTemp" %>
+<%@ page import="com.rccf.util.Strings" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2018/2/2
@@ -30,19 +31,19 @@
                 <tr>
                     <td>渠道费用</td>
                     <td>
-                        <input id="qudaoFee" value="<%=acceptedTemp.getChannelFee()%>">
+                        <input id="qudaoFee" value="<%=Strings.getInputString(acceptedTemp.getChannelFee())%>">
                     </td>
                 </tr>
                 <tr>
                     <td>三方费用</td>
                     <td>
-                        <input id="sanfangFee" value="<%=acceptedTemp.getSanfangFee()%>">
+                        <input id="sanfangFee" value="<%=Strings.getInputString(acceptedTemp.getSanfangFee())%>">
                     </td>
                 </tr>
                 <tr>
                     <td>材料费用</td>
                     <td>
-                        <input id="cailiaoFee" value="<%=acceptedTemp.getMaterialFee()%>">
+                        <input id="cailiaoFee" value="<%=Strings.getInputString(acceptedTemp.getMaterialFee())%>">
                     </td>
                 </tr>
             </table>
@@ -137,7 +138,7 @@
             dataType: 'json',
             success: function (result) {
                 if(result.code){
-                    alert(1);
+                    window.history.back(-2);
                 }else{
                     alert(result.errormsg);
                 }

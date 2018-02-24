@@ -3,7 +3,8 @@
 <%@ page import="com.alibaba.fastjson.JSON" %>
 <%@ page import="com.rccf.model.Employee" %>
 <%@ page import="com.rccf.util.Strings" %>
-<%@ page import="com.alibaba.fastjson.JSONObject" %><%--
+<%@ page import="com.alibaba.fastjson.JSONObject" %>
+<%@ page import="com.rccf.util.DateUtil" %><%--
   Created by IntelliJ IDEA.
   User: greatland
   Date: 2018/2/1
@@ -87,7 +88,7 @@
         <%
         } else if (depart.contains("市场") && role == 5 && state == 3) {
         %>
-        <a href="/gzh/shichang/accept/acceptCenterinfo?accept_id=<%=accept.getId()%>">下一步</a>
+        <a href="/gzh/acceptcenter/accept/acceptCenterinfo?accept_id=<%=accept.getId()%>">下一步</a>
         <%
             }
         %>
@@ -230,10 +231,13 @@
                 <%
                     String produceFangan = "";
                     String produces = accept.getProduceInfo();
-                    JSONArray array = JSON.parseArray(produces);
-                    for (int i =0 ;i < array.size();i++){
-                        JSONObject object = array.getJSONObject(i);
-                        produceFangan+=Strings.getProductName(object.getString("agency_name") , object.getString("name"));
+                    if(!Strings.isNullOrEmpty(produces)){
+                        JSONArray array = JSON.parseArray(produces);
+                        for (int i =0 ;i < array.size();i++){
+                            JSONObject object = array.getJSONObject(i);
+                            produceFangan+=Strings.getProductName(object.getString("agency_name") , object.getString("name"));
+                            produceFangan+=",";
+                        }
                     }
                 %>
                 <tr>
@@ -270,19 +274,19 @@
                 <tr>
                     <td>产品编号</td>
                     <td>
-                        <input type="text">
+                        <input type="text" value="<%=Strings.getInputString(accept.getLetterNumber())%>">
                     </td>
                 </tr>
                 <tr>
                     <td>受理单号</td>
                     <td>
-                        <input type="number">
+                        <input readonly type="text" value="<%=Strings.getInputString(accept.getAcceptNumber())%>">
                     </td>
                 </tr>
                 <tr>
                     <td>受理日期</td>
                     <td>
-                        <input  type="date">
+                        <input  type="date" value="<%=accept.getAcceptTime()!=null?DateUtil.date2StringSimple(DateUtil.timestamp2Date(accept.getAcceptTime())):""%>">
                     </td>
                 </tr>
             </table>
@@ -292,30 +296,15 @@
         <fieldset disabled>
             <table class="b-table">
                 <caption>收支信息</caption>
-                <tr>
-                    <td>
-                        <input type="text" placeholder="收支项目名称">
-                    </td>
-                    <td>
-                        <input type="text">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="text" placeholder="收支项目名称">
-                    </td>
-                    <td>
-                        <input type="text">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="text" placeholder="收支项目名称">
-                    </td>
-                    <td>
-                        <input type="text">
-                    </td>
-                </tr>
+                <%--<tr>--%>
+                    <%--<td>--%>
+                        <%--<input type="text" placeholder="收支项目名称">--%>
+                    <%--</td>--%>
+                    <%--<td>--%>
+                        <%--<input type="text">--%>
+                    <%--</td>--%>
+                <%--</tr>--%>
+
             </table>
         </fieldset>
     </div>

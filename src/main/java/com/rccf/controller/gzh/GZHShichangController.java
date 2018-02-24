@@ -3,7 +3,6 @@ package com.rccf.controller.gzh;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.rccf.constants.UrlConstants;
 import com.rccf.model.Employee;
 import com.rccf.model.ILoanType;
@@ -329,24 +328,5 @@ public class GZHShichangController {
     }
 
 
-    @RequestMapping(value = "/accept/acceptCenterinfo")
-    public ModelAndView acceptAcceptInfo(HttpServletRequest request) {
-        Employee employee = BackUtil.getLoginEmployee(request, employeeService);
-        String accept_id = request.getParameter("accept_id");
-        if (employee == null || employee.getState() == null || employee.getState() != 1) {
-            return ResponseUtil.pageFail("用户登录状态有误");
-        }
-        if (Strings.isNullOrEmpty(accept_id)) {
-            return ResponseUtil.pageFail("上传信息错误");
-        }
-        AcceptedTemp acceptedTemp = (AcceptedTemp) baseService.get(AcceptedTemp.class, accept_id);
-        if (acceptedTemp == null) {
-            return ResponseUtil.pageFail("受理单信息有误");
-        }
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/gzh/acceptCenter");
-        modelAndView.addObject("accept", acceptedTemp);
-        return modelAndView;
-    }
 
 }
